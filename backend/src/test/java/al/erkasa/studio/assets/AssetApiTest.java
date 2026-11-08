@@ -62,7 +62,7 @@ class AssetApiTest {
     void returnsMetaAndDeclaredFiles() throws Exception {
         HttpResponse<String> meta = get("/api/assets/char_drini_01");
         assertThat(meta.statusCode()).isEqualTo(200);
-        assertThat(meta.body()).contains("\"schema\":\"erkasa.asset/1\"").contains("rig_side.json");
+        assertThat(meta.body()).contains("erkasa.asset/1").contains("\"assetId\": \"char_drini_01\"").contains("rig_side.json");
 
         HttpResponse<String> svg = get("/api/assets/char_drini_01/files/asset.svg");
         assertThat(svg.statusCode()).isEqualTo(200);
