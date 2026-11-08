@@ -9,7 +9,8 @@ import { llmCost } from "../src/llm.js";
 import { DRAFT_SCHEMA, draftToPlan, parseAnchor, type Draft } from "../src/plan-draft.js";
 import { planVideo, plannerPrompt } from "../src/planner.js";
 import { toScript } from "../src/script-writer.js";
-import { charsToWords, toAlignment, type CharAlignment } from "../src/voice.js";
+import { charsToWords, providerSettings, toAlignment, type CharAlignment } from "../src/voice.js";
+import { loadVoiceCatalog, narratorLine, resolvePreset } from "../src/voice-catalog.js";
 
 const catalog = new Catalog(join(repoRoot(), "assets"));
 
@@ -290,5 +291,35 @@ describe("script writer", () => {
     expect(s.hook).toBe("Saving money will not make you rich.");
     expect(s.scenes[0]?.emphasis).toBeUndefined();
     expect(s.estimatedSec).toBeGreaterThan(4);
+  });
+});
+
+describe("voice catalog", () => {
+  const voices = loadVoiceCatalog();
+
+  it("offers the three studio narrators with mark_natural as default", () => {
+    expect(voices.voices.map((v) => v.id)).toEqual(["mark_natural", "friendly_woman", "american_man"]);
+    expect(resolvePreset(voices).id).toBe(process.env["ERKASA_VOICE"] || "mark_natural");
+    expect(resolvePreset(voices, "friendly_woman").providerVoiceId).toBe("DODLEQrClDo8wCz460ld");
+    expect(() => resolvePreset(voices, "morgan_freeman")).toThrow(/Available: mark_natural/);
+  });
+
+  it("sends preset settings in ElevenLabs field names", () => {
+    expect(providerSettings(resolvePreset(voices, "mark_natural"))).toEqual({
+      stability: 0.45,
+      similarity_boost: 0.75,
+      style: 0.15,
+      use_speaker_boost: true,
+      speed: 1,
+    });
+  });
+
+  it("tells the planner who narrates and which characters match", () => {
+    const line = narratorLine(resolvePreset(voices, "friendly_woman"));
+    expect(line).toContain("female");
+    const prompt = plannerPrompt(script, catalog, line);
+    expect(prompt).toContain("Narrator voice: Friendly Woman, middle aged female");
+    expect(prompt).toContain("char_era_01: Era (female)");
+    expect(prompt).toContain("char_drini_01: Drini (male)");
   });
 });

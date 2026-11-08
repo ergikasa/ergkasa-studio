@@ -1,0 +1,15 @@
+{
+  "schema": "erkasa.voice-catalog/1",
+  "default": "x_voice",
+  "voices": [
+    {
+      "id": "x_voice",
+      "name": "X",
+      "provider": "elevenlabs",
+      "providerVoiceId": "not a voice id!",
+      "gender": "male",
+      "description": "Broken id.",
+      "settings": { "stability": 0.5, "similarityBoost": 0.75, "style": 0, "speed": 1, "speakerBoost": true }
+    }
+  ]
+}

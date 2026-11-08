@@ -1,4 +1,4 @@
-import { VoiceAlignment, type VoiceAlignment as VoiceAlignmentT } from "@erkasa/contracts";
+import { VoiceAlignment, type VoiceAlignment as VoiceAlignmentT, type VoicePreset } from "@erkasa/contracts";
 import type { TimedWord } from "@erkasa/compiler";
 import { optional, required } from "./env.js";
 
@@ -28,7 +28,8 @@ export interface SpeechRequest {
 
 /** What the pipeline needs from a TTS provider. */
 export interface Voice {
-  readonly voiceId: string;
+  /** The studio preset being spoken (id, gender, settings). */
+  readonly preset: VoicePreset;
   readonly modelId: string;
   speak(req: SpeechRequest): Promise<Speech>;
 }
@@ -70,26 +71,27 @@ async function call(path: string, init: RequestInit, key: string): Promise<Respo
 
 /** ElevenLabs text-to-speech `with-timestamps`: MP3 audio plus the start/end time of every character. */
 export class ElevenLabsVoice implements Voice {
-  readonly voiceId: string;
   readonly modelId: string;
   private readonly key: string;
 
-  constructor(opts: { voiceId?: string; modelId?: string } = {}) {
+  constructor(
+    readonly preset: VoicePreset,
+    opts: { modelId?: string } = {},
+  ) {
     this.key = apiKey();
-    this.voiceId =
-      opts.voiceId ?? required("ELEVENLABS_VOICE_ID", "pick one with `pnpm voices` and copy its voice_id");
     this.modelId = opts.modelId ?? optional("ELEVENLABS_MODEL_ID", "eleven_multilingual_v2");
   }
 
   async speak(req: SpeechRequest): Promise<Speech> {
     const started = Date.now();
     const res = await call(
-      `/text-to-speech/${encodeURIComponent(this.voiceId)}/with-timestamps?output_format=mp3_44100_128`,
+      `/text-to-speech/${encodeURIComponent(this.preset.providerVoiceId)}/with-timestamps?output_format=mp3_44100_128`,
       {
         method: "POST",
         body: JSON.stringify({
           text: req.text,
           model_id: this.modelId,
+          voice_settings: providerSettings(this.preset),
           ...(req.previousText ? { previous_text: req.previousText } : {}),
           ...(req.nextText ? { next_text: req.nextText } : {}),
           ...(req.seed !== undefined ? { seed: req.seed } : {}),
@@ -105,6 +107,28 @@ export class ElevenLabsVoice implements Voice {
       characters: req.text.length,
       ms: Date.now() - started,
     };
+  }
+}
+
+/** Preset settings in ElevenLabs' field names. */
+export function providerSettings(p: VoicePreset): Record<string, number | boolean> {
+  return {
+    stability: p.settings.stability,
+    similarity_boost: p.settings.similarityBoost,
+    style: p.settings.style,
+    use_speaker_boost: p.settings.speakerBoost,
+    speed: p.settings.speed,
+  };
+}
+
+/** True if the provider voice can be used with this API key (e.g. a library voice added to "My voices"). */
+export async function voiceExists(providerVoiceId: string): Promise<boolean> {
+  try {
+    await call(`/voices/${encodeURIComponent(providerVoiceId)}`, { method: "GET" }, apiKey());
+    return true;
+  } catch (e) {
+    if (e instanceof Error && /ElevenLabs (400|404)/.test(e.message)) return false;
+    throw e;
   }
 }
 

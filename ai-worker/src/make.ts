@@ -3,14 +3,15 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 import type { CompileResult, TimedWord } from "@erkasa/compiler";
 import { compileVideo } from "@erkasa/compiler";
-import { Script, VideoPlan, type Theme } from "@erkasa/contracts";
+import { Script, VideoPlan, type Theme, type VoicePreset } from "@erkasa/contracts";
 import { renderVideo, type VoiceClip } from "@erkasa/engine-worker";
 import { Catalog } from "./catalog.js";
-import { optional, repoRoot } from "./env.js";
+import { repoRoot } from "./env.js";
 import { llmCost, type Llm, type Usage } from "./llm.js";
 import { planVideo } from "./planner.js";
 import { writeScript } from "./script-writer.js";
 import { toAlignment, type Voice } from "./voice.js";
+import { loadVoiceCatalog, narratorLine, resolvePreset } from "./voice-catalog.js";
 
 export interface MakeOptions {
   /** New video from a topic. */
@@ -22,6 +23,8 @@ export interface MakeOptions {
   fromScript?: string;
   /** Start from an existing video plan (skips script writer and planner). */
   fromPlan?: string;
+  /** Voice preset id from voices/catalog.json (default: ERKASA_VOICE or the catalog default). */
+  voice?: string;
   /** No ElevenLabs call: silent video with estimated word timing (for testing the pipeline cheaply). */
   noVoice?: boolean;
   /** Placeholder music bed under the voice (default true until real music exists). */
@@ -32,12 +35,14 @@ export interface MakeOptions {
 
 export interface MakeDeps {
   llm?: Llm;
-  voice?: Voice;
+  /** Builds the TTS client for the chosen preset (absent with --no-voice). */
+  voiceFor?: (preset: VoicePreset) => Voice;
   catalog?: Catalog;
 }
 
 export interface MakeReport {
   outDir: string;
+  voice: string;
   video?: string;
   durationSec?: number;
   usage: Usage[];
@@ -108,10 +113,15 @@ export async function makeVideo(opts: MakeOptions, deps: MakeDeps = {}): Promise
   if (opts.fromPlan) plan = VideoPlan.parse(JSON.parse(readFileSync(opts.fromPlan, "utf8")));
   else if (opts.fromScript) script = Script.parse(JSON.parse(readFileSync(opts.fromScript, "utf8")));
 
+  const voices = loadVoiceCatalog();
+  // when resuming a plan, keep its narrator unless the user picked another one
+  const planVoice = plan && voices.voices.some((v) => v.id === plan?.voiceId) ? plan.voiceId : undefined;
+  const preset = resolvePreset(voices, opts.voice ?? planVoice);
   const name = slugify(opts.topic ?? script?.title ?? plan?.projectId ?? "video");
   const outDir = resolve(opts.outDir ?? join(root, "out", `${stamp()}-${name}`));
   mkdirSync(join(outDir, "voice"), { recursive: true });
   log(`run folder: ${relative(process.cwd(), outDir) || "."}`);
+  log(`voice: ${preset.name} (${preset.id})${opts.noVoice ? ", not synthesized (--no-voice)" : ""}`);
   let voiceCharacters = 0;
   let planAttempts = 0;
   /** Writes run.json (also on failure, so a broken run can be inspected) and returns the report. */
@@ -119,6 +129,7 @@ export async function makeVideo(opts: MakeOptions, deps: MakeDeps = {}): Promise
     const cost = llmCost(usage);
     const r: MakeReport = {
       outDir,
+      voice: preset.id,
       ...extra,
       usage,
       ...(cost !== undefined ? { llmCostUsd: Math.round(cost * 10000) / 10000 } : {}),
@@ -161,8 +172,8 @@ export async function makeVideo(opts: MakeOptions, deps: MakeDeps = {}): Promise
   const alignments: Record<string, TimedWord[]> = {};
   const clipFiles: Record<string, string> = {};
   if (!opts.noVoice) {
-    if (!deps.voice) throw new Error("no voice configured (use --no-voice for a silent test)");
-    const voice = deps.voice;
+    if (!deps.voiceFor) throw new Error("no voice configured (use --no-voice for a silent test)");
+    const voice = deps.voiceFor(preset);
     await time("voice", async () => {
       for (const [i, s] of narrations.entries()) {
         const speech = await voice.speak({
@@ -192,6 +203,7 @@ export async function makeVideo(opts: MakeOptions, deps: MakeDeps = {}): Promise
   // 3. plan
   let compiled: CompileResult;
   if (plan) {
+    plan = { ...plan, voiceId: preset.id };
     compiled = compileVideo(plan, { assets: catalog.source, seed: 20261108, ...align });
   } else {
     if (!deps.llm) throw new Error("no language model configured");
@@ -200,7 +212,8 @@ export async function makeVideo(opts: MakeOptions, deps: MakeDeps = {}): Promise
     const res = await time("plan", () =>
       planVideo(llm, s, catalog, {
         projectId: name,
-        voiceId: deps.voice?.voiceId ?? optional("ELEVENLABS_VOICE_ID", "none"),
+        voiceId: preset.id,
+        narrator: narratorLine(preset),
         ...align,
       }),
     );

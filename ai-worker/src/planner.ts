@@ -129,6 +129,8 @@ export interface PlanOptions {
   alignments?: Record<string, TimedWord[]>;
   maxAttempts?: number;
   seed?: number;
+  /** Who narrates (from the voice preset), so the speaking character matches. */
+  narrator?: string;
 }
 
 function formatIssues(issues: Issue[]): string {
@@ -137,7 +139,7 @@ function formatIssues(issues: Issue[]): string {
     .join("\n");
 }
 
-export function plannerPrompt(script: Script, catalog: Catalog): string {
+export function plannerPrompt(script: Script, catalog: Catalog, narrator?: string): string {
   const scriptText = script.scenes.map((s) => `${s.narration} ${s.visualIdea} ${s.emphasis ?? ""}`).join(" ");
   return `# Catalog
 ${catalog.plannerSection(scriptText)}
@@ -145,7 +147,7 @@ ${catalog.plannerSection(scriptText)}
 # Example of one scene in the answer format
 ${JSON.stringify(EXAMPLE)}
 
-# Script: "${script.title}" (theme: ${script.theme})
+# Script: "${script.title}" (theme: ${script.theme})${narrator ? `\n${narrator}` : ""}
 ${script.scenes
   .map(
     (s) =>
@@ -166,7 +168,7 @@ export async function planVideo(
   opts: PlanOptions,
 ): Promise<PlanResult> {
   const maxAttempts = opts.maxAttempts ?? 3;
-  const messages: LlmMessage[] = [{ role: "user", content: plannerPrompt(script, catalog) }];
+  const messages: LlmMessage[] = [{ role: "user", content: plannerPrompt(script, catalog, opts.narrator) }];
   const attempts: PlanAttempt[] = [];
   const usage: Usage[] = [];
 

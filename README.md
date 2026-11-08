@@ -59,12 +59,18 @@ pnpm studio
 
 ### Video nga një temë (Faza E)
 
-Plotëso te `.env`: `ANTHROPIC_API_KEY`, `ELEVENLABS_API_KEY`, dhe zërin:
+Plotëso te `.env`: `ANTHROPIC_API_KEY` dhe `ELEVENLABS_API_KEY`. Zërat e narratorit janë te
+`voices/catalog.json` (`mark_natural` = parazgjedhja, `friendly_woman`, `american_man`):
 
 ```bash
-pnpm voices                                   # zërat e llogarisë tënde → kopjo voice_id te ELEVENLABS_VOICE_ID
-pnpm video "why we procrastinate" --theme psychology --seconds 45
+pnpm voices                                   # zërat e studios dhe a i përdor dot llogaria jote
+pnpm voices --samples                         # nga një shembull për çdo zë → Studio > Voices i luan
+pnpm video "why we procrastinate" --theme psychology --voice friendly_woman --seconds 45
 ```
+
+Pa `--voice` përdoret `ERKASA_VOICE` nga `.env`, ose parazgjedhja e katalogut. Personazhi që flet zgjidhet
+i së njëjtës gjini me narratorin. Zë i ri: `pnpm voices --account` tregon zërat e llogarisë; shtoje te
+katalogu me një `id`, emër, përshkrim dhe cilësime.
 
 Temat: `psychology`, `money`, `growth`, `philosophy`, `science`, `decisions`. Çdo run krijon një dosje te
 `out/<data>-<tema>/` me `script.json`, `voice/`, `plan-attempts.json`, `video-plan.json`, `timeline.json`,
@@ -101,7 +107,7 @@ Panelet lokale: RabbitMQ te http://localhost:15672 (erkasa / erkasa_local), Seaw
 | `pnpm assets:validate`          | validon asetet dhe rigjeneron `assets/manifest.json`               |
 | `pnpm studio`                   | hap Studio-n te http://127.0.0.1:5173                              |
 | `pnpm video "<temë>" --theme x` | temë → skenar → zë → plan → MP4 (kërkon çelësat te `.env`)         |
-| `pnpm voices`                   | liston zërat ElevenLabs të llogarisë                               |
+| `pnpm voices [--samples]`       | zërat e studios, kontrolli në llogari, shembujt audio              |
 | `pnpm demo:plan`                | kompilon dhe eksporton planin demo në `engine-worker/out/`         |
 | `./mvnw verify` (te `backend/`) | testet Java: kontratat, Flyway, indeksimi i 402 aseteve dhe API    |
 

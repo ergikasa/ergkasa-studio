@@ -1,0 +1,58 @@
+{
+  "schema": "erkasa.voice-catalog/1",
+  "default": "mark_natural",
+  "voices": [
+    {
+      "id": "mark_natural",
+      "name": "Mark",
+      "provider": "elevenlabs",
+      "providerVoiceId": "UgBBYS2sOqTuMpoF3BR0",
+      "gender": "male",
+      "age": "young_adult",
+      "accent": "American",
+      "description": "Natural, conversational young American man. The default narrator.",
+      "bestFor": ["psychology", "growth", "decisions"],
+      "settings": {
+        "stability": 0.45,
+        "similarityBoost": 0.75,
+        "style": 0.15,
+        "speed": 1.0,
+        "speakerBoost": true
+      }
+    },
+    {
+      "id": "friendly_woman",
+      "name": "Friendly Woman",
+      "provider": "elevenlabs",
+      "providerVoiceId": "DODLEQrClDo8wCz460ld",
+      "gender": "female",
+      "age": "middle_aged",
+      "description": "Warm, friendly middle-aged woman. Good for reflective and caring topics.",
+      "bestFor": ["psychology", "philosophy", "decisions"],
+      "settings": {
+        "stability": 0.5,
+        "similarityBoost": 0.75,
+        "style": 0.1,
+        "speed": 1.0,
+        "speakerBoost": true
+      }
+    },
+    {
+      "id": "american_man",
+      "name": "American Man",
+      "provider": "elevenlabs",
+      "providerVoiceId": "TqOasn6BO225ydKxXhaK",
+      "gender": "male",
+      "accent": "American",
+      "description": "American male narrator. Good for money and science explainers.",
+      "bestFor": ["money", "science"],
+      "settings": {
+        "stability": 0.5,
+        "similarityBoost": 0.75,
+        "style": 0.1,
+        "speed": 1.0,
+        "speakerBoost": true
+      }
+    }
+  ]
+}

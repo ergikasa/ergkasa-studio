@@ -27,3 +27,6 @@ erkasa:
     # running from backend/ finds the repo's assets/ folder.
     dir: ${ERKASA_ASSETS_DIR:../assets}
     index-on-startup: true
+  voices:
+    # voices/catalog.json (narrator presets) and voices/samples/ (generated samples)
+    dir: ${ERKASA_VOICES_DIR:../voices}

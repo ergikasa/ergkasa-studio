@@ -15,6 +15,7 @@ export interface CharacterInfo {
   id: string;
   name: string;
   description: string;
+  gender: "male" | "female" | "unknown";
   front: string[];
   side: string[];
   expressions: string[];
@@ -119,7 +120,7 @@ export class Catalog {
     );
     for (const c of this.characters)
       lines.push(
-        `- ${c.id}: ${c.name}, ${c.description} | front: ${c.front.join(", ")} | side: ${c.side.join(", ")} | expressions: ${c.expressions.join(", ")}`,
+        `- ${c.id}: ${c.name} (${c.gender}), ${c.description} | front: ${c.front.join(", ")} | side: ${c.side.join(", ")} | expressions: ${c.expressions.join(", ")}`,
       );
     lines.push("\n## Backgrounds (scene.background)");
     for (const b of this.backgrounds) lines.push(`- ${b.id}: ${b.tags.join(", ")}; ${b.extra}`);
@@ -152,6 +153,7 @@ function character(m: AssetMeta): CharacterInfo {
     id: m.assetId,
     name: m.name,
     description: m.description ?? "",
+    gender: m.tags.includes("female") ? "female" : m.tags.includes("male") ? "male" : "unknown",
     front: strings(actions["front"]),
     side: strings(actions["side"]),
     expressions: strings(caps["expressions"]),
