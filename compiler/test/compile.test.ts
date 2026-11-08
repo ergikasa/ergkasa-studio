@@ -176,12 +176,13 @@ describe("scene end", () => {
         { f: 25, v: "wave" },
       ],
     };
-    expect(cutAtEnd(tracks, 20)).toBe(true);
-    expect(tracks.progress).toEqual([
+    const res = cutAtEnd(tracks, 20);
+    expect(res.cut).toBe(true);
+    expect(res.tracks["progress"]).toEqual([
       { f: 10, v: 0 },
       { f: 20, v: 0.5 },
     ]);
-    expect(tracks.clip).toEqual([{ f: 0, v: "idle" }]);
-    expect(cutAtEnd(tracks, 20)).toBe(false);
+    expect(res.tracks["clip"]).toEqual([{ f: 0, v: "idle" }]);
+    expect(cutAtEnd(res.tracks, 20).cut).toBe(false);
   });
 });

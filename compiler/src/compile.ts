@@ -179,12 +179,14 @@ export function compileVideo(planInput: unknown, opts: CompileOptions): CompileR
       });
     });
 
-    const camera = compileCamera(ctx, nodes);
+    let camera = compileCamera(ctx, nodes);
     // anything timed near the end (an entrance on the last word, a long gesture, a chart drawing on)
     // may run past the scene: it is cut at the last frame, so the scene never grows by surprise
     const lastFrame = duration;
     for (const node of nodes) {
-      if (cutAtEnd(node.tracks, lastFrame))
+      const cut = cutAtEnd(node.tracks, lastFrame);
+      node.tracks = cut.tracks;
+      if (cut.cut)
         issues.push({
           level: "warning",
           code: "CUT_AT_SCENE_END",
@@ -193,7 +195,7 @@ export function compileVideo(planInput: unknown, opts: CompileOptions): CompileR
           hint: "start it on an earlier word or make it shorter",
         });
     }
-    cutAtEnd(camera, lastFrame);
+    camera = cutAtEnd(camera, lastFrame).tracks;
     checkFraming(ctx, nodes, camera);
     for (const [si, s] of scene.sfx.entries()) {
       const f = resolveAt(ctx, s.at, `${path}.sfx[${si}].at`);
@@ -257,12 +259,19 @@ export function compileVideo(planInput: unknown, opts: CompileOptions): CompileR
 /**
  * Cuts every track at `end`: numeric tracks get a final keyframe holding the value they have at that
  * frame (the motion stops where it is), discrete tracks drop the switches that would come later.
- * Returns true if anything was cut.
+ * `cut` tells whether anything was cut.
  */
-export function cutAtEnd(tracks: Record<string, Keyframe[]>, end: number): boolean {
+export function cutAtEnd(
+  tracks: Record<string, Keyframe[]>,
+  end: number,
+): { tracks: Record<string, Keyframe[]>; cut: boolean } {
   let cut = false;
+  const out: Record<string, Keyframe[]> = {};
   for (const [name, kfs] of Object.entries(tracks)) {
-    if (!kfs.some((k) => k.f > end)) continue;
+    if (!kfs.some((k) => k.f > end)) {
+      out[name] = kfs;
+      continue;
+    }
     cut = true;
     const kept = kfs.filter((k) => k.f <= end);
     const next = kfs.find((k) => k.f > end) as Keyframe;
@@ -270,11 +279,10 @@ export function cutAtEnd(tracks: Record<string, Keyframe[]>, end: number): boole
       const v = Math.round(sampleNumber(kfs, end, next.v) * 1000) / 1000;
       if (kept[kept.length - 1]?.f !== end)
         kept.push({ f: end, v, ...(next.ease ? { ease: next.ease } : {}) });
-      tracks[name] = kept;
-    } else if (kept.length) tracks[name] = kept;
-    else delete tracks[name];
+      out[name] = kept;
+    } else if (kept.length) out[name] = kept;
   }
-  return cut;
+  return { tracks: out, cut };
 }
 
 // ------------------------------------------------------------------ assets
