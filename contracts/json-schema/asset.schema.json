@@ -1,0 +1,336 @@
+{
+  "$id": "https://erkasa.studio/contracts/asset.schema.json",
+  "title": "asset",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "erkasa.asset/1"
+    },
+    "assetId": {
+      "type": "string",
+      "pattern": "^[a-z]+_[a-z0-9_]+$"
+    },
+    "version": {
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "character",
+        "background",
+        "metaphor",
+        "object",
+        "icon",
+        "audio"
+      ]
+    },
+    "subcategory": {
+      "type": "string"
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "rigged_character",
+        "crowd_figure",
+        "layered_background",
+        "animated_metaphor",
+        "prop",
+        "icon",
+        "sprite",
+        "lottie",
+        "particle_preset",
+        "audio_music",
+        "audio_sfx"
+      ]
+    },
+    "adapter": {
+      "type": "string",
+      "enum": [
+        "character",
+        "svg",
+        "sprite",
+        "particle",
+        "motion_graphics",
+        "audio"
+      ]
+    },
+    "style": {
+      "type": "string",
+      "minLength": 1
+    },
+    "files": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string"
+      },
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "variants": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string"
+      },
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "viewBox": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "items": false,
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "themable": {
+      "type": "object",
+      "properties": {
+        "color": {
+          "type": "string",
+          "const": "currentColor"
+        },
+        "default": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "color",
+        "default"
+      ],
+      "additionalProperties": false
+    },
+    "capabilities": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string"
+      },
+      "additionalProperties": {}
+    },
+    "anchors": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string"
+      },
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "items": false,
+            "minItems": 2,
+            "maxItems": 2
+          },
+          {
+            "type": "string",
+            "pattern": "^bone:[a-z_]+$"
+          }
+        ]
+      }
+    },
+    "sizing": {
+      "type": "object",
+      "properties": {
+        "heightRatio": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      },
+      "required": [
+        "heightRatio"
+      ],
+      "additionalProperties": false
+    },
+    "layers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "starts_with",
+            "pattern": "^layer_.*"
+          },
+          "depth": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "depth"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "groundY": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "actorZones": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "prefixItems": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "number"
+          }
+        ],
+        "items": false,
+        "minItems": 2,
+        "maxItems": 2
+      }
+    },
+    "safeFrames": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string"
+      },
+      "additionalProperties": {
+        "type": "array",
+        "prefixItems": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "number"
+          }
+        ],
+        "items": false,
+        "minItems": 4,
+        "maxItems": 4
+      }
+    },
+    "mood": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "parts": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string"
+      },
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "themes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "psychology",
+          "money",
+          "growth",
+          "philosophy",
+          "science",
+          "decisions",
+          "everyday"
+        ]
+      }
+    },
+    "tags": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "license": {
+      "type": "object",
+      "properties": {
+        "spdx": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "licenseUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "commercial": {
+          "type": "boolean",
+          "const": true
+        },
+        "attributionRequired": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "spdx",
+        "source",
+        "commercial",
+        "attributionRequired"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema",
+    "assetId",
+    "version",
+    "name",
+    "category",
+    "kind",
+    "adapter",
+    "style",
+    "files",
+    "capabilities",
+    "themes",
+    "tags",
+    "license"
+  ],
+  "additionalProperties": false
+}

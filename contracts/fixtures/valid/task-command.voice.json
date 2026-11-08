@@ -1,0 +1,20 @@
+{
+  "schema": "erkasa.task/1",
+  "messageId": "01JC9ZK3T8V2",
+  "taskType": "voice.synthesize",
+  "runId": "run_8f2",
+  "stepId": "voice_s01",
+  "attempt": 1,
+  "idempotencyKey": "6f1c2b9e4d7a8c3f0e5b2a9d",
+  "inputs": [
+    {
+      "role": "script",
+      "ref": "s3://erkasa/projects/p_demo/script/v4.json"
+    }
+  ],
+  "params": {
+    "voiceId": "eleven_voice_demo",
+    "sceneId": "s01"
+  },
+  "deadline": "2026-11-08T10:15:00Z"
+}

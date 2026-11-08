@@ -1,0 +1,9 @@
+{
+  "identities": [
+    {
+      "name": "erkasa-local",
+      "credentials": [{ "accessKey": "erkasa_local", "secretKey": "erkasa_local_secret" }],
+      "actions": ["Admin", "Read", "Write", "List", "Tagging"]
+    }
+  ]
+}

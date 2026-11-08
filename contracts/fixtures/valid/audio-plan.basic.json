@@ -1,0 +1,32 @@
+{
+  "schema": "erkasa.audio-plan/1",
+  "durationSec": 12.4,
+  "voice": [
+    {
+      "sceneId": "s01",
+      "audio": "s3://erkasa/projects/p_demo/voice/s01/v1.mp3",
+      "startSec": 0
+    },
+    {
+      "sceneId": "s02",
+      "audio": "s3://erkasa/projects/p_demo/voice/s02/v1.mp3",
+      "startSec": 6.6
+    }
+  ],
+  "music": {
+    "assetId": "music_curious_01",
+    "ducking": {
+      "amountDb": -12
+    }
+  },
+  "sfx": [
+    {
+      "assetId": "sfx_whoosh_01",
+      "atSec": 0.9
+    }
+  ],
+  "loudness": {
+    "targetLufs": -14,
+    "truePeakDb": -1
+  }
+}

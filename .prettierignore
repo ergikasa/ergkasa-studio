@@ -1,0 +1,5 @@
+pnpm-lock.yaml
+assets/
+contracts/json-schema/
+backend/
+tools/vendor/

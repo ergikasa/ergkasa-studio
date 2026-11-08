@@ -1,0 +1,58 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "met_dominoes_01",
+  "version": 1,
+  "name": "Dominot",
+  "category": "metaphor",
+  "kind": "animated_metaphor",
+  "adapter": "svg",
+  "style": "erkasa_flat_v1",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    1000,
+    500
+  ],
+  "parts": {
+    "domino_1": "fall: rotate 0→78 around pivot, i * 0.12s delay",
+    "domino_2": "fall: rotate 0→78 around pivot, i * 0.12s delay",
+    "domino_3": "fall: rotate 0→78 around pivot, i * 0.12s delay",
+    "domino_4": "fall: rotate 0→78 around pivot, i * 0.12s delay",
+    "domino_5": "fall: rotate 0→78 around pivot, i * 0.12s delay",
+    "domino_6": "fall: rotate 0→78 around pivot, i * 0.12s delay",
+    "domino_7": "fall: rotate 0→78 around pivot, i * 0.12s delay"
+  },
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "fall"
+    ]
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ]
+  },
+  "themes": [
+    "decisions",
+    "psychology",
+    "science"
+  ],
+  "tags": [
+    "chain-reaction",
+    "consequences",
+    "domino-effect",
+    "habits"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

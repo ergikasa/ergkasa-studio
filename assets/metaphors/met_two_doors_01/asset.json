@@ -1,0 +1,52 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "met_two_doors_01",
+  "version": 1,
+  "name": "Dy dyert",
+  "category": "metaphor",
+  "kind": "animated_metaphor",
+  "adapter": "svg",
+  "style": "erkasa_flat_v1",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    900,
+    700
+  ],
+  "parts": {
+    "door_l": "open: scaleX 1→0.15 around hinge pivot",
+    "door_r": "open: scaleX 1→0.15 around hinge pivot"
+  },
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "open"
+    ]
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ]
+  },
+  "themes": [
+    "decisions",
+    "philosophy"
+  ],
+  "tags": [
+    "choice",
+    "opportunity",
+    "door",
+    "unknown"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

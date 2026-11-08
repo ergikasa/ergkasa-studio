@@ -1,0 +1,87 @@
+{
+  "$id": "https://erkasa.studio/contracts/alignment.schema.json",
+  "title": "alignment",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "erkasa.alignment/1"
+    },
+    "sceneId": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+    },
+    "audio": {
+      "type": "string",
+      "pattern": "^(s3|file):\\/\\/.+"
+    },
+    "durationSec": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "characters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "char": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1
+          },
+          "start": {
+            "type": "number",
+            "minimum": 0
+          },
+          "end": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "char",
+          "start",
+          "end"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "words": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "word": {
+            "type": "string",
+            "minLength": 1
+          },
+          "start": {
+            "type": "number",
+            "minimum": 0
+          },
+          "end": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "word",
+          "start",
+          "end"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schema",
+    "sceneId",
+    "audio",
+    "durationSec",
+    "characters",
+    "words"
+  ],
+  "additionalProperties": false
+}

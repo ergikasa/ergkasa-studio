@@ -1,0 +1,55 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "met_balance_01",
+  "version": 1,
+  "name": "Peshorja",
+  "category": "metaphor",
+  "kind": "animated_metaphor",
+  "adapter": "svg",
+  "style": "erkasa_flat_v1",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    800,
+    700
+  ],
+  "parts": {
+    "beam": "tilt ±20",
+    "pan_l": "stay hanging at beam left end",
+    "pan_r": "stay hanging at beam right end"
+  },
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "stay",
+      "tilt"
+    ]
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ]
+  },
+  "themes": [
+    "philosophy",
+    "decisions",
+    "money"
+  ],
+  "tags": [
+    "tradeoff",
+    "balance",
+    "justice",
+    "compare"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

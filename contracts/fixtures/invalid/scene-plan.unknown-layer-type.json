@@ -1,0 +1,117 @@
+{
+  "schema": "erkasa.scene-plan/1",
+  "sceneId": "s01",
+  "engine": "2d",
+  "narration": "Most people think money problems are math problems. They're not. They're behavior problems.",
+  "durationPolicy": {
+    "mode": "fitNarration",
+    "padAfterSec": 0.5
+  },
+  "background": {
+    "assetId": "bg_home_living_01"
+  },
+  "layers": [
+    {
+      "type": "dragon",
+      "id": "drini",
+      "assetId": "char_drini_01",
+      "place": {
+        "anchor": "ground",
+        "x": 0.42
+      },
+      "expression": "thinking",
+      "speaks": true,
+      "actions": [
+        {
+          "action": "talk",
+          "at": "start"
+        },
+        {
+          "action": "point_side",
+          "at": {
+            "word": "behavior"
+          },
+          "target": "brain"
+        }
+      ]
+    },
+    {
+      "type": "object",
+      "id": "brain",
+      "assetId": "obj_brain",
+      "place": {
+        "x": 0.72,
+        "y": 0.38,
+        "scale": 1.3
+      },
+      "in": {
+        "effect": "pop",
+        "at": {
+          "word": "behavior"
+        }
+      },
+      "animations": [
+        {
+          "name": "float",
+          "at": {
+            "after": "brain.pop",
+            "offsetSec": 0
+          }
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "hook",
+      "content": "IT'S NOT MATH.",
+      "style": "hook_impact",
+      "highlight": ["NOT"],
+      "place": {
+        "x": 0.5,
+        "region": "top-safe"
+      },
+      "in": {
+        "effect": "pop",
+        "at": {
+          "word": "not"
+        },
+        "durationSec": 0.35
+      }
+    }
+  ],
+  "camera": [
+    {
+      "move": "push_in",
+      "at": "start",
+      "to": 1.12
+    },
+    {
+      "move": "punch_in",
+      "at": {
+        "word": "behavior"
+      },
+      "to": 1.25,
+      "durationSec": 0.3
+    }
+  ],
+  "sfx": [
+    {
+      "tag": "whoosh",
+      "at": {
+        "word": "not"
+      }
+    },
+    {
+      "tag": "pop",
+      "at": {
+        "word": "behavior"
+      },
+      "gainDb": -3
+    }
+  ],
+  "transitionOut": {
+    "type": "whip",
+    "direction": "left",
+    "durationSec": 0.35
+  }
+}

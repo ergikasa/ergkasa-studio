@@ -1,0 +1,55 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "met_mountain_flag_01",
+  "version": 1,
+  "name": "Mali me flamur",
+  "category": "metaphor",
+  "kind": "animated_metaphor",
+  "adapter": "svg",
+  "style": "erkasa_flat_v1",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    800,
+    800
+  ],
+  "parts": {
+    "path": "draw_on",
+    "climber": "follow path",
+    "flag": "pop_in, wave"
+  },
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "draw_on",
+      "follow",
+      "pop_in"
+    ]
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ]
+  },
+  "themes": [
+    "growth",
+    "decisions"
+  ],
+  "tags": [
+    "goal",
+    "journey",
+    "summit",
+    "achievement"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

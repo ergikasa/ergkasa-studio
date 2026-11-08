@@ -1,0 +1,24 @@
+{
+  "name": "@erkasa/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Source of truth for every Erkasa data contract (Zod -> JSON Schema -> Java).",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "gen": "tsx scripts/export-json-schema.ts",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "tsx": "4.23.15",
+    "vitest": "5.1.0",
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1"
+  }
+}

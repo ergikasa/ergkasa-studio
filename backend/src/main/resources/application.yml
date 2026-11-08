@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: erkasa-studio
+  # Connection settings come from the environment (see .env.example). Never commit real credentials.
+  datasource:
+    url: ${ERKASA_DB_URL}
+    username: ${ERKASA_DB_USER}
+    password: ${ERKASA_DB_PASSWORD}
+  flyway:
+    locations: classpath:db/migration
+
+server:
+  port: ${ERKASA_API_PORT:8080}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: never

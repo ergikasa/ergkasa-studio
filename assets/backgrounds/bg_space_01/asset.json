@@ -1,0 +1,89 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "bg_space_01",
+  "version": 1,
+  "name": "Kozmos",
+  "category": "background",
+  "kind": "layered_background",
+  "adapter": "svg",
+  "style": "erkasa_flat_v1",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    1920
+  ],
+  "layers": [
+    {
+      "id": "layer_deep_space",
+      "depth": 20
+    },
+    {
+      "id": "layer_stars_near",
+      "depth": 8
+    },
+    {
+      "id": "layer_planets",
+      "depth": 3
+    }
+  ],
+  "groundY": null,
+  "actorZones": [
+    [
+      200,
+      2400
+    ]
+  ],
+  "safeFrames": {
+    "9:16": [
+      740,
+      0,
+      1080,
+      1920
+    ],
+    "16:9": [
+      0,
+      240,
+      2560,
+      1440
+    ],
+    "1:1": [
+      320,
+      0,
+      1920,
+      1920
+    ]
+  },
+  "capabilities": {
+    "camera": [
+      "pan",
+      "zoom",
+      "parallax",
+      "shake"
+    ]
+  },
+  "mood": [
+    "cosmos",
+    "infinity",
+    "wonder",
+    "science"
+  ],
+  "themes": [
+    "science",
+    "philosophy"
+  ],
+  "tags": [
+    "space",
+    "cosmos",
+    "stars"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

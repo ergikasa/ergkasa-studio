@@ -1,0 +1,30 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# build output
+dist/
+target/
+*.tsbuildinfo
+coverage/
+
+# python
+__pycache__/
+*.pyc
+
+# secrets and local config (never commit)
+.env
+.env.*
+!.env.example
+
+# runtime data
+storage/
+infra/data/
+
+# IDE / OS
+.idea/
+*.iml
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+Thumbs.db

@@ -1,0 +1,63 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "char_crowd_01",
+  "version": 1,
+  "name": "Figurë turme",
+  "description": "Figurë e thjeshtë për turma dhe grupe; 6 variante ngjyrash.",
+  "category": "character",
+  "subcategory": "crowd",
+  "kind": "crowd_figure",
+  "adapter": "svg",
+  "style": "erkasa_flat_v1",
+  "files": {
+    "svg": "variant_a.svg"
+  },
+  "variants": {
+    "a": "variant_a.svg",
+    "b": "variant_b.svg",
+    "c": "variant_c.svg",
+    "d": "variant_d.svg",
+    "e": "variant_e.svg",
+    "f": "variant_f.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    120,
+    260
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "bob",
+      "turn_color",
+      "highlight",
+      "shrink"
+    ]
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      0.96
+    ]
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "money"
+  ],
+  "tags": [
+    "crowd",
+    "group",
+    "society",
+    "people",
+    "herd"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

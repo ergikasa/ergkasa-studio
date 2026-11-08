@@ -1,0 +1,99 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "bg_home_bedroom_night_01",
+  "version": 1,
+  "name": "Dhoma e gjumit (natë)",
+  "category": "background",
+  "kind": "layered_background",
+  "adapter": "svg",
+  "style": "erkasa_flat_v1",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    1920
+  ],
+  "layers": [
+    {
+      "id": "layer_window_view",
+      "depth": 6
+    },
+    {
+      "id": "layer_wall",
+      "depth": 0.6
+    },
+    {
+      "id": "layer_furniture",
+      "depth": 0.15
+    },
+    {
+      "id": "layer_floor",
+      "depth": 0
+    }
+  ],
+  "groundY": 1680,
+  "actorZones": [
+    [
+      1750,
+      2300
+    ],
+    [
+      200,
+      650
+    ]
+  ],
+  "safeFrames": {
+    "9:16": [
+      740,
+      0,
+      1080,
+      1920
+    ],
+    "16:9": [
+      0,
+      240,
+      2560,
+      1440
+    ],
+    "1:1": [
+      320,
+      0,
+      1920,
+      1920
+    ]
+  },
+  "capabilities": {
+    "camera": [
+      "pan",
+      "zoom",
+      "parallax",
+      "shake"
+    ]
+  },
+  "mood": [
+    "night",
+    "lonely",
+    "reflective",
+    "sleep"
+  ],
+  "themes": [
+    "psychology",
+    "growth",
+    "philosophy"
+  ],
+  "tags": [
+    "home",
+    "bedroom",
+    "night",
+    "indoor"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

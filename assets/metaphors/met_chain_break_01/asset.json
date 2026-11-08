@@ -1,0 +1,61 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "met_chain_break_01",
+  "version": 1,
+  "name": "Zinxhiri që këputet",
+  "category": "metaphor",
+  "kind": "animated_metaphor",
+  "adapter": "svg",
+  "style": "erkasa_flat_v1",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    1000,
+    400
+  ],
+  "parts": {
+    "spark": "flash",
+    "link_break_l": "fly left + rotate",
+    "link_break_r": "fly right + rotate",
+    "link_1": "shake",
+    "link_2": "shake",
+    "link_3": "shake",
+    "link_5": "shake",
+    "link_6": "shake"
+  },
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "flash",
+      "fly",
+      "shake"
+    ]
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ]
+  },
+  "themes": [
+    "psychology",
+    "growth",
+    "philosophy"
+  ],
+  "tags": [
+    "freedom",
+    "breaking-habits",
+    "liberation",
+    "chains"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "met_snowball_01",
+  "version": 1,
+  "name": "Topi i borës",
+  "category": "metaphor",
+  "kind": "animated_metaphor",
+  "adapter": "svg",
+  "style": "erkasa_flat_v1",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    1000,
+    700
+  ],
+  "parts": {
+    "ball": "move along slope (120,190)→(880,500), scale 0.3→1.6, rotate 0→720",
+    "trail": "draw_on"
+  },
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "draw_on",
+      "move"
+    ]
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ]
+  },
+  "themes": [
+    "money",
+    "growth",
+    "decisions"
+  ],
+  "tags": [
+    "compound-interest",
+    "snowball",
+    "momentum",
+    "growth"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

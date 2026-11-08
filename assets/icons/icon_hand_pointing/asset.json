@@ -1,0 +1,52 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "icon_hand_pointing",
+  "version": 1,
+  "name": "hand pointing",
+  "category": "icon",
+  "kind": "icon",
+  "adapter": "svg",
+  "style": "phosphor_duotone",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    256,
+    256
+  ],
+  "themable": {
+    "color": "currentColor",
+    "default": "#2A1E18"
+  },
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "draw_on",
+      "bounce",
+      "scale_pulse"
+    ]
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ]
+  },
+  "themes": [
+    "decisions"
+  ],
+  "tags": [
+    "hand-pointing"
+  ],
+  "license": {
+    "spdx": "MIT",
+    "source": "Phosphor Icons (duotone)",
+    "url": "https://github.com/phosphor-icons/core",
+    "licenseUrl": "https://github.com/phosphor-icons/core/blob/main/LICENSE",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

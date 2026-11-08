@@ -1,0 +1,146 @@
+{
+  "$id": "https://erkasa.studio/contracts/audio-plan.schema.json",
+  "title": "audio-plan",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "erkasa.audio-plan/1"
+    },
+    "durationSec": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "voice": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "sceneId": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+          },
+          "audio": {
+            "type": "string",
+            "pattern": "^(s3|file):\\/\\/.+"
+          },
+          "startSec": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "sceneId",
+          "audio",
+          "startSec"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "music": {
+      "type": "object",
+      "properties": {
+        "assetId": {
+          "type": "string",
+          "pattern": "^[a-z]+_[a-z0-9_]+$"
+        },
+        "gainDb": {
+          "default": -18,
+          "type": "number",
+          "minimum": -40,
+          "maximum": 0
+        },
+        "fadeInSec": {
+          "default": 1,
+          "type": "number",
+          "minimum": 0
+        },
+        "fadeOutSec": {
+          "default": 1.5,
+          "type": "number",
+          "minimum": 0
+        },
+        "ducking": {
+          "type": "object",
+          "properties": {
+            "amountDb": {
+              "default": -12,
+              "type": "number",
+              "minimum": -30,
+              "maximum": 0
+            },
+            "attackMs": {
+              "default": 150,
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "releaseMs": {
+              "default": 400,
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "assetId",
+        "ducking"
+      ],
+      "additionalProperties": false
+    },
+    "sfx": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "assetId": {
+            "type": "string",
+            "pattern": "^[a-z]+_[a-z0-9_]+$"
+          },
+          "atSec": {
+            "type": "number",
+            "minimum": 0
+          },
+          "gainDb": {
+            "default": -6,
+            "type": "number",
+            "minimum": -40,
+            "maximum": 6
+          }
+        },
+        "required": [
+          "assetId",
+          "atSec"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "loudness": {
+      "type": "object",
+      "properties": {
+        "targetLufs": {
+          "default": -14,
+          "type": "number"
+        },
+        "truePeakDb": {
+          "default": -1,
+          "type": "number"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema",
+    "durationSec",
+    "voice",
+    "loudness"
+  ],
+  "additionalProperties": false
+}

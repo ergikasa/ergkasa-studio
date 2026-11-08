@@ -1,0 +1,14 @@
+{
+  "schema": "erkasa.task-result/1",
+  "messageId": "01JC9ZN5R2Y1",
+  "runId": "run_8f2",
+  "stepId": "render_chunk_s03",
+  "attempt": 2,
+  "status": "FAILED",
+  "error": {
+    "code": "CHROMIUM_CRASH",
+    "message": "renderer exited with code 139",
+    "retryable": true
+  },
+  "workerVersion": "engine-worker-0.1.0"
+}

@@ -1,0 +1,57 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "met_hourglass_01",
+  "version": 1,
+  "name": "Ora e rërës",
+  "category": "metaphor",
+  "kind": "animated_metaphor",
+  "adapter": "svg",
+  "style": "erkasa_flat_v1",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    500,
+    800
+  ],
+  "parts": {
+    "sand_top": "scaleY 1→0 (pivot neck)",
+    "sand_bottom": "scaleY 0→1 (pivot base)",
+    "stream": "flicker",
+    "frame": "flip rotate 180"
+  },
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "flicker",
+      "flip",
+      "scaleY"
+    ]
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ]
+  },
+  "themes": [
+    "philosophy",
+    "growth",
+    "decisions"
+  ],
+  "tags": [
+    "time",
+    "deadline",
+    "mortality",
+    "patience"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

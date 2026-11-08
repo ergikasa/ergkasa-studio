@@ -1,0 +1,6740 @@
+{
+ "schema": "erkasa.asset-manifest/1",
+ "total": 402,
+ "counts": {
+  "background": 10,
+  "character": 5,
+  "icon": 189,
+  "metaphor": 15,
+  "object": 183
+ },
+ "assets": [
+  {
+   "assetId": "bg_cafe_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "backgrounds/bg_cafe_01",
+   "themes": [
+    "psychology",
+    "decisions"
+   ],
+   "tags": [
+    "cafe",
+    "social",
+    "indoor"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_city_street_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "backgrounds/bg_city_street_01",
+   "themes": [
+    "psychology",
+    "money",
+    "decisions"
+   ],
+   "tags": [
+    "city",
+    "street",
+    "outdoor"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_classroom_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "backgrounds/bg_classroom_01",
+   "themes": [
+    "growth",
+    "science",
+    "philosophy"
+   ],
+   "tags": [
+    "school",
+    "classroom",
+    "indoor"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_home_bedroom_night_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "backgrounds/bg_home_bedroom_night_01",
+   "themes": [
+    "psychology",
+    "growth",
+    "philosophy"
+   ],
+   "tags": [
+    "home",
+    "bedroom",
+    "night",
+    "indoor"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_home_living_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "backgrounds/bg_home_living_01",
+   "themes": [
+    "psychology",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "home",
+    "living-room",
+    "day",
+    "indoor"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_nature_beach_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "backgrounds/bg_nature_beach_01",
+   "themes": [
+    "growth",
+    "money",
+    "philosophy"
+   ],
+   "tags": [
+    "nature",
+    "sea",
+    "beach",
+    "outdoor"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_nature_mountain_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "backgrounds/bg_nature_mountain_01",
+   "themes": [
+    "growth",
+    "philosophy",
+    "decisions"
+   ],
+   "tags": [
+    "nature",
+    "mountain",
+    "path",
+    "outdoor"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_office_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "backgrounds/bg_office_01",
+   "themes": [
+    "money",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "office",
+    "work",
+    "indoor"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_space_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "backgrounds/bg_space_01",
+   "themes": [
+    "science",
+    "philosophy"
+   ],
+   "tags": [
+    "space",
+    "cosmos",
+    "stars"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_trading_room_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "backgrounds/bg_trading_room_01",
+   "themes": [
+    "money",
+    "decisions"
+   ],
+   "tags": [
+    "finance",
+    "stocks",
+    "screens",
+    "indoor"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "char_arti_01",
+   "category": "character",
+   "kind": "rigged_character",
+   "adapter": "character",
+   "style": "erkasa_flat_v1",
+   "path": "characters/char_arti_01",
+   "themes": [
+    "psychology",
+    "money",
+    "growth",
+    "philosophy",
+    "science",
+    "decisions"
+   ],
+   "tags": [
+    "male",
+    "young",
+    "student",
+    "casual"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "char_bardhi_01",
+   "category": "character",
+   "kind": "rigged_character",
+   "adapter": "character",
+   "style": "erkasa_flat_v1",
+   "path": "characters/char_bardhi_01",
+   "themes": [
+    "psychology",
+    "money",
+    "growth",
+    "philosophy",
+    "science",
+    "decisions"
+   ],
+   "tags": [
+    "male",
+    "elder",
+    "glasses",
+    "wise"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "char_crowd_01",
+   "category": "character",
+   "kind": "crowd_figure",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "characters/char_crowd_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "money"
+   ],
+   "tags": [
+    "crowd",
+    "group",
+    "society",
+    "people",
+    "herd"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "char_drini_01",
+   "category": "character",
+   "kind": "rigged_character",
+   "adapter": "character",
+   "style": "erkasa_flat_v1",
+   "path": "characters/char_drini_01",
+   "themes": [
+    "psychology",
+    "money",
+    "growth",
+    "philosophy",
+    "science",
+    "decisions"
+   ],
+   "tags": [
+    "male",
+    "adult",
+    "beard",
+    "casual"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "char_era_01",
+   "category": "character",
+   "kind": "rigged_character",
+   "adapter": "character",
+   "style": "erkasa_flat_v1",
+   "path": "characters/char_era_01",
+   "themes": [
+    "psychology",
+    "money",
+    "growth",
+    "philosophy",
+    "science",
+    "decisions"
+   ],
+   "tags": [
+    "female",
+    "adult",
+    "long-hair",
+    "casual"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "icon_airplane",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_airplane",
+   "themes": [
+    "everyday"
+   ],
+   "tags": [
+    "airplane"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_alarm",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_alarm",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "alarm"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_anchor",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_anchor",
+   "themes": [
+    "psychology",
+    "decisions"
+   ],
+   "tags": [
+    "anchor"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_arrow_circle_up_right",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_arrow_circle_up_right",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "arrow-circle-up-right"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_arrow_down",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_arrow_down",
+   "themes": [
+    "everyday"
+   ],
+   "tags": [
+    "arrow-down"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_arrow_fat_down",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_arrow_fat_down",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "arrow-fat-down"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_arrow_fat_up",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_arrow_fat_up",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "arrow-fat-up"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_arrow_right",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_arrow_right",
+   "themes": [
+    "everyday"
+   ],
+   "tags": [
+    "arrow-right"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_arrow_up",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_arrow_up",
+   "themes": [
+    "everyday"
+   ],
+   "tags": [
+    "arrow-up"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_arrows_clockwise",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_arrows_clockwise",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "arrows-clockwise"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_arrows_merge",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_arrows_merge",
+   "themes": [
+    "decisions"
+   ],
+   "tags": [
+    "arrows-merge"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_arrows_split",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_arrows_split",
+   "themes": [
+    "decisions"
+   ],
+   "tags": [
+    "arrows-split"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_atom",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_atom",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "atom"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_baby",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_baby",
+   "themes": [
+    "psychology",
+    "science"
+   ],
+   "tags": [
+    "baby"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_bank",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_bank",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "bank"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_barbell",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_barbell",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "barbell"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_battery_charging",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_battery_charging",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "battery-charging"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_battery_full",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_battery_full",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "battery-full"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_battery_low",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_battery_low",
+   "themes": [
+    "growth",
+    "psychology"
+   ],
+   "tags": [
+    "battery-low"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_bed",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_bed",
+   "themes": [
+    "psychology",
+    "everyday"
+   ],
+   "tags": [
+    "bed"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_bell_ringing",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_bell_ringing",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "bell-ringing"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_bird",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_bird",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "bird"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_bone",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_bone",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "bone"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_book_open",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_book_open",
+   "themes": [
+    "growth",
+    "philosophy"
+   ],
+   "tags": [
+    "book-open"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_books",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_books",
+   "themes": [
+    "growth",
+    "philosophy"
+   ],
+   "tags": [
+    "books"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_brain",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_brain",
+   "themes": [
+    "psychology",
+    "science"
+   ],
+   "tags": [
+    "brain"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_briefcase",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_briefcase",
+   "themes": [
+    "money",
+    "everyday"
+   ],
+   "tags": [
+    "briefcase"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_bug",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_bug",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "bug"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_buildings",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_buildings",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "buildings"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_calculator",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_calculator",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "calculator"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_calendar",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_calendar",
+   "themes": [
+    "growth",
+    "everyday"
+   ],
+   "tags": [
+    "calendar"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_calendar_check",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_calendar_check",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "calendar-check"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_camera",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_camera",
+   "themes": [
+    "everyday"
+   ],
+   "tags": [
+    "camera"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_car",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_car",
+   "themes": [
+    "everyday",
+    "money"
+   ],
+   "tags": [
+    "car"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_chart_bar",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_chart_bar",
+   "themes": [
+    "money",
+    "science"
+   ],
+   "tags": [
+    "chart-bar"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_chart_line_down",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_chart_line_down",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "chart-line-down"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_chart_line_up",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_chart_line_up",
+   "themes": [
+    "money",
+    "growth"
+   ],
+   "tags": [
+    "chart-line-up"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_chart_pie_slice",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_chart_pie_slice",
+   "themes": [
+    "money",
+    "science"
+   ],
+   "tags": [
+    "chart-pie-slice"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_chat_circle",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_chat_circle",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "chat-circle"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_chats",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_chats",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "chats"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_check",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_check",
+   "themes": [
+    "everyday"
+   ],
+   "tags": [
+    "check"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_check_circle",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_check_circle",
+   "themes": [
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "check-circle"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_checks",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_checks",
+   "themes": [
+    "decisions"
+   ],
+   "tags": [
+    "checks"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_clock",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_clock",
+   "themes": [
+    "everyday"
+   ],
+   "tags": [
+    "clock"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_clover",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_clover",
+   "themes": [
+    "decisions"
+   ],
+   "tags": [
+    "clover"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_coffee",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_coffee",
+   "themes": [
+    "everyday"
+   ],
+   "tags": [
+    "coffee"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_coins",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_coins",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "coins"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_columns",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_columns",
+   "themes": [
+    "philosophy"
+   ],
+   "tags": [
+    "columns"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_compass",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_compass",
+   "themes": [
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "compass"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_cpu",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_cpu",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "cpu"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_credit_card",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_credit_card",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "credit-card"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_crosshair",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_crosshair",
+   "themes": [
+    "decisions"
+   ],
+   "tags": [
+    "crosshair"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_crown",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_crown",
+   "themes": [
+    "philosophy",
+    "psychology"
+   ],
+   "tags": [
+    "crown"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_currency_dollar",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_currency_dollar",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "currency-dollar"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_currency_eur",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_currency_eur",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "currency-eur"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_desktop",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_desktop",
+   "themes": [
+    "everyday"
+   ],
+   "tags": [
+    "desktop"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_detective",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_detective",
+   "themes": [
+    "philosophy"
+   ],
+   "tags": [
+    "detective"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_device_mobile",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_device_mobile",
+   "themes": [
+    "psychology",
+    "everyday"
+   ],
+   "tags": [
+    "device-mobile"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_diamond",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_diamond",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "diamond"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_dice_five",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_dice_five",
+   "themes": [
+    "decisions"
+   ],
+   "tags": [
+    "dice-five"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_dna",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_dna",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "dna"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_door",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_door",
+   "themes": [
+    "decisions"
+   ],
+   "tags": [
+    "door"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_door_open",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_door_open",
+   "themes": [
+    "decisions"
+   ],
+   "tags": [
+    "door-open"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_drop",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_drop",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "drop"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_ear",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_ear",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "ear"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_envelope",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_envelope",
+   "themes": [
+    "everyday"
+   ],
+   "tags": [
+    "envelope"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_equals",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_equals",
+   "themes": [
+    "everyday"
+   ],
+   "tags": [
+    "equals"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_exclamation_mark",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_exclamation_mark",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "exclamation-mark"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_eye",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_eye",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "eye"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_eye_closed",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_eye_closed",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "eye-closed"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_feather",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_feather",
+   "themes": [
+    "philosophy"
+   ],
+   "tags": [
+    "feather"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_film_strip",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_film_strip",
+   "themes": [
+    "everyday"
+   ],
+   "tags": [
+    "film-strip"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_fingerprint",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_fingerprint",
+   "themes": [
+    "psychology",
+    "science"
+   ],
+   "tags": [
+    "fingerprint"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_fire",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_fire",
+   "themes": [
+    "psychology",
+    "growth"
+   ],
+   "tags": [
+    "fire"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_fish",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_fish",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "fish"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_flag",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_flag",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "flag"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_flag_checkered",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_flag_checkered",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "flag-checkered"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_flame",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_flame",
+   "themes": [
+    "philosophy",
+    "psychology"
+   ],
+   "tags": [
+    "flame"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_flask",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_flask",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "flask"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_fork_knife",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_fork_knife",
+   "themes": [
+    "everyday"
+   ],
+   "tags": [
+    "fork-knife"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_gear",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_gear",
+   "themes": [
+    "growth",
+    "science"
+   ],
+   "tags": [
+    "gear"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_gift",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_gift",
+   "themes": [
+    "money",
+    "psychology"
+   ],
+   "tags": [
+    "gift"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_git_fork",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_git_fork",
+   "themes": [
+    "decisions"
+   ],
+   "tags": [
+    "git-fork"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_globe_hemisphere_west",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_globe_hemisphere_west",
+   "themes": [
+    "philosophy",
+    "science"
+   ],
+   "tags": [
+    "globe-hemisphere-west"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_graduation_cap",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_graduation_cap",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "graduation-cap"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_hand_coins",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_hand_coins",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "hand-coins"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_hand_heart",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_hand_heart",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "hand-heart"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_hand_pointing",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_hand_pointing",
+   "themes": [
+    "decisions"
+   ],
+   "tags": [
+    "hand-pointing"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_handshake",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_handshake",
+   "themes": [
+    "money",
+    "psychology"
+   ],
+   "tags": [
+    "handshake"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_heart",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_heart",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "heart"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_heartbeat",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_heartbeat",
+   "themes": [
+    "psychology",
+    "science"
+   ],
+   "tags": [
+    "heartbeat"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_hourglass",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_hourglass",
+   "themes": [
+    "philosophy",
+    "growth"
+   ],
+   "tags": [
+    "hourglass"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_house",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_house",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "house"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_infinity",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_infinity",
+   "themes": [
+    "philosophy"
+   ],
+   "tags": [
+    "infinity"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_invoice",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_invoice",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "invoice"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_key",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_key",
+   "themes": [
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "key"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_laptop",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_laptop",
+   "themes": [
+    "everyday"
+   ],
+   "tags": [
+    "laptop"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_leaf",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_leaf",
+   "themes": [
+    "science",
+    "growth"
+   ],
+   "tags": [
+    "leaf"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_lightbulb",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_lightbulb",
+   "themes": [
+    "growth",
+    "philosophy"
+   ],
+   "tags": [
+    "lightbulb"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_lightning",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_lightning",
+   "themes": [
+    "psychology",
+    "science"
+   ],
+   "tags": [
+    "lightning"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_list_checks",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_list_checks",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "list-checks"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_lock",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_lock",
+   "themes": [
+    "psychology",
+    "decisions"
+   ],
+   "tags": [
+    "lock"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_lock_open",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_lock_open",
+   "themes": [
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "lock-open"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_magnet",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_magnet",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "magnet"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_magnifying_glass",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_magnifying_glass",
+   "themes": [
+    "philosophy",
+    "science"
+   ],
+   "tags": [
+    "magnifying-glass"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_map_pin",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_map_pin",
+   "themes": [
+    "everyday"
+   ],
+   "tags": [
+    "map-pin"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_map_trifold",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_map_trifold",
+   "themes": [
+    "decisions"
+   ],
+   "tags": [
+    "map-trifold"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_mask_happy",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_mask_happy",
+   "themes": [
+    "psychology",
+    "philosophy"
+   ],
+   "tags": [
+    "mask-happy"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_mask_sad",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_mask_sad",
+   "themes": [
+    "psychology",
+    "philosophy"
+   ],
+   "tags": [
+    "mask-sad"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_medal",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_medal",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "medal"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_megaphone",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_megaphone",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "megaphone"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_microscope",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_microscope",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "microscope"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_minus",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_minus",
+   "themes": [
+    "everyday"
+   ],
+   "tags": [
+    "minus"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_money",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_money",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "money"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_moon",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_moon",
+   "themes": [
+    "philosophy"
+   ],
+   "tags": [
+    "moon"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_moon_stars",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_moon_stars",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "moon-stars"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_mountains",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_mountains",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "mountains"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_music_notes",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_music_notes",
+   "themes": [
+    "everyday"
+   ],
+   "tags": [
+    "music-notes"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_notebook",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_notebook",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "notebook"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_path",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_path",
+   "themes": [
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "path"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_paw_print",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_paw_print",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "paw-print"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_pencil_simple",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_pencil_simple",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "pencil-simple"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_percent",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_percent",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "percent"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_person",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_person",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "person"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_person_simple_run",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_person_simple_run",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "person-simple-run"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_person_simple_walk",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_person_simple_walk",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "person-simple-walk"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_phone",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_phone",
+   "themes": [
+    "everyday"
+   ],
+   "tags": [
+    "phone"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_piggy_bank",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_piggy_bank",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "piggy-bank"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_pill",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_pill",
+   "themes": [
+    "psychology",
+    "science"
+   ],
+   "tags": [
+    "pill"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_planet",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_planet",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "planet"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_plant",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_plant",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "plant"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_plus",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_plus",
+   "themes": [
+    "everyday"
+   ],
+   "tags": [
+    "plus"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_prohibit",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_prohibit",
+   "themes": [
+    "decisions"
+   ],
+   "tags": [
+    "prohibit"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_puzzle_piece",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_puzzle_piece",
+   "themes": [
+    "growth",
+    "psychology"
+   ],
+   "tags": [
+    "puzzle-piece"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_question",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_question",
+   "themes": [
+    "philosophy",
+    "decisions"
+   ],
+   "tags": [
+    "question"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_quotes",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_quotes",
+   "themes": [
+    "philosophy"
+   ],
+   "tags": [
+    "quotes"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_receipt",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_receipt",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "receipt"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_repeat",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_repeat",
+   "themes": [
+    "growth",
+    "psychology"
+   ],
+   "tags": [
+    "repeat"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_robot",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_robot",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "robot"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_rocket_launch",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_rocket_launch",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "rocket-launch"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_scales",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_scales",
+   "themes": [
+    "philosophy",
+    "decisions",
+    "money"
+   ],
+   "tags": [
+    "scales"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_scroll",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_scroll",
+   "themes": [
+    "philosophy"
+   ],
+   "tags": [
+    "scroll"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_seal_question",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_seal_question",
+   "themes": [
+    "philosophy"
+   ],
+   "tags": [
+    "seal-question"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_shield_check",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_shield_check",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "shield-check"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_shooting_star",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_shooting_star",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "shooting-star"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_shopping_cart",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_shopping_cart",
+   "themes": [
+    "money",
+    "psychology"
+   ],
+   "tags": [
+    "shopping-cart"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_shuffle",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_shuffle",
+   "themes": [
+    "decisions"
+   ],
+   "tags": [
+    "shuffle"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_signpost",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_signpost",
+   "themes": [
+    "decisions"
+   ],
+   "tags": [
+    "signpost"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_skull",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_skull",
+   "themes": [
+    "philosophy"
+   ],
+   "tags": [
+    "skull"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_smiley",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_smiley",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "smiley"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_smiley_angry",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_smiley_angry",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "smiley-angry"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_smiley_meh",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_smiley_meh",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "smiley-meh"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_smiley_nervous",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_smiley_nervous",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "smiley-nervous"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_smiley_sad",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_smiley_sad",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "smiley-sad"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_sneaker_move",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_sneaker_move",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "sneaker-move"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_sparkle",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_sparkle",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "sparkle"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_spiral",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_spiral",
+   "themes": [
+    "science",
+    "philosophy"
+   ],
+   "tags": [
+    "spiral"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_stairs",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_stairs",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "stairs"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_star",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_star",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "star"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_storefront",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_storefront",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "storefront"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_sun",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_sun",
+   "themes": [
+    "philosophy"
+   ],
+   "tags": [
+    "sun"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_tag",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_tag",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "tag"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_target",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_target",
+   "themes": [
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "target"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_test_tube",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_test_tube",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "test-tube"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_thermometer",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_thermometer",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "thermometer"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_thumbs_down",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_thumbs_down",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "thumbs-down"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_thumbs_up",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_thumbs_up",
+   "themes": [
+    "psychology",
+    "decisions"
+   ],
+   "tags": [
+    "thumbs-up"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_timer",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_timer",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "timer"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_toolbox",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_toolbox",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "toolbox"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_tooth",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_tooth",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "tooth"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_traffic_signal",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_traffic_signal",
+   "themes": [
+    "decisions"
+   ],
+   "tags": [
+    "traffic-signal"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_tree",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_tree",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "tree"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_trend_down",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_trend_down",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "trend-down"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_trend_up",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_trend_up",
+   "themes": [
+    "money",
+    "growth"
+   ],
+   "tags": [
+    "trend-up"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_trophy",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_trophy",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "trophy"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_umbrella",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_umbrella",
+   "themes": [
+    "decisions",
+    "money"
+   ],
+   "tags": [
+    "umbrella"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_user",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_user",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "user"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_user_circle",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_user_circle",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "user-circle"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_users",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_users",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "users"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_users_three",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_users_three",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "users-three"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_vault",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_vault",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "vault"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_virus",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_virus",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "virus"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_wallet",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_wallet",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "wallet"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_warning",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_warning",
+   "themes": [
+    "decisions"
+   ],
+   "tags": [
+    "warning"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_warning_octagon",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_warning_octagon",
+   "themes": [
+    "decisions"
+   ],
+   "tags": [
+    "warning-octagon"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_waves",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_waves",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "waves"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_x",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_x",
+   "themes": [
+    "everyday"
+   ],
+   "tags": [
+    "x"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_x_circle",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_x_circle",
+   "themes": [
+    "decisions"
+   ],
+   "tags": [
+    "x-circle"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "icon_yin_yang",
+   "category": "icon",
+   "kind": "icon",
+   "adapter": "svg",
+   "style": "phosphor_duotone",
+   "path": "icons/icon_yin_yang",
+   "themes": [
+    "philosophy"
+   ],
+   "tags": [
+    "yin-yang"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "met_balance_01",
+   "category": "metaphor",
+   "kind": "animated_metaphor",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "metaphors/met_balance_01",
+   "themes": [
+    "philosophy",
+    "decisions",
+    "money"
+   ],
+   "tags": [
+    "tradeoff",
+    "balance",
+    "justice",
+    "compare"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "met_brain_gears_01",
+   "category": "metaphor",
+   "kind": "animated_metaphor",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "metaphors/met_brain_gears_01",
+   "themes": [
+    "psychology",
+    "science",
+    "philosophy"
+   ],
+   "tags": [
+    "thinking",
+    "mind",
+    "process",
+    "logic"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "met_chain_break_01",
+   "category": "metaphor",
+   "kind": "animated_metaphor",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "metaphors/met_chain_break_01",
+   "themes": [
+    "psychology",
+    "growth",
+    "philosophy"
+   ],
+   "tags": [
+    "freedom",
+    "breaking-habits",
+    "liberation",
+    "chains"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "met_comfort_zone_01",
+   "category": "metaphor",
+   "kind": "animated_metaphor",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "metaphors/met_comfort_zone_01",
+   "themes": [
+    "growth",
+    "psychology"
+   ],
+   "tags": [
+    "comfort-zone",
+    "fear",
+    "learning",
+    "growth-zone"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "met_crossroads_01",
+   "category": "metaphor",
+   "kind": "animated_metaphor",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "metaphors/met_crossroads_01",
+   "themes": [
+    "decisions",
+    "philosophy",
+    "growth"
+   ],
+   "tags": [
+    "choice",
+    "fork",
+    "path",
+    "crossroads"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "met_dominoes_01",
+   "category": "metaphor",
+   "kind": "animated_metaphor",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "metaphors/met_dominoes_01",
+   "themes": [
+    "decisions",
+    "psychology",
+    "science"
+   ],
+   "tags": [
+    "chain-reaction",
+    "consequences",
+    "domino-effect",
+    "habits"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "met_hourglass_01",
+   "category": "metaphor",
+   "kind": "animated_metaphor",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "metaphors/met_hourglass_01",
+   "themes": [
+    "philosophy",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "time",
+    "deadline",
+    "mortality",
+    "patience"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "met_iceberg_01",
+   "category": "metaphor",
+   "kind": "animated_metaphor",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "metaphors/met_iceberg_01",
+   "themes": [
+    "psychology",
+    "science",
+    "philosophy"
+   ],
+   "tags": [
+    "subconscious",
+    "hidden",
+    "iceberg",
+    "visible-vs-hidden"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "met_maze_01",
+   "category": "metaphor",
+   "kind": "animated_metaphor",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "metaphors/met_maze_01",
+   "themes": [
+    "philosophy",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "maze",
+    "complexity",
+    "solution",
+    "lost"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "met_mountain_flag_01",
+   "category": "metaphor",
+   "kind": "animated_metaphor",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "metaphors/met_mountain_flag_01",
+   "themes": [
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "goal",
+    "journey",
+    "summit",
+    "achievement"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "met_puppet_01",
+   "category": "metaphor",
+   "kind": "animated_metaphor",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "metaphors/met_puppet_01",
+   "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+   ],
+   "tags": [
+    "manipulation",
+    "control",
+    "influence",
+    "puppet"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "met_seed_to_tree_01",
+   "category": "metaphor",
+   "kind": "animated_metaphor",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "metaphors/met_seed_to_tree_01",
+   "themes": [
+    "growth",
+    "money",
+    "science"
+   ],
+   "tags": [
+    "growth",
+    "patience",
+    "compounding",
+    "stages"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "met_snowball_01",
+   "category": "metaphor",
+   "kind": "animated_metaphor",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "metaphors/met_snowball_01",
+   "themes": [
+    "money",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "compound-interest",
+    "snowball",
+    "momentum",
+    "growth"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "met_stairs_01",
+   "category": "metaphor",
+   "kind": "animated_metaphor",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "metaphors/met_stairs_01",
+   "themes": [
+    "growth",
+    "money",
+    "decisions"
+   ],
+   "tags": [
+    "progress",
+    "steps",
+    "levels",
+    "climb"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "met_two_doors_01",
+   "category": "metaphor",
+   "kind": "animated_metaphor",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "metaphors/met_two_doors_01",
+   "themes": [
+    "decisions",
+    "philosophy"
+   ],
+   "tags": [
+    "choice",
+    "opportunity",
+    "door",
+    "unknown"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "obj_abacus",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_abacus",
+   "themes": [
+    "money",
+    "science"
+   ],
+   "tags": [
+    "abacus",
+    "calculate",
+    "math"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_airplane",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_airplane",
+   "themes": [
+    "money",
+    "everyday"
+   ],
+   "tags": [
+    "airplane",
+    "freedom",
+    "travel"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_alarm_clock",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_alarm_clock",
+   "themes": [
+    "growth",
+    "everyday"
+   ],
+   "tags": [
+    "alarm-clock",
+    "discipline",
+    "morning",
+    "time"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_alembic",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_alembic",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "alembic",
+    "chemistry",
+    "experiment"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_anatomical_heart",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_anatomical_heart",
+   "themes": [
+    "psychology",
+    "science"
+   ],
+   "tags": [
+    "anatomical-heart",
+    "body",
+    "emotion"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_anchor",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_anchor",
+   "themes": [
+    "psychology",
+    "decisions"
+   ],
+   "tags": [
+    "anchor",
+    "anchoring",
+    "stability"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_ant",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_ant",
+   "themes": [
+    "science",
+    "psychology"
+   ],
+   "tags": [
+    "ant",
+    "colony",
+    "cooperation"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_atom_symbol",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_atom_symbol",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "atom-symbol",
+    "matter",
+    "physics"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_automobile",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_automobile",
+   "themes": [
+    "money",
+    "everyday"
+   ],
+   "tags": [
+    "automobile",
+    "car",
+    "purchase",
+    "status"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_baby",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_baby",
+   "themes": [
+    "psychology",
+    "science"
+   ],
+   "tags": [
+    "baby",
+    "childhood",
+    "development"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_balance_scale",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_balance_scale",
+   "themes": [
+    "philosophy",
+    "decisions",
+    "money"
+   ],
+   "tags": [
+    "balance-scale",
+    "compare",
+    "justice",
+    "tradeoff"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_bank",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_bank",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "bank",
+    "institution",
+    "loan",
+    "savings"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_bar_chart",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_bar_chart",
+   "themes": [
+    "money",
+    "science"
+   ],
+   "tags": [
+    "bar-chart",
+    "data",
+    "statistics"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_battery",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_battery",
+   "themes": [
+    "growth",
+    "psychology"
+   ],
+   "tags": [
+    "battery",
+    "energy",
+    "full"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_bed",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_bed",
+   "themes": [
+    "psychology",
+    "everyday"
+   ],
+   "tags": [
+    "bed",
+    "rest",
+    "sleep"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_bell",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_bell",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "alert",
+    "bell",
+    "dopamine",
+    "notification"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_bomb",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_bomb",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "anger",
+    "bomb",
+    "danger",
+    "explosive"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_bone",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_bone",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "anatomy",
+    "body",
+    "bone"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_books",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_books",
+   "themes": [
+    "growth",
+    "philosophy"
+   ],
+   "tags": [
+    "books",
+    "knowledge",
+    "learning"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_brain",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_brain",
+   "themes": [
+    "psychology",
+    "science",
+    "growth"
+   ],
+   "tags": [
+    "brain",
+    "mind",
+    "thinking"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_brick",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_brick",
+   "themes": [
+    "growth",
+    "money"
+   ],
+   "tags": [
+    "brick",
+    "build",
+    "foundation"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_briefcase",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_briefcase",
+   "themes": [
+    "money",
+    "everyday"
+   ],
+   "tags": [
+    "briefcase",
+    "business",
+    "career",
+    "job"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_broken_heart",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_broken_heart",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "breakup",
+    "broken-heart",
+    "loss",
+    "pain"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_bullseye",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_bullseye",
+   "themes": [
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "bullseye",
+    "focus",
+    "goal",
+    "target"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_bust_in_silhouette",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_bust_in_silhouette",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "anonymous",
+    "bust-in-silhouette",
+    "person"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_busts_in_silhouette",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_busts_in_silhouette",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "busts-in-silhouette",
+    "group",
+    "people",
+    "social"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_camera",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_camera",
+   "themes": [
+    "everyday",
+    "psychology"
+   ],
+   "tags": [
+    "camera",
+    "memory",
+    "photo"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_candle",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_candle",
+   "themes": [
+    "philosophy"
+   ],
+   "tags": [
+    "candle",
+    "darkness",
+    "light",
+    "wisdom"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_candy",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_candy",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "candy",
+    "dopamine",
+    "reward",
+    "temptation"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_chains",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_chains",
+   "themes": [
+    "psychology",
+    "philosophy"
+   ],
+   "tags": [
+    "chains",
+    "habit",
+    "prison",
+    "trap"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_chair",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_chair",
+   "themes": [
+    "everyday"
+   ],
+   "tags": [
+    "chair",
+    "furniture"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_chart_decreasing",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_chart_decreasing",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "chart-decreasing",
+    "crash",
+    "down",
+    "loss"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_chart_increasing",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_chart_increasing",
+   "themes": [
+    "money",
+    "growth"
+   ],
+   "tags": [
+    "chart-increasing",
+    "profit",
+    "stocks",
+    "up"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_chart_increasing_with_yen",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_chart_increasing_with_yen",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "chart-increasing-with-yen",
+    "market",
+    "stocks"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_check_mark_button",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_check_mark_button",
+   "themes": [
+    "decisions"
+   ],
+   "tags": [
+    "check-mark-button",
+    "correct",
+    "done",
+    "yes"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_chequered_flag",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_chequered_flag",
+   "themes": [
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "chequered-flag",
+    "finish",
+    "goal"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_chess_pawn",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_chess_pawn",
+   "themes": [
+    "philosophy",
+    "decisions"
+   ],
+   "tags": [
+    "chess-pawn",
+    "pawn",
+    "pawn-in-game",
+    "strategy"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_classical_building",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_classical_building",
+   "themes": [
+    "money",
+    "philosophy"
+   ],
+   "tags": [
+    "ancient",
+    "classical-building",
+    "government",
+    "institution"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_cloud_with_lightning",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_cloud_with_lightning",
+   "themes": [
+    "psychology",
+    "everyday"
+   ],
+   "tags": [
+    "cloud-with-lightning",
+    "crisis",
+    "storm"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_coin",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_coin",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "cash",
+    "coin",
+    "currency"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_comet",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_comet",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "comet",
+    "space"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_compass",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_compass",
+   "themes": [
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "compass",
+    "direction",
+    "purpose"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_construction",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_construction",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "building",
+    "construction",
+    "in-progress"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_couch_and_lamp",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_couch_and_lamp",
+   "themes": [
+    "everyday"
+   ],
+   "tags": [
+    "comfort-zone",
+    "couch-and-lamp",
+    "home"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_credit_card",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_credit_card",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "credit-card",
+    "debt",
+    "payment",
+    "spending"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_crescent_moon",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_crescent_moon",
+   "themes": [
+    "philosophy",
+    "everyday"
+   ],
+   "tags": [
+    "crescent-moon",
+    "night"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_cross_mark",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_cross_mark",
+   "themes": [
+    "decisions"
+   ],
+   "tags": [
+    "cross-mark",
+    "mistake",
+    "no",
+    "wrong"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_crown",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_crown",
+   "themes": [
+    "money",
+    "psychology"
+   ],
+   "tags": [
+    "crown",
+    "king",
+    "power",
+    "status"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_crystal_ball",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_crystal_ball",
+   "themes": [
+    "philosophy",
+    "decisions"
+   ],
+   "tags": [
+    "crystal-ball",
+    "future",
+    "prediction"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_deciduous_tree",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_deciduous_tree",
+   "themes": [
+    "growth",
+    "everyday"
+   ],
+   "tags": [
+    "deciduous-tree",
+    "growth",
+    "maturity"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_desktop_computer",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_desktop_computer",
+   "themes": [
+    "everyday"
+   ],
+   "tags": [
+    "computer",
+    "desktop-computer",
+    "work"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_dna",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_dna",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "biology",
+    "dna",
+    "genetics",
+    "nature"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_dollar_banknote",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_dollar_banknote",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "cash",
+    "dollar",
+    "dollar-banknote"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_door",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_door",
+   "themes": [
+    "philosophy",
+    "decisions"
+   ],
+   "tags": [
+    "choice",
+    "door",
+    "opportunity"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_doughnut",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_doughnut",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "craving",
+    "doughnut",
+    "temptation"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_dove",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_dove",
+   "themes": [
+    "philosophy"
+   ],
+   "tags": [
+    "dove",
+    "freedom",
+    "peace"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_ear",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_ear",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "ear",
+    "listening"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_envelope",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_envelope",
+   "themes": [
+    "everyday"
+   ],
+   "tags": [
+    "envelope",
+    "letter",
+    "message"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_euro_banknote",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_euro_banknote",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "cash",
+    "euro",
+    "euro-banknote"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_evergreen_tree",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_evergreen_tree",
+   "themes": [
+    "everyday"
+   ],
+   "tags": [
+    "evergreen-tree",
+    "nature"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_ewe",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_ewe",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "conformity",
+    "ewe",
+    "follower",
+    "herd",
+    "sheep"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_eye",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_eye",
+   "themes": [
+    "psychology",
+    "science"
+   ],
+   "tags": [
+    "attention",
+    "eye",
+    "perception",
+    "watching"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_eyes",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_eyes",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "attention",
+    "eyes",
+    "watching"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_factory",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_factory",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "economy",
+    "factory",
+    "industry",
+    "production"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_film_frames",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_film_frames",
+   "themes": [
+    "everyday"
+   ],
+   "tags": [
+    "film-frames",
+    "memory",
+    "movie"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_fire",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_fire",
+   "themes": [
+    "psychology",
+    "growth"
+   ],
+   "tags": [
+    "burnout",
+    "danger",
+    "fire",
+    "passion"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_fishing_pole",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_fishing_pole",
+   "themes": [
+    "psychology",
+    "money"
+   ],
+   "tags": [
+    "bait",
+    "fishing-pole",
+    "hook",
+    "patience"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_flexed_biceps",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_flexed_biceps",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "discipline",
+    "flexed-biceps",
+    "strength"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_folded_hands",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_folded_hands",
+   "themes": [
+    "psychology",
+    "philosophy"
+   ],
+   "tags": [
+    "folded-hands",
+    "gratitude",
+    "hope"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_fork_and_knife",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_fork_and_knife",
+   "themes": [
+    "everyday"
+   ],
+   "tags": [
+    "eat",
+    "food",
+    "fork-and-knife"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_four_leaf_clover",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_four_leaf_clover",
+   "themes": [
+    "decisions"
+   ],
+   "tags": [
+    "four-leaf-clover",
+    "luck"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_game_die",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_game_die",
+   "themes": [
+    "decisions",
+    "money"
+   ],
+   "tags": [
+    "chance",
+    "game-die",
+    "luck",
+    "risk"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_gear",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_gear",
+   "themes": [
+    "growth",
+    "science"
+   ],
+   "tags": [
+    "gear",
+    "process",
+    "system"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_gem_stone",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_gem_stone",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "gem-stone",
+    "luxury",
+    "rare",
+    "value"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_globe_showing_europe_africa",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_globe_showing_europe_africa",
+   "themes": [
+    "science",
+    "everyday"
+   ],
+   "tags": [
+    "earth",
+    "globe-showing-europe-africa",
+    "world"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_glowing_star",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_glowing_star",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "excellence",
+    "glowing-star",
+    "success"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_graduation_cap",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_graduation_cap",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "degree",
+    "education",
+    "graduation-cap"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_green_apple",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_green_apple",
+   "themes": [
+    "everyday",
+    "growth"
+   ],
+   "tags": [
+    "food",
+    "green-apple",
+    "healthy"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_hammer",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_hammer",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "build",
+    "hammer",
+    "work"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_handshake",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_handshake",
+   "themes": [
+    "psychology",
+    "money"
+   ],
+   "tags": [
+    "agreement",
+    "deal",
+    "handshake",
+    "trust"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_heavy_dollar_sign",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_heavy_dollar_sign",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "dollar",
+    "heavy-dollar-sign",
+    "symbol"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_high_voltage",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_high_voltage",
+   "themes": [
+    "psychology",
+    "science"
+   ],
+   "tags": [
+    "energy",
+    "high-voltage",
+    "shock"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_honeybee",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_honeybee",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "colony",
+    "honeybee",
+    "nature"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_hot_beverage",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_hot_beverage",
+   "themes": [
+    "everyday"
+   ],
+   "tags": [
+    "coffee",
+    "hot-beverage",
+    "morning"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_hourglass_done",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_hourglass_done",
+   "themes": [
+    "philosophy",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "deadline",
+    "hourglass-done",
+    "mortality",
+    "time"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_hourglass_not_done",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_hourglass_not_done",
+   "themes": [
+    "philosophy",
+    "growth"
+   ],
+   "tags": [
+    "hourglass-not-done",
+    "time",
+    "waiting"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_house",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_house",
+   "themes": [
+    "money",
+    "everyday"
+   ],
+   "tags": [
+    "home",
+    "house",
+    "mortgage",
+    "real-estate"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_house_with_garden",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_house_with_garden",
+   "themes": [
+    "money",
+    "everyday"
+   ],
+   "tags": [
+    "dream",
+    "family",
+    "home",
+    "house-with-garden"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_hundred_points",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_hundred_points",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "hundred-points",
+    "perfect",
+    "score"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_infinity",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_infinity",
+   "themes": [
+    "philosophy",
+    "science"
+   ],
+   "tags": [
+    "forever",
+    "infinite",
+    "infinity"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_joker",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_joker",
+   "themes": [
+    "decisions"
+   ],
+   "tags": [
+    "joker",
+    "trick",
+    "wildcard"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_key",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_key",
+   "themes": [
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "access",
+    "key",
+    "secret",
+    "solution"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_ladder",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_ladder",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "climb",
+    "ladder",
+    "progress"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_laptop",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_laptop",
+   "themes": [
+    "everyday",
+    "science"
+   ],
+   "tags": [
+    "computer",
+    "laptop",
+    "work"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_ledger",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_ledger",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "accounting",
+    "ledger",
+    "records"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_light_bulb",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_light_bulb",
+   "themes": [
+    "growth",
+    "philosophy",
+    "science"
+   ],
+   "tags": [
+    "idea",
+    "insight",
+    "light-bulb"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_lion",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_lion",
+   "themes": [
+    "psychology",
+    "growth"
+   ],
+   "tags": [
+    "courage",
+    "leader",
+    "lion"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_locked",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_locked",
+   "themes": [
+    "psychology",
+    "decisions"
+   ],
+   "tags": [
+    "closed",
+    "locked",
+    "secret",
+    "trap"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_loudspeaker",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_loudspeaker",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "announcement",
+    "influence",
+    "loudspeaker"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_low_battery",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_low_battery",
+   "themes": [
+    "growth",
+    "psychology"
+   ],
+   "tags": [
+    "burnout",
+    "low-battery",
+    "tired"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_lungs",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_lungs",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "anatomy",
+    "breathing",
+    "lungs"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_magnet",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_magnet",
+   "themes": [
+    "psychology",
+    "money"
+   ],
+   "tags": [
+    "attraction",
+    "magnet",
+    "pull"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_magnifying_glass_tilted_left",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_magnifying_glass_tilted_left",
+   "themes": [
+    "philosophy",
+    "science"
+   ],
+   "tags": [
+    "detail",
+    "investigate",
+    "magnifying-glass-tilted-left",
+    "search"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_megaphone",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_megaphone",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "influence",
+    "loud",
+    "megaphone"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_microbe",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_microbe",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "bacteria",
+    "microbe",
+    "virus"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_microscope",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_microscope",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "biology",
+    "microscope",
+    "research"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_milky_way",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_milky_way",
+   "themes": [
+    "philosophy",
+    "science"
+   ],
+   "tags": [
+    "cosmos",
+    "infinity",
+    "milky-way"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_mirror",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_mirror",
+   "themes": [
+    "psychology",
+    "philosophy",
+    "growth"
+   ],
+   "tags": [
+    "identity",
+    "mirror",
+    "reflection",
+    "self"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_mobile_phone",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_mobile_phone",
+   "themes": [
+    "psychology",
+    "everyday"
+   ],
+   "tags": [
+    "addiction",
+    "mobile-phone",
+    "phone",
+    "social-media"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_money_bag",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_money_bag",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "money-bag",
+    "savings",
+    "wealth"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_money_with_wings",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_money_with_wings",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "inflation",
+    "loss",
+    "money-with-wings",
+    "spending"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_monkey_face",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_monkey_face",
+   "themes": [
+    "science",
+    "psychology"
+   ],
+   "tags": [
+    "evolution",
+    "monkey-face",
+    "primate"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_mountain",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_mountain",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "challenge",
+    "goal",
+    "mountain"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_musical_notes",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_musical_notes",
+   "themes": [
+    "everyday"
+   ],
+   "tags": [
+    "music",
+    "musical-notes"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_notebook",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_notebook",
+   "themes": [
+    "growth",
+    "everyday"
+   ],
+   "tags": [
+    "journal",
+    "notebook",
+    "notes"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_office_building",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_office_building",
+   "themes": [
+    "money",
+    "everyday"
+   ],
+   "tags": [
+    "company",
+    "corporate",
+    "office-building",
+    "work"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_oil_drum",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_oil_drum",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "commodity",
+    "energy",
+    "oil-drum"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_open_book",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_open_book",
+   "themes": [
+    "growth",
+    "philosophy"
+   ],
+   "tags": [
+    "learning",
+    "open-book",
+    "reading"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_package",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_package",
+   "themes": [
+    "everyday",
+    "money"
+   ],
+   "tags": [
+    "delivery",
+    "package",
+    "product"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_pencil",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_pencil",
+   "themes": [
+    "growth",
+    "everyday"
+   ],
+   "tags": [
+    "pencil",
+    "plan",
+    "write"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_performing_arts",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_performing_arts",
+   "themes": [
+    "psychology",
+    "philosophy"
+   ],
+   "tags": [
+    "identity",
+    "mask",
+    "performing-arts",
+    "persona"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_petri_dish",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_petri_dish",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "bacteria",
+    "biology",
+    "petri-dish"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_pill",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_pill",
+   "themes": [
+    "psychology",
+    "science"
+   ],
+   "tags": [
+    "medicine",
+    "pill",
+    "quick-fix"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_pizza",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_pizza",
+   "themes": [
+    "everyday",
+    "psychology"
+   ],
+   "tags": [
+    "craving",
+    "food",
+    "pizza"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_potted_plant",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_potted_plant",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "care",
+    "growth",
+    "potted-plant"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_puzzle_piece",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_puzzle_piece",
+   "themes": [
+    "psychology",
+    "growth"
+   ],
+   "tags": [
+    "fit",
+    "missing",
+    "puzzle-piece",
+    "solution"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_rabbit",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_rabbit",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "fast",
+    "rabbit"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_racing_car",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_racing_car",
+   "themes": [
+    "money",
+    "psychology"
+   ],
+   "tags": [
+    "luxury",
+    "racing-car",
+    "speed",
+    "status"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_rainbow",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_rainbow",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "hope",
+    "rainbow"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_receipt",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_receipt",
+   "themes": [
+    "money"
+   ],
+   "tags": [
+    "bill",
+    "expense",
+    "receipt"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_red_exclamation_mark",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_red_exclamation_mark",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "attention",
+    "red-exclamation-mark",
+    "warning"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_red_heart",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_red_heart",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "emotion",
+    "love",
+    "red-heart"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_red_question_mark",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_red_question_mark",
+   "themes": [
+    "philosophy",
+    "decisions"
+   ],
+   "tags": [
+    "doubt",
+    "question",
+    "red-question-mark"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_right_anger_bubble",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_right_anger_bubble",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "anger",
+    "conflict",
+    "right-anger-bubble"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_ringed_planet",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_ringed_planet",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "planet",
+    "ringed-planet",
+    "space"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_robot",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_robot",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "ai",
+    "automation",
+    "robot"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_rocket",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_rocket",
+   "themes": [
+    "growth",
+    "money",
+    "science"
+   ],
+   "tags": [
+    "fast",
+    "launch",
+    "rocket",
+    "startup"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_running_shoe",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_running_shoe",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "exercise",
+    "habit",
+    "running-shoe"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_satellite",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_satellite",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "satellite",
+    "space",
+    "technology"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_sauropod",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_sauropod",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "evolution",
+    "extinct",
+    "sauropod"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_scroll",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_scroll",
+   "themes": [
+    "philosophy"
+   ],
+   "tags": [
+    "ancient",
+    "law",
+    "scroll",
+    "text"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_seedling",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_seedling",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "potential",
+    "seedling",
+    "start"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_shield",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_shield",
+   "themes": [
+    "growth",
+    "psychology"
+   ],
+   "tags": [
+    "defense",
+    "protection",
+    "shield"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_shopping_bags",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_shopping_bags",
+   "themes": [
+    "money",
+    "psychology"
+   ],
+   "tags": [
+    "consumerism",
+    "impulse",
+    "shopping-bags"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_shopping_cart",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_shopping_cart",
+   "themes": [
+    "money",
+    "psychology"
+   ],
+   "tags": [
+    "buying",
+    "consumerism",
+    "shopping-cart"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_skull",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_skull",
+   "themes": [
+    "philosophy"
+   ],
+   "tags": [
+    "death",
+    "memento-mori",
+    "skull"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_slot_machine",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_slot_machine",
+   "themes": [
+    "money",
+    "decisions"
+   ],
+   "tags": [
+    "addiction",
+    "gambling",
+    "risk",
+    "slot-machine"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_snail",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_snail",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "patience",
+    "slow",
+    "snail"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_snow_capped_mountain",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_snow_capped_mountain",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "challenge",
+    "snow-capped-mountain",
+    "summit"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_sparkles",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_sparkles",
+   "themes": [
+    "growth",
+    "psychology"
+   ],
+   "tags": [
+    "highlight",
+    "magic",
+    "new",
+    "sparkles"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_speech_balloon",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_speech_balloon",
+   "themes": [
+    "psychology",
+    "everyday"
+   ],
+   "tags": [
+    "communication",
+    "speech-balloon",
+    "talk"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_spiral_calendar",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_spiral_calendar",
+   "themes": [
+    "growth",
+    "everyday"
+   ],
+   "tags": [
+    "habit",
+    "schedule",
+    "spiral-calendar",
+    "time"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_sports_medal",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_sports_medal",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "achievement",
+    "sports-medal",
+    "win"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_stop_sign",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_stop_sign",
+   "themes": [
+    "decisions"
+   ],
+   "tags": [
+    "limit",
+    "stop",
+    "stop-sign"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_stopwatch",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_stopwatch",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "speed",
+    "stopwatch",
+    "time"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_sun",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_sun",
+   "themes": [
+    "philosophy",
+    "everyday"
+   ],
+   "tags": [
+    "day",
+    "light",
+    "sun"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_syringe",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_syringe",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "medicine",
+    "syringe",
+    "vaccine"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_telescope",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_telescope",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "astronomy",
+    "discovery",
+    "telescope"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_television",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_television",
+   "themes": [
+    "psychology",
+    "everyday"
+   ],
+   "tags": [
+    "media",
+    "propaganda",
+    "television"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_test_tube",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_test_tube",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "chemistry",
+    "experiment",
+    "test-tube"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_thermometer",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_thermometer",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "temperature",
+    "thermometer"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_thought_balloon",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_thought_balloon",
+   "themes": [
+    "psychology",
+    "philosophy"
+   ],
+   "tags": [
+    "idea",
+    "thinking",
+    "thought-balloon"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_thumbs_down",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_thumbs_down",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "dislike",
+    "rejection",
+    "thumbs-down"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_thumbs_up",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_thumbs_up",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "approval",
+    "like",
+    "thumbs-up"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_ticket",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_ticket",
+   "themes": [
+    "money",
+    "everyday"
+   ],
+   "tags": [
+    "entry",
+    "lottery",
+    "ticket"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_toolbox",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_toolbox",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "skills",
+    "toolbox",
+    "tools"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_tooth",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_tooth",
+   "themes": [
+    "science"
+   ],
+   "tags": [
+    "anatomy",
+    "tooth"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_triangular_flag",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_triangular_flag",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "goal",
+    "milestone",
+    "triangular-flag"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_trophy",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_trophy",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "success",
+    "trophy",
+    "win"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_trumpet",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_trumpet",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "announcement",
+    "fame",
+    "trumpet"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_turtle",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_turtle",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "patience",
+    "slow",
+    "turtle"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_umbrella",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_umbrella",
+   "themes": [
+    "decisions",
+    "money"
+   ],
+   "tags": [
+    "insurance",
+    "protection",
+    "umbrella"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_unlocked",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_unlocked",
+   "themes": [
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "freedom",
+    "open",
+    "solution",
+    "unlocked"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_vertical_traffic_light",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_vertical_traffic_light",
+   "themes": [
+    "decisions"
+   ],
+   "tags": [
+    "go",
+    "stop",
+    "vertical-traffic-light",
+    "wait"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_warning",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_warning",
+   "themes": [
+    "decisions"
+   ],
+   "tags": [
+    "danger",
+    "risk",
+    "warning"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_water_wave",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_water_wave",
+   "themes": [
+    "science",
+    "everyday"
+   ],
+   "tags": [
+    "ocean",
+    "water-wave",
+    "wave"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_white_question_mark",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_white_question_mark",
+   "themes": [
+    "philosophy"
+   ],
+   "tags": [
+    "question",
+    "white-question-mark"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_wolf",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_wolf",
+   "themes": [
+    "science",
+    "psychology"
+   ],
+   "tags": [
+    "instinct",
+    "pack",
+    "wolf"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_world_map",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_world_map",
+   "themes": [
+    "decisions",
+    "everyday"
+   ],
+   "tags": [
+    "journey",
+    "plan",
+    "world-map"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_wrapped_gift",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_wrapped_gift",
+   "themes": [
+    "money",
+    "psychology"
+   ],
+   "tags": [
+    "gift",
+    "reward",
+    "wrapped-gift"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_wrench",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_wrench",
+   "themes": [
+    "growth"
+   ],
+   "tags": [
+    "fix",
+    "repair",
+    "wrench"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_yin_yang",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_yin_yang",
+   "themes": [
+    "philosophy"
+   ],
+   "tags": [
+    "balance",
+    "duality",
+    "yin-yang"
+   ],
+   "license": "MIT"
+  },
+  {
+   "assetId": "obj_zzz",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "fluent_flat",
+   "path": "objects/obj_zzz",
+   "themes": [
+    "psychology"
+   ],
+   "tags": [
+    "sleep",
+    "tired",
+    "zzz"
+   ],
+   "license": "MIT"
+  }
+ ]
+}

@@ -1,0 +1,94 @@
+{
+  "schema": "erkasa.timeline/1",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "seed": 81723,
+  "scenes": [
+    {
+      "sceneId": "s01",
+      "from": 0,
+      "duration": 186,
+      "background": {
+        "asset": "bg_home_living_01@1"
+      },
+      "nodes": [
+        {
+          "id": "drini",
+          "adapter": "character",
+          "asset": "char_drini_01@1",
+          "z": 2,
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 0.42
+              }
+            ],
+            "clip": [
+              {
+                "f": 0,
+                "v": "talk"
+              },
+              {
+                "f": 96,
+                "v": "point_side",
+                "blend": 6
+              }
+            ],
+            "expression": [
+              {
+                "f": 0,
+                "v": "thinking"
+              }
+            ]
+          },
+          "visemes": {
+            "ref": "s3://erkasa/projects/p_demo/alignment/s01/v1.visemes.json"
+          }
+        },
+        {
+          "id": "hook",
+          "adapter": "text",
+          "props": {
+            "content": "IT'S NOT MATH.",
+            "style": "hook_impact"
+          },
+          "tracks": {
+            "scale": [
+              {
+                "f": 40,
+                "v": 0
+              },
+              {
+                "f": 50,
+                "v": 1,
+                "ease": "easeOutBack"
+              }
+            ]
+          }
+        }
+      ],
+      "camera": {
+        "zoom": [
+          {
+            "f": 0,
+            "v": 1
+          },
+          {
+            "f": 186,
+            "v": 1.12,
+            "ease": "easeInOutCubic"
+          }
+        ]
+      }
+    }
+  ],
+  "audio": {
+    "ref": "s3://erkasa/projects/p_demo/audio-plan/v1.json"
+  },
+  "captions": {
+    "ref": "s3://erkasa/projects/p_demo/captions/v1.json",
+    "style": "word_pop"
+  }
+}

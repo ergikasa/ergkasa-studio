@@ -1,0 +1,25 @@
+{
+  "schema": "erkasa.task-result/1",
+  "messageId": "01JC9ZM1Q0X7",
+  "runId": "run_8f2",
+  "stepId": "voice_s01",
+  "attempt": 1,
+  "status": "SUCCEEDED",
+  "outputs": [
+    {
+      "role": "voice",
+      "ref": "s3://erkasa/projects/p_demo/voice/s01/v1.mp3",
+      "mediaType": "audio/mpeg"
+    },
+    {
+      "role": "alignment",
+      "ref": "s3://erkasa/projects/p_demo/alignment/s01/v1.json",
+      "mediaType": "application/json"
+    }
+  ],
+  "metrics": {
+    "durationSec": 6.2,
+    "characters": 98
+  },
+  "workerVersion": "voice-0.1.0"
+}

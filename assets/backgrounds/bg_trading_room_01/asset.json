@@ -1,0 +1,90 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "bg_trading_room_01",
+  "version": 1,
+  "name": "Salla e tregtimit (bursa)",
+  "category": "background",
+  "kind": "layered_background",
+  "adapter": "svg",
+  "style": "erkasa_flat_v1",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    1920
+  ],
+  "layers": [
+    {
+      "id": "layer_wall_screens",
+      "depth": 0.5
+    },
+    {
+      "id": "layer_desk",
+      "depth": 0.12
+    },
+    {
+      "id": "layer_floor",
+      "depth": 0
+    }
+  ],
+  "groundY": 1690,
+  "actorZones": [
+    [
+      200,
+      2400
+    ]
+  ],
+  "safeFrames": {
+    "9:16": [
+      740,
+      0,
+      1080,
+      1920
+    ],
+    "16:9": [
+      0,
+      240,
+      2560,
+      1440
+    ],
+    "1:1": [
+      320,
+      0,
+      1920,
+      1920
+    ]
+  },
+  "capabilities": {
+    "camera": [
+      "pan",
+      "zoom",
+      "parallax",
+      "shake"
+    ]
+  },
+  "mood": [
+    "money",
+    "markets",
+    "risk",
+    "tension"
+  ],
+  "themes": [
+    "money",
+    "decisions"
+  ],
+  "tags": [
+    "finance",
+    "stocks",
+    "screens",
+    "indoor"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

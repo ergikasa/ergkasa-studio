@@ -1,0 +1,55 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "met_comfort_zone_01",
+  "version": 1,
+  "name": "Zona e rehatisë",
+  "category": "metaphor",
+  "kind": "animated_metaphor",
+  "adapter": "svg",
+  "style": "erkasa_flat_v1",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    800,
+    800
+  ],
+  "parts": {
+    "zone_inner": "pop_in",
+    "zone_mid": "pop_in",
+    "zone_outer": "pop_in, rotate dashed ring",
+    "person": "move outward"
+  },
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "move",
+      "pop_in"
+    ]
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ]
+  },
+  "themes": [
+    "growth",
+    "psychology"
+  ],
+  "tags": [
+    "comfort-zone",
+    "fear",
+    "learning",
+    "growth-zone"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

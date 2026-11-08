@@ -1,0 +1,504 @@
+{
+  "$id": "https://erkasa.studio/contracts/timeline.schema.json",
+  "title": "timeline",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "erkasa.timeline/1"
+    },
+    "fps": {
+      "type": "number",
+      "const": 30
+    },
+    "width": {
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991
+    },
+    "height": {
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "scenes": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "sceneId": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+          },
+          "from": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "duration": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "background": {
+            "type": "object",
+            "properties": {
+              "asset": {
+                "type": "string",
+                "pattern": "^[a-z]+_[a-z0-9_]+@\\d+$"
+              }
+            },
+            "required": [
+              "asset"
+            ],
+            "additionalProperties": false
+          },
+          "nodes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                },
+                "adapter": {
+                  "type": "string",
+                  "enum": [
+                    "character",
+                    "svg",
+                    "sprite",
+                    "particle",
+                    "motion_graphics",
+                    "text"
+                  ]
+                },
+                "asset": {
+                  "type": "string",
+                  "pattern": "^[a-z]+_[a-z0-9_]+@\\d+$"
+                },
+                "props": {
+                  "default": {},
+                  "type": "object",
+                  "propertyNames": {
+                    "type": "string"
+                  },
+                  "additionalProperties": {}
+                },
+                "z": {
+                  "default": 0,
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "tracks": {
+                  "type": "object",
+                  "propertyNames": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-zA-Z0-9_.]*$"
+                  },
+                  "additionalProperties": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "f": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "v": {
+                          "anyOf": [
+                            {
+                              "type": "number"
+                            },
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "array",
+                              "prefixItems": [
+                                {
+                                  "type": "number"
+                                },
+                                {
+                                  "type": "number"
+                                }
+                              ],
+                              "items": false,
+                              "minItems": 2,
+                              "maxItems": 2
+                            }
+                          ]
+                        },
+                        "ease": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "enum": [
+                                "linear",
+                                "easeIn",
+                                "easeOut",
+                                "easeInOut",
+                                "easeInCubic",
+                                "easeOutCubic",
+                                "easeInOutCubic",
+                                "easeOutBack",
+                                "easeInOutBack",
+                                "hold"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "cubicBezier": {
+                                  "type": "array",
+                                  "prefixItems": [
+                                    {
+                                      "type": "number"
+                                    },
+                                    {
+                                      "type": "number"
+                                    },
+                                    {
+                                      "type": "number"
+                                    },
+                                    {
+                                      "type": "number"
+                                    }
+                                  ],
+                                  "items": false,
+                                  "minItems": 4,
+                                  "maxItems": 4
+                                }
+                              },
+                              "required": [
+                                "cubicBezier"
+                              ],
+                              "additionalProperties": false
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "spring": {
+                                  "type": "object",
+                                  "properties": {
+                                    "mass": {
+                                      "default": 1,
+                                      "type": "number",
+                                      "exclusiveMinimum": 0
+                                    },
+                                    "stiffness": {
+                                      "default": 100,
+                                      "type": "number",
+                                      "exclusiveMinimum": 0
+                                    },
+                                    "damping": {
+                                      "default": 12,
+                                      "type": "number",
+                                      "exclusiveMinimum": 0
+                                    }
+                                  },
+                                  "additionalProperties": false
+                                }
+                              },
+                              "required": [
+                                "spring"
+                              ],
+                              "additionalProperties": false
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "steps": {
+                                  "type": "integer",
+                                  "exclusiveMinimum": 0,
+                                  "maximum": 9007199254740991
+                                }
+                              },
+                              "required": [
+                                "steps"
+                              ],
+                              "additionalProperties": false
+                            }
+                          ]
+                        },
+                        "blend": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 30
+                        }
+                      },
+                      "required": [
+                        "f",
+                        "v"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "visemes": {
+                  "type": "object",
+                  "properties": {
+                    "ref": {
+                      "type": "string",
+                      "pattern": "^(s3|file):\\/\\/.+"
+                    }
+                  },
+                  "required": [
+                    "ref"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "id",
+                "adapter",
+                "tracks"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "camera": {
+            "default": {},
+            "type": "object",
+            "propertyNames": {
+              "type": "string",
+              "pattern": "^[a-z][a-zA-Z0-9_.]*$"
+            },
+            "additionalProperties": {
+              "minItems": 1,
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "f": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "v": {
+                    "anyOf": [
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "array",
+                        "prefixItems": [
+                          {
+                            "type": "number"
+                          },
+                          {
+                            "type": "number"
+                          }
+                        ],
+                        "items": false,
+                        "minItems": 2,
+                        "maxItems": 2
+                      }
+                    ]
+                  },
+                  "ease": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "enum": [
+                          "linear",
+                          "easeIn",
+                          "easeOut",
+                          "easeInOut",
+                          "easeInCubic",
+                          "easeOutCubic",
+                          "easeInOutCubic",
+                          "easeOutBack",
+                          "easeInOutBack",
+                          "hold"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "cubicBezier": {
+                            "type": "array",
+                            "prefixItems": [
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "number"
+                              }
+                            ],
+                            "items": false,
+                            "minItems": 4,
+                            "maxItems": 4
+                          }
+                        },
+                        "required": [
+                          "cubicBezier"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "spring": {
+                            "type": "object",
+                            "properties": {
+                              "mass": {
+                                "default": 1,
+                                "type": "number",
+                                "exclusiveMinimum": 0
+                              },
+                              "stiffness": {
+                                "default": 100,
+                                "type": "number",
+                                "exclusiveMinimum": 0
+                              },
+                              "damping": {
+                                "default": 12,
+                                "type": "number",
+                                "exclusiveMinimum": 0
+                              }
+                            },
+                            "additionalProperties": false
+                          }
+                        },
+                        "required": [
+                          "spring"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "steps": {
+                            "type": "integer",
+                            "exclusiveMinimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "steps"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  },
+                  "blend": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 30
+                  }
+                },
+                "required": [
+                  "f",
+                  "v"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "transitionIn": {
+            "default": {
+              "type": "cut",
+              "frames": 0
+            },
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "cut",
+                  "fade",
+                  "slide",
+                  "wipe",
+                  "zoom",
+                  "whip"
+                ]
+              },
+              "frames": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "direction": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "type",
+              "frames"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "sceneId",
+          "from",
+          "duration",
+          "background",
+          "nodes"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "audio": {
+      "type": "object",
+      "properties": {
+        "ref": {
+          "type": "string",
+          "pattern": "^(s3|file):\\/\\/.+"
+        }
+      },
+      "required": [
+        "ref"
+      ],
+      "additionalProperties": false
+    },
+    "captions": {
+      "type": "object",
+      "properties": {
+        "ref": {
+          "type": "string",
+          "pattern": "^(s3|file):\\/\\/.+"
+        },
+        "style": {
+          "type": "string",
+          "pattern": "^[a-z_]+$"
+        }
+      },
+      "required": [
+        "ref",
+        "style"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema",
+    "fps",
+    "width",
+    "height",
+    "seed",
+    "scenes",
+    "audio"
+  ],
+  "additionalProperties": false
+}

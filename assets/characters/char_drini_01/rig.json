@@ -1,0 +1,296 @@
+{
+  "schema": "erkasa.rig/1",
+  "assetId": "char_drini_01",
+  "skeleton": "erkasa_biped_front_v1",
+  "units": "px",
+  "canvas": [
+    400,
+    880
+  ],
+  "ground": [
+    200,
+    872
+  ],
+  "bones": [
+    {
+      "id": "root",
+      "parent": null,
+      "pivot": [
+        200,
+        870
+      ],
+      "z": 0,
+      "svgGroup": "root"
+    },
+    {
+      "id": "hips",
+      "parent": "root",
+      "pivot": [
+        200,
+        476
+      ],
+      "z": 1,
+      "svgGroup": "hips"
+    },
+    {
+      "id": "thigh_l",
+      "parent": "hips",
+      "pivot": [
+        172,
+        476
+      ],
+      "z": 2,
+      "svgGroup": "thigh_l"
+    },
+    {
+      "id": "shin_l",
+      "parent": "thigh_l",
+      "pivot": [
+        172,
+        640
+      ],
+      "z": 3,
+      "svgGroup": "shin_l"
+    },
+    {
+      "id": "foot_l",
+      "parent": "shin_l",
+      "pivot": [
+        172,
+        826
+      ],
+      "z": 4,
+      "svgGroup": "foot_l"
+    },
+    {
+      "id": "thigh_r",
+      "parent": "hips",
+      "pivot": [
+        228,
+        476
+      ],
+      "z": 2,
+      "svgGroup": "thigh_r"
+    },
+    {
+      "id": "shin_r",
+      "parent": "thigh_r",
+      "pivot": [
+        228,
+        640
+      ],
+      "z": 3,
+      "svgGroup": "shin_r"
+    },
+    {
+      "id": "foot_r",
+      "parent": "shin_r",
+      "pivot": [
+        228,
+        826
+      ],
+      "z": 4,
+      "svgGroup": "foot_r"
+    },
+    {
+      "id": "torso",
+      "parent": "hips",
+      "pivot": [
+        200,
+        430
+      ],
+      "z": 6,
+      "svgGroup": "torso"
+    },
+    {
+      "id": "neck",
+      "parent": "torso",
+      "pivot": [
+        200,
+        222
+      ],
+      "z": 7,
+      "svgGroup": "neck"
+    },
+    {
+      "id": "arm_upper_l",
+      "parent": "torso",
+      "pivot": [
+        122,
+        238
+      ],
+      "z": 8,
+      "svgGroup": "arm_upper_l"
+    },
+    {
+      "id": "arm_lower_l",
+      "parent": "arm_upper_l",
+      "pivot": [
+        122,
+        338
+      ],
+      "z": 8,
+      "svgGroup": "arm_lower_l"
+    },
+    {
+      "id": "hand_l",
+      "parent": "arm_lower_l",
+      "pivot": [
+        122,
+        440
+      ],
+      "z": 8,
+      "svgGroup": "hand_l"
+    },
+    {
+      "id": "arm_upper_r",
+      "parent": "torso",
+      "pivot": [
+        278,
+        238
+      ],
+      "z": 8,
+      "svgGroup": "arm_upper_r"
+    },
+    {
+      "id": "arm_lower_r",
+      "parent": "arm_upper_r",
+      "pivot": [
+        278,
+        338
+      ],
+      "z": 8,
+      "svgGroup": "arm_lower_r"
+    },
+    {
+      "id": "hand_r",
+      "parent": "arm_lower_r",
+      "pivot": [
+        278,
+        440
+      ],
+      "z": 8,
+      "svgGroup": "hand_r"
+    },
+    {
+      "id": "head",
+      "parent": "neck",
+      "pivot": [
+        200,
+        212
+      ],
+      "z": 9,
+      "svgGroup": "head"
+    }
+  ],
+  "slots": {
+    "eyes": [
+      "neutral",
+      "happy",
+      "sad",
+      "surprised",
+      "angry",
+      "thinking",
+      "blink"
+    ],
+    "brows": [
+      "neutral",
+      "happy",
+      "sad",
+      "surprised",
+      "angry",
+      "thinking"
+    ],
+    "mouth": [
+      "neutral",
+      "happy",
+      "sad",
+      "surprised",
+      "angry",
+      "thinking",
+      "talk_a",
+      "talk_e",
+      "talk_o"
+    ]
+  },
+  "expressions": {
+    "neutral": {
+      "eyes": "neutral",
+      "brows": "neutral",
+      "mouth": "neutral"
+    },
+    "happy": {
+      "eyes": "happy",
+      "brows": "happy",
+      "mouth": "happy"
+    },
+    "sad": {
+      "eyes": "sad",
+      "brows": "sad",
+      "mouth": "sad"
+    },
+    "surprised": {
+      "eyes": "surprised",
+      "brows": "surprised",
+      "mouth": "surprised"
+    },
+    "angry": {
+      "eyes": "angry",
+      "brows": "angry",
+      "mouth": "angry"
+    },
+    "thinking": {
+      "eyes": "thinking",
+      "brows": "thinking",
+      "mouth": "thinking"
+    }
+  },
+  "visemes": {
+    "rest": "neutral",
+    "A": "talk_a",
+    "E": "talk_e",
+    "I": "talk_e",
+    "O": "talk_o",
+    "U": "talk_o",
+    "MBP": "neutral",
+    "FV": "talk_e"
+  },
+  "limits": {
+    "arm_upper_l": [
+      -30,
+      170
+    ],
+    "arm_upper_r": [
+      -170,
+      30
+    ],
+    "arm_lower_l": [
+      -10,
+      150
+    ],
+    "arm_lower_r": [
+      -150,
+      10
+    ],
+    "head": [
+      -15,
+      15
+    ],
+    "thigh_l": [
+      -40,
+      40
+    ],
+    "thigh_r": [
+      -40,
+      40
+    ],
+    "shin_l": [
+      0,
+      90
+    ],
+    "shin_r": [
+      -90,
+      0
+    ]
+  }
+}

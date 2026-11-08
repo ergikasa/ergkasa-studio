@@ -1,0 +1,85 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "char_arti_01",
+  "version": 1,
+  "name": "Arti",
+  "description": "Djalë rreth 20 vjeç, flokë të shkurtra, hoodie portokalli, xhinse.",
+  "category": "character",
+  "subcategory": "human",
+  "kind": "rigged_character",
+  "adapter": "character",
+  "style": "erkasa_flat_v1",
+  "files": {
+    "svg": "asset.svg",
+    "rig": "rig.json"
+  },
+  "viewBox": [
+    0,
+    0,
+    400,
+    880
+  ],
+  "capabilities": {
+    "facings": [
+      "front"
+    ],
+    "actions": [
+      "idle",
+      "talk",
+      "wave",
+      "point_side",
+      "arms_up",
+      "nod",
+      "shake_head"
+    ],
+    "actionsPlanned": [
+      "walk",
+      "run",
+      "sit",
+      "point_forward",
+      "hold_object"
+    ],
+    "expressions": [
+      "neutral",
+      "happy",
+      "sad",
+      "surprised",
+      "angry",
+      "thinking"
+    ],
+    "visemes": "erkasa8",
+    "canHold": []
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      0.99
+    ],
+    "head": "bone:head",
+    "hand_l": "bone:hand_l",
+    "hand_r": "bone:hand_r"
+  },
+  "sizing": {
+    "heightRatio": 0.42
+  },
+  "themes": [
+    "psychology",
+    "money",
+    "growth",
+    "philosophy",
+    "science",
+    "decisions"
+  ],
+  "tags": [
+    "male",
+    "young",
+    "student",
+    "casual"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

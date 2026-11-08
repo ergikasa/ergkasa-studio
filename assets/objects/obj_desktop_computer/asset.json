@@ -1,0 +1,56 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "obj_desktop_computer",
+  "version": 1,
+  "name": "desktop computer",
+  "category": "object",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "fluent_flat",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    32,
+    32
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "float",
+      "bounce",
+      "spin",
+      "shake",
+      "scale_pulse"
+    ]
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ],
+    "ground": [
+      0.5,
+      1.0
+    ]
+  },
+  "themes": [
+    "everyday"
+  ],
+  "tags": [
+    "computer",
+    "desktop-computer",
+    "work"
+  ],
+  "license": {
+    "spdx": "MIT",
+    "source": "Microsoft Fluent Emoji (flat)",
+    "url": "https://github.com/microsoft/fluentui-emoji",
+    "licenseUrl": "https://github.com/microsoft/fluentui-emoji/blob/main/LICENSE",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

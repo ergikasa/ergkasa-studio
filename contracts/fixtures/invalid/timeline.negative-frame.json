@@ -1,0 +1,21 @@
+{
+  "schema": "erkasa.timeline/1",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "seed": 1,
+  "scenes": [
+    {
+      "sceneId": "s01",
+      "from": -5,
+      "duration": 30,
+      "background": {
+        "asset": "bg_office_01@1"
+      },
+      "nodes": []
+    }
+  ],
+  "audio": {
+    "ref": "s3://x/y.json"
+  }
+}

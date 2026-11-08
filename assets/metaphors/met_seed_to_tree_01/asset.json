@@ -1,0 +1,55 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "met_seed_to_tree_01",
+  "version": 1,
+  "name": "Nga fara te pema",
+  "category": "metaphor",
+  "kind": "animated_metaphor",
+  "adapter": "svg",
+  "style": "erkasa_flat_v1",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    1000,
+    600
+  ],
+  "parts": {
+    "stage_seed": "grow_in (scaleY 0→1 from pivot); sequence or same-spot morph",
+    "stage_sprout": "grow_in (scaleY 0→1 from pivot); sequence or same-spot morph",
+    "stage_plant": "grow_in (scaleY 0→1 from pivot); sequence or same-spot morph",
+    "stage_tree": "grow_in (scaleY 0→1 from pivot); sequence or same-spot morph"
+  },
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "grow_in"
+    ]
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ]
+  },
+  "themes": [
+    "growth",
+    "money",
+    "science"
+  ],
+  "tags": [
+    "growth",
+    "patience",
+    "compounding",
+    "stages"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}
