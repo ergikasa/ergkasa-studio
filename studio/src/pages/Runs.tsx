@@ -48,7 +48,7 @@ function ago(iso: string | null): string {
 }
 
 function took(step: StepView): string {
-  if (!step.startedAt) return "";
+  if (!step.startedAt || step.status === "CANCELLED" || step.status === "PENDING") return "";
   const end = step.finishedAt ? Date.parse(step.finishedAt) : Date.now();
   const s = (end - Date.parse(step.startedAt)) / 1000;
   return s < 90 ? `${s.toFixed(1)} s` : `${Math.round(s / 60)} min`;
