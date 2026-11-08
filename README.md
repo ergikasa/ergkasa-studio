@@ -23,7 +23,8 @@ Vijnë në fazat e ardhshme: `engine/` (motori 2D, Faza B), `compiler/` (Faza D)
 
 ## Kërkesat
 
-Node ≥ 22.12, pnpm 10, JDK 21, Maven 3.9+, Docker Desktop, Python 3.10+, FFmpeg (nga Faza B).
+Node ≥ 22.12, pnpm 10, JDK 21 (`java -version`), Docker Desktop, Python 3.10+, FFmpeg (nga Faza B).
+Maven nuk duhet instaluar: `backend/mvnw` (Windows: `backend\mvnw.cmd`) e shkarkon vetë herën e parë.
 
 ## Nisja
 
@@ -41,8 +42,9 @@ pnpm check
 
 # 4. backend-i (kërkon Postgres-in nga hapi 2)
 cd backend
-mvn verify
-mvn spring-boot:run -Dspring-boot.run.profiles=local
+./mvnw verify                                        # Windows: .\mvnw.cmd verify
+./mvnw spring-boot:run -Dspring-boot.run.profiles=local
+# Windows: .\mvnw.cmd spring-boot:run "-Dspring-boot.run.profiles=local"
 # → http://localhost:8080/actuator/health  duhet të kthejë {"status":"UP",...}
 ```
 
@@ -56,7 +58,7 @@ Panelet lokale: RabbitMQ te http://localhost:15672 (erkasa / erkasa_local), Seaw
 | `pnpm test`                  | testet e kontratave (fixtures + të 402 asetet)                     |
 | `pnpm contracts:gen`         | rigjeneron `contracts/json-schema/` pas çdo ndryshimi te kontratat |
 | `pnpm assets:validate`       | validon asetet dhe rigjeneron `assets/manifest.json`               |
-| `mvn verify` (te `backend/`) | testet Java: fixtures e njëjta + nisja e aplikacionit me Flyway    |
+| `./mvnw verify` (te `backend/`) | testet Java: fixtures e njëjta + nisja e aplikacionit me Flyway    |
 
 ## Rregullat e punës
 

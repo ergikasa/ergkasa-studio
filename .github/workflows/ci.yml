@@ -60,5 +60,5 @@ jobs:
           distribution: temurin
           java-version: "21"
           cache: maven
-      - run: mvn -B -ntp verify
+      - run: ./mvnw -B -ntp verify
         working-directory: backend
