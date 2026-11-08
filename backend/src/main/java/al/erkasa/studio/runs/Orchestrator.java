@@ -248,7 +248,7 @@ public class Orchestrator {
         jdbc.sql("""
                 update step set status = 'QUEUED', attempt = :attempt, deadline = :deadline, queued_at = now(),
                     started_at = null, finished_at = null, progress = 0, message = 'waiting for a worker',
-                    error_code = null, error = null, not_before = null
+                    not_before = null
                 where run_id = :run and id = :id
                 """)
                 .param("attempt", attempt)

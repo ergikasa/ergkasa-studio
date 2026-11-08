@@ -93,9 +93,20 @@ function StepRow({ step }: { step: StepView }) {
       {step.message && step.status !== "SUCCEEDED" && (
         <div className="mt-1.5 text-xs text-ink-300">{step.message}</div>
       )}
-      {step.error && (
+      {step.error && step.status === "FAILED" && (
         <div className="mt-1.5 rounded bg-red-950/60 p-2 text-xs text-red-200">
           <span className="font-semibold">{step.errorCode}</span> {step.error}
+        </div>
+      )}
+      {step.error && active && (
+        <div className="mt-1.5 rounded bg-amber-950/50 p-2 text-xs text-amber-200">
+          Previous attempt: <span className="font-semibold">{step.errorCode}</span> {step.error}
+        </div>
+      )}
+      {step.status === "QUEUED" && step.queuedAt && Date.now() - Date.parse(step.queuedAt) > 20_000 && (
+        <div className="mt-1.5 text-xs text-amber-300">
+          No worker has picked this up yet. Is <code>pnpm worker</code> running, and does it say
+          &quot;connected to ...:5673&quot;? Check ERKASA_RABBIT_PORT=5673 in .env.
         </div>
       )}
       {step.status === "SUCCEEDED" && metricLine(step) && (

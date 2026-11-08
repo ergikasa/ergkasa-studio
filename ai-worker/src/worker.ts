@@ -339,6 +339,9 @@ export async function startWorker(deps: WorkerDeps, opts: WorkerOptions = {}): P
     `worker ${WORKER_VERSION} listening on ${queues.map((q) => (q === "ai" ? mq.aiQueue : mq.renderQueue)).join(", ")}`,
   );
   log(`run folders: ${deps.storageDir}`);
+  log(
+    `connected to ${rabbitUrl().replace(/:[^:@/]+@/, ":***@")} (the backend must use the same RabbitMQ: port 5673 by default)`,
+  );
   return {
     closed,
     stop: async () => {
