@@ -52,7 +52,7 @@ export function rabbitUrl(): string {
   const url = optional("ERKASA_RABBIT_URL", "");
   if (url) return url;
   const host = optional("ERKASA_RABBIT_HOST", "localhost");
-  const port = optional("ERKASA_RABBIT_PORT", "5672");
+  const port = optional("ERKASA_RABBIT_PORT", "5673");
   const user = encodeURIComponent(optional("ERKASA_RABBIT_USER", "erkasa"));
   const pass = encodeURIComponent(optional("ERKASA_RABBIT_PASSWORD", "erkasa_local"));
   return `amqp://${user}:${pass}@${host}:${port}`;

@@ -111,7 +111,7 @@ manifesti çaktivizohen.
 | `GET /api/assets/stats`                                      | numri sipas kategorisë                                        |
 | `POST /api/assets/reindex`                                   | rilexon bibliotekën nga disku                                 |
 
-Panelet lokale: RabbitMQ te http://localhost:15672 (erkasa / erkasa_local), SeaweedFS te http://localhost:9333.
+Panelet lokale: RabbitMQ te http://localhost:15673 (erkasa / erkasa_local). Portat e hostit: Postgres 5404, RabbitMQ 5673 (që të mos përplasen me projekte të tjera). SeaweedFS (ende pa përdorim) niset vetëm me `--profile storage`.
 
 ## Komandat
 

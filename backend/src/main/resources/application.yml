@@ -10,7 +10,7 @@ spring:
     locations: classpath:db/migration
   rabbitmq:
     host: ${ERKASA_RABBIT_HOST:localhost}
-    port: ${ERKASA_RABBIT_PORT:5672}
+    port: ${ERKASA_RABBIT_PORT:5673}
     username: ${ERKASA_RABBIT_USER}
     password: ${ERKASA_RABBIT_PASSWORD}
     listener:

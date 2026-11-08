@@ -59,7 +59,7 @@ jobs:
           RABBITMQ_DEFAULT_USER: erkasa
           RABBITMQ_DEFAULT_PASS: erkasa_local
         ports:
-          - 5672:5672
+          - 5673:5672
         options: >-
           --health-cmd "rabbitmq-diagnostics -q ping"
           --health-interval 5s --health-timeout 5s --health-retries 30
