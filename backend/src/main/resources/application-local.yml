@@ -6,6 +6,9 @@ spring:
     url: jdbc:postgresql://localhost:5404/erkasa
     username: erkasa
     password: erkasa_local
+  rabbitmq:
+    username: erkasa
+    password: erkasa_local
 
 management:
   endpoint:

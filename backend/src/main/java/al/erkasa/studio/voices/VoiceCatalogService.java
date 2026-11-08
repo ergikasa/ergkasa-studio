@@ -48,16 +48,24 @@ public class VoiceCatalogService {
         return node;
     }
 
-    /** The generated sample of a preset ({@code voices/samples/<id>.mp3}), if the id exists and the file was made. */
-    public Optional<Path> sample(String voiceId) {
-        boolean known = false;
+    /** The id of the default narrator. */
+    public String defaultVoice() {
+        return catalog().path("default").asText();
+    }
+
+    /** True if the catalog has a preset with this id. */
+    public boolean exists(String voiceId) {
         for (JsonNode v : catalog().path("voices")) {
             if (v.path("id").asText().equals(voiceId)) {
-                known = true;
-                break;
+                return true;
             }
         }
-        if (!known) {
+        return false;
+    }
+
+    /** The generated sample of a preset ({@code voices/samples/<id>.mp3}), if the id exists and the file was made. */
+    public Optional<Path> sample(String voiceId) {
+        if (!exists(voiceId)) {
             return Optional.empty();
         }
         Path samples = dir.resolve("samples");

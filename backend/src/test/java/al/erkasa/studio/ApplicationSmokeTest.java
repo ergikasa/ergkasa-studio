@@ -9,16 +9,13 @@ import java.net.http.HttpResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.ActiveProfiles;
 
 /**
  * Starts the whole application against the local Postgres (docker compose, or the CI service):
  * Flyway must migrate, and the health endpoint must report UP.
  */
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("local")
+@StudioIntegrationTest
 class ApplicationSmokeTest {
 
     @Value("${local.server.port}")

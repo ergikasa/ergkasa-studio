@@ -1,5 +1,6 @@
 package al.erkasa.studio.assets;
 
+import al.erkasa.studio.StudioIntegrationTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.net.URI;
@@ -10,15 +11,12 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 /**
  * Indexes the real asset library (../assets) into the local Postgres and exercises the REST API.
  * Nothing is mocked: if an asset.json breaks the contract, {@link #everyAssetInTheLibraryIsIndexed} fails.
  */
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("local")
+@StudioIntegrationTest
 class AssetApiTest {
 
     private final HttpClient http = HttpClient.newHttpClient();

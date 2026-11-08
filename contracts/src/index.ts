@@ -4,7 +4,7 @@ import { AudioPlan, VoiceAlignment } from "./audio.js";
 import { ScenePlan, VideoPlan } from "./scene-plan.js";
 import { Script } from "./script.js";
 import { VoiceCatalog } from "./voice.js";
-import { TaskCommand, TaskResult } from "./task.js";
+import { TaskCommand, TaskProgress, TaskResult } from "./task.js";
 import { RenderTimeline } from "./timeline.js";
 
 export * from "./common.js";
@@ -29,6 +29,7 @@ export const CONTRACTS = {
   timeline: RenderTimeline,
   "task-command": TaskCommand,
   "task-result": TaskResult,
+  "task-progress": TaskProgress,
   alignment: VoiceAlignment,
   "audio-plan": AudioPlan,
   script: Script,
