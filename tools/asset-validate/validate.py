@@ -59,19 +59,24 @@ def check(folder: Path, errors: list[str]) -> dict | None:
                 errors.append(f"{rel}: {name} nuk është XML i vlefshëm ({e})")
 
     svg = folder / files.get("svg", "asset.svg")
-    if meta.get("kind") == "rigged_character" and svg.exists():
+    views = [("svg", "rig"), ("svg_side", "rig_side")]
+    for svg_key, rig_key in views:
+        if meta.get("kind") != "rigged_character" or rig_key not in files:
+            continue
+        svg = folder / files[svg_key]
         ids = group_ids(svg)
-        rig = json.loads((folder / files["rig"]).read_text())
+        rig = json.loads((folder / files[rig_key]).read_text())
         for bone in rig["bones"]:
             if bone["id"] != "root" and bone["svgGroup"] not in ids and bone["id"] != "hips":
-                errors.append(f"{rel}: kocka '{bone['id']}' nuk ka grup në SVG")
+                errors.append(f"{rel}: kocka '{bone['id']}' nuk ka grup në {files[svg_key]}")
         root = ET.parse(svg).getroot()
         for slot, states in rig["slots"].items():
             el = next((e for e in root.iter(f"{NS}g") if e.get("data-slot") == slot), None)
             have = {c.get("data-state") for c in el} if el is not None else set()
             missing = set(states) - have
             if missing:
-                errors.append(f"{rel}: slot '{slot}' pa gjendjet {sorted(missing)}")
+                errors.append(f"{rel}: slot '{slot}' pa gjendjet {sorted(missing)} ({files[svg_key]})")
+    svg = folder / files.get("svg", "asset.svg")
     if meta.get("kind") == "animated_metaphor" and svg.exists():
         ids = group_ids(svg)
         for part in meta.get("parts", {}):

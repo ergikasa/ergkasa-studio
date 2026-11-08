@@ -11,13 +11,15 @@
     "render": "tsx src/cli.ts",
     "demo": "tsx src/cli.ts demo/phase-b-demo.timeline.json -o out/phase-b-demo.mp4 --music-placeholder",
     "typecheck": "tsc -p tsconfig.json",
-    "test": "vitest run"
+    "test": "vitest run",
+    "demo:plan": "tsx src/cli.ts demo/habits.video-plan.json -o out/habits-demo.mp4 --music-placeholder"
   },
   "dependencies": {
     "@erkasa/contracts": "workspace:*",
     "@erkasa/engine": "workspace:*",
     "@expo-google-fonts/montserrat": "0.4.2",
-    "@resvg/resvg-js": "2.6.2"
+    "@resvg/resvg-js": "2.6.2",
+    "@erkasa/compiler": "workspace:*"
   },
   "devDependencies": {
     "tsx": "4.23.15",

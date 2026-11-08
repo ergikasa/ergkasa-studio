@@ -27,6 +27,19 @@ importers:
         specifier: 8.72.1
         version: 8.72.1(eslint@10.14.0)(typescript@6.0.3)
 
+  compiler:
+    dependencies:
+      '@erkasa/contracts':
+        specifier: workspace:*
+        version: link:../contracts
+      '@erkasa/engine':
+        specifier: workspace:*
+        version: link:../engine
+    devDependencies:
+      vitest:
+        specifier: 5.1.0
+        version: 5.1.0(@types/node@22.19.1)(vite@8.3.6(@types/node@22.19.1)(esbuild@0.28.2)(tsx@4.23.15))
+
   contracts:
     dependencies:
       zod:
@@ -58,6 +71,9 @@ importers:
 
   engine-worker:
     dependencies:
+      '@erkasa/compiler':
+        specifier: workspace:*
+        version: link:../compiler
       '@erkasa/contracts':
         specifier: workspace:*
         version: link:../contracts

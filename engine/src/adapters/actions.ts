@@ -140,3 +140,132 @@ export function blendPoses(a: Pose, b: Pose, k: number): Pose {
   }
   return out;
 }
+
+// ---------------------------------------------------------------------------------------------
+// Side view (`erkasa_biped_side_v1`, drawn facing right). Forward = negative rotation.
+// `_n` = near limb, `_f` = far limb. Legs and arms are nested chains (thigh > shin > foot).
+// The special key `root` moves the whole character (used by jump).
+// ---------------------------------------------------------------------------------------------
+
+const UPPER = ["torso", "neck", "head", "arm_upper_n", "arm_upper_f"];
+
+function lift(pose: Pose, dy: number): Pose {
+  for (const k of UPPER) pose[k] = { ...(pose[k] ?? {}), y: (pose[k]?.y ?? 0) + dy };
+  return pose;
+}
+
+function sideIdle(t: number, phase: number): Pose {
+  const breath = (1 - Math.cos(t * TAU * 0.28 + phase)) / 2;
+  return lift(
+    {
+      torso: { scaleY: 1 + 0.006 * breath },
+      head: { rotation: 1.2 * sin(t, 0.19, phase) },
+      arm_upper_n: { rotation: 2 * sin(t, 0.28, phase) },
+      arm_upper_f: { rotation: -2 * sin(t, 0.28, phase + 0.5) },
+      arm_lower_n: { rotation: -6 },
+      arm_lower_f: { rotation: -6 },
+    },
+    -2.5 * breath,
+  );
+}
+
+/** One gait cycle: legs swing in opposition, knees bend in the swing phase, feet stay flat. */
+function gait(
+  t: number,
+  hz: number,
+  thighAmp: number,
+  kneeAmp: number,
+  armAmp: number,
+  elbow: number,
+  lean: number,
+  bob: number,
+): Pose {
+  const a = t * TAU * hz;
+  const s = Math.sin(a);
+  const c = Math.cos(a);
+  const thighN = -thighAmp * s;
+  const thighF = thighAmp * s;
+  const shinN = 6 + kneeAmp * Math.max(0, -c);
+  const shinF = 6 + kneeAmp * Math.max(0, c);
+  const pose: Pose = {
+    thigh_n: { rotation: thighN },
+    shin_n: { rotation: shinN },
+    foot_n: { rotation: -(thighN + shinN) * 0.85 },
+    thigh_f: { rotation: thighF },
+    shin_f: { rotation: shinF },
+    foot_f: { rotation: -(thighF + shinF) * 0.85 },
+    arm_upper_n: { rotation: armAmp * s },
+    arm_upper_f: { rotation: -armAmp * s },
+    arm_lower_n: { rotation: elbow - 8 * Math.max(0, s) },
+    arm_lower_f: { rotation: elbow - 8 * Math.max(0, -s) },
+    torso: { rotation: lean },
+    head: { rotation: -lean * 0.5 + 1.5 * Math.sin(a * 2) },
+  };
+  return lift(pose, bob * Math.abs(s));
+}
+
+export const SIDE_ACTIONS: Record<string, Action> = {
+  idle: sideIdle,
+
+  walk: (t) => {
+    const k = ramp(t, 0.25);
+    return blendPoses(sideIdle(t, 0), gait(t, 0.95, 24, 34, 20, -14, 3, 5), k);
+  },
+
+  run: (t) => {
+    const k = ramp(t, 0.2);
+    return blendPoses(sideIdle(t, 0), gait(t, 1.45, 40, 78, 42, -85, 10, 11), k);
+  },
+
+  talk: (t, ph) => {
+    const k = ramp(t);
+    return merge(sideIdle(t, ph), {
+      head: { rotation: 2 * sin(t, 0.7, ph) * k + 1.2 * sin(t, 2.1, ph) * k },
+      arm_upper_n: { rotation: (-24 - 8 * sin(t, 0.9, ph)) * k },
+      arm_lower_n: { rotation: (-58 - 16 * sin(t, 1.3, ph + 0.5)) * k },
+    });
+  },
+
+  point_forward: (t, ph) => {
+    const k = ramp(t, 0.4);
+    return merge(sideIdle(t, ph), {
+      arm_upper_n: { rotation: -84 * k },
+      arm_lower_n: { rotation: -4 * k },
+      head: { rotation: -2 * k },
+    });
+  },
+
+  /** A jump every 1.1 s: crouch, take off, airborne with tucked legs, land. */
+  jump: (t) => {
+    const p = (t % 1.1) / 1.1;
+    const air = p >= 0.2 && p < 0.7 ? Math.sin(((p - 0.2) / 0.5) * Math.PI) : 0;
+    const crouch =
+      p < 0.2
+        ? Math.sin((p / 0.2) * Math.PI * 0.5)
+        : p < 0.7
+          ? 1 - Math.min(1, (p - 0.2) / 0.1)
+          : Math.sin(((1 - p) / 0.3) * Math.PI * 0.5) * 0.8;
+    let rootY = -150 * air;
+    rootY += 24 * crouch;
+    return {
+      root: { y: rootY },
+      thigh_n: { rotation: -28 * crouch - 30 * air },
+      shin_n: { rotation: 52 * crouch + 60 * air },
+      foot_n: { rotation: -24 * crouch - 30 * air },
+      thigh_f: { rotation: -22 * crouch - 20 * air },
+      shin_f: { rotation: 46 * crouch + 50 * air },
+      foot_f: { rotation: -24 * crouch - 30 * air },
+      torso: { rotation: 10 * crouch },
+      arm_upper_n: { rotation: 30 * crouch - 150 * air },
+      arm_upper_f: { rotation: 30 * crouch - 140 * air },
+      arm_lower_n: { rotation: -10 },
+      arm_lower_f: { rotation: -10 },
+    };
+  },
+};
+
+/** Actions per skeleton, so the engine never runs a front action on a side rig (or vice versa). */
+export const ACTIONS_BY_SKELETON: Record<string, Record<string, Action>> = {
+  erkasa_biped_front_v1: ACTIONS,
+  erkasa_biped_side_v1: SIDE_ACTIONS,
+};

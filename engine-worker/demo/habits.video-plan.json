@@ -1,0 +1,336 @@
+{
+  "schema": "erkasa.video-plan/1",
+  "projectId": "p_habits_demo",
+  "language": "en",
+  "format": "9:16",
+  "voiceId": "pending",
+  "musicMood": "uplifting",
+  "scenes": [
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s01",
+      "engine": "2d",
+      "narration": "You don't rise to the level of your goals. You fall to the level of your habits.",
+      "durationPolicy": {
+        "mode": "fitNarration",
+        "padAfterSec": 0.5
+      },
+      "background": {
+        "assetId": "bg_home_living_01"
+      },
+      "layers": [
+        {
+          "type": "actor",
+          "id": "drini",
+          "assetId": "char_drini_01",
+          "place": {
+            "anchor": "ground",
+            "x": 0.05
+          },
+          "speaks": true,
+          "actions": [
+            {
+              "action": "walk",
+              "at": "start",
+              "to": {
+                "x": 0.38
+              }
+            },
+            {
+              "action": "shake_head",
+              "at": {
+                "word": "goals"
+              }
+            },
+            {
+              "action": "point_side",
+              "at": {
+                "word": "habits"
+              }
+            }
+          ]
+        },
+        {
+          "type": "metaphor",
+          "id": "stairs",
+          "assetId": "met_stairs_01",
+          "place": {
+            "x": 0.72,
+            "y": 0.47,
+            "scale": 0.36
+          },
+          "animations": [
+            {
+              "name": "build",
+              "at": {
+                "word": "fall"
+              }
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "hook",
+          "content": "HABITS beat GOALS",
+          "style": "hook_impact",
+          "highlight": ["HABITS"],
+          "place": {
+            "x": 0.5,
+            "region": "top-safe"
+          },
+          "in": {
+            "effect": "pop",
+            "at": {
+              "word": "habits"
+            },
+            "durationSec": 0.35
+          }
+        }
+      ],
+      "camera": [
+        {
+          "move": "push_in",
+          "at": "start",
+          "to": 1.05
+        },
+        {
+          "move": "punch_in",
+          "at": {
+            "word": "habits"
+          }
+        }
+      ],
+      "sfx": [
+        {
+          "tag": "whoosh",
+          "at": {
+            "word": "habits"
+          }
+        }
+      ],
+      "transitionOut": {
+        "type": "whip",
+        "direction": "left",
+        "durationSec": 0.4
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s02",
+      "engine": "2d",
+      "narration": "Small choices fall like dominoes. One after another, they change everything.",
+      "durationPolicy": {
+        "mode": "fitNarration",
+        "padAfterSec": 0.6
+      },
+      "background": {
+        "assetId": "bg_nature_mountain_01"
+      },
+      "layers": [
+        {
+          "type": "actor",
+          "id": "era",
+          "assetId": "char_era_01",
+          "place": {
+            "anchor": "ground",
+            "x": 0.22
+          },
+          "speaks": true,
+          "expression": "happy",
+          "actions": [
+            {
+              "action": "point_side",
+              "at": {
+                "word": "dominoes"
+              }
+            },
+            {
+              "action": "arms_up",
+              "at": {
+                "word": "everything"
+              }
+            }
+          ]
+        },
+        {
+          "type": "metaphor",
+          "id": "dominoes",
+          "assetId": "met_dominoes_01",
+          "place": {
+            "x": 0.6,
+            "y": 0.73,
+            "scale": 0.8
+          },
+          "in": {
+            "effect": "fade",
+            "at": "start",
+            "durationSec": 0.4
+          },
+          "animations": [
+            {
+              "name": "fall",
+              "at": {
+                "word": "fall"
+              }
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "t1",
+          "content": "Small choices.",
+          "style": "hook_impact",
+          "place": {
+            "x": 0.5,
+            "region": "top-safe"
+          }
+        },
+        {
+          "type": "text",
+          "id": "t2",
+          "content": "BIG results.",
+          "style": "hook_impact",
+          "highlight": ["BIG"],
+          "place": {
+            "x": 0.5,
+            "y": 0.27
+          },
+          "in": {
+            "effect": "pop",
+            "at": {
+              "word": "change"
+            },
+            "durationSec": 0.35
+          }
+        }
+      ],
+      "effects": [
+        {
+          "preset": "dust",
+          "intensity": 0.4
+        }
+      ],
+      "camera": [
+        {
+          "move": "pan_right",
+          "at": "start",
+          "to": 0.35
+        }
+      ],
+      "sfx": [
+        {
+          "tag": "domino_clicks",
+          "at": {
+            "word": "fall"
+          }
+        }
+      ],
+      "transitionOut": {
+        "type": "wipe",
+        "direction": "left",
+        "durationSec": 0.35
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s03",
+      "engine": "2d",
+      "narration": "So start today. Small. Simple. Every single day.",
+      "durationPolicy": {
+        "mode": "fitNarration",
+        "padAfterSec": 0.8
+      },
+      "background": {
+        "assetId": "bg_city_street_01"
+      },
+      "layers": [
+        {
+          "type": "actor",
+          "id": "arti",
+          "assetId": "char_arti_01",
+          "place": {
+            "anchor": "ground",
+            "x": -0.15
+          },
+          "speaks": true,
+          "actions": [
+            {
+              "action": "run",
+              "at": "start",
+              "to": {
+                "x": 0.42
+              }
+            },
+            {
+              "action": "arms_up",
+              "at": {
+                "word": "every"
+              }
+            }
+          ]
+        },
+        {
+          "type": "object",
+          "id": "clock",
+          "assetId": "obj_alarm_clock",
+          "place": {
+            "x": 0.74,
+            "y": 0.5,
+            "scale": 0.9
+          },
+          "in": {
+            "effect": "pop",
+            "at": {
+              "word": "today"
+            }
+          },
+          "animations": [
+            {
+              "name": "shake",
+              "at": {
+                "after": "clock.pop",
+                "offsetSec": 0.1
+              }
+            },
+            {
+              "name": "float",
+              "at": {
+                "word": "today"
+              }
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "cta",
+          "content": "START TODAY",
+          "style": "hook_impact",
+          "highlight": ["TODAY"],
+          "place": {
+            "x": 0.5,
+            "region": "top-safe"
+          },
+          "in": {
+            "effect": "pop",
+            "at": {
+              "word": "today"
+            },
+            "durationSec": 0.35
+          }
+        }
+      ],
+      "camera": [
+        {
+          "move": "punch_in",
+          "at": {
+            "word": "today"
+          }
+        }
+      ],
+      "transitionOut": {
+        "type": "cut",
+        "durationSec": 0
+      }
+    }
+  ]
+}

@@ -293,6 +293,18 @@ def chain_break():
     return "Zinxhiri që këputet", body, (1000, 400), parts, ["psychology", "growth", "philosophy"], ["freedom", "breaking-habits", "liberation", "chains"]
 
 
+# Emrat e animacioneve që kompilatori di t'i ndërtojë (compiler/src/recipes.ts METAPHOR_RECIPES).
+# Një test në compiler/ kontrollon që këto dy lista të përputhen.
+RECIPES = {
+    "met_dominoes_01": ["fall"], "met_snowball_01": ["roll"], "met_hourglass_01": ["flow", "flip"],
+    "met_brain_gears_01": ["spin"], "met_balance_01": ["tilt_left", "tilt_right"],
+    "met_two_doors_01": ["open_left", "open_right"], "met_seed_to_tree_01": ["grow"], "met_stairs_01": ["build"],
+    "met_chain_break_01": ["break"], "met_iceberg_01": ["reveal"], "met_comfort_zone_01": ["expand"],
+    "met_maze_01": ["solve"], "met_mountain_flag_01": ["climb"], "met_puppet_01": ["dance"],
+    "met_crossroads_01": ["choose_left", "choose_right"],
+}
+GENERIC = ["pop_in", "fade", "bounce", "shake", "scale_pulse", "float", "bob", "spin", "pulse", "sway"]
+
 METAPHORS = [
     ("met_iceberg_01", iceberg), ("met_puppet_01", puppet), ("met_maze_01", maze), ("met_crossroads_01", crossroads),
     ("met_dominoes_01", dominoes), ("met_snowball_01", snowball), ("met_seed_to_tree_01", seed_to_tree),
@@ -314,7 +326,7 @@ def main() -> None:
             "category": "metaphor", "kind": "animated_metaphor", "adapter": "svg",
             "style": "erkasa_flat_v1", "files": {"svg": "asset.svg"}, "viewBox": [0, 0, w, h],
             "parts": {**({"backdrop": "plain background; hide with props.backdrop=false over a scene"} if 'id="backdrop"' in body else {}), **parts},
-            "capabilities": {"animations": ["pop_in", "fade"] + sorted({p.split(":")[0].split(" ")[0].strip(",") for p in parts.values()})},
+            "capabilities": {"animations": RECIPES[asset_id] + [g for g in GENERIC if g not in RECIPES[asset_id]]},
             "anchors": {"center": [0.5, 0.5]},
             "themes": themes, "tags": tags,
             "license": {"spdx": "LicenseRef-Erkasa-Original", "source": "Erkasa (origjinal, i gjeneruar me kod)",

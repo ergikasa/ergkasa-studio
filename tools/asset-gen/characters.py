@@ -346,12 +346,16 @@ def asset_json(look: Look) -> dict:
         "schema": "erkasa.asset/1", "assetId": look.asset_id, "version": 1, "name": look.name,
         "description": look.description,
         "category": "character", "subcategory": "human", "kind": "rigged_character", "adapter": "character",
-        "style": "erkasa_flat_v1", "files": {"svg": "asset.svg", "rig": "rig.json"},
+        "style": "erkasa_flat_v1",
+        "files": {"svg": "asset.svg", "rig": "rig.json", "svg_side": "asset_side.svg", "rig_side": "rig_side.json"},
         "viewBox": [0, 0, 400, 880],
         "capabilities": {
-            "facings": ["front"],
-            "actions": ["idle", "talk", "wave", "point_side", "arms_up", "nod", "shake_head"],
-            "actionsPlanned": ["walk", "run", "sit", "point_forward", "hold_object"],
+            "facings": ["front", "left", "right"],
+            "actions": {
+                "front": ["idle", "talk", "wave", "point_side", "point_side_left", "think", "arms_up", "nod", "shake_head"],
+                "side": ["idle", "walk", "run", "talk", "point_forward", "jump"],
+            },
+            "actionsPlanned": ["sit", "hold_object"],
             "expressions": EXPRESSIONS,
             "visemes": "erkasa8",
             "canHold": [],
@@ -410,12 +414,16 @@ def crowd_svg(body_color: str) -> str:
 
 # ---------------------------------------------------------------- MAIN
 def main() -> None:
+    from characters_side import side_rig, side_svg  # noqa: PLC0415 (circular: side imports Look from here)
+
     out_root = ROOT / "assets" / "characters"
     for look in LOOKS:
         d = out_root / look.asset_id
         d.mkdir(parents=True, exist_ok=True)
         (d / "asset.svg").write_text(character_svg(look))
         (d / "rig.json").write_text(json.dumps(rig_json(look), indent=2, ensure_ascii=False) + "\n")
+        (d / "asset_side.svg").write_text(side_svg(look))
+        (d / "rig_side.json").write_text(json.dumps(side_rig(look), indent=2, ensure_ascii=False) + "\n")
         (d / "asset.json").write_text(json.dumps(asset_json(look), indent=2, ensure_ascii=False) + "\n")
 
     d = out_root / "char_crowd_01"

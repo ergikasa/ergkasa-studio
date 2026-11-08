@@ -1,0 +1,21 @@
+{
+  "name": "@erkasa/compiler",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Compiles a semantic Scene Plan (what the LLM/editor writes) into a frame-exact Render Timeline.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@erkasa/contracts": "workspace:*",
+    "@erkasa/engine": "workspace:*"
+  },
+  "devDependencies": {
+    "vitest": "5.1.0"
+  }
+}

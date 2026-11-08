@@ -24,11 +24,17 @@
   },
   "capabilities": {
     "animations": [
+      "climb",
       "pop_in",
       "fade",
-      "draw_on",
-      "follow",
-      "pop_in"
+      "bounce",
+      "shake",
+      "scale_pulse",
+      "float",
+      "bob",
+      "spin",
+      "pulse",
+      "sway"
     ]
   },
   "anchors": {

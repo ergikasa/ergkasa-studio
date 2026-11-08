@@ -24,10 +24,18 @@
   },
   "capabilities": {
     "animations": [
+      "tilt_left",
+      "tilt_right",
       "pop_in",
       "fade",
-      "stay",
-      "tilt"
+      "bounce",
+      "shake",
+      "scale_pulse",
+      "float",
+      "bob",
+      "spin",
+      "pulse",
+      "sway"
     ]
   },
   "anchors": {

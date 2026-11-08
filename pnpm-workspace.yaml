@@ -1,6 +1,7 @@
 packages:
   - contracts
   - engine
+  - compiler
   - engine-worker
 
 onlyBuiltDependencies:

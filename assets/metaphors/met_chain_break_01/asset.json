@@ -29,11 +29,17 @@
   },
   "capabilities": {
     "animations": [
+      "break",
       "pop_in",
       "fade",
-      "flash",
-      "fly",
-      "shake"
+      "bounce",
+      "shake",
+      "scale_pulse",
+      "float",
+      "bob",
+      "spin",
+      "pulse",
+      "sway"
     ]
   },
   "anchors": {

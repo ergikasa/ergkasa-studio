@@ -25,11 +25,18 @@
   },
   "capabilities": {
     "animations": [
+      "flow",
+      "flip",
       "pop_in",
       "fade",
-      "flicker",
-      "flip",
-      "scaleY"
+      "bounce",
+      "shake",
+      "scale_pulse",
+      "float",
+      "bob",
+      "spin",
+      "pulse",
+      "sway"
     ]
   },
   "anchors": {

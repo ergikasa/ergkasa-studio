@@ -28,9 +28,17 @@
   },
   "capabilities": {
     "animations": [
+      "fall",
       "pop_in",
       "fade",
-      "fall"
+      "bounce",
+      "shake",
+      "scale_pulse",
+      "float",
+      "bob",
+      "spin",
+      "pulse",
+      "sway"
     ]
   },
   "anchors": {

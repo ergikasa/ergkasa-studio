@@ -73,7 +73,16 @@ export class Engine {
     if (node.adapter === "character" && !this.characters.has(node.asset)) {
       const rigFile = meta.files["rig"];
       if (!rigFile) throw new Error(`${meta.assetId}: character without rig`);
-      this.characters.set(node.asset, prepareCharacter(meta, svg(), assets.text(meta.assetId, rigFile)));
+      const sideSvg = meta.files["svg_side"];
+      const sideRig = meta.files["rig_side"];
+      const side =
+        sideSvg && sideRig
+          ? { svg: assets.text(meta.assetId, sideSvg), rig: assets.text(meta.assetId, sideRig) }
+          : undefined;
+      this.characters.set(
+        node.asset,
+        prepareCharacter(meta, svg(), assets.text(meta.assetId, rigFile), side),
+      );
     } else if (node.adapter === "svg" && !this.svgAssets.has(node.asset)) {
       this.svgAssets.set(node.asset, prepareSvgAsset(meta, svg()));
     } else if (node.adapter === "sprite" || node.adapter === "motion_graphics") {
@@ -130,7 +139,6 @@ export class Engine {
       switch (n.adapter) {
         case "character": {
           const c = this.characters.get(n.asset as string) as PreparedCharacter;
-          if (c.template.defs) defs.add(c.template.defs);
           return renderCharacter(c, n.id, n.tracks, n.props, {
             frame: local,
             fps: this.fps,

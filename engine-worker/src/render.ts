@@ -3,6 +3,7 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
 import { Resvg } from "@resvg/resvg-js";
+import { compileVideo, type Issue } from "@erkasa/compiler";
 import { Engine } from "@erkasa/engine";
 import { FsAssetSource } from "./fs-assets.js";
 
@@ -19,7 +20,8 @@ export function fontFiles(): string[] {
 }
 
 export interface RenderOptions {
-  timelinePath: string;
+  /** A parsed Render Timeline (see loadInput). */
+  timeline: unknown;
   assetsDir: string;
   out: string;
   /** Optional audio file mixed under the video. */
@@ -32,8 +34,21 @@ export interface RenderOptions {
   onProgress?: (done: number, total: number) => void;
 }
 
-export function loadEngine(timelinePath: string, assetsDir: string): Engine {
-  const timeline = JSON.parse(readFileSync(timelinePath, "utf8")) as unknown;
+/**
+ * Reads a Render Timeline, or a Video Plan which is compiled into one first.
+ * Compile errors are returned (not thrown) so the caller can show all of them at once.
+ */
+export function loadInput(
+  path: string,
+  assetsDir: string,
+): { timeline?: unknown; issues: Issue[]; compiled: boolean } {
+  const json = JSON.parse(readFileSync(path, "utf8")) as { schema?: string };
+  if (json.schema !== "erkasa.video-plan/1") return { timeline: json, issues: [], compiled: false };
+  const res = compileVideo(json, { assets: new FsAssetSource(assetsDir), seed: 20261108 });
+  return { ...(res.timeline ? { timeline: res.timeline } : {}), issues: res.issues, compiled: true };
+}
+
+export function loadEngine(timeline: unknown, assetsDir: string): Engine {
   return new Engine(timeline, { assets: new FsAssetSource(assetsDir) });
 }
 
@@ -59,7 +74,7 @@ export function renderStill(engine: Engine, frame: number, out: string): void {
 
 /** Renders the timeline to an H.264 MP4 by piping raw RGBA frames into FFmpeg. */
 export async function renderVideo(opts: RenderOptions): Promise<{ frames: number; seconds: number }> {
-  const engine = loadEngine(opts.timelinePath, opts.assetsDir);
+  const engine = loadEngine(opts.timeline, opts.assetsDir);
   const [from, to] = opts.range ?? [0, engine.totalFrames];
   const frames = to - from;
   const duration = frames / engine.fps;
