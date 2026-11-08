@@ -19,6 +19,7 @@
     "studio": "pnpm --filter @erkasa/studio dev",
     "video": "pnpm --filter @erkasa/ai-worker video",
     "voices": "pnpm --filter @erkasa/ai-worker voices",
+    "worker": "pnpm --filter @erkasa/ai-worker worker",
     "assets:validate": "node tools/run-python.mjs tools/asset-validate/validate.py",
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm assets:validate"
   },

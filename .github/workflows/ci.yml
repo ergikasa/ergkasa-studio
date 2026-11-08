@@ -72,3 +72,9 @@ jobs:
           cache: maven
       - run: ./mvnw -B -ntp verify
         working-directory: backend
+      # the runnable backend jar, kept for a few days (handy for trying a branch without building)
+      - uses: actions/upload-artifact@v4
+        with:
+          name: backend-jar
+          path: backend/target/erkasa-studio-backend-*.jar
+          retention-days: 3

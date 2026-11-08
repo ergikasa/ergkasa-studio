@@ -1,17 +1,12 @@
 import { VoiceCatalog, type VoicePreset } from "@erkasa/contracts";
 import { useEffect, useMemo, useState } from "react";
 import catalogText from "../../../voices/catalog.json?raw";
+import { VOICE_KEY, store, stored } from "../lib/api";
 import { Button } from "../ui";
 
 const catalog = VoiceCatalog.parse(JSON.parse(catalogText));
-const STORAGE_KEY = "erkasa.voice";
-
 function readChoice(): string {
-  try {
-    return localStorage.getItem(STORAGE_KEY) ?? catalog.default;
-  } catch {
-    return catalog.default;
-  }
+  return stored(VOICE_KEY) ?? catalog.default;
 }
 
 function Sample({ id }: { id: string }) {
@@ -45,11 +40,7 @@ export function Voices() {
 
   const choose = (id: string): void => {
     setChoice(id);
-    try {
-      localStorage.setItem(STORAGE_KEY, id);
-    } catch {
-      // storage unavailable: the choice still applies to the command below
-    }
+    store(VOICE_KEY, id);
   };
   const command = useMemo(
     () =>

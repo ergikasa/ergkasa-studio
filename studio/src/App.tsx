@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 import { AssetLibrary } from "./pages/AssetLibrary";
+import { NewVideo } from "./pages/NewVideo";
 import { PlanPlayer } from "./pages/PlanPlayer";
 import { RigLab } from "./pages/RigLab";
+import { Runs } from "./pages/Runs";
 import { Voices } from "./pages/Voices";
 
 const PAGES = {
+  new: { label: "New video", view: NewVideo },
+  runs: { label: "Runs", view: Runs },
   rig: { label: "Rig Lab", view: RigLab },
   assets: { label: "Asset Library", view: AssetLibrary },
   player: { label: "Plan Preview", view: PlanPlayer },
@@ -13,22 +17,20 @@ const PAGES = {
 type PageId = keyof typeof PAGES;
 
 const isPage = (v: string): v is PageId => v in PAGES;
-const fromHash = (): PageId => {
-  const h = window.location.hash.slice(1);
-  return isPage(h) ? h : "rig";
+/** `#runs/<id>` selects a run; anything unknown opens New video. */
+const fromHash = (): { page: PageId; arg?: string } => {
+  const [head = "", ...rest] = window.location.hash.slice(1).split("/");
+  const arg = rest.join("/") || undefined;
+  return isPage(head) ? { page: head, ...(arg ? { arg } : {}) } : { page: "new" };
 };
 
-/** Not built yet; listed so the Studio never pretends a missing feature exists. */
-const PLANNED = ["New video", "Projects", "Render queue"];
-
 export function App() {
-  const [page, setPage] = useState<PageId>(fromHash);
+  const [{ page, arg }, setRoute] = useState(fromHash);
   useEffect(() => {
-    const onHash = () => setPage(fromHash());
+    const onHash = () => setRoute(fromHash());
     window.addEventListener("hashchange", onHash);
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
-  const View = PAGES[page].view;
 
   return (
     <div className="flex h-screen flex-col">
@@ -48,20 +50,16 @@ export function App() {
               {PAGES[id].label}
             </a>
           ))}
-          {PLANNED.map((p) => (
-            <span
-              key={p}
-              title="Not implemented yet"
-              className="cursor-not-allowed rounded-md px-3 py-1.5 text-sm text-ink-700"
-            >
-              {p} <span className="text-[10px] uppercase">soon</span>
-            </span>
-          ))}
         </nav>
       </header>
       <main className="min-h-0 flex-1">
-        <View />
+        {page === "runs" ? <Runs {...(arg ? { selected: arg } : {})} /> : <PageView page={page} />}
       </main>
     </div>
   );
+}
+
+function PageView({ page }: { page: Exclude<PageId, "runs"> }) {
+  const View = PAGES[page].view;
+  return <View />;
 }
