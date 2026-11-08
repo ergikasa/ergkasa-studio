@@ -52,12 +52,12 @@ Panelet lokale: RabbitMQ te http://localhost:15672 (erkasa / erkasa_local), Seaw
 
 ## Komandat
 
-| Komanda                      | Çfarë bën                                                          |
-| ---------------------------- | ------------------------------------------------------------------ |
-| `pnpm check`                 | lint + typecheck + teste + validimi i aseteve                      |
-| `pnpm test`                  | testet e kontratave (fixtures + të 402 asetet)                     |
-| `pnpm contracts:gen`         | rigjeneron `contracts/json-schema/` pas çdo ndryshimi te kontratat |
-| `pnpm assets:validate`       | validon asetet dhe rigjeneron `assets/manifest.json`               |
+| Komanda                         | Çfarë bën                                                          |
+| ------------------------------- | ------------------------------------------------------------------ |
+| `pnpm check`                    | lint + typecheck + teste + validimi i aseteve                      |
+| `pnpm test`                     | testet e kontratave (fixtures + të 402 asetet)                     |
+| `pnpm contracts:gen`            | rigjeneron `contracts/json-schema/` pas çdo ndryshimi te kontratat |
+| `pnpm assets:validate`          | validon asetet dhe rigjeneron `assets/manifest.json`               |
 | `./mvnw verify` (te `backend/`) | testet Java: fixtures e njëjta + nisja e aplikacionit me Flyway    |
 
 ## Rregullat e punës
