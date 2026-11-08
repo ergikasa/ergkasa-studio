@@ -1,0 +1,848 @@
+{
+  "schema": "erkasa.timeline/1",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "seed": 20261108,
+  "scenes": [
+    {
+      "sceneId": "s01",
+      "from": 0,
+      "duration": 240,
+      "background": {
+        "asset": "bg_home_living_01@1"
+      },
+      "camera": {
+        "x": [
+          {
+            "f": 0,
+            "v": 1290
+          },
+          {
+            "f": 239,
+            "v": 1225,
+            "ease": "easeInOutCubic"
+          }
+        ],
+        "zoom": [
+          {
+            "f": 0,
+            "v": 1.0
+          },
+          {
+            "f": 152,
+            "v": 1.07,
+            "ease": "easeInOut"
+          },
+          {
+            "f": 158,
+            "v": 1.17,
+            "ease": "easeOutCubic"
+          },
+          {
+            "f": 178,
+            "v": 1.12,
+            "ease": "easeInOutCubic"
+          }
+        ],
+        "shake": [
+          {
+            "f": 152,
+            "v": 0
+          },
+          {
+            "f": 154,
+            "v": 9
+          },
+          {
+            "f": 166,
+            "v": 0,
+            "ease": "easeOutCubic"
+          }
+        ]
+      },
+      "nodes": [
+        {
+          "id": "drini",
+          "adapter": "character",
+          "asset": "char_drini_01@1",
+          "z": 2,
+          "props": {
+            "speaks": true
+          },
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 1060
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 1690
+              }
+            ],
+            "scale": [
+              {
+                "f": 0,
+                "v": 0.98
+              }
+            ],
+            "clip": [
+              {
+                "f": 0,
+                "v": "wave"
+              },
+              {
+                "f": 40,
+                "v": "talk",
+                "blend": 10
+              },
+              {
+                "f": 104,
+                "v": "shake_head",
+                "blend": 6
+              },
+              {
+                "f": 132,
+                "v": "talk",
+                "blend": 6
+              },
+              {
+                "f": 148,
+                "v": "point_side",
+                "blend": 8
+              },
+              {
+                "f": 222,
+                "v": "talk",
+                "blend": 8
+              }
+            ],
+            "expression": [
+              {
+                "f": 0,
+                "v": "happy"
+              },
+              {
+                "f": 40,
+                "v": "neutral"
+              },
+              {
+                "f": 104,
+                "v": "thinking"
+              },
+              {
+                "f": 148,
+                "v": "surprised"
+              },
+              {
+                "f": 176,
+                "v": "neutral"
+              }
+            ]
+          }
+        },
+        {
+          "id": "brain",
+          "adapter": "svg",
+          "asset": "obj_brain@1",
+          "z": 3,
+          "props": {
+            "idle": "float"
+          },
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 1470
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 960
+              }
+            ],
+            "size": [
+              {
+                "f": 0,
+                "v": 300
+              }
+            ],
+            "scale": [
+              {
+                "f": 152,
+                "v": 0
+              },
+              {
+                "f": 162,
+                "v": 1.12,
+                "ease": "easeOutCubic"
+              },
+              {
+                "f": 168,
+                "v": 1.0,
+                "ease": "easeInOut"
+              }
+            ],
+            "rotation": [
+              {
+                "f": 152,
+                "v": -25
+              },
+              {
+                "f": 166,
+                "v": 0,
+                "ease": "easeOutBack"
+              }
+            ]
+          }
+        },
+        {
+          "id": "brain_sparkle",
+          "adapter": "particle",
+          "z": 4,
+          "props": {
+            "preset": "sparkle",
+            "count": 14,
+            "area": [1290, 770, 380, 380]
+          },
+          "tracks": {
+            "opacity": [
+              {
+                "f": 156,
+                "v": 0
+              },
+              {
+                "f": 166,
+                "v": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "room_dust",
+          "adapter": "particle",
+          "z": 1,
+          "props": {
+            "preset": "dust",
+            "count": 26,
+            "area": [1450, 380, 700, 700]
+          },
+          "tracks": {}
+        },
+        {
+          "id": "hook",
+          "adapter": "text",
+          "space": "screen",
+          "z": 10,
+          "props": {
+            "content": "Money is NOT a math problem",
+            "style": "hook_impact",
+            "highlight": ["NOT"],
+            "maxWidth": 960
+          },
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 540
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 340
+              }
+            ],
+            "scale": [
+              {
+                "f": 6,
+                "v": 0
+              },
+              {
+                "f": 14,
+                "v": 1.1,
+                "ease": "easeOutCubic"
+              },
+              {
+                "f": 19,
+                "v": 1.0,
+                "ease": "easeInOut"
+              }
+            ],
+            "rotation": [
+              {
+                "f": 6,
+                "v": -6
+              },
+              {
+                "f": 16,
+                "v": 0,
+                "ease": "easeOutBack"
+              }
+            ],
+            "opacity": [
+              {
+                "f": 0,
+                "v": 1
+              },
+              {
+                "f": 146,
+                "v": 1
+              },
+              {
+                "f": 154,
+                "v": 0,
+                "ease": "easeIn"
+              }
+            ]
+          }
+        },
+        {
+          "id": "hook2",
+          "adapter": "text",
+          "space": "screen",
+          "z": 10,
+          "props": {
+            "content": "It's BEHAVIOR",
+            "style": "hook_impact",
+            "highlight": ["BEHAVIOR"],
+            "maxWidth": 960
+          },
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 540
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 340
+              }
+            ],
+            "scale": [
+              {
+                "f": 152,
+                "v": 0
+              },
+              {
+                "f": 160,
+                "v": 1.12,
+                "ease": "easeOutCubic"
+              },
+              {
+                "f": 165,
+                "v": 1.0,
+                "ease": "easeInOut"
+              }
+            ],
+            "opacity": [
+              {
+                "f": 0,
+                "v": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "sceneId": "s02",
+      "from": 228,
+      "duration": 210,
+      "background": {
+        "asset": "bg_nature_mountain_01@1"
+      },
+      "transitionIn": {
+        "type": "whip",
+        "direction": "left",
+        "frames": 12
+      },
+      "camera": {
+        "x": [
+          {
+            "f": 0,
+            "v": 1060
+          },
+          {
+            "f": 209,
+            "v": 1470,
+            "ease": "easeInOutCubic"
+          }
+        ],
+        "zoom": [
+          {
+            "f": 0,
+            "v": 1.06
+          },
+          {
+            "f": 209,
+            "v": 1.0,
+            "ease": "easeInOut"
+          }
+        ],
+        "shake": [
+          {
+            "f": 106,
+            "v": 0
+          },
+          {
+            "f": 108,
+            "v": 12
+          },
+          {
+            "f": 122,
+            "v": 0,
+            "ease": "easeOutCubic"
+          }
+        ]
+      },
+      "nodes": [
+        {
+          "id": "era",
+          "adapter": "character",
+          "asset": "char_era_01@1",
+          "z": 2,
+          "props": {
+            "speaks": true
+          },
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 1170
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 1600
+              }
+            ],
+            "scale": [
+              {
+                "f": 0,
+                "v": 0.92
+              }
+            ],
+            "clip": [
+              {
+                "f": 0,
+                "v": "idle"
+              },
+              {
+                "f": 8,
+                "v": "talk",
+                "blend": 8
+              },
+              {
+                "f": 50,
+                "v": "point_side",
+                "blend": 10
+              },
+              {
+                "f": 120,
+                "v": "arms_up",
+                "blend": 8
+              },
+              {
+                "f": 190,
+                "v": "talk",
+                "blend": 10
+              }
+            ],
+            "expression": [
+              {
+                "f": 0,
+                "v": "neutral"
+              },
+              {
+                "f": 50,
+                "v": "thinking"
+              },
+              {
+                "f": 106,
+                "v": "surprised"
+              },
+              {
+                "f": 120,
+                "v": "happy"
+              }
+            ]
+          }
+        },
+        {
+          "id": "dominoes",
+          "adapter": "svg",
+          "asset": "met_dominoes_01@1",
+          "z": 1,
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 1600
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 1435
+              }
+            ],
+            "size": [
+              {
+                "f": 0,
+                "v": 1100
+              }
+            ],
+            "scale": [
+              {
+                "f": 10,
+                "v": 0.6
+              },
+              {
+                "f": 24,
+                "v": 1.0,
+                "ease": "easeOutBack"
+              }
+            ],
+            "opacity": [
+              {
+                "f": 10,
+                "v": 0
+              },
+              {
+                "f": 18,
+                "v": 1
+              }
+            ],
+            "part.domino_1.rotation": [
+              {
+                "f": 60,
+                "v": 0
+              },
+              {
+                "f": 69,
+                "v": 76,
+                "ease": "easeInCubic"
+              }
+            ],
+            "part.domino_2.rotation": [
+              {
+                "f": 67,
+                "v": 0
+              },
+              {
+                "f": 76,
+                "v": 76,
+                "ease": "easeInCubic"
+              }
+            ],
+            "part.domino_3.rotation": [
+              {
+                "f": 74,
+                "v": 0
+              },
+              {
+                "f": 83,
+                "v": 76,
+                "ease": "easeInCubic"
+              }
+            ],
+            "part.domino_4.rotation": [
+              {
+                "f": 81,
+                "v": 0
+              },
+              {
+                "f": 90,
+                "v": 76,
+                "ease": "easeInCubic"
+              }
+            ],
+            "part.domino_5.rotation": [
+              {
+                "f": 88,
+                "v": 0
+              },
+              {
+                "f": 97,
+                "v": 76,
+                "ease": "easeInCubic"
+              }
+            ],
+            "part.domino_6.rotation": [
+              {
+                "f": 95,
+                "v": 0
+              },
+              {
+                "f": 104,
+                "v": 76,
+                "ease": "easeInCubic"
+              }
+            ],
+            "part.domino_7.rotation": [
+              {
+                "f": 102,
+                "v": 0
+              },
+              {
+                "f": 111,
+                "v": 76,
+                "ease": "easeInCubic"
+              }
+            ]
+          },
+          "props": {
+            "backdrop": false
+          }
+        },
+        {
+          "id": "sunrise_dust",
+          "adapter": "particle",
+          "z": 0,
+          "props": {
+            "preset": "dust",
+            "count": 34,
+            "area": [700, 700, 1700, 800]
+          },
+          "tracks": {}
+        },
+        {
+          "id": "title1",
+          "adapter": "text",
+          "space": "screen",
+          "z": 10,
+          "props": {
+            "content": "Small choices.",
+            "style": "hook_impact",
+            "maxWidth": 960
+          },
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 540
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 250
+              }
+            ],
+            "scale": [
+              {
+                "f": 14,
+                "v": 0
+              },
+              {
+                "f": 22,
+                "v": 1.1,
+                "ease": "easeOutCubic"
+              },
+              {
+                "f": 27,
+                "v": 1.0,
+                "ease": "easeInOut"
+              }
+            ]
+          }
+        },
+        {
+          "id": "title2",
+          "adapter": "text",
+          "space": "screen",
+          "z": 10,
+          "props": {
+            "content": "Big RESULTS.",
+            "style": "hook_impact",
+            "highlight": ["RESULTS"],
+            "maxWidth": 960
+          },
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 540
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 490
+              }
+            ],
+            "scale": [
+              {
+                "f": 110,
+                "v": 0
+              },
+              {
+                "f": 118,
+                "v": 1.15,
+                "ease": "easeOutCubic"
+              },
+              {
+                "f": 124,
+                "v": 1.0,
+                "ease": "easeInOut"
+              }
+            ],
+            "rotation": [
+              {
+                "f": 110,
+                "v": 8
+              },
+              {
+                "f": 122,
+                "v": 0,
+                "ease": "easeOutBack"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "audio": {
+    "ref": "file://placeholder/music-bed"
+  },
+  "captions": {
+    "style": "word_pop",
+    "wordsPerChunk": 3,
+    "words": [
+      {
+        "word": "Most",
+        "start": 0.45,
+        "end": 0.74
+      },
+      {
+        "word": "people",
+        "start": 0.8,
+        "end": 1.18
+      },
+      {
+        "word": "think",
+        "start": 1.24,
+        "end": 1.575
+      },
+      {
+        "word": "money",
+        "start": 1.635,
+        "end": 1.97
+      },
+      {
+        "word": "is",
+        "start": 2.03,
+        "end": 2.23
+      },
+      {
+        "word": "a",
+        "start": 2.29,
+        "end": 2.47
+      },
+      {
+        "word": "math",
+        "start": 2.53,
+        "end": 2.82
+      },
+      {
+        "word": "problem.",
+        "start": 2.88,
+        "end": 3.305
+      },
+      {
+        "word": "It's",
+        "start": 3.585,
+        "end": 3.875
+      },
+      {
+        "word": "not.",
+        "start": 3.935,
+        "end": 4.18
+      },
+      {
+        "word": "It's",
+        "start": 4.46,
+        "end": 4.75
+      },
+      {
+        "word": "a",
+        "start": 4.81,
+        "end": 4.99
+      },
+      {
+        "word": "behavior",
+        "start": 5.05,
+        "end": 5.52
+      },
+      {
+        "word": "problem.",
+        "start": 5.58,
+        "end": 6.005
+      },
+      {
+        "word": "Small",
+        "start": 8.0,
+        "end": 8.335
+      },
+      {
+        "word": "choices",
+        "start": 8.395,
+        "end": 8.82
+      },
+      {
+        "word": "fall",
+        "start": 8.88,
+        "end": 9.17
+      },
+      {
+        "word": "like",
+        "start": 9.23,
+        "end": 9.52
+      },
+      {
+        "word": "dominoes.",
+        "start": 9.58,
+        "end": 10.05
+      },
+      {
+        "word": "One",
+        "start": 10.33,
+        "end": 10.575
+      },
+      {
+        "word": "after",
+        "start": 10.635,
+        "end": 10.97
+      },
+      {
+        "word": "another,",
+        "start": 11.03,
+        "end": 11.455
+      },
+      {
+        "word": "they",
+        "start": 11.515,
+        "end": 11.805
+      },
+      {
+        "word": "change",
+        "start": 11.865,
+        "end": 12.245
+      },
+      {
+        "word": "everything.",
+        "start": 12.305,
+        "end": 12.865
+      }
+    ]
+  }
+}

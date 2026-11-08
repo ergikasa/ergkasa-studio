@@ -17,6 +17,7 @@
     700
   ],
   "parts": {
+    "backdrop": "plain background; hide with props.backdrop=false over a scene",
     "ball": "move along slope (120,190)→(880,500), scale 0.3→1.6, rotate 0→720",
     "trail": "draw_on"
   },

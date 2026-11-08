@@ -17,6 +17,7 @@
     760
   ],
   "parts": {
+    "backdrop": "plain background; hide with props.backdrop=false over a scene",
     "step_1": "pop_in in sequence (0.15s)",
     "step_2": "pop_in in sequence (0.15s)",
     "step_3": "pop_in in sequence (0.15s)",

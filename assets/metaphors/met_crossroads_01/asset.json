@@ -17,6 +17,7 @@
     800
   ],
   "parts": {
+    "backdrop": "plain background; hide with props.backdrop=false over a scene",
     "sign_left": "swing_in, highlight",
     "sign_right": "swing_in, highlight",
     "road_left": "highlight",

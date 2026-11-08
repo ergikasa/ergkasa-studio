@@ -1,5 +1,7 @@
 packages:
   - contracts
+  - engine
+  - engine-worker
 
 onlyBuiltDependencies:
   - esbuild

@@ -17,6 +17,7 @@
     800
   ],
   "parts": {
+    "backdrop": "plain background; hide with props.backdrop=false over a scene",
     "path": "draw_on",
     "climber": "follow path",
     "flag": "pop_in, wave"

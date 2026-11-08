@@ -14,6 +14,7 @@
     "typecheck": "pnpm -r typecheck",
     "test": "pnpm -r test",
     "contracts:gen": "pnpm --filter @erkasa/contracts gen",
+    "demo": "pnpm --filter @erkasa/engine-worker demo",
     "assets:validate": "node tools/run-python.mjs tools/asset-validate/validate.py",
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm assets:validate"
   },

@@ -17,6 +17,7 @@
     800
   ],
   "parts": {
+    "backdrop": "plain background; hide with props.backdrop=false over a scene",
     "sand_top": "scaleY 1→0 (pivot neck)",
     "sand_bottom": "scaleY 0→1 (pivot base)",
     "stream": "flicker",

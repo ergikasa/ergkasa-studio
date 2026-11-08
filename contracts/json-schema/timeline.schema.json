@@ -98,6 +98,14 @@
                   "minimum": -9007199254740991,
                   "maximum": 9007199254740991
                 },
+                "space": {
+                  "default": "world",
+                  "type": "string",
+                  "enum": [
+                    "world",
+                    "screen"
+                  ]
+                },
                 "tracks": {
                   "type": "object",
                   "propertyNames": {
@@ -475,17 +483,49 @@
     "captions": {
       "type": "object",
       "properties": {
+        "style": {
+          "type": "string",
+          "pattern": "^[a-z_]+$"
+        },
         "ref": {
           "type": "string",
           "pattern": "^(s3|file):\\/\\/.+"
         },
-        "style": {
-          "type": "string",
-          "pattern": "^[a-z_]+$"
+        "words": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "word": {
+                "type": "string",
+                "minLength": 1
+              },
+              "start": {
+                "type": "number",
+                "minimum": 0
+              },
+              "end": {
+                "type": "number",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "word",
+              "start",
+              "end"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "wordsPerChunk": {
+          "default": 3,
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 6
         }
       },
       "required": [
-        "ref",
         "style"
       ],
       "additionalProperties": false

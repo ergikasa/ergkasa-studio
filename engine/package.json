@@ -1,0 +1,20 @@
+{
+  "name": "@erkasa/engine",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Erkasa 2D animation engine: evaluate(timeline, frame) -> SVG frame. Pure TypeScript, no DOM, no IO.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@erkasa/contracts": "workspace:*"
+  },
+  "devDependencies": {
+    "vitest": "5.1.0"
+  }
+}

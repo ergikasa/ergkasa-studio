@@ -17,6 +17,7 @@
     600
   ],
   "parts": {
+    "backdrop": "plain background; hide with props.backdrop=false over a scene",
     "stage_seed": "grow_in (scaleY 0→1 from pivot); sequence or same-spot morph",
     "stage_sprout": "grow_in (scaleY 0→1 from pivot); sequence or same-spot morph",
     "stage_plant": "grow_in (scaleY 0→1 from pivot); sequence or same-spot morph",

@@ -19,6 +19,7 @@ export const Keyframe = z
     blend: z.number().int().min(0).max(30).optional(),
   })
   .strict();
+export type Keyframe = z.infer<typeof Keyframe>;
 
 /** Track name -> keyframes sorted by frame. Tracks: x, y, scale, rotation, opacity, clip, expression, state.<part>... */
 export const Tracks = z.record(z.string().regex(/^[a-z][a-zA-Z0-9_.]*$/), z.array(Keyframe).min(1));
@@ -30,6 +31,8 @@ export const TimelineNode = z
     asset: AssetRef.optional(),
     props: z.record(z.string(), z.unknown()).default({}),
     z: z.number().int().default(0),
+    /** `world` moves with the camera (characters, props); `screen` stays fixed (hook text, captions). */
+    space: z.enum(["world", "screen"]).default("world"),
     tracks: Tracks,
     visemes: z.object({ ref: ArtifactUri }).strict().optional(),
   })
@@ -77,6 +80,23 @@ export const TimelineScene = z
     }
   });
 
+export const CaptionWord = z
+  .object({ word: z.string().min(1), start: z.number().min(0), end: z.number().min(0) })
+  .strict();
+
+/** Burned-in captions: either inline words (seconds from video start) or a stored captions file. */
+export const Captions = z
+  .object({
+    style: z.string().regex(/^[a-z_]+$/),
+    ref: ArtifactUri.optional(),
+    words: z.array(CaptionWord).min(1).optional(),
+    wordsPerChunk: z.number().int().min(1).max(6).default(3),
+  })
+  .strict()
+  .refine((c) => (c.ref === undefined) !== (c.words === undefined), {
+    message: "captions need exactly one of ref or words",
+  });
+
 export const RenderTimeline = z
   .object({
     schema: z.literal("erkasa.timeline/1"),
@@ -87,10 +107,7 @@ export const RenderTimeline = z
     seed: z.number().int().min(0),
     scenes: z.array(TimelineScene).min(1),
     audio: z.object({ ref: ArtifactUri }).strict(),
-    captions: z
-      .object({ ref: ArtifactUri, style: z.string().regex(/^[a-z_]+$/) })
-      .strict()
-      .optional(),
+    captions: Captions.optional(),
   })
   .strict()
   .superRefine((t, ctx) => {

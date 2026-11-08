@@ -49,8 +49,9 @@ def layer(lid, depth, content):
     return f'<g id="layer_{lid}" data-depth="{depth}">{content}</g>'
 
 
-def cloud(cx, cy, s, fill="#FFFFFF", op=0.95):
-    return (f'<g opacity="{op}">' + circle(cx, cy, 60 * s, fill) + circle(cx + 70 * s, cy - 25 * s, 75 * s, fill)
+def cloud(cx, cy, s, fill="#FFFFFF"):
+    # No group opacity: it forces the renderer to allocate a full-frame layer (slow).
+    return ("<g>" + circle(cx, cy, 60 * s, fill) + circle(cx + 70 * s, cy - 25 * s, 75 * s, fill)
             + circle(cx + 150 * s, cy, 55 * s, fill) + rect(cx - 10 * s, cy, 170 * s, 55 * s, fill, rx=int(27 * s)) + "</g>")
 
 

@@ -17,6 +17,7 @@
     800
   ],
   "parts": {
+    "backdrop": "plain background; hide with props.backdrop=false over a scene",
     "tip": "pop_in, bob",
     "underwater": "reveal (fade_in or camera tilt down)",
     "water": "wave"

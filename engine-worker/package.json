@@ -1,0 +1,26 @@
+{
+  "name": "@erkasa/engine-worker",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Renders Erkasa Render Timelines to MP4 (resvg frames -> FFmpeg). Later also the RabbitMQ worker.",
+  "type": "module",
+  "bin": {
+    "erkasa-render": "./src/cli.ts"
+  },
+  "scripts": {
+    "render": "tsx src/cli.ts",
+    "demo": "tsx src/cli.ts demo/phase-b-demo.timeline.json -o out/phase-b-demo.mp4 --music-placeholder",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@erkasa/contracts": "workspace:*",
+    "@erkasa/engine": "workspace:*",
+    "@expo-google-fonts/montserrat": "0.4.2",
+    "@resvg/resvg-js": "2.6.2"
+  },
+  "devDependencies": {
+    "tsx": "4.23.15",
+    "vitest": "5.1.0"
+  }
+}

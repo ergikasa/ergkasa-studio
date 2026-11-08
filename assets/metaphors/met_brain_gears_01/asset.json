@@ -17,6 +17,7 @@
     800
   ],
   "parts": {
+    "backdrop": "plain background; hide with props.backdrop=false over a scene",
     "gear_1": "rotate cw",
     "gear_2": "rotate ccw ×1.45",
     "gear_3": "rotate ccw ×1.75"

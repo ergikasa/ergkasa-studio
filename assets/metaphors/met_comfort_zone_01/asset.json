@@ -17,6 +17,7 @@
     800
   ],
   "parts": {
+    "backdrop": "plain background; hide with props.backdrop=false over a scene",
     "zone_inner": "pop_in",
     "zone_mid": "pop_in",
     "zone_outer": "pop_in, rotate dashed ring",

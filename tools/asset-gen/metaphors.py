@@ -35,7 +35,7 @@ def gear(cx, cy, r, teeth, color, hole=CREAM):
 def iceberg():
     body = (
         '<defs><linearGradient id="ice_sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3E8DB5"/><stop offset="1" stop-color="#1B3E5C"/></linearGradient></defs>'
-        f'<rect width="800" height="300" fill="#DDF1FB"/>'
+        + g("backdrop", '<rect width="800" height="300" fill="#DDF1FB"/>')
         + g("water", '<rect y="300" width="800" height="500" fill="url(#ice_sea)"/>'
             '<path d="M0,300 Q50,290 100,300 T200,300 T300,300 T400,300 T500,300 T600,300 T700,300 T800,300" fill="none" stroke="#BFE6F2" stroke-width="6"/>')
         + g("underwater", '<polygon points="230,300 150,440 175,610 300,735 480,760 615,645 660,470 575,300" fill="#BFE3F0" opacity="0.55"/>'
@@ -102,7 +102,7 @@ def maze():
     pts = " ".join(f"{ox + x*cell + cell/2:.0f},{ox + y*cell + cell/2:.0f}" for x, y in route)
     gx, gy = ox + (n - 1) * cell + cell / 2, ox + (n - 1) * cell + cell / 2
     body = (
-        f'<rect width="800" height="800" fill="{CREAM}"/>'
+        g("backdrop", f'<rect width="800" height="800" fill="{CREAM}"/>')
         + g("walls", f'<path d="{" ".join(lines)}" stroke="{BLUE}" stroke-width="12" stroke-linecap="round"/>')
         + g("solution", f'<polyline points="{pts}" fill="none" stroke="{ORANGE}" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>',
             None, 'data-animate="draw_on"')
@@ -116,7 +116,7 @@ def maze():
 # ---------------------------------------------------------------- 4 udhëkryqi
 def crossroads():
     body = (
-        '<rect width="900" height="420" fill="#DDF1FB"/><rect y="400" width="900" height="400" fill="#8CC07F"/>'
+        g("backdrop", '<rect width="900" height="420" fill="#DDF1FB"/>') + '<rect y="400" width="900" height="400" fill="#8CC07F"/>'
         '<path d="M0,420 Q200,380 450,400 T900,390 V440 H0 Z" fill="#7FB27A"/>'
         + g("road_left", '<path d="M380,800 C380,640 300,520 120,430 L160,425 C330,500 430,620 450,800 Z" fill="#D9B98C"/>')
         + g("road_right", '<path d="M520,800 C520,640 600,520 780,430 L740,425 C570,500 470,620 450,800 Z" fill="#D9B98C"/>')
@@ -139,7 +139,7 @@ def dominoes():
                        for dx, dy in [(-1, 1.5), (1, 1.5), (0, 3), (-1, 5.5), (1, 5.5), (0, 7)])
         out += g(f"domino_{i+1}", f'<rect x="{x:.0f}" y="{ground-h:.0f}" width="{w:.0f}" height="{h:.0f}" rx="6" fill="{INK}"/>'
                  f'<rect x="{x:.0f}" y="{ground-h/2-2:.0f}" width="{w:.0f}" height="4" fill="{CREAM}"/>' + dots, (x + w, ground))
-    body = f'<rect width="1000" height="500" fill="{CREAM}"/><rect y="{ground}" width="1000" height="100" fill="#E4DDD0"/>' + out
+    body = g("backdrop", f'<rect width="1000" height="500" fill="{CREAM}"/><rect y="{ground}" width="1000" height="100" fill="#E4DDD0"/>') + out
     parts = {f"domino_{i+1}": "fall: rotate 0→78 around pivot, i * 0.12s delay" for i in range(7)}
     return "Dominot", body, (1000, 500), parts, ["decisions", "psychology", "science"], ["chain-reaction", "consequences", "domino-effect", "habits"]
 
@@ -147,8 +147,8 @@ def dominoes():
 # ---------------------------------------------------------------- 6 topi i borës
 def snowball():
     body = (
-        f'<rect width="1000" height="700" fill="#CFE8F5"/>'
-        '<polygon points="0,180 1000,620 1000,700 0,700" fill="#FFFFFF"/><polygon points="0,180 1000,620 1000,640 0,200" fill="#E3F0F7"/>'
+        g("backdrop", f'<rect width="1000" height="700" fill="#CFE8F5"/>')
+        + '<polygon points="0,180 1000,620 1000,700 0,700" fill="#FFFFFF"/><polygon points="0,180 1000,620 1000,640 0,200" fill="#E3F0F7"/>'
         + g("trail", '<path d="M120,236 L880,570" stroke="#D3E6F0" stroke-width="40" stroke-linecap="round"/>', None, 'data-animate="draw_on"')
         + g("ball", f'<circle cx="0" cy="0" r="85" fill="#FFFFFF" stroke="#A9CADB" stroke-width="6"/><path d="M-30,-20 q20,-12 40,4 M-10,24 q18,6 34,-10" stroke="#D3E6F0" stroke-width="6" fill="none" stroke-linecap="round"/>',
             (0, 0), 'transform="translate(800,455)"')
@@ -172,7 +172,7 @@ def seed_to_tree():
          f'<circle cx="850" cy="{gy-250}" r="100" fill="{DGREEN}"/><circle cx="792" cy="{gy-200}" r="70" fill="{GREEN}"/><circle cx="910" cy="{gy-210}" r="70" fill="{GREEN}"/>'
          f'<circle cx="820" cy="{gy-300}" r="12" fill="{RED}"/><circle cx="885" cy="{gy-250}" r="12" fill="{RED}"/><circle cx="800" cy="{gy-225}" r="12" fill="{RED}"/>'),
     ]
-    body = (f'<rect width="1000" height="600" fill="#EAF5FB"/><rect y="{gy}" width="1000" height="130" fill="#8C6A4F"/><rect y="{gy}" width="1000" height="16" fill="#6FA86C"/>'
+    body = (g("backdrop", '<rect width="1000" height="600" fill="#EAF5FB"/>') + f'<rect y="{gy}" width="1000" height="130" fill="#8C6A4F"/><rect y="{gy}" width="1000" height="16" fill="#6FA86C"/>'
             + "".join(g(sid, c, (x, gy)) for sid, x, c in stages))
     parts = {s: "grow_in (scaleY 0→1 from pivot); sequence or same-spot morph" for s, _, _ in stages}
     return "Nga fara te pema", body, (1000, 600), parts, ["growth", "money", "science"], ["growth", "patience", "compounding", "stages"]
@@ -183,7 +183,7 @@ def stairs():
     steps = "".join(g(f"step_{i+1}", f'<rect x="{80+i*110}" y="{660-(i+1)*85}" width="{720-i*110}" height="85" fill="{c}"/>', (80 + i * 110, 660))
                     for i, c in enumerate([BLUE, "#4A6E96", "#5C80A8", "#6E91B7", "#82A3C6", "#98B6D4"]))
     fx, fy = 690, 660 - 6 * 85
-    body = (f'<rect width="800" height="760" fill="{CREAM}"/><rect y="660" width="800" height="100" fill="#E4DDD0"/>' + steps
+    body = (g("backdrop", f'<rect width="800" height="760" fill="{CREAM}"/><rect y="660" width="800" height="100" fill="#E4DDD0"/>') + steps
             + g("flag", f'<rect x="{fx}" y="{fy-150}" width="8" height="150" fill="{INK}"/><path d="M{fx+8},{fy-150} l90,25 l-90,25 Z" fill="{ORANGE}"/>', (fx + 4, fy)))
     parts = {**{f"step_{i+1}": "pop_in in sequence (0.15s)" for i in range(6)}, "flag": "wave"}
     return "Shkallët", body, (800, 760), parts, ["growth", "money", "decisions"], ["progress", "steps", "levels", "climb"]
@@ -192,7 +192,7 @@ def stairs():
 # ---------------------------------------------------------------- 9 mali me flamur
 def mountain_flag():
     body = (
-        '<rect width="800" height="800" fill="#FBE3BE"/><circle cx="640" cy="180" r="70" fill="#FFF1C9"/>'
+        g("backdrop", '<rect width="800" height="800" fill="#FBE3BE"/><circle cx="640" cy="180" r="70" fill="#FFF1C9"/>') +
         f'<polygon points="60,760 400,140 740,760" fill="#7F93AE"/><polygon points="400,140 740,760 520,760 430,300" fill="#6C7F99"/>'
         '<polygon points="400,140 455,240 420,225 395,255 365,228 345,240" fill="#FFFFFF"/>'
         + g("path", '<polyline points="200,740 470,640 280,540 470,440 330,350 430,260 400,170" fill="none" stroke="#F6E2B8" stroke-width="10" stroke-dasharray="18 14" stroke-linecap="round"/>',
@@ -210,8 +210,8 @@ def balance():
     def pan(cx, gid):
         return g(gid, f'<path d="M{cx},210 L{cx-70},380 M{cx},210 L{cx+70},380" stroke="{GREY}" stroke-width="4"/>'
                  f'<path d="M{cx-100},380 Q{cx},450 {cx+100},380 Z" fill="{YELLOW}"/>', (cx, 210), 'data-hangs-from="beam"')
-    body = (f'<rect width="800" height="700" fill="{CREAM}"/>'
-            f'<rect x="388" y="190" width="24" height="420" rx="8" fill="{BROWN}"/><rect x="290" y="600" width="220" height="40" rx="14" fill="{BROWN}"/>'
+    body = (g("backdrop", f'<rect width="800" height="700" fill="{CREAM}"/>')
+            + f'<rect x="388" y="190" width="24" height="420" rx="8" fill="{BROWN}"/><rect x="290" y="600" width="220" height="40" rx="14" fill="{BROWN}"/>'
             + g("beam", f'<rect x="170" y="196" width="460" height="26" rx="13" fill="{BROWN}"/><circle cx="400" cy="209" r="22" fill="{YELLOW}"/>', (400, 209))
             + pan(180, "pan_l") + pan(620, "pan_r"))
     parts = {"beam": "tilt ±20", "pan_l": "stay hanging at beam left end", "pan_r": "stay hanging at beam right end"}
@@ -225,7 +225,7 @@ def two_doors():
                 f'<rect x="{x}" y="200" width="220" height="420" fill="#FFE7A8"/>'
                 + g(gid, f'<rect x="{x}" y="200" width="220" height="420" fill="{color}"/><rect x="{x+24}" y="226" width="172" height="160" rx="6" fill="#000" opacity="0.1"/>'
                     f'<rect x="{x+24}" y="410" width="172" height="180" rx="6" fill="#000" opacity="0.1"/><circle cx="{x+190}" cy="420" r="12" fill="{YELLOW}"/>', (x, 410)))
-    body = f'<rect width="900" height="700" fill="#E9DFD0"/><rect y="620" width="900" height="80" fill="#C99B6D"/>' + door(140, TEAL, "door_l") + door(540, ORANGE, "door_r")
+    body = g("backdrop", '<rect width="900" height="700" fill="#E9DFD0"/><rect y="620" width="900" height="80" fill="#C99B6D"/>') + door(140, TEAL, "door_l") + door(540, ORANGE, "door_r")
     parts = {"door_l": "open: scaleX 1→0.15 around hinge pivot", "door_r": "open: scaleX 1→0.15 around hinge pivot"}
     return "Dy dyert", body, (900, 700), parts, ["decisions", "philosophy"], ["choice", "opportunity", "door", "unknown"]
 
@@ -234,7 +234,7 @@ def two_doors():
 def hourglass():
     sand = "#E3B66B"
     body = (
-        f'<rect width="500" height="800" fill="{CREAM}"/>'
+        g("backdrop", f'<rect width="500" height="800" fill="{CREAM}"/>')
         + g("frame",
             f'<rect x="90" y="80" width="320" height="34" rx="12" fill="{BROWN}"/><rect x="90" y="686" width="320" height="34" rx="12" fill="{BROWN}"/>'
             f'<rect x="110" y="114" width="16" height="572" fill="#6B4A33"/><rect x="374" y="114" width="16" height="572" fill="#6B4A33"/>'
@@ -251,7 +251,7 @@ def hourglass():
 # ---------------------------------------------------------------- 13 zona e rehatisë
 def comfort_zone():
     body = (
-        f'<rect width="800" height="800" fill="{CREAM}"/>'
+        g("backdrop", f'<rect width="800" height="800" fill="{CREAM}"/>')
         + g("zone_outer", f'<circle cx="400" cy="400" r="350" fill="{GREEN}" opacity="0.18"/><circle cx="400" cy="400" r="350" fill="none" stroke="{GREEN}" stroke-width="6" stroke-dasharray="20 14"/>', (400, 400))
         + g("zone_mid", f'<circle cx="400" cy="400" r="230" fill="{YELLOW}" opacity="0.35"/>', (400, 400))
         + g("zone_inner", f'<circle cx="400" cy="400" r="115" fill="{BLUE}" opacity="0.55"/>', (400, 400))
@@ -265,7 +265,7 @@ def comfort_zone():
 def brain_gears():
     head = ("M300,720 L300,620 C220,600 170,520 175,430 C180,300 280,190 420,190 C560,190 650,290 650,400 "
             "C650,450 680,480 700,520 C710,540 690,550 670,555 L665,600 C660,630 640,645 610,640 L560,632 L560,720 Z")
-    body = (f'<rect width="800" height="800" fill="#EAF5FB"/>' + f'<path d="{head}" fill="{BLUE}"/>'
+    body = (g("backdrop", '<rect width="800" height="800" fill="#EAF5FB"/>') + f'<path d="{head}" fill="{BLUE}"/>'
             + g("gear_1", gear(360, 380, 70, 10, ORANGE, BLUE), (360, 380))
             + g("gear_2", gear(480, 300, 48, 8, YELLOW, BLUE), (480, 300))
             + g("gear_3", gear(500, 450, 40, 7, TEAL, BLUE), (500, 450)))
@@ -288,7 +288,7 @@ def chain_break():
             out += g(f"link_{i+1}", f'<ellipse cx="{x}" cy="200" rx="80" ry="44" fill="none" stroke="{metal}" stroke-width="22"/>', (x, 200))
         else:
             out += g(f"link_{i+1}", f'<rect x="{x-80}" y="189" width="160" height="22" rx="11" fill="{ms}"/>', (x, 200))
-    body = f'<rect width="1000" height="400" fill="{CREAM}"/>' + out
+    body = g("backdrop", f'<rect width="1000" height="400" fill="{CREAM}"/>') + out
     parts = {"spark": "flash", "link_break_l": "fly left + rotate", "link_break_r": "fly right + rotate", **{f"link_{i+1}": "shake" for i in range(6) if i != 3}}
     return "Zinxhiri që këputet", body, (1000, 400), parts, ["psychology", "growth", "philosophy"], ["freedom", "breaking-habits", "liberation", "chains"]
 
@@ -313,7 +313,7 @@ def main() -> None:
             "schema": "erkasa.asset/1", "assetId": asset_id, "version": 1, "name": name,
             "category": "metaphor", "kind": "animated_metaphor", "adapter": "svg",
             "style": "erkasa_flat_v1", "files": {"svg": "asset.svg"}, "viewBox": [0, 0, w, h],
-            "parts": parts,
+            "parts": {**({"backdrop": "plain background; hide with props.backdrop=false over a scene"} if 'id="backdrop"' in body else {}), **parts},
             "capabilities": {"animations": ["pop_in", "fade"] + sorted({p.split(":")[0].split(" ")[0].strip(",") for p in parts.values()})},
             "anchors": {"center": [0.5, 0.5]},
             "themes": themes, "tags": tags,

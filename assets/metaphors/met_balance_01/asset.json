@@ -17,6 +17,7 @@
     700
   ],
   "parts": {
+    "backdrop": "plain background; hide with props.backdrop=false over a scene",
     "beam": "tilt ±20",
     "pan_l": "stay hanging at beam left end",
     "pan_r": "stay hanging at beam right end"

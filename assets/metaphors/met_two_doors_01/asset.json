@@ -17,6 +17,7 @@
     700
   ],
   "parts": {
+    "backdrop": "plain background; hide with props.backdrop=false over a scene",
     "door_l": "open: scaleX 1→0.15 around hinge pivot",
     "door_r": "open: scaleX 1→0.15 around hinge pivot"
   },

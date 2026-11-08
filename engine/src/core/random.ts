@@ -1,0 +1,21 @@
+/** Deterministic pseudo-random numbers: same seed, same video. Never use Math.random in the engine. */
+export function mulberry32(seed: number): () => number {
+  let a = seed >>> 0;
+  return () => {
+    a = (a + 0x6d2b79f5) >>> 0;
+    let t = a;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+/** Stable 32-bit hash of a string, to derive per-node seeds from the timeline seed. */
+export function hashString(s: string, seed = 0): number {
+  let h = (seed ^ 0x811c9dc5) >>> 0;
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 0x01000193) >>> 0;
+  }
+  return h;
+}

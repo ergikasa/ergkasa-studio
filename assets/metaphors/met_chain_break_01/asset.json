@@ -17,6 +17,7 @@
     400
   ],
   "parts": {
+    "backdrop": "plain background; hide with props.backdrop=false over a scene",
     "spark": "flash",
     "link_break_l": "fly left + rotate",
     "link_break_r": "fly right + rotate",

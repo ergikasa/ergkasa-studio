@@ -11,6 +11,8 @@ Arkitektura e plotë: [docs/architecture.md](docs/architecture.md) · Vendimet: 
 
 ```
 contracts/      Burimi i së vërtetës: skemat Zod → JSON Schema (Java i lexon këto)
+engine/         Motori 2D: renderFrame(n) → SVG; personazhe, kamerë, parallax, tekst, titra, grimca
+engine-worker/  Kthen një Render Timeline në MP4 (resvg + FFmpeg); demo te engine-worker/demo/
 backend/        Spring Boot 4.1, Java 21: projektet, orkestrimi, workers AI
 assets/         Biblioteka e aseteve: 402 asete me metadata (shih assets/README.md)
 tools/          Gjeneratorët, importi dhe validatori i aseteve (Python)
@@ -18,8 +20,7 @@ infra/          docker-compose: Postgres, RabbitMQ, SeaweedFS
 docs/           Arkitektura dhe ADR-të
 ```
 
-Vijnë në fazat e ardhshme: `engine/` (motori 2D, Faza B), `compiler/` (Faza D), `engine-worker/` (Faza B/F),
-`studio/` (UI, Faza G). Nuk krijohen dosje bosh para kohe.
+Vijnë në fazat e ardhshme: `compiler/` (Faza D) dhe `studio/` (UI, Faza G). Nuk krijohen dosje bosh para kohe.
 
 ## Kërkesat
 

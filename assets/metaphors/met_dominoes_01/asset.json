@@ -17,6 +17,7 @@
     500
   ],
   "parts": {
+    "backdrop": "plain background; hide with props.backdrop=false over a scene",
     "domino_1": "fall: rotate 0→78 around pivot, i * 0.12s delay",
     "domino_2": "fall: rotate 0→78 around pivot, i * 0.12s delay",
     "domino_3": "fall: rotate 0→78 around pivot, i * 0.12s delay",
