@@ -14,7 +14,7 @@
     "typecheck": "pnpm -r typecheck",
     "test": "pnpm -r test",
     "contracts:gen": "pnpm --filter @erkasa/contracts gen",
-    "assets:validate": "python3 tools/asset-validate/validate.py",
+    "assets:validate": "node tools/run-python.mjs tools/asset-validate/validate.py",
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm assets:validate"
   },
   "devDependencies": {
