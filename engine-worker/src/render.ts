@@ -19,6 +19,71 @@ export function fontFiles(): string[] {
   ].map((f) => join(dir, f));
 }
 
+export interface VoiceClip {
+  file: string;
+  /** Where the clip starts on the video timeline, in seconds. */
+  startSec: number;
+}
+
+export interface AudioArgs {
+  inputs: string[];
+  filter?: string;
+  map: string[];
+}
+
+const PAD_FREQS = [220, 261.63, 329.63];
+
+/**
+ * FFmpeg inputs and filter graph for the soundtrack. Input 0 is always the video pipe, so audio
+ * inputs start at 1. Voice clips are delayed to their scene start and summed; the placeholder pad
+ * is ducked under the voice (sidechain); the result is normalized to -14 LUFS / -1 dBTP.
+ */
+export function audioArgs(
+  opts: Pick<RenderOptions, "audio" | "musicPlaceholder" | "voice">,
+  duration: number,
+): AudioArgs {
+  const aac = ["-c:a", "aac", "-b:a", "192k", "-ar", "48000"];
+  if (opts.audio) return { inputs: ["-i", opts.audio], map: ["-map", "0:v", "-map", "1:a", ...aac] };
+  const voice = opts.voice ?? [];
+  if (!voice.length && !opts.musicPlaceholder) return { inputs: [], map: [] };
+
+  const inputs: string[] = [];
+  const graph: string[] = [];
+  let next = 1;
+  let voiceLabel: string | undefined;
+  if (voice.length) {
+    const labels = voice.map((clip, i) => {
+      inputs.push("-i", clip.file);
+      const ms = Math.max(0, Math.round(clip.startSec * 1000));
+      graph.push(
+        `[${next++}:a]aresample=48000,aformat=channel_layouts=mono,adelay=delays=${ms}:all=1[v${i}]`,
+      );
+      return `[v${i}]`;
+    });
+    graph.push(`${labels.join("")}amix=inputs=${labels.length}:normalize=0:dropout_transition=0[voice]`);
+    voiceLabel = "[voice]";
+  }
+  let mixLabel = voiceLabel;
+  if (opts.musicPlaceholder) {
+    // Placeholder bed: a soft A-minor pad. Clearly not production music.
+    const pads = PAD_FREQS.map((f) => {
+      inputs.push("-f", "lavfi", "-i", `sine=frequency=${f}:sample_rate=48000:duration=${duration}`);
+      return `[${next++}:a]`;
+    });
+    graph.push(
+      `${pads.join("")}amix=inputs=3,volume=0.10,tremolo=f=0.4:d=0.35,aecho=0.6:0.5:120:0.3,afade=t=in:d=1,afade=t=out:st=${Math.max(0, duration - 1.5).toFixed(3)}:d=1.5[bed]`,
+    );
+    if (voiceLabel) {
+      graph.push(`${voiceLabel}asplit=2[vo][sc]`);
+      graph.push(`[bed][sc]sidechaincompress=threshold=0.02:ratio=8:attack=150:release=400[ducked]`);
+      graph.push(`[vo][ducked]amix=inputs=2:normalize=0[mix]`);
+      mixLabel = "[mix]";
+    } else mixLabel = "[bed]";
+  }
+  graph.push(`${mixLabel}loudnorm=I=-14:TP=-1:LRA=11,aresample=48000,apad[a]`);
+  return { inputs, filter: graph.join(";"), map: ["-map", "0:v", "-map", "[a]", ...aac] };
+}
+
 export interface RenderOptions {
   /** A parsed Render Timeline (see loadInput). */
   timeline: unknown;
@@ -26,8 +91,10 @@ export interface RenderOptions {
   out: string;
   /** Optional audio file mixed under the video. */
   audio?: string;
-  /** Generate a quiet placeholder music bed (until real music/voice arrive in Phase E). */
+  /** Generate a quiet placeholder music bed (until real music arrives). Ducked under the voice. */
   musicPlaceholder?: boolean;
+  /** Narration clips placed on the video timeline (one per scene). Mixed and loudness-normalized. */
+  voice?: VoiceClip[];
   /** Render only [from, to) global frames. */
   range?: [number, number];
   ffmpeg?: string;
@@ -97,22 +164,11 @@ export async function renderVideo(opts: RenderOptions): Promise<{ frames: number
     "-i",
     "-",
   ];
-  let audioMap: string[] = [];
-  if (opts.audio) {
-    args.push("-i", opts.audio);
-    audioMap = ["-map", "0:v", "-map", "1:a", "-c:a", "aac", "-b:a", "192k"];
-  } else if (opts.musicPlaceholder) {
-    // Placeholder bed: a soft A-minor pad. Clearly not production music.
-    for (const f of [220, 261.63, 329.63])
-      args.push("-f", "lavfi", "-i", `sine=frequency=${f}:sample_rate=48000:duration=${duration}`);
-    args.push(
-      "-filter_complex",
-      `[1][2][3]amix=inputs=3,volume=0.10,tremolo=f=0.4:d=0.35,aecho=0.6:0.5:120:0.3,afade=t=in:d=1,afade=t=out:st=${Math.max(0, duration - 1.5)}:d=1.5[a]`,
-    );
-    audioMap = ["-map", "0:v", "-map", "[a]", "-c:a", "aac", "-b:a", "160k"];
-  }
+  const audio = audioArgs(opts, duration);
+  args.push(...audio.inputs);
+  if (audio.filter) args.push("-filter_complex", audio.filter);
   args.push(
-    ...audioMap,
+    ...audio.map,
     "-c:v",
     "libx264",
     "-preset",

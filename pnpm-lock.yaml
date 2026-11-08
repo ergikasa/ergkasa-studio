@@ -27,6 +27,28 @@ importers:
         specifier: 8.72.1
         version: 8.72.1(eslint@10.14.0(jiti@2.7.0))(typescript@6.0.3)
 
+  ai-worker:
+    dependencies:
+      '@erkasa/compiler':
+        specifier: workspace:*
+        version: link:../compiler
+      '@erkasa/contracts':
+        specifier: workspace:*
+        version: link:../contracts
+      '@erkasa/engine':
+        specifier: workspace:*
+        version: link:../engine
+      '@erkasa/engine-worker':
+        specifier: workspace:*
+        version: link:../engine-worker
+    devDependencies:
+      tsx:
+        specifier: 4.23.15
+        version: 4.23.15
+      vitest:
+        specifier: 5.1.0
+        version: 5.1.0(@types/node@22.19.1)(vite@8.3.6(@types/node@22.19.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15))
+
   compiler:
     dependencies:
       '@erkasa/contracts':

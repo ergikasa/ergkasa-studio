@@ -1,5 +1,6 @@
 export {
   compileVideo,
+  PARTICLE_PRESETS,
   type CompileOptions,
   type CompileResult,
   type CompiledScene,

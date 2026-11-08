@@ -1,0 +1,92 @@
+{
+  "$id": "https://erkasa.studio/contracts/script.schema.json",
+  "title": "script",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "erkasa.script/1"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "topic": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300
+    },
+    "theme": {
+      "type": "string",
+      "enum": [
+        "psychology",
+        "money",
+        "growth",
+        "philosophy",
+        "science",
+        "decisions",
+        "everyday"
+      ]
+    },
+    "language": {
+      "type": "string",
+      "const": "en"
+    },
+    "hook": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "scenes": {
+      "minItems": 2,
+      "maxItems": 12,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "sceneId": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+          },
+          "narration": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 600
+          },
+          "visualIdea": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 400
+          },
+          "emphasis": {
+            "type": "string",
+            "maxLength": 60
+          }
+        },
+        "required": [
+          "sceneId",
+          "narration",
+          "visualIdea"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "estimatedSec": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    }
+  },
+  "required": [
+    "schema",
+    "title",
+    "topic",
+    "theme",
+    "language",
+    "hook",
+    "scenes",
+    "estimatedSec"
+  ],
+  "additionalProperties": false
+}

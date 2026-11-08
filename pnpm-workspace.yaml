@@ -4,6 +4,7 @@ packages:
   - compiler
   - engine-worker
   - studio
+  - ai-worker
 
 onlyBuiltDependencies:
   - esbuild
