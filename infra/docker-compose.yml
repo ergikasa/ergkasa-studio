@@ -37,7 +37,10 @@ services:
       retries: 12
 
   seaweedfs:
-    # Artifact storage with an S3-compatible API (http://localhost:8333).
+    # Artifact storage with an S3-compatible API (http://localhost:8333). Not used yet: run artifacts live
+    # in out/runs/. Off by default so it never clashes with other projects; start it with
+    #   docker compose -f infra/docker-compose.yml --profile storage up -d
+    profiles: ["storage"]
     # Pin to the exact version you pulled once it works: `docker image inspect chrislusf/seaweedfs`.
     image: chrislusf/seaweedfs:latest
     command: >
