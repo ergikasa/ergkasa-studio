@@ -14,14 +14,15 @@ contracts/      Burimi i së vërtetës: skemat Zod → JSON Schema (Java i lexo
 engine/         Motori 2D: renderFrame(n) → SVG; personazhe, kamerë, parallax, tekst, titra, grimca
 compiler/       Scene Plan semantik (çfarë shkruan AI-ja) → Render Timeline frame pas frame, me validim
 engine-worker/  Kthen një Render Timeline ose një Video Plan në MP4 (resvg + FFmpeg); demo te engine-worker/demo/
-backend/        Spring Boot 4.1, Java 21: projektet, orkestrimi, workers AI
+backend/        Spring Boot 4.1, Java 21: projektet, regjistri i aseteve (REST), orkestrimi
+studio/         UI (Vite + React): Rig Lab, Biblioteka e aseteve, Plan Preview, me motorin e vërtetë në shfletues
 assets/         Biblioteka e aseteve: 402 asete me metadata (shih assets/README.md)
 tools/          Gjeneratorët, importi dhe validatori i aseteve (Python)
 infra/          docker-compose: Postgres, RabbitMQ, SeaweedFS
 docs/           Arkitektura dhe ADR-të
 ```
 
-Vjen në fazat e ardhshme: `studio/` (UI, Faza G). Nuk krijohen dosje bosh para kohe.
+Te Studio, faqet që nuk janë ndërtuar ende (Projects, Script & Plan, Voice, Render queue) shfaqen si "soon" dhe nuk klikohen.
 
 ## Kërkesat
 
@@ -48,7 +49,27 @@ cd backend
 ./mvnw spring-boot:run -Dspring-boot.run.profiles=local
 # Windows: .\mvnw.cmd spring-boot:run "-Dspring-boot.run.profiles=local"
 # → http://localhost:8080/actuator/health  duhet të kthejë {"status":"UP",...}
+# → http://localhost:8080/api/assets/stats   numri i aseteve sipas kategorisë
+
+# 5. Studio (në terminal tjetër, nga rrënja e repos)
+pnpm studio
+# → http://127.0.0.1:5173
 ```
+
+### API e aseteve
+
+Në nisje backend-i lexon `assets/manifest.json` dhe çdo `asset.json`, i validon me kontratën `asset`
+dhe i ruan te tabela `asset`. Asetet e pavlefshme refuzohen dhe shfaqen në log. Asetet që hiqen nga
+manifesti çaktivizohen.
+
+| Kërkesa                                                      | Çfarë kthen                                                   |
+| ------------------------------------------------------------ | ------------------------------------------------------------- |
+| `GET /api/assets?category=&kind=&theme=&tag=&q=&limit=`      | lista me filtra (`total`, `items`)                            |
+| `GET /api/assets/candidates?category=&theme=&tags=a,b&text=` | asetet e renditura për një vend në skenë, me pikët dhe arsyet |
+| `GET /api/assets/{id}`                                       | `asset.json` i plotë                                          |
+| `GET /api/assets/{id}/files/{file}`                          | një skedar i deklaruar i asetit (svg, rig), asgjë tjetër      |
+| `GET /api/assets/stats`                                      | numri sipas kategorisë                                        |
+| `POST /api/assets/reindex`                                   | rilexon bibliotekën nga disku                                 |
 
 Panelet lokale: RabbitMQ te http://localhost:15672 (erkasa / erkasa_local), SeaweedFS te http://localhost:9333.
 
@@ -60,7 +81,9 @@ Panelet lokale: RabbitMQ te http://localhost:15672 (erkasa / erkasa_local), Seaw
 | `pnpm test`                     | testet e kontratave (fixtures + të 402 asetet)                     |
 | `pnpm contracts:gen`            | rigjeneron `contracts/json-schema/` pas çdo ndryshimi te kontratat |
 | `pnpm assets:validate`          | validon asetet dhe rigjeneron `assets/manifest.json`               |
-| `./mvnw verify` (te `backend/`) | testet Java: fixtures e njëjta + nisja e aplikacionit me Flyway    |
+| `pnpm studio`                   | hap Studio-n te http://127.0.0.1:5173                              |
+| `pnpm demo:plan`                | kompilon dhe eksporton planin demo në `engine-worker/out/`         |
+| `./mvnw verify` (te `backend/`) | testet Java: kontratat, Flyway, indeksimi i 402 aseteve dhe API    |
 
 ## Rregullat e punës
 

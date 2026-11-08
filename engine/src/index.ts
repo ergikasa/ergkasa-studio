@@ -9,9 +9,11 @@ export { TEXT_STYLES } from "./adapters/text.js";
 export {
   visemeFor,
   prepareCharacter,
+  renderCharacter,
   actionsFor,
   type PreparedCharacter,
   type Facing,
+  type SpeechSample,
 } from "./adapters/character.js";
 export type { Word } from "./adapters/captions.js";
 export { CHART_KINDS, formatValue } from "./adapters/charts.js";

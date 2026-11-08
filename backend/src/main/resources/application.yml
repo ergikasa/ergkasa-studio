@@ -20,3 +20,10 @@ management:
   endpoint:
     health:
       show-details: never
+
+erkasa:
+  assets:
+    # Asset library root (manifest.json + one folder per asset). Relative to the working directory:
+    # running from backend/ finds the repo's assets/ folder.
+    dir: ${ERKASA_ASSETS_DIR:../assets}
+    index-on-startup: true
