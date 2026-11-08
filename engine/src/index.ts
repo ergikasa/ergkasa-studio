@@ -14,3 +14,4 @@ export {
   type Facing,
 } from "./adapters/character.js";
 export type { Word } from "./adapters/captions.js";
+export { CHART_KINDS, formatValue } from "./adapters/charts.js";

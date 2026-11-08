@@ -233,6 +233,102 @@
     },
     {
       "schema": "erkasa.scene-plan/1",
+      "sceneId": "s02b",
+      "engine": "2d",
+      "narration": "Invest two hundred dollars a month, and in thirty years it can grow past two hundred thousand.",
+      "durationPolicy": {
+        "mode": "fitNarration",
+        "padAfterSec": 0.8
+      },
+      "background": {
+        "assetId": "bg_trading_room_01"
+      },
+      "layers": [
+        {
+          "type": "actor",
+          "id": "bardhi",
+          "assetId": "char_bardhi_01",
+          "place": {
+            "anchor": "ground",
+            "x": 0.2,
+            "scale": 0.9
+          },
+          "speaks": true,
+          "expression": "thinking",
+          "actions": [
+            {
+              "action": "think",
+              "at": "start"
+            },
+            {
+              "action": "point_side",
+              "at": {
+                "word": "grow"
+              }
+            }
+          ]
+        },
+        {
+          "type": "chart",
+          "id": "growth",
+          "chart": "linear_vs_exponential",
+          "data": [
+            {
+              "label": "Saved",
+              "value": 72000
+            },
+            {
+              "label": "Invested",
+              "value": 200000
+            }
+          ],
+          "place": {
+            "x": 0.56,
+            "y": 0.45,
+            "scale": 0.82
+          },
+          "in": {
+            "effect": "draw_on",
+            "at": {
+              "word": "thirty"
+            },
+            "durationSec": 1.6
+          }
+        },
+        {
+          "type": "text",
+          "id": "t",
+          "content": "TIME is the multiplier",
+          "style": "hook_impact",
+          "highlight": ["TIME"],
+          "place": {
+            "x": 0.5,
+            "region": "top-safe"
+          },
+          "in": {
+            "effect": "pop",
+            "at": {
+              "word": "grow"
+            },
+            "durationSec": 0.35
+          }
+        }
+      ],
+      "camera": [
+        {
+          "move": "push_in",
+          "at": "start",
+          "to": 1.06
+        }
+      ],
+      "transitionOut": {
+        "type": "slide",
+        "direction": "left",
+        "durationSec": 0.35
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
       "sceneId": "s03",
       "engine": "2d",
       "narration": "So start today. Small. Simple. Every single day.",
