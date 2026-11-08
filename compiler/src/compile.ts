@@ -59,7 +59,7 @@ const FRAME_SIZES: Record<string, [number, number]> = {
   "16:9": [1920, 1080],
   "1:1": [1080, 1080],
 };
-const PARTICLE_PRESETS = ["dust", "snow", "rain", "sparkle", "bokeh"];
+export const PARTICLE_PRESETS = ["dust", "snow", "rain", "sparkle", "bokeh"];
 const SIDE_ONLY_MOVES = new Set(["walk", "run"]);
 /** Default duration (seconds) of a gesture when the plan gives none. */
 const GESTURE_SEC: Record<string, number> = {

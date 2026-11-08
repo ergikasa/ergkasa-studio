@@ -1,0 +1,10 @@
+{
+  "schema": "erkasa.script/1",
+  "title": "Too short",
+  "topic": "Anything",
+  "theme": "money",
+  "language": "en",
+  "hook": "One scene only.",
+  "scenes": [{ "sceneId": "s01", "narration": "One scene only.", "visualIdea": "A man." }],
+  "estimatedSec": 2
+}

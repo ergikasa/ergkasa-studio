@@ -1,0 +1,22 @@
+{
+  "schema": "erkasa.script/1",
+  "title": "Why saving alone keeps you broke",
+  "topic": "Saving vs investing over thirty years",
+  "theme": "money",
+  "language": "en",
+  "hook": "Saving money will not make you rich.",
+  "scenes": [
+    {
+      "sceneId": "s01",
+      "narration": "Saving money will not make you rich. Not on its own.",
+      "visualIdea": "A man looks proudly at a small jar of coins, then frowns.",
+      "emphasis": "not"
+    },
+    {
+      "sceneId": "s02",
+      "narration": "Invest two hundred dollars a month, and in thirty years it can grow past two hundred thousand.",
+      "visualIdea": "Linear vs exponential chart: saved vs invested."
+    }
+  ],
+  "estimatedSec": 9
+}

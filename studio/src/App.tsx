@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { AssetLibrary } from "./pages/AssetLibrary";
 import { PlanPlayer } from "./pages/PlanPlayer";
 import { RigLab } from "./pages/RigLab";
+import { Voices } from "./pages/Voices";
 
 const PAGES = {
   rig: { label: "Rig Lab", view: RigLab },
   assets: { label: "Asset Library", view: AssetLibrary },
   player: { label: "Plan Preview", view: PlanPlayer },
+  voices: { label: "Voices", view: Voices },
 } as const;
 type PageId = keyof typeof PAGES;
 
@@ -17,7 +19,7 @@ const fromHash = (): PageId => {
 };
 
 /** Not built yet; listed so the Studio never pretends a missing feature exists. */
-const PLANNED = ["Projects", "Script & Plan (AI)", "Voice", "Render queue"];
+const PLANNED = ["New video", "Projects", "Render queue"];
 
 export function App() {
   const [page, setPage] = useState<PageId>(fromHash);

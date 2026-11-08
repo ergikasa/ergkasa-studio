@@ -15,6 +15,7 @@ engine/         Motori 2D: renderFrame(n) → SVG; personazhe, kamerë, parallax
 compiler/       Scene Plan semantik (çfarë shkruan AI-ja) → Render Timeline frame pas frame, me validim
 engine-worker/  Kthen një Render Timeline ose një Video Plan në MP4 (resvg + FFmpeg); demo te engine-worker/demo/
 backend/        Spring Boot 4.1, Java 21: projektet, regjistri i aseteve (REST), orkestrimi
+ai-worker/      AI: skenari dhe plani vizual (Claude), zëri me kohën e fjalëve (ElevenLabs), `pnpm video`
 studio/         UI (Vite + React): Rig Lab, Biblioteka e aseteve, Plan Preview, me motorin e vërtetë në shfletues
 assets/         Biblioteka e aseteve: 402 asete me metadata (shih assets/README.md)
 tools/          Gjeneratorët, importi dhe validatori i aseteve (Python)
@@ -56,6 +57,29 @@ pnpm studio
 # → http://127.0.0.1:5173
 ```
 
+### Video nga një temë (Faza E)
+
+Plotëso te `.env`: `ANTHROPIC_API_KEY` dhe `ELEVENLABS_API_KEY`. Zërat e narratorit janë te
+`voices/catalog.json` (`mark_natural` = parazgjedhja, `friendly_woman`, `american_man`):
+
+```bash
+pnpm voices                                   # zërat e studios dhe a i përdor dot llogaria jote
+pnpm voices --samples                         # nga një shembull për çdo zë → Studio > Voices i luan
+pnpm video "why we procrastinate" --theme psychology --voice friendly_woman --seconds 45
+```
+
+Pa `--voice` përdoret `ERKASA_VOICE` nga `.env`, ose parazgjedhja e katalogut. Personazhi që flet zgjidhet
+i së njëjtës gjini me narratorin. Zë i ri: `pnpm voices --account` tregon zërat e llogarisë; shtoje te
+katalogu me një `id`, emër, përshkrim dhe cilësime.
+
+Temat: `psychology`, `money`, `growth`, `philosophy`, `science`, `decisions`. Çdo run krijon një dosje te
+`out/<data>-<tema>/` me `script.json`, `voice/`, `plan-attempts.json`, `video-plan.json`, `timeline.json`,
+`video.mp4` dhe `run.json` (kohët, token-at, kosto e përafërt). Pa API-të:
+`pnpm video --from-plan engine-worker/demo/habits.video-plan.json --no-voice`.
+
+Rifillimi pas një ndryshimi me dorë: `pnpm video --from-plan out/<run>/video-plan.json` (pa Claude) ose
+`--from-script out/<run>/script.json` (skenari i njëjtë, plan i ri). Komandat niseni nga rrënja e repos.
+
 ### API e aseteve
 
 Në nisje backend-i lexon `assets/manifest.json` dhe çdo `asset.json`, i validon me kontratën `asset`
@@ -82,6 +106,8 @@ Panelet lokale: RabbitMQ te http://localhost:15672 (erkasa / erkasa_local), Seaw
 | `pnpm contracts:gen`            | rigjeneron `contracts/json-schema/` pas çdo ndryshimi te kontratat |
 | `pnpm assets:validate`          | validon asetet dhe rigjeneron `assets/manifest.json`               |
 | `pnpm studio`                   | hap Studio-n te http://127.0.0.1:5173                              |
+| `pnpm video "<temë>" --theme x` | temë → skenar → zë → plan → MP4 (kërkon çelësat te `.env`)         |
+| `pnpm voices [--samples]`       | zërat e studios, kontrolli në llogari, shembujt audio              |
 | `pnpm demo:plan`                | kompilon dhe eksporton planin demo në `engine-worker/out/`         |
 | `./mvnw verify` (te `backend/`) | testet Java: kontratat, Flyway, indeksimi i 402 aseteve dhe API    |
 

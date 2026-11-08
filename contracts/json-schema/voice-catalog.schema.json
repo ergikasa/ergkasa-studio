@@ -1,0 +1,134 @@
+{
+  "$id": "https://erkasa.studio/contracts/voice-catalog.schema.json",
+  "title": "voice-catalog",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "erkasa.voice-catalog/1"
+    },
+    "default": {
+      "type": "string",
+      "minLength": 1
+    },
+    "voices": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{1,40}$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40
+          },
+          "provider": {
+            "type": "string",
+            "const": "elevenlabs"
+          },
+          "providerVoiceId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9]{10,40}$"
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female",
+              "neutral"
+            ]
+          },
+          "age": {
+            "type": "string",
+            "enum": [
+              "young_adult",
+              "adult",
+              "middle_aged",
+              "senior"
+            ]
+          },
+          "accent": {
+            "type": "string",
+            "maxLength": 40
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "bestFor": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "psychology",
+                "money",
+                "growth",
+                "philosophy",
+                "science",
+                "decisions",
+                "everyday"
+              ]
+            }
+          },
+          "settings": {
+            "type": "object",
+            "properties": {
+              "stability": {
+                "default": 0.5,
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "similarityBoost": {
+                "default": 0.75,
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "style": {
+                "default": 0,
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "speed": {
+                "default": 1,
+                "type": "number",
+                "minimum": 0.7,
+                "maximum": 1.2
+              },
+              "speakerBoost": {
+                "default": true,
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "provider",
+          "providerVoiceId",
+          "gender",
+          "description",
+          "settings"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schema",
+    "default",
+    "voices"
+  ],
+  "additionalProperties": false
+}

@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { RenderTimeline, ScenePlan, TaskResult } from "../src/index.js";
+import { RenderTimeline, ScenePlan, Script, TaskResult, VoiceCatalog } from "../src/index.js";
 import { renderSchemas } from "../src/json-schema.js";
 import { CONTRACTS_DIR } from "./helpers.js";
 
@@ -15,6 +15,24 @@ describe("cross-field rules", () => {
     const layers = scene["layers"] as Array<Record<string, unknown>>;
     layers[1] = { ...layers[1], id: "drini" };
     expect(ScenePlan.safeParse(scene).success).toBe(false);
+  });
+
+  it("requires the script hook to open scene 1, and unique scene ids", () => {
+    const script = fixture("script.habits.json");
+    expect(Script.safeParse(script).success).toBe(true);
+    expect(Script.safeParse({ ...script, hook: "A different opening." }).success).toBe(false);
+    const scenes = script["scenes"] as Array<Record<string, unknown>>;
+    expect(
+      Script.safeParse({ ...script, scenes: [scenes[0], { ...scenes[1], sceneId: "s01" }] }).success,
+    ).toBe(false);
+  });
+
+  it("requires the default voice to exist and voice ids to be unique", () => {
+    const catalog = fixture("voice-catalog.studio.json");
+    expect(VoiceCatalog.safeParse(catalog).success).toBe(true);
+    expect(VoiceCatalog.safeParse({ ...catalog, default: "nobody" }).success).toBe(false);
+    const voices = catalog["voices"] as Array<Record<string, unknown>>;
+    expect(VoiceCatalog.safeParse({ ...catalog, voices: [...voices, voices[0]] }).success).toBe(false);
   });
 
   it("rejects a FAILED task result without an error", () => {

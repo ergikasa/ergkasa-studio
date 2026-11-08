@@ -1,0 +1,26 @@
+{
+  "name": "@erkasa/ai-worker",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI side of the studio: script writer and visual planner (Claude), narration with word timing (ElevenLabs), and `pnpm video` = topic -> MP4.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "video": "tsx src/cli.ts make",
+    "voices": "tsx src/cli.ts voices",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@erkasa/compiler": "workspace:*",
+    "@erkasa/contracts": "workspace:*",
+    "@erkasa/engine": "workspace:*",
+    "@erkasa/engine-worker": "workspace:*"
+  },
+  "devDependencies": {
+    "tsx": "4.23.15",
+    "vitest": "5.1.0"
+  }
+}
