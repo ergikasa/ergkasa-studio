@@ -1,7 +1,7 @@
 # Local infrastructure for Erkasa Studio.
 #   docker compose -f infra/docker-compose.yml up -d
 # Every port binds to 127.0.0.1 only. Credentials here are local throwaway values (see .env.example).
-name: erkasa
+name: ergkasa-studio
 
 services:
   postgres:
