@@ -319,14 +319,7 @@ function compileLayer(
     case "text":
       return compileText(ctx, layer, path);
     case "chart":
-      ctx.issues.push({
-        level: "error",
-        code: "NOT_IMPLEMENTED",
-        path,
-        message: "chart layers arrive in Phase D (motion graphics adapter)",
-        hint: "use a text, icon or metaphor layer for now",
-      });
-      return undefined;
+      return compileChart(ctx, layer, path);
   }
 }
 
@@ -605,6 +598,67 @@ function compileAssetLayer(
     z: layer.zIndex ?? (layer.type === "metaphor" ? 5 : 12),
     space: "world",
     props,
+    tracks: finalize(tracks),
+  };
+}
+
+// --- charts ----------------------------------------------------------------------------------
+function compileChart(
+  ctx: SceneContext,
+  layer: Extract<Layer, { type: "chart" }>,
+  path: string,
+): TimelineNode | undefined {
+  if (layer.chart === "linear_vs_exponential" && layer.data.length > 2) {
+    ctx.issues.push({
+      level: "warning",
+      code: "CHART_DATA_IGNORED",
+      path: `${path}.data`,
+      message: "linear_vs_exponential uses only the first two labels",
+    });
+  }
+  const x = layer.place.x * ctx.width;
+  const y = (layer.place.y ?? REGION_Y[layer.place.region ?? "center"] ?? 0.42) * ctx.height;
+  const size = ctx.width * 0.84 * layer.place.scale;
+  const tracks: Tracks = {
+    x: [{ f: 0, v: round(x) }],
+    y: [{ f: 0, v: round(y) }],
+    size: [{ f: 0, v: round(size) }],
+  };
+  // `draw_on` (or no entrance) = the chart builds itself; any other entrance plays first, then the chart builds
+  const spec = layer.in ?? {
+    effect: "draw_on" as const,
+    at: "start" as const,
+    durationSec: 1.4,
+    ease: "easeInOut" as const,
+  };
+  const s = resolveAt(ctx, spec.at, `${path}.in.at`) ?? 0;
+  if (spec.effect === "draw_on" || spec.effect === "none") {
+    const d = Math.round(Math.max(1, spec.durationSec) * ctx.fps);
+    tracks["progress"] = [
+      { f: 0, v: 0 },
+      { f: s, v: 0 },
+      { f: s + d, v: 1, ease: "linear" },
+    ];
+    tracks["opacity"] = [
+      { f: s, v: 0 },
+      { f: s + 6, v: 1 },
+    ];
+    ctx.events.set(`${layer.id}.draw_on`, s + d);
+  } else {
+    entrance(ctx, layer, path, tracks, { x, y, scale: 1 });
+    const d = Math.round(spec.durationSec * ctx.fps);
+    tracks["progress"] = [
+      { f: 0, v: 0 },
+      { f: s + d, v: 0 },
+      { f: s + d + 42, v: 1, ease: "linear" },
+    ];
+  }
+  return {
+    id: layer.id,
+    adapter: "motion_graphics",
+    z: layer.zIndex ?? 30,
+    space: "screen",
+    props: { chart: layer.chart, data: layer.data, ...(layer.unit ? { unit: layer.unit } : {}) },
     tracks: finalize(tracks),
   };
 }

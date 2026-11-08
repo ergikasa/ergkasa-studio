@@ -3,6 +3,7 @@ packages:
   - engine
   - compiler
   - engine-worker
+  - studio
 
 onlyBuiltDependencies:
   - esbuild

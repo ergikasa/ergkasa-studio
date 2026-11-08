@@ -176,3 +176,28 @@ describe("engine", () => {
     );
   });
 });
+
+describe("charts", () => {
+  it("renders every chart kind while building and when finished", async () => {
+    const { renderChart, CHART_KINDS } = await import("../src/adapters/charts.js");
+    const data = [
+      { label: "A", value: 120 },
+      { label: "B", value: 340 },
+      { label: "C", value: 220 },
+    ];
+    for (const chart of CHART_KINDS) {
+      for (const p of [0.5, 1]) {
+        const svg = renderChart("c", { progress: [{ f: 0, v: p }] }, { chart, data, unit: "$" }, 0);
+        expect(svg, `${chart} @ ${p}`).toContain('data-node="c"');
+      }
+    }
+    expect(() => renderChart("c", {}, { chart: "radar", data }, 0)).toThrow(/unknown chart/);
+  });
+
+  it("counts numbers up with the unit in front of currencies", async () => {
+    const { formatValue } = await import("../src/adapters/charts.js");
+    expect(formatValue(761225, "$")).toBe("$761,225");
+    expect(formatValue(48, "k")).toBe("48k");
+    expect(formatValue(2.5, "%")).toBe("2.5%");
+  });
+});

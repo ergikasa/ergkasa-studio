@@ -1,6 +1,7 @@
 import { RenderTimeline, type RenderTimeline as Timeline } from "@erkasa/contracts";
 import { prepareBackground, type PreparedBackground } from "../adapters/background.js";
 import { CaptionTrack, type Word } from "../adapters/captions.js";
+import { renderChart } from "../adapters/charts.js";
 import { prepareCharacter, renderCharacter, type PreparedCharacter } from "../adapters/character.js";
 import { renderParticles } from "../adapters/particles.js";
 import { prepareSvgAsset, renderSvgAsset, type PreparedSvgAsset } from "../adapters/svg-asset.js";
@@ -85,8 +86,8 @@ export class Engine {
       );
     } else if (node.adapter === "svg" && !this.svgAssets.has(node.asset)) {
       this.svgAssets.set(node.asset, prepareSvgAsset(meta, svg()));
-    } else if (node.adapter === "sprite" || node.adapter === "motion_graphics") {
-      throw new Error(`node ${node.id}: adapter '${node.adapter}' is not implemented yet (Phase D)`);
+    } else if (node.adapter === "sprite") {
+      throw new Error(`node ${node.id}: adapter 'sprite' (Lottie/sprite sheets) is not implemented yet`);
     }
   }
 
@@ -155,6 +156,8 @@ export class Engine {
           return renderText(n.id, n.tracks, n.props, local);
         case "particle":
           return renderParticles(n.id, n.tracks, n.props, local, this.fps, seed);
+        case "motion_graphics":
+          return renderChart(n.id, n.tracks, n.props, local);
         default:
           return "";
       }
