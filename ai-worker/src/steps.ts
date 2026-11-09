@@ -77,6 +77,7 @@ export async function stepScript(
       ...(params.notes ? { notes: params.notes } : {}),
     },
     catalog.vocabulary(),
+    catalog.characters.map((c) => c.id),
   );
   writeJson(join(dir, RUN_FILES.script), res.script);
   return res;
@@ -164,6 +165,8 @@ export interface PlanStepResult {
   usage: Usage[];
   /** Errors of the last attempt when no plan compiled. */
   errors: Issue[];
+  /** Director's review findings left on the chosen plan (empty = it passed). */
+  directionIssues: Issue[];
 }
 
 export async function stepPlan(
@@ -189,6 +192,7 @@ export async function stepPlan(
     attempts: res.attempts,
     usage: res.usage,
     errors: res.plan ? [] : (last?.issues ?? []).filter((i) => i.level === "error"),
+    directionIssues: res.directionIssues,
   };
 }
 

@@ -46,6 +46,8 @@ export const TimelineScene = z
     background: z.object({ asset: AssetRef }).strict(),
     nodes: z.array(TimelineNode),
     camera: Tracks.default({}),
+    /** Caption band center as a fraction of the frame height, chosen per scene to keep faces and titles clear. */
+    captionY: z.number().min(0.1).max(0.9).optional(),
     transitionIn: z
       .object({
         type: z.enum(["cut", "fade", "slide", "wipe", "zoom", "whip"]),

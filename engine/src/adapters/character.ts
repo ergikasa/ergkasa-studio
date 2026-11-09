@@ -136,6 +136,13 @@ export function renderCharacter(
   if (mouthTrack !== "rest") states["mouth"] = mouthTrack;
   else if (speech) states["mouth"] = visemeFor(speech);
   if (states["eyes"] !== "happy" && isBlinking(nodeSeed, frame, fps)) states["eyes"] = "blink";
+  // hand item (phone, document): a slot inside the hand, so it follows every gesture
+  const item = sampleDiscrete(
+    tracks["item"],
+    frame,
+    typeof props["holding"] === "string" ? props["holding"] : "neutral",
+  ).value;
+  if (item !== "neutral" && item !== "none") states["item"] = item;
 
   // --- placement: ground anchor at (x, y) in world pixels; side view is drawn facing right ---
   const [gx, gy] = view.rig.ground;

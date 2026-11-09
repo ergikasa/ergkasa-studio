@@ -41,6 +41,10 @@ export const DRAFT_SCHEMA: StrictSchema = obj({
     obj({
       sceneId: str("Same id as the script scene, e.g. s01."),
       background: str("Background asset id."),
+      shot: obj({
+        size: { type: "string", enum: ["wide", "medium", "close", "insert"] },
+        subject: str('Layer id to frame; "" = the speaking actor (or the first object for insert).'),
+      }),
       layers: arr(
         obj({
           id: str("Unique within the scene, lowercase, e.g. drini, coin, title."),
@@ -58,6 +62,11 @@ export const DRAFT_SCHEMA: StrictSchema = obj({
             type: "boolean",
             description: "Actor lip-syncs the narration. At most one speaker per scene.",
           },
+          holding: {
+            type: "string",
+            enum: ["none", "phone", "document"],
+            description: "Item in the actor's right hand.",
+          },
           enter: { type: "string", enum: [...ENTER] },
           enterAt: str(ANCHOR_DOC),
           actions: arr(
@@ -66,6 +75,7 @@ export const DRAFT_SCHEMA: StrictSchema = obj({
               at: str(ANCHOR_DOC),
               durationSec: num("0 = default duration."),
               toX: num("Walk/run destination x (0..1), or -1 if the action does not move."),
+              expression: str('Face from this moment on (an expression name), or "" to keep it.'),
             }),
           ),
           animations: arr(obj({ name: str("Exact animation name from the asset."), at: str(ANCHOR_DOC) })),
@@ -102,9 +112,10 @@ export interface DraftLayer {
   facing: "front" | "left" | "right";
   expression: string;
   speaks: boolean;
+  holding: "none" | "phone" | "document";
   enter: (typeof ENTER)[number];
   enterAt: string;
-  actions: Array<{ action: string; at: string; durationSec: number; toX: number }>;
+  actions: Array<{ action: string; at: string; durationSec: number; toX: number; expression: string }>;
   animations: Array<{ name: string; at: string }>;
   text: string;
   textStyle: string;
@@ -117,6 +128,7 @@ export interface DraftLayer {
 export interface DraftScene {
   sceneId: string;
   background: string;
+  shot: { size: "wide" | "medium" | "close" | "insert"; subject: string };
   layers: DraftLayer[];
   camera: Array<{ move: (typeof CAMERA)[number]; at: string; to: number }>;
   effects: Array<{ preset: string; intensity: number }>;
@@ -129,7 +141,21 @@ export interface Draft {
 }
 
 type Anchor =
-  "start" | { sec: number } | { word: string; occurrence: number } | { after: string; offsetSec: number };
+  | "start"
+  | { sec: number }
+  | { word: string; occurrence: number; offsetSec?: number }
+  | { after: string; offsetSec: number };
+
+/** How long a text overlay stays before it fades out. */
+export const TEXT_HOLD_SEC = 2.6;
+
+/** The same anchor, `sec` seconds later. */
+function later(a: Anchor, sec: number): Anchor {
+  if (a === "start") return { sec };
+  if ("sec" in a) return { sec: a.sec + sec };
+  if ("word" in a) return { ...a, offsetSec: (a.offsetSec ?? 0) + sec };
+  return { ...a, offsetSec: a.offsetSec + sec };
+}
 
 /** Parses the short anchor syntax. Bad input gives `{ error }`. */
 export function parseAnchor(s: string): Anchor | { error: string } {
@@ -205,11 +231,13 @@ export function draftToPlan(
             facing: l.facing,
             expression: l.expression || "neutral",
             speaks: l.speaks,
+            ...(l.holding && l.holding !== "none" ? { holding: l.holding } : {}),
             actions: l.actions.map((a, ai) => ({
               action: a.action,
               at: at(a.at, `${lp}.actions[${ai}].at`),
               ...(a.durationSec > 0 ? { durationSec: a.durationSec } : {}),
               ...(a.toX >= 0 ? { to: { x: clamp(a.toX, -0.5, 1.5) } } : {}),
+              ...(a.expression?.trim() ? { expression: a.expression.trim() } : {}),
             })),
           };
         case "object":
@@ -227,6 +255,12 @@ export function draftToPlan(
         case "text":
           return {
             ...base,
+            // a title supports the moment, then gets out of the way
+            out: {
+              effect: "fade" as const,
+              at: later(l.enter === "none" ? "start" : at(l.enterAt, `${lp}.enterAt`), TEXT_HOLD_SEC),
+              durationSec: 0.35,
+            },
             type: "text" as const,
             content: l.text.trim(),
             style: l.textStyle || "hook_impact",
@@ -250,6 +284,14 @@ export function draftToPlan(
       narration: sc.narration,
       durationPolicy: { mode: "fitNarration" as const, padAfterSec: last ? 1.2 : 0.45 },
       background: { assetId: d.background },
+      ...(d.shot
+        ? {
+            shot: {
+              size: d.shot.size,
+              ...(d.shot.subject?.trim() ? { subject: d.shot.subject.trim() } : {}),
+            },
+          }
+        : {}),
       layers,
       effects: d.effects.map((e) => ({ preset: e.preset, intensity: clamp(e.intensity, 0, 1) })),
       camera: d.camera.map((c, ci) => ({

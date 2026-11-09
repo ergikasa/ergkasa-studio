@@ -148,7 +148,11 @@ export async function executeTask(
       }
       return {
         outputs: [ref(cmd.runId, RUN_FILES.plan, "plan", "application/json")],
-        metrics: { ...usageMetrics(res.usage), planAttempts: res.attempts.length },
+        metrics: {
+          ...usageMetrics(res.usage),
+          planAttempts: res.attempts.length,
+          directionIssues: res.directionIssues.length,
+        },
       };
     }
     case "render.finalize": {

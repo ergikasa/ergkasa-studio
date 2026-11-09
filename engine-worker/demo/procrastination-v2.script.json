@@ -1,0 +1,73 @@
+{
+  "schema": "erkasa.script/1",
+  "title": "Why you put it off",
+  "topic": "The psychology of why we procrastinate",
+  "theme": "psychology",
+  "language": "en",
+  "hook": "Your report is due in nine hours.",
+  "cast": [
+    {
+      "role": "protagonist",
+      "characterId": "char_arti_01",
+      "description": "a student with a report due at nine in the morning"
+    }
+  ],
+  "scenes": [
+    {
+      "sceneId": "s01",
+      "narration": "Your report is due in nine hours. So why are you watching videos?",
+      "visualIdea": "bedroom, almost midnight",
+      "beat": "hook",
+      "setting": "bedroom, almost midnight",
+      "emotion": "amused"
+    },
+    {
+      "sceneId": "s02",
+      "narration": "You're not lazy. You open the document, it feels heavy, and your thumb finds the phone again.",
+      "visualIdea": "bedroom, at the desk",
+      "beat": "relate",
+      "setting": "bedroom, at the desk",
+      "emotion": "overwhelmed"
+    },
+    {
+      "sceneId": "s03",
+      "narration": "Every scroll buys a little relief. And every minute, the guilt gets louder.",
+      "visualIdea": "living room couch, after midnight",
+      "beat": "tension",
+      "setting": "living room couch, after midnight",
+      "emotion": "guilty"
+    },
+    {
+      "sceneId": "s04",
+      "narration": "Psychologists call this present bias. A small reward right now outweighs a bigger one later.",
+      "visualIdea": "concept: the scale in the brain",
+      "beat": "explain",
+      "setting": "concept: the scale in the brain"
+    },
+    {
+      "sceneId": "s05",
+      "narration": "Here's the part nobody tells you. You're not avoiding the work. You're avoiding how the work feels.",
+      "visualIdea": "living room",
+      "beat": "twist",
+      "setting": "living room",
+      "emotion": "realizing"
+    },
+    {
+      "sceneId": "s06",
+      "narration": "So make the first step too small to feel bad. Open the file. Write one messy sentence. Two minutes later, you're still typing.",
+      "visualIdea": "bedroom desk",
+      "beat": "turn",
+      "setting": "bedroom desk",
+      "emotion": "focused"
+    },
+    {
+      "sceneId": "s07",
+      "narration": "Starting was the hard part, and you already did it. You never needed more motivation. Just a smaller first step.",
+      "visualIdea": "street, next morning",
+      "beat": "resolve",
+      "setting": "street, next morning",
+      "emotion": "relieved"
+    }
+  ],
+  "estimatedSec": 42.9
+}

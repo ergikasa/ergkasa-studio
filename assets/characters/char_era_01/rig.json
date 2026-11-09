@@ -221,6 +221,11 @@
       "talk_a",
       "talk_e",
       "talk_o"
+    ],
+    "item": [
+      "neutral",
+      "phone",
+      "document"
     ]
   },
   "expressions": {

@@ -186,3 +186,80 @@ describe("scene end", () => {
     expect(cutAtEnd(res.tracks, 20).cut).toBe(false);
   });
 });
+
+describe("shots and captions", () => {
+  const narration = "It is eleven at night and the report is due tomorrow. So you open your phone instead.";
+  const plan = (shot: Record<string, unknown> | undefined, extra: Array<Record<string, unknown>> = []) => ({
+    schema: "erkasa.video-plan/1",
+    projectId: "shots",
+    language: "en",
+    format: "9:16",
+    fps: 30,
+    voiceId: "v",
+    scenes: [
+      {
+        schema: "erkasa.scene-plan/1",
+        sceneId: "s01",
+        engine: "2d",
+        narration,
+        durationPolicy: { mode: "fitNarration", padAfterSec: 0.4 },
+        background: { assetId: "bg_home_bedroom_night_01" },
+        ...(shot ? { shot } : {}),
+        layers: [
+          {
+            id: "arti",
+            type: "actor",
+            assetId: "char_arti_01",
+            place: { anchor: "ground", x: 0.42 },
+            holding: "phone",
+            expression: "sad",
+            actions: [
+              { action: "use_phone", at: "start", expression: "happy" },
+              { action: "facepalm", at: { word: "phone" } },
+            ],
+          },
+          ...extra,
+        ],
+      },
+    ],
+  });
+
+  it("frames a medium shot on the subject and keeps it where the plan put it on screen", () => {
+    const res = compileVideo(plan({ size: "medium" }), { assets, seed: 1 });
+    expect(res.issues.filter((i) => i.level === "error")).toEqual([]);
+    const s = res.timeline?.scenes[0];
+    const zoom = Number(s?.camera["zoom"]?.[0]?.v);
+    const camX = Number(s?.camera["x"]?.[0]?.v);
+    expect(zoom).toBeGreaterThan(2);
+    const actor = s?.nodes.find((n) => n.id === "arti");
+    const visibleW = 1080 / zoom;
+    const screenX = (Number(actor?.tracks["x"]?.[0]?.v) - (camX - visibleW / 2)) / visibleW;
+    expect(screenX).toBeCloseTo(0.42, 1);
+    expect(actor?.props["holding"]).toBe("phone");
+    // an action's expression takes over from its start; at frame 0 it replaces the layer's base expression
+    expect(actor?.tracks["expression"]?.map((k) => k.v)).toEqual(["happy"]);
+  });
+
+  it("rejects an item or expression the character does not have", () => {
+    const bad = plan(undefined);
+    const layer = (bad.scenes[0]?.layers[0] ?? {}) as Record<string, unknown>;
+    layer["holding"] = "umbrella";
+    layer["expression"] = "guilty";
+    const codes = compileVideo(bad, { assets, seed: 1 }).issues.map((i) => i.code);
+    expect(codes).toEqual(expect.arrayContaining(["ITEM_UNSUPPORTED", "EXPRESSION_UNSUPPORTED"]));
+  });
+
+  it("moves the captions off a title that sits in their usual band", () => {
+    const title = {
+      id: "t",
+      type: "text",
+      content: "LATER",
+      style: "hook_impact",
+      place: { x: 0.5, y: 0.7 },
+    };
+    const res = compileVideo(plan({ size: "medium" }, [title]), { assets, seed: 1 });
+    expect(res.timeline?.scenes[0]?.captionY).not.toBe(0.7);
+    const plain = compileVideo(plan({ size: "medium" }), { assets, seed: 1 });
+    expect(plain.timeline?.scenes[0]?.captionY).toBe(0.7);
+  });
+});

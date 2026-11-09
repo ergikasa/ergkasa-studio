@@ -9,7 +9,14 @@ import { AssetId, Easing, Language, LocalId, Unit, VideoFormat } from "./common.
 
 /** When something happens. */
 export const TimeAnchor = z.union([
-  z.object({ word: z.string().min(1), occurrence: z.number().int().positive().default(1) }).strict(),
+  z
+    .object({
+      word: z.string().min(1),
+      occurrence: z.number().int().positive().default(1),
+      /** Seconds after the word starts (e.g. hold a title 2.5 s after it appears). */
+      offsetSec: z.number().min(-2).max(10).default(0),
+    })
+    .strict(),
   z.object({ sec: z.number().min(0) }).strict(),
   /** `layerId.action`, e.g. `drini.walk` = when that action ends. */
   z
@@ -36,6 +43,11 @@ export const CharacterAction = z
     durationSec: z.number().positive().optional(),
     to: z.object({ x: Unit, y: Unit.optional() }).strict().optional(),
     target: LocalId.optional(),
+    /** The face changes with the action (guilt -> relief inside one scene). */
+    expression: z
+      .string()
+      .regex(/^[a-z_]+$/)
+      .optional(),
   })
   .strict();
 
@@ -69,6 +81,11 @@ export const ActorLayer = z
     actions: z.array(CharacterAction).default([]),
     /** Lip-sync to the scene narration. */
     speaks: z.boolean().default(false),
+    /** Item in the right hand (from the character's capabilities.items, e.g. phone, document). */
+    holding: z
+      .string()
+      .regex(/^[a-z_]+$/)
+      .optional(),
   })
   .strict();
 
@@ -147,6 +164,15 @@ export const ScenePlan = z
       })
       .strict(),
     background: z.object({ assetId: AssetId, variant: z.string().optional() }).strict(),
+    /**
+     * Framing. wide = the whole place; medium = the subject from the head to the knees; close = head and
+     * shoulders; insert = a close look at an object, metaphor or chart. Layer positions are read in the
+     * framed view, so x 0.5 is always the middle of what the viewer sees.
+     */
+    shot: z
+      .object({ size: z.enum(["wide", "medium", "close", "insert"]), subject: LocalId.optional() })
+      .strict()
+      .optional(),
     layers: z.array(SceneLayer).max(12),
     effects: z
       .array(

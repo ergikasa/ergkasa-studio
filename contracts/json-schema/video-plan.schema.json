@@ -106,6 +106,28 @@
             ],
             "additionalProperties": false
           },
+          "shot": {
+            "type": "object",
+            "properties": {
+              "size": {
+                "type": "string",
+                "enum": [
+                  "wide",
+                  "medium",
+                  "close",
+                  "insert"
+                ]
+              },
+              "subject": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+              }
+            },
+            "required": [
+              "size"
+            ],
+            "additionalProperties": false
+          },
           "layers": {
             "maxItems": 12,
             "type": "array",
@@ -189,6 +211,12 @@
                                   "type": "integer",
                                   "exclusiveMinimum": 0,
                                   "maximum": 9007199254740991
+                                },
+                                "offsetSec": {
+                                  "default": 0,
+                                  "type": "number",
+                                  "minimum": -2,
+                                  "maximum": 10
                                 }
                               },
                               "required": [
@@ -368,6 +396,12 @@
                                   "type": "integer",
                                   "exclusiveMinimum": 0,
                                   "maximum": 9007199254740991
+                                },
+                                "offsetSec": {
+                                  "default": 0,
+                                  "type": "number",
+                                  "minimum": -2,
+                                  "maximum": 10
                                 }
                               },
                               "required": [
@@ -568,6 +602,12 @@
                                     "type": "integer",
                                     "exclusiveMinimum": 0,
                                     "maximum": 9007199254740991
+                                  },
+                                  "offsetSec": {
+                                    "default": 0,
+                                    "type": "number",
+                                    "minimum": -2,
+                                    "maximum": 10
                                   }
                                 },
                                 "required": [
@@ -637,6 +677,10 @@
                           "target": {
                             "type": "string",
                             "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                          },
+                          "expression": {
+                            "type": "string",
+                            "pattern": "^[a-z_]+$"
                           }
                         },
                         "required": [
@@ -649,6 +693,10 @@
                     "speaks": {
                       "default": false,
                       "type": "boolean"
+                    },
+                    "holding": {
+                      "type": "string",
+                      "pattern": "^[a-z_]+$"
                     }
                   },
                   "required": [
@@ -737,6 +785,12 @@
                                   "type": "integer",
                                   "exclusiveMinimum": 0,
                                   "maximum": 9007199254740991
+                                },
+                                "offsetSec": {
+                                  "default": 0,
+                                  "type": "number",
+                                  "minimum": -2,
+                                  "maximum": 10
                                 }
                               },
                               "required": [
@@ -916,6 +970,12 @@
                                   "type": "integer",
                                   "exclusiveMinimum": 0,
                                   "maximum": 9007199254740991
+                                },
+                                "offsetSec": {
+                                  "default": 0,
+                                  "type": "number",
+                                  "minimum": -2,
+                                  "maximum": 10
                                 }
                               },
                               "required": [
@@ -1106,6 +1166,12 @@
                                     "type": "integer",
                                     "exclusiveMinimum": 0,
                                     "maximum": 9007199254740991
+                                  },
+                                  "offsetSec": {
+                                    "default": 0,
+                                    "type": "number",
+                                    "minimum": -2,
+                                    "maximum": 10
                                   }
                                 },
                                 "required": [
@@ -1247,6 +1313,12 @@
                                   "type": "integer",
                                   "exclusiveMinimum": 0,
                                   "maximum": 9007199254740991
+                                },
+                                "offsetSec": {
+                                  "default": 0,
+                                  "type": "number",
+                                  "minimum": -2,
+                                  "maximum": 10
                                 }
                               },
                               "required": [
@@ -1426,6 +1498,12 @@
                                   "type": "integer",
                                   "exclusiveMinimum": 0,
                                   "maximum": 9007199254740991
+                                },
+                                "offsetSec": {
+                                  "default": 0,
+                                  "type": "number",
+                                  "minimum": -2,
+                                  "maximum": 10
                                 }
                               },
                               "required": [
@@ -1688,6 +1766,12 @@
                                   "type": "integer",
                                   "exclusiveMinimum": 0,
                                   "maximum": 9007199254740991
+                                },
+                                "offsetSec": {
+                                  "default": 0,
+                                  "type": "number",
+                                  "minimum": -2,
+                                  "maximum": 10
                                 }
                               },
                               "required": [
@@ -1867,6 +1951,12 @@
                                   "type": "integer",
                                   "exclusiveMinimum": 0,
                                   "maximum": 9007199254740991
+                                },
+                                "offsetSec": {
+                                  "default": 0,
+                                  "type": "number",
+                                  "minimum": -2,
+                                  "maximum": 10
                                 }
                               },
                               "required": [
@@ -2131,6 +2221,12 @@
                           "type": "integer",
                           "exclusiveMinimum": 0,
                           "maximum": 9007199254740991
+                        },
+                        "offsetSec": {
+                          "default": 0,
+                          "type": "number",
+                          "minimum": -2,
+                          "maximum": 10
                         }
                       },
                       "required": [
@@ -2311,6 +2407,12 @@
                           "type": "integer",
                           "exclusiveMinimum": 0,
                           "maximum": 9007199254740991
+                        },
+                        "offsetSec": {
+                          "default": 0,
+                          "type": "number",
+                          "minimum": -2,
+                          "maximum": 10
                         }
                       },
                       "required": [

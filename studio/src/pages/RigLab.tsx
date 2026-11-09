@@ -44,6 +44,7 @@ export function RigLab() {
   const [action, setAction] = useState("idle");
   const [expression, setExpression] = useState("neutral");
   const [speaking, setSpeaking] = useState(false);
+  const [holding, setHolding] = useState("neutral");
   const [line, setLine] = useState("Most people think money is a math problem. It is a behavior problem.");
   const [speed, setSpeed] = useState(1);
   const [playing, setPlaying] = useState(true);
@@ -140,7 +141,7 @@ export function RigLab() {
         expression: history.current.expression,
         facing: history.current.facing,
       },
-      { speaks: speaking },
+      { speaks: speaking, holding },
       { frame: n, fps: FPS, seed: 7, speech: speaking ? speechAt(words, n / FPS) : undefined },
     );
     renderMs.current = performance.now() - t0;
@@ -150,7 +151,7 @@ export function RigLab() {
       <line x1="0" x2="${STAGE_W}" y1="${GROUND_Y}" y2="${GROUND_Y}" stroke="#d8cfbf" stroke-width="3"/>
       ${body}</svg>`;
     // `frame`, `speaking`, `words` drive re-render; history is a ref mutated alongside state changes.
-  }, [prepared, frame, speaking, words]);
+  }, [prepared, frame, speaking, words, holding]);
 
   const current = speaking && prepared ? speechAt(words, Math.floor(frame) / FPS) : undefined;
 
@@ -200,6 +201,17 @@ export function RigLab() {
                 {x}
               </Button>
             ))}
+          </div>
+        </Field>
+        <Field label="Holding">
+          <div className="flex flex-wrap gap-1">
+            {["neutral", ...((prepared?.meta.capabilities["items"] as string[] | undefined) ?? [])].map(
+              (it) => (
+                <Button key={it} active={holding === it} onClick={() => setHolding(it)}>
+                  {it === "neutral" ? "nothing" : it}
+                </Button>
+              ),
+            )}
           </div>
         </Field>
         <Field label={`Blend into next action: ${blend} frames`}>

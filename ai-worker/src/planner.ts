@@ -1,49 +1,52 @@
 import { compileVideo, type CompileResult, type Issue, type TimedWord } from "@erkasa/compiler";
 import type { Script, VideoPlan } from "@erkasa/contracts";
 import type { Catalog } from "./catalog.js";
+import { reviewDirection } from "./direction.js";
 import type { Llm, LlmMessage, Usage } from "./llm.js";
 import { DRAFT_SCHEMA, draftToPlan, type Draft } from "./plan-draft.js";
 
-export const PLANNER_SYSTEM = `You are the art director of a 2D animation studio that makes vertical 9:16 explainer shorts (1080x1920, 30 fps).
-You turn a narrated script into a precise visual plan. A compiler checks your plan; anything you reference must exist in the catalog exactly as written.
+export const PLANNER_SYSTEM = `You are the director of a 2D animation studio that makes vertical 9:16 educational shorts (1080x1920, 30 fps). You turn a narrated story script into a shot-by-shot plan: for each scene the place, the framing, who is in it, what they do and feel, and what appears on screen. A compiler checks the plan; anything you reference must exist in the catalog exactly as written.
 
-Direction rules (they decide whether people keep watching):
-- Something moves in the first half second of every scene. The picture changes or something new appears every 2-4 seconds.
-- Scene 1 (the hook): a character reacting strongly or a striking metaphor, plus the key words as big text (hook_impact, region top-safe) popping in on the hook's strongest word, and a camera punch_in on that word.
-- Sync to speech: time entrances, actions and animations to the narration words they illustrate ("word:<word>"). The word must appear in that scene's narration.
-- Use one main character through the video for continuity; give them speaks=true in the scenes where they are on screen and the narration is theirs. At most one speaker per scene.
-- Abstract ideas -> a metaphor. Numbers -> a chart (counter for one number, compare/bar for two or more, linear_vs_exponential for growth over time). Concrete things -> objects/icons.
-- Composition for 9:16: actors stand on the ground (y = -1) with x between 0.2 and 0.8; text in region top-safe; keep the band y 0.62-0.76 clear (captions are drawn there automatically); never put two big elements at the same spot.
-- Actors facing left/right can walk or run: set facing, add a walk action with toX. Front-only gestures (wave, think, point_side...) need facing front; side actions (walk, run, point_forward, jump) need left/right.
-- Metaphors are drawn over the scene; place them at x 0.5, y about 0.4, scale 0.8-1, and play their named animations on the matching words.
-- Text: max 5 words, ALL CAPS reads best for hook_impact. Highlight 1-2 key words.
-- Camera: subtle push_in (to 1.04-1.1) in calm scenes, punch_in (to 1.15-1.25) on a key word, static when a chart is drawing.
-- Transitions between scenes: mostly cut or a quick whip/slide; fade for a mood change.
-- Keep it clean: 2 to 5 layers per scene.
+Think like a director, not a slideshow maker:
+- Every scene has one visual purpose. A viewer with the sound off should still understand what is happening.
+- Interpret the meaning; do not illustrate the literal words. "Your brain wants relief" is the protagonist reaching for the phone, not a brain icon.
+- The protagonist from the script plays every scene they are in, with the same character id. Do not add other characters unless the script needs them.
+- Characters act and feel. Give the protagonist an action that shows the moment (use_phone with holding=phone, read with holding=document, check_watch, facepalm, stressed, slump, shrug, think, nod, arms_up, walk/walk_phone toward something, type at a desk) and expressions that follow the script's emotion, changing on the right word (action.expression). Never leave a character just standing and talking.
+- Framing (shot): wide = establish the place or show movement; medium = the protagonist from head to knees, the default for acting; close = face and shoulders, for emotion and the hook; insert = a close look at an object, metaphor or chart. Change the framing from one scene to the next; never the same place with the same framing twice in a row. Open the film on a medium or close shot.
+- Places: use the background that fits the story world (bedroom at night, living room, office, cafe, street, classroom...). Move the story between places when the script does; do not park every scene in the same room.
+- Positions are read inside the framed view: x 0.5 is the middle of what the viewer sees. Actors stand on the ground (y = -1), x 0.3-0.7. Keep the protagonist's face clear of titles and charts. Captions are placed automatically where they do not cover faces.
+- Objects belong somewhere: in the protagonist's hand (holding), near them at their height, or as the subject of an insert shot. Do not scatter floating icons.
+- Concept scenes: use a metaphor or a chart that explains the idea, and keep the protagonist in the scene reacting to it (looking, pointing, shrugging) when possible. A chart only when the narration states numbers or a comparison; its labels are words from the narration.
+- Text on screen: at most one title per scene and only in some scenes, max 5 words, ALL CAPS for hook_impact, on the key word. It fades out by itself after a moment.
+- Timing: time actions, expressions, entrances and animations to the narration words they belong to ("word:<word>"; the word must be in that scene's narration). Something moves in the first half second of every scene. Finish entrances at least one second before the scene ends.
+- Camera: subtle push_in (1.04-1.1) for calm scenes, punch_in (1.15-1.25) on the key word of the hook or the twist, static while a chart draws. Transitions: mostly cut, a quick whip or slide when the place changes, fade for a change of mood.
+- Keep it clean: 1 to 4 layers per scene.
 
 Answer with the full plan for every scene of the script, in order, with the same sceneId values.`;
 
-/** A worked example in the draft format (scene s02b of the habits demo, which renders correctly). */
+/** A worked example in the draft format: a medium shot, the protagonist acting with a prop and a feeling. */
 const EXAMPLE = {
-  sceneId: "s02",
-  background: "bg_trading_room_01",
+  sceneId: "s03",
+  background: "bg_home_bedroom_night_01",
+  shot: { size: "medium", subject: "arti" },
   layers: [
     {
-      id: "bardhi",
+      id: "arti",
       type: "actor",
-      assetId: "char_bardhi_01",
-      x: 0.2,
+      assetId: "char_arti_01",
+      x: 0.42,
       y: -1,
-      scale: 0.9,
+      scale: 1,
       region: "none",
       facing: "front",
-      expression: "thinking",
-      speaks: true,
+      expression: "neutral",
+      speaks: false,
+      holding: "phone",
       enter: "none",
       enterAt: "start",
       actions: [
-        { action: "think", at: "start", durationSec: 0, toX: -1 },
-        { action: "point_side", at: "word:grow", durationSec: 0, toX: -1 },
+        { action: "use_phone", at: "start", durationSec: 0, toX: -1, expression: "happy" },
+        { action: "facepalm", at: "word:guilt", durationSec: 0, toX: -1, expression: "sad" },
       ],
       animations: [],
       text: "",
@@ -52,31 +55,6 @@ const EXAMPLE = {
       chart: "none",
       chartData: [],
       unit: "",
-    },
-    {
-      id: "growth",
-      type: "chart",
-      assetId: "",
-      x: 0.56,
-      y: 0.45,
-      scale: 0.82,
-      region: "none",
-      facing: "front",
-      expression: "",
-      speaks: false,
-      enter: "draw_on",
-      enterAt: "word:thirty",
-      actions: [],
-      animations: [],
-      text: "",
-      textStyle: "",
-      highlight: [],
-      chart: "linear_vs_exponential",
-      chartData: [
-        { label: "Saved", value: 72000 },
-        { label: "Invested", value: 200000 },
-      ],
-      unit: "$",
     },
     {
       id: "title",
@@ -89,13 +67,14 @@ const EXAMPLE = {
       facing: "front",
       expression: "",
       speaks: false,
+      holding: "none",
       enter: "pop",
-      enterAt: "word:grow",
+      enterAt: "word:guilt",
       actions: [],
       animations: [],
-      text: "TIME is the multiplier",
+      text: "GUILT GROWS",
       textStyle: "hook_impact",
-      highlight: ["TIME"],
+      highlight: ["GUILT"],
       chart: "none",
       chartData: [],
       unit: "",
@@ -103,8 +82,8 @@ const EXAMPLE = {
   ],
   camera: [{ move: "push_in", at: "start", to: 1.06 }],
   effects: [],
-  transition: "slide",
-  transitionDirection: "left",
+  transition: "cut",
+  transitionDirection: "none",
 };
 
 export interface PlanAttempt {
@@ -115,11 +94,13 @@ export interface PlanAttempt {
 }
 
 export interface PlanResult {
-  /** Set when the last attempt compiled without errors. */
+  /** Set when an attempt compiled without errors (the best-directed one if none passed review). */
   plan?: VideoPlan;
   compiled?: CompileResult;
   attempts: PlanAttempt[];
   usage: Usage[];
+  /** Direction findings left on the chosen plan (empty when it passed review). */
+  directionIssues: Issue[];
 }
 
 export interface PlanOptions {
@@ -140,26 +121,40 @@ function formatIssues(issues: Issue[]): string {
 }
 
 export function plannerPrompt(script: Script, catalog: Catalog, narrator?: string): string {
-  const scriptText = script.scenes.map((s) => `${s.narration} ${s.visualIdea} ${s.emphasis ?? ""}`).join(" ");
+  const scriptText = script.scenes
+    .map((s) => `${s.narration} ${s.visualIdea} ${s.action ?? ""} ${s.setting ?? ""} ${s.emphasis ?? ""}`)
+    .join(" ");
+  const cast = (script.cast ?? []).map((c) => `${c.role}: ${c.characterId} (${c.description})`).join("; ");
   return `# Catalog
 ${catalog.plannerSection(scriptText)}
 
 # Example of one scene in the answer format
 ${JSON.stringify(EXAMPLE)}
 
-# Script: "${script.title}" (theme: ${script.theme})${narrator ? `\n${narrator}` : ""}
+# Script: "${script.title}" (theme: ${script.theme})
+${cast ? `Cast: ${cast}` : ""}${narrator ? `\n${narrator}` : ""}
 ${script.scenes
-  .map(
-    (s) =>
-      `## ${s.sceneId}\nNarration: ${s.narration}\nVisual idea: ${s.visualIdea}${s.emphasis ? `\nEmphasis: ${s.emphasis}` : ""}`,
+  .map((s) =>
+    [
+      `## ${s.sceneId}${s.beat ? ` (${s.beat})` : ""}`,
+      `Narration: ${s.narration}`,
+      s.setting ? `Setting: ${s.setting}` : "",
+      s.action ? `Protagonist does: ${s.action}` : "",
+      s.emotion ? `Protagonist feels: ${s.emotion}` : "",
+      `Visual idea: ${s.visualIdea}`,
+      s.emphasis ? `Emphasis: ${s.emphasis}` : "",
+    ]
+      .filter(Boolean)
+      .join("\n"),
   )
   .join("\n\n")}`;
 }
 
 /**
- * Script -> Video Plan. Each answer is converted and compiled; errors (unknown asset, action not
- * available for the facing, word not in the narration, element off screen...) go back to the model
- * verbatim, and it answers with the full corrected plan. Stops at the first error-free compile.
+ * Script -> Video Plan. Each answer is converted, compiled and reviewed for direction; compile errors
+ * and direction findings go back to the model verbatim, and it answers with the full corrected plan.
+ * Stops at the first plan that compiles and passes review. If none passes review, the best compiled
+ * attempt (fewest findings) is used, so a strict rule never blocks a video that can be rendered.
  */
 export async function planVideo(
   llm: Llm,
@@ -171,6 +166,7 @@ export async function planVideo(
   const messages: LlmMessage[] = [{ role: "user", content: plannerPrompt(script, catalog, opts.narrator) }];
   const attempts: PlanAttempt[] = [];
   const usage: Usage[] = [];
+  let best: { plan: VideoPlan; compiled: CompileResult; findings: Issue[] } | undefined;
 
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     const res = await llm.json({
@@ -193,19 +189,37 @@ export async function planVideo(
       issues = compiled.issues;
     }
     const errors = issues.filter((i) => i.level === "error");
-    attempts.push({ attempt, draft: res.value, ...(converted.plan ? { plan: converted.plan } : {}), issues });
-    if (converted.plan && compiled?.timeline && errors.length === 0)
-      return { plan: converted.plan, compiled, attempts, usage };
+    let findings: Issue[] = [];
+    if (converted.plan && compiled?.timeline && errors.length === 0) {
+      const fps = compiled.timeline.fps;
+      findings = reviewDirection({
+        plan: converted.plan,
+        script,
+        durations: Object.fromEntries(compiled.scenes.map((s) => [s.sceneId, s.duration / fps])),
+        compileIssues: compiled.issues,
+      });
+      if (!best || findings.length < best.findings.length)
+        best = { plan: converted.plan, compiled, findings };
+    }
+    attempts.push({
+      attempt,
+      draft: res.value,
+      ...(converted.plan ? { plan: converted.plan } : {}),
+      issues: [...issues, ...findings],
+    });
+    if (best && best.findings.length === 0) break;
     messages.push(
       { role: "assistant", content: res.text },
       {
         role: "user",
-        content: `The compiler rejected the plan. Paths use the plan structure (scenes[i].layers[j]; "in" = enter/enterAt, "place" = x/y/scale/region).
-${formatIssues(issues)}
+        content: `${errors.length ? "The compiler rejected the plan." : "The plan compiles, but the director's review found problems."} Paths use the plan structure (scenes[i].layers[j]; "in" = enter/enterAt, "place" = x/y/scale/region).
+${formatIssues(errors.length ? issues : findings)}
 
-Fix every error and answer with the full corrected plan.`,
+Fix every problem and answer with the full corrected plan.`,
       },
     );
   }
-  return { attempts, usage };
+  return best
+    ? { plan: best.plan, compiled: best.compiled, attempts, usage, directionIssues: best.findings }
+    : { attempts, usage, directionIssues: [] };
 }

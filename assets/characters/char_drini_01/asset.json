@@ -37,7 +37,14 @@
         "think",
         "arms_up",
         "nod",
-        "shake_head"
+        "shake_head",
+        "use_phone",
+        "read",
+        "check_watch",
+        "facepalm",
+        "stressed",
+        "slump",
+        "shrug"
       ],
       "side": [
         "idle",
@@ -45,12 +52,17 @@
         "run",
         "talk",
         "point_forward",
-        "jump"
+        "jump",
+        "walk_phone",
+        "type"
       ]
     },
+    "items": [
+      "phone",
+      "document"
+    ],
     "actionsPlanned": [
-      "sit",
-      "hold_object"
+      "sit"
     ],
     "expressions": [
       "neutral",

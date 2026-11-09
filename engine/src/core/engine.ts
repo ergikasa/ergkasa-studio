@@ -111,7 +111,8 @@ export class Engine {
       content = this.renderScene(cur, frame - cur.from, defs);
     }
 
-    const captions = this.captions?.render(frame / this.fps, this.width, this.height) ?? "";
+    const captions =
+      this.captions?.render(frame / this.fps, this.width, this.height, cur.captionY ?? 0.68) ?? "";
     return (
       `<svg xmlns="http://www.w3.org/2000/svg" width="${this.width}" height="${this.height}" viewBox="0 0 ${this.width} ${this.height}">` +
       `<defs>${[...defs].join("")}</defs><rect width="${this.width}" height="${this.height}" fill="#000"/>` +

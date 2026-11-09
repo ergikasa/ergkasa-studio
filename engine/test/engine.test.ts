@@ -103,7 +103,11 @@ describe("svg templates", () => {
     const t = SvgTemplate.compile(assets.text("char_drini_01", "asset.svg"));
     const out = t.render({ states: { mouth: "talk_a", eyes: "blink", brows: "angry" } });
     const visible = [...out.matchAll(/<g data-state="([a-z_]+)"(?! display)/g)].map((m) => m[1]);
-    expect(visible.sort()).toEqual(["angry", "blink", "talk_a"]);
+    // face slots + the hand item slot, which is empty ("neutral") unless the character holds something
+    expect(visible.sort()).toEqual(["angry", "blink", "neutral", "talk_a"]);
+    const holding = t.render({ states: { item: "phone" } });
+    expect(holding).toMatch(/<g data-state="phone">/);
+    expect(holding).toMatch(/<g data-state="document" display="none">/);
   });
 
   it("rotates a part around its pivot", () => {

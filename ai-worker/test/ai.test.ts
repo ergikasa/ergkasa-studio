@@ -52,6 +52,7 @@ function layer(
     facing: "front",
     expression: "",
     speaks: false,
+    holding: "none",
     enter: "none",
     enterAt: "start",
     actions: [],
@@ -72,6 +73,7 @@ function goodDraft(): Draft {
       {
         sceneId: "s01",
         background: "bg_home_living_01",
+        shot: { size: "medium", subject: "" },
         layers: [
           layer({
             id: "drini",
@@ -80,7 +82,7 @@ function goodDraft(): Draft {
             x: 0.35,
             expression: "sad",
             speaks: true,
-            actions: [{ action: "shake_head", at: "word:rich", durationSec: 0, toX: -1 }],
+            actions: [{ action: "shake_head", at: "word:rich", durationSec: 0, toX: -1, expression: "" }],
           }),
           layer({
             id: "title",
@@ -101,6 +103,7 @@ function goodDraft(): Draft {
       {
         sceneId: "s02",
         background: "bg_trading_room_01",
+        shot: { size: "wide", subject: "" },
         layers: [
           layer({
             id: "bardhi",
@@ -109,7 +112,7 @@ function goodDraft(): Draft {
             x: 0.2,
             scale: 0.9,
             speaks: true,
-            actions: [{ action: "point_side", at: "word:grow", durationSec: 0, toX: -1 }],
+            actions: [{ action: "point_side", at: "word:grow", durationSec: 0, toX: -1, expression: "" }],
           }),
           layer({
             id: "growth",
@@ -236,7 +239,7 @@ describe("planner repair loop", () => {
       s1.background = "bg_moon_base_01";
       s1.layers[0] = layer({
         ...s1.layers[0],
-        actions: [{ action: "walk", at: "start", durationSec: 0, toX: 0.6 }],
+        actions: [{ action: "walk", at: "start", durationSec: 0, toX: 0.6, expression: "" }],
       });
     }
     const llm = new ScriptedLlm([broken, goodDraft()]);
@@ -319,7 +322,7 @@ describe("voice catalog", () => {
     expect(line).toContain("female");
     const prompt = plannerPrompt(script, catalog, line);
     expect(prompt).toContain("Narrator voice: Friendly Woman, middle aged female");
-    expect(prompt).toContain("char_era_01: Era (female)");
-    expect(prompt).toContain("char_drini_01: Drini (male)");
+    expect(prompt).toContain("char_era_01: Era (female");
+    expect(prompt).toContain("char_drini_01: Drini (male");
   });
 });

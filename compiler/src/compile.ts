@@ -99,6 +99,8 @@ interface SceneContext {
   words: TimedWord[];
   duration: number;
   world: { width: number; height: number; groundY: number };
+  /** The scene's framing (from `shot`): world point at the frame center and zoom. Layers are placed in it. */
+  view: { cx: number; cy: number; zoom: number; subject?: string; size?: string };
   /** `layerId.event` -> scene-local frame where that event ends. */
   events: Map<string, number>;
   issues: Issue[];
@@ -149,9 +151,11 @@ export function compileVideo(planInput: unknown, opts: CompileOptions): CompileR
       words,
       duration,
       world: { width: vb[2], height: vb[3], groundY: bgMeta.groundY ?? vb[3] * 0.88 },
+      view: { cx: vb[2] / 2, cy: vb[3] / 2, zoom: 1 },
       events: new Map(),
       issues,
     };
+    ctx.view = frameShot(ctx, opts.assets);
 
     const nodes: TimelineNode[] = [];
     scene.layers.forEach((layer, li) => {
@@ -197,6 +201,7 @@ export function compileVideo(planInput: unknown, opts: CompileOptions): CompileR
     }
     camera = cutAtEnd(camera, lastFrame).tracks;
     checkFraming(ctx, nodes, camera);
+    const captionY = chooseCaptionY(ctx, nodes);
     for (const [si, s] of scene.sfx.entries()) {
       const f = resolveAt(ctx, s.at, `${path}.sfx[${si}].at`);
       if (f !== undefined)
@@ -210,6 +215,7 @@ export function compileVideo(planInput: unknown, opts: CompileOptions): CompileR
       background: { asset: `${bgMeta.assetId}@${bgMeta.version}` },
       nodes,
       camera,
+      captionY,
       transitionIn: prev
         ? {
             type: prev.transitionOut.type,
@@ -333,7 +339,7 @@ function resolveAt(ctx: SceneContext, at: Anchor | undefined, path: string): num
       });
       return undefined;
     }
-    return clampFrame(ctx, w.start * ctx.fps);
+    return clampFrame(ctx, (w.start + (at.offsetSec ?? 0)) * ctx.fps);
   }
   if (typeof at === "object" && "after" in at) {
     const end = ctx.events.get(at.after);
@@ -356,12 +362,89 @@ const clampFrame = (ctx: SceneContext, f: number): number =>
   Math.max(0, Math.min(ctx.duration - 1, Math.round(f)));
 
 // ------------------------------------------------------------------ placement
-/** Normalized frame coordinates -> world pixels, for the camera's starting view. */
-function toWorld(ctx: SceneContext, x: number, y: number): [number, number] {
+/** Normalized frame coordinates -> world pixels, in the scene's framed view (see `shot`). */
+function toWorld(ctx: SceneContext, x: number, y: number, view = ctx.view): [number, number] {
   const cover = Math.max(ctx.width / ctx.world.width, ctx.height / ctx.world.height);
-  const left = ctx.world.width / 2 - ctx.width / (2 * cover);
-  const top = ctx.world.height / 2 - ctx.height / (2 * cover);
-  return [left + (x * ctx.width) / cover, top + (y * ctx.height) / cover];
+  const vw = ctx.width / (cover * view.zoom);
+  const vh = ctx.height / (cover * view.zoom);
+  return [view.cx - vw / 2 + x * vw, view.cy - vh / 2 + y * vh];
+}
+
+/** World pixels -> normalized frame coordinates in the framed view. */
+function toFrame(ctx: SceneContext, wx: number, wy: number): [number, number] {
+  const cover = Math.max(ctx.width / ctx.world.width, ctx.height / ctx.world.height);
+  const vw = ctx.width / (cover * ctx.view.zoom);
+  const vh = ctx.height / (cover * ctx.view.zoom);
+  return [(wx - (ctx.view.cx - vw / 2)) / vw, (wy - (ctx.view.cy - vh / 2)) / vh];
+}
+
+/** Character height in world pixels at a given place scale. */
+const CHARACTER_FRAME_RATIO = 0.42;
+const actorHeight = (ctx: SceneContext, meta: AssetMeta | undefined, placeScale: number): number =>
+  (meta?.sizing?.heightRatio ?? CHARACTER_FRAME_RATIO) * ctx.height * placeScale;
+
+/**
+ * The scene's framing. wide = the whole place (zoom 1). medium/close frame the subject actor (head near
+ * the top, as a camera operator would); insert frames an object, metaphor or chart. The subject keeps its
+ * position on screen (its place.x), the camera moves around it, and the view never leaves the background.
+ */
+function frameShot(ctx: SceneContext, assets: AssetSource): SceneContext["view"] {
+  const wide = { cx: ctx.world.width / 2, cy: ctx.world.height / 2, zoom: 1 };
+  const shot = ctx.plan.shot;
+  if (!shot || shot.size === "wide") return wide;
+  const layers = ctx.plan.layers;
+  const subject =
+    (shot.subject ? layers.find((l) => l.id === shot.subject) : undefined) ??
+    (shot.size === "insert"
+      ? layers.find((l) => l.type !== "actor" && l.type !== "text")
+      : (layers.find((l) => l.type === "actor" && l.speaks) ?? layers.find((l) => l.type === "actor")));
+  if (!subject) {
+    ctx.issues.push({
+      level: "error",
+      code: "SHOT_SUBJECT",
+      path: `${ctx.path}.shot`,
+      message: shot.subject
+        ? `no layer '${shot.subject}' to frame`
+        : `a ${shot.size} shot needs a subject layer`,
+      hint: `layers: ${layers.map((l) => l.id).join(", ") || "none"}`,
+    });
+    return wide;
+  }
+  const cover = Math.max(ctx.width / ctx.world.width, ctx.height / ctx.world.height);
+  const fullH = ctx.height / cover;
+  let zoom: number;
+  let cy: number;
+  // the subject keeps its on-screen x; its world x comes from where it stands in the wide view
+  const [sx, sy] = toWorld(ctx, subject.place.x, subject.place.y ?? 0.45, wide);
+  if (subject.type === "actor" && shot.size !== "insert") {
+    let meta: AssetMeta | undefined;
+    try {
+      meta = assets.meta(parseAssetRef(subject.assetId).id);
+    } catch {
+      meta = undefined;
+    }
+    const h = actorHeight(ctx, meta, subject.place.scale);
+    const feet = subject.place.anchor === "ground" ? ctx.world.groundY : sy;
+    const headTop = feet - h;
+    const visible = shot.size === "medium" ? h * 0.82 : h * 0.46;
+    zoom = Math.min(3.6, Math.max(1, fullH / visible));
+    const vh = fullH / zoom;
+    cy = headTop - (shot.size === "medium" ? 0.13 : 0.17) * vh + vh / 2;
+  } else {
+    // insert: a close look; screen-space charts and texts are already full size, so zoom on the place
+    zoom = subject.type === "chart" || subject.type === "text" ? 1.25 : 1.8;
+    cy = sy;
+  }
+  const vw = ctx.width / (cover * zoom);
+  const vh = fullH / zoom;
+  const cx = sx - (subject.place.x - 0.5) * vw;
+  return {
+    cx: round(Math.min(ctx.world.width - vw / 2, Math.max(vw / 2, cx))),
+    cy: round(Math.min(ctx.world.height - vh / 2, Math.max(vh / 2, cy))),
+    zoom: Math.round(zoom * 1000) / 1000,
+    subject: subject.id,
+    size: shot.size,
+  };
 }
 
 const REGION_Y: Record<string, number> = { "top-safe": 0.17, center: 0.42, "bottom-safe": 0.56 };
@@ -405,6 +488,8 @@ function entrance(
     const s = resolveAt(ctx, spec.at, `${path}.${which}.at`);
     if (s === undefined) continue;
     const d = Math.max(1, Math.round(spec.durationSec * ctx.fps));
+    // an exit that would only finish after the scene has ended is not needed: the cut removes the layer
+    if (which === "out" && s + d > ctx.duration) continue;
     const e = spec.ease;
     const enter = which === "in";
     const [a, b] = enter ? [0, 1] : [1, 0];
@@ -490,7 +575,30 @@ function compileActor(
   const side = new Set((caps?.side ?? []).filter((a) => ACTIONS_BY_SKELETON["erkasa_biped_side_v1"]?.[a]));
   const hasSide = Boolean(meta.files["rig_side"]);
 
-  const scale = (meta.sizing?.heightRatio ?? 0.42) * (ctx.height / 880) * layer.place.scale;
+  const scale = actorHeight(ctx, meta, layer.place.scale) / 880;
+  const expressions = new Set((meta.capabilities["expressions"] as string[] | undefined) ?? []);
+  const items = new Set((meta.capabilities["items"] as string[] | undefined) ?? []);
+  const checkExpression = (e: string | undefined, epath: string): boolean => {
+    if (e === undefined || expressions.size === 0 || expressions.has(e)) return true;
+    ctx.issues.push({
+      level: "error",
+      code: "EXPRESSION_UNSUPPORTED",
+      path: epath,
+      message: `${meta.assetId} has no '${e}' expression`,
+      hint: `expressions: ${[...expressions].join(", ")}`,
+    });
+    return false;
+  };
+  checkExpression(layer.expression, `${path}.expression`);
+  if (layer.holding && !items.has(layer.holding))
+    ctx.issues.push({
+      level: "error",
+      code: "ITEM_UNSUPPORTED",
+      path: `${path}.holding`,
+      message: `${meta.assetId} cannot hold '${layer.holding}'`,
+      hint: `items: ${[...items].join(", ") || "none"}`,
+    });
+  const exprK: Keyframe[] = [{ f: 0, v: layer.expression }];
   const [wx, wyFree] = toWorld(ctx, layer.place.x, layer.place.y ?? 0.88);
   const y = layer.place.anchor === "ground" ? ctx.world.groundY : wyFree;
   const startFacing = layer.facing;
@@ -556,6 +664,8 @@ function compileActor(
         ? Math.round(a.durationSec * ctx.fps)
         : Math.min(next - f, Math.round((GESTURE_SEC[a.action] ?? 2) * ctx.fps));
     const end = Math.min(n, f + Math.max(1, dur));
+    if (a.expression && checkExpression(a.expression, `${apath}.expression`))
+      exprK.push({ f, v: a.expression });
     for (let t = f; t < end; t++) {
       clip[t] = a.action;
       facing[t] = view;
@@ -583,7 +693,7 @@ function compileActor(
     scale: [{ f: 0, v: round(scale) }],
     clip: clipK,
     facing: faceK,
-    expression: [{ f: 0, v: layer.expression }],
+    expression: dedupeKeyframes(exprK),
   };
   entrance(ctx, layer, path, tracks, { x: wx, y, scale });
   return {
@@ -592,7 +702,7 @@ function compileActor(
     asset: `${meta.assetId}@${meta.version}`,
     z: layer.zIndex ?? 10,
     space: "world",
-    props: { speaks: layer.speaks },
+    props: { speaks: layer.speaks, ...(layer.holding ? { holding: layer.holding } : {}) },
     tracks: finalize(tracks),
   };
 }
@@ -614,7 +724,11 @@ function compileAssetLayer(
     layer.place.x,
     layer.place.y ?? REGION_Y[layer.place.region ?? "center"] ?? 0.42,
   );
-  const size = ((DEFAULT_SIZE[layer.type] ?? 0.3) * ctx.width * layer.place.scale) / cover;
+  // sizes are what the viewer sees (a fraction of the frame width), whatever the shot's zoom; the subject
+  // of an insert shot is what the camera came to show, so it is drawn bigger, but always inside the frame
+  const insertSubject = ctx.view.size === "insert" && ctx.view.subject === layer.id;
+  const onScreen = (DEFAULT_SIZE[layer.type] ?? 0.3) * layer.place.scale * (insertSubject ? 1.8 : 1);
+  const size = (Math.min(insertSubject ? 0.86 : 2, onScreen) * ctx.width) / (cover * ctx.view.zoom);
   const tracks: Tracks = {
     x: [{ f: 0, v: round(x) }],
     y: [{ f: 0, v: round(y) }],
@@ -772,10 +886,10 @@ function compileText(
 
 // --- camera --------------------------------------------------------------------------------------
 function compileCamera(ctx: SceneContext, nodes: TimelineNode[]): Tracks {
-  const cx = ctx.world.width / 2;
-  const cy = ctx.world.height / 2;
-  const t: Tracks = { x: [{ f: 0, v: cx }], y: [{ f: 0, v: cy }], zoom: [{ f: 0, v: 1 }] };
-  let zoom = 1;
+  // moves start from the scene's framing; zoom targets are relative to it (push_in 1.1 = 10% closer)
+  const { cx, cy, zoom: base } = ctx.view;
+  const t: Tracks = { x: [{ f: 0, v: cx }], y: [{ f: 0, v: cy }], zoom: [{ f: 0, v: base }] };
+  let zoom = base;
   let x = cx;
   const last = ctx.duration - 1;
   ctx.plan.camera.forEach((m, i) => {
@@ -789,7 +903,7 @@ function compileCamera(ctx: SceneContext, nodes: TimelineNode[]): Tracks {
     switch (m.move) {
       case "push_in":
       case "pull_out": {
-        const to = m.to ?? (m.move === "push_in" ? 1.12 : 0.95);
+        const to = base * (m.to ?? (m.move === "push_in" ? 1.12 : 0.95));
         push("zoom", [
           { f: s, v: zoom },
           { f: e, v: to, ease: m.ease },
@@ -798,7 +912,7 @@ function compileCamera(ctx: SceneContext, nodes: TimelineNode[]): Tracks {
         break;
       }
       case "punch_in": {
-        const to = m.to ?? zoom + 0.12;
+        const to = m.to !== undefined ? base * m.to : zoom + 0.12 * base;
         push("zoom", [
           { f: s, v: zoom },
           { f: s + 6, v: to, ease: "easeOutCubic" },
@@ -814,7 +928,7 @@ function compileCamera(ctx: SceneContext, nodes: TimelineNode[]): Tracks {
       }
       case "pan_left":
       case "pan_right": {
-        const to = x + (m.move === "pan_right" ? 1 : -1) * (m.to ?? 1) * 320;
+        const to = x + ((m.move === "pan_right" ? 1 : -1) * (m.to ?? 1) * 320) / base;
         push("x", [
           { f: s, v: x },
           { f: e, v: round(to), ease: m.ease },
@@ -852,6 +966,59 @@ function compileCamera(ctx: SceneContext, nodes: TimelineNode[]): Tracks {
   return finalize(t);
 }
 
+type Box = { x0: number; y0: number; x1: number; y1: number; weight: number };
+
+/** Caption band candidates (fraction of height), in order of preference. All sit inside TikTok's safe area. */
+const CAPTION_BANDS = [0.7, 0.62, 0.77, 0.52, 0.33];
+const CAPTION_HALF_H = 0.05;
+const CAPTION_HALF_W = 0.42;
+
+/**
+ * Picks the caption band that covers the least of what matters: faces first, then titles and charts,
+ * then objects. Measured in the scene's framing at the moment the most layers are on screen.
+ */
+function chooseCaptionY(ctx: SceneContext, nodes: TimelineNode[]): number {
+  const f = Math.round(ctx.duration * 0.6);
+  const boxes: Box[] = [];
+  for (const n of nodes) {
+    const x = sample(n.tracks["x"], f, 0);
+    const y = sample(n.tracks["y"], f, 0);
+    if (n.adapter === "character") {
+      const h = 880 * sample(n.tracks["scale"], f, 1);
+      const [fx0, fy0] = toFrame(ctx, x - h * 0.13, y - h);
+      const [fx1, fy1] = toFrame(ctx, x + h * 0.13, y - h * 0.78);
+      boxes.push({ x0: fx0, y0: fy0, x1: fx1, y1: fy1, weight: 4 });
+    } else if (n.space === "world" && n.adapter === "svg") {
+      const half = sample(n.tracks["size"], f, 0) / 2;
+      const [fx0, fy0] = toFrame(ctx, x - half, y - half);
+      const [fx1, fy1] = toFrame(ctx, x + half, y + half);
+      boxes.push({ x0: fx0, y0: fy0, x1: fx1, y1: fy1, weight: 1 });
+    } else if (n.space === "screen" && (n.adapter === "text" || n.adapter === "motion_graphics")) {
+      const halfW =
+        n.adapter === "text" ? 0.4 : sample(n.tracks["size"], f, ctx.width * 0.8) / (2 * ctx.width);
+      const halfH = n.adapter === "text" ? 0.06 : halfW * 0.75 * (ctx.width / ctx.height);
+      const cx = x / ctx.width;
+      const cy = y / ctx.height;
+      boxes.push({ x0: cx - halfW, y0: cy - halfH, x1: cx + halfW, y1: cy + halfH, weight: 3 });
+    }
+  }
+  let best = CAPTION_BANDS[0] as number;
+  let bestScore = Infinity;
+  for (const band of CAPTION_BANDS) {
+    let score = 0;
+    for (const b of boxes) {
+      const w = Math.max(0, Math.min(b.x1, 0.5 + CAPTION_HALF_W) - Math.max(b.x0, 0.5 - CAPTION_HALF_W));
+      const h = Math.max(0, Math.min(b.y1, band + CAPTION_HALF_H) - Math.max(b.y0, band - CAPTION_HALF_H));
+      score += w * h * b.weight;
+    }
+    if (score < bestScore - 1e-6) {
+      best = band;
+      bestScore = score;
+    }
+  }
+  return best;
+}
+
 /**
  * Compositional check: warns when a world element sits outside the visible frame at the start, at
  * the end, or at any of its own keyframes. Warnings do not block rendering; the planner sees them.
@@ -859,8 +1026,8 @@ function compileCamera(ctx: SceneContext, nodes: TimelineNode[]): Tracks {
 function checkFraming(ctx: SceneContext, nodes: TimelineNode[], camera: Tracks): void {
   const cover = Math.max(ctx.width / ctx.world.width, ctx.height / ctx.world.height);
   const camAt = (f: number): { x: number; zoom: number } => ({
-    x: sample(camera["x"], f, ctx.world.width / 2),
-    zoom: sample(camera["zoom"], f, 1),
+    x: sample(camera["x"], f, ctx.view.cx),
+    zoom: sample(camera["zoom"], f, ctx.view.zoom),
   });
   for (const node of nodes) {
     if (node.space !== "world") continue;
@@ -914,3 +1081,10 @@ function sample(kfs: Keyframe[] | undefined, f: number, fallback: number): numbe
 }
 
 const round = (n: number): number => Math.round(n * 100) / 100;
+
+/** Sorted by frame; for two keyframes on the same frame the later one wins. */
+function dedupeKeyframes(kfs: Keyframe[]): Keyframe[] {
+  const byFrame = new Map<number, Keyframe>();
+  for (const k of kfs) byFrame.set(k.f, k);
+  return [...byFrame.values()].sort((a, b) => a.f - b.f);
+}

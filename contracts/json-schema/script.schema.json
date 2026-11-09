@@ -39,6 +39,37 @@
       "minLength": 1,
       "maxLength": 200
     },
+    "cast": {
+      "maxItems": 3,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": [
+              "protagonist",
+              "supporting"
+            ]
+          },
+          "characterId": {
+            "type": "string",
+            "pattern": "^[a-z]+_[a-z0-9_]+$"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        },
+        "required": [
+          "role",
+          "characterId",
+          "description"
+        ],
+        "additionalProperties": false
+      }
+    },
     "scenes": {
       "minItems": 2,
       "maxItems": 12,
@@ -63,6 +94,30 @@
           "emphasis": {
             "type": "string",
             "maxLength": 60
+          },
+          "beat": {
+            "type": "string",
+            "enum": [
+              "hook",
+              "relate",
+              "tension",
+              "explain",
+              "twist",
+              "turn",
+              "resolve"
+            ]
+          },
+          "setting": {
+            "type": "string",
+            "maxLength": 120
+          },
+          "action": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "emotion": {
+            "type": "string",
+            "maxLength": 40
           }
         },
         "required": [

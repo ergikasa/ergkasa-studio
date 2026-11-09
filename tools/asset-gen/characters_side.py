@@ -7,7 +7,7 @@ Për t'u kthyer majtas, motori e pasqyron (scaleX = -1).
 """
 from __future__ import annotations
 
-from characters import EXPRESSIONS, INK, MOUTH_STATES, EYE_STATES, Look
+from characters import EXPRESSIONS, EYE_STATES, INK, ITEMS, MOUTH_STATES, Look, item_slot
 
 GROUND = (200, 872)
 
@@ -128,7 +128,7 @@ def _arm(look: Look, side: str) -> str:
     skin_s = _darken(look.skin_sh, k) if far else look.skin_sh
     x = 200
     long_sleeve = look.top in ("hoodie", "cardigan")
-    hand = (f'<g id="hand_{side}" data-pivot="{x},440"><path d="M{x-13},436 Q{x-15},462 {x-4},472 Q{x+8},476 {x+14},464 Q{x+16},450 {x+13},436 Z" fill="{skin}"/>'
+    hand = (f'<g id="hand_{side}" data-pivot="{x},440">' + (item_slot(x) if side == "n" else "") + f'<path d="M{x-13},436 Q{x-15},462 {x-4},472 Q{x+8},476 {x+14},464 Q{x+16},450 {x+13},436 Z" fill="{skin}"/>'
             f'<path d="M{x+12},446 Q{x+20},456 {x+12},464" fill="none" stroke="{skin_s}" stroke-width="5" stroke-linecap="round"/></g>')
     if long_sleeve:
         fore = f'<rect x="{x-15}" y="334" width="30" height="104" rx="14" fill="{top_m}"/><rect x="{x-16}" y="422" width="32" height="16" rx="6" fill="{top_s}"/>'
@@ -225,7 +225,7 @@ def side_rig(look: Look) -> dict:
         "schema": "erkasa.rig/1", "assetId": look.asset_id, "skeleton": "erkasa_biped_side_v1",
         "units": "px", "canvas": [400, 880], "ground": [GROUND[0], GROUND[1]],
         "bones": [{"id": b, "parent": p, "pivot": pv, "z": z, "svgGroup": b} for b, p, pv, z in SIDE_BONES],
-        "slots": {"eyes": EYE_STATES, "brows": EXPRESSIONS, "mouth": MOUTH_STATES},
+        "slots": {"eyes": EYE_STATES, "brows": EXPRESSIONS, "mouth": MOUTH_STATES, "item": ["neutral"] + ITEMS},
         "expressions": {e: {"eyes": e, "brows": e, "mouth": e} for e in EXPRESSIONS},
         "visemes": {"rest": "neutral", "A": "talk_a", "E": "talk_e", "I": "talk_e", "O": "talk_o", "U": "talk_o", "MBP": "neutral", "FV": "talk_e"},
         "limits": {"thigh_n": [-50, 40], "thigh_f": [-50, 40], "shin_n": [0, 110], "shin_f": [0, 110],

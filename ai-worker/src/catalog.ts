@@ -16,6 +16,8 @@ export interface CharacterInfo {
   name: string;
   description: string;
   gender: "male" | "female" | "unknown";
+  tags: string[];
+  items: string[];
   front: string[];
   side: string[];
   expressions: string[];
@@ -103,7 +105,7 @@ export class Catalog {
   /** Short list for the script writer: what kinds of pictures the studio can draw. */
   vocabulary(): string {
     return [
-      `Characters: ${this.characters.map((c) => `${c.name} (${c.description})`).join("; ")}.`,
+      `Characters: ${this.characters.map((c) => `${c.id} = ${c.name} (${c.tags.join(", ")})`).join("; ")}.`,
       `Character actions: ${[...new Set(this.characters.flatMap((c) => [...c.front, ...c.side]))].join(", ")}.`,
       `Places: ${this.backgrounds.map((b) => b.tags.join("/")).join("; ")}.`,
       `Visual metaphors: ${this.metaphors.map((m) => `${m.id.replace(/^met_|_\d+$/g, "")} (${m.tags.join(", ")})`).join("; ")}.`,
@@ -120,7 +122,7 @@ export class Catalog {
     );
     for (const c of this.characters)
       lines.push(
-        `- ${c.id}: ${c.name} (${c.gender}), ${c.description} | front: ${c.front.join(", ")} | side: ${c.side.join(", ")} | expressions: ${c.expressions.join(", ")}`,
+        `- ${c.id}: ${c.name} (${c.tags.join(", ")}) | front: ${c.front.join(", ")} | side: ${c.side.join(", ")} | expressions: ${c.expressions.join(", ")} | can hold: ${c.items.join(", ") || "nothing"}`,
       );
     lines.push("\n## Backgrounds (scene.background)");
     for (const b of this.backgrounds) lines.push(`- ${b.id}: ${b.tags.join(", ")}; ${b.extra}`);
@@ -154,6 +156,8 @@ function character(m: AssetMeta): CharacterInfo {
     name: m.name,
     description: m.description ?? "",
     gender: m.tags.includes("female") ? "female" : m.tags.includes("male") ? "male" : "unknown",
+    tags: m.tags,
+    items: strings(caps["items"]),
     front: strings(actions["front"]),
     side: strings(actions["side"]),
     expressions: strings(caps["expressions"]),

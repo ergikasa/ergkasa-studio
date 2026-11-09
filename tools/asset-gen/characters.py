@@ -193,6 +193,29 @@ def head(look: Look) -> str:
     )
 
 
+# ---------------------------------------------------------------- SENDET NË DORË
+ITEMS = ["phone", "document"]
+
+
+def item_slot(x: int) -> str:
+    """Slot-i `item` brenda dorës: sendi lëviz bashkë me dorën në çdo gjest. Pozicioni "neutral" = dorë bosh.
+    Sendi zgjatet nga gishtat (poshtë kur krahu varet, lart kur parakrahu ngrihet)."""
+    def render(state: str) -> str:
+        if state == "phone":
+            return (f'<rect x="{x-15}" y="452" width="30" height="58" rx="6" fill="#1F2430"/>'
+                    f'<rect x="{x-11}" y="458" width="22" height="44" rx="3" fill="#6EC1EA"/>'
+                    f'<rect x="{x-11}" y="458" width="22" height="12" rx="3" fill="#A9DDF4"/>')
+        if state == "document":
+            return (f'<g transform="rotate(-6 {x} 470)"><rect x="{x-27}" y="452" width="54" height="70" rx="3" fill="#FFFFFF"/>'
+                    f'<rect x="{x-27}" y="452" width="54" height="70" rx="3" fill="none" stroke="#C9CED8" stroke-width="2"/>'
+                    + "".join(f'<rect x="{x-19}" y="{468 + i*11}" width="{38 - (i % 2) * 12}" height="4" rx="2" fill="#A7AEBB"/>' for i in range(4))
+                    + '</g>')
+        return ""
+    groups = [f'<g data-state="neutral">{render("neutral")}</g>']
+    groups += [f'<g data-state="{s}" display="none">{render(s)}</g>' for s in ITEMS]
+    return '<g id="item" data-slot="item">' + "".join(groups) + "</g>"
+
+
 # ---------------------------------------------------------------- TRUPI
 def arm(look: Look, side: str) -> str:
     """Zinxhir: arm_upper ⊃ arm_lower ⊃ hand. Pivot-et janë të njëjta për të gjithë personazhet."""
@@ -202,7 +225,7 @@ def arm(look: Look, side: str) -> str:
     short_sleeve = look.top == "blouse"
     t_main, t_sh, t_dk = look.top_main, look.top_sh, look.top_dk
 
-    hand = (f'<g id="hand_{side}" data-pivot="{x},440">'
+    hand = (f'<g id="hand_{side}" data-pivot="{x},440">' + (item_slot(x) if side == "r" else "") +
             f'<path d="M{x-14},438 Q{x-17},462 {x-6},472 Q{x+4},478 {x+12},468 Q{x+17},452 {x+14},438 Z" fill="{look.skin}"/>'
             f'<path d="M{x + s*13},444 Q{x + s*20},456 {x + s*14},464" fill="none" stroke="{look.skin_sh}" stroke-width="5" stroke-linecap="round"/></g>')
     if long_sleeve:
@@ -331,7 +354,7 @@ def rig_json(look: Look) -> dict:
         "schema": "erkasa.rig/1", "assetId": look.asset_id, "skeleton": "erkasa_biped_front_v1",
         "units": "px", "canvas": [400, 880], "ground": [200, 872],
         "bones": bones,
-        "slots": {"eyes": EYE_STATES, "brows": EXPRESSIONS, "mouth": MOUTH_STATES},
+        "slots": {"eyes": EYE_STATES, "brows": EXPRESSIONS, "mouth": MOUTH_STATES, "item": ["neutral"] + ITEMS},
         "expressions": {e: {"eyes": e, "brows": e, "mouth": e} for e in EXPRESSIONS},
         "visemes": {"rest": "neutral", "A": "talk_a", "E": "talk_e", "I": "talk_e", "O": "talk_o", "U": "talk_o",
                     "MBP": "neutral", "FV": "talk_e"},
@@ -352,10 +375,12 @@ def asset_json(look: Look) -> dict:
         "capabilities": {
             "facings": ["front", "left", "right"],
             "actions": {
-                "front": ["idle", "talk", "wave", "point_side", "point_side_left", "think", "arms_up", "nod", "shake_head"],
-                "side": ["idle", "walk", "run", "talk", "point_forward", "jump"],
+                "front": ["idle", "talk", "wave", "point_side", "point_side_left", "think", "arms_up", "nod", "shake_head",
+                          "use_phone", "read", "check_watch", "facepalm", "stressed", "slump", "shrug"],
+                "side": ["idle", "walk", "run", "talk", "point_forward", "jump", "walk_phone", "type"],
             },
-            "actionsPlanned": ["sit", "hold_object"],
+            "items": ITEMS,
+            "actionsPlanned": ["sit"],
             "expressions": EXPRESSIONS,
             "visemes": "erkasa8",
             "canHold": [],

@@ -67,7 +67,8 @@ export class CaptionTrack {
     return undefined;
   }
 
-  render(sec: number, width: number, height: number): string {
+  /** `bandY`: caption center as a fraction of the height (the compiler picks it per scene). */
+  render(sec: number, width: number, height: number, bandY = 0.68): string {
     const chunk = this.chunks.find((c) => sec >= c.start && sec < c.end);
     if (!chunk) return "";
     const style = TEXT_STYLES[`caption_${this.style}`] ?? TEXT_STYLES[this.style];
@@ -81,7 +82,7 @@ export class CaptionTrack {
       maxWidth: width * 0.84,
       ...(active >= 0 ? { activeWord: active } : {}),
     });
-    // TikTok safe zone: centered horizontally, above the bottom UI band (~68% of height)
-    return `<g data-node="captions" transform="translate(${fmt(width / 2)} ${fmt(height * 0.68)}) scale(${fmt(scale)})">${markup}</g>`;
+    // TikTok safe zone: centered horizontally, above the bottom UI band
+    return `<g data-node="captions" transform="translate(${fmt(width / 2)} ${fmt(height * bandY)}) scale(${fmt(scale)})">${markup}</g>`;
   }
 }

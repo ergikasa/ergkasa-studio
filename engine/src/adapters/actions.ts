@@ -117,6 +117,102 @@ export const ACTIONS: Record<string, Action> = {
       head: { x: 5 * sin(t, 2.2, ph) * k, rotation: 3 * sin(t, 2.2, ph) * k },
     });
   },
+
+  // ---- body language with the hand item (`holding`: phone, document) and emotions ----
+
+  /** Phone held in front of the chest, eyes down, thumb scrolling. */
+  use_phone: (t, ph) => {
+    const k = ramp(t, 0.45);
+    return merge(idleBase(t, ph), {
+      arm_upper_r: { rotation: 4 * k },
+      arm_lower_r: { rotation: 118 * k },
+      hand_r: { rotation: (52 + 4 * sin(t, 1.1, ph)) * k },
+      head: { rotation: 3 * k, y: 5 * k },
+    });
+  },
+
+  /** A sheet held with both hands, reading it. */
+  read: (t, ph) => {
+    const k = ramp(t, 0.45);
+    return merge(idleBase(t, ph), {
+      arm_upper_r: { rotation: 2 * k },
+      arm_lower_r: { rotation: 128 * k },
+      hand_r: { rotation: 40 * k },
+      arm_upper_l: { rotation: -2 * k },
+      arm_lower_l: { rotation: -122 * k },
+      head: { rotation: 1.5 * sin(t, 0.25, ph) * k, y: 6 * k },
+    });
+  },
+
+  /** Raises the left wrist and looks at the watch. */
+  check_watch: (t, ph) => {
+    const k = ramp(t, 0.4);
+    return merge(idleBase(t, ph), {
+      arm_upper_l: { rotation: -26 * k },
+      arm_lower_l: { rotation: -98 * k },
+      hand_l: { rotation: 10 * k },
+      head: { rotation: -7 * k, y: 4 * k },
+    });
+  },
+
+  /** Hand to the forehead, head drops: "why did I do that". */
+  facepalm: (t, ph) => {
+    const k = ramp(t, 0.35);
+    return merge(idleBase(t, ph), {
+      arm_upper_r: { rotation: 24 * k, y: -16 * k },
+      arm_lower_r: { rotation: 166 * k },
+      hand_r: { rotation: -40 * k },
+      neck: { y: 6 * k },
+      head: { rotation: (5 + 1.5 * sin(t, 0.7, ph)) * k, y: 12 * k },
+    });
+  },
+
+  /** Both hands on the head, a small anxious sway. */
+  stressed: (t, ph) => {
+    const k = ramp(t, 0.4);
+    const sway = 2.5 * sin(t, 1.3, ph);
+    return merge(idleBase(t, ph), {
+      arm_upper_r: { rotation: -148 * k },
+      arm_lower_r: { rotation: -100 * k },
+      hand_r: { rotation: -20 * k },
+      arm_upper_l: { rotation: 148 * k },
+      arm_lower_l: { rotation: 100 * k },
+      hand_l: { rotation: 20 * k },
+      head: { rotation: sway * k, y: 3 * k },
+      torso: { rotation: sway * 0.3 * k },
+    });
+  },
+
+  /** Shoulders drop, head down: tired, guilty, defeated. */
+  slump: (t, ph) => {
+    const k = ramp(t, 0.6);
+    const breath = (1 - Math.cos(t * TAU * 0.2 + ph)) / 2;
+    return {
+      torso: { y: (7 + 2 * breath) * k, scaleY: 1 - 0.015 * k },
+      neck: { y: (8 + 2 * breath) * k },
+      head: { y: (13 + 2 * breath) * k, rotation: -4 * k },
+      arm_upper_l: { y: 8 * k, rotation: -3 * k },
+      arm_upper_r: { y: 8 * k, rotation: 3 * k },
+      arm_lower_l: { rotation: -4 * k },
+      arm_lower_r: { rotation: 4 * k },
+    };
+  },
+
+  /** Palms out, shoulders up: "I don't know" / "it is what it is". */
+  shrug: (t, ph) => {
+    const k = ramp(t, 0.3);
+    const up = 7 * k;
+    return merge(idleBase(t, ph), {
+      arm_upper_r: { rotation: -24 * k, y: -up },
+      arm_lower_r: { rotation: -78 * k },
+      hand_r: { rotation: -18 * k },
+      arm_upper_l: { rotation: 24 * k, y: -up },
+      arm_lower_l: { rotation: 78 * k },
+      hand_l: { rotation: 18 * k },
+      neck: { y: -up * 0.4 },
+      head: { rotation: 7 * k, y: -up * 0.3 },
+    });
+  },
 };
 
 export const ACTION_NAMES = Object.keys(ACTIONS);
@@ -223,6 +319,35 @@ export const SIDE_ACTIONS: Record<string, Action> = {
       head: { rotation: 2 * sin(t, 0.7, ph) * k + 1.2 * sin(t, 2.1, ph) * k },
       arm_upper_n: { rotation: (-24 - 8 * sin(t, 0.9, ph)) * k },
       arm_lower_n: { rotation: (-58 - 16 * sin(t, 1.3, ph + 0.5)) * k },
+    });
+  },
+
+  /** Walking while staring at the phone (needs `holding: phone`). */
+  walk_phone: (t) => {
+    const k = ramp(t, 0.25);
+    const g = gait(t, 0.85, 20, 30, 0, -14, 2, 4);
+    return blendPoses(
+      sideIdle(t, 0),
+      merge(g, {
+        arm_upper_n: { rotation: -6 },
+        arm_lower_n: { rotation: -118 },
+        hand_n: { rotation: 20 },
+        head: { rotation: 10 + 1 * Math.sin(t * TAU * 1.7) },
+      }),
+      k,
+    );
+  },
+
+  /** Standing at a desk, typing: forearms forward, hands tapping. */
+  type: (t, ph) => {
+    const k = ramp(t, 0.35);
+    return merge(sideIdle(t, ph), {
+      arm_upper_n: { rotation: -38 * k },
+      arm_lower_n: { rotation: (-52 + 4 * sin(t, 5.5, ph)) * k },
+      arm_upper_f: { rotation: -32 * k },
+      arm_lower_f: { rotation: (-58 + 4 * sin(t, 5.5, ph + 1.6)) * k },
+      head: { rotation: (6 + 1 * sin(t, 0.4, ph)) * k },
+      torso: { rotation: 3 * k },
     });
   },
 

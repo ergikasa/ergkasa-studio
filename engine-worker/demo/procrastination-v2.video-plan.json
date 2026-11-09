@@ -1,0 +1,562 @@
+{
+  "schema": "erkasa.video-plan/1",
+  "projectId": "procrastination-v2",
+  "language": "en",
+  "format": "9:16",
+  "fps": 30,
+  "voiceId": "mark_natural",
+  "scenes": [
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s01",
+      "engine": "2d",
+      "narration": "Your report is due in nine hours. So why are you watching videos?",
+      "durationPolicy": {
+        "mode": "fitNarration",
+        "padAfterSec": 0.45
+      },
+      "background": {
+        "assetId": "bg_home_bedroom_night_01"
+      },
+      "shot": {
+        "size": "close"
+      },
+      "layers": [
+        {
+          "id": "arti",
+          "type": "actor",
+          "assetId": "char_arti_01",
+          "place": {
+            "anchor": "ground",
+            "x": 0.5
+          },
+          "facing": "front",
+          "expression": "happy",
+          "speaks": false,
+          "actions": [
+            {
+              "action": "use_phone",
+              "at": "start"
+            },
+            {
+              "action": "use_phone",
+              "at": {
+                "word": "why"
+              },
+              "expression": "surprised"
+            }
+          ],
+          "holding": "phone"
+        },
+        {
+          "id": "title",
+          "type": "text",
+          "content": "9 HOURS LEFT",
+          "style": "hook_impact",
+          "highlight": ["9"],
+          "place": {
+            "x": 0.5,
+            "region": "top-safe"
+          },
+          "in": {
+            "effect": "pop",
+            "at": {
+              "word": "nine"
+            },
+            "durationSec": 0.45
+          },
+          "out": {
+            "effect": "fade",
+            "at": {
+              "word": "nine",
+              "offsetSec": 2.6
+            },
+            "durationSec": 0.35
+          }
+        }
+      ],
+      "camera": [
+        {
+          "move": "punch_in",
+          "at": {
+            "word": "why"
+          },
+          "to": 1.18
+        }
+      ],
+      "transitionOut": {
+        "type": "cut",
+        "durationSec": 0
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s02",
+      "engine": "2d",
+      "narration": "You're not lazy. You open the document, it feels heavy, and your thumb finds the phone again.",
+      "durationPolicy": {
+        "mode": "fitNarration",
+        "padAfterSec": 0.45
+      },
+      "background": {
+        "assetId": "bg_home_bedroom_night_01"
+      },
+      "shot": {
+        "size": "medium"
+      },
+      "layers": [
+        {
+          "id": "arti",
+          "type": "actor",
+          "assetId": "char_arti_01",
+          "place": {
+            "anchor": "ground",
+            "x": 0.45
+          },
+          "facing": "front",
+          "expression": "thinking",
+          "speaks": false,
+          "actions": [
+            {
+              "action": "read",
+              "at": "start"
+            },
+            {
+              "action": "stressed",
+              "at": {
+                "word": "heavy,"
+              },
+              "expression": "angry"
+            }
+          ],
+          "holding": "document"
+        }
+      ],
+      "camera": [
+        {
+          "move": "push_in",
+          "at": "start",
+          "to": 1.06
+        }
+      ],
+      "transitionOut": {
+        "type": "whip",
+        "direction": "left",
+        "durationSec": 0.35
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s03",
+      "engine": "2d",
+      "narration": "Every scroll buys a little relief. And every minute, the guilt gets louder.",
+      "durationPolicy": {
+        "mode": "fitNarration",
+        "padAfterSec": 0.45
+      },
+      "background": {
+        "assetId": "bg_home_living_01"
+      },
+      "shot": {
+        "size": "wide"
+      },
+      "layers": [
+        {
+          "id": "arti",
+          "type": "actor",
+          "assetId": "char_arti_01",
+          "place": {
+            "anchor": "ground",
+            "x": 0.22
+          },
+          "facing": "right",
+          "expression": "neutral",
+          "speaks": false,
+          "actions": [
+            {
+              "action": "walk_phone",
+              "at": "start",
+              "to": {
+                "x": 0.5
+              }
+            },
+            {
+              "action": "slump",
+              "at": {
+                "word": "guilt"
+              },
+              "expression": "sad"
+            }
+          ],
+          "holding": "phone"
+        },
+        {
+          "id": "title",
+          "type": "text",
+          "content": "GUILT GETS LOUDER",
+          "style": "hook_impact",
+          "highlight": ["GUILT"],
+          "place": {
+            "x": 0.5,
+            "region": "top-safe"
+          },
+          "in": {
+            "effect": "pop",
+            "at": {
+              "word": "guilt"
+            },
+            "durationSec": 0.45
+          },
+          "out": {
+            "effect": "fade",
+            "at": {
+              "word": "guilt",
+              "offsetSec": 2.6
+            },
+            "durationSec": 0.35
+          }
+        }
+      ],
+      "camera": [
+        {
+          "move": "push_in",
+          "at": {
+            "word": "guilt"
+          },
+          "to": 1.08
+        }
+      ],
+      "transitionOut": {
+        "type": "cut",
+        "durationSec": 0
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s04",
+      "engine": "2d",
+      "narration": "Psychologists call this present bias. A small reward right now outweighs a bigger one later.",
+      "durationPolicy": {
+        "mode": "fitNarration",
+        "padAfterSec": 0.45
+      },
+      "background": {
+        "assetId": "bg_classroom_01"
+      },
+      "shot": {
+        "size": "insert",
+        "subject": "scale"
+      },
+      "layers": [
+        {
+          "id": "scale",
+          "type": "metaphor",
+          "assetId": "met_balance_01",
+          "place": {
+            "x": 0.5,
+            "y": 0.5,
+            "scale": 0.95
+          },
+          "in": {
+            "effect": "pop",
+            "at": "start",
+            "durationSec": 0.5
+          },
+          "animations": [
+            {
+              "name": "tilt_left",
+              "at": {
+                "word": "now"
+              }
+            }
+          ]
+        },
+        {
+          "id": "title",
+          "type": "text",
+          "content": "NOW BEATS LATER",
+          "style": "hook_impact",
+          "highlight": ["NOW"],
+          "place": {
+            "x": 0.5,
+            "region": "top-safe"
+          },
+          "in": {
+            "effect": "pop",
+            "at": {
+              "word": "now"
+            },
+            "durationSec": 0.45
+          },
+          "out": {
+            "effect": "fade",
+            "at": {
+              "word": "now",
+              "offsetSec": 2.6
+            },
+            "durationSec": 0.35
+          }
+        }
+      ],
+      "camera": [
+        {
+          "move": "static",
+          "at": "start"
+        }
+      ],
+      "transitionOut": {
+        "type": "slide",
+        "direction": "left",
+        "durationSec": 0.35
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s05",
+      "engine": "2d",
+      "narration": "Here's the part nobody tells you. You're not avoiding the work. You're avoiding how the work feels.",
+      "durationPolicy": {
+        "mode": "fitNarration",
+        "padAfterSec": 0.45
+      },
+      "background": {
+        "assetId": "bg_home_living_01"
+      },
+      "shot": {
+        "size": "medium"
+      },
+      "layers": [
+        {
+          "id": "arti",
+          "type": "actor",
+          "assetId": "char_arti_01",
+          "place": {
+            "anchor": "ground",
+            "x": 0.45
+          },
+          "facing": "front",
+          "expression": "neutral",
+          "speaks": false,
+          "actions": [
+            {
+              "action": "think",
+              "at": "start",
+              "expression": "thinking"
+            },
+            {
+              "action": "shrug",
+              "at": {
+                "word": "work."
+              }
+            },
+            {
+              "action": "nod",
+              "at": {
+                "word": "feels."
+              },
+              "expression": "surprised"
+            }
+          ]
+        },
+        {
+          "id": "title",
+          "type": "text",
+          "content": "IT'S THE FEELING",
+          "style": "hook_impact",
+          "highlight": ["FEELING"],
+          "place": {
+            "x": 0.5,
+            "region": "top-safe"
+          },
+          "in": {
+            "effect": "pop",
+            "at": {
+              "word": "feels."
+            },
+            "durationSec": 0.45
+          },
+          "out": {
+            "effect": "fade",
+            "at": {
+              "word": "feels.",
+              "offsetSec": 2.6
+            },
+            "durationSec": 0.35
+          }
+        }
+      ],
+      "camera": [
+        {
+          "move": "punch_in",
+          "at": {
+            "word": "feels."
+          },
+          "to": 1.15
+        }
+      ],
+      "transitionOut": {
+        "type": "whip",
+        "direction": "right",
+        "durationSec": 0.35
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s06",
+      "engine": "2d",
+      "narration": "So make the first step too small to feel bad. Open the file. Write one messy sentence. Two minutes later, you're still typing.",
+      "durationPolicy": {
+        "mode": "fitNarration",
+        "padAfterSec": 0.45
+      },
+      "background": {
+        "assetId": "bg_home_bedroom_night_01"
+      },
+      "shot": {
+        "size": "medium"
+      },
+      "layers": [
+        {
+          "id": "arti",
+          "type": "actor",
+          "assetId": "char_arti_01",
+          "place": {
+            "anchor": "ground",
+            "x": 0.38
+          },
+          "facing": "right",
+          "expression": "thinking",
+          "speaks": false,
+          "actions": [
+            {
+              "action": "type",
+              "at": "start"
+            },
+            {
+              "action": "check_watch",
+              "at": {
+                "word": "Two"
+              },
+              "expression": "surprised"
+            },
+            {
+              "action": "arms_up",
+              "at": {
+                "word": "still"
+              },
+              "expression": "happy"
+            }
+          ]
+        },
+        {
+          "id": "laptop",
+          "type": "object",
+          "assetId": "obj_laptop",
+          "place": {
+            "x": 0.72,
+            "y": 0.6,
+            "scale": 0.9
+          },
+          "animations": []
+        }
+      ],
+      "camera": [
+        {
+          "move": "push_in",
+          "at": "start",
+          "to": 1.05
+        }
+      ],
+      "transitionOut": {
+        "type": "fade",
+        "durationSec": 0.35
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s07",
+      "engine": "2d",
+      "narration": "Starting was the hard part, and you already did it. You never needed more motivation. Just a smaller first step.",
+      "durationPolicy": {
+        "mode": "fitNarration",
+        "padAfterSec": 1.2
+      },
+      "background": {
+        "assetId": "bg_city_street_01"
+      },
+      "shot": {
+        "size": "wide"
+      },
+      "layers": [
+        {
+          "id": "arti",
+          "type": "actor",
+          "assetId": "char_arti_01",
+          "place": {
+            "anchor": "ground",
+            "x": 0.2
+          },
+          "facing": "right",
+          "expression": "happy",
+          "speaks": false,
+          "actions": [
+            {
+              "action": "walk",
+              "at": "start",
+              "to": {
+                "x": 0.55
+              }
+            },
+            {
+              "action": "wave",
+              "at": {
+                "word": "smaller"
+              },
+              "expression": "happy"
+            }
+          ],
+          "holding": "document"
+        },
+        {
+          "id": "title",
+          "type": "text",
+          "content": "START SMALLER",
+          "style": "hook_impact",
+          "highlight": ["SMALLER"],
+          "place": {
+            "x": 0.5,
+            "region": "top-safe"
+          },
+          "in": {
+            "effect": "pop",
+            "at": {
+              "word": "smaller"
+            },
+            "durationSec": 0.45
+          },
+          "out": {
+            "effect": "fade",
+            "at": {
+              "word": "smaller",
+              "offsetSec": 2.6
+            },
+            "durationSec": 0.35
+          }
+        }
+      ],
+      "camera": [
+        {
+          "move": "push_in",
+          "at": {
+            "word": "Just"
+          },
+          "to": 1.08
+        }
+      ],
+      "transitionOut": {
+        "type": "cut",
+        "durationSec": 0
+      }
+    }
+  ]
+}

@@ -175,6 +175,11 @@ export async function makeVideo(opts: MakeOptions, deps: MakeDeps = {}): Promise
     }
     plan = res.plan;
     log(`plan: compiled on attempt ${planAttempts}`);
+    for (const d of res.directionIssues) {
+      const line = `direction ${d.code} ${d.path}: ${d.message}`;
+      warnings.push(line);
+      log(`  ${line}`);
+    }
   }
 
   // 4. compile + render
