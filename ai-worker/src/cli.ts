@@ -8,11 +8,13 @@ import { makeVideo } from "./make.js";
 import { THEME_BRIEFS } from "./script-writer.js";
 import { ElevenLabsVoice, listVoices, voiceExists } from "./voice.js";
 import { loadVoiceCatalog, voiceCatalogPath } from "./voice-catalog.js";
+import { runWorkerForever } from "./worker.js";
 
 const USAGE = `Usage:
   pnpm video "<topic>" --theme <theme> [--voice <id>] [--seconds 45] [--notes "..."] [--no-voice] [--no-music]
   pnpm video --from-script <run>/script.json [--voice <id>] [--no-voice]
   pnpm video --from-plan <run>/video-plan.json [--voice <id>] [--no-voice]
+  pnpm worker                 runs the worker: takes tasks from RabbitMQ (videos started in the Studio)
   pnpm voices                 the studio voices (voices/catalog.json) and whether your account can use them
   pnpm voices --samples       writes a short sample of each voice to voices/samples/ (Studio > Voices plays them)
   pnpm voices --account       every voice on your ElevenLabs account, to add new ones to the catalog
@@ -140,6 +142,7 @@ const [command, ...rest] = process.argv.slice(2);
 try {
   if (command === "make") await make(rest);
   else if (command === "voices") await voices(rest);
+  else if (command === "worker") await runWorkerForever();
   else throw new UsageError(`unknown command '${command ?? ""}'`);
 } catch (e) {
   if (e instanceof UsageError) console.error(`${e.message}\n\n${USAGE}`);

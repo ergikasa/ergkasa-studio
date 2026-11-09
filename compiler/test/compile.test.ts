@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 import { AssetMeta, RenderTimeline, type AssetMeta as AssetMetaT } from "@erkasa/contracts";
 import { Engine, SvgTemplate, type AssetSource } from "@erkasa/engine";
 import { describe, expect, it } from "vitest";
-import { METAPHOR_RECIPES, compileVideo, estimateWords, findWord } from "../src/index.js";
+import { METAPHOR_RECIPES, compileVideo, cutAtEnd, estimateWords, findWord } from "../src/index.js";
 
 const ROOT = fileURLToPath(new URL("../..", import.meta.url));
 const ASSETS = join(ROOT, "assets");
@@ -138,5 +138,51 @@ describe("metaphor recipes", () => {
       const caps = assets.meta(assetId).capabilities["animations"] as string[];
       for (const name of Object.keys(recipes)) expect(caps, assetId).toContain(name);
     }
+  });
+});
+
+describe("scene end", () => {
+  it("cuts a chart that starts drawing on the last word instead of producing an invalid timeline", () => {
+    const plan = demoPlan();
+    const scene = scenesOf(plan)[2] as Scene; // s02b: "... grow past two hundred thousand."
+    const chart = scene.layers.find((l) => l["type"] === "chart") as Record<string, unknown>;
+    chart["in"] = { effect: "draw_on", at: { word: "thousand." }, durationSec: 1.6 };
+    (scene as unknown as Record<string, unknown>)["durationPolicy"] = {
+      mode: "fitNarration",
+      padAfterSec: 0.2,
+    };
+
+    const res = compileVideo(plan, { assets, seed: 1 });
+    expect(res.issues.filter((i) => i.level === "error")).toEqual([]);
+    expect(res.issues.map((i) => i.code)).toContain("CUT_AT_SCENE_END");
+    expect(RenderTimeline.safeParse(res.timeline).success).toBe(true);
+    const s = res.timeline?.scenes[2];
+    for (const node of s?.nodes ?? [])
+      for (const kfs of Object.values(node.tracks))
+        for (const k of kfs) expect(k.f).toBeLessThanOrEqual(s?.duration ?? 0);
+    // and it renders
+    const engine = new Engine(res.timeline, { assets });
+    expect(engine.renderFrame((s?.from ?? 0) + (s?.duration ?? 1) - 1)).toContain("<svg");
+  });
+
+  it("holds a numeric track at the value it has on the last frame", () => {
+    const tracks = {
+      progress: [
+        { f: 10, v: 0 },
+        { f: 30, v: 1 },
+      ],
+      clip: [
+        { f: 0, v: "idle" },
+        { f: 25, v: "wave" },
+      ],
+    };
+    const res = cutAtEnd(tracks, 20);
+    expect(res.cut).toBe(true);
+    expect(res.tracks["progress"]).toEqual([
+      { f: 10, v: 0 },
+      { f: 20, v: 0.5 },
+    ]);
+    expect(res.tracks["clip"]).toEqual([{ f: 0, v: "idle" }]);
+    expect(cutAtEnd(res.tracks, 20).cut).toBe(false);
   });
 });

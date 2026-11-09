@@ -15,3 +15,14 @@ export {
   type Voice,
 } from "./voice.js";
 export { loadVoiceCatalog, narratorLine, resolvePreset, voiceCatalogPath } from "./voice-catalog.js";
+export { MqNames, rabbitUrl } from "./mq.js";
+export * from "./steps.js";
+export {
+  classify,
+  defaultDeps,
+  executeTask,
+  handleCommand,
+  startWorker,
+  TaskFailure,
+  type WorkerDeps,
+} from "./worker.js";

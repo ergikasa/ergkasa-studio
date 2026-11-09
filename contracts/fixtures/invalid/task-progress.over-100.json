@@ -1,0 +1,7 @@
+{
+  "schema": "erkasa.task-progress/1",
+  "runId": "run_01",
+  "stepId": "render",
+  "attempt": 1,
+  "pct": 140
+}

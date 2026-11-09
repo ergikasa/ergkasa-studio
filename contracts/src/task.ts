@@ -75,3 +75,16 @@ export const TaskResult = z
       ctx.addIssue({ code: "custom", message: "SUCCEEDED result needs outputs", path: ["outputs"] });
   });
 export type TaskResult = z.infer<typeof TaskResult>;
+
+/** Worker -> orchestrator while a step runs (best effort; the result message is what counts). */
+export const TaskProgress = z
+  .object({
+    schema: z.literal("erkasa.task-progress/1"),
+    runId: z.string().min(1),
+    stepId: z.string().min(1),
+    attempt: z.number().int().positive(),
+    pct: z.number().min(0).max(100),
+    message: z.string().max(200).default(""),
+  })
+  .strict();
+export type TaskProgress = z.infer<typeof TaskProgress>;

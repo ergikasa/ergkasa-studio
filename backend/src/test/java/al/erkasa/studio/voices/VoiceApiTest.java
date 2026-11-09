@@ -1,5 +1,6 @@
 package al.erkasa.studio.voices;
 
+import al.erkasa.studio.StudioIntegrationTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.net.URI;
@@ -8,12 +9,9 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 /** Serves the repository's real voices/catalog.json, validated by the voice-catalog contract. */
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("local")
+@StudioIntegrationTest
 class VoiceApiTest {
 
     private final HttpClient http = HttpClient.newHttpClient();

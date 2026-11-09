@@ -35,5 +35,11 @@ function voiceSamples(): Plugin {
 export default defineConfig({
   plugins: [react(), tailwindcss(), voiceSamples()],
   publicDir: assetsDir,
-  server: { port: 5173, strictPort: true, host: "127.0.0.1" },
+  server: {
+    port: 5173,
+    strictPort: true,
+    host: "127.0.0.1",
+    // the Spring backend (runs, voices, assets API): same origin for the browser, no CORS needed
+    proxy: { "/api": { target: "http://127.0.0.1:8080", changeOrigin: true } },
+  },
 });

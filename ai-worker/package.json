@@ -11,16 +11,19 @@
     "video": "tsx src/cli.ts make",
     "voices": "tsx src/cli.ts voices",
     "typecheck": "tsc -p tsconfig.json",
-    "test": "vitest run"
+    "test": "vitest run",
+    "worker": "tsx src/cli.ts worker"
   },
   "dependencies": {
     "@erkasa/compiler": "workspace:*",
     "@erkasa/contracts": "workspace:*",
     "@erkasa/engine": "workspace:*",
-    "@erkasa/engine-worker": "workspace:*"
+    "@erkasa/engine-worker": "workspace:*",
+    "amqplib": "0.10.8"
   },
   "devDependencies": {
     "tsx": "4.23.15",
-    "vitest": "5.1.0"
+    "vitest": "5.1.0",
+    "@types/amqplib": "0.10.8"
   }
 }

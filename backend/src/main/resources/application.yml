@@ -8,6 +8,15 @@ spring:
     password: ${ERKASA_DB_PASSWORD}
   flyway:
     locations: classpath:db/migration
+  rabbitmq:
+    host: ${ERKASA_RABBIT_HOST:localhost}
+    port: ${ERKASA_RABBIT_PORT:5673}
+    username: ${ERKASA_RABBIT_USER}
+    password: ${ERKASA_RABBIT_PASSWORD}
+    listener:
+      simple:
+        # a message that fails to apply is logged and dropped, never redelivered in a loop
+        default-requeue-rejected: false
 
 server:
   port: ${ERKASA_API_PORT:8080}
@@ -27,6 +36,15 @@ erkasa:
     # running from backend/ finds the repo's assets/ folder.
     dir: ${ERKASA_ASSETS_DIR:../assets}
     index-on-startup: true
+  storage:
+    # run folders shared with the worker (out/runs/<runId>/...). Use an absolute path if you change it.
+    dir: ${ERKASA_STORAGE_DIR:../out/runs}
+  orchestrator:
+    tick-ms: 1000
+    outbox-ms: 300
+    retry-base-ms: 5000
+  mq:
+    prefix: erkasa
   voices:
     # voices/catalog.json (narrator presets) and voices/samples/ (generated samples)
     dir: ${ERKASA_VOICES_DIR:../voices}

@@ -57,7 +57,23 @@ pnpm studio
 # → http://127.0.0.1:5173
 ```
 
-### Video nga një temë (Faza E)
+### Studio: video nga UI (Faza F)
+
+Katër terminale, nga rrënja e repos:
+
+```bash
+docker compose -f infra/docker-compose.yml up -d           # 1. Postgres + RabbitMQ
+cd backend; ./mvnw spring-boot:run -Dspring-boot.run.profiles=local
+                                                           # 2. backend (Windows: .\mvnw.cmd ... "-Dspring-boot.run.profiles=local")
+pnpm worker                                                # 3. worker-i: merr hapat nga RabbitMQ
+pnpm studio                                                # 4. http://127.0.0.1:5173
+```
+
+Te **New video** zgjidh temën, kategorinë, narratorin dhe gjatësinë. Te **Runs** ndjek çdo hap live
+(skenari, zëri, plani, render-i), shikon koston, videon, skedarët, dhe bën **Resume** pas një gabimi.
+Skedarët e çdo run-i: `out/runs/<runId>/`. "Silent test" e kalon gjithë rrjedhën pa ElevenLabs.
+
+### Video nga një temë në terminal (Faza E)
 
 Plotëso te `.env`: `ANTHROPIC_API_KEY` dhe `ELEVENLABS_API_KEY`. Zërat e narratorit janë te
 `voices/catalog.json` (`mark_natural` = parazgjedhja, `friendly_woman`, `american_man`):
@@ -95,7 +111,7 @@ manifesti çaktivizohen.
 | `GET /api/assets/stats`                                      | numri sipas kategorisë                                        |
 | `POST /api/assets/reindex`                                   | rilexon bibliotekën nga disku                                 |
 
-Panelet lokale: RabbitMQ te http://localhost:15672 (erkasa / erkasa_local), SeaweedFS te http://localhost:9333.
+Panelet lokale: RabbitMQ te http://localhost:15673 (erkasa / erkasa_local). Portat e hostit: Postgres 5404, RabbitMQ 5673 (që të mos përplasen me projekte të tjera). SeaweedFS (ende pa përdorim) niset vetëm me `--profile storage`.
 
 ## Komandat
 
@@ -107,6 +123,7 @@ Panelet lokale: RabbitMQ te http://localhost:15672 (erkasa / erkasa_local), Seaw
 | `pnpm assets:validate`          | validon asetet dhe rigjeneron `assets/manifest.json`               |
 | `pnpm studio`                   | hap Studio-n te http://127.0.0.1:5173                              |
 | `pnpm video "<temë>" --theme x` | temë → skenar → zë → plan → MP4 (kërkon çelësat te `.env`)         |
+| `pnpm worker`                   | worker-i: ekzekuton hapat që nis Studio (kërkon RabbitMQ)          |
 | `pnpm voices [--samples]`       | zërat e studios, kontrolli në llogari, shembujt audio              |
 | `pnpm demo:plan`                | kompilon dhe eksporton planin demo në `engine-worker/out/`         |
 | `./mvnw verify` (te `backend/`) | testet Java: kontratat, Flyway, indeksimi i 402 aseteve dhe API    |

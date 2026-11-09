@@ -1,4 +1,5 @@
 import {
+  RenderTimeline as RenderTimelineSchema,
   VideoPlan,
   type AssetMeta,
   type Keyframe,
@@ -6,7 +7,13 @@ import {
   type ScenePlan,
   type VideoPlan as VideoPlanT,
 } from "@erkasa/contracts";
-import { ACTIONS_BY_SKELETON, TEXT_STYLES, parseAssetRef, type AssetSource } from "@erkasa/engine";
+import {
+  ACTIONS_BY_SKELETON,
+  TEXT_STYLES,
+  parseAssetRef,
+  sampleNumber,
+  type AssetSource,
+} from "@erkasa/engine";
 import { GENERIC_RECIPES, IDLE_MOTIONS, METAPHOR_RECIPES, type Tracks } from "./recipes.js";
 import { estimateWords, findWord, type TimedWord } from "./words.js";
 
@@ -172,7 +179,23 @@ export function compileVideo(planInput: unknown, opts: CompileOptions): CompileR
       });
     });
 
-    const camera = compileCamera(ctx, nodes);
+    let camera = compileCamera(ctx, nodes);
+    // anything timed near the end (an entrance on the last word, a long gesture, a chart drawing on)
+    // may run past the scene: it is cut at the last frame, so the scene never grows by surprise
+    const lastFrame = duration;
+    for (const node of nodes) {
+      const cut = cutAtEnd(node.tracks, lastFrame);
+      node.tracks = cut.tracks;
+      if (cut.cut)
+        issues.push({
+          level: "warning",
+          code: "CUT_AT_SCENE_END",
+          path,
+          message: `'${node.id}' is still animating when the scene ends; cut at the last frame`,
+          hint: "start it on an earlier word or make it shorter",
+        });
+    }
+    camera = cutAtEnd(camera, lastFrame).tracks;
     checkFraming(ctx, nodes, camera);
     for (const [si, s] of scene.sfx.entries()) {
       const f = resolveAt(ctx, s.at, `${path}.sfx[${si}].at`);
@@ -209,7 +232,7 @@ export function compileVideo(planInput: unknown, opts: CompileOptions): CompileR
   if (errors.length || scenes.length === 0) return { issues, sfx, scenes: compiled };
 
   const timeline: RenderTimeline = {
-    schema: "erkasa.timeline/1",
+    schema: "erkasa.timeline/1" as const,
     fps: 30,
     width,
     height,
@@ -218,7 +241,48 @@ export function compileVideo(planInput: unknown, opts: CompileOptions): CompileR
     audio: { ref: `file://audio/${plan.projectId}/mix.wav` },
     captions: { style: "word_pop", wordsPerChunk: 3, words: compiled.flatMap((s) => s.words) },
   };
+  // last line of defence: the compiler never hands the renderer a timeline that breaks the contract
+  const checked = RenderTimelineSchema.safeParse(timeline);
+  if (!checked.success) {
+    for (const i of checked.error.issues)
+      issues.push({
+        level: "error",
+        code: "TIMELINE_INVALID",
+        path: i.path.join("."),
+        message: `compiler produced an invalid timeline: ${i.message}`,
+      });
+    return { issues, sfx, scenes: compiled };
+  }
   return { timeline, issues, sfx, scenes: compiled };
+}
+
+/**
+ * Cuts every track at `end`: numeric tracks get a final keyframe holding the value they have at that
+ * frame (the motion stops where it is), discrete tracks drop the switches that would come later.
+ * `cut` tells whether anything was cut.
+ */
+export function cutAtEnd(
+  tracks: Record<string, Keyframe[]>,
+  end: number,
+): { tracks: Record<string, Keyframe[]>; cut: boolean } {
+  let cut = false;
+  const out: Record<string, Keyframe[]> = {};
+  for (const [name, kfs] of Object.entries(tracks)) {
+    if (!kfs.some((k) => k.f > end)) {
+      out[name] = kfs;
+      continue;
+    }
+    cut = true;
+    const kept = kfs.filter((k) => k.f <= end);
+    const next = kfs.find((k) => k.f > end) as Keyframe;
+    if (typeof next.v === "number") {
+      const v = Math.round(sampleNumber(kfs, end, next.v) * 1000) / 1000;
+      if (kept[kept.length - 1]?.f !== end)
+        kept.push({ f: end, v, ...(next.ease ? { ease: next.ease } : {}) });
+      out[name] = kept;
+    } else if (kept.length) out[name] = kept;
+  }
+  return { tracks: out, cut };
 }
 
 // ------------------------------------------------------------------ assets

@@ -2,6 +2,7 @@ import { compileVideo, type CompileResult } from "@erkasa/compiler";
 import { Engine } from "@erkasa/engine";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import habitsPlan from "../../../engine-worker/demo/habits.video-plan.json?raw";
+import { PREVIEW_PLAN_KEY, store, stored } from "../lib/api";
 import { PreloadedAssetSource, loadManifest, referencedAssets } from "../lib/assets";
 import { useAnimationFrame } from "../lib/useAnimationFrame";
 import { Button } from "../ui";
@@ -15,8 +16,17 @@ interface Compiled {
   ms: number;
 }
 
+/** A plan handed over from a run ("Open the plan in Plan Preview"), used once. */
+function takeHandedPlan(): string | undefined {
+  const text = stored(PREVIEW_PLAN_KEY);
+  if (text === null) return undefined;
+  store(PREVIEW_PLAN_KEY, null);
+  return text;
+}
+
 export function PlanPlayer() {
-  const [text, setText] = useState(habitsPlan);
+  const [initial] = useState(() => takeHandedPlan() ?? habitsPlan);
+  const [text, setText] = useState(initial);
   const [compiled, setCompiled] = useState<Compiled>();
   const [busy, setBusy] = useState(false);
   const [fatal, setFatal] = useState<string>();
@@ -47,8 +57,8 @@ export function PlanPlayer() {
   }, []);
 
   useEffect(() => {
-    void compile(habitsPlan);
-  }, [compile]);
+    void compile(initial);
+  }, [compile, initial]);
 
   const engine = compiled?.engine;
   const total = engine?.totalFrames ?? 0;

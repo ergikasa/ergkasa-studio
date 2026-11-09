@@ -53,6 +53,16 @@ jobs:
         options: >-
           --health-cmd "pg_isready -U erkasa -d erkasa"
           --health-interval 5s --health-timeout 3s --health-retries 20
+      rabbitmq:
+        image: rabbitmq:4-alpine
+        env:
+          RABBITMQ_DEFAULT_USER: erkasa
+          RABBITMQ_DEFAULT_PASS: erkasa_local
+        ports:
+          - 5673:5672
+        options: >-
+          --health-cmd "rabbitmq-diagnostics -q ping"
+          --health-interval 5s --health-timeout 5s --health-retries 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -62,3 +72,9 @@ jobs:
           cache: maven
       - run: ./mvnw -B -ntp verify
         working-directory: backend
+      # the runnable backend jar, kept for a few days (handy for trying a branch without building)
+      - uses: actions/upload-artifact@v4
+        with:
+          name: backend-jar
+          path: backend/target/erkasa-studio-backend-*.jar
+          retention-days: 3

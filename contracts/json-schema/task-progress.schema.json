@@ -1,0 +1,43 @@
+{
+  "$id": "https://erkasa.studio/contracts/task-progress.schema.json",
+  "title": "task-progress",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "erkasa.task-progress/1"
+    },
+    "runId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "stepId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "attempt": {
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991
+    },
+    "pct": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "message": {
+      "default": "",
+      "type": "string",
+      "maxLength": 200
+    }
+  },
+  "required": [
+    "schema",
+    "runId",
+    "stepId",
+    "attempt",
+    "pct"
+  ],
+  "additionalProperties": false
+}
