@@ -1,6 +1,10 @@
 spring:
   application:
     name: erkasa-studio
+  profiles:
+    # With no profile given, run against the local docker compose services (application-local.yml).
+    # A real deployment sets SPRING_PROFILES_ACTIVE and the ERKASA_* variables instead.
+    default: local
   # Connection settings come from the environment (see .env.example). Never commit real credentials.
   datasource:
     url: ${ERKASA_DB_URL}

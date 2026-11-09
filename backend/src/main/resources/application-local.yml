@@ -1,6 +1,6 @@
 # Local development only. Matches infra/docker-compose.yml.
 # These are throwaway credentials for a database that only listens on your machine; not secrets.
-# Activate with: mvn spring-boot:run -Dspring-boot.run.profiles=local
+# Used by default when no profile is set (spring.profiles.default in application.yml): .\mvnw.cmd spring-boot:run
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5404/erkasa

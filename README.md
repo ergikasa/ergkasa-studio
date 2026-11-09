@@ -47,8 +47,8 @@ pnpm check
 # 4. backend-i (kërkon Postgres-in nga hapi 2)
 cd backend
 ./mvnw verify                                        # Windows: .\mvnw.cmd verify
-./mvnw spring-boot:run -Dspring-boot.run.profiles=local
-# Windows: .\mvnw.cmd spring-boot:run "-Dspring-boot.run.profiles=local"
+./mvnw spring-boot:run            # profili `local` aktivizohet vetë
+# Windows: .\mvnw.cmd spring-boot:run
 # → http://localhost:8080/actuator/health  duhet të kthejë {"status":"UP",...}
 # → http://localhost:8080/api/assets/stats   numri i aseteve sipas kategorisë
 
@@ -63,8 +63,7 @@ Katër terminale, nga rrënja e repos:
 
 ```bash
 docker compose -f infra/docker-compose.yml up -d           # 1. Postgres + RabbitMQ
-cd backend; ./mvnw spring-boot:run -Dspring-boot.run.profiles=local
-                                                           # 2. backend (Windows: .\mvnw.cmd ... "-Dspring-boot.run.profiles=local")
+cd backend; ./mvnw spring-boot:run                         # 2. backend (Windows: .\mvnw.cmd spring-boot:run)
 pnpm worker                                                # 3. worker-i: merr hapat nga RabbitMQ
 pnpm studio                                                # 4. http://127.0.0.1:5173
 ```
