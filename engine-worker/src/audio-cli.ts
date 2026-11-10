@@ -47,6 +47,7 @@ function runImport(argv: string[]): void {
 
 function runCheck(): void {
   const lib = openLibrary(loadAudioCatalog(), { verify: sha256File });
+  console.info(`library folder: ${libraryDir()}\ncatalog: ${catalogPath()}\n`);
   console.info(`usable: ${lib.music.length} music, ${lib.sfx.length} effects`);
   for (const m of lib.music) {
     const sections = (m.sections ?? [])

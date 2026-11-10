@@ -174,12 +174,26 @@ export async function executeTask(
           false,
         );
       }
+      // say how the soundtrack was made: a silent fallback to the placeholder pad must never go unnoticed
+      const audio = res.audio;
+      if (audio) {
+        console.info(`${cmd.runId}: audio ${audio.mode}`);
+        for (const n of audio.mode === "designed"
+          ? audio.notes.filter((l) => /^(music|mix)/.test(l))
+          : audio.notes)
+          console.info(`${cmd.runId}:   ${n}`);
+      }
+      progress(
+        100,
+        `audio: ${audio?.mode ?? "none"}${audio?.mode === "placeholder" ? ` (${audio.notes[0] ?? ""})` : ""}`,
+      );
       return {
         outputs: [
           ref(cmd.runId, RUN_FILES.video, "video", "video/mp4"),
           ref(cmd.runId, RUN_FILES.timeline, "timeline", "application/json"),
         ],
         metrics: {
+          designedAudio: audio?.mode === "designed" ? 1 : 0,
           durationSec: Math.round((res.durationSec ?? 0) * 100) / 100,
           renderSec: Math.round((Date.now() - started) / 100) / 10,
           warnings: res.compiled.issues.filter((i) => i.level === "warning").length,
