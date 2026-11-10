@@ -1,6 +1,6 @@
 import type { z } from "zod";
 import { AssetMeta, Rig } from "./asset.js";
-import { AudioPlan, VoiceAlignment } from "./audio.js";
+import { AudioCatalog, AudioPlan, VoiceAlignment } from "./audio.js";
 import { ScenePlan, VideoPlan } from "./scene-plan.js";
 import { Script } from "./script.js";
 import { VoiceCatalog } from "./voice.js";
@@ -32,6 +32,7 @@ export const CONTRACTS = {
   "task-progress": TaskProgress,
   alignment: VoiceAlignment,
   "audio-plan": AudioPlan,
+  "audio-catalog": AudioCatalog,
   script: Script,
   "voice-catalog": VoiceCatalog,
 } as const satisfies Record<string, z.ZodType>;

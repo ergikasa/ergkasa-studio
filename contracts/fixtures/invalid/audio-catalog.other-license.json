@@ -1,0 +1,30 @@
+{
+  "schema": "erkasa.audio-catalog/1",
+  "mix": {},
+  "entries": [
+    {
+      "id": "m_reflect_intimate",
+      "kind": "music",
+      "title": "Intimate Piano",
+      "author": "The_Mountain",
+      "sourceUrl": "https://pixabay.com/music/modern-classical-intimate-piano-252951/",
+      "license": {
+        "name": "CC BY-NC 4.0",
+        "url": "https://creativecommons.org/licenses/by-nc/4.0/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "music/m_reflect_intimate.mp3",
+      "status": "imported",
+      "imported": {
+        "sha256": "0f343b0931126a20f133d67c2b018a3b9aa1d3c4b7f3d7a0e4d6c1b2a3f4e5d6",
+        "durationSec": 120,
+        "loudnessLufs": -18,
+        "truePeakDb": -1,
+        "importedAt": "2026-11-10"
+      },
+      "roles": ["reflection"]
+    }
+  ]
+}

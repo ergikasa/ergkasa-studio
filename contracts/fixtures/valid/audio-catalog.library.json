@@ -1,0 +1,47 @@
+{
+  "schema": "erkasa.audio-catalog/1",
+  "mix": {},
+  "entries": [
+    {
+      "id": "m_turn_strings",
+      "kind": "music",
+      "title": "Cinematic Piano and Strings",
+      "author": "Universfield",
+      "sourceUrl": "https://pixabay.com/music/modern-classical-cinematic-piano-and-strings-558290/",
+      "license": { "name": "Pixabay Content License", "url": "https://pixabay.com/service/license-summary/" },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "music/m_turn_strings.mp3",
+      "status": "imported",
+      "imported": {
+        "sha256": "0f343b0931126a20f133d67c2b018a3b9aa1d3c4b7f3d7a0e4d6c1b2a3f4e5d6",
+        "durationSec": 97.2,
+        "loudnessLufs": -17.4,
+        "truePeakDb": -1.2,
+        "importedAt": "2026-11-10T01:00:00Z"
+      },
+      "mood": "emotional, rising",
+      "roles": ["turn"],
+      "sections": [
+        { "name": "intro", "start": 0, "end": 12, "source": "auto" },
+        { "name": "peak", "start": 40, "end": 65, "source": "listened" }
+      ]
+    },
+    {
+      "id": "sfx_pop_clean",
+      "kind": "sfx",
+      "title": "Clean Minimal Pop",
+      "author": "DRAGON-STUDIO",
+      "sourceUrl": "https://pixabay.com/sound-effects/clean-minimal-pop-467466/",
+      "license": { "name": "Pixabay Content License", "url": "https://pixabay.com/service/license-summary/" },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "sfx/sfx_pop_clean.mp3",
+      "status": "pending",
+      "category": "ui",
+      "events": ["text_in"]
+    }
+  ]
+}

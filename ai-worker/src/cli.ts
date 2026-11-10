@@ -4,6 +4,7 @@ import { parseArgs } from "node:util";
 import { Theme } from "@erkasa/contracts";
 import { MissingConfigError } from "./env.js";
 import { AnthropicLlm } from "./llm.js";
+import { mixRun, parseMixSet, parseVariants, rerender } from "./audio-tools.js";
 import { makeVideo } from "./make.js";
 import { THEME_BRIEFS } from "./script-writer.js";
 import { ElevenLabsVoice, listVoices, voiceExists } from "./voice.js";
@@ -14,6 +15,10 @@ const USAGE = `Usage:
   pnpm video "<topic>" --theme <theme> [--voice <id>] [--seconds 45] [--notes "..."] [--no-voice] [--no-music]
   pnpm video --from-script <run>/script.json [--voice <id>] [--no-voice]
   pnpm video --from-plan <run>/video-plan.json [--voice <id>] [--no-voice]
+  pnpm video:rerender <run> [--name video-h1.mp4] [--no-music]
+                              same run, new soundtrack (no Claude/ElevenLabs calls): compare with video.mp4
+  pnpm audio:mix <run> [--set musicUnderVoiceDb=16,duckDb=9] [--variants musicUnderVoiceDb=14,18,22]
+                              soundtrack only (mix.wav), for listening while tuning levels
   pnpm worker                 runs the worker: takes tasks from RabbitMQ (videos started in the Studio)
   pnpm voices                 the studio voices (voices/catalog.json) and whether your account can use them
   pnpm voices --samples       writes a short sample of each voice to voices/samples/ (Studio > Voices plays them)
@@ -136,12 +141,40 @@ async function voices(argv: string[]): Promise<void> {
   }
 }
 
+async function rerenderCmd(argv: string[]): Promise<void> {
+  const { values, positionals } = parseArgs({
+    args: argv,
+    allowPositionals: true,
+    options: { name: { type: "string" }, "no-music": { type: "boolean", default: false } },
+  });
+  const run = positionals[0];
+  if (!run) throw new UsageError("give the run folder");
+  const name = values.name ?? "video-h1.mp4";
+  if (!/^[\w.-]+\.mp4$/.test(name)) throw new UsageError("--name must be a file name ending in .mp4");
+  const video = await rerender(userPath(run), { name, music: values["no-music"] !== true });
+  if (video) console.info(`\ndone: ${video}`);
+  else process.exitCode = 1;
+}
+
+async function audioMixCmd(argv: string[]): Promise<void> {
+  const { values, positionals } = parseArgs({
+    args: argv,
+    allowPositionals: true,
+    options: { set: { type: "string" }, variants: { type: "string" } },
+  });
+  const run = positionals[0];
+  if (!run) throw new UsageError("give the run folder");
+  await mixRun(userPath(run), { set: parseMixSet(values.set), variants: parseVariants(values.variants) });
+}
+
 class UsageError extends Error {}
 
 const [command, ...rest] = process.argv.slice(2);
 try {
   if (command === "make") await make(rest);
   else if (command === "voices") await voices(rest);
+  else if (command === "rerender") await rerenderCmd(rest);
+  else if (command === "audio-mix") await audioMixCmd(rest);
   else if (command === "worker") await runWorkerForever();
   else throw new UsageError(`unknown command '${command ?? ""}'`);
 } catch (e) {

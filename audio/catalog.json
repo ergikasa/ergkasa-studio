@@ -1,0 +1,791 @@
+{
+  "schema": "erkasa.audio-catalog/1",
+  "mix": {
+    "musicUnderVoiceDb": 18,
+    "duckDb": 7,
+    "duckAttackMs": 120,
+    "duckReleaseMs": 500,
+    "sfxUnderVoiceDb": 12,
+    "crossfadeSec": 1.6,
+    "minSegmentSec": 9,
+    "sfxEverySec": 4.5,
+    "minSfxGapSec": 1.8,
+    "targetLufs": -14,
+    "truePeakDb": -1
+  },
+  "entries": [
+    {
+      "id": "m_hook_doc_piano",
+      "kind": "music",
+      "title": "Documentary Piano Background",
+      "author": "Universfield",
+      "sourceUrl": "https://pixabay.com/music/ambient-documentary-piano-background-191757/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "music/m_hook_doc_piano.mp3",
+      "status": "pending",
+      "mood": "curious, calm",
+      "character": "soft acoustic piano chords + subtle atmospheric pads",
+      "roles": ["hook", "relate"]
+    },
+    {
+      "id": "m_relate_emotional",
+      "kind": "music",
+      "title": "Emotional Piano Background",
+      "author": "Universfield",
+      "sourceUrl": "https://pixabay.com/music/modern-classical-emotional-piano-background-351365/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "music/m_relate_emotional.mp3",
+      "status": "pending",
+      "mood": "nostalgic, warm",
+      "character": "touching solo piano, calm",
+      "roles": ["relate", "hook", "reflection"]
+    },
+    {
+      "id": "m_explain_calm",
+      "kind": "music",
+      "title": "Calm Piano Background",
+      "author": "Universfield",
+      "sourceUrl": "https://pixabay.com/music/modern-classical-calm-piano-background-352250/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "music/m_explain_calm.mp3",
+      "status": "pending",
+      "mood": "neutral, calm",
+      "character": "soft reflective piano melodies",
+      "roles": ["explain", "relate"]
+    },
+    {
+      "id": "m_tension_ambient",
+      "kind": "music",
+      "title": "Tension Documentary",
+      "author": "AtlasAudio",
+      "sourceUrl": "https://pixabay.com/music/ambient-tension-documentary-519912/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "music/m_tension_ambient.mp3",
+      "status": "pending",
+      "mood": "uneasy, waiting",
+      "character": "documentary ambient tension",
+      "roles": ["tension"]
+    },
+    {
+      "id": "m_tension_piano",
+      "kind": "music",
+      "title": "Tense Crime Documentary Piano",
+      "author": "Universfield",
+      "sourceUrl": "https://pixabay.com/music/solo-piano-tense-crime-documentary-piano-175502/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "music/m_tension_piano.mp3",
+      "status": "pending",
+      "mood": "dark, pressure",
+      "character": "piano + synth, mystery",
+      "roles": ["tension", "twist"]
+    },
+    {
+      "id": "m_twist_dark",
+      "kind": "music",
+      "title": "Dark Mystery Piano",
+      "author": "Universfield",
+      "sourceUrl": "https://pixabay.com/music/solo-piano-dark-mystery-piano-161660/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "music/m_twist_dark.mp3",
+      "status": "pending",
+      "mood": "unsettling, suspended",
+      "character": "haunting piano notes + dark ambient pads",
+      "roles": ["twist"]
+    },
+    {
+      "id": "m_twist_violin",
+      "kind": "music",
+      "title": "Mysterious Piano and Violin",
+      "author": "Universfield",
+      "sourceUrl": "https://pixabay.com/music/mystery-mysterious-piano-and-violin-143149/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "music/m_twist_violin.mp3",
+      "status": "pending",
+      "mood": "mysterious, curious",
+      "character": "piano + cinematic violin",
+      "roles": ["twist", "hook"],
+      "notes": "player showed 1:00, may be a preview: check the real length"
+    },
+    {
+      "id": "m_reflect_sorrow",
+      "kind": "music",
+      "title": "Dramatic Sorrow Piano",
+      "author": "Universfield",
+      "sourceUrl": "https://pixabay.com/music/mystery-dramatic-sorrow-piano-161657/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "music/m_reflect_sorrow.mp3",
+      "status": "pending",
+      "mood": "melancholic, introspective",
+      "character": "melancholic dramatic piano",
+      "roles": ["reflection"]
+    },
+    {
+      "id": "m_turn_strings",
+      "kind": "music",
+      "title": "Cinematic Piano and Strings",
+      "author": "Universfield",
+      "sourceUrl": "https://pixabay.com/music/modern-classical-cinematic-piano-and-strings-558290/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "music/m_turn_strings.mp3",
+      "status": "pending",
+      "mood": "emotional, rising",
+      "character": "cinematic piano + strings",
+      "roles": ["turn"]
+    },
+    {
+      "id": "m_resolve_elegant",
+      "kind": "music",
+      "title": "Elegant Inspirational Piano Melody",
+      "author": "Universfield",
+      "sourceUrl": "https://pixabay.com/music/modern-classical-elegant-inspirational-piano-melody-237029/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "music/m_resolve_elegant.mp3",
+      "status": "pending",
+      "mood": "hopeful, warm",
+      "character": "flowing neoclassical piano",
+      "roles": ["resolve", "turn"]
+    },
+    {
+      "id": "m_reflect_calm_alt",
+      "kind": "music",
+      "title": "Calm Moments - Emotional Reflective Background Music",
+      "author": "MeeGiStudio",
+      "sourceUrl": "https://pixabay.com/music/small-emotions-calm-moments-emotional-reflective-background-music-531325/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "music/m_reflect_calm_alt.mp3",
+      "status": "pending",
+      "mood": "peaceful",
+      "character": "cinematic ambient",
+      "roles": ["reflection", "explain"]
+    },
+    {
+      "id": "sfx_swoosh_thin",
+      "kind": "sfx",
+      "title": "Thin Swoosh",
+      "author": "Universfield",
+      "sourceUrl": "https://pixabay.com/sound-effects/film-special-effects-thin-swoosh-352756/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "sfx/sfx_swoosh_thin.mp3",
+      "status": "pending",
+      "category": "transition",
+      "events": ["scene_cut"]
+    },
+    {
+      "id": "sfx_swoosh_slow",
+      "kind": "sfx",
+      "title": "Slow Swoosh",
+      "author": "Universfield",
+      "sourceUrl": "https://pixabay.com/sound-effects/film-special-effects-slow-swoosh-567191/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "sfx/sfx_swoosh_slow.mp3",
+      "status": "pending",
+      "category": "transition",
+      "events": ["camera_push"],
+      "maxPerVideo": 2
+    },
+    {
+      "id": "sfx_whoosh_light",
+      "kind": "sfx",
+      "title": "Minimalist Light Whoosh FX",
+      "author": "Chrysalyn",
+      "sourceUrl": "https://pixabay.com/sound-effects/film-special-effects-minimalist-light-whoosh-fx-547374/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "sfx/sfx_whoosh_light.mp3",
+      "status": "pending",
+      "category": "transition",
+      "events": ["object_in"]
+    },
+    {
+      "id": "sfx_whoosh_air",
+      "kind": "sfx",
+      "title": "Soft luxury air whoosh #5",
+      "author": "Sdanezis",
+      "sourceUrl": "https://pixabay.com/sound-effects/film-special-effects-soft-luxury-air-whoosh-5-592509/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "sfx/sfx_whoosh_air.mp3",
+      "status": "pending",
+      "category": "transition",
+      "events": ["object_out"]
+    },
+    {
+      "id": "sfx_whoosh_whisper",
+      "kind": "sfx",
+      "title": "Whoosh Whisper - 2",
+      "author": "Virtual_Vibes",
+      "sourceUrl": "https://pixabay.com/sound-effects/film-special-effects-whoosh-whisper-2-404221/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "sfx/sfx_whoosh_whisper.mp3",
+      "status": "pending",
+      "category": "transition",
+      "events": ["into_reflection"],
+      "maxPerVideo": 1
+    },
+    {
+      "id": "sfx_pop_clean",
+      "kind": "sfx",
+      "title": "Clean Minimal Pop",
+      "author": "DRAGON-STUDIO",
+      "sourceUrl": "https://pixabay.com/sound-effects/clean-minimal-pop-467466/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "sfx/sfx_pop_clean.mp3",
+      "status": "pending",
+      "category": "ui",
+      "events": ["text_in"]
+    },
+    {
+      "id": "sfx_pop_subtle",
+      "kind": "sfx",
+      "title": "soft subtle ui pop sfx",
+      "author": "abhicreates",
+      "sourceUrl": "https://pixabay.com/sound-effects/film-special-effects-soft-subtle-ui-pop-sfx-348820/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "sfx/sfx_pop_subtle.mp3",
+      "status": "pending",
+      "category": "ui",
+      "events": ["chart_point", "text_in"]
+    },
+    {
+      "id": "sfx_click_soft",
+      "kind": "sfx",
+      "title": "Soft UI Click",
+      "author": "Universfield",
+      "sourceUrl": "https://pixabay.com/sound-effects/film-special-effects-soft-ui-click-147352/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "sfx/sfx_click_soft.mp3",
+      "status": "pending",
+      "category": "ui",
+      "events": ["chart_in"]
+    },
+    {
+      "id": "sfx_click_interface",
+      "kind": "sfx",
+      "title": "Soft Interface Click",
+      "author": "Universfield",
+      "sourceUrl": "https://pixabay.com/sound-effects/film-special-effects-soft-interface-click-126517/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "sfx/sfx_click_interface.mp3",
+      "status": "pending",
+      "category": "ui",
+      "events": ["toggle"]
+    },
+    {
+      "id": "sfx_tap_phone",
+      "kind": "sfx",
+      "title": "Soft App Button Tap Sound #2",
+      "author": "Vadim_Makes_Sound",
+      "sourceUrl": "https://pixabay.com/sound-effects/technology-soft-app-button-tap-sound-2-547872/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "sfx/sfx_tap_phone.mp3",
+      "status": "pending",
+      "category": "phone",
+      "events": ["action_use_phone"],
+      "maxPerVideo": 3
+    },
+    {
+      "id": "sfx_notif_main",
+      "kind": "sfx",
+      "title": "New Notification 09",
+      "author": "Universfield",
+      "sourceUrl": "https://pixabay.com/sound-effects/film-special-effects-new-notification-09-352705/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "sfx/sfx_notif_main.mp3",
+      "status": "pending",
+      "category": "phone",
+      "events": ["phone_distraction"],
+      "maxPerVideo": 1
+    },
+    {
+      "id": "sfx_notif_chime",
+      "kind": "sfx",
+      "title": "Notification Chime",
+      "author": "Universfield",
+      "sourceUrl": "https://pixabay.com/sound-effects/film-special-effects-notification-chime-153308/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "sfx/sfx_notif_chime.mp3",
+      "status": "pending",
+      "category": "phone",
+      "events": ["phone_distraction"],
+      "maxPerVideo": 1
+    },
+    {
+      "id": "sfx_notif_soft",
+      "kind": "sfx",
+      "title": "Soft Notification",
+      "author": "Universfield",
+      "sourceUrl": "https://pixabay.com/sound-effects/film-special-effects-soft-notification-146623/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "sfx/sfx_notif_soft.mp3",
+      "status": "pending",
+      "category": "phone",
+      "events": ["action_walk_phone"],
+      "maxPerVideo": 1
+    },
+    {
+      "id": "sfx_tick_short",
+      "kind": "sfx",
+      "title": "Clock Ticking",
+      "author": "Universfield",
+      "sourceUrl": "https://pixabay.com/sound-effects/film-special-effects-clock-ticking-153321/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "sfx/sfx_tick_short.mp3",
+      "status": "pending",
+      "category": "time",
+      "events": ["action_check_watch"],
+      "maxPerVideo": 2
+    },
+    {
+      "id": "sfx_tick_old",
+      "kind": "sfx",
+      "title": "Old Clock Ticking",
+      "author": "Universfield",
+      "sourceUrl": "https://pixabay.com/sound-effects/film-special-effects-old-clock-ticking-352288/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "sfx/sfx_tick_old.mp3",
+      "status": "pending",
+      "category": "time",
+      "events": ["clock_object"],
+      "maxPerVideo": 1
+    },
+    {
+      "id": "sfx_tick_cinematic",
+      "kind": "sfx",
+      "title": "Slow Cinematic Clock Ticking",
+      "author": "DRAGON-STUDIO",
+      "sourceUrl": "https://pixabay.com/sound-effects/film-special-effects-slow-cinematic-clock-ticking-357979/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "sfx/sfx_tick_cinematic.mp3",
+      "status": "pending",
+      "category": "time",
+      "events": ["timer_in"],
+      "maxPerVideo": 1
+    },
+    {
+      "id": "sfx_paper_handle",
+      "kind": "sfx",
+      "title": "Foley Paper Handling & Page Turning SFX",
+      "author": "LensPulse",
+      "sourceUrl": "https://pixabay.com/sound-effects/film-special-effects-foley-paper-handling-amp-page-turning-sfx-584919/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "sfx/sfx_paper_handle.mp3",
+      "status": "pending",
+      "category": "object",
+      "events": ["action_read"],
+      "maxPerVideo": 2
+    },
+    {
+      "id": "sfx_paper_grab",
+      "kind": "sfx",
+      "title": "Paper Grab",
+      "author": "soundsforstory",
+      "sourceUrl": "https://pixabay.com/sound-effects/film-special-effects-paper-grab-259214/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "sfx/sfx_paper_grab.mp3",
+      "status": "pending",
+      "category": "object",
+      "events": ["holding_document"],
+      "maxPerVideo": 2
+    },
+    {
+      "id": "sfx_typing",
+      "kind": "sfx",
+      "title": "Keyboard Typing Fast",
+      "author": "SoundReality",
+      "sourceUrl": "https://pixabay.com/sound-effects/film-special-effects-keyboard-typing-fast-381781/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "sfx/sfx_typing.mp3",
+      "status": "pending",
+      "category": "object",
+      "events": ["action_type"],
+      "maxPerVideo": 2
+    },
+    {
+      "id": "sfx_pen_click",
+      "kind": "sfx",
+      "title": "Pen Click",
+      "author": "SoundReality",
+      "sourceUrl": "https://pixabay.com/sound-effects/film-special-effects-pen-click-411629/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "sfx/sfx_pen_click.mp3",
+      "status": "pending",
+      "category": "object",
+      "events": ["decision"],
+      "maxPerVideo": 2
+    },
+    {
+      "id": "sfx_heart_single",
+      "kind": "sfx",
+      "title": "Heartbeat - Single",
+      "author": "Universfield",
+      "sourceUrl": "https://pixabay.com/sound-effects/film-special-effects-heartbeat-single-383748/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "sfx/sfx_heart_single.mp3",
+      "status": "pending",
+      "category": "body",
+      "events": ["action_stressed"],
+      "maxPerVideo": 2
+    },
+    {
+      "id": "sfx_heart_tense",
+      "kind": "sfx",
+      "title": "Heartbeat (tense)",
+      "author": "PWLPL",
+      "sourceUrl": "https://pixabay.com/sound-effects/film-special-effects-heartbeat-tense-377250/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "sfx/sfx_heart_tense.mp3",
+      "status": "pending",
+      "category": "body",
+      "events": ["tension_peak"],
+      "maxPerVideo": 1
+    },
+    {
+      "id": "sfx_steps",
+      "kind": "sfx",
+      "title": "Footsteps Walking",
+      "author": "Universfield",
+      "sourceUrl": "https://pixabay.com/sound-effects/film-special-effects-footsteps-walking-278819/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "sfx/sfx_steps.mp3",
+      "status": "pending",
+      "category": "body",
+      "events": ["action_walk"],
+      "maxPerVideo": 2
+    },
+    {
+      "id": "sfx_riser_soft",
+      "kind": "sfx",
+      "title": "Swoosh Riser Reverb",
+      "author": "DRAGON-STUDIO",
+      "sourceUrl": "https://pixabay.com/sound-effects/film-special-effects-swoosh-riser-reverb-390309/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "sfx/sfx_riser_soft.mp3",
+      "status": "pending",
+      "category": "beat",
+      "events": ["before_twist"],
+      "maxPerVideo": 1
+    },
+    {
+      "id": "sfx_riser_dreamy",
+      "kind": "sfx",
+      "title": "Dreamy Cinematic Riser",
+      "author": "Black_Kumizhi",
+      "sourceUrl": "https://pixabay.com/sound-effects/musical-dreamy-cinematic-riser-523158/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "sfx/sfx_riser_dreamy.mp3",
+      "status": "pending",
+      "category": "beat",
+      "events": ["before_turn"],
+      "maxPerVideo": 1
+    },
+    {
+      "id": "sfx_boom_soft",
+      "kind": "sfx",
+      "title": "Cinematic Boom Soft",
+      "author": "ksjsbwuil",
+      "sourceUrl": "https://pixabay.com/sound-effects/film-special-effects-cinematic-boom-soft-513933/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "sfx/sfx_boom_soft.mp3",
+      "status": "pending",
+      "category": "beat",
+      "events": ["twist_reveal"],
+      "maxPerVideo": 1
+    },
+    {
+      "id": "sfx_insight_piano",
+      "kind": "sfx",
+      "title": "Piano Notification",
+      "author": "Universfield",
+      "sourceUrl": "https://pixabay.com/sound-effects/film-special-effects-piano-notification-131914/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "sfx/sfx_insight_piano.mp3",
+      "status": "pending",
+      "category": "beat",
+      "events": ["turn_insight"],
+      "maxPerVideo": 1
+    },
+    {
+      "id": "sfx_win_soft",
+      "kind": "sfx",
+      "title": "Positive Notification",
+      "author": "Universfield",
+      "sourceUrl": "https://pixabay.com/sound-effects/film-special-effects-positive-notification-351299/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "sfx/sfx_win_soft.mp3",
+      "status": "pending",
+      "category": "beat",
+      "events": ["resolve_win"],
+      "maxPerVideo": 1
+    },
+    {
+      "id": "sfx_glass_knock",
+      "kind": "sfx",
+      "title": "Glass Knock 1",
+      "author": "floraphonic",
+      "sourceUrl": "https://pixabay.com/sound-effects/film-special-effects-glass-knock-1-189096/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "sfx/sfx_glass_knock.mp3",
+      "status": "pending",
+      "category": "metaphor",
+      "events": ["glass_knock"],
+      "maxPerVideo": 3
+    },
+    {
+      "id": "sfx_glass_clink",
+      "kind": "sfx",
+      "title": "Glass Clink 7",
+      "author": "floraphonic",
+      "sourceUrl": "https://pixabay.com/sound-effects/film-special-effects-glass-clink-7-188132/",
+      "license": {
+        "name": "Pixabay Content License",
+        "url": "https://pixabay.com/service/license-summary/"
+      },
+      "contentIdRegistered": false,
+      "aiGenerated": false,
+      "checkedAt": "2026-11-10",
+      "file": "sfx/sfx_glass_clink.mp3",
+      "status": "pending",
+      "category": "metaphor",
+      "events": ["glass_crack"],
+      "maxPerVideo": 2
+    }
+  ]
+}

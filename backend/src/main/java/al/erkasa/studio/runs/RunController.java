@@ -87,9 +87,11 @@ public class RunController {
         Path file = storage.file(id, relative)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, relative + " not found for run " + id));
         String name = file.getFileName().toString().toLowerCase(Locale.ROOT);
-        MediaType type = name.endsWith(".mp4")
-                ? MediaType.parseMediaType("video/mp4")
-                : name.endsWith(".mp3") ? MediaType.parseMediaType("audio/mpeg") : MediaType.APPLICATION_JSON;
+        MediaType type = name.endsWith(".mp4") ? MediaType.parseMediaType("video/mp4")
+                : name.endsWith(".mp3") ? MediaType.parseMediaType("audio/mpeg")
+                : name.endsWith(".wav") ? MediaType.parseMediaType("audio/wav")
+                : name.endsWith(".txt") ? MediaType.TEXT_PLAIN
+                : MediaType.APPLICATION_JSON;
         // a Resource body gets HTTP Range support, so the video can be seeked in the browser
         return ResponseEntity.ok().contentType(type).cacheControl(CacheControl.noCache()).body(new FileSystemResource(file));
     }

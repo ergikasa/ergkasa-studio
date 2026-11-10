@@ -1,32 +1,36 @@
 {
-  "schema": "erkasa.audio-plan/1",
+  "schema": "erkasa.audio-plan/2",
   "durationSec": 12.4,
   "voice": [
+    { "sceneId": "s01", "audio": "file://r_demo/voice/s01.mp3", "startSec": 0 },
+    { "sceneId": "s02", "audio": "file://r_demo/voice/s02.mp3", "startSec": 6.6 }
+  ],
+  "voiceLufs": -18.2,
+  "music": [
     {
-      "sceneId": "s01",
-      "audio": "s3://erkasa/projects/p_demo/voice/s01/v1.mp3",
-      "startSec": 0
+      "assetId": "m_hook_doc_piano",
+      "role": "hook",
+      "section": "intro",
+      "startSec": 0,
+      "endSec": 7.4,
+      "offsetSec": 0,
+      "gainDb": -14.5,
+      "fadeInSec": 0.4,
+      "fadeOutSec": 1.6
     },
     {
-      "sceneId": "s02",
-      "audio": "s3://erkasa/projects/p_demo/voice/s02/v1.mp3",
-      "startSec": 6.6
+      "assetId": "m_tension_ambient",
+      "role": "tension",
+      "section": "build",
+      "startSec": 5.8,
+      "endSec": 12.4,
+      "offsetSec": 21.3,
+      "gainDb": -12,
+      "fadeInSec": 1.6,
+      "fadeOutSec": 1.5
     }
   ],
-  "music": {
-    "assetId": "music_curious_01",
-    "ducking": {
-      "amountDb": -12
-    }
-  },
-  "sfx": [
-    {
-      "assetId": "sfx_whoosh_01",
-      "atSec": 0.9
-    }
-  ],
-  "loudness": {
-    "targetLufs": -14,
-    "truePeakDb": -1
-  }
+  "ducking": { "amountDb": 7, "attackMs": 120, "releaseMs": 500 },
+  "sfx": [{ "assetId": "sfx_notif_main", "atSec": 0.9, "gainDb": -9, "reason": "s01 arti action_use_phone" }],
+  "loudness": { "targetLufs": -14, "truePeakDb": -1 }
 }

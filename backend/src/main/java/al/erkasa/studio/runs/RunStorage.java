@@ -23,9 +23,11 @@ public class RunStorage {
     static final Pattern RUN_ID = Pattern.compile("^[a-z0-9][a-z0-9-]{0,63}$");
     private static final Pattern SERVABLE = Pattern.compile(
             "^(script\\.json|video-plan\\.json|plan-attempts\\.json|timeline\\.json|video\\.mp4|voice/voice\\.json"
+                    + "|audio-plan\\.json|audio-notes\\.txt|mix\\.wav"
                     + "|voice/[A-Za-z][A-Za-z0-9_-]{0,63}\\.mp3)$");
     private static final List<String> MAIN_FILES =
-            List.of("script.json", "voice/voice.json", "plan-attempts.json", "video-plan.json", "timeline.json", "video.mp4");
+            List.of("script.json", "voice/voice.json", "plan-attempts.json", "video-plan.json", "timeline.json",
+                    "audio-plan.json", "audio-notes.txt", "mix.wav", "video.mp4");
 
     private final Path root;
     private final ObjectMapper mapper = new ObjectMapper();

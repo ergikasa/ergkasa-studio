@@ -12,7 +12,8 @@
     "demo": "tsx src/cli.ts demo/phase-b-demo.timeline.json -o out/phase-b-demo.mp4 --music-placeholder",
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest run",
-    "demo:plan": "tsx src/cli.ts demo/habits.video-plan.json -o out/habits-demo.mp4 --music-placeholder"
+    "demo:plan": "tsx src/cli.ts demo/habits.video-plan.json -o out/habits-demo.mp4 --music-placeholder",
+    "audio": "tsx src/audio-cli.ts"
   },
   "dependencies": {
     "@erkasa/contracts": "workspace:*",

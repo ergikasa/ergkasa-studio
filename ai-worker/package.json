@@ -12,7 +12,9 @@
     "voices": "tsx src/cli.ts voices",
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest run",
-    "worker": "tsx src/cli.ts worker"
+    "worker": "tsx src/cli.ts worker",
+    "rerender": "tsx src/cli.ts rerender",
+    "audio:mix": "tsx src/cli.ts audio-mix"
   },
   "dependencies": {
     "@erkasa/compiler": "workspace:*",

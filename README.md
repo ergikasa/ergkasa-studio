@@ -95,6 +95,30 @@ Temat: `psychology`, `money`, `growth`, `philosophy`, `science`, `decisions`. Ç
 Rifillimi pas një ndryshimi me dorë: `pnpm video --from-plan out/<run>/video-plan.json` (pa Claude) ose
 `--from-script out/<run>/script.json` (skenari i njëjtë, plan i ri). Komandat niseni nga rrënja e repos.
 
+### Muzika dhe efektet (H1)
+
+Lista e skedarëve, me linkun origjinal dhe licencën, është te `audio/catalog.json`. Shkarkoji nga Pixabay
+me emrin `<id>.mp3` te `assets-src/audio/music/` dhe `assets-src/audio/sfx/`. Kjo dosje nuk futet kurrë në Git.
+
+```bash
+pnpm audio:import                             # mat skedarët: sha256, kohëzgjatja, loudness, seksionet
+pnpm audio:import --notes shenimet.txt        # pastaj aplikon shënimet e dëgjimit (seksione, gain, reject)
+pnpm audio:check                              # çfarë përdoret dot në video dhe pse pjesa tjetër jo
+pnpm video:rerender out/<run> --name video-h1.mp4   # i njëjti run me soundtrack-un e ri (pa API)
+pnpm audio:mix out/<run> --variants musicUnderVoiceDb=14,18,22   # vetëm audio, disa nivele për krahasim
+```
+
+Shënimet e dëgjimit, një rresht për skedar:
+
+```
+m_turn_strings | intro 0:00-0:12 | build 0:12-0:40 | peak 0:40-1:05 | outro 1:05-1:37 | "strings hyjnë te 0:12"
+sfx_pop_clean | gain -3
+sfx_heart_tense | reject "shumë dramatik"
+```
+
+Çdo run me muzikë shkruan `audio-plan.json` (çfarë luan, ku dhe sa fort), `audio-notes.txt` (pse) dhe `mix.wav`.
+Nivelet e miksit janë te `audio/catalog.json > mix`. Vendimet: `docs/adr/0010-audio-library-and-sound-design.md`.
+
 ### API e aseteve
 
 Në nisje backend-i lexon `assets/manifest.json` dhe çdo `asset.json`, i validon me kontratën `asset`
@@ -124,6 +148,10 @@ Panelet lokale: RabbitMQ te http://localhost:15673 (erkasa / erkasa_local). Port
 | `pnpm video "<temë>" --theme x` | temë → skenar → zë → plan → MP4 (kërkon çelësat te `.env`)         |
 | `pnpm worker`                   | worker-i: ekzekuton hapat që nis Studio (kërkon RabbitMQ)          |
 | `pnpm voices [--samples]`       | zërat e studios, kontrolli në llogari, shembujt audio              |
+| `pnpm audio:import [--notes f]` | mat bibliotekën audio dhe aplikon shënimet e dëgjimit              |
+| `pnpm audio:check`              | çfarë muzike/efekte përdoret dot dhe pse të tjerat jo              |
+| `pnpm video:rerender <run>`     | soundtrack i ri për një run ekzistues, pa thirrje API              |
+| `pnpm audio:mix <run>`          | vetëm audio (`mix.wav`, variante), për akordim me vesh             |
 | `pnpm demo:plan`                | kompilon dhe eksporton planin demo në `engine-worker/out/`         |
 | `./mvnw verify` (te `backend/`) | testet Java: kontratat, Flyway, indeksimi i 402 aseteve dhe API    |
 

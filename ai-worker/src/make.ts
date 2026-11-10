@@ -201,6 +201,16 @@ export async function makeVideo(opts: MakeOptions, deps: MakeDeps = {}): Promise
     if (i.level === "warning") warnings.push(line);
     log(`  ${line}`);
   }
+  if (rendered.audio) {
+    log(
+      `audio: ${rendered.audio.mode}${rendered.audio.mode === "designed" ? ` (see ${RUN_FILES.audioNotes})` : ""}`,
+    );
+    for (const n of rendered.audio.notes
+      .filter((l) => l.startsWith("music ") || !/^sfx /.test(l))
+      .slice(0, 12))
+      log(`  ${n}`);
+    if (rendered.audio.mode === "placeholder") warnings.push(...rendered.audio.notes);
+  }
   if (!rendered.video) {
     log(`compile failed; fix ${RUN_FILES.plan} and resume with --from-plan`);
     return finish();

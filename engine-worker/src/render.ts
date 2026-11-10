@@ -44,6 +44,7 @@ export function audioArgs(
 ): AudioArgs {
   const aac = ["-c:a", "aac", "-b:a", "192k", "-ar", "48000"];
   if (opts.audio) return { inputs: ["-i", opts.audio], map: ["-map", "0:v", "-map", "1:a", ...aac] };
+
   const voice = opts.voice ?? [];
   if (!voice.length && !opts.musicPlaceholder) return { inputs: [], map: [] };
 
@@ -89,12 +90,13 @@ export interface RenderOptions {
   timeline: unknown;
   assetsDir: string;
   out: string;
-  /** Optional audio file mixed under the video. */
+  /** A finished soundtrack (e.g. the designed mix.wav), used as is. */
   audio?: string;
   /** Generate a quiet placeholder music bed (until real music arrives). Ducked under the voice. */
   musicPlaceholder?: boolean;
   /** Narration clips placed on the video timeline (one per scene). Mixed and loudness-normalized. */
   voice?: VoiceClip[];
+
   /** Render only [from, to) global frames. */
   range?: [number, number];
   ffmpeg?: string;

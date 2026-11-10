@@ -6,14 +6,14 @@
   "properties": {
     "schema": {
       "type": "string",
-      "const": "erkasa.audio-plan/1"
+      "const": "erkasa.audio-plan/2"
     },
     "durationSec": {
       "type": "number",
       "exclusiveMinimum": 0
     },
     "voice": {
-      "minItems": 1,
+      "default": [],
       "type": "array",
       "items": {
         "type": "object",
@@ -39,57 +39,104 @@
         "additionalProperties": false
       }
     },
+    "voiceLufs": {
+      "type": "number",
+      "maximum": 0
+    },
     "music": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "assetId": {
+            "type": "string",
+            "pattern": "^[a-z]+_[a-z0-9_]+$"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "hook",
+              "relate",
+              "explain",
+              "tension",
+              "twist",
+              "reflection",
+              "turn",
+              "resolve"
+            ]
+          },
+          "section": {
+            "type": "string",
+            "enum": [
+              "intro",
+              "build",
+              "peak",
+              "outro"
+            ]
+          },
+          "startSec": {
+            "type": "number",
+            "minimum": 0
+          },
+          "endSec": {
+            "type": "number",
+            "minimum": 0
+          },
+          "offsetSec": {
+            "type": "number",
+            "minimum": 0
+          },
+          "gainDb": {
+            "type": "number",
+            "minimum": -60,
+            "maximum": 12
+          },
+          "fadeInSec": {
+            "type": "number",
+            "minimum": 0
+          },
+          "fadeOutSec": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "assetId",
+          "role",
+          "startSec",
+          "endSec",
+          "offsetSec",
+          "gainDb",
+          "fadeInSec",
+          "fadeOutSec"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "ducking": {
       "type": "object",
       "properties": {
-        "assetId": {
-          "type": "string",
-          "pattern": "^[a-z]+_[a-z0-9_]+$"
-        },
-        "gainDb": {
-          "default": -18,
+        "amountDb": {
           "type": "number",
-          "minimum": -40,
-          "maximum": 0
+          "minimum": 0,
+          "maximum": 30
         },
-        "fadeInSec": {
-          "default": 1,
-          "type": "number",
-          "minimum": 0
+        "attackMs": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
         },
-        "fadeOutSec": {
-          "default": 1.5,
-          "type": "number",
-          "minimum": 0
-        },
-        "ducking": {
-          "type": "object",
-          "properties": {
-            "amountDb": {
-              "default": -12,
-              "type": "number",
-              "minimum": -30,
-              "maximum": 0
-            },
-            "attackMs": {
-              "default": 150,
-              "type": "integer",
-              "minimum": 0,
-              "maximum": 9007199254740991
-            },
-            "releaseMs": {
-              "default": 400,
-              "type": "integer",
-              "minimum": 0,
-              "maximum": 9007199254740991
-            }
-          },
-          "additionalProperties": false
+        "releaseMs": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
         }
       },
       "required": [
-        "assetId",
-        "ducking"
+        "amountDb",
+        "attackMs",
+        "releaseMs"
       ],
       "additionalProperties": false
     },
@@ -108,15 +155,28 @@
             "minimum": 0
           },
           "gainDb": {
-            "default": -6,
             "type": "number",
-            "minimum": -40,
-            "maximum": 6
+            "minimum": -60,
+            "maximum": 12
+          },
+          "offsetSec": {
+            "type": "number",
+            "minimum": 0
+          },
+          "maxSec": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 120
           }
         },
         "required": [
           "assetId",
-          "atSec"
+          "atSec",
+          "gainDb",
+          "reason"
         ],
         "additionalProperties": false
       }
@@ -125,21 +185,23 @@
       "type": "object",
       "properties": {
         "targetLufs": {
-          "default": -14,
           "type": "number"
         },
         "truePeakDb": {
-          "default": -1,
           "type": "number"
         }
       },
+      "required": [
+        "targetLufs",
+        "truePeakDb"
+      ],
       "additionalProperties": false
     }
   },
   "required": [
     "schema",
     "durationSec",
-    "voice",
+    "ducking",
     "loudness"
   ],
   "additionalProperties": false

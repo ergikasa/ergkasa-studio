@@ -1,0 +1,312 @@
+{
+  "$id": "https://erkasa.studio/contracts/audio-catalog.schema.json",
+  "title": "audio-catalog",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "erkasa.audio-catalog/1"
+    },
+    "mix": {
+      "type": "object",
+      "properties": {
+        "musicUnderVoiceDb": {
+          "default": 18,
+          "type": "number",
+          "minimum": 6,
+          "maximum": 36
+        },
+        "duckDb": {
+          "default": 7,
+          "type": "number",
+          "minimum": 0,
+          "maximum": 24
+        },
+        "duckAttackMs": {
+          "default": 120,
+          "type": "integer",
+          "minimum": 5,
+          "maximum": 1000
+        },
+        "duckReleaseMs": {
+          "default": 500,
+          "type": "integer",
+          "minimum": 50,
+          "maximum": 3000
+        },
+        "sfxUnderVoiceDb": {
+          "default": 12,
+          "type": "number",
+          "minimum": 0,
+          "maximum": 30
+        },
+        "crossfadeSec": {
+          "default": 1.6,
+          "type": "number",
+          "minimum": 0.2,
+          "maximum": 4
+        },
+        "minSegmentSec": {
+          "default": 9,
+          "type": "number",
+          "minimum": 3,
+          "maximum": 30
+        },
+        "sfxEverySec": {
+          "default": 4.5,
+          "type": "number",
+          "minimum": 1,
+          "maximum": 20
+        },
+        "minSfxGapSec": {
+          "default": 1.8,
+          "type": "number",
+          "minimum": 0.3,
+          "maximum": 10
+        },
+        "targetLufs": {
+          "default": -14,
+          "type": "number",
+          "minimum": -30,
+          "maximum": -8
+        },
+        "truePeakDb": {
+          "default": -1,
+          "type": "number",
+          "minimum": -6,
+          "maximum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z]+_[a-z0-9_]+$"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "music",
+              "sfx"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "author": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "sourceUrl": {
+            "type": "string",
+            "pattern": "^https:\\/\\/pixabay\\.com\\/(music|sound-effects)\\/.+"
+          },
+          "license": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "const": "Pixabay Content License"
+              },
+              "url": {
+                "type": "string",
+                "const": "https://pixabay.com/service/license-summary/"
+              }
+            },
+            "required": [
+              "name",
+              "url"
+            ],
+            "additionalProperties": false
+          },
+          "contentIdRegistered": {
+            "type": "boolean"
+          },
+          "aiGenerated": {
+            "type": "boolean"
+          },
+          "checkedAt": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "file": {
+            "type": "string",
+            "pattern": "^(music|sfx)\\/[a-z0-9_]+\\.(mp3|wav|ogg)$"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "imported",
+              "rejected"
+            ]
+          },
+          "rejectedReason": {
+            "type": "string",
+            "maxLength": 300
+          },
+          "imported": {
+            "type": "object",
+            "properties": {
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "durationSec": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "loudnessLufs": {
+                "type": "number",
+                "maximum": 0
+              },
+              "truePeakDb": {
+                "type": "number",
+                "maximum": 6
+              },
+              "importedAt": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}"
+              }
+            },
+            "required": [
+              "sha256",
+              "durationSec",
+              "loudnessLufs",
+              "truePeakDb",
+              "importedAt"
+            ],
+            "additionalProperties": false
+          },
+          "notes": {
+            "type": "string",
+            "maxLength": 400
+          },
+          "mood": {
+            "type": "string",
+            "maxLength": 60
+          },
+          "character": {
+            "type": "string",
+            "maxLength": 160
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "hook",
+                "relate",
+                "explain",
+                "tension",
+                "twist",
+                "reflection",
+                "turn",
+                "resolve"
+              ]
+            }
+          },
+          "sections": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "enum": [
+                    "intro",
+                    "build",
+                    "peak",
+                    "outro"
+                  ]
+                },
+                "start": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "end": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "source": {
+                  "type": "string",
+                  "enum": [
+                    "auto",
+                    "listened"
+                  ]
+                }
+              },
+              "required": [
+                "name",
+                "start",
+                "end",
+                "source"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "transition",
+              "ui",
+              "phone",
+              "time",
+              "object",
+              "body",
+              "beat",
+              "metaphor"
+            ]
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_]*$"
+            }
+          },
+          "gainDb": {
+            "default": 0,
+            "type": "number",
+            "minimum": -24,
+            "maximum": 12
+          },
+          "maxPerVideo": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "title",
+          "author",
+          "sourceUrl",
+          "license",
+          "contentIdRegistered",
+          "aiGenerated",
+          "checkedAt",
+          "file",
+          "status"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schema",
+    "mix",
+    "entries"
+  ],
+  "additionalProperties": false
+}

@@ -31,3 +31,6 @@ Thumbs.db
 
 # generated voice samples (pnpm voices --samples)
 voices/samples/
+
+# downloaded audio library (Pixabay license: never redistribute the files themselves)
+assets-src/

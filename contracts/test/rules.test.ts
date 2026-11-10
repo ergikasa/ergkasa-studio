@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { RenderTimeline, ScenePlan, Script, TaskResult, VoiceCatalog } from "../src/index.js";
+import { AudioCatalog, RenderTimeline, ScenePlan, Script, TaskResult, VoiceCatalog } from "../src/index.js";
 import { renderSchemas } from "../src/json-schema.js";
 import { CONTRACTS_DIR } from "./helpers.js";
 
@@ -10,6 +10,23 @@ const fixture = (name: string): Record<string, unknown> =>
   JSON.parse(readFileSync(join(CONTRACTS_DIR, "fixtures", "valid", name), "utf8")) as Record<string, unknown>;
 
 describe("cross-field rules", () => {
+  it("keeps Content ID and AI-generated audio out of the imported library", () => {
+    const lib = fixture("audio-catalog.library.json");
+    expect(AudioCatalog.safeParse(lib).success).toBe(true);
+    const entries = lib["entries"] as Array<Record<string, unknown>>;
+    for (const flag of ["contentIdRegistered", "aiGenerated"]) {
+      const bad = { ...lib, entries: [{ ...entries[0], [flag]: true }, entries[1]] };
+      expect(AudioCatalog.safeParse(bad).success, flag).toBe(false);
+    }
+    const dup = { ...lib, entries: [entries[0], entries[0]] };
+    expect(AudioCatalog.safeParse(dup).success).toBe(false);
+    const sectionPastEnd = {
+      ...lib,
+      entries: [{ ...entries[0], sections: [{ name: "outro", start: 90, end: 120, source: "auto" }] }],
+    };
+    expect(AudioCatalog.safeParse(sectionPastEnd).success).toBe(false);
+  });
+
   it("rejects duplicate layer ids in a scene", () => {
     const scene = fixture("scene-plan.hook-scene.json");
     const layers = scene["layers"] as Array<Record<string, unknown>>;
