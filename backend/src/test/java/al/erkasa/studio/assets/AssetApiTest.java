@@ -46,14 +46,14 @@ class AssetApiTest {
     void listsAndFiltersAssets() throws Exception {
         HttpResponse<String> characters = get("/api/assets?category=character");
         assertThat(characters.statusCode()).isEqualTo(200);
-        assertThat(characters.body()).contains("\"total\":5").contains("char_drini_01");
+        assertThat(characters.body()).contains("\"total\":6").contains("char_drini_01").contains("char_host_01");
 
         HttpResponse<String> money = get("/api/assets?category=metaphor&theme=money&limit=50");
         assertThat(money.statusCode()).isEqualTo(200);
         assertThat(money.body()).contains("met_snowball_01").doesNotContain("\"category\":\"icon\"");
 
         HttpResponse<String> stats = get("/api/assets/stats");
-        assertThat(stats.body()).contains("\"background\":10").contains("\"character\":5");
+        assertThat(stats.body()).contains("\"background\":11").contains("\"character\":6");
     }
 
     @Test
