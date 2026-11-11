@@ -19,6 +19,7 @@
     "studio": "pnpm --filter @erkasa/studio dev",
     "video": "pnpm --filter @erkasa/ai-worker video",
     "video:rerender": "pnpm --filter @erkasa/ai-worker rerender",
+    "poc:halo": "pnpm --filter @erkasa/ai-worker poc:halo",
     "audio:import": "pnpm --filter @erkasa/engine-worker audio import",
     "audio:check": "pnpm --filter @erkasa/engine-worker audio check",
     "audio:mix": "pnpm --filter @erkasa/ai-worker audio:mix",

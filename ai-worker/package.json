@@ -14,7 +14,8 @@
     "test": "vitest run",
     "worker": "tsx src/cli.ts worker",
     "rerender": "tsx src/cli.ts rerender",
-    "audio:mix": "tsx src/cli.ts audio-mix"
+    "audio:mix": "tsx src/cli.ts audio-mix",
+    "poc:halo": "tsx src/cli.ts poc-halo"
   },
   "dependencies": {
     "@erkasa/compiler": "workspace:*",

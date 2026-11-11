@@ -15,7 +15,7 @@ Output për secilin personazh në assets/characters/<id>/:
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -37,7 +37,7 @@ class Look:
     hair: str
     hair_hi: str
     hair_style: str               # swept | long | short_messy | receding
-    top: str                      # shirt | blouse | hoodie | cardigan
+    top: str                      # shirt | blouse | hoodie | cardigan | suit
     top_main: str
     top_sh: str
     top_dk: str
@@ -56,7 +56,10 @@ class Look:
     lips: str = "#7A3B2E"
     iris: str = "#4C7A93"
     watch: bool = False
-    inner: str | None = None      # ngjyra e këmishës nën kardigan
+    inner: str | None = None      # ngjyra e këmishës nën kardigan / xhaketë
+    tie: str | None = None        # kollare (vetëm me suit)
+    pocket_square: str | None = None
+    age_lines: bool = False       # rrudha të lehta (personazhe të moshuar)
     extra_tags: list[str] = field(default_factory=list)
 
 
@@ -175,8 +178,11 @@ def head(look: Look) -> str:
     if look.blush:
         blush = '<g id="blush"><ellipse cx="172" cy="150" rx="9" ry="5" fill="#E58A7A" opacity="0.35"/><ellipse cx="228" cy="150" rx="9" ry="5" fill="#E58A7A" opacity="0.35"/></g>'
     wrinkles = ""
-    if look.hair_style == "receding":
+    if look.hair_style == "receding" or look.age_lines:
         wrinkles = f'<path d="M176,96 Q200,90 224,96 M182,104 Q200,99 218,104" fill="none" stroke="{look.skin_sh}" stroke-width="2" stroke-linecap="round"/>'
+    if look.age_lines:
+        wrinkles += (f'<path d="M181,150 Q177,164 182,176 M219,150 Q223,164 218,176" fill="none" stroke="{look.skin_sh}" stroke-width="2.4" stroke-linecap="round"/>'
+                     f'<path d="M160,128 l-6,-3 M240,128 l6,-3" stroke="{look.skin_sh}" stroke-width="2" stroke-linecap="round"/>')
     return (
         '<g id="head" data-pivot="200,212">'
         f'<g id="ears"><ellipse cx="149" cy="130" rx="9" ry="15" fill="{look.skin_sh}"/><ellipse cx="251" cy="130" rx="9" ry="15" fill="{look.skin_sh}"/></g>'
@@ -216,14 +222,21 @@ def item_slot(x: int) -> str:
     return '<g id="item" data-slot="item">' + "".join(groups) + "</g>"
 
 
+def _shade(hex_color: str, k: float = 0.78) -> str:
+    h = hex_color.lstrip("#")
+    r, g_, b = (int(h[i:i + 2], 16) for i in (0, 2, 4))
+    return "#{:02X}{:02X}{:02X}".format(int(r * k), int(g_ * k), int(b * k))
+
+
 # ---------------------------------------------------------------- TRUPI
 def arm(look: Look, side: str) -> str:
     """Zinxhir: arm_upper ⊃ arm_lower ⊃ hand. Pivot-et janë të njëjta për të gjithë personazhet."""
     s = -1 if side == "l" else 1
     x = 200 + s * 78
-    long_sleeve = look.top in ("hoodie", "cardigan")
+    long_sleeve = look.top in ("hoodie", "cardigan", "suit")
     short_sleeve = look.top == "blouse"
     t_main, t_sh, t_dk = look.top_main, look.top_sh, look.top_dk
+    cuff = (look.inner or "#F6F3EE") if look.top == "suit" else t_dk
 
     hand = (f'<g id="hand_{side}" data-pivot="{x},440">' + (item_slot(x) if side == "r" else "") +
             f'<path d="M{x-14},438 Q{x-17},462 {x-6},472 Q{x+4},478 {x+12},468 Q{x+17},452 {x+14},438 Z" fill="{look.skin}"/>'
@@ -231,7 +244,7 @@ def arm(look: Look, side: str) -> str:
     if long_sleeve:
         fore = (f'<rect x="{x-16}" y="334" width="32" height="104" rx="15" fill="{t_main}"/>'
                 f'<rect x="{x-16 if s<0 else x+4}" y="346" width="12" height="80" rx="6" fill="{t_sh}"/>'
-                f'<rect x="{x-17}" y="422" width="34" height="16" rx="6" fill="{t_dk}"/>')
+                f'<rect x="{x-17}" y="422" width="34" height="16" rx="6" fill="{cuff}"/>')
     else:
         fore = (f'<rect x="{x-14}" y="336" width="28" height="104" rx="14" fill="{look.skin}"/>'
                 f'<rect x="{x-14 if s<0 else x+4}" y="350" width="10" height="80" rx="5" fill="{look.skin_sh}" opacity="0.7"/>')
@@ -299,6 +312,23 @@ def torso(look: Look) -> str:
                   f'<path d="M190,236 L188,286 M210,236 L212,286" stroke="#F3EDE4" stroke-width="3" stroke-linecap="round"/>'
                   f'<path d="M158,360 L242,360 L250,420 L150,420 Z" fill="{sh}"/>'
                   f'<path d="M150,424 L250,424" stroke="{dk}" stroke-width="10"/>')
+    elif look.top == "suit":
+        inner = look.inner or "#F6F3EE"
+        tie = look.tie or "#7A2E3A"
+        detail = (f'<path d="M176,214 L224,214 L212,330 L188,330 Z" fill="{inner}"/>'
+                  f'<path d="M184,214 L200,236 L216,214 Z" fill="{look.skin_sh}"/>'
+                  f'<path d="M184,214 L178,230 L200,240 Z M216,214 L222,230 L200,240 Z" fill="#E4E0D8"/>'
+                  f'<path d="M194,236 L206,236 L204,248 L196,248 Z" fill="{_shade(tie)}"/>'
+                  f'<path d="M196,248 L204,248 L210,318 L200,332 L190,318 Z" fill="{tie}"/>'
+                  # lapels and the jacket front closing low
+                  f'<path d="M176,214 L152,236 L170,262 L160,272 L190,344 L196,300 L186,240 Z" fill="{sh}"/>'
+                  f'<path d="M224,214 L248,236 L230,262 L240,272 L210,344 L204,300 L214,240 Z" fill="{sh}"/>'
+                  f'<path d="M190,344 L200,330 L210,344 L208,436 L192,436 Z" fill="{m}"/>'
+                  f'<path d="M200,340 L200,436" stroke="{dk}" stroke-width="2"/>'
+                  + "".join(f'<circle cx="206" cy="{y}" r="4" fill="{dk}"/>' for y in (370, 410))
+                  + f'<path d="M150,376 L180,376" stroke="{dk}" stroke-width="3" stroke-linecap="round"/>'
+                  + f'<path d="M222,300 L250,300" stroke="{dk}" stroke-width="3" stroke-linecap="round"/>'
+                  + (f'<path d="M226,300 L232,290 L238,300 L244,292 L248,300 Z" fill="{look.pocket_square}"/>' if look.pocket_square else ""))
     else:  # cardigan mbi këmishë
         inner = look.inner or "#DCE6EE"
         detail = (f'<path d="M176,214 L224,214 L214,436 L186,436 Z" fill="{inner}"/>'
@@ -311,6 +341,9 @@ def torso(look: Look) -> str:
     if look.top in ("shirt", "cardigan"):
         belt = f'<rect id="belt" x="138" y="428" width="124" height="14" rx="3" fill="#4B3427"/><rect x="192" y="429" width="16" height="12" rx="2" fill="#B08A4E"/>'
     hips = f'<path id="hips" d="M139,434 L261,434 L258,490 Q200,498 142,490 Z" fill="{look.pants}"/>'
+    if look.top == "suit":  # the jacket covers the top of the hips
+        hips += (f'<path d="M136,428 L264,428 L262,470 L206,476 L200,462 L194,476 L138,470 Z" fill="{m}"/>'
+                 f'<path d="M136,428 Q137,450 138,470 L152,470 Q148,450 148,428 Z" fill="{sh}" opacity="0.8"/>')
     hood = ""
     if look.top == "hoodie":
         hood = f'<path d="M160,222 Q160,196 200,196 Q240,196 240,222 L232,226 Q226,208 200,208 Q174,208 168,226 Z" fill="{sh}"/>'
@@ -419,7 +452,24 @@ LOOKS = [
          top="cardigan", top_main="#8C5E3C", top_sh="#734B2F", top_dk="#5C3B24",
          pants="#6E6A66", pants_sh="#58554F", shoes="shoe", shoe_main="#3A2A20", shoe_sh="#261B14", sole="#1A1310",
          beard="moustache", beard_main="#D8D3CC", glasses=True, inner="#DCE6EE", iris="#5C6E7A"),
+    Look("char_host_01", "Host", "Burrë i moshuar rreth 65 vjeç, flokë gri të krehura, kostum blu i errët, kollare bordo. Narratori i studios.",
+         ["male", "elder", "host", "narrator", "suit", "formal"],
+         skin="#E7B796", skin_sh="#CE9A78", hair="#B9B6B1", hair_hi="#DAD7D2", hair_style="swept",
+         top="suit", top_main="#2C3E5C", top_sh="#22324A", top_dk="#18243A",
+         pants="#2A3850", pants_sh="#202C40", shoes="shoe", shoe_main="#2A1E18", shoe_sh="#1A120E", sole="#120C09",
+         inner="#F4F1EA", tie="#7A2E3A", pocket_square="#F4F1EA", age_lines=True, iris="#5C6E7A"),
 ]
+
+# Veshjet: vetëm fushat e rrobave ndryshojnë; identiteti (lëkura, flokët, fytyra, proporcionet) mbetet i njëjtë.
+CLOTHING_FIELDS = {"top", "top_main", "top_sh", "top_dk", "pants", "pants_sh", "shoes", "shoe_main", "shoe_sh",
+                   "sole", "inner", "tie", "pocket_square", "watch"}
+OUTFITS: dict[str, dict[str, dict]] = {
+    "char_arti_01": {
+        "business": dict(top="suit", top_main="#3B4048", top_sh="#30343B", top_dk="#24282E", inner="#F6F3EE", tie="#2F4E7A",
+                         pants="#3B4048", pants_sh="#30343B", shoes="shoe", shoe_main="#2A1E18", shoe_sh="#1A120E", sole="#120C09"),
+    },
+}
+DEFAULT_OUTFIT = {"char_arti_01": "casual", "char_host_01": "suit"}
 
 
 # ---------------------------------------------------------------- TURMA
@@ -449,7 +499,23 @@ def main() -> None:
         (d / "rig.json").write_text(json.dumps(rig_json(look), indent=2, ensure_ascii=False) + "\n")
         (d / "asset_side.svg").write_text(side_svg(look))
         (d / "rig_side.json").write_text(json.dumps(side_rig(look), indent=2, ensure_ascii=False) + "\n")
-        (d / "asset.json").write_text(json.dumps(asset_json(look), indent=2, ensure_ascii=False) + "\n")
+        meta = asset_json(look)
+        outfits = OUTFITS.get(look.asset_id, {})
+        if outfits:
+            (d / "outfits").mkdir(exist_ok=True)
+            meta["variants"] = {}
+            for key, fields in outfits.items():
+                bad = set(fields) - CLOTHING_FIELDS
+                if bad:
+                    raise SystemExit(f"{look.asset_id}/{key}: an outfit may only change clothing, not {sorted(bad)}")
+                worn = replace(look, **fields)
+                (d / "outfits" / f"{key}.svg").write_text(character_svg(worn))
+                (d / "outfits" / f"{key}_side.svg").write_text(side_svg(worn))
+                meta["variants"][key] = f"outfits/{key}.svg"
+                meta["variants"][f"{key}_side"] = f"outfits/{key}_side.svg"
+        default = DEFAULT_OUTFIT.get(look.asset_id, "default")
+        meta["capabilities"]["outfits"] = {"default": default, "available": [default, *outfits.keys()]}
+        (d / "asset.json").write_text(json.dumps(meta, indent=2, ensure_ascii=False) + "\n")
 
     d = out_root / "char_crowd_01"
     d.mkdir(parents=True, exist_ok=True)

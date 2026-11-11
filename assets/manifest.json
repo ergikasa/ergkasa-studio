@@ -1,12 +1,12 @@
 {
  "schema": "erkasa.asset-manifest/1",
- "total": 411,
+ "total": 413,
  "counts": {
   "background": 11,
-  "character": 5,
+  "character": 6,
   "icon": 189,
   "metaphor": 15,
-  "object": 191
+  "object": 192
  },
  "assets": [
   {
@@ -331,6 +331,31 @@
     "adult",
     "long-hair",
     "casual"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "char_host_01",
+   "category": "character",
+   "kind": "rigged_character",
+   "adapter": "character",
+   "style": "erkasa_flat_v1",
+   "path": "characters/char_host_01",
+   "themes": [
+    "psychology",
+    "money",
+    "growth",
+    "philosophy",
+    "science",
+    "decisions"
+   ],
+   "tags": [
+    "male",
+    "elder",
+    "host",
+    "narrator",
+    "suit",
+    "formal"
    ],
    "license": "LicenseRef-Erkasa-Original"
   },
@@ -6773,6 +6798,28 @@
     "chair",
     "furniture",
     "sit"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_cv_flat_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "props/prop_cv_flat_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "cv",
+    "resume",
+    "document",
+    "paper",
+    "office",
+    "interview"
    ],
    "license": "LicenseRef-Erkasa-Original"
   },

@@ -1,0 +1,3099 @@
+{
+  "schema": "erkasa.timeline/1",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "seed": 20261111,
+  "audio": {
+    "ref": "file://poc/halo/mix.wav"
+  },
+  "captions": {
+    "style": "word_pop",
+    "wordsPerChunk": 3,
+    "words": [
+      {
+        "word": "Same",
+        "start": 0.1,
+        "end": 0.406
+      },
+      {
+        "word": "person.",
+        "start": 0.45999999999999996,
+        "end": 1.0295
+      },
+      {
+        "word": "Same",
+        "start": 1.13,
+        "end": 1.436
+      },
+      {
+        "word": "answers.",
+        "start": 1.4899999999999998,
+        "end": 2.0977499999999996
+      },
+      {
+        "word": "Two",
+        "start": 2.2049999999999996,
+        "end": 2.4727499999999996
+      },
+      {
+        "word": "completely",
+        "start": 2.5199999999999996,
+        "end": 3.0554999999999994
+      },
+      {
+        "word": "different",
+        "start": 3.1499999999999995,
+        "end": 3.6472499999999997
+      },
+      {
+        "word": "interviews.",
+        "start": 3.7349999999999994,
+        "end": 4.4575
+      },
+      {
+        "word": "Here's",
+        "start": 4.584999999999999,
+        "end": 4.929249999999999
+      },
+      {
+        "word": "why.",
+        "start": 4.989999999999999,
+        "end": 5.444749999999999
+      },
+      {
+        "word": "Meet",
+        "start": 6.166666666666666,
+        "end": 6.472666666666666
+      },
+      {
+        "word": "Alex.",
+        "start": 6.526666666666666,
+        "end": 7.019666666666666
+      },
+      {
+        "word": "Wrinkled",
+        "start": 7.1066666666666665,
+        "end": 7.565666666666667
+      },
+      {
+        "word": "hoodie,",
+        "start": 7.6466666666666665,
+        "end": 8.216166666666666
+      },
+      {
+        "word": "a",
+        "start": 8.316666666666666,
+        "end": 8.507916666666667
+      },
+      {
+        "word": "great",
+        "start": 8.541666666666666,
+        "end": 8.885916666666667
+      },
+      {
+        "word": "résumé,",
+        "start": 8.946666666666665,
+        "end": 9.439666666666666
+      },
+      {
+        "word": "and",
+        "start": 9.526666666666667,
+        "end": 9.794416666666667
+      },
+      {
+        "word": "an",
+        "start": 9.841666666666667,
+        "end": 10.071166666666667
+      },
+      {
+        "word": "interviewer",
+        "start": 10.111666666666666,
+        "end": 10.685416666666667
+      },
+      {
+        "word": "who",
+        "start": 10.786666666666665,
+        "end": 11.054416666666667
+      },
+      {
+        "word": "barely",
+        "start": 11.101666666666667,
+        "end": 11.484166666666667
+      },
+      {
+        "word": "looks",
+        "start": 11.551666666666666,
+        "end": 11.895916666666666
+      },
+      {
+        "word": "up.",
+        "start": 11.956666666666667,
+        "end": 12.373166666666666
+      },
+      {
+        "word": "He",
+        "start": 13.1,
+        "end": 13.3295
+      },
+      {
+        "word": "answers",
+        "start": 13.37,
+        "end": 13.79075
+      },
+      {
+        "word": "every",
+        "start": 13.865,
+        "end": 14.20925
+      },
+      {
+        "word": "question",
+        "start": 14.27,
+        "end": 14.729
+      },
+      {
+        "word": "well.",
+        "start": 14.81,
+        "end": 15.303
+      },
+      {
+        "word": "She",
+        "start": 15.39,
+        "end": 15.65775
+      },
+      {
+        "word": "nods",
+        "start": 15.705,
+        "end": 16.011
+      },
+      {
+        "word": "politely,",
+        "start": 16.065,
+        "end": 16.711
+      },
+      {
+        "word": "and",
+        "start": 16.825,
+        "end": 17.092750000000002
+      },
+      {
+        "word": "writes",
+        "start": 17.14,
+        "end": 17.5225
+      },
+      {
+        "word": "almost",
+        "start": 17.59,
+        "end": 17.9725
+      },
+      {
+        "word": "nothing.",
+        "start": 18.04,
+        "end": 18.647750000000002
+      },
+      {
+        "word": "Now",
+        "start": 19.400000000000002,
+        "end": 19.66775
+      },
+      {
+        "word": "rewind.",
+        "start": 19.715,
+        "end": 20.2845
+      },
+      {
+        "word": "Same",
+        "start": 20.385,
+        "end": 20.691000000000003
+      },
+      {
+        "word": "Alex.",
+        "start": 20.745,
+        "end": 21.238
+      },
+      {
+        "word": "Same",
+        "start": 21.325,
+        "end": 21.631
+      },
+      {
+        "word": "résumé.",
+        "start": 21.685000000000002,
+        "end": 22.178
+      },
+      {
+        "word": "Same",
+        "start": 22.265,
+        "end": 22.571
+      },
+      {
+        "word": "answers.",
+        "start": 22.625,
+        "end": 23.23275
+      },
+      {
+        "word": "Just",
+        "start": 23.34,
+        "end": 23.646
+      },
+      {
+        "word": "a",
+        "start": 23.700000000000003,
+        "end": 23.89125
+      },
+      {
+        "word": "suit.",
+        "start": 23.925,
+        "end": 24.418
+      },
+      {
+        "word": "Suddenly",
+        "start": 25.166666666666668,
+        "end": 25.625666666666667
+      },
+      {
+        "word": "he",
+        "start": 25.706666666666667,
+        "end": 25.936166666666665
+      },
+      {
+        "word": "seems",
+        "start": 25.976666666666667,
+        "end": 26.320916666666665
+      },
+      {
+        "word": "smarter.",
+        "start": 26.381666666666668,
+        "end": 26.989416666666667
+      },
+      {
+        "word": "More",
+        "start": 27.096666666666668,
+        "end": 27.402666666666665
+      },
+      {
+        "word": "reliable.",
+        "start": 27.456666666666667,
+        "end": 28.102666666666664
+      },
+      {
+        "word": "A",
+        "start": 28.216666666666665,
+        "end": 28.407916666666665
+      },
+      {
+        "word": "natural",
+        "start": 28.441666666666666,
+        "end": 28.862416666666665
+      },
+      {
+        "word": "leader.",
+        "start": 28.936666666666667,
+        "end": 29.506166666666665
+      },
+      {
+        "word": "Psychologists",
+        "start": 30.26666666666667,
+        "end": 30.91691666666667
+      },
+      {
+        "word": "call",
+        "start": 31.031666666666666,
+        "end": 31.337666666666667
+      },
+      {
+        "word": "this",
+        "start": 31.39166666666667,
+        "end": 31.697666666666667
+      },
+      {
+        "word": "the",
+        "start": 31.75166666666667,
+        "end": 32.019416666666665
+      },
+      {
+        "word": "halo",
+        "start": 32.06666666666667,
+        "end": 32.37266666666667
+      },
+      {
+        "word": "effect.",
+        "start": 32.42666666666667,
+        "end": 32.99616666666667
+      },
+      {
+        "word": "In",
+        "start": 33.096666666666664,
+        "end": 33.326166666666666
+      },
+      {
+        "word": "1920,",
+        "start": 33.36666666666667,
+        "end": 33.70666666666667
+      },
+      {
+        "word": "Edward",
+        "start": 33.766666666666666,
+        "end": 34.149166666666666
+      },
+      {
+        "word": "Thorndike",
+        "start": 34.21666666666667,
+        "end": 34.71391666666667
+      },
+      {
+        "word": "noticed",
+        "start": 34.80166666666667,
+        "end": 35.22241666666667
+      },
+      {
+        "word": "that",
+        "start": 35.29666666666667,
+        "end": 35.602666666666664
+      },
+      {
+        "word": "officers",
+        "start": 35.656666666666666,
+        "end": 36.11566666666667
+      },
+      {
+        "word": "who",
+        "start": 36.196666666666665,
+        "end": 36.464416666666665
+      },
+      {
+        "word": "rated",
+        "start": 36.51166666666667,
+        "end": 36.855916666666666
+      },
+      {
+        "word": "a",
+        "start": 36.91666666666667,
+        "end": 37.10791666666667
+      },
+      {
+        "word": "soldier",
+        "start": 37.141666666666666,
+        "end": 37.56241666666667
+      },
+      {
+        "word": "highly",
+        "start": 37.63666666666667,
+        "end": 38.01916666666667
+      },
+      {
+        "word": "on",
+        "start": 38.086666666666666,
+        "end": 38.31616666666667
+      },
+      {
+        "word": "one",
+        "start": 38.35666666666667,
+        "end": 38.62441666666667
+      },
+      {
+        "word": "trait,",
+        "start": 38.67166666666667,
+        "end": 39.20291666666667
+      },
+      {
+        "word": "like",
+        "start": 39.29666666666667,
+        "end": 39.602666666666664
+      },
+      {
+        "word": "his",
+        "start": 39.656666666666666,
+        "end": 39.924416666666666
+      },
+      {
+        "word": "physique,",
+        "start": 39.971666666666664,
+        "end": 40.617666666666665
+      },
+      {
+        "word": "rated",
+        "start": 40.73166666666667,
+        "end": 41.07591666666667
+      },
+      {
+        "word": "him",
+        "start": 41.13666666666667,
+        "end": 41.40441666666666
+      },
+      {
+        "word": "higher",
+        "start": 41.45166666666667,
+        "end": 41.83416666666667
+      },
+      {
+        "word": "on",
+        "start": 41.901666666666664,
+        "end": 42.131166666666665
+      },
+      {
+        "word": "everything",
+        "start": 42.17166666666667,
+        "end": 42.707166666666666
+      },
+      {
+        "word": "else.",
+        "start": 42.80166666666666,
+        "end": 43.294666666666664
+      },
+      {
+        "word": "One",
+        "start": 44.03333333333333,
+        "end": 44.30108333333333
+      },
+      {
+        "word": "good",
+        "start": 44.34833333333333,
+        "end": 44.65433333333333
+      },
+      {
+        "word": "impression",
+        "start": 44.70833333333333,
+        "end": 45.24383333333333
+      },
+      {
+        "word": "spills",
+        "start": 45.33833333333333,
+        "end": 45.72083333333333
+      },
+      {
+        "word": "over",
+        "start": 45.78833333333333,
+        "end": 46.09433333333333
+      },
+      {
+        "word": "onto",
+        "start": 46.148333333333326,
+        "end": 46.45433333333333
+      },
+      {
+        "word": "everything.",
+        "start": 46.50833333333333,
+        "end": 47.23083333333333
+      },
+      {
+        "word": "So",
+        "start": 47.35833333333333,
+        "end": 47.58783333333333
+      },
+      {
+        "word": "next",
+        "start": 47.62833333333333,
+        "end": 47.93433333333333
+      },
+      {
+        "word": "time",
+        "start": 47.98833333333333,
+        "end": 48.29433333333333
+      },
+      {
+        "word": "someone",
+        "start": 48.34833333333333,
+        "end": 48.76908333333333
+      },
+      {
+        "word": "seems",
+        "start": 48.843333333333334,
+        "end": 49.18758333333333
+      },
+      {
+        "word": "brilliant,",
+        "start": 49.24833333333333,
+        "end": 49.932583333333326
+      },
+      {
+        "word": "ask",
+        "start": 50.05333333333333,
+        "end": 50.321083333333334
+      },
+      {
+        "word": "yourself",
+        "start": 50.36833333333333,
+        "end": 50.82733333333333
+      },
+      {
+        "word": "what",
+        "start": 50.90833333333333,
+        "end": 51.21433333333333
+      },
+      {
+        "word": "you're",
+        "start": 51.26833333333333,
+        "end": 51.61258333333333
+      },
+      {
+        "word": "actually",
+        "start": 51.67333333333333,
+        "end": 52.132333333333335
+      },
+      {
+        "word": "judging.",
+        "start": 52.21333333333333,
+        "end": 52.821083333333334
+      }
+    ]
+  },
+  "scenes": [
+    {
+      "sceneId": "s01",
+      "from": 0,
+      "duration": 182,
+      "background": {
+        "asset": "bg_office_01@1"
+      },
+      "camera": {
+        "x": [
+          {
+            "f": 0,
+            "v": 870
+          }
+        ],
+        "y": [
+          {
+            "f": 0,
+            "v": 1160
+          }
+        ],
+        "zoom": [
+          {
+            "f": 0,
+            "v": 2.1
+          },
+          {
+            "f": 181,
+            "v": 2.3,
+            "ease": "easeInOut"
+          }
+        ]
+      },
+      "captionY": 0.8,
+      "transitionIn": {
+        "type": "cut",
+        "frames": 0
+      },
+      "nodes": [
+        {
+          "id": "host",
+          "adapter": "character",
+          "asset": "char_host_01@1",
+          "z": 10,
+          "space": "world",
+          "props": {
+            "speaks": true
+          },
+          "tracks": {
+            "y": [
+              {
+                "f": 0,
+                "v": 1690
+              }
+            ],
+            "scale": [
+              {
+                "f": 0,
+                "v": 0.92
+              }
+            ],
+            "x": [
+              {
+                "f": 0,
+                "v": 720
+              }
+            ],
+            "facing": [
+              {
+                "f": 0,
+                "v": "front"
+              }
+            ],
+            "clip": [
+              {
+                "f": 0,
+                "v": "wave"
+              },
+              {
+                "f": 26,
+                "v": "talk",
+                "blend": 8
+              },
+              {
+                "f": 94,
+                "v": "point_side",
+                "blend": 6
+              },
+              {
+                "f": 138,
+                "v": "talk",
+                "blend": 8
+              }
+            ],
+            "expression": [
+              {
+                "f": 0,
+                "v": "happy"
+              },
+              {
+                "f": 24,
+                "v": "neutral"
+              },
+              {
+                "f": 138,
+                "v": "thinking"
+              }
+            ]
+          }
+        },
+        {
+          "id": "t_hook",
+          "adapter": "text",
+          "z": 40,
+          "space": "screen",
+          "props": {
+            "content": "SAME PERSON. SAME ANSWERS.",
+            "style": "hook_impact",
+            "maxWidth": 940,
+            "highlight": ["SAME"]
+          },
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 540
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 300
+              }
+            ],
+            "scale": [
+              {
+                "f": 4,
+                "v": 0
+              },
+              {
+                "f": 13,
+                "v": 1.1,
+                "ease": "easeOutCubic"
+              },
+              {
+                "f": 18,
+                "v": 1,
+                "ease": "easeOut"
+              }
+            ],
+            "opacity": [
+              {
+                "f": 172,
+                "v": 1
+              },
+              {
+                "f": 180,
+                "v": 0,
+                "ease": "easeIn"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "sceneId": "s02",
+      "from": 182,
+      "duration": 208,
+      "background": {
+        "asset": "bg_interview_office_01@1"
+      },
+      "camera": {
+        "x": [
+          {
+            "f": 0,
+            "v": 760
+          },
+          {
+            "f": 51,
+            "v": 1140,
+            "ease": "easeInOutCubic"
+          },
+          {
+            "f": 207,
+            "v": 1190,
+            "ease": "easeInOut"
+          }
+        ],
+        "y": [
+          {
+            "f": 0,
+            "v": 1400
+          }
+        ],
+        "zoom": [
+          {
+            "f": 0,
+            "v": 1.55
+          },
+          {
+            "f": 51,
+            "v": 1.35,
+            "ease": "easeInOutCubic"
+          },
+          {
+            "f": 207,
+            "v": 1.3
+          }
+        ]
+      },
+      "captionY": 0.3,
+      "transitionIn": {
+        "type": "whip",
+        "frames": 10,
+        "direction": "left"
+      },
+      "nodes": [
+        {
+          "id": "door",
+          "adapter": "svg",
+          "asset": "prop_door_01@1",
+          "z": 2,
+          "space": "world",
+          "props": {},
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 560
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 1095
+              }
+            ],
+            "part.leaf.scaleX": [
+              {
+                "f": 2,
+                "v": 1
+              },
+              {
+                "f": 16,
+                "v": 0.12,
+                "ease": "easeInOutCubic"
+              },
+              {
+                "f": 51,
+                "v": 0.12,
+                "ease": "easeInOutCubic"
+              },
+              {
+                "f": 67,
+                "v": 1,
+                "ease": "easeInOutCubic"
+              }
+            ]
+          }
+        },
+        {
+          "id": "clock",
+          "adapter": "svg",
+          "asset": "prop_wall_clock_01@1",
+          "z": 2,
+          "space": "world",
+          "props": {},
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 1220
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 640
+              }
+            ],
+            "scale": [
+              {
+                "f": 0,
+                "v": 0.8
+              }
+            ]
+          }
+        },
+        {
+          "id": "plant",
+          "adapter": "svg",
+          "asset": "prop_plant_floor_01@1",
+          "z": 3,
+          "space": "world",
+          "props": {},
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 1840
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 1390
+              }
+            ]
+          }
+        },
+        {
+          "id": "chair_alex",
+          "adapter": "svg",
+          "asset": "prop_chair_office_side_01@1",
+          "z": 5,
+          "space": "world",
+          "props": {},
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 910
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 1410
+              }
+            ]
+          }
+        },
+        {
+          "id": "chair_maria",
+          "adapter": "svg",
+          "asset": "prop_chair_office_side_01@1",
+          "z": 5,
+          "space": "world",
+          "props": {
+            "flip": true
+          },
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 1510
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 1410
+              }
+            ]
+          }
+        },
+        {
+          "id": "desk",
+          "adapter": "svg",
+          "asset": "prop_desk_side_01@1",
+          "z": 15,
+          "space": "world",
+          "props": {},
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 1230
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 1500
+              }
+            ]
+          }
+        },
+        {
+          "id": "laptop",
+          "adapter": "svg",
+          "asset": "prop_laptop_side_01@1",
+          "z": 16,
+          "space": "world",
+          "props": {},
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 1300
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 1294.26
+              }
+            ],
+            "scale": [
+              {
+                "f": 0,
+                "v": 0.62
+              }
+            ]
+          }
+        },
+        {
+          "id": "mug",
+          "adapter": "svg",
+          "asset": "prop_mug_01@1",
+          "z": 16,
+          "space": "world",
+          "props": {},
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 1130
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 1299
+              }
+            ],
+            "scale": [
+              {
+                "f": 0,
+                "v": 0.85
+              }
+            ]
+          }
+        },
+        {
+          "id": "cv",
+          "adapter": "svg",
+          "asset": "prop_cv_flat_01@1",
+          "z": 16,
+          "space": "world",
+          "props": {},
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 1204.360252424955
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 1333
+              }
+            ],
+            "opacity": [
+              {
+                "f": 72,
+                "v": 0
+              },
+              {
+                "f": 73,
+                "v": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "alex",
+          "adapter": "character",
+          "asset": "char_arti_01@1",
+          "z": 10,
+          "space": "world",
+          "props": {
+            "speaks": false,
+            "outfit": "casual"
+          },
+          "tracks": {
+            "y": [
+              {
+                "f": 0,
+                "v": 1690
+              }
+            ],
+            "scale": [
+              {
+                "f": 0,
+                "v": 0.92
+              }
+            ],
+            "x": [
+              {
+                "f": 10,
+                "v": 560
+              },
+              {
+                "f": 18,
+                "v": 608.6004991056661,
+                "ease": "easeIn"
+              },
+              {
+                "f": 51,
+                "v": 1040.1555014838905,
+                "ease": "linear"
+              }
+            ],
+            "opacity": [
+              {
+                "f": 0,
+                "v": 0
+              },
+              {
+                "f": 10,
+                "v": 0
+              },
+              {
+                "f": 18,
+                "v": 1
+              }
+            ],
+            "facing": [
+              {
+                "f": 0,
+                "v": "right"
+              }
+            ],
+            "clip": [
+              {
+                "f": 0,
+                "v": "idle"
+              },
+              {
+                "f": 10,
+                "v": "walk"
+              },
+              {
+                "f": 51,
+                "v": "idle",
+                "blend": 6
+              },
+              {
+                "f": 53,
+                "v": "give",
+                "blend": 6
+              },
+              {
+                "f": 77,
+                "v": "idle",
+                "blend": 8
+              },
+              {
+                "f": 85,
+                "v": "sit",
+                "blend": 4
+              },
+              {
+                "f": 111,
+                "v": "seated",
+                "blend": 6
+              }
+            ],
+            "item": [
+              {
+                "f": 0,
+                "v": "document"
+              },
+              {
+                "f": 73,
+                "v": "neutral"
+              }
+            ],
+            "expression": [
+              {
+                "f": 0,
+                "v": "happy"
+              },
+              {
+                "f": 93,
+                "v": "neutral"
+              }
+            ]
+          }
+        },
+        {
+          "id": "maria",
+          "adapter": "character",
+          "asset": "char_era_01@1",
+          "z": 10,
+          "space": "world",
+          "props": {
+            "speaks": false
+          },
+          "tracks": {
+            "y": [
+              {
+                "f": 0,
+                "v": 1690
+              }
+            ],
+            "scale": [
+              {
+                "f": 0,
+                "v": 0.92
+              }
+            ],
+            "x": [
+              {
+                "f": 0,
+                "v": 1379.8444985161095
+              }
+            ],
+            "facing": [
+              {
+                "f": 0,
+                "v": "left"
+              }
+            ],
+            "clip": [
+              {
+                "f": 0,
+                "v": "seated_type"
+              },
+              {
+                "f": 151,
+                "v": "seated",
+                "blend": 6
+              },
+              {
+                "f": 165,
+                "v": "seated_type",
+                "blend": 8
+              }
+            ],
+            "expression": [
+              {
+                "f": 0,
+                "v": "neutral"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "sceneId": "s03",
+      "from": 390,
+      "duration": 189,
+      "background": {
+        "asset": "bg_interview_office_01@1"
+      },
+      "camera": {
+        "x": [
+          {
+            "f": 0,
+            "v": 960
+          },
+          {
+            "f": 61,
+            "v": 960
+          },
+          {
+            "f": 81,
+            "v": 1460,
+            "ease": "easeInOutCubic"
+          }
+        ],
+        "y": [
+          {
+            "f": 0,
+            "v": 1300
+          }
+        ],
+        "zoom": [
+          {
+            "f": 0,
+            "v": 2
+          },
+          {
+            "f": 188,
+            "v": 2.1,
+            "ease": "easeInOut"
+          }
+        ]
+      },
+      "captionY": 0.3,
+      "transitionIn": {
+        "type": "cut",
+        "frames": 0
+      },
+      "nodes": [
+        {
+          "id": "door",
+          "adapter": "svg",
+          "asset": "prop_door_01@1",
+          "z": 2,
+          "space": "world",
+          "props": {},
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 560
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 1095
+              }
+            ],
+            "part.leaf.scaleX": [
+              {
+                "f": 0,
+                "v": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "clock",
+          "adapter": "svg",
+          "asset": "prop_wall_clock_01@1",
+          "z": 2,
+          "space": "world",
+          "props": {},
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 1220
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 640
+              }
+            ],
+            "scale": [
+              {
+                "f": 0,
+                "v": 0.8
+              }
+            ]
+          }
+        },
+        {
+          "id": "plant",
+          "adapter": "svg",
+          "asset": "prop_plant_floor_01@1",
+          "z": 3,
+          "space": "world",
+          "props": {},
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 1840
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 1390
+              }
+            ]
+          }
+        },
+        {
+          "id": "chair_alex",
+          "adapter": "svg",
+          "asset": "prop_chair_office_side_01@1",
+          "z": 5,
+          "space": "world",
+          "props": {},
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 910
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 1410
+              }
+            ]
+          }
+        },
+        {
+          "id": "chair_maria",
+          "adapter": "svg",
+          "asset": "prop_chair_office_side_01@1",
+          "z": 5,
+          "space": "world",
+          "props": {
+            "flip": true
+          },
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 1510
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 1410
+              }
+            ]
+          }
+        },
+        {
+          "id": "desk",
+          "adapter": "svg",
+          "asset": "prop_desk_side_01@1",
+          "z": 15,
+          "space": "world",
+          "props": {},
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 1230
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 1500
+              }
+            ]
+          }
+        },
+        {
+          "id": "laptop",
+          "adapter": "svg",
+          "asset": "prop_laptop_side_01@1",
+          "z": 16,
+          "space": "world",
+          "props": {},
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 1300
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 1294.26
+              }
+            ],
+            "scale": [
+              {
+                "f": 0,
+                "v": 0.62
+              }
+            ]
+          }
+        },
+        {
+          "id": "mug",
+          "adapter": "svg",
+          "asset": "prop_mug_01@1",
+          "z": 16,
+          "space": "world",
+          "props": {},
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 1130
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 1299
+              }
+            ],
+            "scale": [
+              {
+                "f": 0,
+                "v": 0.85
+              }
+            ]
+          }
+        },
+        {
+          "id": "cv",
+          "adapter": "svg",
+          "asset": "prop_cv_flat_01@1",
+          "z": 16,
+          "space": "world",
+          "props": {},
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 1204.360252424955
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 1333
+              }
+            ]
+          }
+        },
+        {
+          "id": "alex",
+          "adapter": "character",
+          "asset": "char_arti_01@1",
+          "z": 10,
+          "space": "world",
+          "props": {
+            "speaks": false,
+            "outfit": "casual"
+          },
+          "tracks": {
+            "y": [
+              {
+                "f": 0,
+                "v": 1690
+              }
+            ],
+            "scale": [
+              {
+                "f": 0,
+                "v": 0.92
+              }
+            ],
+            "x": [
+              {
+                "f": 0,
+                "v": 1040.1555014838905
+              }
+            ],
+            "facing": [
+              {
+                "f": 0,
+                "v": "right"
+              }
+            ],
+            "clip": [
+              {
+                "f": 0,
+                "v": "seated_talk"
+              }
+            ],
+            "expression": [
+              {
+                "f": 0,
+                "v": "happy"
+              }
+            ]
+          }
+        },
+        {
+          "id": "maria",
+          "adapter": "character",
+          "asset": "char_era_01@1",
+          "z": 10,
+          "space": "world",
+          "props": {
+            "speaks": false
+          },
+          "tracks": {
+            "y": [
+              {
+                "f": 0,
+                "v": 1690
+              }
+            ],
+            "scale": [
+              {
+                "f": 0,
+                "v": 0.92
+              }
+            ],
+            "x": [
+              {
+                "f": 0,
+                "v": 1379.8444985161095
+              }
+            ],
+            "facing": [
+              {
+                "f": 0,
+                "v": "left"
+              }
+            ],
+            "clip": [
+              {
+                "f": 0,
+                "v": "seated_type"
+              },
+              {
+                "f": 81,
+                "v": "seated_nod",
+                "blend": 6
+              },
+              {
+                "f": 124,
+                "v": "seated_type",
+                "blend": 8
+              }
+            ],
+            "expression": [
+              {
+                "f": 0,
+                "v": "neutral"
+              },
+              {
+                "f": 81,
+                "v": "neutral"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "sceneId": "s04",
+      "from": 579,
+      "duration": 173,
+      "background": {
+        "asset": "bg_interview_office_01@1"
+      },
+      "camera": {
+        "x": [
+          {
+            "f": 0,
+            "v": 760
+          },
+          {
+            "f": 49,
+            "v": 1150,
+            "ease": "easeInOutCubic"
+          },
+          {
+            "f": 67,
+            "v": 1204.360252424955,
+            "ease": "easeInOut"
+          },
+          {
+            "f": 172,
+            "v": 1220,
+            "ease": "easeInOut"
+          }
+        ],
+        "y": [
+          {
+            "f": 0,
+            "v": 1400
+          },
+          {
+            "f": 49,
+            "v": 1300,
+            "ease": "easeInOutCubic"
+          },
+          {
+            "f": 172,
+            "v": 1360,
+            "ease": "easeInOut"
+          }
+        ],
+        "zoom": [
+          {
+            "f": 0,
+            "v": 1.55
+          },
+          {
+            "f": 49,
+            "v": 1.45,
+            "ease": "easeInOutCubic"
+          },
+          {
+            "f": 67,
+            "v": 1.75,
+            "ease": "easeInOut"
+          },
+          {
+            "f": 172,
+            "v": 1.4,
+            "ease": "easeInOut"
+          }
+        ]
+      },
+      "captionY": 0.3,
+      "transitionIn": {
+        "type": "whip",
+        "frames": 10,
+        "direction": "right"
+      },
+      "nodes": [
+        {
+          "id": "door",
+          "adapter": "svg",
+          "asset": "prop_door_01@1",
+          "z": 2,
+          "space": "world",
+          "props": {},
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 560
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 1095
+              }
+            ],
+            "part.leaf.scaleX": [
+              {
+                "f": 0,
+                "v": 1
+              },
+              {
+                "f": 12,
+                "v": 0.12,
+                "ease": "easeInOutCubic"
+              },
+              {
+                "f": 49,
+                "v": 0.12,
+                "ease": "easeInOutCubic"
+              },
+              {
+                "f": 65,
+                "v": 1,
+                "ease": "easeInOutCubic"
+              }
+            ]
+          }
+        },
+        {
+          "id": "clock",
+          "adapter": "svg",
+          "asset": "prop_wall_clock_01@1",
+          "z": 2,
+          "space": "world",
+          "props": {},
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 1220
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 640
+              }
+            ],
+            "scale": [
+              {
+                "f": 0,
+                "v": 0.8
+              }
+            ]
+          }
+        },
+        {
+          "id": "plant",
+          "adapter": "svg",
+          "asset": "prop_plant_floor_01@1",
+          "z": 3,
+          "space": "world",
+          "props": {},
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 1840
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 1390
+              }
+            ]
+          }
+        },
+        {
+          "id": "chair_alex",
+          "adapter": "svg",
+          "asset": "prop_chair_office_side_01@1",
+          "z": 5,
+          "space": "world",
+          "props": {},
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 910
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 1410
+              }
+            ]
+          }
+        },
+        {
+          "id": "chair_maria",
+          "adapter": "svg",
+          "asset": "prop_chair_office_side_01@1",
+          "z": 5,
+          "space": "world",
+          "props": {
+            "flip": true
+          },
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 1510
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 1410
+              }
+            ]
+          }
+        },
+        {
+          "id": "desk",
+          "adapter": "svg",
+          "asset": "prop_desk_side_01@1",
+          "z": 15,
+          "space": "world",
+          "props": {},
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 1230
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 1500
+              }
+            ]
+          }
+        },
+        {
+          "id": "laptop",
+          "adapter": "svg",
+          "asset": "prop_laptop_side_01@1",
+          "z": 16,
+          "space": "world",
+          "props": {},
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 1300
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 1294.26
+              }
+            ],
+            "scale": [
+              {
+                "f": 0,
+                "v": 0.62
+              }
+            ]
+          }
+        },
+        {
+          "id": "mug",
+          "adapter": "svg",
+          "asset": "prop_mug_01@1",
+          "z": 16,
+          "space": "world",
+          "props": {},
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 1130
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 1299
+              }
+            ],
+            "scale": [
+              {
+                "f": 0,
+                "v": 0.85
+              }
+            ]
+          }
+        },
+        {
+          "id": "t_rewind",
+          "adapter": "text",
+          "z": 40,
+          "space": "screen",
+          "props": {
+            "content": "SAME ALEX. JUST A SUIT.",
+            "style": "hook_impact",
+            "maxWidth": 940,
+            "highlight": ["SUIT."]
+          },
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 540
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 300
+              }
+            ],
+            "scale": [
+              {
+                "f": 12,
+                "v": 0
+              },
+              {
+                "f": 21,
+                "v": 1.1,
+                "ease": "easeOutCubic"
+              },
+              {
+                "f": 26,
+                "v": 1,
+                "ease": "easeOut"
+              }
+            ],
+            "opacity": [
+              {
+                "f": 161,
+                "v": 1
+              },
+              {
+                "f": 169,
+                "v": 0,
+                "ease": "easeIn"
+              }
+            ]
+          }
+        },
+        {
+          "id": "alex",
+          "adapter": "character",
+          "asset": "char_arti_01@1",
+          "z": 10,
+          "space": "world",
+          "props": {
+            "speaks": false,
+            "outfit": "business"
+          },
+          "tracks": {
+            "y": [
+              {
+                "f": 0,
+                "v": 1690
+              }
+            ],
+            "scale": [
+              {
+                "f": 0,
+                "v": 0.92
+              }
+            ],
+            "x": [
+              {
+                "f": 8,
+                "v": 560
+              },
+              {
+                "f": 16,
+                "v": 608.6004991056661,
+                "ease": "easeIn"
+              },
+              {
+                "f": 49,
+                "v": 1040.1555014838905,
+                "ease": "linear"
+              }
+            ],
+            "opacity": [
+              {
+                "f": 0,
+                "v": 0
+              },
+              {
+                "f": 8,
+                "v": 0
+              },
+              {
+                "f": 16,
+                "v": 1
+              }
+            ],
+            "facing": [
+              {
+                "f": 0,
+                "v": "right"
+              }
+            ],
+            "clip": [
+              {
+                "f": 0,
+                "v": "idle"
+              },
+              {
+                "f": 8,
+                "v": "walk"
+              },
+              {
+                "f": 49,
+                "v": "idle",
+                "blend": 6
+              },
+              {
+                "f": 51,
+                "v": "give",
+                "blend": 6
+              },
+              {
+                "f": 81,
+                "v": "idle",
+                "blend": 8
+              },
+              {
+                "f": 95,
+                "v": "sit",
+                "blend": 4
+              },
+              {
+                "f": 121,
+                "v": "seated_talk",
+                "blend": 8
+              }
+            ],
+            "item": [
+              {
+                "f": 0,
+                "v": "document"
+              },
+              {
+                "f": 75,
+                "v": "neutral"
+              }
+            ],
+            "expression": [
+              {
+                "f": 0,
+                "v": "happy"
+              }
+            ]
+          }
+        },
+        {
+          "id": "maria",
+          "adapter": "character",
+          "asset": "char_era_01@1",
+          "z": 10,
+          "space": "world",
+          "props": {
+            "speaks": false
+          },
+          "tracks": {
+            "y": [
+              {
+                "f": 0,
+                "v": 1690
+              }
+            ],
+            "scale": [
+              {
+                "f": 0,
+                "v": 0.92
+              }
+            ],
+            "x": [
+              {
+                "f": 0,
+                "v": 1379.8444985161095
+              }
+            ],
+            "facing": [
+              {
+                "f": 0,
+                "v": "left"
+              }
+            ],
+            "clip": [
+              {
+                "f": 0,
+                "v": "seated_type"
+              },
+              {
+                "f": 11,
+                "v": "seated",
+                "blend": 6
+              },
+              {
+                "f": 25,
+                "v": "stand_up",
+                "blend": 4
+              },
+              {
+                "f": 51,
+                "v": "idle",
+                "blend": 6
+              },
+              {
+                "f": 53,
+                "v": "give",
+                "blend": 6
+              },
+              {
+                "f": 81,
+                "v": "idle",
+                "blend": 8
+              },
+              {
+                "f": 91,
+                "v": "sit",
+                "blend": 4
+              },
+              {
+                "f": 117,
+                "v": "seated_read",
+                "blend": 8
+              }
+            ],
+            "item": [
+              {
+                "f": 0,
+                "v": "neutral"
+              },
+              {
+                "f": 75,
+                "v": "document"
+              }
+            ],
+            "expression": [
+              {
+                "f": 0,
+                "v": "neutral"
+              },
+              {
+                "f": 11,
+                "v": "surprised"
+              },
+              {
+                "f": 31,
+                "v": "happy"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "sceneId": "s05",
+      "from": 752,
+      "duration": 153,
+      "background": {
+        "asset": "bg_interview_office_01@1"
+      },
+      "camera": {
+        "x": [
+          {
+            "f": 0,
+            "v": 1200
+          }
+        ],
+        "y": [
+          {
+            "f": 0,
+            "v": 1400
+          }
+        ],
+        "zoom": [
+          {
+            "f": 0,
+            "v": 1.3
+          },
+          {
+            "f": 152,
+            "v": 1.42,
+            "ease": "easeInOut"
+          }
+        ]
+      },
+      "captionY": 0.82,
+      "transitionIn": {
+        "type": "cut",
+        "frames": 0
+      },
+      "nodes": [
+        {
+          "id": "door",
+          "adapter": "svg",
+          "asset": "prop_door_01@1",
+          "z": 2,
+          "space": "world",
+          "props": {},
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 560
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 1095
+              }
+            ],
+            "part.leaf.scaleX": [
+              {
+                "f": 0,
+                "v": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "clock",
+          "adapter": "svg",
+          "asset": "prop_wall_clock_01@1",
+          "z": 2,
+          "space": "world",
+          "props": {},
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 1220
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 640
+              }
+            ],
+            "scale": [
+              {
+                "f": 0,
+                "v": 0.8
+              }
+            ]
+          }
+        },
+        {
+          "id": "plant",
+          "adapter": "svg",
+          "asset": "prop_plant_floor_01@1",
+          "z": 3,
+          "space": "world",
+          "props": {},
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 1840
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 1390
+              }
+            ]
+          }
+        },
+        {
+          "id": "chair_alex",
+          "adapter": "svg",
+          "asset": "prop_chair_office_side_01@1",
+          "z": 5,
+          "space": "world",
+          "props": {},
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 910
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 1410
+              }
+            ]
+          }
+        },
+        {
+          "id": "chair_maria",
+          "adapter": "svg",
+          "asset": "prop_chair_office_side_01@1",
+          "z": 5,
+          "space": "world",
+          "props": {
+            "flip": true
+          },
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 1510
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 1410
+              }
+            ]
+          }
+        },
+        {
+          "id": "desk",
+          "adapter": "svg",
+          "asset": "prop_desk_side_01@1",
+          "z": 15,
+          "space": "world",
+          "props": {},
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 1230
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 1500
+              }
+            ]
+          }
+        },
+        {
+          "id": "laptop",
+          "adapter": "svg",
+          "asset": "prop_laptop_side_01@1",
+          "z": 16,
+          "space": "world",
+          "props": {},
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 1300
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 1294.26
+              }
+            ],
+            "scale": [
+              {
+                "f": 0,
+                "v": 0.62
+              }
+            ]
+          }
+        },
+        {
+          "id": "mug",
+          "adapter": "svg",
+          "asset": "prop_mug_01@1",
+          "z": 16,
+          "space": "world",
+          "props": {},
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 1130
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 1299
+              }
+            ],
+            "scale": [
+              {
+                "f": 0,
+                "v": 0.85
+              }
+            ]
+          }
+        },
+        {
+          "id": "halo",
+          "adapter": "svg",
+          "asset": "prop_halo_01@1",
+          "z": 30,
+          "space": "world",
+          "props": {
+            "idle": "float"
+          },
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 890
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 1032
+              }
+            ],
+            "scale": [
+              {
+                "f": 35,
+                "v": 0
+              },
+              {
+                "f": 47,
+                "v": 0.7,
+                "ease": "easeOutBack"
+              }
+            ],
+            "part.glow.scaleX": [
+              {
+                "f": 0,
+                "v": 1
+              },
+              {
+                "f": 152,
+                "v": 1.08
+              }
+            ]
+          }
+        },
+        {
+          "id": "l1",
+          "adapter": "text",
+          "z": 40,
+          "space": "screen",
+          "props": {
+            "content": "SMARTER",
+            "style": "title_clean",
+            "maxWidth": 940
+          },
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 540
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 250
+              }
+            ],
+            "scale": [
+              {
+                "f": 39,
+                "v": 0
+              },
+              {
+                "f": 48,
+                "v": 1.1,
+                "ease": "easeOutCubic"
+              },
+              {
+                "f": 53,
+                "v": 1,
+                "ease": "easeOut"
+              }
+            ],
+            "opacity": [
+              {
+                "f": 143,
+                "v": 1
+              },
+              {
+                "f": 151,
+                "v": 0,
+                "ease": "easeIn"
+              }
+            ]
+          }
+        },
+        {
+          "id": "l2",
+          "adapter": "text",
+          "z": 40,
+          "space": "screen",
+          "props": {
+            "content": "MORE RELIABLE",
+            "style": "title_clean",
+            "maxWidth": 940
+          },
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 540
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 370
+              }
+            ],
+            "scale": [
+              {
+                "f": 72,
+                "v": 0
+              },
+              {
+                "f": 81,
+                "v": 1.1,
+                "ease": "easeOutCubic"
+              },
+              {
+                "f": 86,
+                "v": 1,
+                "ease": "easeOut"
+              }
+            ],
+            "opacity": [
+              {
+                "f": 143,
+                "v": 1
+              },
+              {
+                "f": 151,
+                "v": 0,
+                "ease": "easeIn"
+              }
+            ]
+          }
+        },
+        {
+          "id": "l3",
+          "adapter": "text",
+          "z": 40,
+          "space": "screen",
+          "props": {
+            "content": "A NATURAL LEADER",
+            "style": "title_clean",
+            "maxWidth": 940
+          },
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 540
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 490
+              }
+            ],
+            "scale": [
+              {
+                "f": 116,
+                "v": 0
+              },
+              {
+                "f": 125,
+                "v": 1.1,
+                "ease": "easeOutCubic"
+              },
+              {
+                "f": 130,
+                "v": 1,
+                "ease": "easeOut"
+              }
+            ],
+            "opacity": [
+              {
+                "f": 143,
+                "v": 1
+              },
+              {
+                "f": 151,
+                "v": 0,
+                "ease": "easeIn"
+              }
+            ]
+          }
+        },
+        {
+          "id": "alex",
+          "adapter": "character",
+          "asset": "char_arti_01@1",
+          "z": 10,
+          "space": "world",
+          "props": {
+            "speaks": false,
+            "outfit": "business"
+          },
+          "tracks": {
+            "y": [
+              {
+                "f": 0,
+                "v": 1690
+              }
+            ],
+            "scale": [
+              {
+                "f": 0,
+                "v": 0.92
+              }
+            ],
+            "x": [
+              {
+                "f": 0,
+                "v": 1040.1555014838905
+              }
+            ],
+            "facing": [
+              {
+                "f": 0,
+                "v": "right"
+              }
+            ],
+            "clip": [
+              {
+                "f": 0,
+                "v": "seated_talk"
+              }
+            ],
+            "expression": [
+              {
+                "f": 0,
+                "v": "happy"
+              }
+            ]
+          }
+        },
+        {
+          "id": "maria",
+          "adapter": "character",
+          "asset": "char_era_01@1",
+          "z": 10,
+          "space": "world",
+          "props": {
+            "speaks": false
+          },
+          "tracks": {
+            "y": [
+              {
+                "f": 0,
+                "v": 1690
+              }
+            ],
+            "scale": [
+              {
+                "f": 0,
+                "v": 0.92
+              }
+            ],
+            "x": [
+              {
+                "f": 0,
+                "v": 1379.8444985161095
+              }
+            ],
+            "facing": [
+              {
+                "f": 0,
+                "v": "left"
+              }
+            ],
+            "clip": [
+              {
+                "f": 0,
+                "v": "seated_read"
+              },
+              {
+                "f": 39,
+                "v": "seated_nod",
+                "blend": 6
+              },
+              {
+                "f": 116,
+                "v": "seated_nod",
+                "blend": 4
+              }
+            ],
+            "item": [
+              {
+                "f": 0,
+                "v": "document"
+              }
+            ],
+            "expression": [
+              {
+                "f": 0,
+                "v": "happy"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "sceneId": "s06",
+      "from": 905,
+      "duration": 413,
+      "background": {
+        "asset": "bg_office_01@1"
+      },
+      "camera": {
+        "x": [
+          {
+            "f": 0,
+            "v": 870
+          }
+        ],
+        "y": [
+          {
+            "f": 0,
+            "v": 1200
+          }
+        ],
+        "zoom": [
+          {
+            "f": 0,
+            "v": 1.6
+          },
+          {
+            "f": 412,
+            "v": 1.7,
+            "ease": "easeInOut"
+          }
+        ]
+      },
+      "captionY": 0.8,
+      "transitionIn": {
+        "type": "cut",
+        "frames": 0
+      },
+      "nodes": [
+        {
+          "id": "host",
+          "adapter": "character",
+          "asset": "char_host_01@1",
+          "z": 10,
+          "space": "world",
+          "props": {
+            "speaks": true
+          },
+          "tracks": {
+            "y": [
+              {
+                "f": 0,
+                "v": 1690
+              }
+            ],
+            "scale": [
+              {
+                "f": 0,
+                "v": 0.92
+              }
+            ],
+            "x": [
+              {
+                "f": 0,
+                "v": 720
+              }
+            ],
+            "facing": [
+              {
+                "f": 0,
+                "v": "front"
+              }
+            ],
+            "clip": [
+              {
+                "f": 0,
+                "v": "talk"
+              },
+              {
+                "f": 57,
+                "v": "point_side",
+                "blend": 6
+              },
+              {
+                "f": 97,
+                "v": "talk",
+                "blend": 8
+              },
+              {
+                "f": 360,
+                "v": "arms_up",
+                "blend": 6
+              },
+              {
+                "f": 390,
+                "v": "talk",
+                "blend": 8
+              }
+            ],
+            "expression": [
+              {
+                "f": 0,
+                "v": "neutral"
+              },
+              {
+                "f": 139,
+                "v": "thinking"
+              },
+              {
+                "f": 360,
+                "v": "surprised"
+              }
+            ]
+          }
+        },
+        {
+          "id": "halo_big",
+          "adapter": "svg",
+          "asset": "prop_halo_01@1",
+          "z": 20,
+          "space": "world",
+          "props": {
+            "idle": "float"
+          },
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 1050
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 960
+              }
+            ],
+            "scale": [
+              {
+                "f": 53,
+                "v": 0
+              },
+              {
+                "f": 65,
+                "v": 1.25,
+                "ease": "easeOutBack"
+              }
+            ]
+          }
+        },
+        {
+          "id": "t_title",
+          "adapter": "text",
+          "z": 40,
+          "space": "screen",
+          "props": {
+            "content": "THE HALO EFFECT",
+            "style": "hook_impact",
+            "maxWidth": 940,
+            "highlight": ["HALO"]
+          },
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 540
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 300
+              }
+            ],
+            "scale": [
+              {
+                "f": 57,
+                "v": 0
+              },
+              {
+                "f": 66,
+                "v": 1.1,
+                "ease": "easeOutCubic"
+              },
+              {
+                "f": 71,
+                "v": 1,
+                "ease": "easeOut"
+              }
+            ],
+            "opacity": [
+              {
+                "f": 403,
+                "v": 1
+              },
+              {
+                "f": 411,
+                "v": 0,
+                "ease": "easeIn"
+              }
+            ]
+          }
+        },
+        {
+          "id": "t_src",
+          "adapter": "text",
+          "z": 40,
+          "space": "screen",
+          "props": {
+            "content": "Edward Thorndike · 1920",
+            "style": "label",
+            "maxWidth": 940
+          },
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 540
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 445
+              }
+            ],
+            "scale": [
+              {
+                "f": 96,
+                "v": 0
+              },
+              {
+                "f": 105,
+                "v": 1.1,
+                "ease": "easeOutCubic"
+              },
+              {
+                "f": 110,
+                "v": 1,
+                "ease": "easeOut"
+              }
+            ],
+            "opacity": [
+              {
+                "f": 403,
+                "v": 1
+              },
+              {
+                "f": 411,
+                "v": 0,
+                "ease": "easeIn"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "sceneId": "s07",
+      "from": 1318,
+      "duration": 286,
+      "background": {
+        "asset": "bg_office_01@1"
+      },
+      "camera": {
+        "x": [
+          {
+            "f": 0,
+            "v": 870
+          }
+        ],
+        "y": [
+          {
+            "f": 0,
+            "v": 1150
+          }
+        ],
+        "zoom": [
+          {
+            "f": 0,
+            "v": 2
+          },
+          {
+            "f": 285,
+            "v": 2.4,
+            "ease": "easeInOut"
+          }
+        ]
+      },
+      "captionY": 0.8,
+      "transitionIn": {
+        "type": "cut",
+        "frames": 0
+      },
+      "nodes": [
+        {
+          "id": "host",
+          "adapter": "character",
+          "asset": "char_host_01@1",
+          "z": 10,
+          "space": "world",
+          "props": {
+            "speaks": true
+          },
+          "tracks": {
+            "y": [
+              {
+                "f": 0,
+                "v": 1690
+              }
+            ],
+            "scale": [
+              {
+                "f": 0,
+                "v": 0.92
+              }
+            ],
+            "x": [
+              {
+                "f": 0,
+                "v": 720
+              }
+            ],
+            "facing": [
+              {
+                "f": 0,
+                "v": "front"
+              }
+            ],
+            "clip": [
+              {
+                "f": 0,
+                "v": "talk"
+              },
+              {
+                "f": 159,
+                "v": "think",
+                "blend": 8
+              },
+              {
+                "f": 184,
+                "v": "point_side",
+                "blend": 6
+              }
+            ],
+            "expression": [
+              {
+                "f": 0,
+                "v": "neutral"
+              },
+              {
+                "f": 159,
+                "v": "thinking"
+              },
+              {
+                "f": 184,
+                "v": "neutral"
+              }
+            ]
+          }
+        },
+        {
+          "id": "t_end",
+          "adapter": "text",
+          "z": 40,
+          "space": "screen",
+          "props": {
+            "content": "WHAT ARE YOU ACTUALLY JUDGING?",
+            "style": "hook_impact",
+            "maxWidth": 940,
+            "highlight": ["JUDGING?"]
+          },
+          "tracks": {
+            "x": [
+              {
+                "f": 0,
+                "v": 540
+              }
+            ],
+            "y": [
+              {
+                "f": 0,
+                "v": 300
+              }
+            ],
+            "scale": [
+              {
+                "f": 184,
+                "v": 0
+              },
+              {
+                "f": 193,
+                "v": 1.1,
+                "ease": "easeOutCubic"
+              },
+              {
+                "f": 198,
+                "v": 1,
+                "ease": "easeOut"
+              }
+            ],
+            "opacity": [
+              {
+                "f": 277,
+                "v": 1
+              },
+              {
+                "f": 285,
+                "v": 0,
+                "ease": "easeIn"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

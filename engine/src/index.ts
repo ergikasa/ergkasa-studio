@@ -12,6 +12,7 @@ export {
   SEAT,
   SIDE_FLOOR_Y,
   sideGaitSpeed,
+  sideHandItem,
 } from "./adapters/actions.js";
 export { TEXT_STYLES } from "./adapters/text.js";
 export {

@@ -6,6 +6,7 @@ import { MissingConfigError } from "./env.js";
 import { AnthropicLlm } from "./llm.js";
 import { mixRun, parseMixSet, parseVariants, rerender } from "./audio-tools.js";
 import { makeVideo } from "./make.js";
+import { runHalo } from "./poc/run-halo.js";
 import { THEME_BRIEFS } from "./script-writer.js";
 import { ElevenLabsVoice, listVoices, voiceExists } from "./voice.js";
 import { loadVoiceCatalog, voiceCatalogPath } from "./voice-catalog.js";
@@ -174,6 +175,7 @@ try {
   if (command === "make") await make(rest);
   else if (command === "voices") await voices(rest);
   else if (command === "rerender") await rerenderCmd(rest);
+  else if (command === "poc-halo") await runHalo(rest);
   else if (command === "audio-mix") await audioMixCmd(rest);
   else if (command === "worker") await runWorkerForever();
   else throw new UsageError(`unknown command '${command ?? ""}'`);

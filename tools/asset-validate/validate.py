@@ -76,6 +76,21 @@ def check(folder: Path, errors: list[str]) -> dict | None:
             missing = set(states) - have
             if missing:
                 errors.append(f"{rel}: slot '{slot}' pa gjendjet {sorted(missing)} ({files[svg_key]})")
+    # veshjet: e njëjta kokë (identiteti) në çdo veshje, vetëm rrobat ndryshojnë
+    variants = meta.get("variants", {})
+    if meta.get("kind") == "rigged_character" and variants:
+        def head(p: Path) -> bytes:
+            el = next((e for e in ET.parse(p).getroot().iter() if e.get("id") == "head"), None)
+            return ET.tostring(el) if el is not None else b""
+        for base_key, suffix in (("svg", ""), ("svg_side", "_side")):
+            if base_key not in files:
+                continue
+            ref = head(folder / files[base_key])
+            for key, name in variants.items():
+                if key.endswith("_side") != bool(suffix) or not (folder / name).exists():
+                    continue
+                if head(folder / name) != ref:
+                    errors.append(f"{rel}: veshja '{key}' ndryshon kokën (identitetin) e personazhit")
     svg = folder / files.get("svg", "asset.svg")
     if meta.get("kind") == "animated_metaphor" and svg.exists():
         ids = group_ids(svg)

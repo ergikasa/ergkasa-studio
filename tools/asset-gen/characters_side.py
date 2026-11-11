@@ -101,7 +101,9 @@ def head_side(look: Look) -> str:
         glasses = (f'<g id="glasses"><rect x="222" y="115" width="24" height="21" rx="7" fill="#FFFFFF" fill-opacity="0.15" stroke="{INK}" stroke-width="2.4"/>'
                    f'<path d="M222,123 L196,120" stroke="{INK}" stroke-width="2.4"/></g>')
     blush = f'<ellipse cx="224" cy="152" rx="9" ry="5" fill="#E58A7A" fill-opacity="0.35"/>' if look.blush else ""
-    wrinkle = f'<path d="M214,96 Q232,90 246,98" fill="none" stroke="{look.skin_sh}" stroke-width="2" stroke-linecap="round"/>' if look.hair_style == "receding" else ""
+    wrinkle = f'<path d="M214,96 Q232,90 246,98" fill="none" stroke="{look.skin_sh}" stroke-width="2" stroke-linecap="round"/>' if (look.hair_style == "receding" or look.age_lines) else ""
+    if look.age_lines:
+        wrinkle += f'<path d="M236,150 Q230,162 236,174" fill="none" stroke="{look.skin_sh}" stroke-width="2.4" stroke-linecap="round"/>'
     return (
         '<g id="head" data-pivot="200,212">'
         + back
@@ -127,11 +129,12 @@ def _arm(look: Look, side: str) -> str:
     skin = _darken(look.skin, k) if far else look.skin
     skin_s = _darken(look.skin_sh, k) if far else look.skin_sh
     x = 200
-    long_sleeve = look.top in ("hoodie", "cardigan")
+    long_sleeve = look.top in ("hoodie", "cardigan", "suit")
+    cuff = (look.inner or "#F6F3EE") if look.top == "suit" else top_s
     hand = (f'<g id="hand_{side}" data-pivot="{x},440">' + (item_slot(x) if side == "n" else "") + f'<path d="M{x-13},436 Q{x-15},462 {x-4},472 Q{x+8},476 {x+14},464 Q{x+16},450 {x+13},436 Z" fill="{skin}"/>'
             f'<path d="M{x+12},446 Q{x+20},456 {x+12},464" fill="none" stroke="{skin_s}" stroke-width="5" stroke-linecap="round"/></g>')
     if long_sleeve:
-        fore = f'<rect x="{x-15}" y="334" width="30" height="104" rx="14" fill="{top_m}"/><rect x="{x-16}" y="422" width="32" height="16" rx="6" fill="{top_s}"/>'
+        fore = f'<rect x="{x-15}" y="334" width="30" height="104" rx="14" fill="{top_m}"/><rect x="{x-16}" y="422" width="32" height="16" rx="6" fill="{cuff}"/>'
     else:
         fore = f'<rect x="{x-13}" y="336" width="26" height="104" rx="13" fill="{skin}"/><rect x="{x-13}" y="350" width="8" height="80" rx="4" fill="{skin_s}" fill-opacity="0.7"/>'
         if look.watch and side == "n":
@@ -186,6 +189,14 @@ def _torso(look: Look) -> str:
     elif look.top == "hoodie":
         detail = (f'<path d="M168,226 Q160,200 190,198 Q214,198 222,214 Q200,206 186,214 Q174,222 176,238 Z" fill="{sh}"/>'
                   f'<path d="M180,356 L240,356 L242,420 L184,420 Z" fill="{sh}"/><path d="M168,424 L238,424" stroke="{dk}" stroke-width="10"/>')
+    elif look.top == "suit":
+        tie = look.tie or "#7A2E3A"
+        detail = (f'<path d="M212,214 L242,232 Q247,280 242,316 L226,316 Q226,270 218,236 Z" fill="{look.inner or "#F6F3EE"}"/>'
+                  f'<path d="M222,214 L244,236 L228,250 Z" fill="{look.skin_sh}"/>'
+                  f'<path d="M236,236 L244,240 Q248,280 244,322 L236,330 L232,322 Q238,280 236,240 Z" fill="{tie}"/>'
+                  f'<path d="M210,214 L230,240 L222,250 L234,316 L222,318 Q214,270 206,232 Z" fill="{sh}"/>'
+                  f'<path d="M226,320 Q238,380 236,436" fill="none" stroke="{dk}" stroke-width="2"/>'
+                  f'<circle cx="236" cy="372" r="4" fill="{dk}"/><path d="M182,388 L212,388" stroke="{dk}" stroke-width="3" stroke-linecap="round"/>')
     else:
         detail = (f'<path d="M210,214 L240,232 Q248,320 238,436 L226,436 Q232,320 220,236 Z" fill="{look.inner or "#DCE6EE"}"/>'
                   f'<path d="M220,236 Q232,320 226,436" fill="none" stroke="{dk}" stroke-width="3"/>')
@@ -193,6 +204,8 @@ def _torso(look: Look) -> str:
     if look.top in ("shirt", "cardigan"):
         belt = f'<rect id="belt" x="168" y="428" width="72" height="14" rx="3" fill="#4B3427"/>'
     hips = f'<path id="hips" d="M170,434 L238,434 L234,492 Q200,500 172,492 Z" fill="{look.pants}"/>'
+    if look.top == "suit":  # jacket hem over the hips
+        hips += f'<path d="M166,428 L240,428 L240,470 L168,472 Z" fill="{m}"/><path d="M166,428 L168,472 L180,472 L178,428 Z" fill="{sh}" fill-opacity="0.8"/>'
     return f'<g id="torso" data-pivot="200,430">{base}{detail}{belt}{hips}</g>'
 
 
@@ -228,6 +241,6 @@ def side_rig(look: Look) -> dict:
         "slots": {"eyes": EYE_STATES, "brows": EXPRESSIONS, "mouth": MOUTH_STATES, "item": ["neutral"] + ITEMS},
         "expressions": {e: {"eyes": e, "brows": e, "mouth": e} for e in EXPRESSIONS},
         "visemes": {"rest": "neutral", "A": "talk_a", "E": "talk_e", "I": "talk_e", "O": "talk_o", "U": "talk_o", "MBP": "neutral", "FV": "talk_e"},
-        "limits": {"thigh_n": [-50, 40], "thigh_f": [-50, 40], "shin_n": [0, 110], "shin_f": [0, 110],
+        "limits": {"thigh_n": [-95, 40], "thigh_f": [-95, 40], "shin_n": [0, 110], "shin_f": [0, 110],
                    "arm_upper_n": [-120, 60], "arm_upper_f": [-120, 60], "arm_lower_n": [-130, 0], "arm_lower_f": [-130, 0], "head": [-15, 15]},
     }

@@ -65,7 +65,8 @@ def chair_office_side():
 
 # ---------------------------------------------------------------- tavolinë pune (pamje ballore anash)
 def desk_side():
-    w, h = 420, 380
+    # in profile we see the desk's depth (~70 cm), not its width
+    w, h = 300, 380
     top = h - DESK_TOP_ABOVE_FLOOR
     body = (
         g("legs", rect(22, top + 26, 26, h - top - 26, "#6B4F3A") + rect(w - 48, top + 26, 26, h - top - 26, "#6B4F3A"))
@@ -144,6 +145,17 @@ def mug():
     return "Filxhan", body, (w, h), {"ground": [0.5, 88 / h]}, ["mug", "coffee", "office", "break"], {"mug": "statik"}
 
 
+# ---------------------------------------------------------------- CV e shtrirë mbi tavolinë
+def cv_flat():
+    w, h = 120, 30
+    body = g("sheet", path("M6,24 L18,6 L116,6 L104,24 Z", "#FFFFFF")
+             + path("M6,24 L18,6 L116,6 L104,24 Z", "none", 'stroke="#C9CED8" stroke-width="2"')
+             + path("M30,15 L88,15 M26,20 L70,20", "none", 'stroke="#A7AEBB" stroke-width="3" stroke-linecap="round"')
+             + rect(92, 9, 14, 9, "#C2D3E3", rx=2))
+    return "CV mbi tavolinë", body, (w, h), {"ground": [0.5, 24 / h]}, ["cv", "resume", "document", "paper", "office", "interview"], \
+        {"sheet": "pop_in, slide (x) mbi tavolinë"}
+
+
 # ---------------------------------------------------------------- aureola (metaforë e Halo Effect)
 def halo():
     w, h = 260, 120
@@ -165,6 +177,7 @@ PROPS = [
     ("prop_wall_clock_01", wall_clock),
     ("prop_mug_01", mug),
     ("prop_halo_01", halo),
+    ("prop_cv_flat_01", cv_flat),
 ]
 
 

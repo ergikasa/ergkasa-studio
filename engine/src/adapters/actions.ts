@@ -351,6 +351,27 @@ export function sideFoot(pose: Pose, leg: "n" | "f"): { heel: Vec; toe: Vec } {
   return { heel: add(ankle, rotate(sub(HEEL, ANKLE), a3)), toe: add(ankle, rotate(sub(TOE, ANKLE), a3)) };
 }
 
+/**
+ * Where the near hand holds an item (the centre of the `item` slot), in rig coordinates, including
+ * the root offset. Used to stage hand-overs: two characters' hands must meet at the same point.
+ */
+export function sideHandItem(pose: Pose): Vec {
+  const T: Vec = [200, 430];
+  const S: Vec = [200, 240];
+  const E: Vec = [200, 338];
+  const H: Vec = [200, 440];
+  const I: Vec = [200, 487];
+  const rt = pose["torso"]?.rotation ?? 0;
+  const ra = rt + (pose["arm_upper_n"]?.rotation ?? 0);
+  const rb = ra + (pose["arm_lower_n"]?.rotation ?? 0);
+  const rc = rb + (pose["hand_n"]?.rotation ?? 0);
+  const shoulder = add(T, rotate(sub(S, T), rt));
+  const elbow = add(shoulder, rotate(sub(E, S), ra));
+  const hand = add(elbow, rotate(sub(H, E), rb));
+  const item = add(hand, rotate(sub(I, H), rc));
+  return [item[0] + (pose["root"]?.x ?? 0), item[1] + (pose["root"]?.y ?? 0)];
+}
+
 /** Lowest point of both feet (largest y). */
 function lowestFootY(pose: Pose): number {
   const n = sideFoot(pose, "n");
@@ -515,6 +536,18 @@ export const SIDE_ACTIONS: Record<string, Action> = {
       arm_lower_f: { rotation: (-58 + 4 * sin(t, 5.5, ph + 1.6)) * k },
       head: { rotation: (6 + 1 * sin(t, 0.4, ph)) * k },
       torso: { rotation: 3 * k },
+    });
+  },
+
+  /** Standing, leans over a desk and holds something out at arm's length (a hand-over). */
+  give: (t, ph) => {
+    const k = ramp(t, 0.6);
+    return merge(sideIdle(t, ph), {
+      torso: { rotation: -8 * k },
+      head: { rotation: 6 * k },
+      arm_upper_n: { rotation: -38 * k },
+      arm_lower_n: { rotation: -22 * k },
+      hand_n: { rotation: 10 * k },
     });
   },
 

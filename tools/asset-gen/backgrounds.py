@@ -66,7 +66,9 @@ def building(x, base, w, h, color, win, rng, lit=0.0, win_color="#F7E7B4"):
     return out
 
 
-def wall_with_hole(color, hx, hy, hw, hh, x0=-400, y0=-200, x1=W + 400, y1=1560):
+def wall_with_hole(color, hx, hy, hw, hh, x0=-400, y0=-200, x1=W + 400, y1=2100):
+    # the wall runs down behind the floor: a far layer moves less than the floor when the camera
+    # zooms (parallax), and would otherwise open a gap above the floor
     d = f"M{x0},{y0} H{x1} V{y1} H{x0} Z M{hx},{hy} V{hy+hh} H{hx+hw} V{hy} Z"
     return f'<path d="{d}" fill="{color}" fill-rule="evenodd"/>'
 

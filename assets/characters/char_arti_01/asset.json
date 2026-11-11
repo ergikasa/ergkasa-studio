@@ -73,7 +73,14 @@
       "thinking"
     ],
     "visemes": "erkasa8",
-    "canHold": []
+    "canHold": [],
+    "outfits": {
+      "default": "casual",
+      "available": [
+        "casual",
+        "business"
+      ]
+    }
   },
   "anchors": {
     "ground": [
@@ -106,5 +113,9 @@
     "source": "Erkasa (origjinal, i gjeneruar me kod)",
     "commercial": true,
     "attributionRequired": false
+  },
+  "variants": {
+    "business": "outfits/business.svg",
+    "business_side": "outfits/business_side.svg"
   }
 }

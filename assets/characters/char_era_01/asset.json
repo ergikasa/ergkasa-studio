@@ -73,7 +73,13 @@
       "thinking"
     ],
     "visemes": "erkasa8",
-    "canHold": []
+    "canHold": [],
+    "outfits": {
+      "default": "default",
+      "available": [
+        "default"
+      ]
+    }
   },
   "anchors": {
     "ground": [

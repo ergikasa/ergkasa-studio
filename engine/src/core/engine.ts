@@ -71,18 +71,31 @@ export class Engine {
     }
     const meta = resolveAsset(assets, node.asset);
     const svg = (): string => assets.text(meta.assetId, meta.files["svg"] ?? "asset.svg");
-    if (node.adapter === "character" && !this.characters.has(node.asset)) {
+    if (node.adapter === "character" && !this.characters.has(characterKey(node))) {
       const rigFile = meta.files["rig"];
       if (!rigFile) throw new Error(`${meta.assetId}: character without rig`);
-      const sideSvg = meta.files["svg_side"];
+      // an outfit is another drawing on the same skeleton: same rig, other SVGs
+      const outfit = typeof node.props["outfit"] === "string" ? node.props["outfit"] : undefined;
+      const def = defaultOutfit(meta);
+      let frontSvg = meta.files["svg"] ?? "asset.svg";
+      let sideSvg = meta.files["svg_side"];
+      if (outfit && outfit !== def) {
+        const v = meta.variants?.[outfit];
+        if (!v)
+          throw new Error(
+            `node ${node.id}: ${meta.assetId} has no outfit '${outfit}' (has: ${[def, ...Object.keys(meta.variants ?? {}).filter((k) => !k.endsWith("_side"))].join(", ")})`,
+          );
+        frontSvg = v;
+        sideSvg = meta.variants?.[`${outfit}_side`];
+      }
       const sideRig = meta.files["rig_side"];
       const side =
         sideSvg && sideRig
           ? { svg: assets.text(meta.assetId, sideSvg), rig: assets.text(meta.assetId, sideRig) }
           : undefined;
       this.characters.set(
-        node.asset,
-        prepareCharacter(meta, svg(), assets.text(meta.assetId, rigFile), side),
+        characterKey(node),
+        prepareCharacter(meta, assets.text(meta.assetId, frontSvg), assets.text(meta.assetId, rigFile), side),
       );
     } else if (node.adapter === "svg" && !this.svgAssets.has(node.asset)) {
       this.svgAssets.set(node.asset, prepareSvgAsset(meta, svg()));
@@ -140,7 +153,7 @@ export class Engine {
     const draw = (n: TimelineNode): string => {
       switch (n.adapter) {
         case "character": {
-          const c = this.characters.get(n.asset as string) as PreparedCharacter;
+          const c = this.characters.get(characterKey(n)) as PreparedCharacter;
           return renderCharacter(c, n.id, n.tracks, n.props, {
             frame: local,
             fps: this.fps,
@@ -227,4 +240,17 @@ export class Engine {
         return b;
     }
   }
+}
+
+/** One prepared character per asset and outfit. */
+function characterKey(node: TimelineNode): string {
+  const outfit = typeof node.props["outfit"] === "string" ? node.props["outfit"] : "";
+  return `${node.asset ?? ""}#${outfit}`;
+}
+
+/** The outfit drawn in the asset's main SVG (`capabilities.outfits.default`). */
+function defaultOutfit(meta: { capabilities: Record<string, unknown> }): string {
+  const o = meta.capabilities["outfits"];
+  if (o && typeof o === "object" && "default" in o && typeof o.default === "string") return o.default;
+  return "default";
 }
