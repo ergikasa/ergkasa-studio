@@ -28,10 +28,47 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "music/m_hook_doc_piano.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "b3dabd0f0dbfdd1d3fa8582b3740ab18f8964f938c1b77ac06cb307fc16123de",
+        "durationSec": 68.1,
+        "loudnessLufs": -23.4,
+        "truePeakDb": -9.9,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "mood": "curious, calm",
       "character": "soft acoustic piano chords + subtle atmospheric pads",
-      "roles": ["hook", "relate"]
+      "roles": [
+        "hook",
+        "relate"
+      ],
+      "sections": [
+        {
+          "name": "intro",
+          "start": 0,
+          "end": 22.9,
+          "source": "auto"
+        },
+        {
+          "name": "build",
+          "start": 22.9,
+          "end": 26.5,
+          "source": "auto"
+        },
+        {
+          "name": "peak",
+          "start": 26.5,
+          "end": 40.1,
+          "source": "auto"
+        },
+        {
+          "name": "outro",
+          "start": 62.5,
+          "end": 68.1,
+          "source": "auto"
+        }
+      ],
+      "gainDb": 0
     },
     {
       "id": "m_relate_emotional",
@@ -47,10 +84,48 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "music/m_relate_emotional.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "5587e5ca4c1969fb625a71f58ed1fa8131febd7422890f0c6d7d16cd03fc487a",
+        "durationSec": 105.29,
+        "loudnessLufs": -17.7,
+        "truePeakDb": -6.5,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "mood": "nostalgic, warm",
       "character": "touching solo piano, calm",
-      "roles": ["relate", "hook", "reflection"]
+      "roles": [
+        "relate",
+        "hook",
+        "reflection"
+      ],
+      "sections": [
+        {
+          "name": "intro",
+          "start": 0,
+          "end": 12,
+          "source": "auto"
+        },
+        {
+          "name": "build",
+          "start": 12,
+          "end": 77,
+          "source": "auto"
+        },
+        {
+          "name": "peak",
+          "start": 77,
+          "end": 98.1,
+          "source": "auto"
+        },
+        {
+          "name": "outro",
+          "start": 100.8,
+          "end": 105.3,
+          "source": "auto"
+        }
+      ],
+      "gainDb": 0
     },
     {
       "id": "m_explain_calm",
@@ -66,10 +141,47 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "music/m_explain_calm.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "9ba89c2ebc2aa92ebe1a1b0d8cbbe9c56946179056dd6bc677075340227d7f82",
+        "durationSec": 137.21,
+        "loudnessLufs": -15.4,
+        "truePeakDb": -2.1,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "mood": "neutral, calm",
       "character": "soft reflective piano melodies",
-      "roles": ["explain", "relate"]
+      "roles": [
+        "explain",
+        "relate"
+      ],
+      "sections": [
+        {
+          "name": "intro",
+          "start": 0,
+          "end": 15.2,
+          "source": "auto"
+        },
+        {
+          "name": "build",
+          "start": 15.2,
+          "end": 58,
+          "source": "auto"
+        },
+        {
+          "name": "peak",
+          "start": 58,
+          "end": 85.4,
+          "source": "auto"
+        },
+        {
+          "name": "outro",
+          "start": 124.8,
+          "end": 137.2,
+          "source": "auto"
+        }
+      ],
+      "gainDb": 0
     },
     {
       "id": "m_tension_ambient",
@@ -85,10 +197,46 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "music/m_tension_ambient.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "7b5f9e15f0cda44c7c6067f1a35aa953d6e6705f9d7ab31c842b20e1609ff883",
+        "durationSec": 122.04,
+        "loudnessLufs": -14,
+        "truePeakDb": 0,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "mood": "uneasy, waiting",
       "character": "documentary ambient tension",
-      "roles": ["tension"]
+      "roles": [
+        "tension"
+      ],
+      "sections": [
+        {
+          "name": "intro",
+          "start": 0,
+          "end": 7.7,
+          "source": "auto"
+        },
+        {
+          "name": "build",
+          "start": 7.7,
+          "end": 48.5,
+          "source": "auto"
+        },
+        {
+          "name": "peak",
+          "start": 48.5,
+          "end": 72.9,
+          "source": "auto"
+        },
+        {
+          "name": "outro",
+          "start": 117.7,
+          "end": 122,
+          "source": "auto"
+        }
+      ],
+      "gainDb": 0
     },
     {
       "id": "m_tension_piano",
@@ -104,10 +252,47 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "music/m_tension_piano.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "b80d07b7378b3e121f14f77ec1e5331961a2b0da40baeba70ba985b9c5a65ea3",
+        "durationSec": 84.06,
+        "loudnessLufs": -21.7,
+        "truePeakDb": -7.8,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "mood": "dark, pressure",
       "character": "piano + synth, mystery",
-      "roles": ["tension", "twist"]
+      "roles": [
+        "tension",
+        "twist"
+      ],
+      "sections": [
+        {
+          "name": "intro",
+          "start": 0,
+          "end": 20.7,
+          "source": "auto"
+        },
+        {
+          "name": "build",
+          "start": 20.7,
+          "end": 44,
+          "source": "auto"
+        },
+        {
+          "name": "peak",
+          "start": 44,
+          "end": 60.8,
+          "source": "auto"
+        },
+        {
+          "name": "outro",
+          "start": 76.8,
+          "end": 84.1,
+          "source": "auto"
+        }
+      ],
+      "gainDb": 0
     },
     {
       "id": "m_twist_dark",
@@ -123,10 +308,46 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "music/m_twist_dark.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "66be6b07fa04e3517f64fdcc5ff6192dba9fcba11b10562642a1f96516e0f2a1",
+        "durationSec": 60.26,
+        "loudnessLufs": -18.2,
+        "truePeakDb": -5.1,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "mood": "unsettling, suspended",
       "character": "haunting piano notes + dark ambient pads",
-      "roles": ["twist"]
+      "roles": [
+        "twist"
+      ],
+      "sections": [
+        {
+          "name": "intro",
+          "start": 0,
+          "end": 20.8,
+          "source": "auto"
+        },
+        {
+          "name": "build",
+          "start": 20.8,
+          "end": 41.5,
+          "source": "auto"
+        },
+        {
+          "name": "peak",
+          "start": 41.5,
+          "end": 53.6,
+          "source": "auto"
+        },
+        {
+          "name": "outro",
+          "start": 56.2,
+          "end": 60.3,
+          "source": "auto"
+        }
+      ],
+      "gainDb": 0
     },
     {
       "id": "m_twist_violin",
@@ -142,11 +363,48 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "music/m_twist_violin.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "9ca331993bdd9ca508ca11864cf09a5698e3cc731cd94acfa4a74ab6b83c9ff0",
+        "durationSec": 60.03,
+        "loudnessLufs": -19.7,
+        "truePeakDb": -6.1,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
+      "notes": "player showed 1:00, may be a preview: check the real length",
       "mood": "mysterious, curious",
       "character": "piano + cinematic violin",
-      "roles": ["twist", "hook"],
-      "notes": "player showed 1:00, may be a preview: check the real length"
+      "roles": [
+        "twist",
+        "hook"
+      ],
+      "sections": [
+        {
+          "name": "intro",
+          "start": 0,
+          "end": 20.5,
+          "source": "auto"
+        },
+        {
+          "name": "build",
+          "start": 20.5,
+          "end": 41,
+          "source": "auto"
+        },
+        {
+          "name": "peak",
+          "start": 41,
+          "end": 53,
+          "source": "auto"
+        },
+        {
+          "name": "outro",
+          "start": 57.5,
+          "end": 60,
+          "source": "auto"
+        }
+      ],
+      "gainDb": 0
     },
     {
       "id": "m_reflect_sorrow",
@@ -162,10 +420,46 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "music/m_reflect_sorrow.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "3de58669faa60b1f42d951a4febb57dc088a55ab25eecb313f09b3bd8fdf436d",
+        "durationSec": 95.14,
+        "loudnessLufs": -18.4,
+        "truePeakDb": -4.9,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "mood": "melancholic, introspective",
       "character": "melancholic dramatic piano",
-      "roles": ["reflection"]
+      "roles": [
+        "reflection"
+      ],
+      "sections": [
+        {
+          "name": "intro",
+          "start": 0,
+          "end": 23.4,
+          "source": "auto"
+        },
+        {
+          "name": "build",
+          "start": 23.4,
+          "end": 60,
+          "source": "auto"
+        },
+        {
+          "name": "peak",
+          "start": 60,
+          "end": 79,
+          "source": "auto"
+        },
+        {
+          "name": "outro",
+          "start": 92.4,
+          "end": 95.1,
+          "source": "auto"
+        }
+      ],
+      "gainDb": 0
     },
     {
       "id": "m_turn_strings",
@@ -181,10 +475,46 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "music/m_turn_strings.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "c8d4d42745261976b86c7d5c2863c5c52548bcc766eff0ee8ea4c9c7dd5f3f3b",
+        "durationSec": 96.6,
+        "loudnessLufs": -10.8,
+        "truePeakDb": -0.1,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "mood": "emotional, rising",
       "character": "cinematic piano + strings",
-      "roles": ["turn"]
+      "roles": [
+        "turn"
+      ],
+      "sections": [
+        {
+          "name": "intro",
+          "start": 0,
+          "end": 23.1,
+          "source": "auto"
+        },
+        {
+          "name": "build",
+          "start": 23.1,
+          "end": 55.5,
+          "source": "auto"
+        },
+        {
+          "name": "peak",
+          "start": 55.5,
+          "end": 74.8,
+          "source": "auto"
+        },
+        {
+          "name": "outro",
+          "start": 84.4,
+          "end": 96.6,
+          "source": "auto"
+        }
+      ],
+      "gainDb": 0
     },
     {
       "id": "m_resolve_elegant",
@@ -200,10 +530,47 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "music/m_resolve_elegant.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "b76bfd4be864120e4f75722cc3b841e7205a2bab405c3e4a8654751e67ec869a",
+        "durationSec": 154.73,
+        "loudnessLufs": -17.1,
+        "truePeakDb": -4.8,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "mood": "hopeful, warm",
       "character": "flowing neoclassical piano",
-      "roles": ["resolve", "turn"]
+      "roles": [
+        "resolve",
+        "turn"
+      ],
+      "sections": [
+        {
+          "name": "intro",
+          "start": 0,
+          "end": 14.1,
+          "source": "auto"
+        },
+        {
+          "name": "build",
+          "start": 14.1,
+          "end": 52,
+          "source": "auto"
+        },
+        {
+          "name": "peak",
+          "start": 52,
+          "end": 82.9,
+          "source": "auto"
+        },
+        {
+          "name": "outro",
+          "start": 104.2,
+          "end": 154.7,
+          "source": "auto"
+        }
+      ],
+      "gainDb": 0
     },
     {
       "id": "m_reflect_calm_alt",
@@ -219,10 +586,47 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "music/m_reflect_calm_alt.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "874489e3a70e82f8ed35e09a8e462cd171d3f4708d991ef601d9c7fb2e9ccd80",
+        "durationSec": 72.05,
+        "loudnessLufs": -17,
+        "truePeakDb": -3.3,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "mood": "peaceful",
       "character": "cinematic ambient",
-      "roles": ["reflection", "explain"]
+      "roles": [
+        "reflection",
+        "explain"
+      ],
+      "sections": [
+        {
+          "name": "intro",
+          "start": 0,
+          "end": 13.9,
+          "source": "auto"
+        },
+        {
+          "name": "build",
+          "start": 13.9,
+          "end": 57,
+          "source": "auto"
+        },
+        {
+          "name": "peak",
+          "start": 57,
+          "end": 71.4,
+          "source": "auto"
+        },
+        {
+          "name": "outro",
+          "start": 70.1,
+          "end": 72.1,
+          "source": "auto"
+        }
+      ],
+      "gainDb": 0
     },
     {
       "id": "sfx_swoosh_thin",
@@ -238,9 +642,19 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "sfx/sfx_swoosh_thin.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "2de86b6715399806a7a9a5a0d5ad1833af068777a917b7043204b2a532708742",
+        "durationSec": 1.56,
+        "loudnessLufs": -17.9,
+        "truePeakDb": -1.2,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "category": "transition",
-      "events": ["scene_cut"]
+      "events": [
+        "scene_cut"
+      ],
+      "gainDb": 0
     },
     {
       "id": "sfx_swoosh_slow",
@@ -256,9 +670,19 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "sfx/sfx_swoosh_slow.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "b6e38b7ab8d7e86bab9ee20c2c731760795da0396726d357c5eec56bd207bc80",
+        "durationSec": 3.08,
+        "loudnessLufs": -12.5,
+        "truePeakDb": -0.1,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "category": "transition",
-      "events": ["camera_push"],
+      "events": [
+        "camera_push"
+      ],
+      "gainDb": 0,
       "maxPerVideo": 2
     },
     {
@@ -275,9 +699,19 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "sfx/sfx_whoosh_light.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "f8cbe4015776f50d681d2b11d274416a23008eacfd6d083f9c73403e71baf687",
+        "durationSec": 1.03,
+        "loudnessLufs": -15.6,
+        "truePeakDb": 0.6,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "category": "transition",
-      "events": ["object_in"]
+      "events": [
+        "object_in"
+      ],
+      "gainDb": 0
     },
     {
       "id": "sfx_whoosh_air",
@@ -293,9 +727,19 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "sfx/sfx_whoosh_air.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "6fd026ee7c3d857700529cdd9afcc1ed67f327d4a689e14f05cfb36c3fe20766",
+        "durationSec": 1.51,
+        "loudnessLufs": -15.3,
+        "truePeakDb": 0.3,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "category": "transition",
-      "events": ["object_out"]
+      "events": [
+        "object_out"
+      ],
+      "gainDb": 0
     },
     {
       "id": "sfx_whoosh_whisper",
@@ -311,9 +755,19 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "sfx/sfx_whoosh_whisper.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "d927099b69755e6b8f656f49098a0a05d6e7c13c558d99510aab2055028890ef",
+        "durationSec": 4.03,
+        "loudnessLufs": -9.6,
+        "truePeakDb": 0.3,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "category": "transition",
-      "events": ["into_reflection"],
+      "events": [
+        "into_reflection"
+      ],
+      "gainDb": 0,
       "maxPerVideo": 1
     },
     {
@@ -330,9 +784,19 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "sfx/sfx_pop_clean.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "958db4383b77e65b0962e00825190620209d4ac2ad1da91fe3432027e38defcc",
+        "durationSec": 1.63,
+        "loudnessLufs": -14.2,
+        "truePeakDb": 0.1,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "category": "ui",
-      "events": ["text_in"]
+      "events": [
+        "text_in"
+      ],
+      "gainDb": 0
     },
     {
       "id": "sfx_pop_subtle",
@@ -348,9 +812,20 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "sfx/sfx_pop_subtle.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "d3cb929da8d79a98362d37c48b44dad59d57d432f9109c16f90e5a79e0d1343a",
+        "durationSec": 0.57,
+        "loudnessLufs": -18.2,
+        "truePeakDb": -2.1,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "category": "ui",
-      "events": ["chart_point", "text_in"]
+      "events": [
+        "chart_point",
+        "text_in"
+      ],
+      "gainDb": 0
     },
     {
       "id": "sfx_click_soft",
@@ -366,9 +841,19 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "sfx/sfx_click_soft.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "b4c15c383ed6efb57ff160b1ebe2d64ef56f768c8156fa91ec43a091488274e6",
+        "durationSec": 1.04,
+        "loudnessLufs": -20.2,
+        "truePeakDb": -3.9,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "category": "ui",
-      "events": ["chart_in"]
+      "events": [
+        "chart_in"
+      ],
+      "gainDb": 0
     },
     {
       "id": "sfx_click_interface",
@@ -384,9 +869,19 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "sfx/sfx_click_interface.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "91685f927b82ac1ba8c18e9f81461088970ca32cd202aef026cfb8599e3ec81d",
+        "durationSec": 1.44,
+        "loudnessLufs": -14.9,
+        "truePeakDb": -4.8,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "category": "ui",
-      "events": ["toggle"]
+      "events": [
+        "toggle"
+      ],
+      "gainDb": 0
     },
     {
       "id": "sfx_tap_phone",
@@ -402,9 +897,19 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "sfx/sfx_tap_phone.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "3f201692b86e392e3be177c4b1551d333dd0611dd3bae8ce9cfa9c40cdf081a3",
+        "durationSec": 1.03,
+        "loudnessLufs": -20.4,
+        "truePeakDb": 0,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "category": "phone",
-      "events": ["action_use_phone"],
+      "events": [
+        "action_use_phone"
+      ],
+      "gainDb": 0,
       "maxPerVideo": 3
     },
     {
@@ -421,9 +926,19 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "sfx/sfx_notif_main.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "d6a99e9d0721b7404b351ab5faff4ab3b79a061e3c383983640e007a81ae264f",
+        "durationSec": 1.15,
+        "loudnessLufs": -13.2,
+        "truePeakDb": -2.8,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "category": "phone",
-      "events": ["phone_distraction"],
+      "events": [
+        "phone_distraction"
+      ],
+      "gainDb": 0,
       "maxPerVideo": 1
     },
     {
@@ -440,9 +955,19 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "sfx/sfx_notif_chime.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "3534dd37fcb4ea22075a7e6057927120c936d7f0d6a176ecdf84e2a4479fe48d",
+        "durationSec": 1.75,
+        "loudnessLufs": -22.2,
+        "truePeakDb": -7.6,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "category": "phone",
-      "events": ["phone_distraction"],
+      "events": [
+        "phone_distraction"
+      ],
+      "gainDb": 0,
       "maxPerVideo": 1
     },
     {
@@ -459,9 +984,19 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "sfx/sfx_notif_soft.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "02e5d092df5ec4d7ba1908a3e02c7fb0d7f0c18d8acfa37a0d8e5ae0ba8b1544",
+        "durationSec": 1.41,
+        "loudnessLufs": -20.7,
+        "truePeakDb": -8.2,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "category": "phone",
-      "events": ["action_walk_phone"],
+      "events": [
+        "action_walk_phone"
+      ],
+      "gainDb": 0,
       "maxPerVideo": 1
     },
     {
@@ -478,9 +1013,19 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "sfx/sfx_tick_short.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "a769db486e494a195551c46958b272db5970520c4c13ffbb01135f41951f79fd",
+        "durationSec": 4.73,
+        "loudnessLufs": -28.3,
+        "truePeakDb": -6.8,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "category": "time",
-      "events": ["action_check_watch"],
+      "events": [
+        "action_check_watch"
+      ],
+      "gainDb": 0,
       "maxPerVideo": 2
     },
     {
@@ -497,9 +1042,19 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "sfx/sfx_tick_old.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "448dcd18210abf5d7685a58fa6ff0b987e54ea6884d9e3ad7a9187bbfa357f93",
+        "durationSec": 13.75,
+        "loudnessLufs": -26.3,
+        "truePeakDb": -3,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "category": "time",
-      "events": ["clock_object"],
+      "events": [
+        "clock_object"
+      ],
+      "gainDb": 0,
       "maxPerVideo": 1
     },
     {
@@ -516,9 +1071,19 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "sfx/sfx_tick_cinematic.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "f17015a16f39e16116e3f8ad13ddbeee7bf01074ecbaecd92901b3694a884cfe",
+        "durationSec": 8.1,
+        "loudnessLufs": -21,
+        "truePeakDb": -0.3,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "category": "time",
-      "events": ["timer_in"],
+      "events": [
+        "timer_in"
+      ],
+      "gainDb": 0,
       "maxPerVideo": 1
     },
     {
@@ -535,9 +1100,19 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "sfx/sfx_paper_handle.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "eecc8a62ed50e6345a1b0122e5a60eefdfc0fef7874100cb72d298052c970e54",
+        "durationSec": 7.15,
+        "loudnessLufs": -17.8,
+        "truePeakDb": -2.4,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "category": "object",
-      "events": ["action_read"],
+      "events": [
+        "action_read"
+      ],
+      "gainDb": 0,
       "maxPerVideo": 2
     },
     {
@@ -554,9 +1129,19 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "sfx/sfx_paper_grab.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "dd439734e6a931b7215437e80a03d5ee24a5d1d818a2621f1087b92287cfb0d7",
+        "durationSec": 2.18,
+        "loudnessLufs": -22.2,
+        "truePeakDb": 0.5,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "category": "object",
-      "events": ["holding_document"],
+      "events": [
+        "holding_document"
+      ],
+      "gainDb": 0,
       "maxPerVideo": 2
     },
     {
@@ -573,9 +1158,19 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "sfx/sfx_typing.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "6fbb01bed31ab0ff3b8ec3425897dee0b8b9038859dd7371eb02aca91fb6f9ce",
+        "durationSec": 6.17,
+        "loudnessLufs": -11.7,
+        "truePeakDb": 0.3,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "category": "object",
-      "events": ["action_type"],
+      "events": [
+        "action_type"
+      ],
+      "gainDb": 0,
       "maxPerVideo": 2
     },
     {
@@ -592,9 +1187,19 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "sfx/sfx_pen_click.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "d5e55c155c9957a22f252ded5f0e0a35db0c31041f85e1ed52bac23c9858866a",
+        "durationSec": 1.99,
+        "loudnessLufs": -24,
+        "truePeakDb": 0.3,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "category": "object",
-      "events": ["decision"],
+      "events": [
+        "decision"
+      ],
+      "gainDb": 0,
       "maxPerVideo": 2
     },
     {
@@ -611,9 +1216,19 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "sfx/sfx_heart_single.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "b44f2eac6a8144ef77aed36df48c60644073f1ce45aac134078ad27ae0bb7b3d",
+        "durationSec": 1.13,
+        "loudnessLufs": -19.2,
+        "truePeakDb": -1.6,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "category": "body",
-      "events": ["action_stressed"],
+      "events": [
+        "action_stressed"
+      ],
+      "gainDb": 0,
       "maxPerVideo": 2
     },
     {
@@ -630,9 +1245,19 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "sfx/sfx_heart_tense.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "4f9431933e74147a856f562b90bc2a34a84f6f6044c7ab1a73d38e57fa1b9418",
+        "durationSec": 5.07,
+        "loudnessLufs": -16.3,
+        "truePeakDb": -0.4,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "category": "body",
-      "events": ["tension_peak"],
+      "events": [
+        "tension_peak"
+      ],
+      "gainDb": 0,
       "maxPerVideo": 1
     },
     {
@@ -649,9 +1274,19 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "sfx/sfx_steps.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "78759b458d6ce295b6860b3056068602052c903720d0cd475f88789dc3b3ebe8",
+        "durationSec": 2.16,
+        "loudnessLufs": -23.4,
+        "truePeakDb": -3.5,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "category": "body",
-      "events": ["action_walk"],
+      "events": [
+        "action_walk"
+      ],
+      "gainDb": 0,
       "maxPerVideo": 2
     },
     {
@@ -668,9 +1303,19 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "sfx/sfx_riser_soft.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "8ab3b3c32d84f1b2dd727fc9d5b1be22139382ebde632ccf4226457218771925",
+        "durationSec": 6.19,
+        "loudnessLufs": -19.4,
+        "truePeakDb": -3.3,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "category": "beat",
-      "events": ["before_twist"],
+      "events": [
+        "before_twist"
+      ],
+      "gainDb": 0,
       "maxPerVideo": 1
     },
     {
@@ -687,9 +1332,19 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "sfx/sfx_riser_dreamy.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "804a8090b05d43a5757a0d1b7df9f8f4b661359d2ad98d61167380e25f9183cb",
+        "durationSec": 13.45,
+        "loudnessLufs": -13.8,
+        "truePeakDb": -2,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "category": "beat",
-      "events": ["before_turn"],
+      "events": [
+        "before_turn"
+      ],
+      "gainDb": 0,
       "maxPerVideo": 1
     },
     {
@@ -706,9 +1361,19 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "sfx/sfx_boom_soft.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "c85a0ac37ca759e48a4edecf374dd886f186da829f1720a7764dc0d32822a09b",
+        "durationSec": 7.78,
+        "loudnessLufs": -15.1,
+        "truePeakDb": 0.1,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "category": "beat",
-      "events": ["twist_reveal"],
+      "events": [
+        "twist_reveal"
+      ],
+      "gainDb": 0,
       "maxPerVideo": 1
     },
     {
@@ -725,9 +1390,19 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "sfx/sfx_insight_piano.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "727ef657436755717bbc1c54475524abc8c5d0e9417715f0796c20e474ce4007",
+        "durationSec": 1.41,
+        "loudnessLufs": -20.4,
+        "truePeakDb": -6.7,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "category": "beat",
-      "events": ["turn_insight"],
+      "events": [
+        "turn_insight"
+      ],
+      "gainDb": 0,
       "maxPerVideo": 1
     },
     {
@@ -744,9 +1419,19 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "sfx/sfx_win_soft.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "416bef34427e51d60955fef04859ba73c6fee78ba2ce67d42e6b7f752aed6beb",
+        "durationSec": 1.08,
+        "loudnessLufs": -17.1,
+        "truePeakDb": -2.8,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "category": "beat",
-      "events": ["resolve_win"],
+      "events": [
+        "resolve_win"
+      ],
+      "gainDb": 0,
       "maxPerVideo": 1
     },
     {
@@ -763,9 +1448,19 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "sfx/sfx_glass_knock.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "f5d0f7357d623ebbf6465e78446d53f7d9cf3865d530fce70dbe06d74ca58696",
+        "durationSec": 0.34,
+        "loudnessLufs": -12.5,
+        "truePeakDb": -0.5,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "category": "metaphor",
-      "events": ["glass_knock"],
+      "events": [
+        "glass_knock"
+      ],
+      "gainDb": 0,
       "maxPerVideo": 3
     },
     {
@@ -782,9 +1477,19 @@
       "aiGenerated": false,
       "checkedAt": "2026-11-10",
       "file": "sfx/sfx_glass_clink.mp3",
-      "status": "pending",
+      "status": "imported",
+      "imported": {
+        "sha256": "d0a17559aa7963b3acf268e7392fea3026eebb479877228453796872c27ea36d",
+        "durationSec": 0.62,
+        "loudnessLufs": -15.3,
+        "truePeakDb": -0.5,
+        "importedAt": "2026-11-10T02:02:53.187Z"
+      },
       "category": "metaphor",
-      "events": ["glass_crack"],
+      "events": [
+        "glass_crack"
+      ],
+      "gainDb": 0,
       "maxPerVideo": 2
     }
   ]
