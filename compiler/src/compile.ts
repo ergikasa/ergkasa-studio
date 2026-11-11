@@ -16,6 +16,9 @@ import {
 } from "@erkasa/engine";
 import { GENERIC_RECIPES, IDLE_MOTIONS, METAPHOR_RECIPES, type Tracks } from "./recipes.js";
 import { estimateWords, findWord, type TimedWord } from "./words.js";
+import { headPoint, stageActors, type StageResult, type StagedActor } from "./blocking.js";
+import { SETS, type StageSet } from "./sets.js";
+import { FLOOR, SCALE } from "./staging.js";
 
 /**
  * The compiler turns intent ("Drini walks to the window when he says 'money'") into a frame-exact
@@ -155,12 +158,49 @@ export function compileVideo(planInput: unknown, opts: CompileOptions): CompileR
       events: new Map(),
       issues,
     };
-    ctx.view = frameShot(ctx, opts.assets);
-
     const nodes: TimelineNode[] = [];
+    const set = scene.set ? SETS[scene.set.id] : undefined;
+    if (scene.set && !set)
+      issues.push({
+        level: "error",
+        code: "SET_UNKNOWN",
+        path: `${path}.set.id`,
+        message: `no set '${scene.set.id}'`,
+        hint: `sets: ${Object.keys(SETS).join(", ")}`,
+      });
+    if (set && set.background !== bgMeta.assetId)
+      issues.push({
+        level: "error",
+        code: "SET_BACKGROUND_MISMATCH",
+        path: `${path}.background.assetId`,
+        message: `set '${set.id}' is built on ${set.background}`,
+        hint: `use background ${set.background}`,
+      });
+    let staged: StageResult | undefined;
+    if (set) {
+      staged = stageScene(ctx, set, opts.assets);
+      nodes.push(...set.furniture(staged.doorOpen), ...staged.nodes);
+      ctx.view = stagedView(ctx, staged);
+    } else ctx.view = frameShot(ctx, opts.assets);
+
     scene.layers.forEach((layer, li) => {
-      const node = compileLayer(ctx, layer, `${path}.layers[${li}]`, opts.assets);
-      if (node) nodes.push(node);
+      const lpath = `${path}.layers[${li}]`;
+      if (layer.type === "actor" && layer.blocking.length) {
+        if (!set)
+          issues.push({
+            level: "error",
+            code: "BLOCKING_WITHOUT_SET",
+            path: `${lpath}.blocking`,
+            message: "blocking needs a staged set (scene.set)",
+            hint: `sets: ${Object.keys(SETS).join(", ")}`,
+          });
+        return; // staged above
+      }
+      const node = compileLayer(ctx, layer, lpath, opts.assets);
+      if (!node) return;
+      if (layer.type !== "actor" && layer.type !== "text" && layer.type !== "chart" && layer.attach)
+        attachToActor(ctx, node, layer.attach, nodes, staged, lpath);
+      nodes.push(node);
     });
     scene.effects.forEach((e, ei) => {
       if (!PARTICLE_PRESETS.includes(e.preset)) {
@@ -184,6 +224,7 @@ export function compileVideo(planInput: unknown, opts: CompileOptions): CompileR
     });
 
     let camera = compileCamera(ctx, nodes);
+    if (staged) camera = followSubject(ctx, camera, nodes);
     // anything timed near the end (an entrance on the last word, a long gesture, a chart drawing on)
     // may run past the scene: it is cut at the last frame, so the scene never grows by surprise
     const lastFrame = duration;
@@ -702,9 +743,127 @@ function compileActor(
     asset: `${meta.assetId}@${meta.version}`,
     z: layer.zIndex ?? 10,
     space: "world",
-    props: { speaks: layer.speaks, ...(layer.holding ? { holding: layer.holding } : {}) },
+    props: {
+      speaks: layer.speaks,
+      ...(layer.holding ? { holding: layer.holding } : {}),
+      ...(layer.outfit && checkOutfit(ctx, meta, layer.outfit, `${path}.outfit`)
+        ? { outfit: layer.outfit }
+        : {}),
+    },
     tracks: finalize(tracks),
   };
+}
+
+/** An outfit must be one the character has (capabilities.outfits); the identity never changes. */
+function checkOutfit(ctx: SceneContext, meta: AssetMeta, outfit: string, path: string): boolean {
+  const o = meta.capabilities["outfits"] as { default?: string; available?: string[] } | undefined;
+  const available = o?.available ?? [];
+  if (available.includes(outfit)) return true;
+  ctx.issues.push({
+    level: "error",
+    code: "OUTFIT_UNKNOWN",
+    path,
+    message: `${meta.assetId} has no outfit '${outfit}'`,
+    hint: `outfits: ${available.join(", ") || "only its default clothes"}`,
+  });
+  return false;
+}
+
+// --- staged sets ---------------------------------------------------------------------------------
+function stageScene(ctx: SceneContext, set: StageSet, assets: AssetSource): StageResult {
+  const actors: StagedActor[] = [];
+  ctx.plan.layers.forEach((layer, li) => {
+    if (layer.type !== "actor" || !layer.blocking.length) return;
+    const path = `${ctx.path}.layers[${li}]`;
+    const meta = asset(assets, layer.assetId, `${path}.assetId`, ctx.issues, ["character"]);
+    if (!meta) return;
+    if (!meta.files["rig_side"]) {
+      ctx.issues.push({
+        level: "error",
+        code: "BLOCKING_NO_SIDE_VIEW",
+        path,
+        message: `${meta.assetId} has no side view to walk and sit`,
+      });
+      return;
+    }
+    if (layer.outfit && !checkOutfit(ctx, meta, layer.outfit, `${path}.outfit`)) return;
+    actors.push({ layer, path, meta });
+  });
+  return stageActors(
+    {
+      fps: ctx.fps,
+      duration: ctx.duration,
+      path: ctx.path,
+      issues: ctx.issues,
+      words: ctx.words,
+      resolveAt: (at, p) => resolveAt(ctx, at, p),
+    },
+    set,
+    actors,
+  );
+}
+
+const STAGED_ZOOM: Record<string, number> = { wide: 1.15, medium: 1.55, close: 2.0, insert: 1.8 };
+
+/** Framing on a set: the subject's head in the upper third, at the zoom of the shot size. */
+function stagedView(ctx: SceneContext, staged: StageResult): SceneContext["view"] {
+  const size = ctx.plan.shot?.size ?? "medium";
+  const zoom = STAGED_ZOOM[size] ?? 1.5;
+  const viewH = ctx.height / zoom;
+  const subjectId =
+    ctx.plan.shot?.subject ??
+    ctx.plan.layers.find((l) => l.type === "actor" && l.speaks && l.blocking.length)?.id ??
+    staged.nodes[0]?.id;
+  if (size === "insert" && staged.handovers[0]) {
+    return { cx: 1210, cy: FLOOR - 460 * SCALE, zoom, size, ...(subjectId ? { subject: subjectId } : {}) };
+  }
+  const node = staged.nodes.find((n) => n.id === subjectId);
+  if (!node) return { cx: 1230, cy: FLOOR - viewH * 0.38, zoom: STAGED_ZOOM["wide"] ?? 1.15, size };
+  const [hx, hy] = headPoint(node, staged.poses.get(node.id) ?? [], 0);
+  // wide: the whole desk; tighter shots centre on the subject
+  const cx = size === "wide" ? (hx + 1230) / 2 : hx;
+  return { cx, cy: hy + viewH * 0.24, zoom, size, subject: node.id };
+}
+
+/** On a set, the camera keeps a walking subject in frame (unless the plan already moves it). */
+function followSubject(ctx: SceneContext, camera: Tracks, nodes: TimelineNode[]): Tracks {
+  if (ctx.plan.camera.some((m) => m.move === "follow" || m.move === "pan_left" || m.move === "pan_right"))
+    return camera;
+  const subject = nodes.find((n) => n.id === ctx.view.subject);
+  const xs = subject?.tracks["x"];
+  if (!subject || !xs || xs.length < 2 || ctx.view.size === "insert") return camera;
+  const x0 = Number(xs[0]?.v ?? ctx.view.cx);
+  const keys = xs.map((k) => ({
+    f: k.f,
+    v: round(ctx.view.cx + (Number(k.v) - x0) * 0.85),
+    ease: "easeInOut" as const,
+  }));
+  return { ...camera, x: dedupeKeyframes([{ f: 0, v: ctx.view.cx }, ...keys]) };
+}
+
+/** Props that stay with an actor (a halo above the head). */
+function attachToActor(
+  ctx: SceneContext,
+  node: TimelineNode,
+  attach: { to: string; at: "above_head" | "beside" },
+  nodes: TimelineNode[],
+  staged: StageResult | undefined,
+  path: string,
+): void {
+  const target = nodes.find((n) => n.id === attach.to && n.adapter === "character");
+  if (!target || !staged) {
+    ctx.issues.push({
+      level: "error",
+      code: "ATTACH_TARGET_UNKNOWN",
+      path: `${path}.attach.to`,
+      message: `no staged actor '${attach.to}' to attach to`,
+    });
+    return;
+  }
+  const appear = (node.tracks["scale"] ?? node.tracks["opacity"] ?? [])[0]?.f ?? 0;
+  const [hx, hy] = headPoint(target, staged.poses.get(target.id) ?? [], appear);
+  const [x, y] = attach.at === "above_head" ? [hx, hy - 42] : [hx + 180, hy + 80];
+  node.tracks = { ...node.tracks, x: [{ f: 0, v: round(x) }], y: [{ f: 0, v: round(y) }] };
 }
 
 // --- objects, icons, metaphors ------------------------------------------------------------------
@@ -1031,6 +1190,12 @@ function checkFraming(ctx: SceneContext, nodes: TimelineNode[], camera: Tracks):
   });
   for (const node of nodes) {
     if (node.space !== "world") continue;
+    // on a set, furniture runs past the frame by design, and the camera frames one actor at a time
+    if (
+      ctx.plan.set &&
+      (node.id.startsWith("set_") || (node.adapter === "character" && node.id !== ctx.view.subject))
+    )
+      continue;
     const frames = new Set<number>([0, ctx.duration - 1]);
     for (const k of node.tracks["x"] ?? []) frames.add(Math.min(ctx.duration - 1, k.f));
     for (const f of [...frames].sort((a, b) => a - b)) {

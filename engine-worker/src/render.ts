@@ -207,3 +207,10 @@ export async function renderVideo(opts: RenderOptions): Promise<{ frames: number
   if (code !== 0) throw new Error(`ffmpeg exited with code ${code}`);
   return { frames, seconds: (Date.now() - started) / 1000 };
 }
+
+/** One SVG document to PNG (for previews and asset checks); throws if resvg cannot render it. */
+export function svgToPng(svg: string, height: number, background = "#EDE5DA"): Buffer {
+  return Buffer.from(
+    new Resvg(svg, { fitTo: { mode: "height", value: height }, background }).render().asPng(),
+  );
+}

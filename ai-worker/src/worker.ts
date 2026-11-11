@@ -134,6 +134,7 @@ export async function executeTask(
         deps.llm(),
         deps.catalog,
         str("projectId") || cmd.runId,
+        str("host") || undefined,
       );
       if (!res.plan) {
         const summary = res.errors

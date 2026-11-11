@@ -50,6 +50,8 @@ export interface NewRun {
   voice: string;
   seconds: number;
   notes?: string;
+  /** Main character chosen by the user (e.g. char_host_01); the planner decides where he appears. */
+  host?: string;
   silent: boolean;
 }
 
@@ -108,6 +110,7 @@ export const THEMES = ["psychology", "money", "growth", "philosophy", "science",
 
 /** Shared between the Voices page and the New video form. */
 export const VOICE_KEY = "erkasa.voice";
+export const HOST_KEY = "erkasa.host";
 /** A plan handed from a run to Plan Preview. */
 export const PREVIEW_PLAN_KEY = "erkasa.preview-plan";
 

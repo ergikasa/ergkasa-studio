@@ -15,7 +15,8 @@
     "worker": "tsx src/cli.ts worker",
     "rerender": "tsx src/cli.ts rerender",
     "audio:mix": "tsx src/cli.ts audio-mix",
-    "poc:halo": "tsx src/cli.ts poc-halo"
+    "poc:halo": "tsx src/cli.ts poc-halo",
+    "poc:ai-svg": "tsx src/cli.ts poc-ai-svg"
   },
   "dependencies": {
     "@erkasa/compiler": "workspace:*",

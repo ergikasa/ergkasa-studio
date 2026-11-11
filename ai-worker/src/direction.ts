@@ -37,15 +37,18 @@ export interface ReviewInput {
   durations: Record<string, number>;
   /** Compiler issues of the same plan (warnings are promoted when they are real defects). */
   compileIssues: Issue[];
+  /** The host chosen by the user; he may appear next to the story's cast. */
+  host?: string;
 }
 
-export function reviewDirection({ plan, script, durations, compileIssues }: ReviewInput): Issue[] {
+export function reviewDirection({ plan, script, durations, compileIssues, host }: ReviewInput): Issue[] {
   const out: Issue[] = [];
   const scenes = plan.scenes;
   const n = scenes.length;
 
   // 1. one cast for the whole film; the protagonist carries it
   const cast = new Set((script.cast ?? []).map((c) => c.characterId));
+  if (cast.size && host) cast.add(host); // the host presents; he is allowed next to the cast
   const protagonist = script.cast?.find((c) => c.role === "protagonist")?.characterId;
   if (cast.size) {
     scenes.forEach((s, i) =>
@@ -80,8 +83,10 @@ export function reviewDirection({ plan, script, durations, compileIssues }: Revi
   const maxUses = Math.max(2, Math.ceil(n / 3));
   const uses = new Map<string, number[]>();
   scenes.forEach((s, i) => uses.set(s.background.assetId, [...(uses.get(s.background.assetId) ?? []), i]));
+  // a staged set is where the story happens (an interview): it may hold more scenes, still with varied shots
+  const staged = new Set(scenes.filter((s) => s.set).map((s) => s.background.assetId));
   for (const [bg, idx] of uses)
-    if (idx.length > maxUses)
+    if (idx.length > (staged.has(bg) ? Math.max(maxUses, Math.ceil(n * 0.6)) : maxUses))
       out.push(
         issue(
           "BACKGROUND_OVERUSED",
@@ -130,7 +135,9 @@ export function reviewDirection({ plan, script, durations, compileIssues }: Revi
     const dur = durations[s.sceneId] ?? 0;
     if (dur < 3) return;
     for (const a of actorsOf(s)) {
-      const acting = a.actions.some((x) => !PASSIVE.has(x.action) || x.expression);
+      const acting =
+        a.actions.some((x) => !PASSIVE.has(x.action) || x.expression) ||
+        a.blocking.some((b) => b.do !== "seated" && b.do !== "standing");
       if (!acting)
         out.push(
           issue(

@@ -54,15 +54,25 @@
         "point_forward",
         "jump",
         "walk_phone",
-        "type"
+        "type",
+        "give",
+        "sit",
+        "stand_up",
+        "seated",
+        "seated_talk",
+        "seated_type",
+        "seated_nod",
+        "seated_read",
+        "seated_give"
       ]
     },
     "items": [
       "phone",
       "document"
     ],
-    "actionsPlanned": [
-      "sit"
+    "poses": [
+      "standing",
+      "seated"
     ],
     "expressions": [
       "neutral",

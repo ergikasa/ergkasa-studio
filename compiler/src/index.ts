@@ -11,3 +11,5 @@ export {
 export { estimateWords, findWord, type TimedWord } from "./words.js";
 export { GENERIC_RECIPES, IDLE_MOTIONS, METAPHOR_RECIPES } from "./recipes.js";
 export * as staging from "./staging.js";
+export { SETS, describeSets, standX, type StageSet, type Mark } from "./sets.js";
+export { stageActors, headPoint } from "./blocking.js";

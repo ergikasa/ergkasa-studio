@@ -1,0 +1,723 @@
+{
+  "schema": "erkasa.video-plan/1",
+  "projectId": "halo-claude-poc",
+  "language": "en",
+  "format": "9:16",
+  "fps": 30,
+  "voiceId": "mark_natural",
+  "scenes": [
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s01",
+      "engine": "2d",
+      "narration": "Same person. Same answers. Two completely different interviews. Here's why.",
+      "durationPolicy": {
+        "mode": "fitNarration",
+        "padAfterSec": 0.45
+      },
+      "background": {
+        "assetId": "bg_office_01"
+      },
+      "layers": [
+        {
+          "id": "host",
+          "type": "actor",
+          "assetId": "char_host_01",
+          "place": {
+            "anchor": "ground",
+            "x": 0.42
+          },
+          "facing": "front",
+          "expression": "neutral",
+          "speaks": true,
+          "actions": [
+            {
+              "action": "wave",
+              "at": "start",
+              "expression": "happy"
+            },
+            {
+              "action": "point_side",
+              "at": {
+                "word": "different"
+              },
+              "expression": "neutral"
+            }
+          ]
+        },
+        {
+          "id": "t1",
+          "type": "text",
+          "content": "SAME PERSON. SAME ANSWERS.",
+          "style": "hook_impact",
+          "highlight": ["SAME"],
+          "place": {
+            "x": 0.5,
+            "y": 0.16
+          },
+          "in": {
+            "effect": "pop",
+            "at": "start"
+          }
+        }
+      ],
+      "camera": [
+        {
+          "move": "push_in",
+          "at": "start",
+          "to": 1.08
+        }
+      ],
+      "transitionOut": {
+        "type": "whip",
+        "direction": "left",
+        "durationSec": 0.35
+      },
+      "shot": {
+        "size": "medium",
+        "subject": "host"
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s02",
+      "engine": "2d",
+      "narration": "Meet Alex. Wrinkled hoodie, a great r\u00e9sum\u00e9, and an interviewer who barely looks up.",
+      "durationPolicy": {
+        "mode": "fitNarration",
+        "padAfterSec": 0.45
+      },
+      "background": {
+        "assetId": "bg_interview_office_01"
+      },
+      "layers": [
+        {
+          "id": "alex",
+          "type": "actor",
+          "assetId": "char_arti_01",
+          "place": {
+            "anchor": "ground",
+            "x": 0.5
+          },
+          "facing": "right",
+          "expression": "happy",
+          "speaks": false,
+          "actions": [],
+          "outfit": "casual",
+          "holding": "document",
+          "blocking": [
+            {
+              "do": "enter",
+              "mark": "door",
+              "at": {
+                "sec": 0.3
+              }
+            },
+            {
+              "do": "walk_to",
+              "mark": "chair_left"
+            },
+            {
+              "do": "give",
+              "to": "maria"
+            },
+            {
+              "do": "sit"
+            }
+          ]
+        },
+        {
+          "id": "maria",
+          "type": "actor",
+          "assetId": "char_era_01",
+          "place": {
+            "anchor": "ground",
+            "x": 0.5
+          },
+          "facing": "left",
+          "expression": "neutral",
+          "speaks": false,
+          "actions": [
+            {
+              "action": "type",
+              "at": "start",
+              "durationSec": 8
+            }
+          ],
+          "blocking": [
+            {
+              "do": "seated",
+              "mark": "chair_right"
+            }
+          ]
+        }
+      ],
+      "camera": [],
+      "transitionOut": {
+        "type": "cut",
+        "durationSec": 0
+      },
+      "shot": {
+        "size": "wide",
+        "subject": "alex"
+      },
+      "set": {
+        "id": "interview_office"
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s03",
+      "engine": "2d",
+      "narration": "He answers every question well. She nods politely, and writes almost nothing.",
+      "durationPolicy": {
+        "mode": "fitNarration",
+        "padAfterSec": 0.45
+      },
+      "background": {
+        "assetId": "bg_interview_office_01"
+      },
+      "layers": [
+        {
+          "id": "alex",
+          "type": "actor",
+          "assetId": "char_arti_01",
+          "place": {
+            "anchor": "ground",
+            "x": 0.5
+          },
+          "facing": "right",
+          "expression": "happy",
+          "speaks": false,
+          "actions": [
+            {
+              "action": "talk",
+              "at": "start",
+              "durationSec": 6
+            }
+          ],
+          "outfit": "casual",
+          "blocking": [
+            {
+              "do": "seated",
+              "mark": "chair_left"
+            }
+          ]
+        },
+        {
+          "id": "maria",
+          "type": "actor",
+          "assetId": "char_era_01",
+          "place": {
+            "anchor": "ground",
+            "x": 0.5
+          },
+          "facing": "left",
+          "expression": "neutral",
+          "speaks": false,
+          "actions": [
+            {
+              "action": "type",
+              "at": "start",
+              "durationSec": 2
+            },
+            {
+              "action": "nod",
+              "at": {
+                "word": "nods"
+              },
+              "durationSec": 1.4
+            },
+            {
+              "action": "type",
+              "at": {
+                "word": "writes"
+              },
+              "durationSec": 3
+            }
+          ],
+          "blocking": [
+            {
+              "do": "seated",
+              "mark": "chair_right"
+            }
+          ]
+        }
+      ],
+      "camera": [
+        {
+          "move": "pan_right",
+          "at": {
+            "word": "she"
+          },
+          "durationSec": 0.8,
+          "to": 1.6
+        }
+      ],
+      "transitionOut": {
+        "type": "whip",
+        "direction": "right",
+        "durationSec": 0.35
+      },
+      "shot": {
+        "size": "medium",
+        "subject": "alex"
+      },
+      "set": {
+        "id": "interview_office"
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s04",
+      "engine": "2d",
+      "narration": "Now rewind. Same Alex. Same r\u00e9sum\u00e9. Same answers. Just a suit.",
+      "durationPolicy": {
+        "mode": "fitNarration",
+        "padAfterSec": 0.45
+      },
+      "background": {
+        "assetId": "bg_interview_office_01"
+      },
+      "layers": [
+        {
+          "id": "alex",
+          "type": "actor",
+          "assetId": "char_arti_01",
+          "place": {
+            "anchor": "ground",
+            "x": 0.5
+          },
+          "facing": "right",
+          "expression": "happy",
+          "speaks": false,
+          "actions": [],
+          "outfit": "business",
+          "holding": "document",
+          "blocking": [
+            {
+              "do": "enter",
+              "mark": "door",
+              "at": {
+                "sec": 0.2
+              }
+            },
+            {
+              "do": "walk_to",
+              "mark": "chair_left"
+            },
+            {
+              "do": "give",
+              "to": "maria"
+            },
+            {
+              "do": "sit"
+            }
+          ]
+        },
+        {
+          "id": "maria",
+          "type": "actor",
+          "assetId": "char_era_01",
+          "place": {
+            "anchor": "ground",
+            "x": 0.5
+          },
+          "facing": "left",
+          "expression": "neutral",
+          "speaks": false,
+          "actions": [
+            {
+              "action": "type",
+              "at": "start",
+              "durationSec": 1.0,
+              "expression": "neutral"
+            },
+            {
+              "action": "idle",
+              "at": {
+                "word": "Alex."
+              },
+              "expression": "happy"
+            }
+          ],
+          "blocking": [
+            {
+              "do": "seated",
+              "mark": "chair_right"
+            }
+          ]
+        },
+        {
+          "id": "t2",
+          "type": "text",
+          "content": "SAME ALEX. JUST A SUIT.",
+          "style": "hook_impact",
+          "highlight": ["SUIT."],
+          "place": {
+            "x": 0.5,
+            "y": 0.16
+          },
+          "in": {
+            "effect": "pop",
+            "at": {
+              "word": "rewind."
+            }
+          }
+        }
+      ],
+      "camera": [],
+      "transitionOut": {
+        "type": "cut",
+        "durationSec": 0
+      },
+      "shot": {
+        "size": "wide",
+        "subject": "alex"
+      },
+      "set": {
+        "id": "interview_office"
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s05",
+      "engine": "2d",
+      "narration": "Suddenly he seems smarter. More reliable. A natural leader.",
+      "durationPolicy": {
+        "mode": "fitNarration",
+        "padAfterSec": 0.45
+      },
+      "background": {
+        "assetId": "bg_interview_office_01"
+      },
+      "layers": [
+        {
+          "id": "alex",
+          "type": "actor",
+          "assetId": "char_arti_01",
+          "place": {
+            "anchor": "ground",
+            "x": 0.5
+          },
+          "facing": "right",
+          "expression": "happy",
+          "speaks": false,
+          "actions": [
+            {
+              "action": "talk",
+              "at": "start",
+              "durationSec": 5
+            }
+          ],
+          "outfit": "business",
+          "blocking": [
+            {
+              "do": "seated",
+              "mark": "chair_left"
+            }
+          ]
+        },
+        {
+          "id": "maria",
+          "type": "actor",
+          "assetId": "char_era_01",
+          "place": {
+            "anchor": "ground",
+            "x": 0.5
+          },
+          "facing": "left",
+          "expression": "happy",
+          "speaks": false,
+          "actions": [
+            {
+              "action": "nod",
+              "at": {
+                "word": "smarter."
+              }
+            },
+            {
+              "action": "read",
+              "at": {
+                "word": "leader."
+              }
+            }
+          ],
+          "holding": "document",
+          "blocking": [
+            {
+              "do": "seated",
+              "mark": "chair_right"
+            }
+          ]
+        },
+        {
+          "id": "halo",
+          "type": "object",
+          "assetId": "prop_halo_01",
+          "place": {
+            "x": 0.5,
+            "y": 0.3,
+            "scale": 0.6
+          },
+          "attach": {
+            "to": "alex",
+            "at": "above_head"
+          },
+          "in": {
+            "effect": "pop",
+            "at": {
+              "word": "smarter."
+            }
+          }
+        },
+        {
+          "id": "l1",
+          "type": "text",
+          "content": "SMARTER",
+          "style": "title_clean",
+          "highlight": [],
+          "place": {
+            "x": 0.5,
+            "y": 0.13
+          },
+          "in": {
+            "effect": "pop",
+            "at": {
+              "word": "smarter."
+            }
+          }
+        },
+        {
+          "id": "l2",
+          "type": "text",
+          "content": "MORE RELIABLE",
+          "style": "title_clean",
+          "highlight": [],
+          "place": {
+            "x": 0.5,
+            "y": 0.19
+          },
+          "in": {
+            "effect": "pop",
+            "at": {
+              "word": "reliable."
+            }
+          }
+        },
+        {
+          "id": "l3",
+          "type": "text",
+          "content": "A NATURAL LEADER",
+          "style": "title_clean",
+          "highlight": [],
+          "place": {
+            "x": 0.5,
+            "y": 0.25
+          },
+          "in": {
+            "effect": "pop",
+            "at": {
+              "word": "leader."
+            }
+          }
+        }
+      ],
+      "camera": [
+        {
+          "move": "push_in",
+          "at": "start",
+          "to": 1.08
+        }
+      ],
+      "transitionOut": {
+        "type": "whip",
+        "direction": "left",
+        "durationSec": 0.35
+      },
+      "shot": {
+        "size": "wide",
+        "subject": "alex"
+      },
+      "set": {
+        "id": "interview_office"
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s06",
+      "engine": "2d",
+      "narration": "Psychologists call this the halo effect. In 1920, Edward Thorndike noticed that officers who rated a soldier highly on one trait, like his physique, rated him higher on everything else.",
+      "durationPolicy": {
+        "mode": "fitNarration",
+        "padAfterSec": 0.45
+      },
+      "background": {
+        "assetId": "bg_office_01"
+      },
+      "layers": [
+        {
+          "id": "host",
+          "type": "actor",
+          "assetId": "char_host_01",
+          "place": {
+            "anchor": "ground",
+            "x": 0.42
+          },
+          "facing": "front",
+          "expression": "neutral",
+          "speaks": true,
+          "actions": [
+            {
+              "action": "point_side",
+              "at": {
+                "word": "halo"
+              }
+            },
+            {
+              "action": "arms_up",
+              "at": {
+                "word": "everything"
+              }
+            }
+          ]
+        },
+        {
+          "id": "halo",
+          "type": "object",
+          "assetId": "prop_halo_01",
+          "place": {
+            "x": 0.72,
+            "y": 0.36,
+            "scale": 1.0
+          },
+          "in": {
+            "effect": "pop",
+            "at": {
+              "word": "halo"
+            }
+          },
+          "animations": []
+        },
+        {
+          "id": "t3",
+          "type": "text",
+          "content": "THE HALO EFFECT",
+          "style": "hook_impact",
+          "highlight": ["HALO"],
+          "place": {
+            "x": 0.5,
+            "y": 0.15
+          },
+          "in": {
+            "effect": "pop",
+            "at": {
+              "word": "halo"
+            }
+          }
+        },
+        {
+          "id": "t4",
+          "type": "text",
+          "content": "Edward Thorndike \u00b7 1920",
+          "style": "label",
+          "highlight": [],
+          "place": {
+            "x": 0.5,
+            "y": 0.23
+          },
+          "in": {
+            "effect": "pop",
+            "at": {
+              "word": "1920,"
+            }
+          }
+        }
+      ],
+      "camera": [],
+      "transitionOut": {
+        "type": "cut",
+        "durationSec": 0
+      },
+      "shot": {
+        "size": "medium",
+        "subject": "host"
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s07",
+      "engine": "2d",
+      "narration": "One good impression spills over onto everything. So next time someone seems brilliant, ask yourself what you're actually judging.",
+      "durationPolicy": {
+        "mode": "fitNarration",
+        "padAfterSec": 0.45
+      },
+      "background": {
+        "assetId": "bg_office_01"
+      },
+      "layers": [
+        {
+          "id": "host",
+          "type": "actor",
+          "assetId": "char_host_01",
+          "place": {
+            "anchor": "ground",
+            "x": 0.42
+          },
+          "facing": "front",
+          "expression": "neutral",
+          "speaks": true,
+          "actions": [
+            {
+              "action": "think",
+              "at": {
+                "word": "brilliant,"
+              },
+              "expression": "thinking"
+            },
+            {
+              "action": "point_side",
+              "at": {
+                "word": "ask"
+              },
+              "expression": "neutral"
+            }
+          ]
+        },
+        {
+          "id": "t5",
+          "type": "text",
+          "content": "WHAT ARE YOU ACTUALLY JUDGING?",
+          "style": "hook_impact",
+          "highlight": ["JUDGING?"],
+          "place": {
+            "x": 0.5,
+            "y": 0.16
+          },
+          "in": {
+            "effect": "pop",
+            "at": {
+              "word": "ask"
+            }
+          }
+        }
+      ],
+      "camera": [
+        {
+          "move": "push_in",
+          "at": "start",
+          "to": 1.1
+        }
+      ],
+      "transitionOut": {
+        "type": "cut",
+        "durationSec": 0
+      },
+      "shot": {
+        "size": "close",
+        "subject": "host"
+      }
+    }
+  ]
+}

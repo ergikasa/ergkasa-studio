@@ -6,6 +6,7 @@ import { MissingConfigError } from "./env.js";
 import { AnthropicLlm } from "./llm.js";
 import { mixRun, parseMixSet, parseVariants, rerender } from "./audio-tools.js";
 import { makeVideo } from "./make.js";
+import { runAiSvg } from "./poc/ai-svg.js";
 import { runHalo } from "./poc/run-halo.js";
 import { THEME_BRIEFS } from "./script-writer.js";
 import { ElevenLabsVoice, listVoices, voiceExists } from "./voice.js";
@@ -43,6 +44,7 @@ async function make(argv: string[]): Promise<void> {
       "from-script": { type: "string" },
       "from-plan": { type: "string" },
       "no-voice": { type: "boolean", default: false },
+      host: { type: "string" },
       "no-music": { type: "boolean", default: false },
       out: { type: "string" },
     },
@@ -74,6 +76,7 @@ async function make(argv: string[]): Promise<void> {
       ...(values.out ? { outDir: userPath(values.out) } : {}),
       noVoice,
       ...(values.voice ? { voice: values.voice } : {}),
+      ...(values.host ? { host: values.host } : {}),
       music: values["no-music"] !== true,
     },
     {
@@ -176,6 +179,7 @@ try {
   else if (command === "voices") await voices(rest);
   else if (command === "rerender") await rerenderCmd(rest);
   else if (command === "poc-halo") await runHalo(rest);
+  else if (command === "poc-ai-svg") await runAiSvg();
   else if (command === "audio-mix") await audioMixCmd(rest);
   else if (command === "worker") await runWorkerForever();
   else throw new UsageError(`unknown command '${command ?? ""}'`);

@@ -35,7 +35,7 @@ public class RunController {
         this.storage = storage;
     }
 
-    /** {@code POST /api/runs} {topic, theme, voice?, seconds?, notes?, silent?} */
+    /** {@code POST /api/runs} {topic, theme, voice?, seconds?, notes?, silent?, host?} */
     @PostMapping
     public ResponseEntity<RunQueries.RunDetail> create(@RequestBody Orchestrator.NewRun body) {
         String id = orchestrator.createRun(body);

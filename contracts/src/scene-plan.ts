@@ -60,6 +60,26 @@ export const EntranceExit = z
   })
   .strict();
 
+/**
+ * One step of an actor's blocking on a staged set: where it is, where it goes, when it sits or hands
+ * something over. The compiler turns steps into movement that obeys the set (walks at step speed,
+ * sits on the chair's seat, hands meet over the desk). Marks are named places of the set.
+ */
+export const BlockingStep = z
+  .object({
+    do: z.enum(["seated", "standing", "enter", "walk_to", "sit", "stand_up", "give", "exit"]),
+    /** A mark of the set (door, chair_left, ...): where the step starts or goes. */
+    mark: z
+      .string()
+      .regex(/^[a-z_]+$/)
+      .optional(),
+    /** `give`: the actor who receives what this one holds. */
+    to: LocalId.optional(),
+    at: TimeAnchor.optional(),
+  })
+  .strict();
+export type BlockingStep = z.infer<typeof BlockingStep>;
+
 const LayerBase = {
   id: LocalId,
   place: Placement,
@@ -86,6 +106,13 @@ export const ActorLayer = z
       .string()
       .regex(/^[a-z_]+$/)
       .optional(),
+    /** One of the character's outfits (capabilities.outfits); the identity never changes. */
+    outfit: z
+      .string()
+      .regex(/^[a-z_]+$/)
+      .optional(),
+    /** On a staged set: where the actor is and how it moves. Replaces `place` and walk actions. */
+    blocking: z.array(BlockingStep).max(12).default([]),
   })
   .strict();
 
@@ -94,6 +121,11 @@ export const AssetLayer = z
     ...LayerBase,
     type: z.enum(["object", "icon", "metaphor"]),
     assetId: AssetId,
+    /** Stay with an actor on a staged set, e.g. a halo above someone's head. Replaces `place`. */
+    attach: z
+      .object({ to: LocalId, at: z.enum(["above_head", "beside"]) })
+      .strict()
+      .optional(),
     /** Named animations from the asset's capabilities/parts. */
     animations: z
       .array(
@@ -164,6 +196,16 @@ export const ScenePlan = z
       })
       .strict(),
     background: z.object({ assetId: AssetId, variant: z.string().optional() }).strict(),
+    /**
+     * A staged set: a background with furniture and named marks (door, chairs, desk) where actors
+     * walk, sit and hand things over. The set's background must be the scene background.
+     */
+    set: z
+      .object({
+        id: z.string().regex(/^[a-z_]+$/),
+      })
+      .strict()
+      .optional(),
     /**
      * Framing. wide = the whole place; medium = the subject from the head to the knees; close = head and
      * shoulders; insert = a close look at an object, metaphor or chart. Layer positions are read in the

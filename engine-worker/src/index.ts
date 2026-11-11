@@ -5,6 +5,7 @@ export {
   loadEngine,
   loadInput,
   renderStill,
+  svgToPng,
   renderVideo,
   type RenderOptions,
   type VoiceClip,

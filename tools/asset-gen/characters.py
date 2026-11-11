@@ -410,10 +410,11 @@ def asset_json(look: Look) -> dict:
             "actions": {
                 "front": ["idle", "talk", "wave", "point_side", "point_side_left", "think", "arms_up", "nod", "shake_head",
                           "use_phone", "read", "check_watch", "facepalm", "stressed", "slump", "shrug"],
-                "side": ["idle", "walk", "run", "talk", "point_forward", "jump", "walk_phone", "type"],
+                "side": ["idle", "walk", "run", "talk", "point_forward", "jump", "walk_phone", "type", "give",
+                         "sit", "stand_up", "seated", "seated_talk", "seated_type", "seated_nod", "seated_read", "seated_give"],
             },
             "items": ITEMS,
-            "actionsPlanned": ["sit"],
+            "poses": ["standing", "seated"],
             "expressions": EXPRESSIONS,
             "visemes": "erkasa8",
             "canHold": [],

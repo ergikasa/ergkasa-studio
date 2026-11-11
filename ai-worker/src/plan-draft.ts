@@ -1,4 +1,4 @@
-import type { Issue } from "@erkasa/compiler";
+import { SETS, type Issue } from "@erkasa/compiler";
 import type { Script, VideoPlan } from "@erkasa/contracts";
 import type { StrictSchema } from "./llm.js";
 
@@ -26,6 +26,8 @@ const CAMERA = [
   "punch_in",
 ] as const;
 
+const BLOCKING = ["seated", "standing", "enter", "walk_to", "sit", "stand_up", "give", "exit"] as const;
+
 const str = (description: string) => ({ type: "string", description });
 const num = (description: string) => ({ type: "number", description });
 const obj = (properties: Record<string, unknown>) => ({
@@ -40,7 +42,13 @@ export const DRAFT_SCHEMA: StrictSchema = obj({
   scenes: arr(
     obj({
       sceneId: str("Same id as the script scene, e.g. s01."),
-      background: str("Background asset id."),
+      background: str("Background asset id (on a set: the set's background)."),
+      set: {
+        type: "string",
+        enum: ["none", ...Object.keys(SETS)],
+        description:
+          "A staged set where actors walk, sit and hand things over (see Staged sets); none otherwise.",
+      },
       shot: obj({
         size: { type: "string", enum: ["wide", "medium", "close", "insert"] },
         subject: str('Layer id to frame; "" = the speaking actor (or the first object for insert).'),
@@ -67,6 +75,20 @@ export const DRAFT_SCHEMA: StrictSchema = obj({
             enum: ["none", "phone", "document"],
             description: "Item in the actor's right hand.",
           },
+          outfit: str(
+            'Actor outfit from the character\'s outfits; "" = their usual clothes. The person stays the same.',
+          ),
+          blocking: arr(
+            obj({
+              do: { type: "string", enum: [...BLOCKING] },
+              mark: str('A mark of the scene\'s set (door, chair_left...), "" if the step needs none.'),
+              to: str('give: the id of the actor who receives; "" otherwise.'),
+              at: str(`When; "" = right after the previous step. ${ANCHOR_DOC}`),
+            }),
+          ),
+          attachTo: str(
+            'Objects/metaphors on a set: "<actorId>:above_head" or "<actorId>:beside" to stay with that actor; "" otherwise.',
+          ),
           enter: { type: "string", enum: [...ENTER] },
           enterAt: str(ANCHOR_DOC),
           actions: arr(
@@ -113,6 +135,9 @@ export interface DraftLayer {
   expression: string;
   speaks: boolean;
   holding: "none" | "phone" | "document";
+  outfit?: string;
+  blocking?: Array<{ do: (typeof BLOCKING)[number]; mark: string; to: string; at: string }>;
+  attachTo?: string;
   enter: (typeof ENTER)[number];
   enterAt: string;
   actions: Array<{ action: string; at: string; durationSec: number; toX: number; expression: string }>;
@@ -128,6 +153,7 @@ export interface DraftLayer {
 export interface DraftScene {
   sceneId: string;
   background: string;
+  set?: string;
   shot: { size: "wide" | "medium" | "close" | "insert"; subject: string };
   layers: DraftLayer[];
   camera: Array<{ move: (typeof CAMERA)[number]; at: string; to: number }>;
@@ -232,6 +258,13 @@ export function draftToPlan(
             expression: l.expression || "neutral",
             speaks: l.speaks,
             ...(l.holding && l.holding !== "none" ? { holding: l.holding } : {}),
+            ...(l.outfit?.trim() ? { outfit: l.outfit.trim() } : {}),
+            blocking: (l.blocking ?? []).map((b, bi) => ({
+              do: b.do,
+              ...(b.mark.trim() ? { mark: b.mark.trim() } : {}),
+              ...(b.to.trim() ? { to: b.to.trim() } : {}),
+              ...(b.at.trim() ? { at: at(b.at, `${lp}.blocking[${bi}].at`) } : {}),
+            })),
             actions: l.actions.map((a, ai) => ({
               action: a.action,
               at: at(a.at, `${lp}.actions[${ai}].at`),
@@ -247,6 +280,7 @@ export function draftToPlan(
             ...base,
             type: l.type,
             assetId: l.assetId,
+            ...attachOf(l.attachTo, `${lp}.attachTo`, err),
             animations: l.animations.map((a, ai) => ({
               name: a.name,
               at: at(a.at, `${lp}.animations[${ai}].at`),
@@ -284,6 +318,7 @@ export function draftToPlan(
       narration: sc.narration,
       durationPolicy: { mode: "fitNarration" as const, padAfterSec: last ? 1.2 : 0.45 },
       background: { assetId: d.background },
+      ...(d.set && d.set !== "none" ? { set: { id: d.set } } : {}),
       ...(d.shot
         ? {
             shot: {
@@ -332,4 +367,20 @@ function placement(l: DraftLayer): VideoPlan["scenes"][number]["layers"][number]
     scale,
     ...(l.region !== "none" ? { region: l.region } : {}),
   };
+}
+
+/** "alex:above_head" -> attach; "" -> nothing. */
+function attachOf(
+  s: string | undefined,
+  path: string,
+  err: (path: string, message: string, hint?: string) => void,
+): { attach?: { to: string; at: "above_head" | "beside" } } {
+  const t = (s ?? "").trim();
+  if (!t) return {};
+  const m = /^([A-Za-z][\w-]*):(above_head|beside)$/.exec(t);
+  if (!m) {
+    err(path, `bad attachTo "${t}"`, 'use "<actorId>:above_head" or "<actorId>:beside"');
+    return {};
+  }
+  return { attach: { to: m[1] as string, at: m[2] as "above_head" | "beside" } };
 }

@@ -29,6 +29,8 @@ export interface MakeOptions {
   fromPlan?: string;
   /** Voice preset id from voices/catalog.json (default: ERKASA_VOICE or the catalog default). */
   voice?: string;
+  /** Host (main character) chosen by the user, e.g. char_host_01. */
+  host?: string;
   /** No ElevenLabs call: silent video with estimated word timing (for testing the pipeline cheaply). */
   noVoice?: boolean;
   /** Placeholder music bed under the voice (default true until real music exists). */
@@ -163,7 +165,7 @@ export async function makeVideo(opts: MakeOptions, deps: MakeDeps = {}): Promise
     if (!deps.llm) throw new Error("no language model configured");
     const llm = deps.llm;
     const s = script as Script;
-    const res = await time("plan", () => stepPlan(outDir, s, preset, llm, catalog, name));
+    const res = await time("plan", () => stepPlan(outDir, s, preset, llm, catalog, name, opts.host));
     usage.push(...res.usage);
     planAttempts = res.attempts.length;
     if (!res.plan) {

@@ -198,11 +198,13 @@ export async function stepPlan(
   llm: Llm,
   catalog: Catalog,
   projectId: string,
+  host?: string,
 ): Promise<PlanStepResult> {
   const alignments = alignmentsOf(dir, loadVoiceTrack(dir));
   const res = await planVideo(llm, script, catalog, {
     projectId,
     voiceId: preset.id,
+    ...(host ? { host } : {}),
     narrator: narratorLine(preset),
     ...(alignments ? { alignments } : {}),
   });

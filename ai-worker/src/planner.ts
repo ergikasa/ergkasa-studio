@@ -22,12 +22,23 @@ Think like a director, not a slideshow maker:
 - Camera: subtle push_in (1.04-1.1) for calm scenes, punch_in (1.15-1.25) on the key word of the hook or the twist, static while a chart draws. Transitions: mostly cut, a quick whip or slide when the place changes, fade for a change of mood.
 - Keep it clean: 1 to 4 layers per scene.
 
+Staged sets (when people meet, walk in, sit down, talk across a desk, hand something over):
+- Set scene.set and use the set's background. Every actor on a set gets blocking steps instead of x and walk actions: start with "seated" or "standing" at a mark, or "enter" at the door; then "walk_to" a mark, "sit", "stand_up", "give" (to another actor; the giver must be holding something, the receiver gets it in the hand), "exit". A step without "at" follows the previous one; give "at" a narration word to time it.
+- Gestures still go in actions (talk, nod, read, type, give): on a set they are played seated when the actor is seated. Facing comes from the marks.
+- Frame a set with the shot size; the camera follows a walking subject by itself. Keep consecutive set scenes on different shot sizes.
+- Objects can stay with an actor on a set: attachTo "<actorId>:above_head" (a halo, a thought) or ":beside".
+
+People and clothes:
+- The same person is always the same character id. If the story puts them in other clothes (casual vs business), change only "outfit"; never swap the character to show a change of clothes.
+- A host (narrator in a suit), when the user chose one, presents the idea: put him in the hook, the explanation or the conclusion, facing front and speaking, where his presence helps. He is never the story's protagonist and does not need to be in every scene.
+
 Answer with the full plan for every scene of the script, in order, with the same sceneId values.`;
 
 /** A worked example in the draft format: a medium shot, the protagonist acting with a prop and a feeling. */
 const EXAMPLE = {
   sceneId: "s03",
   background: "bg_home_bedroom_night_01",
+  set: "none",
   shot: { size: "medium", subject: "arti" },
   layers: [
     {
@@ -42,6 +53,9 @@ const EXAMPLE = {
       expression: "neutral",
       speaks: false,
       holding: "phone",
+      outfit: "",
+      blocking: [],
+      attachTo: "",
       enter: "none",
       enterAt: "start",
       actions: [
@@ -68,6 +82,9 @@ const EXAMPLE = {
       expression: "",
       speaks: false,
       holding: "none",
+      outfit: "",
+      blocking: [],
+      attachTo: "",
       enter: "pop",
       enterAt: "word:guilt",
       actions: [],
@@ -81,6 +98,70 @@ const EXAMPLE = {
     },
   ],
   camera: [{ move: "push_in", at: "start", to: 1.06 }],
+  effects: [],
+  transition: "cut",
+  transitionDirection: "none",
+};
+
+/** A worked example on a staged set: someone walks in, sits and hands over a document. */
+const blank = {
+  x: 0.5,
+  y: -1,
+  scale: 1,
+  region: "none",
+  enter: "none",
+  enterAt: "start",
+  animations: [],
+  text: "",
+  textStyle: "",
+  highlight: [],
+  chart: "none",
+  chartData: [],
+  unit: "",
+  attachTo: "",
+};
+export const EXAMPLE_SET = {
+  sceneId: "s02",
+  background: "bg_interview_office_01",
+  set: "interview_office",
+  shot: { size: "wide", subject: "alex" },
+  layers: [
+    {
+      ...blank,
+      id: "alex",
+      type: "actor",
+      assetId: "char_arti_01",
+      facing: "right",
+      expression: "happy",
+      speaks: false,
+      holding: "document",
+      outfit: "business",
+      blocking: [
+        { do: "enter", mark: "door", to: "", at: "sec:0.3" },
+        { do: "walk_to", mark: "chair_left", to: "", at: "" },
+        { do: "give", mark: "", to: "maria", at: "word:resume" },
+        { do: "sit", mark: "", to: "", at: "" },
+      ],
+      actions: [{ action: "talk", at: "word:answers", durationSec: 3, toX: -1, expression: "" }],
+    },
+    {
+      ...blank,
+      id: "maria",
+      type: "actor",
+      assetId: "char_era_01",
+      facing: "left",
+      expression: "neutral",
+      speaks: false,
+      holding: "none",
+      outfit: "",
+      blocking: [{ do: "seated", mark: "chair_right", to: "", at: "" }],
+      actions: [
+        { action: "type", at: "start", durationSec: 2, toX: -1, expression: "" },
+        { action: "nod", at: "word:answers", durationSec: 0, toX: -1, expression: "happy" },
+      ],
+    },
+  ],
+  camera: [],
   effects: [],
   transition: "cut",
   transitionDirection: "none",
@@ -112,6 +193,8 @@ export interface PlanOptions {
   seed?: number;
   /** Who narrates (from the voice preset), so the speaking character matches. */
   narrator?: string;
+  /** The host chosen by the user (a character id). The model decides where he appears, never who he is. */
+  host?: string;
 }
 
 function formatIssues(issues: Issue[]): string {
@@ -120,7 +203,7 @@ function formatIssues(issues: Issue[]): string {
     .join("\n");
 }
 
-export function plannerPrompt(script: Script, catalog: Catalog, narrator?: string): string {
+export function plannerPrompt(script: Script, catalog: Catalog, narrator?: string, host?: string): string {
   const scriptText = script.scenes
     .map((s) => `${s.narration} ${s.visualIdea} ${s.action ?? ""} ${s.setting ?? ""} ${s.emphasis ?? ""}`)
     .join(" ");
@@ -128,11 +211,12 @@ export function plannerPrompt(script: Script, catalog: Catalog, narrator?: strin
   return `# Catalog
 ${catalog.plannerSection(scriptText)}
 
-# Example of one scene in the answer format
+# Examples of scenes in the answer format
 ${JSON.stringify(EXAMPLE)}
+${JSON.stringify(EXAMPLE_SET)}
 
 # Script: "${script.title}" (theme: ${script.theme})
-${cast ? `Cast: ${cast}` : ""}${narrator ? `\n${narrator}` : ""}
+${cast ? `Cast: ${cast}` : ""}${narrator ? `\n${narrator}` : ""}${host ? `\nHost chosen by the user: ${host}. Decide in which scenes he appears (hook, explanation, conclusion); he is not part of the story's cast.` : ""}
 ${script.scenes
   .map((s) =>
     [
@@ -156,6 +240,7 @@ ${script.scenes
  * Stops at the first plan that compiles and passes review. If none passes review, the best compiled
  * attempt (fewest findings) is used, so a strict rule never blocks a video that can be rendered.
  */
+/** Planner options: the host is chosen by the user, never by the model. */
 export async function planVideo(
   llm: Llm,
   script: Script,
@@ -163,7 +248,9 @@ export async function planVideo(
   opts: PlanOptions,
 ): Promise<PlanResult> {
   const maxAttempts = opts.maxAttempts ?? 3;
-  const messages: LlmMessage[] = [{ role: "user", content: plannerPrompt(script, catalog, opts.narrator) }];
+  const messages: LlmMessage[] = [
+    { role: "user", content: plannerPrompt(script, catalog, opts.narrator, opts.host) },
+  ];
   const attempts: PlanAttempt[] = [];
   const usage: Usage[] = [];
   let best: { plan: VideoPlan; compiled: CompileResult; findings: Issue[] } | undefined;
@@ -197,6 +284,7 @@ export async function planVideo(
         script,
         durations: Object.fromEntries(compiled.scenes.map((s) => [s.sceneId, s.duration / fps])),
         compileIssues: compiled.issues,
+        ...(opts.host ? { host: opts.host } : {}),
       });
       if (!best || findings.length < best.findings.length)
         best = { plan: converted.plan, compiled, findings };

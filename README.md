@@ -95,6 +95,21 @@ Temat: `psychology`, `money`, `growth`, `philosophy`, `science`, `decisions`. Ç
 Rifillimi pas një ndryshimi me dorë: `pnpm video --from-plan out/<run>/video-plan.json` (pa Claude) ose
 `--from-script out/<run>/script.json` (skenari i njëjtë, plan i ri). Komandat niseni nga rrënja e repos.
 
+### Visual Proof of Concept: "The Halo Effect"
+
+```bash
+pnpm poc:halo                 # versioni i regjisuar me dorë: zëri ElevenLabs + muzika H1 -> out/poc/halo/video.mp4
+pnpm poc:halo --silent        # pa zë (vetëm figura), pa kosto
+pnpm video "the halo effect: why the same person seems smarter in a suit" --theme psychology --seconds 50 --host char_host_01
+                              # e njëjta ide, e regjisuar nga Claude (sets, blocking, veshje, host)
+pnpm poc:ai-svg               # eksperimenti: Claude vizaton objekte SVG -> out/poc/ai-svg/report.md
+```
+
+Çfarë provon: personazhe me identitet konstant (Alex me dy veshje), Host-i me kostum, ecje pa rrëshqitje,
+ulje/ngritje, dorëzim i CV-së nga dora në dorë, derë që hapet, aureolë mbi kokë. Set-et (`compiler/src/sets.ts`)
+kanë "marks" (door, chair_left, chair_right); aktorët në set lëvizin me `blocking` dhe kompilatori i kthen
+hapat në lëvizje që respektojnë skenën (`compiler/src/blocking.ts`, `staging.ts`).
+
 ### Muzika dhe efektet (H1)
 
 Lista e skedarëve, me linkun origjinal dhe licencën, është te `audio/catalog.json`. Shkarkoji nga Pixabay

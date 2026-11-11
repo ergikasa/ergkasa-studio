@@ -47,7 +47,8 @@ public class Orchestrator {
     record StepDef(String id, String taskType, List<String> dependsOn, int timeoutS, int maxAttempts) {}
 
     /** What the Studio sends to start a video. */
-    public record NewRun(String topic, String theme, String voice, Integer seconds, String notes, Boolean silent) {}
+    /** {@code host}: the main character chosen by the user (e.g. char_host_01); the planner decides where he appears. */
+    public record NewRun(String topic, String theme, String voice, Integer seconds, String notes, Boolean silent, String host) {}
 
     private final JdbcClient jdbc;
     private final ContractSchemas contracts;
@@ -108,6 +109,10 @@ public class Orchestrator {
             throw new BadRunRequest("notes must be at most 500 characters");
         }
         boolean silent = Boolean.TRUE.equals(req.silent());
+        String host = req.host() == null || req.host().isBlank() ? null : req.host().trim();
+        if (host != null && !host.matches("^char_[a-z0-9_]{1,60}$")) {
+            throw new BadRunRequest("host must be a character id like char_host_01");
+        }
         String id = newRunId(topic);
 
         jdbc.sql("""
@@ -135,7 +140,12 @@ public class Orchestrator {
                     }
                 }
                 case "voice.synthesize" -> params.put("voice", voice);
-                case "visual.plan" -> params.put("voice", voice).put("projectId", id);
+                case "visual.plan" -> {
+                    params.put("voice", voice).put("projectId", id);
+                    if (host != null) {
+                        params.put("host", host);
+                    }
+                }
                 case "render.finalize" -> params.put("music", true);
                 default -> throw new IllegalStateException("no params for " + s.taskType());
             }

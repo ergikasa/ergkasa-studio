@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { GENERIC_RECIPES, IDLE_MOTIONS, PARTICLE_PRESETS } from "@erkasa/compiler";
+import { GENERIC_RECIPES, IDLE_MOTIONS, PARTICLE_PRESETS, describeSets } from "@erkasa/compiler";
 import { CameraMove, Transition, type AssetMeta } from "@erkasa/contracts";
 import { CHART_KINDS, TEXT_STYLES } from "@erkasa/engine";
 import { FsAssetSource } from "@erkasa/engine-worker";
@@ -21,6 +21,7 @@ export interface CharacterInfo {
   front: string[];
   side: string[];
   expressions: string[];
+  outfits: string[];
 }
 
 export interface AssetInfo {
@@ -105,7 +106,8 @@ export class Catalog {
   /** Short list for the script writer: what kinds of pictures the studio can draw. */
   vocabulary(): string {
     return [
-      `Characters: ${this.characters.map((c) => `${c.id} = ${c.name} (${c.tags.join(", ")})`).join("; ")}.`,
+      `Characters: ${this.characters.map((c) => `${c.id} = ${c.name} (${c.tags.join(", ")}${c.outfits.length > 1 ? `; outfits ${c.outfits.join("/")}` : ""})`).join("; ")}.`,
+      `Staged sets where people walk in, sit, talk across a desk and hand things over: ${describeSets().split("\n")[0] ?? ""}`,
       `Character actions: ${[...new Set(this.characters.flatMap((c) => [...c.front, ...c.side]))].join(", ")}.`,
       `Places: ${this.backgrounds.map((b) => b.tags.join("/")).join("; ")}.`,
       `Visual metaphors: ${this.metaphors.map((m) => `${m.id.replace(/^met_|_\d+$/g, "")} (${m.tags.join(", ")})`).join("; ")}.`,
@@ -122,7 +124,16 @@ export class Catalog {
     );
     for (const c of this.characters)
       lines.push(
-        `- ${c.id}: ${c.name} (${c.tags.join(", ")}) | front: ${c.front.join(", ")} | side: ${c.side.join(", ")} | expressions: ${c.expressions.join(", ")} | can hold: ${c.items.join(", ") || "nothing"}`,
+        `- ${c.id}: ${c.name} (${c.tags.join(", ")}) | front: ${c.front.join(", ")} | side: ${c.side.join(", ")} | expressions: ${c.expressions.join(", ")} | can hold: ${c.items.join(", ") || "nothing"}${c.outfits.length > 1 ? ` | outfits: ${c.outfits.join(", ")}` : ""}`,
+      );
+    lines.push(
+      "\n## Staged sets (scene.set). Actors on a set use `blocking` (marks below) instead of x and walk actions.",
+    );
+    lines.push(describeSets());
+    const setProps = this.props.filter((p) => p.id.startsWith("prop_"));
+    if (setProps.length)
+      lines.push(
+        `\n## Scene props in the house style (type object; on a set they can attachTo an actor): ${setProps.map((p) => `${p.id} (${p.tags.slice(0, 4).join(", ")})`).join("; ")}`,
       );
     lines.push("\n## Backgrounds (scene.background)");
     for (const b of this.backgrounds) lines.push(`- ${b.id}: ${b.tags.join(", ")}; ${b.extra}`);
@@ -161,6 +172,7 @@ function character(m: AssetMeta): CharacterInfo {
     front: strings(actions["front"]),
     side: strings(actions["side"]),
     expressions: strings(caps["expressions"]),
+    outfits: strings((caps["outfits"] as { available?: unknown } | undefined)?.available),
   };
 }
 

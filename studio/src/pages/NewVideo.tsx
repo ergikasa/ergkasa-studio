@@ -1,6 +1,6 @@
 import type { VoiceCatalog } from "@erkasa/contracts";
 import { useEffect, useState } from "react";
-import { ApiError, THEMES, VOICE_KEY, api, store, stored } from "../lib/api";
+import { ApiError, HOST_KEY, THEMES, VOICE_KEY, api, store, stored } from "../lib/api";
 import { Button, Field, Toggle } from "../ui";
 
 const THEME_LABELS: Record<string, string> = {
@@ -21,6 +21,7 @@ export function NewVideo() {
   const [seconds, setSeconds] = useState(45);
   const [notes, setNotes] = useState("");
   const [silent, setSilent] = useState(false);
+  const [host, setHost] = useState<string>(stored(HOST_KEY) ?? "char_host_01");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string>();
 
@@ -39,6 +40,7 @@ export function NewVideo() {
     setError(undefined);
     try {
       store(VOICE_KEY, voice);
+      store(HOST_KEY, host);
       const created = await api.create({
         topic: topic.trim(),
         theme,
@@ -46,6 +48,7 @@ export function NewVideo() {
         seconds,
         ...(notes.trim() ? { notes: notes.trim() } : {}),
         silent,
+        ...(host ? { host } : {}),
       });
       window.location.hash = `runs/${created.run.id}`;
     } catch (e) {
@@ -137,6 +140,19 @@ export function NewVideo() {
             onChange={(e) => setSeconds(Number(e.target.value))}
             className="w-full accent-accent"
           />
+        </Field>
+
+        <Field label="Main character (host)">
+          <select
+            value={host}
+            onChange={(e) => setHost(e.target.value)}
+            className="w-full rounded-md border border-ink-700 bg-ink-950 px-3 py-2 text-sm"
+          >
+            <option value="char_host_01">
+              The Host: elderly narrator in a suit (appears where the story needs him)
+            </option>
+            <option value="">No host: only the story's characters</option>
+          </select>
         </Field>
 
         <Field label="Notes for the writer (optional)">
