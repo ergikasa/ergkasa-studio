@@ -1,0 +1,65 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_door_01",
+  "version": 1,
+  "name": "Derë",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_flat_v1",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    300,
+    930
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "hinge": [
+      0.06,
+      0.5
+    ],
+    "center": [
+      0.5,
+      0.5
+    ]
+  },
+  "parts": {
+    "leaf": "scaleX 1 → 0.1 (hapet rreth menteshës majtas)",
+    "frame": "statike"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "door",
+    "entrance",
+    "office",
+    "home",
+    "enter",
+    "exit"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

@@ -340,6 +340,30 @@ def bg_trading_room():
         {"groundY": 1690, "actorZone": [[200, 2400]], "mood": ["money", "markets", "risk", "tension"]}
 
 
+def bg_interview_office():
+    """Zyrë e qetë për intervista: mur i ngrohtë, dritare me grila, certifikata. Mobiljet janë props
+    (karrige, tavolinë, derë), që personazhet të ulen dhe të kalojnë para/pas tyre."""
+    defs = lin_grad("io_sky", [(0, "#BFE0F0"), (1, "#EEF7FB")])
+    # wider than the window: the far layer moves slower than the camera (parallax)
+    sky = rect(-400, -400, W + 800, 2000, "url(#io_sky)") + cloud(1650, 470, 0.7) + cloud(2050, 420, 0.55) + cloud(1350, 560, 0.5)
+    wall = (wall_with_hole("#EDE5DA", 1500, 300, 820, 640)
+            + rect(-400, 1180, W + 800, 380, "#E2D6C6") + rect(-400, 1172, W + 800, 14, "#D3C4B0")   # lambri
+            + window_frame(1500, 300, 820, 640, "#8A7764", t=20, cross=True)
+            + "".join(rect(1520, 320 + i * 34, 780, 14, "#F4EEE6", extra='opacity="0.85"') for i in range(6))   # grila lart
+            + rect(1490, 940, 840, 22, "#B9A792", rx=4)
+            + "".join(rect(x, 520, 150, 190, "#8A7764", rx=6) + rect(x + 14, 534, 122, 162, "#F6F3EE") + rect(x + 34, 570, 82, 10, "#C9BBA8") + rect(x + 34, 592, 60, 10, "#C9BBA8") + circle(x + 75, 650, 18, "#C2554D") for x in (760, 960))
+            + rect(-400, 1540, W + 800, 22, "#B9A792"))   # pervaz
+    floor = (rect(-400, 1560, W + 800, 400, "#C9A27E")
+             + "".join(rect(-400, 1560 + i * 72, W + 800, 4, "#B88F6B") for i in range(1, 6))
+             + "".join(rect(x, 1560 + (i % 5) * 72, 4, 72, "#B88F6B") for i, x in enumerate(range(-300, W + 400, 410))))
+    stage = {
+        "groundY": 1690, "actorZone": [[200, 2400]], "mood": ["work", "career", "calm"],
+        "anchors": {"wall_base": [1280, 1560], "door": [560, 1560], "chair_left": [880, 1690],
+                    "desk": [1300, 1690], "chair_right": [1720, 1690], "clock": [1220, 640]},
+    }
+    return defs, [("window_view", 0.8, sky), ("wall", 0, wall), ("floor", 0, floor)], stage
+
+
 SCENES = [
     ("bg_home_living_01", "Dhoma e ndenjes (ditë)", bg_home_living, ["home", "living-room", "day", "indoor"], ["psychology", "growth", "decisions"]),
     ("bg_home_bedroom_night_01", "Dhoma e gjumit (natë)", bg_home_bedroom_night, ["home", "bedroom", "night", "indoor"], ["psychology", "growth", "philosophy"]),
@@ -351,6 +375,7 @@ SCENES = [
     ("bg_nature_beach_01", "Plazh", bg_nature_beach, ["nature", "sea", "beach", "outdoor"], ["growth", "money", "philosophy"]),
     ("bg_space_01", "Kozmos", bg_space, ["space", "cosmos", "stars"], ["science", "philosophy"]),
     ("bg_trading_room_01", "Salla e tregtimit (bursa)", bg_trading_room, ["finance", "stocks", "screens", "indoor"], ["money", "decisions"]),
+    ("bg_interview_office_01", "Zyrë intervistash", bg_interview_office, ["office", "interview", "work", "indoor"], ["psychology", "decisions", "growth"]),
 ]
 
 
@@ -370,6 +395,7 @@ def main() -> None:
             "style": "erkasa_flat_v1", "files": {"svg": "asset.svg"}, "viewBox": [0, 0, W, H],
             "layers": [{"id": f"layer_{lid}", "depth": dep} for lid, dep, _ in layers],
             "groundY": info["groundY"], "actorZones": info["actorZone"],
+            **({"anchors": info["anchors"]} if "anchors" in info else {}),
             "safeFrames": {"9:16": [740, 0, 1080, 1920], "16:9": [0, 240, 2560, 1440], "1:1": [320, 0, 1920, 1920]},
             "capabilities": {"camera": ["pan", "zoom", "parallax", "shake"]},
             "mood": info["mood"], "themes": themes, "tags": tags,

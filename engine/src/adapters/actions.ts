@@ -265,7 +265,32 @@ function sideIdle(t: number, phase: number): Pose {
   );
 }
 
-/** One gait cycle: legs swing in opposition, knees bend in the swing phase, feet stay flat. */
+/**
+ * One leg through a gait cycle. Stance (the first `stance` fraction): the leg is straight and sweeps
+ * from forward to back while the foot stays planted. Swing: the knee bends, the leg comes forward and
+ * the foot clears the floor. `phase` 0..1.
+ */
+function leg(
+  phase: number,
+  amp: number,
+  knee: number,
+  stance: number,
+): { thigh: number; shin: number; foot: number } {
+  const p = ((phase % 1) + 1) % 1;
+  if (p < stance) {
+    const u = p / stance;
+    const thigh = -amp + 2 * amp * u; // forward (negative) -> back (positive)
+    const shin = 4;
+    return { thigh, shin, foot: -(thigh + shin) };
+  }
+  const u = (p - stance) / (1 - stance);
+  const e = u * u * (3 - 2 * u);
+  const thigh = amp - 2 * amp * e;
+  const shin = 4 + knee * Math.sin(Math.PI * u);
+  return { thigh, shin, foot: -(thigh + shin) * 0.7 };
+}
+
+/** A walk or run cycle: legs half a cycle apart, arms swinging against the legs. */
 function gait(
   t: number,
   hz: number,
@@ -275,29 +300,169 @@ function gait(
   elbow: number,
   lean: number,
   bob: number,
+  stance = 0.6,
 ): Pose {
-  const a = t * TAU * hz;
-  const s = Math.sin(a);
-  const c = Math.cos(a);
-  const thighN = -thighAmp * s;
-  const thighF = thighAmp * s;
-  const shinN = 6 + kneeAmp * Math.max(0, -c);
-  const shinF = 6 + kneeAmp * Math.max(0, c);
+  const ph = t * hz;
+  const n = leg(ph, thighAmp, kneeAmp, stance);
+  const f = leg(ph + 0.5, thighAmp, kneeAmp, stance);
+  const swingN = n.thigh / thighAmp; // -1 forward .. 1 back
   const pose: Pose = {
-    thigh_n: { rotation: thighN },
-    shin_n: { rotation: shinN },
-    foot_n: { rotation: -(thighN + shinN) * 0.85 },
-    thigh_f: { rotation: thighF },
-    shin_f: { rotation: shinF },
-    foot_f: { rotation: -(thighF + shinF) * 0.85 },
-    arm_upper_n: { rotation: armAmp * s },
-    arm_upper_f: { rotation: -armAmp * s },
-    arm_lower_n: { rotation: elbow - 8 * Math.max(0, s) },
-    arm_lower_f: { rotation: elbow - 8 * Math.max(0, -s) },
+    thigh_n: { rotation: n.thigh },
+    shin_n: { rotation: n.shin },
+    foot_n: { rotation: n.foot },
+    thigh_f: { rotation: f.thigh },
+    shin_f: { rotation: f.shin },
+    foot_f: { rotation: f.foot },
+    arm_upper_n: { rotation: -armAmp * swingN },
+    arm_upper_f: { rotation: armAmp * swingN },
+    arm_lower_n: { rotation: elbow - 6 * Math.max(0, -swingN) },
+    arm_lower_f: { rotation: elbow - 6 * Math.max(0, swingN) },
     torso: { rotation: lean },
-    head: { rotation: -lean * 0.5 + 1.5 * Math.sin(a * 2) },
+    head: { rotation: -lean * 0.5 + 1.2 * Math.sin(ph * TAU * 2) },
   };
-  return lift(pose, bob * Math.abs(s));
+  return lift(pose, bob * Math.abs(Math.sin(ph * TAU * 2)));
+}
+
+// ---- leg kinematics of erkasa_biped_side_v1 (all studio characters share these pivots) ----
+const HIP: Vec = [200, 474];
+const KNEE: Vec = [200, 642];
+const ANKLE: Vec = [200, 828];
+const HEEL: Vec = [172, 872];
+const TOE: Vec = [264, 872];
+/** The floor line of the side rig (its ground anchor). */
+export const SIDE_FLOOR_Y = 872;
+type Vec = [number, number];
+
+/** Rotates a vector by `deg` in SVG convention (positive = clockwise on screen, y down). */
+function rotate([x, y]: Vec, deg: number): Vec {
+  const a = (deg * Math.PI) / 180;
+  return [x * Math.cos(a) - y * Math.sin(a), x * Math.sin(a) + y * Math.cos(a)];
+}
+const add = (a: Vec, b: Vec): Vec => [a[0] + b[0], a[1] + b[1]];
+const sub = (a: Vec, b: Vec): Vec => [a[0] - b[0], a[1] - b[1]];
+
+/** Heel and toe of one leg in rig coordinates, before any `root` offset. */
+export function sideFoot(pose: Pose, leg: "n" | "f"): { heel: Vec; toe: Vec } {
+  const a1 = pose[`thigh_${leg}`]?.rotation ?? 0;
+  const a2 = a1 + (pose[`shin_${leg}`]?.rotation ?? 0);
+  const a3 = a2 + (pose[`foot_${leg}`]?.rotation ?? 0);
+  const knee = add(HIP, rotate(sub(KNEE, HIP), a1));
+  const ankle = add(knee, rotate(sub(ANKLE, KNEE), a2));
+  return { heel: add(ankle, rotate(sub(HEEL, ANKLE), a3)), toe: add(ankle, rotate(sub(TOE, ANKLE), a3)) };
+}
+
+/** Lowest point of both feet (largest y). */
+function lowestFootY(pose: Pose): number {
+  const n = sideFoot(pose, "n");
+  const f = sideFoot(pose, "f");
+  return Math.max(n.heel[1], n.toe[1], f.heel[1], f.toe[1]);
+}
+
+/**
+ * Keeps the feet on the floor: moves the whole body (root) so the lowest foot touches the floor.
+ * Without this the hips stay fixed and the planted foot floats when the legs swing apart.
+ */
+function grounded(pose: Pose): Pose {
+  const dy = SIDE_FLOOR_Y - lowestFootY(pose);
+  return { ...pose, root: { ...(pose["root"] ?? {}), y: (pose["root"]?.y ?? 0) + dy } };
+}
+
+/**
+ * Ground speed of a side walk cycle in rig px per second: how fast the planted foot moves backwards
+ * relative to the hips. Moving the character at exactly this speed (times its scale) means no sliding feet.
+ */
+export function sideGaitSpeed(name: "walk" | "walk_phone"): number {
+  const act = SIDE_ACTIONS[name];
+  if (!act) return 0;
+  const dt = 1 / 240;
+  let dist = 0;
+  let time = 0;
+  for (let t = 2; t < 4; t += dt) {
+    const a = act(t, 0);
+    const b = act(t + dt, 0);
+    const planted = (p: Pose): "n" | "f" => {
+      const n = sideFoot(p, "n");
+      const f = sideFoot(p, "f");
+      return Math.max(n.heel[1], n.toe[1]) >= Math.max(f.heel[1], f.toe[1]) ? "n" : "f";
+    };
+    const leg = planted(a);
+    const ax = (sideFoot(a, leg).heel[0] + sideFoot(a, leg).toe[0]) / 2;
+    const bx = (sideFoot(b, leg).heel[0] + sideFoot(b, leg).toe[0]) / 2;
+    dist += ax - bx;
+    time += dt;
+  }
+  return Math.max(0, dist / time);
+}
+
+// ---- seated (side view) ----
+/** Legs of a seated figure: thighs forward, shins down, feet flat. */
+const SEATED_LEGS: Pose = {
+  thigh_n: { rotation: -86 },
+  shin_n: { rotation: 84 },
+  foot_n: { rotation: 2 },
+  thigh_f: { rotation: -80 },
+  shin_f: { rotation: 82 },
+  foot_f: { rotation: -2 },
+};
+
+/**
+ * Where the hips end up relative to the standing feet. A seated figure keeps its feet where it stood:
+ * the body moves back (x) and down (y) onto the seat. Exposed so props can be sized to the rig.
+ */
+export const SEAT = (() => {
+  const legs = SEATED_LEGS;
+  const footX = (sideFoot(legs, "n").heel[0] + sideFoot(legs, "n").toe[0]) / 2;
+  const standX = (HEEL[0] + TOE[0]) / 2;
+  const back = footX - standX; // the feet go forward by this much when the thighs swing up
+  const down = SIDE_FLOOR_Y - lowestFootY(legs);
+  /** Height of the hip joint above the floor when seated, rig px. */
+  const hipHeight = SIDE_FLOOR_Y - (HIP[1] + down);
+  return { back, down, hipHeight };
+})();
+
+function seatedBase(t: number, ph: number): Pose {
+  const breath = (1 - Math.cos(t * TAU * 0.28 + ph)) / 2;
+  return lift(
+    {
+      ...SEATED_LEGS,
+      root: { x: -SEAT.back, y: SEAT.down },
+      torso: { rotation: 2, scaleY: 1 + 0.006 * breath },
+      head: { rotation: 1.2 * sin(t, 0.19, ph) },
+      arm_upper_n: { rotation: -22 + 2 * sin(t, 0.28, ph) },
+      arm_lower_n: { rotation: -52 },
+      arm_upper_f: { rotation: -18 - 2 * sin(t, 0.28, ph + 0.5) },
+      arm_lower_f: { rotation: -56 },
+    },
+    -2 * breath,
+  );
+}
+
+/** Seated variants: the seated body plus an upper-body behaviour, eased in. */
+function seatedWith(over: (t: number, ph: number) => Pose, d = 0.35): Action {
+  return (t, ph) => {
+    const k = ramp(t, d);
+    return blendPoses(seatedBase(t, ph), merge(seatedBase(t, ph), over(t, ph)), k);
+  };
+}
+
+/** 0..1 eased progress of a move that takes `d` seconds. */
+const progress = (t: number, d: number): number => {
+  const x = Math.min(1, Math.max(0, t / d));
+  return x * x * (3 - 2 * x);
+};
+
+/** Standing <-> seated. The torso leans forward halfway, as people do; feet stay planted. */
+function sitMotion(t: number, ph: number, up: boolean): Pose {
+  const d = 0.85;
+  const p = progress(t, d);
+  const k = up ? 1 - p : p; // 0 = standing, 1 = seated
+  const pose = blendPoses(sideIdle(t, ph), seatedBase(t, ph), k);
+  const lean = -22 * Math.sin(Math.PI * Math.min(1, t / d));
+  return merge(pose, {
+    torso: { rotation: (pose["torso"]?.rotation ?? 0) + lean },
+    head: { rotation: (pose["head"]?.rotation ?? 0) - lean * 0.4 },
+    root: { x: -SEAT.back * k, y: SEAT.down * k },
+  });
 }
 
 export const SIDE_ACTIONS: Record<string, Action> = {
@@ -305,12 +470,12 @@ export const SIDE_ACTIONS: Record<string, Action> = {
 
   walk: (t) => {
     const k = ramp(t, 0.25);
-    return blendPoses(sideIdle(t, 0), gait(t, 0.95, 24, 34, 20, -14, 3, 5), k);
+    return grounded(blendPoses(sideIdle(t, 0), gait(t, 0.95, 22, 48, 18, -14, 3, 0), k));
   },
 
   run: (t) => {
     const k = ramp(t, 0.2);
-    return blendPoses(sideIdle(t, 0), gait(t, 1.45, 40, 78, 42, -85, 10, 11), k);
+    return blendPoses(sideIdle(t, 0), gait(t, 1.45, 40, 78, 42, -85, 10, 11, 0.4), k);
   },
 
   talk: (t, ph) => {
@@ -326,15 +491,17 @@ export const SIDE_ACTIONS: Record<string, Action> = {
   walk_phone: (t) => {
     const k = ramp(t, 0.25);
     const g = gait(t, 0.85, 20, 30, 0, -14, 2, 4);
-    return blendPoses(
-      sideIdle(t, 0),
-      merge(g, {
-        arm_upper_n: { rotation: -6 },
-        arm_lower_n: { rotation: -118 },
-        hand_n: { rotation: 20 },
-        head: { rotation: 10 + 1 * Math.sin(t * TAU * 1.7) },
-      }),
-      k,
+    return grounded(
+      blendPoses(
+        sideIdle(t, 0),
+        merge(g, {
+          arm_upper_n: { rotation: -6 },
+          arm_lower_n: { rotation: -118 },
+          hand_n: { rotation: 20 },
+          head: { rotation: 10 + 1 * Math.sin(t * TAU * 1.7) },
+        }),
+        k,
+      ),
     );
   },
 
@@ -350,6 +517,50 @@ export const SIDE_ACTIONS: Record<string, Action> = {
       torso: { rotation: 3 * k },
     });
   },
+
+  /** Sits down from standing, onto a seat behind: feet stay where they are. Then stays seated. */
+  sit: (t, ph) => sitMotion(t, ph, false),
+  /** Stands up from seated; ends standing where the feet are. */
+  stand_up: (t, ph) => sitMotion(t, ph, true),
+  seated: seatedBase,
+  seated_talk: seatedWith((t, ph) => ({
+    head: { rotation: 2 * sin(t, 0.7, ph) + 1.2 * sin(t, 2.1, ph) },
+    arm_upper_n: { rotation: -34 - 8 * sin(t, 0.9, ph) },
+    arm_lower_n: { rotation: -62 - 14 * sin(t, 1.3, ph + 0.5) },
+  })),
+  /** Typing on a laptop on the desk in front. */
+  seated_type: seatedWith((t, ph) => ({
+    arm_upper_n: { rotation: -30 },
+    arm_lower_n: { rotation: -64 + 4 * sin(t, 5.5, ph) },
+    arm_upper_f: { rotation: -26 },
+    arm_lower_f: { rotation: -70 + 4 * sin(t, 5.5, ph + 1.6) },
+    head: { rotation: 7 + 1 * sin(t, 0.4, ph) },
+    torso: { rotation: -3 },
+  })),
+  /** Nods twice, then listens. */
+  seated_nod: seatedWith(
+    (t) => ({
+      head: { rotation: t < 1.4 ? 7 * Math.sin(t * TAU * 1.5) * (1 - t / 1.4) + 2 : 2 },
+    }),
+    0.15,
+  ),
+  /** Reads a document held in front (holding: document). */
+  seated_read: seatedWith((t, ph) => ({
+    arm_upper_n: { rotation: -40 },
+    arm_lower_n: { rotation: -78 },
+    hand_n: { rotation: 10 },
+    head: { rotation: 9 + 1 * sin(t, 0.3, ph) },
+  })),
+  /** Reaches forward across a desk (handing something over), then holds the arm out. */
+  seated_give: seatedWith(
+    () => ({
+      arm_upper_n: { rotation: -78 },
+      arm_lower_n: { rotation: -12 },
+      hand_n: { rotation: 0 },
+      torso: { rotation: -8 },
+    }),
+    0.55,
+  ),
 
   point_forward: (t, ph) => {
     const k = ramp(t, 0.4);

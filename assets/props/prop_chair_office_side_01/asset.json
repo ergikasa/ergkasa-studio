@@ -1,0 +1,62 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_chair_office_side_01",
+  "version": 1,
+  "name": "Karrige zyre (anash)",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_flat_v1",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    260,
+    560
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "hip": [
+      0.38461538461538464,
+      0.575
+    ],
+    "seat": [
+      0.38461538461538464,
+      0.6214285714285714
+    ]
+  },
+  "parts": {
+    "part": "pa animim; personazhi ulet me `sit` dhe ijët në anchor `hip`"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "office",
+    "chair",
+    "furniture",
+    "sit"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

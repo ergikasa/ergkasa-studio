@@ -1,0 +1,59 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_desk_side_01",
+  "version": 1,
+  "name": "Tavolinë pune",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_flat_v1",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    420,
+    380
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "top": [
+      0.5,
+      0.08421052631578947
+    ]
+  },
+  "parts": {
+    "part": "shtresë përpara: mbulon këmbët e personazheve të ulur"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "office",
+    "desk",
+    "table",
+    "furniture",
+    "work"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_mug_01",
+  "version": 1,
+  "name": "Filxhan",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_flat_v1",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    90,
+    90
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      0.9777777777777777
+    ]
+  },
+  "parts": {
+    "mug": "statik"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "mug",
+    "coffee",
+    "office",
+    "break"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

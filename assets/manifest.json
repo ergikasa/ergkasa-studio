@@ -1,12 +1,12 @@
 {
  "schema": "erkasa.asset-manifest/1",
- "total": 402,
+ "total": 411,
  "counts": {
-  "background": 10,
+  "background": 11,
   "character": 5,
   "icon": 189,
   "metaphor": 15,
-  "object": 183
+  "object": 191
  },
  "assets": [
   {
@@ -101,6 +101,26 @@
     "home",
     "living-room",
     "day",
+    "indoor"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_interview_office_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "backgrounds/bg_interview_office_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "office",
+    "interview",
+    "work",
     "indoor"
    ],
    "license": "LicenseRef-Erkasa-Original"
@@ -6735,6 +6755,171 @@
     "zzz"
    ],
    "license": "MIT"
+  },
+  {
+   "assetId": "prop_chair_office_side_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "props/prop_chair_office_side_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "office",
+    "chair",
+    "furniture",
+    "sit"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_desk_side_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "props/prop_desk_side_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "office",
+    "desk",
+    "table",
+    "furniture",
+    "work"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_door_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "props/prop_door_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "door",
+    "entrance",
+    "office",
+    "home",
+    "enter",
+    "exit"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_halo_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "props/prop_halo_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "halo",
+    "halo-effect",
+    "bias",
+    "impression",
+    "psychology"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_laptop_side_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "props/prop_laptop_side_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "office",
+    "laptop",
+    "computer",
+    "work",
+    "tech"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_mug_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "props/prop_mug_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "mug",
+    "coffee",
+    "office",
+    "break"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_plant_floor_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "props/prop_plant_floor_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "plant",
+    "office",
+    "home",
+    "decor"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_wall_clock_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "props/prop_wall_clock_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "clock",
+    "time",
+    "office",
+    "deadline"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
   }
  ]
 }

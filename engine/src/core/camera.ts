@@ -18,11 +18,21 @@ export interface Viewport {
   worldHeight: number;
 }
 
+/**
+ * Camera at a frame. The centre is kept so the view never leaves the world: a zoom-out or a pan
+ * near an edge would otherwise show the empty canvas (a black band) beyond the background.
+ */
 export function sampleCamera(tracks: Tracks, frame: number, vp: Viewport): CameraState {
+  const zoom = sampleNumber(tracks["zoom"], frame, 1);
+  const cover = Math.max(vp.width / vp.worldWidth, vp.height / vp.worldHeight);
+  const halfW = vp.width / (2 * cover * zoom);
+  const halfH = vp.height / (2 * cover * zoom);
+  const keep = (v: number, half: number, size: number): number =>
+    half * 2 >= size ? size / 2 : Math.min(size - half, Math.max(half, v));
   return {
-    x: sampleNumber(tracks["x"], frame, vp.worldWidth / 2),
-    y: sampleNumber(tracks["y"], frame, vp.worldHeight / 2),
-    zoom: sampleNumber(tracks["zoom"], frame, 1),
+    x: keep(sampleNumber(tracks["x"], frame, vp.worldWidth / 2), halfW, vp.worldWidth),
+    y: keep(sampleNumber(tracks["y"], frame, vp.worldHeight / 2), halfH, vp.worldHeight),
+    zoom,
     rotation: sampleNumber(tracks["rotation"], frame, 0),
     shake: sampleNumber(tracks["shake"], frame, 0),
   };

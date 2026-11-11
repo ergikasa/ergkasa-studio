@@ -1,0 +1,55 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_wall_clock_01",
+  "version": 1,
+  "name": "Orë muri",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_flat_v1",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    200,
+    200
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ]
+  },
+  "parts": {
+    "hour": "rotation (orët)",
+    "minute": "rotation (minutat)"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "clock",
+    "time",
+    "office",
+    "deadline"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "bg_interview_office_01",
+  "version": 1,
+  "name": "Zyrë intervistash",
+  "category": "background",
+  "kind": "layered_background",
+  "adapter": "svg",
+  "style": "erkasa_flat_v1",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    1920
+  ],
+  "layers": [
+    {
+      "id": "layer_window_view",
+      "depth": 0.8
+    },
+    {
+      "id": "layer_wall",
+      "depth": 0
+    },
+    {
+      "id": "layer_floor",
+      "depth": 0
+    }
+  ],
+  "groundY": 1690,
+  "actorZones": [
+    [
+      200,
+      2400
+    ]
+  ],
+  "anchors": {
+    "wall_base": [
+      1280,
+      1560
+    ],
+    "door": [
+      560,
+      1560
+    ],
+    "chair_left": [
+      880,
+      1690
+    ],
+    "desk": [
+      1300,
+      1690
+    ],
+    "chair_right": [
+      1720,
+      1690
+    ],
+    "clock": [
+      1220,
+      640
+    ]
+  },
+  "safeFrames": {
+    "9:16": [
+      740,
+      0,
+      1080,
+      1920
+    ],
+    "16:9": [
+      0,
+      240,
+      2560,
+      1440
+    ],
+    "1:1": [
+      320,
+      0,
+      1920,
+      1920
+    ]
+  },
+  "capabilities": {
+    "camera": [
+      "pan",
+      "zoom",
+      "parallax",
+      "shake"
+    ]
+  },
+  "mood": [
+    "work",
+    "career",
+    "calm"
+  ],
+  "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "office",
+    "interview",
+    "work",
+    "indoor"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

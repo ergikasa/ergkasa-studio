@@ -5,7 +5,7 @@ import { sampleNumber, type Tracks } from "../core/tracks.js";
 
 /**
  * Objects, icons and metaphors. Placement tracks: x, y (center, world or screen px), size (px width),
- * scale, rotation, opacity. Part tracks drive named groups: `part.<id>.rotation|x|y|scaleX|scaleY|opacity`.
+ * scale, rotation, opacity; `props.flip` mirrors it horizontally (side-view props facing left). Part tracks drive named groups: `part.<id>.rotation|x|y|scaleX|scaleY|opacity`.
  * props.idle adds a continuous motion: float | bob | spin | pulse | sway.
  */
 export interface PreparedSvgAsset {
@@ -82,6 +82,6 @@ export function renderSvgAsset(
   return (
     `<g data-node="${nodeId}"${colorAttr}${op} transform="translate(${fmt(x)} ${fmt(y)})` +
     (rotation ? ` rotate(${fmt(rotation)})` : "") +
-    ` scale(${fmt(scale)}) translate(${fmt(-cx)} ${fmt(-cy)})">${op ? OPACITY_GUARD : ""}${body}</g>`
+    ` scale(${fmt(props["flip"] === true ? -scale : scale)} ${fmt(scale)}) translate(${fmt(-cx)} ${fmt(-cy)})">${op ? OPACITY_GUARD : ""}${body}</g>`
   );
 }
