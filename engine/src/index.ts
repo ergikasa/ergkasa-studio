@@ -15,11 +15,13 @@ export {
   sideHandItem,
 } from "./adapters/actions.js";
 export { TEXT_STYLES } from "./adapters/text.js";
+export { scaleOpacity } from "./adapters/svg-asset.js";
 export {
   visemeFor,
   prepareCharacter,
   renderCharacter,
   actionsFor,
+  garmentForPose,
   type PreparedCharacter,
   type Facing,
   type SpeechSample,

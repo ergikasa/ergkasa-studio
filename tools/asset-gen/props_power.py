@@ -224,24 +224,27 @@ def trophy(d: Defs):
 
 
 def handshake(d: Defs):
-    w, h = 600, 340
-    sk_l, sk_d = d.v("skl", P["skin_l"], P["skin"]), d.v("skd", P["skin"], P["skin_d"])
-    fingers = "".join(
-        f'<g transform="rotate({8 + k * 4} {318 + k * 26} 120)">' + rect(300 + k * 26, 112, 30, 104 - k * 6, sk_l, rx=15)
-        + line(f"M{304 + k * 26},{150 + k * 4} H{326 + k * 26}", P["skin"], 3, 'opacity="0.6"') + "</g>" for k in range(4))
-    body = (
-        g("left_arm", poly([(0, 150), (180, 140), (196, 262), (0, 282)], d.v("sl", P["blue"], P["blue_dd"]))
-          + rect(172, 132, 44, 140, P["white"], rx=10) + rect(172, 132, 44, 12, P["cream3"], rx=6))
-        + g("right_arm", poly([(600, 120), (430, 118), (414, 236), (600, 252)], d.v("sr", P["slate_l"], P["slate_d"]))
-            + rect(398, 110, 44, 136, P["cream"], rx=10) + rect(398, 110, 44, 12, P["cream3"], rx=6))
-        + g("hands",
-            path("M412,124 Q370,112 300,122 Q258,130 250,160 Q246,200 286,222 Q340,240 412,226 Z", sk_d)          # dora e djathtë (poshtë)
-            + path("M214,150 Q250,130 300,134 Q326,140 330,170 Q328,226 290,244 Q246,256 214,244 Z", sk_l)         # pëllëmba e majtë
-            + fingers                                                                                              # gishtat e majtë mbështjellin
-            + path("M404,128 Q352,104 300,112 Q268,118 262,134 Q290,142 330,138 Q370,140 404,150 Z", sk_d)         # gishti i madh i djathtë sipër
-            + line("M268,134 Q300,128 330,132", P["skin_d"], 3, 'opacity="0.7"')
-            + path("M232,240 Q262,262 300,254 Q286,236 252,232 Z", P["skin"], 'opacity="0.8"'))                     # gishti i madh i majtë poshtë
-    )
+    """Dy duar që shtrëngohen, parë anash: gishtat e njërës mbështillen mbi pëllëmbën e tjetrës, gishtat e mëdhenj sipër."""
+    w, h = 720, 300
+    skin_a, skin_a_d = P["skin_l"], P["skin"]     # dora majtas (mëngë blu)
+    skin_b, skin_b_d = P["skin_d"], P["wood"]     # dora djathtas (mëngë gri), lëkurë më e errët
+    left_arm = (poly([(0, 116), (250, 104), (262, 196), (0, 210)], d.v("sl", P["blue"], P["blue_dd"]))
+                + rect(232, 100, 36, 102, P["white"], rx=6) + line("M0,140 L240,132", P["blue_d"], 3, 'stroke-opacity="0.6"'))
+    right_arm = (poly([(720, 96), (470, 110), (458, 200), (720, 214)], d.v("sr", P["steel_dd"], P["slate"]))
+                 + rect(452, 104, 36, 100, P["white"], rx=6) + line("M720,124 L480,132", P["slate"], 3, 'stroke-opacity="0.6"'))
+    # pëllëmba e dorës djathtas (poshtë, nën gishtat e tjetrës)
+    hand_b = (path("M462,116 Q420,108 380,118 L320,132 Q300,140 304,158 Q308,176 330,178 L394,186 Q440,196 462,190 Z", skin_b)
+              + path("M462,190 Q440,196 394,186 L360,182 Q380,198 420,204 Q450,206 462,200 Z", skin_b_d))
+    # dora majtas: pëllëmba hyn nga e majta, gishtat mbështillen poshtë dorës tjetër
+    hand_a = (path("M258,110 Q300,100 340,108 L410,124 Q432,130 430,148 L424,184 Q420,204 400,206 L300,204 Q270,200 258,194 Z", skin_a)
+              + "".join(path(f"M{x},{150 + i * 2} Q{x + 22},{148 + i * 2} {x + 26},{166 + i * 2} L{x + 22},{196 + i * 4} Q{x + 10},{206 + i * 4} {x - 2},{196 + i * 4} Z",
+                             skin_a, f'stroke="{skin_a_d}" stroke-width="3"') for i, x in enumerate((334, 360, 386, 410)))
+              + line("M290,176 Q330,186 330,200", skin_a_d, 3))
+    # gishtat e mëdhenj: i dorës djathtas kalon mbi kurrizin e dorës majtas
+    thumb_b = path("M390,120 Q350,96 312,104 Q296,110 302,124 Q312,132 338,128 Q368,130 392,140 Z", skin_b, f'stroke="{skin_b_d}" stroke-width="3"')
+    thumb_a = path("M300,112 Q330,90 364,96 Q378,100 374,112 Q350,116 320,124 Z", skin_a, f'stroke="{skin_a_d}" stroke-width="3"')
+    body = (g("left_arm", left_arm) + g("right_arm", right_arm)
+            + g("hands", hand_b + hand_a + thumb_a + thumb_b, pivot=(360, 156)))
     return obj("Shtrëngim duarsh", (w, h), body, {"center": [0.5, 0.52]},
                ["handshake", "deal", "agreement", "trust", "partnership", "business", "negotiation", "alliance", "cooperation"],
                {"hands": "shake i lehtë = shtrëngim", "left_arm": "statik", "right_arm": "statik"},

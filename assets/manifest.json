@@ -1,12 +1,13 @@
 {
  "schema": "erkasa.asset-manifest/1",
- "total": 606,
+ "total": 636,
  "counts": {
   "background": 62,
-  "character": 6,
+  "character": 15,
+  "effect": 18,
   "icon": 189,
   "metaphor": 26,
-  "object": 323
+  "object": 326
  },
  "assets": [
   {
@@ -1558,6 +1559,31 @@
    "license": "LicenseRef-Erkasa-Original"
   },
   {
+   "assetId": "char_dritan_01",
+   "category": "character",
+   "kind": "rigged_character",
+   "adapter": "character",
+   "style": "erkasa_flat_v1",
+   "path": "characters/char_dritan_01",
+   "themes": [
+    "psychology",
+    "money",
+    "growth",
+    "philosophy",
+    "science",
+    "decisions"
+   ],
+   "tags": [
+    "male",
+    "adult",
+    "worker",
+    "working-class",
+    "manual-labour",
+    "casual"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
    "assetId": "char_era_01",
    "category": "character",
    "kind": "rigged_character",
@@ -1576,6 +1602,31 @@
     "female",
     "adult",
     "long-hair",
+    "casual"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "char_genti_01",
+   "category": "character",
+   "kind": "rigged_character",
+   "adapter": "character",
+   "style": "erkasa_flat_v1",
+   "path": "characters/char_genti_01",
+   "themes": [
+    "psychology",
+    "money",
+    "growth",
+    "philosophy",
+    "science",
+    "decisions"
+   ],
+   "tags": [
+    "male",
+    "middle-aged",
+    "adult",
+    "father",
+    "office-worker",
     "casual"
    ],
    "license": "LicenseRef-Erkasa-Original"
@@ -1602,6 +1653,626 @@
     "narrator",
     "suit",
     "formal"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "char_king_01",
+   "category": "character",
+   "kind": "rigged_character",
+   "adapter": "character",
+   "style": "erkasa_flat_v1",
+   "path": "characters/char_king_01",
+   "themes": [
+    "psychology",
+    "money",
+    "growth",
+    "philosophy",
+    "science",
+    "decisions"
+   ],
+   "tags": [
+    "male",
+    "elder",
+    "king",
+    "royalty",
+    "ruler",
+    "monarch",
+    "crown",
+    "history"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "char_mira_01",
+   "category": "character",
+   "kind": "rigged_character",
+   "adapter": "character",
+   "style": "erkasa_flat_v1",
+   "path": "characters/char_mira_01",
+   "themes": [
+    "psychology",
+    "money",
+    "growth",
+    "philosophy",
+    "science",
+    "decisions"
+   ],
+   "tags": [
+    "female",
+    "middle-aged",
+    "adult",
+    "mother",
+    "teacher",
+    "professional"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "char_philosopher_01",
+   "category": "character",
+   "kind": "rigged_character",
+   "adapter": "character",
+   "style": "erkasa_flat_v1",
+   "path": "characters/char_philosopher_01",
+   "themes": [
+    "psychology",
+    "money",
+    "growth",
+    "philosophy",
+    "science",
+    "decisions"
+   ],
+   "tags": [
+    "male",
+    "elder",
+    "philosopher",
+    "ancient",
+    "greek",
+    "wise",
+    "toga",
+    "teacher"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "char_politician_01",
+   "category": "character",
+   "kind": "rigged_character",
+   "adapter": "character",
+   "style": "erkasa_flat_v1",
+   "path": "characters/char_politician_01",
+   "themes": [
+    "psychology",
+    "money",
+    "growth",
+    "philosophy",
+    "science",
+    "decisions"
+   ],
+   "tags": [
+    "male",
+    "adult",
+    "politician",
+    "leader",
+    "government",
+    "suit",
+    "formal",
+    "public-figure"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "char_queen_01",
+   "category": "character",
+   "kind": "rigged_character",
+   "adapter": "character",
+   "style": "erkasa_flat_v1",
+   "path": "characters/char_queen_01",
+   "themes": [
+    "psychology",
+    "money",
+    "growth",
+    "philosophy",
+    "science",
+    "decisions"
+   ],
+   "tags": [
+    "female",
+    "adult",
+    "queen",
+    "royalty",
+    "ruler",
+    "monarch",
+    "crown",
+    "history"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "char_silhouette_01",
+   "category": "character",
+   "kind": "rigged_character",
+   "adapter": "character",
+   "style": "erkasa_flat_v1",
+   "path": "characters/char_silhouette_01",
+   "themes": [
+    "psychology",
+    "money",
+    "growth",
+    "philosophy",
+    "science",
+    "decisions"
+   ],
+   "tags": [
+    "anonymous",
+    "silhouette",
+    "anyone",
+    "everyman",
+    "person",
+    "generic",
+    "statistic"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "char_viktor_01",
+   "category": "character",
+   "kind": "rigged_character",
+   "adapter": "character",
+   "style": "erkasa_flat_v1",
+   "path": "characters/char_viktor_01",
+   "themes": [
+    "psychology",
+    "money",
+    "growth",
+    "philosophy",
+    "science",
+    "decisions"
+   ],
+   "tags": [
+    "male",
+    "adult",
+    "rich",
+    "businessman",
+    "wealthy",
+    "ceo",
+    "suit",
+    "formal"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "fx_film_grain_01",
+   "category": "effect",
+   "kind": "overlay",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "effects/fx_film_grain_01",
+   "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+   ],
+   "tags": [
+    "film-grain",
+    "grain",
+    "texture",
+    "analog",
+    "cinematic",
+    "documentary",
+    "retro"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "fx_fire_01",
+   "category": "effect",
+   "kind": "overlay",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "effects/fx_fire_01",
+   "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+   ],
+   "tags": [
+    "fire",
+    "flame",
+    "passion",
+    "anger",
+    "danger",
+    "destruction",
+    "energy",
+    "urgency",
+    "burn"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "fx_fog_01",
+   "category": "effect",
+   "kind": "overlay",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "effects/fx_fog_01",
+   "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+   ],
+   "tags": [
+    "fog",
+    "mist",
+    "haze",
+    "uncertainty",
+    "confusion",
+    "mystery",
+    "memory",
+    "unknown"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "fx_glass_reflection_01",
+   "category": "effect",
+   "kind": "overlay",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "effects/fx_glass_reflection_01",
+   "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+   ],
+   "tags": [
+    "glass",
+    "reflection",
+    "window",
+    "barrier",
+    "separation",
+    "isolation",
+    "invisible-wall"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "fx_glow_outline_01",
+   "category": "effect",
+   "kind": "overlay",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "effects/fx_glow_outline_01",
+   "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+   ],
+   "tags": [
+    "glow",
+    "highlight",
+    "outline",
+    "focus",
+    "attention",
+    "important",
+    "chosen",
+    "spotlight"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "fx_ink_spread_01",
+   "category": "effect",
+   "kind": "overlay",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "effects/fx_ink_spread_01",
+   "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+   ],
+   "tags": [
+    "ink",
+    "splash",
+    "stain",
+    "mistake",
+    "chaos",
+    "emotion",
+    "transition",
+    "rorschach",
+    "art"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "fx_light_leak_01",
+   "category": "effect",
+   "kind": "overlay",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "effects/fx_light_leak_01",
+   "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+   ],
+   "tags": [
+    "light-leak",
+    "warm",
+    "nostalgia",
+    "memory",
+    "film",
+    "dreamy",
+    "retro",
+    "summer"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "fx_light_rays_01",
+   "category": "effect",
+   "kind": "overlay",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "effects/fx_light_rays_01",
+   "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+   ],
+   "tags": [
+    "light-rays",
+    "god-rays",
+    "sunlight",
+    "hope",
+    "revelation",
+    "insight",
+    "divine",
+    "morning"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "fx_liquid_ink_01",
+   "category": "effect",
+   "kind": "overlay",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "effects/fx_liquid_ink_01",
+   "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+   ],
+   "tags": [
+    "ink",
+    "liquid",
+    "flow",
+    "thoughts",
+    "emotion",
+    "change",
+    "creativity",
+    "subconscious",
+    "fluid"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "fx_old_film_01",
+   "category": "effect",
+   "kind": "overlay",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "effects/fx_old_film_01",
+   "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+   ],
+   "tags": [
+    "old-film",
+    "vintage",
+    "sepia",
+    "history",
+    "archive",
+    "memory",
+    "past",
+    "documentary"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "fx_paper_texture_01",
+   "category": "effect",
+   "kind": "overlay",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "effects/fx_paper_texture_01",
+   "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+   ],
+   "tags": [
+    "paper",
+    "texture",
+    "old",
+    "parchment",
+    "history",
+    "handmade",
+    "journal",
+    "vintage"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "fx_rain_01",
+   "category": "effect",
+   "kind": "overlay",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "effects/fx_rain_01",
+   "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+   ],
+   "tags": [
+    "rain",
+    "storm",
+    "sad",
+    "melancholy",
+    "lonely",
+    "night",
+    "weather",
+    "gloomy"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "fx_screen_glitch_01",
+   "category": "effect",
+   "kind": "overlay",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "effects/fx_screen_glitch_01",
+   "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+   ],
+   "tags": [
+    "glitch",
+    "distortion",
+    "digital",
+    "error",
+    "hacked",
+    "anxiety",
+    "technology",
+    "matrix"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "fx_shadow_overlay_01",
+   "category": "effect",
+   "kind": "overlay",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "effects/fx_shadow_overlay_01",
+   "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+   ],
+   "tags": [
+    "shadow",
+    "blinds",
+    "noir",
+    "secret",
+    "suspicion",
+    "manipulation",
+    "detective",
+    "dark"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "fx_smoke_01",
+   "category": "effect",
+   "kind": "overlay",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "effects/fx_smoke_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "money"
+   ],
+   "tags": [
+    "smoke",
+    "fire",
+    "burnout",
+    "destruction",
+    "loss",
+    "mystery",
+    "aftermath",
+    "pollution"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "fx_sparks_01",
+   "category": "effect",
+   "kind": "overlay",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "effects/fx_sparks_01",
+   "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+   ],
+   "tags": [
+    "sparks",
+    "spark",
+    "idea",
+    "impact",
+    "breakthrough",
+    "energy",
+    "conflict",
+    "flash",
+    "insight"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "fx_speed_lines_01",
+   "category": "effect",
+   "kind": "overlay",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "effects/fx_speed_lines_01",
+   "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+   ],
+   "tags": [
+    "speed-lines",
+    "motion",
+    "focus",
+    "impact",
+    "shock",
+    "realization",
+    "fast",
+    "urgency",
+    "manga"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "fx_vignette_01",
+   "category": "effect",
+   "kind": "overlay",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "effects/fx_vignette_01",
+   "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+   ],
+   "tags": [
+    "vignette",
+    "dark-edges",
+    "focus",
+    "cinematic",
+    "mood",
+    "tension",
+    "memory"
    ],
    "license": "LicenseRef-Erkasa-Original"
   },
@@ -8351,6 +9022,32 @@
    "license": "LicenseRef-Erkasa-Original"
   },
   {
+   "assetId": "prop_ancient_map_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_ancient_map_01",
+   "themes": [
+    "philosophy",
+    "decisions",
+    "science"
+   ],
+   "tags": [
+    "map",
+    "ancient-map",
+    "world-map",
+    "exploration",
+    "journey",
+    "history",
+    "discovery",
+    "unknown",
+    "route",
+    "plan"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
    "assetId": "prop_apartment_building_01",
    "category": "object",
    "kind": "prop",
@@ -9056,6 +9753,32 @@
     "monitoring",
     "command-center",
     "levers"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_crowd_mass_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "props/prop_crowd_mass_01",
+   "themes": [
+    "psychology",
+    "everyday",
+    "decisions"
+   ],
+   "tags": [
+    "crowd",
+    "people",
+    "mass",
+    "audience",
+    "public",
+    "herd",
+    "social-proof",
+    "bystander",
+    "anonymous",
+    "society"
    ],
    "license": "LicenseRef-Erkasa-Original"
   },
@@ -10522,6 +11245,32 @@
     "contract",
     "planning",
     "journal"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_people_group_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_flat_v1",
+   "path": "props/prop_people_group_01",
+   "themes": [
+    "psychology",
+    "everyday",
+    "decisions"
+   ],
+   "tags": [
+    "group",
+    "people",
+    "team",
+    "colleagues",
+    "friends",
+    "social",
+    "conformity",
+    "peer-pressure",
+    "belonging",
+    "in-group"
    ],
    "license": "LicenseRef-Erkasa-Original"
   },

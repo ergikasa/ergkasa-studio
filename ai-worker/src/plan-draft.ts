@@ -116,7 +116,9 @@ export const DRAFT_SCHEMA: StrictSchema = obj({
           to: num("Zoom target for push_in/pull_out/punch_in (e.g. 1.08), pan amount for pans; 0 = default."),
         }),
       ),
-      effects: arr(obj({ preset: str("Particle effect name."), intensity: num("0..1") })),
+      effects: arr(
+        obj({ preset: str("Particle effect name or a screen overlay id (fx_...)."), intensity: num("0..1") }),
+      ),
       transition: { type: "string", enum: [...TRANSITION], description: "Transition into the next scene." },
       transitionDirection: { type: "string", enum: ["none", "left", "right", "up", "down"] },
     }),

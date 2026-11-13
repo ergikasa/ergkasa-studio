@@ -1,7 +1,15 @@
 import { z } from "zod";
 import { AssetId, Theme, Vec2 } from "./common.js";
 
-export const AssetCategory = z.enum(["character", "background", "metaphor", "object", "icon", "audio"]);
+export const AssetCategory = z.enum([
+  "character",
+  "background",
+  "metaphor",
+  "object",
+  "icon",
+  "audio",
+  "effect",
+]);
 
 export const AssetKind = z.enum([
   "rigged_character",
@@ -15,6 +23,8 @@ export const AssetKind = z.enum([
   "particle_preset",
   "audio_music",
   "audio_sfx",
+  /** Visual effect drawn over the scene (capabilities.placement: screen = full frame, world = placed like an object). */
+  "overlay",
 ]);
 
 /** Which engine adapter renders the asset. Every kind maps to exactly one adapter. */

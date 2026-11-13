@@ -1,0 +1,58 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "fx_paper_texture_01",
+  "version": 1,
+  "name": "Teksturë letre",
+  "description": "A warm paper texture: faint fibres, specks and slightly darker edges over the whole frame.",
+  "category": "effect",
+  "subcategory": "overlay",
+  "collection": "effects",
+  "storyUse": "Gives scenes a handmade, printed or historical feel: stories from the past, a diary, a philosophical text.",
+  "kind": "overlay",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    1080,
+    1920
+  ],
+  "capabilities": {
+    "placement": "screen",
+    "animations": [
+      "fade"
+    ],
+    "cover": "shtrihet që të mbulojë kuadrin; opaciteti = intensiteti"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ]
+  },
+  "parts": {},
+  "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+  ],
+  "tags": [
+    "paper",
+    "texture",
+    "old",
+    "parchment",
+    "history",
+    "handmade",
+    "journal",
+    "vintage"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

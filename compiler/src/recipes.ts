@@ -43,7 +43,7 @@ export const GENERIC_RECIPES: Record<string, Recipe> = {
 };
 
 /** Continuous motions, set from a moment until the end of the scene (engine props.idle). */
-export const IDLE_MOTIONS = ["float", "bob", "spin", "pulse", "sway"] as const;
+export const IDLE_MOTIONS = ["float", "bob", "spin", "pulse", "sway", "jitter", "drift"] as const;
 
 function sequence(
   parts: string[],

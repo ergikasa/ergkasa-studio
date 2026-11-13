@@ -1,0 +1,59 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "fx_rain_01",
+  "version": 1,
+  "name": "Shi",
+  "description": "Slanted rain streaks over the whole frame with a cool, dim wash and small splashes near the bottom.",
+  "category": "effect",
+  "subcategory": "overlay",
+  "collection": "effects",
+  "storyUse": "Sadness, loneliness, a hard time, gloomy weather over a scene. For falling animated drops use the rain particle effect.",
+  "kind": "overlay",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    1080,
+    1920
+  ],
+  "capabilities": {
+    "placement": "screen",
+    "animations": [
+      "fade"
+    ],
+    "idle": "jitter",
+    "cover": "shtrihet që të mbulojë kuadrin; opaciteti = intensiteti"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ]
+  },
+  "parts": {},
+  "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+  ],
+  "tags": [
+    "rain",
+    "storm",
+    "sad",
+    "melancholy",
+    "lonely",
+    "night",
+    "weather",
+    "gloomy"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

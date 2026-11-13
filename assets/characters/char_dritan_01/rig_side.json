@@ -1,0 +1,291 @@
+{
+  "schema": "erkasa.rig/1",
+  "assetId": "char_dritan_01",
+  "skeleton": "erkasa_biped_side_v1",
+  "units": "px",
+  "canvas": [
+    400,
+    880
+  ],
+  "ground": [
+    200,
+    872
+  ],
+  "bones": [
+    {
+      "id": "root",
+      "parent": null,
+      "pivot": [
+        200,
+        870
+      ],
+      "z": 0,
+      "svgGroup": "root"
+    },
+    {
+      "id": "arm_upper_f",
+      "parent": "torso",
+      "pivot": [
+        200,
+        240
+      ],
+      "z": 1,
+      "svgGroup": "arm_upper_f"
+    },
+    {
+      "id": "arm_lower_f",
+      "parent": "arm_upper_f",
+      "pivot": [
+        200,
+        338
+      ],
+      "z": 1,
+      "svgGroup": "arm_lower_f"
+    },
+    {
+      "id": "hand_f",
+      "parent": "arm_lower_f",
+      "pivot": [
+        200,
+        440
+      ],
+      "z": 1,
+      "svgGroup": "hand_f"
+    },
+    {
+      "id": "thigh_f",
+      "parent": "root",
+      "pivot": [
+        200,
+        474
+      ],
+      "z": 2,
+      "svgGroup": "thigh_f"
+    },
+    {
+      "id": "shin_f",
+      "parent": "thigh_f",
+      "pivot": [
+        200,
+        642
+      ],
+      "z": 2,
+      "svgGroup": "shin_f"
+    },
+    {
+      "id": "foot_f",
+      "parent": "shin_f",
+      "pivot": [
+        200,
+        828
+      ],
+      "z": 2,
+      "svgGroup": "foot_f"
+    },
+    {
+      "id": "torso",
+      "parent": "root",
+      "pivot": [
+        200,
+        430
+      ],
+      "z": 3,
+      "svgGroup": "torso"
+    },
+    {
+      "id": "thigh_n",
+      "parent": "root",
+      "pivot": [
+        200,
+        474
+      ],
+      "z": 4,
+      "svgGroup": "thigh_n"
+    },
+    {
+      "id": "shin_n",
+      "parent": "thigh_n",
+      "pivot": [
+        200,
+        642
+      ],
+      "z": 4,
+      "svgGroup": "shin_n"
+    },
+    {
+      "id": "foot_n",
+      "parent": "shin_n",
+      "pivot": [
+        200,
+        828
+      ],
+      "z": 4,
+      "svgGroup": "foot_n"
+    },
+    {
+      "id": "neck",
+      "parent": "torso",
+      "pivot": [
+        200,
+        222
+      ],
+      "z": 5,
+      "svgGroup": "neck"
+    },
+    {
+      "id": "head",
+      "parent": "neck",
+      "pivot": [
+        200,
+        212
+      ],
+      "z": 6,
+      "svgGroup": "head"
+    },
+    {
+      "id": "arm_upper_n",
+      "parent": "torso",
+      "pivot": [
+        200,
+        240
+      ],
+      "z": 7,
+      "svgGroup": "arm_upper_n"
+    },
+    {
+      "id": "arm_lower_n",
+      "parent": "arm_upper_n",
+      "pivot": [
+        200,
+        338
+      ],
+      "z": 7,
+      "svgGroup": "arm_lower_n"
+    },
+    {
+      "id": "hand_n",
+      "parent": "arm_lower_n",
+      "pivot": [
+        200,
+        440
+      ],
+      "z": 7,
+      "svgGroup": "hand_n"
+    }
+  ],
+  "slots": {
+    "eyes": [
+      "neutral",
+      "happy",
+      "sad",
+      "surprised",
+      "angry",
+      "thinking",
+      "blink"
+    ],
+    "brows": [
+      "neutral",
+      "happy",
+      "sad",
+      "surprised",
+      "angry",
+      "thinking"
+    ],
+    "mouth": [
+      "neutral",
+      "happy",
+      "sad",
+      "surprised",
+      "angry",
+      "thinking",
+      "talk_a",
+      "talk_e",
+      "talk_o"
+    ],
+    "item": [
+      "neutral",
+      "phone",
+      "document"
+    ]
+  },
+  "expressions": {
+    "neutral": {
+      "eyes": "neutral",
+      "brows": "neutral",
+      "mouth": "neutral"
+    },
+    "happy": {
+      "eyes": "happy",
+      "brows": "happy",
+      "mouth": "happy"
+    },
+    "sad": {
+      "eyes": "sad",
+      "brows": "sad",
+      "mouth": "sad"
+    },
+    "surprised": {
+      "eyes": "surprised",
+      "brows": "surprised",
+      "mouth": "surprised"
+    },
+    "angry": {
+      "eyes": "angry",
+      "brows": "angry",
+      "mouth": "angry"
+    },
+    "thinking": {
+      "eyes": "thinking",
+      "brows": "thinking",
+      "mouth": "thinking"
+    }
+  },
+  "visemes": {
+    "rest": "neutral",
+    "A": "talk_a",
+    "E": "talk_e",
+    "I": "talk_e",
+    "O": "talk_o",
+    "U": "talk_o",
+    "MBP": "neutral",
+    "FV": "talk_e"
+  },
+  "limits": {
+    "thigh_n": [
+      -95,
+      40
+    ],
+    "thigh_f": [
+      -95,
+      40
+    ],
+    "shin_n": [
+      0,
+      110
+    ],
+    "shin_f": [
+      0,
+      110
+    ],
+    "arm_upper_n": [
+      -120,
+      60
+    ],
+    "arm_upper_f": [
+      -120,
+      60
+    ],
+    "arm_lower_n": [
+      -130,
+      0
+    ],
+    "arm_lower_f": [
+      -130,
+      0
+    ],
+    "head": [
+      -15,
+      15
+    ]
+  }
+}

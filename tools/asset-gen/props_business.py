@@ -413,12 +413,23 @@ def warehouse(d: Defs):
 
 
 def shipping_container(d: Defs):
-    w, h = 860, 380
-    body = (contact_shadow(d, 430, h, 420, 16)
-            + g("container", rect(20, 30, 820, 330, d.v("ct", P["orange"], P["orange_d"]), rx=4)
-                + "".join(rect(40 + i * 40, 50, 20, 290, P["orange_d"], extra='opacity="0.45"') for i in range(20))
-                + rect(20, 30, 820, 20, P["orange_d"]) + rect(20, 340, 820, 20, P["orange_d"])
-                + "".join(rect(x, 30, 26, 26, P["slate_d"]) + rect(x, 334, 26, 26, P["slate_d"]) for x in (20, 814))))
+    """Kontejner 20 këmbësh në 3/4: ana e gjatë me brinjë valore, dyert përpara me shufra kyçjeje, kulmi."""
+    w, h = 900, 420
+    x0, x1, top, bot = 40, 640, 80, 380          # ana e gjatë
+    dx, dy = 210, -50                              # thellësia drejt dyerve (djathtas, lart)
+    side = rect(x0, top, x1 - x0, bot - top, d.v("side", P["orange"], P["orange_d"]))
+    ribs = "".join(rect(x, top + 10, 14, bot - top - 20, P["orange_d"], extra='fill-opacity="0.55"')
+                   + rect(x + 14, top + 10, 6, bot - top - 20, P["gold_l"], extra='fill-opacity="0.35"') for x in range(x0 + 22, x1 - 20, 30))
+    frame = (rect(x0, top, x1 - x0, 14, P["red_d"]) + rect(x0, bot - 16, x1 - x0, 16, P["red_d"])
+             + rect(x0, top, 18, bot - top, P["red_d"]) + rect(x1 - 18, top, 18, bot - top, P["red_d"]))
+    roof = poly([(x0, top), (x1, top), (x1 + dx, top + dy), (x0 + dx, top + dy)], d.d("roof", P["gold"], P["orange_d"]))
+    front = poly([(x1, top), (x1 + dx, top + dy), (x1 + dx, bot + dy), (x1, bot)], d.h("front", P["orange_d"], P["red_d"]))
+    door_line = line(f"M{x1 + dx / 2},{top + dy / 2 + 6} L{x1 + dx / 2},{bot + dy / 2 - 6}", P["red_d"], 5)
+    bars = "".join(line(f"M{x1 + dx * t},{top + dy * t + 16} L{x1 + dx * t},{bot + dy * t - 14}", P["steel_d"], 6)
+                   + rect(x1 + dx * t - 10, (top + bot) / 2 + dy * t - 8, 20, 16, P["steel_dd"], rx=3) for t in (0.18, 0.36, 0.64, 0.82))
+    corners = "".join(rect(x, y, 22, 22, P["slate_d"], rx=3) for x, y in ((x0 - 2, top - 2), (x0 - 2, bot - 20), (x1 - 20, top - 2), (x1 - 20, bot - 20)))
+    body = (contact_shadow(d, (x0 + x1 + dx) / 2, h, 440, 18)
+            + g("container", roof + side + ribs + frame + front + door_line + bars + corners))
     return obj("Kontejner transporti", (w, h), body, {"ground": [0.5, 1.0]},
                ["container", "shipping", "trade", "globalization", "import", "export", "supply-chain", "logistics", "economy"],
                {"container": "slide (x) / pop_in"},

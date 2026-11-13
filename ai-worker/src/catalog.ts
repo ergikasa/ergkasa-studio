@@ -45,6 +45,8 @@ export class Catalog {
   readonly backgrounds: AssetInfo[] = [];
   readonly metaphors: AssetInfo[] = [];
   readonly props: AssetInfo[] = [];
+  /** Screen overlay effects (vignette, film grain...), used in a scene's `effects`. */
+  readonly overlays: AssetInfo[] = [];
   readonly source: FsAssetSource;
 
   constructor(readonly assetsDir: string) {
@@ -68,6 +70,10 @@ export class Catalog {
           ),
         );
       else if (m.category === "object" || m.category === "icon") this.props.push(info(m));
+      else if (m.category === "effect") {
+        if (m.capabilities["placement"] === "screen") this.overlays.push(info(m));
+        else this.props.push(info(m)); // fire, smoke, sparks...: placed like objects
+      }
     }
   }
 
@@ -84,7 +90,7 @@ export class Catalog {
       text
         .toLowerCase()
         .split(/[^a-z0-9]+/)
-        .filter((w) => w.length >= 3),
+        .filter((w) => w.length >= 3 && !STOP_WORDS.has(w)),
     );
     const stems = [...words].map((w) => w.replace(/(ing|ed|es|s)$/, "")).filter((w) => w.length >= 3);
     const scored = this.props.map((p) => {
@@ -94,8 +100,13 @@ export class Catalog {
         if (words.has(tl)) score += 3;
         else if (stems.some((s) => tl.startsWith(s))) score += 1;
       }
-      const hay = `${p.id} ${p.name} ${p.about ?? ""}`.toLowerCase();
+      const hay = `${p.id} ${p.name}`.toLowerCase();
       for (const s of stems) if (hay.includes(s)) score += 1;
+      // the description and story use help, but never outweigh a tag: long prose would match everything
+      const about = (p.about ?? "").toLowerCase();
+      score += Math.min(2, stems.filter((s) => about.includes(s)).length);
+      // same concept drawn in the house style and as an emoji: prefer the house style
+      if (score > 0 && p.id.startsWith("prop_")) score += 0.5;
       return { p, score };
     });
     return scored
@@ -124,19 +135,34 @@ export class Catalog {
     lines.push(
       "## Characters (type actor). Use `front` actions when facing front, `side` actions when facing left/right.",
     );
-    for (const c of this.characters)
-      lines.push(
-        `- ${c.id}: ${c.name} (${c.tags.join(", ")}) | front: ${c.front.join(", ")} | side: ${c.side.join(", ")} | expressions: ${c.expressions.join(", ")} | can hold: ${c.items.join(", ") || "nothing"}${c.outfits.length > 1 ? ` | outfits: ${c.outfits.join(", ")}` : ""}`,
+    // the actions are shared by (almost) every character: listed once, then only the differences
+    const shared = (pick: (c: CharacterInfo) => string[]): string[] =>
+      (pick(this.characters[0] as CharacterInfo) ?? []).filter((a) =>
+        this.characters.every((c) => pick(c).includes(a)),
       );
+    const front = shared((c) => c.front);
+    const side = shared((c) => c.side);
+    const expressions = shared((c) => c.expressions);
+    lines.push(
+      `All characters: front: ${front.join(", ")} | side: ${side.join(", ")} | expressions: ${expressions.join(", ")}`,
+    );
+    for (const c of this.characters) {
+      const extra = [
+        ...c.front.filter((a) => !front.includes(a)).map((a) => `front ${a}`),
+        ...c.side.filter((a) => !side.includes(a)).map((a) => `side ${a}`),
+        ...c.expressions.filter((e) => !expressions.includes(e)).map((e) => `expression ${e}`),
+      ];
+      lines.push(
+        `- ${c.id}: ${c.name} (${c.tags.join(", ")}) | can hold: ${c.items.join(", ") || "nothing"}${c.outfits.length > 1 ? ` | outfits: ${c.outfits.join(", ")}` : ""}${extra.length ? ` | also: ${extra.join(", ")}` : ""}`,
+      );
+    }
     lines.push(
       "\n## Staged sets (scene.set). Actors on a set use `blocking` (marks below) instead of x and walk actions.",
     );
     lines.push(describeSets());
-    const setProps = this.props.filter((p) => p.id.startsWith("prop_"));
-    if (setProps.length)
-      lines.push(
-        `\n## Scene props in the house style (type object; on a set they can attachTo an actor): ${setProps.map((p) => `${p.id} (${p.tags.slice(0, 4).join(", ")})`).join("; ")}`,
-      );
+    lines.push(
+      "Scene props in the house style (prop_*, in the object list below) can attachTo an actor on a set.",
+    );
     lines.push("\n## Backgrounds (scene.background)");
     for (const b of this.backgrounds) lines.push(`- ${b.id}: ${b.tags.join(", ")}; ${b.extra}`);
     lines.push("\n## Metaphors (type metaphor). Animation names are exact; play them with `animations`.");
@@ -147,15 +173,28 @@ export class Catalog {
     lines.push(
       `\n## Objects and icons (type object or icon) relevant to this script (${props.length} of ${this.props.length}). Animations: ${Object.keys(GENERIC_RECIPES).join(", ")}, ${IDLE_MOTIONS.join(", ")}.`,
     );
-    for (const p of props) lines.push(`- ${p.id} (${p.category}): ${p.tags.join(", ")}`);
+    for (const p of props) lines.push(`- ${p.id} (${p.category}): ${p.tags.slice(0, 8).join(", ")}`);
     lines.push(`\n## Text styles: ${this.textStyles.join(", ")}`);
     lines.push(`## Chart kinds: ${CHART_KINDS.join(", ")}`);
     lines.push(`## Camera moves: ${CameraMove.shape.move.options.join(", ")}`);
     lines.push(`## Transitions: ${Transition.shape.type.options.join(", ")}`);
     lines.push(`## Particle effects: ${PARTICLE_PRESETS.join(", ")}`);
+    if (this.overlays.length)
+      lines.push(
+        `## Screen overlays (scene effects, preset = id; intensity = strength, keep 0.2-0.5 for textures): ${this.overlays
+          .map((o) => `${o.id} (${o.tags.slice(0, 4).join(", ")})`)
+          .join("; ")}`,
+      );
     return lines.join("\n");
   }
 }
+
+/** Words that say nothing about a picture; as stems they would match half the library ("and" in "hand"). */
+const STOP_WORDS = new Set(
+  "and the for with you your are was were our that this these those from into not but its they them their has have had what when why how who all can will just than then there here about over more most very much".split(
+    " ",
+  ),
+);
 
 function strings(v: unknown): string[] {
   return Array.isArray(v) ? v.filter((x): x is string => typeof x === "string") : [];

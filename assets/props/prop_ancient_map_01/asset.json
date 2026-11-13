@@ -1,0 +1,67 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_ancient_map_01",
+  "version": 1,
+  "name": "Hartë e lashtë",
+  "description": "An old parchment map on two rods: two invented continents, islands, mountains, a dotted red route and a compass rose. No text.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "philosophy",
+  "storyUse": "Exploration and the unknown, a long journey or plan, history of trade and empires; the map is not the territory.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    820,
+    600
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ],
+    "route_end": [
+      0.6902439024390243,
+      0.6
+    ]
+  },
+  "parts": {
+    "map": "pop_in, slide"
+  },
+  "themes": [
+    "philosophy",
+    "decisions",
+    "science"
+  ],
+  "tags": [
+    "map",
+    "ancient-map",
+    "world-map",
+    "exploration",
+    "journey",
+    "history",
+    "discovery",
+    "unknown",
+    "route",
+    "plan"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

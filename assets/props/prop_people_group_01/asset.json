@@ -1,0 +1,61 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_people_group_01",
+  "version": 1,
+  "name": "Grup njerëzish",
+  "description": "A group of six ordinary people standing together in two staggered rows; the middle pair turn towards each other. Generic extras, not the main cast.",
+  "category": "object",
+  "subcategory": "people",
+  "collection": "characters",
+  "storyUse": "Social groups, belonging, peer pressure, conformity (Asch), the in-group; a group the protagonist joins or stands apart from.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_flat_v1",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    1120,
+    839
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide",
+      "bob"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ]
+  },
+  "themes": [
+    "psychology",
+    "everyday",
+    "decisions"
+  ],
+  "tags": [
+    "group",
+    "people",
+    "team",
+    "colleagues",
+    "friends",
+    "social",
+    "conformity",
+    "peer-pressure",
+    "belonging",
+    "in-group"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

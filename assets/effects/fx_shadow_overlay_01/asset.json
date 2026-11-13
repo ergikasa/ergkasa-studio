@@ -1,0 +1,58 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "fx_shadow_overlay_01",
+  "version": 1,
+  "name": "Hije grilash",
+  "description": "Diagonal shadows of window blinds and a window frame falling across the scene, film-noir style.",
+  "category": "effect",
+  "subcategory": "overlay",
+  "collection": "effects",
+  "storyUse": "Secrets, suspicion, manipulation and hidden motives; an interrogation or a detective mood.",
+  "kind": "overlay",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    1080,
+    1920
+  ],
+  "capabilities": {
+    "placement": "screen",
+    "animations": [
+      "fade"
+    ],
+    "cover": "shtrihet që të mbulojë kuadrin; opaciteti = intensiteti"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ]
+  },
+  "parts": {},
+  "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+  ],
+  "tags": [
+    "shadow",
+    "blinds",
+    "noir",
+    "secret",
+    "suspicion",
+    "manipulation",
+    "detective",
+    "dark"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

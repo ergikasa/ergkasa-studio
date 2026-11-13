@@ -32,7 +32,8 @@
         "metaphor",
         "object",
         "icon",
-        "audio"
+        "audio",
+        "effect"
       ]
     },
     "subcategory": {
@@ -59,7 +60,8 @@
         "lottie",
         "particle_preset",
         "audio_music",
-        "audio_sfx"
+        "audio_sfx",
+        "overlay"
       ]
     },
     "adapter": {

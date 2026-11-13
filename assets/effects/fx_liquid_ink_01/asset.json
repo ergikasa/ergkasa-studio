@@ -1,0 +1,64 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "fx_liquid_ink_01",
+  "version": 1,
+  "name": "Bojë e lëngshme",
+  "description": "Flowing ribbons of dark ink curling upwards, with a few round droplets.",
+  "category": "effect",
+  "subcategory": "local",
+  "collection": "effects",
+  "storyUse": "Thoughts and feelings flowing, the subconscious, creativity, change that cannot be held still.",
+  "kind": "overlay",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    900,
+    1200
+  ],
+  "capabilities": {
+    "placement": "world",
+    "animations": [
+      "fade",
+      "pop_in",
+      "grow"
+    ],
+    "idle": "sway",
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "bottom": [
+      0.5,
+      1.0
+    ]
+  },
+  "parts": {
+    "ink": "sway"
+  },
+  "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+  ],
+  "tags": [
+    "ink",
+    "liquid",
+    "flow",
+    "thoughts",
+    "emotion",
+    "change",
+    "creativity",
+    "subconscious",
+    "fluid"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

@@ -219,7 +219,11 @@ export const ScenePlan = z
     effects: z
       .array(
         z
-          .object({ preset: z.string().regex(/^[a-z_]+$/), intensity: z.number().min(0).max(1).default(0.5) })
+          .object({
+            /** A particle preset (dust, rain...) or the id of a screen overlay effect (fx_vignette_01...). */
+            preset: z.string().regex(/^[a-z][a-z0-9_]*$/),
+            intensity: z.number().min(0).max(1).default(0.5),
+          })
           .strict(),
       )
       .default([]),

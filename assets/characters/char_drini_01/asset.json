@@ -44,7 +44,13 @@
         "facepalm",
         "stressed",
         "slump",
-        "shrug"
+        "shrug",
+        "cross_arms",
+        "argue",
+        "negotiate",
+        "present",
+        "observe",
+        "look_up"
       ],
       "side": [
         "idle",
@@ -63,7 +69,10 @@
         "seated_type",
         "seated_nod",
         "seated_read",
-        "seated_give"
+        "seated_give",
+        "shake_hands",
+        "fall",
+        "climb"
       ]
     },
     "items": [
@@ -87,7 +96,8 @@
     "outfits": {
       "default": "default",
       "available": [
-        "default"
+        "default",
+        "business"
       ]
     }
   },
@@ -122,5 +132,9 @@
     "source": "Erkasa (origjinal, i gjeneruar me kod)",
     "commercial": true,
     "attributionRequired": false
+  },
+  "variants": {
+    "business": "outfits/business.svg",
+    "business_side": "outfits/business_side.svg"
   }
 }

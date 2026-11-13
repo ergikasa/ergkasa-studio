@@ -1,0 +1,63 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "fx_speed_lines_01",
+  "version": 1,
+  "name": "Vija shpejtësie",
+  "description": "Radial speed lines rushing in from the edges towards the centre (variant `horizontal`: horizontal motion streaks).",
+  "category": "effect",
+  "subcategory": "overlay",
+  "collection": "effects",
+  "storyUse": "A sudden realisation or shock, urgency and speed, all focus on one thing. The horizontal variant suggests fast movement.",
+  "kind": "overlay",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "variants": {
+    "horizontal": "horizontal.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    1080,
+    1920
+  ],
+  "capabilities": {
+    "placement": "screen",
+    "animations": [
+      "fade"
+    ],
+    "idle": "jitter",
+    "cover": "shtrihet që të mbulojë kuadrin; opaciteti = intensiteti"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ]
+  },
+  "parts": {},
+  "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+  ],
+  "tags": [
+    "speed-lines",
+    "motion",
+    "focus",
+    "impact",
+    "shock",
+    "realization",
+    "fast",
+    "urgency",
+    "manga"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

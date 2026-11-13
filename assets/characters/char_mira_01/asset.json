@@ -1,0 +1,137 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "char_mira_01",
+  "version": 1,
+  "name": "Mira",
+  "description": "Grua rreth 50 vjeç, flokë bob ngjyrë gështenjë, kardigan bordo mbi bluzë të bardhë. Nënë, mësuese, profesioniste me përvojë.",
+  "category": "character",
+  "subcategory": "human",
+  "kind": "rigged_character",
+  "adapter": "character",
+  "style": "erkasa_flat_v1",
+  "files": {
+    "svg": "asset.svg",
+    "rig": "rig.json",
+    "svg_side": "asset_side.svg",
+    "rig_side": "rig_side.json"
+  },
+  "viewBox": [
+    0,
+    0,
+    400,
+    880
+  ],
+  "capabilities": {
+    "facings": [
+      "front",
+      "left",
+      "right"
+    ],
+    "actions": {
+      "front": [
+        "idle",
+        "talk",
+        "wave",
+        "point_side",
+        "point_side_left",
+        "think",
+        "arms_up",
+        "nod",
+        "shake_head",
+        "use_phone",
+        "read",
+        "check_watch",
+        "facepalm",
+        "stressed",
+        "slump",
+        "shrug",
+        "cross_arms",
+        "argue",
+        "negotiate",
+        "present",
+        "observe",
+        "look_up"
+      ],
+      "side": [
+        "idle",
+        "walk",
+        "run",
+        "talk",
+        "point_forward",
+        "jump",
+        "walk_phone",
+        "type",
+        "give",
+        "sit",
+        "stand_up",
+        "seated",
+        "seated_talk",
+        "seated_type",
+        "seated_nod",
+        "seated_read",
+        "seated_give",
+        "shake_hands",
+        "fall",
+        "climb"
+      ]
+    },
+    "items": [
+      "phone",
+      "document"
+    ],
+    "poses": [
+      "standing",
+      "seated"
+    ],
+    "expressions": [
+      "neutral",
+      "happy",
+      "sad",
+      "surprised",
+      "angry",
+      "thinking"
+    ],
+    "visemes": "erkasa8",
+    "canHold": [],
+    "outfits": {
+      "default": "default",
+      "available": [
+        "default"
+      ]
+    }
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      0.99
+    ],
+    "head": "bone:head",
+    "hand_l": "bone:hand_l",
+    "hand_r": "bone:hand_r"
+  },
+  "sizing": {
+    "heightRatio": 0.42
+  },
+  "themes": [
+    "psychology",
+    "money",
+    "growth",
+    "philosophy",
+    "science",
+    "decisions"
+  ],
+  "tags": [
+    "female",
+    "middle-aged",
+    "adult",
+    "mother",
+    "teacher",
+    "professional"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

@@ -234,12 +234,13 @@ def bg_prison_cell(d):
              + rect(1460, 300, 300, 220, P["slate_dd"]) + rect(1476, 316, 268, 188, d.v("night", P["night"], P["night3"])) + circle(1680, 380, 26, P["warm_light2"])
              + "".join(rect(1490 + k * 52, 300, 14, 220, P["slate_d"]) for k in range(5))
              + poly([(1476, 504), (1744, 504), (1500, 1560), (900, 1560)], d.v("beam", P["sky_l"], P["blue_l"]), 'opacity="0.18"')
-             + rect(X0, 300, 700 - X0, 1260, P["slate_dd"], extra='opacity="0.25"') + "".join(rect(x, 300, 22, 1260, d.h(f"bar{x % 3}", P["steel"], P["slate_dd"])) for x in range(X0 + 40, 700, 80))
-             + rect(X0, 300, 1100, 30, P["slate_d"]) + rect(X0, 900, 1100, 24, P["slate_d"])
+             + rect(X0, 300, 1020 - X0, 1260, P["slate_dd"], extra='opacity="0.25"') + "".join(rect(x, 300, 22, 1260, d.h(f"bar{x % 3}", P["steel"], P["slate_dd"])) for x in range(X0 + 40, 1020, 80))
+             + rect(X0, 300, 1040 - X0, 30, P["slate_d"]) + rect(X0, 900, 1040 - X0, 24, P["slate_d"])
+             + rect(1020, 300, 26, 1260, d.h("post", P["steel"], P["slate_dd"]))
              + rect(X0, FLOOR_Y - 30, X1 - X0, 30, P["slate_d"]))
     floor = floor_plain(d, P["slate_l"], P["slate_d"]) + poly([(900, FLOOR_Y), (1500, FLOOR_Y), (1600, 2000), (760, 2000)], P["blue_l"], 'opacity="0.18"')
     return ([("wall", 0, wallc), ("floor", 0, floor)],
-            {"mood": ["trapped", "cold", "night", "lonely", "regret"], "anchors": {"window": [1610, 410], "light_spot": [1200, GROUND_Y], "bars": [300, 1000]}},
+            {"mood": ["trapped", "cold", "night", "lonely", "regret"], "anchors": {"window": [1610, 410], "light_spot": [1200, GROUND_Y], "bars": [880, 1000]}},
             "Qeli burgu", ["prison", "cell", "trapped", "punishment", "regret", "isolation", "consequences", "indoor", "night"], ["psychology", "decisions", "philosophy"],
             "A cold prison cell: grey block walls, iron bars on the left, a small barred window with the moon and a pale beam of light on the floor.",
             "Being trapped: consequences of choices, guilt and regret, isolation, the prisoner's dilemma, mental prisons.")
@@ -316,16 +317,18 @@ def bg_stairwell(d):
 
 
 def bg_elevator(d):
-    back = (720, 160, 1840, 1500)
+    back = (980, 220, 1580, 1440)        # mur i pasmë i ngushtë: në 9:16 duken edhe muret anësore dhe paneli
     sheet = corridor(d, (1280, 830), back, (P["steel_l"], P["steel_d"]), (P["steel_l"], P["steel_d"]), (P["white"], P["steel_l"]), (P["slate"], P["slate_d"]))
     wallc = (sheet + rect(back[0], back[1], back[2] - back[0], back[3] - back[1], d.d("mirror", P["sky_l"], P["glass"]))
              + sheen(f"M{back[0] + 80},{back[1]} L{back[0] + 260},{back[1]} L{back[0] + 120},{back[3]} L{back[0]},{back[3]} L{back[0]},{back[1] + 300} Z", 0.25)
              + rect(back[0], 1060, back[2] - back[0], 22, P["steel_dd"], rx=11)
              + poly([(X0, 1100), (back[0], 1060), (back[0], 1080), (X0, 1130)], P["steel_dd"]) + poly([(X1, 1100), (back[2], 1060), (back[2], 1080), (X1, 1130)], P["steel_dd"])
-             + rect(2060, 760, 140, 460, d.v("panel", P["steel"], P["steel_d"]), rx=10) + "".join(circle(2100 + (k % 2) * 60, 820 + (k // 2) * 70, 18, P["warm_light"] if k == 5 else P["white"]) for k in range(10))
+             + poly([(1640, 700), (1760, 676), (1760, 1220), (1640, 1180)], d.v("panel", P["steel"], P["steel_d"]))
+             + "".join(ellipse(1672 + (k % 2) * 54, 760 + (k // 2) * 74 - (k % 2) * 8, 15, 17, P["warm_light"] if k == 5 else P["white"]) for k in range(10))
+
              + ellipse(1280, 160, 560, 120, d.glow("ceil", P["white"], 0.7, 0.0)))
     return ([("wall", 0, wallc)],
-            {"mood": ["confined", "awkward", "neutral", "social-pressure"], "anchors": {"center": [1280, GROUND_Y], "mirror": [1280, 760]}, "actorZone": [[740, 1820]]},
+            {"mood": ["confined", "awkward", "neutral", "social-pressure"], "anchors": {"center": [1280, GROUND_Y], "mirror": [1280, 760], "buttons": [1700, 900]}, "actorZone": [[740, 1820]]},
             "Brendësi e ashensorit", ["elevator", "lift", "confined", "awkward", "social-norms", "office", "indoor", "small-talk"], ["psychology", "decisions", "growth"],
             "Inside an elevator: brushed steel side walls, a mirrored back wall, a handrail, a button panel and bright ceiling light.",
             "Awkward social moments: elevator silence, conformity experiments (everyone facing the wrong way), small talk, confined spaces.")

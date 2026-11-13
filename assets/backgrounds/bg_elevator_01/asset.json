@@ -41,6 +41,10 @@
     "mirror": [
       1280,
       760
+    ],
+    "buttons": [
+      1700,
+      900
     ]
   },
   "safeFrames": {

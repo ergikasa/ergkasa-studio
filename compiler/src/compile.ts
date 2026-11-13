@@ -204,13 +204,16 @@ export function compileVideo(planInput: unknown, opts: CompileOptions): CompileR
     });
     scene.effects.forEach((e, ei) => {
       if (!PARTICLE_PRESETS.includes(e.preset)) {
-        issues.push({
-          level: "error",
-          code: "EFFECT_UNKNOWN",
-          path: `${path}.effects[${ei}].preset`,
-          message: `unknown effect '${e.preset}'`,
-          hint: `available: ${PARTICLE_PRESETS.join(", ")}`,
-        });
+        const overlay = screenOverlay(e.preset, e.intensity, ei, width, height, duration, opts.assets);
+        if (overlay) nodes.push(overlay);
+        else
+          issues.push({
+            level: "error",
+            code: "EFFECT_UNKNOWN",
+            path: `${path}.effects[${ei}].preset`,
+            message: `unknown effect '${e.preset}'`,
+            hint: `particles: ${PARTICLE_PRESETS.join(", ")}; or the id of a screen overlay (category effect, placement screen)`,
+          });
         return;
       }
       nodes.push({
@@ -869,14 +872,77 @@ function attachToActor(
 // --- objects, icons, metaphors ------------------------------------------------------------------
 const DEFAULT_SIZE: Record<string, number> = { object: 0.3, icon: 0.16, metaphor: 0.85 };
 
+/**
+ * A screen overlay effect (vignette, film grain...): one SVG over the whole frame, in screen space, scaled to
+ * cover the frame whatever the format. Intensity is its strength (baked into the drawing); it fades in over a few frames.
+ * Undefined when `id` is not a screen overlay in the library.
+ */
+function screenOverlay(
+  id: string,
+  intensity: number,
+  index: number,
+  width: number,
+  height: number,
+  duration: number,
+  assets: AssetSource,
+): TimelineNode | undefined {
+  let meta: AssetMeta;
+  try {
+    meta = assets.meta(parseAssetRef(id).id);
+  } catch {
+    return undefined;
+  }
+  if (meta.category !== "effect" || meta.capabilities["placement"] !== "screen") return undefined;
+  const [, , vw, vh] = meta.viewBox ?? [0, 0, width, height];
+  const cover = Math.max(width / vw, height / vh);
+  const opacity = round(0.15 + 0.85 * intensity);
+  const idle = meta.capabilities["idle"];
+  return {
+    id: `fx_${index}_${meta.assetId}`,
+    adapter: "svg",
+    asset: `${meta.assetId}@${meta.version}`,
+    space: "screen",
+    z: 48 + index,
+    // the intensity is baked into the drawing (engine `scaleOpacity`): a group opacity on a full-frame layer
+    // is slow to render, so the node itself is only translucent during the short fade-in
+    props: { intensity: opacity, ...(typeof idle === "string" ? { idle } : {}) },
+    tracks: {
+      x: [{ f: 0, v: round(width / 2) }],
+      y: [{ f: 0, v: round(height / 2) }],
+      size: [{ f: 0, v: round(vw * cover) }],
+      opacity: [
+        { f: 0, v: 0 },
+        { f: Math.min(8, Math.max(1, duration - 1)), v: 1 },
+      ],
+    },
+  };
+}
+
 function compileAssetLayer(
   ctx: SceneContext,
   layer: Extract<Layer, { type: "object" | "icon" | "metaphor" }>,
   path: string,
   assets: AssetSource,
 ): TimelineNode | undefined {
-  const meta = asset(assets, layer.assetId, `${path}.assetId`, ctx.issues, [layer.type]);
+  // effects placed in the scene (fire, smoke, an ink splash) are used like objects
+  const meta = asset(
+    assets,
+    layer.assetId,
+    `${path}.assetId`,
+    ctx.issues,
+    layer.type === "object" ? ["object", "effect"] : [layer.type],
+  );
   if (!meta) return undefined;
+  if (meta.category === "effect" && meta.capabilities["placement"] === "screen") {
+    ctx.issues.push({
+      level: "error",
+      code: "EFFECT_IS_OVERLAY",
+      path: `${path}.assetId`,
+      message: `${meta.assetId} covers the whole frame; it is not placed in the scene`,
+      hint: `use it in the scene's effects: { "preset": "${meta.assetId}", "intensity": 0.5 }`,
+    });
+    return undefined;
+  }
   const cover = Math.max(ctx.width / ctx.world.width, ctx.height / ctx.world.height);
   const [x, y] = toWorld(
     ctx,
@@ -895,6 +961,8 @@ function compileAssetLayer(
   };
   const props: Record<string, unknown> = {};
   if (layer.type === "metaphor") props["backdrop"] = false;
+  if (meta.category === "effect" && typeof meta.capabilities["idle"] === "string")
+    props["idle"] = meta.capabilities["idle"];
 
   entrance(ctx, layer, path, tracks, { x, y, scale: 1 });
   const metaphor = METAPHOR_RECIPES[meta.assetId] ?? {};

@@ -2308,7 +2308,7 @@
               "properties": {
                 "preset": {
                   "type": "string",
-                  "pattern": "^[a-z_]+$"
+                  "pattern": "^[a-z][a-z0-9_]*$"
                 },
                 "intensity": {
                   "default": 0.5,

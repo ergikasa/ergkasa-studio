@@ -70,3 +70,22 @@ python3 tools/asset-preview/style_sheet.py out.png --style erkasa_editorial_v2  
 ```
 
 Grupi 1 (25 asete): 16 objekte te `props/` dhe 9 sfonde te `backgrounds/`.
+
+## Lista e prodhimit (275) dhe efektet
+
+Harta e plotë e listës "Erkasa Visual Asset Production List" me asetet reale është te `docs/asset-library.md`.
+
+- **Personazhet e rinj** (`characters.py`): Genti, Mira, Dritan (veshja `worn`), Viktor, Politikani, Filozofi,
+  Mbreti, Mbretëresha, Siluetë anonime; veshje `business` për Drinin dhe Erën. Togat, mantelet dhe fustanet
+  kanë në profil dy vizatime (`dress_standing`, `dress_seated`) që motori i ndërron sipas pozës.
+- **Grupe njerëzish** (`people.py`): `prop_people_group_01`, `prop_crowd_mass_01`, me figurantë që nuk ngjasojnë me kastin.
+- **Efektet** (`fx.py`, dosja `effects/`, `category: effect`, `kind: overlay`):
+  - `placement: screen`: shtresë mbi të gjithë kuadrin, në plan te `scene.effects` (`{ "preset": "fx_vignette_01", "intensity": 0.5 }`).
+    Intensiteti "piqet" në vizatim (`scaleOpacity`), sepse opaciteti i grupit mbi gjithë kuadrin është i ngadaltë në resvg.
+  - `placement: world`: zjarr, tym, shkëndija, bojë, konturë që ndriçon; vendosen si `object`.
+- Lëvizjet `jitter` (kokrriza, film i vjetër, defekt ekrani) dhe `drift` (mjegull, dritë, tym) janë deterministe.
+
+```bash
+python3 tools/asset-gen/characters.py && python3 tools/asset-gen/people.py && python3 tools/asset-gen/fx.py
+python3 tools/asset-validate/validate.py
+```

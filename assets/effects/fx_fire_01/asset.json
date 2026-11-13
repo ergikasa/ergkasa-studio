@@ -1,0 +1,66 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "fx_fire_01",
+  "version": 1,
+  "name": "Zjarr",
+  "description": "A campfire-style flame in three layers (red, orange, warm yellow) over two logs, with a soft glow.",
+  "category": "effect",
+  "subcategory": "local",
+  "collection": "effects",
+  "storyUse": "Passion and anger, danger and destruction, burning motivation or burnout, an urgent crisis.",
+  "kind": "overlay",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    380,
+    520
+  ],
+  "capabilities": {
+    "placement": "world",
+    "animations": [
+      "fade",
+      "pop_in",
+      "grow"
+    ],
+    "idle": "pulse",
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ]
+  },
+  "parts": {
+    "flame_outer": "scaleY flicker",
+    "flame_mid": "scaleY flicker",
+    "flame_core": "scaleY flicker"
+  },
+  "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+  ],
+  "tags": [
+    "fire",
+    "flame",
+    "passion",
+    "anger",
+    "danger",
+    "destruction",
+    "energy",
+    "urgency",
+    "burn"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

@@ -1,6 +1,6 @@
 import { Rig, type AssetMeta, type Rig as RigT } from "@erkasa/contracts";
 import { hashString, mulberry32 } from "../core/random.js";
-import { OPACITY_GUARD, SvgTemplate, fmt } from "../core/svg-template.js";
+import { OPACITY_GUARD, SvgTemplate, fmt, type PartPose } from "../core/svg-template.js";
 import { sampleDiscrete, sampleNumber, type Tracks } from "../core/tracks.js";
 import { ACTIONS_BY_SKELETON, blendPoses, type Action, type Pose } from "./actions.js";
 
@@ -60,6 +60,32 @@ export function prepareCharacter(
   const c: PreparedCharacter = { meta, front: prepareView(meta, svgText, rigText) };
   if (side) c.side = prepareView(meta, side.svg, side.rig);
   return c;
+}
+
+/** Torso pivot to the floor in the side rig (430 -> 872): the length a hanging garment can have. */
+const GARMENT_LENGTH = 442;
+
+/**
+ * Long garments in profile (robe, toga, gown) have two drawings: `dress_standing` hangs from the torso
+ * (standing, walking) and `dress_seated` lies over the thighs (seated). Which one shows follows the
+ * thighs: both forward means seated. The switch fades over a few degrees, so sitting down is smooth.
+ * Characters without these parts are unaffected.
+ */
+export function garmentForPose(pose: Pose, root?: PartPose): void {
+  const n = pose["thigh_n"]?.rotation ?? 0;
+  const f = pose["thigh_f"]?.rotation ?? 0;
+  const forward = -Math.max(n, f); // the less raised thigh: both must be forward to count as seated
+  const seated = Math.min(1, Math.max(0, (forward - 62) / 14));
+  // while the body lowers onto a seat, the hanging skirt gathers so its hem never sinks into the floor
+  // (only for an upright body: a fall rotates the root and moves it for other reasons)
+  const drop = root && Math.abs(root.rotation ?? 0) < 1 ? Math.max(0, root.y ?? 0) : 0;
+  const torso = pose["torso"] ?? {};
+  const gather = Math.max(0.35, 1 - drop / GARMENT_LENGTH);
+  // a pose of their own replaces the followed bone's, so they carry that bone's pose with them
+  pose["dress_standing"] = { ...torso, scaleY: (torso.scaleY ?? 1) * gather, opacity: 1 - seated };
+  // the seated drawing is on top: fully shown as soon as the switch starts, while the hanging one fades
+  // out beneath it (no see-through frame in between)
+  pose["dress_seated"] = { ...(pose["thigh_n"] ?? {}), opacity: seated > 0 ? 1 : 0 };
 }
 
 /** Actions a character can perform when facing a given way. */
@@ -125,6 +151,7 @@ export function renderCharacter(
     delete pose["root"];
     pose[view.rootId] = root;
   }
+  if (facing !== "front") garmentForPose(pose, root);
 
   // --- face: expression, blinks, lip-sync ---
   const expression = sampleDiscrete(tracks["expression"], frame, "neutral").value;

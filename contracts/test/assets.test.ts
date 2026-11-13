@@ -28,7 +28,12 @@ describe("asset library", () => {
 
   it("every rig.json satisfies Rig", () => {
     const rigs = findFiles(assetsDir, "rig.json");
-    expect(rigs.length).toBe(5); // arti, bardhi, drini, era, host
+    // one rig per rigged character in the library (14 after the production list: cast, NPCs, host, roles)
+    const manifest = JSON.parse(readFileSync(join(assetsDir, "manifest.json"), "utf8")) as {
+      assets: Array<{ kind: string }>;
+    };
+    expect(rigs.length).toBe(manifest.assets.filter((a) => a.kind === "rigged_character").length);
+    expect(rigs.length).toBeGreaterThanOrEqual(14);
     for (const file of rigs) {
       const res = Rig.safeParse(JSON.parse(readFileSync(file, "utf8")));
       expect(res.success, `${file}: ${res.success ? "" : JSON.stringify(res.error.issues)}`).toBe(true);

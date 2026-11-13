@@ -44,7 +44,13 @@
         "facepalm",
         "stressed",
         "slump",
-        "shrug"
+        "shrug",
+        "cross_arms",
+        "argue",
+        "negotiate",
+        "present",
+        "observe",
+        "look_up"
       ],
       "side": [
         "idle",
@@ -63,7 +69,10 @@
         "seated_type",
         "seated_nod",
         "seated_read",
-        "seated_give"
+        "seated_give",
+        "shake_hands",
+        "fall",
+        "climb"
       ]
     },
     "items": [

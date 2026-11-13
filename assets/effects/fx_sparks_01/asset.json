@@ -1,0 +1,63 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "fx_sparks_01",
+  "version": 1,
+  "name": "Shkëndija",
+  "description": "A bright burst of sparks: golden streaks and dots radiating from a white star at the centre.",
+  "category": "effect",
+  "subcategory": "local",
+  "collection": "effects",
+  "storyUse": "The spark of an idea, a breakthrough, the impact of a decision, a clash between two people.",
+  "kind": "overlay",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    560,
+    560
+  ],
+  "capabilities": {
+    "placement": "world",
+    "animations": [
+      "pop_in",
+      "fade",
+      "grow"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ]
+  },
+  "parts": {
+    "burst": "scale 0 → 1 = shpërthimi"
+  },
+  "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+  ],
+  "tags": [
+    "sparks",
+    "spark",
+    "idea",
+    "impact",
+    "breakthrough",
+    "energy",
+    "conflict",
+    "flash",
+    "insight"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

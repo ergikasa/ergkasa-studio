@@ -1,0 +1,60 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_crowd_mass_01",
+  "version": 1,
+  "name": "Turmë",
+  "description": "A dense crowd seen from behind: five rows of heads and shoulders, smaller and paler towards the back. Spans the full background width.",
+  "category": "object",
+  "subcategory": "people",
+  "collection": "characters",
+  "storyUse": "Mass behaviour, herd mentality, the bystander effect, social proof, feeling lost or anonymous in a crowd. Place it low in the frame, in front of the scene.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_flat_v1",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    760
+  ],
+  "capabilities": {
+    "animations": [
+      "fade",
+      "slide",
+      "bob"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ]
+  },
+  "themes": [
+    "psychology",
+    "everyday",
+    "decisions"
+  ],
+  "tags": [
+    "crowd",
+    "people",
+    "mass",
+    "audience",
+    "public",
+    "herd",
+    "social-proof",
+    "bystander",
+    "anonymous",
+    "society"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

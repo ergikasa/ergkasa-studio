@@ -120,6 +120,64 @@ describe("compiler", () => {
   });
 });
 
+describe("visual effects", () => {
+  it("a screen overlay in the scene effects covers the frame in screen space, at its intensity, fading in", () => {
+    const plan = demoPlan();
+    (scenesOf(plan)[0] as Record<string, unknown>)["effects"] = [
+      { preset: "fx_vignette_01", intensity: 0.6 },
+    ];
+    const res = compileVideo(plan, { assets });
+    expect(res.issues.filter((i) => i.level === "error")).toEqual([]);
+    const fx = res.timeline?.scenes[0]?.nodes.find((n) => n.asset === "fx_vignette_01@1");
+    expect(fx?.space).toBe("screen");
+    expect(fx?.tracks["size"]?.[0]?.v).toBeGreaterThanOrEqual(1080);
+    expect(fx?.props["intensity"]).toBeCloseTo(0.15 + 0.85 * 0.6, 2);
+    expect(fx?.tracks["opacity"]?.at(-1)?.v).toBe(1);
+  });
+
+  it("an overlay keeps its own idle motion (film grain jitters)", () => {
+    const plan = demoPlan();
+    (scenesOf(plan)[0] as Record<string, unknown>)["effects"] = [
+      { preset: "fx_film_grain_01", intensity: 0.3 },
+    ];
+    const fx = compileVideo(plan, { assets }).timeline?.scenes[0]?.nodes.find(
+      (n) => n.asset === "fx_film_grain_01@1",
+    );
+    expect(fx?.props["idle"]).toBe("jitter");
+  });
+
+  it("an effect placed in the scene (fire) compiles like an object", () => {
+    const plan = demoPlan();
+    scenesOf(plan)[0]?.layers.push({
+      type: "object",
+      id: "fire",
+      assetId: "fx_fire_01",
+      place: { x: 0.7, y: 0.8, scale: 1 },
+    });
+    const res = compileVideo(plan, { assets });
+    expect(res.issues.filter((i) => i.level === "error")).toEqual([]);
+    expect(res.timeline?.scenes[0]?.nodes.find((n) => n.id === "fire")?.space).toBe("world");
+  });
+
+  it("a full-frame overlay used as an object is refused, with the right way to use it", () => {
+    const plan = demoPlan();
+    scenesOf(plan)[0]?.layers.push({
+      type: "object",
+      id: "vig",
+      assetId: "fx_vignette_01",
+      place: { x: 0.5, y: 0.5, scale: 1 },
+    });
+    const err = compileVideo(plan, { assets }).issues.find((i) => i.code === "EFFECT_IS_OVERLAY");
+    expect(err?.hint).toMatch(/effects/);
+  });
+
+  it("an unknown effect is still an error", () => {
+    const plan = demoPlan();
+    (scenesOf(plan)[0] as Record<string, unknown>)["effects"] = [{ preset: "fx_nothing_01", intensity: 0.5 }];
+    expect(compileVideo(plan, { assets }).issues.some((i) => i.code === "EFFECT_UNKNOWN")).toBe(true);
+  });
+});
+
 describe("metaphor recipes", () => {
   it("every recipe drives parts that exist in its SVG", () => {
     for (const [assetId, recipes] of Object.entries(METAPHOR_RECIPES)) {

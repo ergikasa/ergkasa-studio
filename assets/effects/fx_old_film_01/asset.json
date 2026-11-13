@@ -1,0 +1,61 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "fx_old_film_01",
+  "version": 1,
+  "name": "Film i vjetër",
+  "description": "Old film look: a sepia wash, darker burnt corners, vertical scratches, dust specks and hairs that jump every other frame.",
+  "category": "effect",
+  "subcategory": "overlay",
+  "collection": "effects",
+  "storyUse": "History and the past: archive footage, how things were, an old memory or a historical example.",
+  "kind": "overlay",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    1080,
+    1920
+  ],
+  "capabilities": {
+    "placement": "screen",
+    "animations": [
+      "fade"
+    ],
+    "idle": "jitter",
+    "cover": "shtrihet që të mbulojë kuadrin; opaciteti = intensiteti"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ]
+  },
+  "parts": {
+    "damage": "jitter"
+  },
+  "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+  ],
+  "tags": [
+    "old-film",
+    "vintage",
+    "sepia",
+    "history",
+    "archive",
+    "memory",
+    "past",
+    "documentary"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

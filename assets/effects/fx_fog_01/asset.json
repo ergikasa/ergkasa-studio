@@ -1,0 +1,62 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "fx_fog_01",
+  "version": 1,
+  "name": "Mjegull",
+  "description": "Low white fog banks drifting across the lower half of the frame.",
+  "category": "effect",
+  "subcategory": "overlay",
+  "collection": "effects",
+  "storyUse": "Uncertainty and confusion, not seeing clearly, mystery, a fading memory.",
+  "kind": "overlay",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    1080,
+    1920
+  ],
+  "capabilities": {
+    "placement": "screen",
+    "animations": [
+      "fade"
+    ],
+    "idle": "drift",
+    "cover": "shtrihet që të mbulojë kuadrin; opaciteti = intensiteti"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ]
+  },
+  "parts": {
+    "fog_back": "drift",
+    "fog_front": "drift (më shpejt)"
+  },
+  "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+  ],
+  "tags": [
+    "fog",
+    "mist",
+    "haze",
+    "uncertainty",
+    "confusion",
+    "mystery",
+    "memory",
+    "unknown"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

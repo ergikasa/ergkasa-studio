@@ -1,0 +1,63 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "fx_smoke_01",
+  "version": 1,
+  "name": "Tym",
+  "description": "A grey plume of smoke rising and widening, fading towards the top.",
+  "category": "effect",
+  "subcategory": "local",
+  "collection": "effects",
+  "storyUse": "Aftermath and loss, burnout, something destroyed or a plan going up in smoke; also mystery.",
+  "kind": "overlay",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    520,
+    860
+  ],
+  "capabilities": {
+    "placement": "world",
+    "animations": [
+      "fade",
+      "pop_in",
+      "grow"
+    ],
+    "idle": "float",
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ]
+  },
+  "parts": {
+    "smoke": "float / drift"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "money"
+  ],
+  "tags": [
+    "smoke",
+    "fire",
+    "burnout",
+    "destruction",
+    "loss",
+    "mystery",
+    "aftermath",
+    "pollution"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

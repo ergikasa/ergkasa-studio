@@ -9,7 +9,7 @@ from __future__ import annotations
 import math
 import random
 
-from editorial import (INK, P, Defs, circle, contact_shadow, ellipse, g, lathe, line, obj, path, poly, rect, run, sheen,
+from editorial import (INK, P, Defs, blob, circle, contact_shadow, ellipse, g, lathe, line, obj, path, poly, rect, run, sheen,
                        smooth_lathe, star)
 from props_power import column
 
@@ -125,12 +125,65 @@ def toga_figure(d, cx, top, m, m_d, broken=False):
     return skirt + torso + drape + arms + stumps + neck + head + feet
 
 
+def _statue_figure(d: Defs, cx, base, head=True, arm=True, cracked=False):
+    """Figurë klasike me togë, e gdhendur: kontrapost (pesha mbi këmbën e djathtë), palosje të thella,
+    konturë e lehtë që e ndan nga sfondet e çelëta. Pa portret: fytyrë e përgjithshme."""
+    m, ml, md, mdd = P["marble"], P["marble_l"], P["marble_d"], P["marble_dd"]
+    stroke = f'stroke="{mdd}" stroke-width="3" stroke-linejoin="round"'
+    # trupi nën togë: nga supet te këmbët, pak i përkulur
+    robe = (f"M{cx-62},{base-470} Q{cx-78},{base-330} {cx-70},{base-150} Q{cx-74},{base-60} {cx-66},{base} "
+            f"L{cx+58},{base} Q{cx+68},{base-80} {cx+60},{base-180} Q{cx+70},{base-330} {cx+58},{base-470} Z")
+    out = path(robe, d.h("robe", ml, md, m), stroke)
+    # palosjet: vija të errëta dhe shirita drite
+    for i, (x0, x1) in enumerate(((-44, -50), (-22, -30), (2, -4), (24, 30), (44, 48))):
+        out += line(f"M{cx + x0},{base - 420 + i * 18} Q{cx + (x0 + x1) / 2 - 6},{base - 220} {cx + x1},{base - 8}", mdd, 4, 'stroke-opacity="0.55"')
+        out += line(f"M{cx + x0 + 7},{base - 410 + i * 18} Q{cx + (x0 + x1) / 2},{base - 220} {cx + x1 + 7},{base - 12}", P["white"], 3, 'stroke-opacity="0.5"')
+    # rripi diagonal i togës nga supi i majtë te ija e djathtë
+    out += path(f"M{cx-64},{base-470} L{cx-30},{base-476} L{cx+62},{base-300} L{cx+60},{base-262} Z", d.h("sash", ml, md), stroke)
+    # këmba e lirë del përpara (kontrapost), gishtat poshtë cepit
+    out += path(f"M{cx-40},{base-6} Q{cx-36},{base-30} {cx-12},{base-26} L{cx-8},{base} Z", md, stroke)
+    out += path(f"M{cx+14},{base-4} Q{cx+20},{base-24} {cx+44},{base-20} L{cx+48},{base} Z", m, stroke)
+    # krahu i majtë poshtë, mbi togë
+    out += path(f"M{cx-66},{base-460} Q{cx-96},{base-380} {cx-86},{base-280} Q{cx-80},{base-250} {cx-64},{base-262} Q{cx-70},{base-360} {cx-50},{base-440} Z",
+                d.h("arml", ml, md), stroke)
+    if arm:  # krahu i djathtë i përkulur, mban një rrotull
+        out += path(f"M{cx+56},{base-462} Q{cx+92},{base-400} {cx+84},{base-330} L{cx+28},{base-312} L{cx+30},{base-340} L{cx+60},{base-350} Q{cx+62},{base-410} {cx+44},{base-440} Z",
+                    d.h("armr", ml, md), stroke)
+        out += rect(cx + 4, base - 346, 34, 70, d.h("scr", ml, md), rx=10, extra=stroke)
+    else:  # krahu i thyer: vetëm cungu i supit, me sipërfaqe të thyer
+        out += path(f"M{cx+56},{base-462} Q{cx+84},{base-430} {cx+80},{base-398} L{cx+62},{base-404} L{cx+70},{base-416} L{cx+56},{base-420} Z", md, stroke)
+    # qafa dhe koka
+    out += rect(cx - 16, base - 506, 32, 44, d.h("neck", ml, md), rx=8, extra=stroke)
+    if head:
+        out += (ellipse(cx, base - 548, 42, 50, d.h("head", ml, md, m), stroke)
+                + path(f"M{cx-42},{base-556} Q{cx-44},{base-604} {cx},{base-606} Q{cx+44},{base-604} {cx+42},{base-556} Q{cx+28},{base-586} {cx},{base-584} Q{cx-28},{base-586} {cx-42},{base-556} Z",
+                       d.h("hair", m, mdd), stroke)
+                + "".join(circle(cx + dx, base - 590 + abs(dx) * 0.2, 9, md, stroke) for dx in (-30, -14, 2, 18, 32))
+                + line(f"M{cx-18},{base-552} q8,-4 14,0 M{cx+6},{base-552} q8,-4 14,0", mdd, 3)
+                + line(f"M{cx-1},{base-546} q-6,16 4,20", mdd, 3) + line(f"M{cx-10},{base-520} q10,5 20,0", mdd, 3))
+    else:  # qafa e thyer
+        out += path(f"M{cx-16},{base-506} L{cx-6},{base-516} L{cx+2},{base-506} L{cx+10},{base-518} L{cx+16},{base-506} Z", md, stroke)
+    if cracked:
+        out += line(f"M{cx+10},{base-420} L{cx-4},{base-350} L{cx+14},{base-300} L{cx-2},{base-220}", mdd, 4)
+    return out
+
+
+def _plinth(d: Defs, cx, top, w, h, cracked=False):
+    stroke = f'stroke="{P["marble_dd"]}" stroke-width="3"'
+    out = (rect(cx - w / 2 - 16, top, w + 32, 28, d.v("pcap", P["marble_l"], P["marble_d"]), rx=4, extra=stroke)
+           + rect(cx - w / 2, top + 28, w, h - 56, d.h("pbody", P["marble_l"], P["marble_d"], P["marble"]), extra=stroke)
+           + rect(cx - w / 2 - 22, top + h - 28, w + 44, 28, d.v("pbase", P["marble"], P["marble_dd"]), rx=4, extra=stroke))
+    if cracked:
+        out += line(f"M{cx + w / 2 - 30},{top + 28} L{cx + w / 2 - 50},{top + 90} L{cx + w / 2 - 34},{top + 130} L{cx + w / 2 - 58},{top + h - 28}", P["marble_dd"], 4)
+    return out
+
+
 def marble_statue(d: Defs):
-    w, h = 440, 1240
-    cx = 220
-    body = (contact_shadow(d, cx, h, 200, 14)
-            + g("plinth", plinth(d, cx, h - 230, 300, 230, "pl"))
-            + g("statue", toga_figure(d, cx, 140, P["marble"], P["marble_d"]) + sheen(f"M{cx-70},300 Q{cx-80},500 {cx-60},900 L{cx-40},900 Q{cx-56},500 {cx-50},300 Z", 0.4), (cx, h - 230)))
+    w, h = 340, 900
+    cx, plinth_h = 170, 230
+    body = (contact_shadow(d, cx, h, 150, 12)
+            + g("plinth", _plinth(d, cx, h - plinth_h, 190, plinth_h))
+            + g("statue", _statue_figure(d, cx, h - plinth_h)))
     return obj("Statujë mermeri (antike)", (w, h), body, {"ground": [0.5, 1.0], "plinth_top": [0.5, (h - 230) / h]},
                ["statue", "marble", "ancient", "classical", "greek", "roman", "history", "ideal", "legacy", "stoic"],
                {"statue": "statike; fade", "plinth": "statik"},
@@ -140,16 +193,18 @@ def marble_statue(d: Defs):
 
 
 def broken_statue(d: Defs):
-    w, h = 640, 1100
-    cx = 260
-    head = (f'<g transform="rotate(-70 520 1010)">' + ellipse(520, 1010, 46, 58, d.d("hd", P["marble_l"], P["marble_d"]))
-            + path("M474,1000 Q476,950 520,950 Q564,950 566,1000 Q540,978 520,978 Q500,978 474,1000 Z", P["marble"])
-            + ellipse(504, 1012, 8, 4, P["marble_dd"]) + ellipse(536, 1012, 8, 4, P["marble_dd"]) + "</g>")
-    body = (contact_shadow(d, 320, h, 300, 16)
-            + g("plinth", plinth(d, cx, h - 210, 300, 210, "pl") + poly([(cx + 80, h - 210), (cx + 164, h - 210), (cx + 164, h - 150)], P["marble_dd"]))
-            + g("statue", f'<g transform="translate(0 -40)">' + toga_figure(d, cx, 130, P["marble"], P["marble_d"], broken=True) + "</g>"
-                + line(f"M{cx-40},400 L{cx+10},520 L{cx-10},620", P["marble_dd"], 4))
-            + g("debris", head + "".join(poly([(x, h - 6), (x + 20, h - 30), (x + 40, h - 4)], P["marble_d"]) for x in (420, 600, 40))))
+    w, h = 460, 900
+    cx, plinth_h = 190, 230
+    stroke = f'stroke="{P["marble_dd"]}" stroke-width="3"'
+    head = (ellipse(392, h - 40, 44, 38, d.h("fh", P["marble_l"], P["marble_d"]), stroke + ' transform="rotate(-70 392 860)"')
+            + path(f"M362,{h-74} Q350,{h-40} 366,{h-8} Q378,{h-30} 380,{h-60} Z", d.h("fhh", P["marble"], P["marble_dd"]), stroke)
+            + line(f"M398,{h-62} q-4,8 2,12 M410,{h-50} q-4,8 2,12", P["marble_dd"], 3))
+    debris = "".join(poly([(x, h - 2), (x + s * 0.5, h - s), (x + s, h - 2)], P["marble_d"], stroke) for x, s in ((300, 26), (40, 22), (330, 16)))
+    debris += path(f"M250,{h-2} L262,{h-36} L300,{h-44} L318,{h-2} Z", d.h("arm", P["marble_l"], P["marble_d"]), stroke)
+    body = (contact_shadow(d, 230, h, 210, 12)
+            + g("plinth", _plinth(d, cx, h - plinth_h, 190, plinth_h, cracked=True))
+            + g("statue", _statue_figure(d, cx, h - plinth_h, head=False, arm=False, cracked=True))
+            + g("debris", head + debris))
     return obj("Statujë e thyer", (w, h), body, {"ground": [0.5, 1.0]},
                ["statue", "broken", "fallen", "ruin", "fall-of-empire", "ego", "legacy", "impermanence", "history", "ozymandias"],
                {"statue": "statike", "debris": "koka dhe copat në tokë"},
@@ -159,15 +214,32 @@ def broken_statue(d: Defs):
 
 
 def ancient_book(d: Defs):
-    w, h = 460, 300
-    body = (contact_shadow(d, 230, h, 210, 12)
-            + g("book", poly([(40, 140), (380, 120), (430, 190), (90, 214)], d.v("pg", P["parch_l"], P["parch_d"]))
-                + "".join(line(f"M{86 + 4 * k},{204 - 4 * k} L{424 - 4 * k},{180 - 4 * k}", P["parch_d"], 2) for k in range(8))
-                + poly([(30, 100), (380, 76), (380, 120), (40, 140)], d.v("cv", P["red_d"], INK)) + poly([(30, 100), (40, 140), (90, 214), (80, 174)], P["red_d"])
-                + poly([(80, 174), (430, 150), (430, 190), (90, 214)], d.v("cv2", P["red"], P["red_d"]))
-                + poly([(150, 92), (300, 82), (306, 110), (156, 120)], P["gold"], 'opacity="0.8"')
-                + "".join(poly([(x, 80 + (380 - x) * 0.07), (x + 26, 78 + (380 - x) * 0.07), (x + 30, 196 - (x - 90) * 0.07), (x + 4, 198 - (x - 90) * 0.07)], P["gold_d"]) for x in (110, 320))
-                + star(230, 100, 14, 6, 4, P["gold_l"])))
+    """Libër i trashë i mbyllur, parë nga lart-përpara (3/4): kopertina, faqet në buzë, kurrizi me shirita."""
+    w, h = 560, 360
+    # faqet: blloku i bardhë në anën e përparme dhe të djathtë
+    pages = (poly([(70, 200), (450, 238), (452, 300), (72, 262)], d.v("pf", P["parch_l"], P["parch"]))
+             + "".join(line(f"M76,{208 + i * 9} L448,{246 + i * 9}", P["parch_d"], 1.6, 'stroke-opacity="0.6"') for i in range(6))
+             + poly([(450, 238), (500, 176), (502, 236), (452, 300)], d.v("pr", P["parch"], P["parch_d"])))
+    # kopertina e poshtme (duket si buzë) dhe e sipërme
+    bottom = poly([(60, 262), (452, 304), (512, 240), (512, 252), (452, 318), (60, 276)], d.v("cb", P["red_d"], P["wood_ddd"]))
+    cover_top = [(56, 196), (118, 128), (512, 166), (452, 238)]
+    cover = (poly(cover_top, d.d("ct", P["red_l"], P["red_d"]))
+             + poly([(56, 196), (452, 238), (452, 252), (56, 210)], P["red_d"])
+             + poly([(452, 238), (512, 166), (514, 180), (454, 252)], P["wood_ddd"]))
+    # kurrizi majtas: shiritat e ngritur
+    spine = (path("M56,196 Q34,200 32,232 Q34,266 60,276 L60,262 Q46,252 46,232 Q48,212 70,206 Z", d.v("sp", P["red"], P["wood_ddd"]))
+             + line("M42,214 Q38,222 40,232", P["gold_d"], 4) + line("M44,246 Q42,254 48,262", P["gold_d"], 4))
+    # zbukurimet e arta: këndet, emblema në mes, kapëset
+    corners = "".join(poly(pts, d.d(f"gc{i}", P["gold_l"], P["gold_d"])) for i, pts in enumerate((
+        [(118, 128), (160, 132), (148, 146), (110, 142)], [(512, 166), (472, 162), (484, 176), (504, 178)],
+        [(56, 196), (70, 180), (100, 184), (88, 200)], [(452, 238), (426, 236), (440, 222), (464, 224)])))
+    cx, cy = 284, 184
+    emblem = (ellipse(cx, cy, 70, 30, d.d("em", P["gold_l"], P["gold_d"]), 'transform="rotate(6 284 184)"')
+              + ellipse(cx, cy, 52, 21, P["red_d"], 'transform="rotate(6 284 184)"')
+              + star(cx, cy, 22, 8, 4, P["gold_l"], extra='transform="matrix(1 0.08 -0.3 0.5 100 92)"'))
+    clasps = "".join(rect(x, y, 24, 46, d.v(f"cl{x}", P["gold_l"], P["gold_d"]), rx=4) + circle(x + 12, y + 36, 5, P["gold_d"])
+                     for x, y in ((210, 214), (350, 228)))
+    body = (contact_shadow(d, 290, h - 30, 240, 16) + g("book", bottom + pages + cover + spine + corners + emblem + clasps))
     return obj("Libër i lashtë biblioteke", (w, h), body, {"ground": [0.5, 1.0]},
                ["book", "ancient", "knowledge", "wisdom", "library", "history", "secret", "manuscript", "tradition"],
                {"book": "pop_in, float"},
@@ -394,13 +466,46 @@ def empty_frame(d: Defs):
                themes=["philosophy", "psychology", "decisions"])
 
 
+def ancient_map(d: Defs):
+    """Hartë e vjetër pa tekst: kontinente të shpikura, male, rrugë me pika, trëndafil i erërave, valë deti."""
+    rng = random.Random(55)
+    w, h = 820, 600
+    sheet = (f"M70,52 Q200,40 330,56 Q470,44 600,58 Q700,48 760,60 L766,120 Q756,260 768,400 Q760,480 766,548 "
+             f"Q640,560 500,546 Q360,560 220,548 Q120,560 62,546 L58,470 Q70,330 56,200 Q66,120 70,52 Z")
+    land1 = path("M150,150 Q210,104 300,128 Q356,150 340,214 Q370,262 330,310 Q300,360 236,350 Q170,376 140,320 "
+                 "Q104,266 128,214 Q120,172 150,150 Z", d.v("l1", P["parch"], P["parch_d"]), f'stroke="{P["wood_d"]}" stroke-width="4"')
+    land2 = path("M470,250 Q540,210 620,236 Q690,262 670,330 Q700,392 640,430 Q570,470 510,440 Q450,420 456,360 "
+                 "Q430,300 470,250 Z", d.v("l2", P["parch"], P["parch_d"]), f'stroke="{P["wood_d"]}" stroke-width="4"')
+    isles = "".join(blob(x, y, r, 7, rng, 0.25, P["parch"], f'stroke="{P["wood_d"]}" stroke-width="3"') for x, y, r in ((420, 150, 22), (390, 196, 14), (560, 140, 18), (260, 450, 20)))
+    mountains = "".join(poly([(x - 18, y + 14), (x, y - 18), (x + 18, y + 14)], P["wood_d"]) + poly([(x - 4, y - 8), (x, y - 18), (x + 6, y - 6)], P["parch_l"])
+                        for x, y in ((210, 200), (240, 186), (270, 214), (560, 300), (590, 284), (612, 318)))
+    forest = "".join(circle(x, y, 9, P["green_dd"], 'fill-opacity="0.7"') for x, y in ((180, 280), (198, 296), (216, 280), (540, 390), (560, 404), (580, 388)))
+    waves = "".join(line(f"M{x},{y} q10,-10 20,0 q10,10 20,0", P["blue_d"], 3, 'stroke-opacity="0.6"') for x, y in ((390, 320), (420, 360), (130, 420), (650, 180), (330, 480), (700, 500)))
+    route = line("M250,250 Q380,240 420,300 Q470,370 560,360", P["red_d"], 5, 'stroke-dasharray="10 9"') + path("M548,350 l18,10 l-18,10 Z", P["red_d"])
+    rose = (f'<circle cx="680" cy="460" r="46" fill="none" stroke="{P["wood_d"]}" stroke-width="3"/>' + star(680, 460, 44, 10, 4, P["wood_dd"])
+            + star(680, 460, 26, 6, 4, P["red_d"], rot=-45) + circle(680, 460, 6, P["parch_l"]))
+    stains = "".join(blob(x, y, r, 9, rng, 0.2, P["parch_d"], 'fill-opacity="0.35"') for x, y, r in ((120, 500, 34), (700, 100, 28), (430, 520, 18)))
+    body = (contact_shadow(d, w / 2, h, 360, 14, 0.25)
+            + g("map", path(sheet, d.v("sheet", P["parch_l"], P["parch"])) + stains
+                + path("M70,52 Q200,40 330,56 Q470,44 600,58 Q700,48 760,60 L766,120 Q756,260 768,400 Q760,480 766,548 Q640,560 500,546 Q360,560 220,548 Q120,560 62,546 L58,470 Q70,330 56,200 Q66,120 70,52 Z",
+                       "none", f'stroke="{P["parch_d"]}" stroke-width="10" stroke-opacity="0.7"')
+                + land1 + land2 + isles + forest + mountains + waves + route + rose
+                + rect(40, 40, 30, 520, d.h("rod1", P["wood"], P["wood_dd"]), rx=14) + rect(756, 40, 30, 520, d.h("rod2", P["wood"], P["wood_dd"]), rx=14)))
+    return obj("Hartë e lashtë", (w, h), body, {"center": [0.5, 0.5], "route_end": [566 / w, 360 / h]},
+               ["map", "ancient-map", "world-map", "exploration", "journey", "history", "discovery", "unknown", "route", "plan"],
+               {"map": "pop_in, slide"},
+               "An old parchment map on two rods: two invented continents, islands, mountains, a dotted red route and a compass rose. No text.",
+               "Exploration and the unknown, a long journey or plan, history of trade and empires; the map is not the territory.",
+               themes=["philosophy", "decisions", "science"])
+
+
 PROPS = [
     ("prop_bust_socratic_01", bust_socratic), ("prop_bust_platonic_01", bust_platonic), ("prop_bust_aristotelian_01", bust_aristotelian),
     ("prop_greek_column_01", greek_column), ("prop_marble_statue_01", marble_statue), ("prop_ancient_book_01", ancient_book),
     ("prop_open_book_01", open_book), ("prop_scroll_01", scroll), ("prop_quill_01", quill), ("prop_ink_bottle_01", ink_bottle),
     ("prop_candle_holder_01", candle_holder), ("prop_globe_01", globe), ("prop_telescope_01", telescope),
     ("prop_magnifier_01", magnifier), ("prop_question_sculpture_01", question_sculpture), ("prop_puzzle_cube_01", puzzle_cube),
-    ("prop_broken_statue_01", broken_statue), ("prop_stone_staircase_01", stone_staircase), ("prop_empty_frame_01", empty_frame),
+    ("prop_broken_statue_01", broken_statue), ("prop_ancient_map_01", ancient_map), ("prop_stone_staircase_01", stone_staircase), ("prop_empty_frame_01", empty_frame),
 ]
 METAPHORS = [("met_light_beam_01", light_beam)]
 

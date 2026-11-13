@@ -4,7 +4,8 @@ import { fileURLToPath } from "node:url";
 import { AssetMeta, type AssetMeta as AssetMetaT } from "@erkasa/contracts";
 import { describe, expect, it } from "vitest";
 import { chunkWords } from "../src/adapters/captions.js";
-import { prepareCharacter } from "../src/adapters/character.js";
+import { ACTIONS, SIDE_ACTIONS } from "../src/adapters/actions.js";
+import { garmentForPose, prepareCharacter } from "../src/adapters/character.js";
 import {
   Engine,
   OPACITY_GUARD,
@@ -12,6 +13,7 @@ import {
   easeFn,
   safeOpacity,
   sampleDiscrete,
+  scaleOpacity,
   sampleNumber,
   type AssetSource,
 } from "../src/index.js";
@@ -245,6 +247,65 @@ describe("library scenes (erkasa_editorial_v2)", () => {
     expect(() => new Engine(scene({ variant: "snow" }), { assets: new RepoAssets() })).toThrow(
       /prop_window_01 has no variant 'snow' \(has: night, rain\)/,
     );
+  });
+});
+
+describe("overlay intensity", () => {
+  it("scales every transparency instead of using a (slow) group opacity", () => {
+    const out = scaleOpacity(
+      '<rect fill="#000" fill-opacity="0.8"/><circle fill="url(#g)"/><stop stop-opacity="0.5"/><path fill="#FFF" opacity="0.5"/><line stroke="#000"/>',
+      0.5,
+    );
+    expect(out).toContain('fill-opacity="0.4"');
+    expect(out).toContain('stop-opacity="0.25"');
+    expect(out).toMatch(/<circle fill="url\(#g\)"\/>/); // gradients carry it in their stops
+    expect(out).toMatch(/<path fill="#FFF" fill-opacity="0.25"/);
+    expect(out).toMatch(/<line [^>]*stroke-opacity="0.5"/);
+  });
+});
+
+describe("character actions and garments", () => {
+  const assets = new RepoAssets();
+  const characters = JSON.parse(readFileSync(join(ASSETS, "manifest.json"), "utf8")).assets.filter(
+    (a: { kind: string }) => a.kind === "rigged_character",
+  ) as Array<{ assetId: string }>;
+
+  it("every action a character declares is implemented for its view", () => {
+    for (const { assetId } of characters) {
+      const meta = assets.meta(assetId);
+      const declared = meta.capabilities["actions"] as { front: string[]; side?: string[] };
+      for (const a of declared.front) expect(ACTIONS, `${assetId} front ${a}`).toHaveProperty(a);
+      for (const a of declared.side ?? []) expect(SIDE_ACTIONS, `${assetId} side ${a}`).toHaveProperty(a);
+    }
+  });
+
+  it("new actions are deterministic and ease in from the idle pose", () => {
+    for (const name of ["cross_arms", "argue", "negotiate", "present", "observe", "look_up"]) {
+      const a = ACTIONS[name] as (t: number, ph: number) => Record<string, { rotation?: number }>;
+      expect(a(1.3, 0.5)).toEqual(a(1.3, 0.5));
+      expect(Math.abs(a(0, 0)["arm_upper_r"]?.rotation ?? 0)).toBeLessThan(3);
+    }
+  });
+
+  it("a fall ends lying down: the body turned a quarter around the toes", () => {
+    const fall = SIDE_ACTIONS["fall"] as (t: number, ph: number) => Record<string, { rotation?: number }>;
+    expect(fall(0, 0)["root"]?.rotation).toBeCloseTo(0);
+    expect(fall(3, 0)["root"]?.rotation).toBeCloseTo(90, 0);
+  });
+
+  it("long garments hang when standing and lie over the thighs when seated", () => {
+    const standing: Record<string, { rotation?: number; opacity?: number }> = {
+      thigh_n: { rotation: -10 },
+      thigh_f: { rotation: 12 },
+    };
+    garmentForPose(standing);
+    expect(standing["dress_standing"]?.opacity).toBe(1);
+    expect(standing["dress_seated"]?.opacity).toBe(0);
+    const seated = SIDE_ACTIONS["seated"]?.(1, 0) ?? {};
+    garmentForPose(seated);
+    expect(seated["dress_standing"]?.opacity).toBe(0);
+    expect(seated["dress_seated"]?.opacity).toBe(1);
+    expect(seated["dress_seated"]?.rotation).toBe(seated["thigh_n"]?.rotation);
   });
 });
 

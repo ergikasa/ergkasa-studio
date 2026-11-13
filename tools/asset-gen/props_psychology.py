@@ -197,13 +197,16 @@ def hand(d: Defs):
 
 
 def human_shadow(d: Defs):
+    """Hije njeriu e zgjatur dhe pak e shtrembëruar, si e hedhur në mur nga një dritë e ulët: e errët te këmbët,
+    zbehet lart. Përmasat e zmadhuara (këmbë dhe krahë të gjatë) e bëjnë të duket kërcënuese."""
     w, h = 420, 1300
-    fill = d.v("sh", P["slate_dd"], INK)
-    body = g("shadow",
-             "<g opacity=\"0.55\">"
-             + ellipse(210, 150, 70, 92, fill)
-             + path("M150,236 Q210,220 270,236 L330,300 Q356,330 350,420 L346,640 Q342,680 320,676 L306,520 L300,760 L292,1260 Q286,1290 250,1290 L234,820 L222,820 L206,1290 Q170,1290 166,1260 L150,760 L144,520 L128,676 Q104,680 100,640 L94,420 Q88,330 112,300 Z", fill)
-             + "</g>")
+    fill = d._url("fade", '<linearGradient id="{id}" x1="0" y1="1" x2="0" y2="0">'
+                          f'<stop offset="0" stop-color="{INK}" stop-opacity="0.62"/><stop offset="1" stop-color="{INK}" stop-opacity="0.22"/></linearGradient>')
+    figure = (ellipse(214, 150, 62, 78, fill)
+              + path("M196,222 L232,222 L238,262 Q300,270 318,300 Q342,420 356,640 Q360,690 340,694 Q326,690 322,640 L300,380 "
+                     "L292,700 Q296,980 288,1290 L234,1290 L220,820 L206,820 L194,1290 L140,1290 Q130,980 136,700 L128,380 L106,640 "
+                     "Q102,690 88,694 Q68,690 72,640 Q86,420 110,300 Q128,270 190,262 Z", fill))
+    body = g("shadow", f'<g transform="matrix(1 0 -0.08 1 52 0)">{figure}</g>', pivot=(214, 1290))
     return obj("Hija e njeriut (e zgjatur)", (w, h), body, {"ground": [0.5, 1.0], "feet": [0.5, 0.99]},
                ["shadow", "fear", "dark-side", "past", "insecurity", "shadow-self", "jung", "anxiety"],
                {"shadow": "scaleY rritet = frika rritet; fade; skewX për hije të shtrembër"},

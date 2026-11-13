@@ -105,7 +105,11 @@ export class Engine {
         throw new Error(
           `node ${node.id}: ${meta.assetId} has no variant '${variant}' (has: ${Object.keys(meta.variants ?? {}).join(", ") || "none"})`,
         );
-      this.svgAssets.set(svgKey(node), prepareSvgAsset(meta, file ? assets.text(meta.assetId, file) : svg()));
+      const intensity = typeof node.props["intensity"] === "number" ? node.props["intensity"] : undefined;
+      this.svgAssets.set(
+        svgKey(node),
+        prepareSvgAsset(meta, file ? assets.text(meta.assetId, file) : svg(), intensity),
+      );
     } else if (node.adapter === "sprite") {
       throw new Error(`node ${node.id}: adapter 'sprite' (Lottie/sprite sheets) is not implemented yet`);
     }
@@ -252,7 +256,8 @@ export class Engine {
 /** One prepared drawing per asset and variant. */
 function svgKey(node: TimelineNode): string {
   const variant = typeof node.props["variant"] === "string" ? node.props["variant"] : "";
-  return `${node.asset ?? ""}#${variant}`;
+  const intensity = typeof node.props["intensity"] === "number" ? node.props["intensity"] : "";
+  return `${node.asset ?? ""}#${variant}#${intensity}`;
 }
 
 /** One prepared character per asset and outfit. */

@@ -1,0 +1,61 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "fx_light_rays_01",
+  "version": 1,
+  "name": "Rreze drite",
+  "description": "Warm sunbeams falling diagonally from the top-left corner, fading as they spread.",
+  "category": "effect",
+  "subcategory": "overlay",
+  "collection": "effects",
+  "storyUse": "Hope, revelation, a moment of clarity or insight, morning light. The rays sway gently.",
+  "kind": "overlay",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    1080,
+    1920
+  ],
+  "capabilities": {
+    "placement": "screen",
+    "animations": [
+      "fade"
+    ],
+    "idle": "drift",
+    "cover": "shtrihet që të mbulojë kuadrin; opaciteti = intensiteti"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ]
+  },
+  "parts": {
+    "rays": "sway: rrezet lëvizin lehtë rreth burimit"
+  },
+  "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+  ],
+  "tags": [
+    "light-rays",
+    "god-rays",
+    "sunlight",
+    "hope",
+    "revelation",
+    "insight",
+    "divine",
+    "morning"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

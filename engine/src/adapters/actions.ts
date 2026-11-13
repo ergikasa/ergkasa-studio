@@ -213,6 +213,95 @@ export const ACTIONS: Record<string, Action> = {
       head: { rotation: 7 * k, y: -up * 0.3 },
     });
   },
+
+  // ---- social body language (production list, category 01) ----
+
+  /** Arms folded across the chest, chin slightly up: closed, sceptical, defensive, confident. */
+  cross_arms: (t, ph) => {
+    const k = ramp(t, 0.45);
+    return merge(idleBase(t, ph), {
+      arm_upper_r: { rotation: 12 * k },
+      arm_lower_r: { rotation: 86 * k },
+      hand_r: { rotation: 6 * k },
+      arm_upper_l: { rotation: -10 * k, y: -6 * k },
+      arm_lower_l: { rotation: -94 * k },
+      hand_l: { rotation: -6 * k },
+      head: { rotation: (-2 + 1 * sin(t, 0.2, ph)) * k, y: -2 * k },
+    });
+  },
+
+  /** Heated argument: the right arm jabs an accusing finger to the side, the left fist is raised, head jerking. */
+  argue: (t, ph) => {
+    const k = ramp(t, 0.25);
+    const jab = Math.max(0, sin(t, 1.6, ph)) ** 2;
+    return merge(idleBase(t, ph), {
+      arm_upper_r: { rotation: (-60 - 14 * jab) * k },
+      arm_lower_r: { rotation: (-16 + 22 * jab) * k },
+      hand_r: { rotation: -10 * k },
+      arm_upper_l: { rotation: (46 + 4 * jab) * k },
+      arm_lower_l: { rotation: (112 + 8 * sin(t, 1.6, ph + 1.5)) * k },
+      hand_l: { rotation: 6 * k },
+      torso: { rotation: 1.5 * sin(t, 1.6, ph) * k },
+      head: { rotation: (4 + 3 * sin(t, 1.6, ph + 0.3)) * k, y: (2 - 3 * jab) * k },
+    });
+  },
+
+  /** Calm negotiation: both palms open at waist height, offering one option then the other. */
+  negotiate: (t, ph) => {
+    const k = ramp(t, 0.5);
+    const side = sin(t, 0.45, ph);
+    return merge(idleBase(t, ph), {
+      arm_upper_r: { rotation: -26 * k },
+      arm_lower_r: { rotation: (60 + 18 * Math.max(0, side)) * k },
+      hand_r: { rotation: -24 * k },
+      arm_upper_l: { rotation: 26 * k },
+      arm_lower_l: { rotation: (-60 - 18 * Math.max(0, -side)) * k },
+      hand_l: { rotation: 24 * k },
+      head: { rotation: 3 * side * k },
+    });
+  },
+
+  /** Presenting: the right arm opens towards the screen side, palm up, as if showing a chart. */
+  present: (t, ph) => {
+    const k = ramp(t, 0.45);
+    return merge(idleBase(t, ph), {
+      arm_upper_r: { rotation: (-66 + 4 * sin(t, 0.5, ph)) * k },
+      arm_lower_r: { rotation: (-26 + 6 * sin(t, 0.5, ph + 0.7)) * k },
+      hand_r: { rotation: -24 * k },
+      arm_upper_l: { rotation: 10 * k },
+      arm_lower_l: { rotation: -38 * k },
+      hand_l: { rotation: 12 * k },
+      head: { rotation: (6 + 1.5 * sin(t, 0.6, ph)) * k },
+    });
+  },
+
+  /** Observing: still body, arms close, the head slowly scanning from one side to the other. */
+  observe: (t, ph) => {
+    const k = ramp(t, 0.5);
+    const scan = Math.sin(t * TAU * 0.16 + ph);
+    return merge(idleBase(t, ph), {
+      arm_upper_r: { rotation: 16 * k },
+      arm_lower_r: { rotation: 72 * k },
+      arm_upper_l: { rotation: -8 * k },
+      arm_lower_l: { rotation: -20 * k },
+      head: { rotation: 8 * scan * k, x: 7 * scan * k, y: 2 * k },
+      eyes: { x: 3 * scan * k },
+      torso: { rotation: 1.2 * scan * k },
+    });
+  },
+
+  /** Looking up (at a wall clock, a sign, the sky): head tips back, shoulders settle. */
+  look_up: (t, ph) => {
+    const k = ramp(t, 0.5);
+    return merge(idleBase(t, ph), {
+      neck: { y: -3 * k },
+      head: { y: -8 * k, scaleY: 1 - 0.03 * k, rotation: 1 * sin(t, 0.2, ph) * k },
+      eyes: { y: -5 * k },
+      brows: { y: -7 * k },
+      arm_upper_r: { rotation: 2 * k },
+      arm_upper_l: { rotation: -2 * k },
+    });
+  },
 };
 
 export const ACTION_NAMES = Object.keys(ACTIONS);
@@ -632,6 +721,99 @@ export const SIDE_ACTIONS: Record<string, Action> = {
     };
   },
 };
+
+/** Pose of `root` (pivot at the drawing origin) that rotates the whole body by `deg` around point `p`. */
+function rootRotation(deg: number, p: Vec): { rotation: number; x: number; y: number } {
+  const r = (deg * Math.PI) / 180;
+  const [px, py] = p;
+  return {
+    rotation: deg,
+    x: px - (px * Math.cos(r) - py * Math.sin(r)),
+    y: py - (px * Math.sin(r) + py * Math.cos(r)),
+  };
+}
+
+Object.assign(SIDE_ACTIONS, {
+  /** Handshake: the near arm forward at waist height, pumping twice, a small lean and nod. */
+  shake_hands: ((t, ph) => {
+    const k = ramp(t, 0.5);
+    const pump = t > 0.6 && t < 1.8 ? 7 * Math.sin((t - 0.6) * TAU * 1.6) : 0;
+    return merge(sideIdle(t, ph), {
+      torso: { rotation: -4 * k },
+      head: { rotation: (3 + (pump > 0 ? 1.5 : 0)) * k },
+      arm_upper_n: { rotation: -48 * k + pump * k },
+      arm_lower_n: { rotation: -26 * k },
+      hand_n: { rotation: 6 * k },
+    });
+  }) satisfies Action,
+
+  /** Trips and falls forward flat on the floor (about 1 s), then stays down, breathing. */
+  fall: ((t) => {
+    const d = 0.95;
+    const u = Math.min(1, t / d);
+    const g = u * u; // falls faster and faster
+    const settle = t > d ? 3 * Math.exp(-(t - d) * 6) * Math.sin((t - d) * 30) : 0;
+    const breath = t > d ? 1.5 * Math.sin(t * TAU * 0.3) : 0;
+    return {
+      // lies flat: a full quarter turn around the toes, then down onto the chest
+      root: (() => {
+        const r = rootRotation(90 * g + settle, TOE);
+        return { ...r, y: r.y + 34 * g };
+      })(),
+      thigh_n: { rotation: -10 * Math.sin(Math.PI * u) },
+      shin_n: { rotation: 18 * Math.sin(Math.PI * u) },
+      thigh_f: { rotation: 14 * u },
+      shin_f: { rotation: 10 * u },
+      torso: { rotation: -6 * u, scaleY: 1 + 0.004 * breath },
+      head: { rotation: -14 * u },
+      // arms go forward to break the fall, then rest along the floor
+      arm_upper_n: { rotation: -150 * Math.min(1, u * 1.6) + 40 * Math.max(0, u - 0.8) * 5 },
+      arm_lower_n: { rotation: -20 * u },
+      arm_upper_f: { rotation: -130 * Math.min(1, u * 1.4) + 30 * Math.max(0, u - 0.8) * 5 },
+      arm_lower_f: { rotation: -24 * u },
+    };
+  }) satisfies Action,
+
+  /**
+   * Climbing stairs in place: the leading knee lifts high, the body pushes up and leans forward.
+   * The ascent itself comes from the `y` track (the planner moves the character up the steps).
+   */
+  climb: ((t) => {
+    const k = ramp(t, 0.3);
+    const hz = 0.8;
+    const p = (t * hz) % 1;
+    const stepLeg = (q: number): { thigh: number; shin: number; foot: number } => {
+      const lifted = Math.sin(Math.PI * Math.min(1, q / 0.5)) * (q < 0.5 ? 1 : 0);
+      const thigh = -58 * lifted + 8 * (q >= 0.5 ? Math.sin((Math.PI * (q - 0.5)) / 0.5) : 0);
+      const shin = 76 * lifted + 4;
+      return { thigh, shin, foot: -(thigh + shin) * 0.8 };
+    };
+    const n = stepLeg(p);
+    const f = stepLeg((p + 0.5) % 1);
+    const push = -10 * Math.abs(Math.sin(t * TAU * hz));
+    return blendPoses(
+      sideIdle(t, 0),
+      lift(
+        {
+          thigh_n: { rotation: n.thigh },
+          shin_n: { rotation: n.shin },
+          foot_n: { rotation: n.foot },
+          thigh_f: { rotation: f.thigh },
+          shin_f: { rotation: f.shin },
+          foot_f: { rotation: f.foot },
+          torso: { rotation: -9 },
+          head: { rotation: 4 },
+          arm_upper_n: { rotation: 22 * Math.sin(t * TAU * hz) },
+          arm_upper_f: { rotation: -22 * Math.sin(t * TAU * hz) },
+          arm_lower_n: { rotation: -24 },
+          arm_lower_f: { rotation: -24 },
+        },
+        push,
+      ),
+      k,
+    );
+  }) satisfies Action,
+});
 
 /** Actions per skeleton, so the engine never runs a front action on a side rig (or vice versa). */
 export const ACTIONS_BY_SKELETON: Record<string, Record<string, Action>> = {

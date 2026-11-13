@@ -1,0 +1,63 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "fx_ink_spread_01",
+  "version": 1,
+  "name": "Njollë boje",
+  "description": "A black ink splash with drips and droplets around it.",
+  "category": "effect",
+  "subcategory": "local",
+  "collection": "effects",
+  "storyUse": "A mistake that leaves a mark, an emotional outburst, chaos; scaled up from 0 it works as an ink transition.",
+  "kind": "overlay",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    900,
+    900
+  ],
+  "capabilities": {
+    "placement": "world",
+    "animations": [
+      "grow",
+      "pop_in",
+      "fade"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ]
+  },
+  "parts": {
+    "ink": "scale 0 → 1 = boja përhapet"
+  },
+  "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+  ],
+  "tags": [
+    "ink",
+    "splash",
+    "stain",
+    "mistake",
+    "chaos",
+    "emotion",
+    "transition",
+    "rorschach",
+    "art"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}
