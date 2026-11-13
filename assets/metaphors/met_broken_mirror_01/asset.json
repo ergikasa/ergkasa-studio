@@ -1,0 +1,70 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "met_broken_mirror_01",
+  "version": 1,
+  "name": "Pasqyrë e thyer",
+  "description": "An oval brass-framed mirror with a crack spreading from the centre and shards on the floor.",
+  "category": "metaphor",
+  "subcategory": "interactive",
+  "collection": "psychology",
+  "storyUse": "A broken self-image: shame, trauma, losing a sense of identity, how criticism breaks self-esteem.",
+  "kind": "animated_metaphor",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    460,
+    680
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide",
+      "shake",
+      "crack"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.4411764705882353
+    ],
+    "ground": [
+      0.5,
+      1.0
+    ]
+  },
+  "parts": {
+    "frame": "statike",
+    "glass": "statik",
+    "cracks": "opacity 0 → 1 = plasaritja (receta `crack`)",
+    "shards": "copëzat në dysheme (fade)"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "mirror",
+    "broken",
+    "self-image",
+    "identity",
+    "trauma",
+    "self-esteem",
+    "shattered",
+    "reflection"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

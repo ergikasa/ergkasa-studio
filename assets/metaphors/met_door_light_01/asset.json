@@ -1,0 +1,79 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "met_door_light_01",
+  "version": 1,
+  "name": "Derë drejt dritës",
+  "description": "A freestanding door frame with warm light glowing at the edges of the closed door. Variants: `open` (light pours out), `locked` (chained, dark).",
+  "category": "metaphor",
+  "subcategory": "interactive",
+  "collection": "psychology",
+  "storyUse": "Opportunity and change: a new beginning, stepping into the unknown. Locked variant: a closed opportunity, fear, rejection.",
+  "kind": "animated_metaphor",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "variants": {
+    "open": "open.svg",
+    "locked": "locked.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    560,
+    1080
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide",
+      "shake",
+      "open"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "doorway": [
+      0.5,
+      0.97
+    ],
+    "hinge": [
+      0.19642857142857142,
+      0.5
+    ]
+  },
+  "parts": {
+    "leaf": "receta `open`: dera hapet (scaleX → 0.16) dhe zbulon dritën",
+    "light": "drita pas derës",
+    "frame": "kasa"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "door",
+    "opportunity",
+    "new-beginning",
+    "choice",
+    "unknown",
+    "light",
+    "hope",
+    "change",
+    "locked",
+    "closed-door"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

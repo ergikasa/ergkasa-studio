@@ -1,0 +1,67 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_bank_building_01",
+  "version": 1,
+  "name": "Ndërtesë banke (klasike)",
+  "description": "A classical bank building with six marble columns, a pediment with a gold seal, steps and a heavy wooden door. No text.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "business",
+  "storyUse": "Banks and trust in institutions: loans, debt, financial crises, the history of money, old money and power.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    900,
+    780
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "door": [
+      0.5,
+      0.8589743589743589
+    ]
+  },
+  "parts": {
+    "building": "statike",
+    "door": "statike"
+  },
+  "themes": [
+    "money",
+    "decisions",
+    "philosophy"
+  ],
+  "tags": [
+    "bank",
+    "finance",
+    "institution",
+    "trust",
+    "money",
+    "loans",
+    "economy",
+    "history",
+    "power"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

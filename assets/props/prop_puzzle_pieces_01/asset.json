@@ -1,0 +1,68 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_puzzle_pieces_01",
+  "version": 1,
+  "name": "Pjesë puzzle-i",
+  "description": "Three interlocking jigsaw pieces in teal, gold and blue, with a red fourth piece lying apart.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "psychology",
+  "storyUse": "The missing piece, solving a problem step by step, things finally fitting together, teamwork.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    560,
+    440
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ],
+    "gap": [
+      0.5625,
+      0.7159090909090909
+    ]
+  },
+  "parts": {
+    "piece_1": "slide/pop_in më vete; piece_4 është jashtë dhe mund të futet te anchor `gap`",
+    "piece_2": "slide/pop_in më vete; piece_4 është jashtë dhe mund të futet te anchor `gap`",
+    "piece_3": "slide/pop_in më vete; piece_4 është jashtë dhe mund të futet te anchor `gap`",
+    "piece_4": "slide/pop_in më vete; piece_4 është jashtë dhe mund të futet te anchor `gap`"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "puzzle",
+    "pieces",
+    "missing-piece",
+    "problem-solving",
+    "fit",
+    "teamwork",
+    "understanding",
+    "connection"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

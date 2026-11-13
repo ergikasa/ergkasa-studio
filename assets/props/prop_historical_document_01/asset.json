@@ -1,0 +1,62 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_historical_document_01",
+  "version": 1,
+  "name": "Dokument historik",
+  "description": "An old parchment charter with lines of handwriting as soft strokes, a signature and a red wax seal with ribbons.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "history",
+  "storyUse": "Historic agreements: treaties, charters and declarations, laws that changed societies.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    460,
+    580
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ]
+  },
+  "parts": {
+    "document": "pop_in, slide"
+  },
+  "themes": [
+    "philosophy",
+    "decisions",
+    "science"
+  ],
+  "tags": [
+    "document",
+    "historical",
+    "treaty",
+    "charter",
+    "law",
+    "declaration",
+    "history",
+    "agreement",
+    "rights"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

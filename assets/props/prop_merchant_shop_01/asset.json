@@ -1,0 +1,66 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_merchant_shop_01",
+  "version": 1,
+  "name": "Dyqan i vjetër tregtari",
+  "description": "An old timber-framed merchant's shop with a warm lit window, a wooden door and a round brass hanging sign.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "history",
+  "storyUse": "Traders and craftsmen of the past: the history of commerce, small family businesses, the old town.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    820,
+    800
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "door": [
+      0.6707317073170732,
+      1.0
+    ]
+  },
+  "parts": {
+    "shop": "statike"
+  },
+  "themes": [
+    "money",
+    "philosophy",
+    "decisions"
+  ],
+  "tags": [
+    "merchant",
+    "shop",
+    "old",
+    "trade",
+    "history",
+    "commerce",
+    "craft",
+    "town",
+    "economy"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

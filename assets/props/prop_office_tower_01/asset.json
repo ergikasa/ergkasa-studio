@@ -1,0 +1,62 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_office_tower_01",
+  "version": 1,
+  "name": "Kullë zyrash (pasuri e paluajtshme)",
+  "description": "A tall modern glass office tower with a blue facade and a dark entrance.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "business",
+  "storyUse": "Real estate and big business: corporate power, property investment, the city economy.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    560,
+    1340
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ]
+  },
+  "parts": {
+    "tower": "statike"
+  },
+  "themes": [
+    "money",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "skyscraper",
+    "office-tower",
+    "real-estate",
+    "corporation",
+    "city",
+    "business",
+    "wealth",
+    "property",
+    "investment"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_security_camera_01",
+  "version": 1,
+  "name": "Kamerë sigurie",
+  "description": "A white wall-mounted security camera with a dark lens and a glowing red light.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "power",
+  "storyUse": "Being monitored: surveillance and privacy, the Hawthorne effect (people behave differently when watched), control.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    420,
+    300
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide",
+      "sway"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.4
+    ],
+    "wall": [
+      0.92,
+      0.3
+    ]
+  },
+  "parts": {
+    "camera": "rotation ±20 = skanon dhomën",
+    "mount": "statik"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "science"
+  ],
+  "tags": [
+    "camera",
+    "surveillance",
+    "watching",
+    "privacy",
+    "control",
+    "security",
+    "big-brother",
+    "hawthorne-effect",
+    "monitoring"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

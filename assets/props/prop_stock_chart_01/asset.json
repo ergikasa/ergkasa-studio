@@ -1,0 +1,65 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_stock_chart_01",
+  "version": 1,
+  "name": "Grafik i bursës",
+  "description": "A dark trading screen with green and red candlesticks rising and a gold trend line. No numbers.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "business",
+  "storyUse": "Markets and investing: volatility, speculation, herd behaviour, FOMO, bull and bear markets.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    680,
+    440
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide",
+      "pulse"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ]
+  },
+  "parts": {
+    "candles": "fade/slide = qirinjtë shfaqen",
+    "trend": "fade",
+    "screen": "statik"
+  },
+  "themes": [
+    "money",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "stocks",
+    "stock-market",
+    "trading",
+    "investing",
+    "chart",
+    "volatility",
+    "bull-market",
+    "speculation",
+    "economy"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_market_stall_01",
+  "version": 1,
+  "name": "Tezgë tregu mesjetar",
+  "description": "A wooden medieval market stall with a striped red cloth roof, baskets and fruit on the counter.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "history",
+  "storyUse": "Early trade and markets: merchants, barter, the origins of the economy, village life.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    820,
+    700
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ]
+  },
+  "parts": {
+    "stall": "statike"
+  },
+  "themes": [
+    "money",
+    "philosophy",
+    "decisions"
+  ],
+  "tags": [
+    "market",
+    "medieval",
+    "trade",
+    "merchant",
+    "economy",
+    "barter",
+    "history",
+    "village",
+    "commerce"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

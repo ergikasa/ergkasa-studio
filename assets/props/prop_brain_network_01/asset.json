@@ -1,0 +1,66 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_brain_network_01",
+  "version": 1,
+  "name": "Tru me lidhje neurale",
+  "description": "A glowing dark-blue brain outline filled with a network of light nodes and connections.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "psychology",
+  "storyUse": "Learning and neuroplasticity, habits wiring in, memory, dopamine signals, 'your brain is rewiring itself'.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    420,
+    340
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide",
+      "pulse",
+      "float"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ]
+  },
+  "parts": {
+    "nodes": "pulse = sinjale neurale",
+    "links": "fade/pulse",
+    "shell": "statik"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "brain",
+    "neurons",
+    "network",
+    "connections",
+    "learning",
+    "neuroplasticity",
+    "habit",
+    "memory",
+    "neuroscience"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

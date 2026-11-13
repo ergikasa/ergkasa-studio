@@ -1,0 +1,64 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_colonnade_01",
+  "version": 1,
+  "name": "Kolona të larta (kolonadë)",
+  "description": "A monumental row of six tall white marble columns with an entablature on top and steps below.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "power",
+  "storyUse": "The power of institutions: government, courts, banks, empires; small people in front of huge architecture.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    1500,
+    1150
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ]
+  },
+  "parts": {
+    "columns": "statike",
+    "entablature": "statik",
+    "steps": "statike"
+  },
+  "themes": [
+    "philosophy",
+    "decisions",
+    "money"
+  ],
+  "tags": [
+    "columns",
+    "colonnade",
+    "institution",
+    "power",
+    "government",
+    "authority",
+    "monumental",
+    "empire",
+    "law"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

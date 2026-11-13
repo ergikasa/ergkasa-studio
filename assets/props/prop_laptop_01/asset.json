@@ -1,0 +1,71 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_laptop_01",
+  "version": 1,
+  "name": "Laptop (pamje ballore)",
+  "description": "An open silver laptop seen from the front with a glowing blue screen.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "business",
+  "storyUse": "Work and study, remote work, endless screen time, online life. Put any content on the screen anchor.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    560,
+    380
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      0.95
+    ],
+    "screen": [
+      0.5,
+      0.37894736842105264
+    ],
+    "top": [
+      0.5,
+      0.95
+    ]
+  },
+  "parts": {
+    "lid": "statik; vendos përmbajtje mbi anchor `screen`",
+    "base": "statike"
+  },
+  "themes": [
+    "money",
+    "growth",
+    "psychology"
+  ],
+  "tags": [
+    "laptop",
+    "computer",
+    "work",
+    "remote-work",
+    "tech",
+    "productivity",
+    "online",
+    "screen",
+    "study"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

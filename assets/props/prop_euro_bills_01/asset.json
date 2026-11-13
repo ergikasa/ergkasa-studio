@@ -1,0 +1,70 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_euro_bills_01",
+  "version": 1,
+  "name": "Kartëmonedha euro",
+  "description": "A stack of kartëmonedha banknotes with two loose notes on top. No text: a portrait oval and a currency sign only.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "business",
+  "storyUse": "Cash in Europe: prices, salaries, savings and spending; any money story set in the eurozone.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    460,
+    280
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide",
+      "float",
+      "bounce"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "center": [
+      0.5,
+      0.45
+    ]
+  },
+  "parts": {
+    "note_1": "slide/fall = kartëmonedha që lëvizin",
+    "note_2": "float",
+    "stack": "statike"
+  },
+  "themes": [
+    "money",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "money",
+    "euro",
+    "cash",
+    "banknotes",
+    "europe",
+    "wealth",
+    "spending",
+    "economy",
+    "eur"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

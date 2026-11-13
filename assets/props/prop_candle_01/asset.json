@@ -1,0 +1,70 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_candle_01",
+  "version": 1,
+  "name": "Qiri që digjet",
+  "description": "A white pillar candle with wax drips and a warm flickering flame.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "psychology",
+  "storyUse": "Hope in darkness, time burning away, burnout ('burning the candle at both ends'), remembrance.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    140,
+    320
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide",
+      "sway",
+      "pulse"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "flame": [
+      0.5,
+      0.2
+    ]
+  },
+  "parts": {
+    "flame": "sway i lehtë = flaka dridhet",
+    "glow": "pulse",
+    "candle": "scaleY zvogëlohet = koha që digjet"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "candle",
+    "flame",
+    "hope",
+    "time",
+    "burnout",
+    "fragile",
+    "light-in-darkness",
+    "memory",
+    "mourning"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

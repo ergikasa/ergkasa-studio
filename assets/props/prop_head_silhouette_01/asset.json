@@ -1,0 +1,71 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_head_silhouette_01",
+  "version": 1,
+  "name": "Kokë njerëzore në profil (siluetë)",
+  "description": "A dark slate human head in profile with a soft warm glow where the mind is.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "psychology",
+  "storyUse": "A container for ideas: put a brain, a thought, a maze or a memory over the `mind` anchor. Inner voice, overthinking, beliefs.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    420,
+    520
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide",
+      "pulse"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ],
+    "mind": [
+      0.4666666666666667,
+      0.40384615384615385
+    ],
+    "ground": [
+      0.5,
+      0.92
+    ]
+  },
+  "parts": {
+    "head": "statike",
+    "mind": "pulse/fade: drita e mendimit; vendos objekte mbi anchor `mind`"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "head",
+    "profile",
+    "silhouette",
+    "mind",
+    "thoughts",
+    "identity",
+    "psychology",
+    "inner-voice"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

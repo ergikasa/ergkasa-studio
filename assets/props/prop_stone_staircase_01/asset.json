@@ -1,0 +1,70 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_stone_staircase_01",
+  "version": 1,
+  "name": "Shkallë guri",
+  "description": "A wide ancient stone staircase rising from left to right, blocks with joints.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "philosophy",
+  "storyUse": "The long climb: the path to wisdom or mastery, an ancient temple approach, steady progress.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    1100,
+    820
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "top": [
+      0.95,
+      0.16097560975609757
+    ],
+    "bottom": [
+      0.05,
+      1.0
+    ]
+  },
+  "parts": {
+    "stairs": "statike"
+  },
+  "themes": [
+    "philosophy",
+    "growth",
+    "decisions"
+  ],
+  "tags": [
+    "stairs",
+    "stone",
+    "ancient",
+    "climb",
+    "progress",
+    "path",
+    "journey",
+    "wisdom",
+    "temple"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_question_sculpture_01",
+  "version": 1,
+  "name": "Skulpturë pikëpyetjeje",
+  "description": "A large white marble question mark sculpture standing on a plinth.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "philosophy",
+  "storyUse": "The big question: doubt and curiosity, 'why?', philosophy's unanswered questions, thinking before believing.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    420,
+    820
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide",
+      "float",
+      "sway"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ]
+  },
+  "parts": {
+    "question": "pop_in, float, sway",
+    "plinth": "statik"
+  },
+  "themes": [
+    "philosophy",
+    "growth",
+    "decisions"
+  ],
+  "tags": [
+    "question",
+    "question-mark",
+    "doubt",
+    "curiosity",
+    "critical-thinking",
+    "philosophy",
+    "unknown",
+    "mystery",
+    "why"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

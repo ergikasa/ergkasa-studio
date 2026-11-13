@@ -1,0 +1,78 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "met_cage_01",
+  "version": 1,
+  "name": "Kafaz",
+  "description": "A tall steel cage with a domed top and a padlocked front door. A standing character fits inside (anchor inside).",
+  "category": "metaphor",
+  "subcategory": "interactive",
+  "collection": "psychology",
+  "storyUse": "Feeling trapped: limiting beliefs, fear, a toxic job or relationship. Open it (recipe `open` or variant `open`) for freedom.",
+  "kind": "animated_metaphor",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "variants": {
+    "open": "open.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    640,
+    1060
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide",
+      "shake",
+      "open"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "inside": [
+      0.5,
+      0.94
+    ],
+    "door": [
+      0.35625,
+      0.5094339622641509
+    ]
+  },
+  "parts": {
+    "door": "receta `open`: dera hapet (scaleX)",
+    "lock": "dryni zhduket kur hapet",
+    "frame": "statik",
+    "back": "hekurat e pasmë"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "cage",
+    "trapped",
+    "prison",
+    "limiting-beliefs",
+    "fear",
+    "comfort-zone",
+    "freedom",
+    "control",
+    "locked"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

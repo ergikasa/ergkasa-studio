@@ -1,0 +1,66 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_calculator_01",
+  "version": 1,
+  "name": "Kalkulator financiar",
+  "description": "A dark grey calculator with a green display and orange operation keys. No digits.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "business",
+  "storyUse": "Doing the maths: budgets, costs versus benefits, rational decisions versus emotional ones.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    260,
+    380
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "center": [
+      0.5,
+      0.5
+    ]
+  },
+  "parts": {
+    "calc": "pop_in, shake"
+  },
+  "themes": [
+    "money",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "calculator",
+    "math",
+    "budget",
+    "accounting",
+    "costs",
+    "rational",
+    "numbers",
+    "finance",
+    "planning"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

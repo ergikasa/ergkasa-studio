@@ -1,0 +1,68 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_puppet_controller_01",
+  "version": 1,
+  "name": "Kontrolli i kukullës me fije",
+  "description": "A wooden marionette control cross hanging from a hook, with six strings hanging down.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "psychology",
+  "storyUse": "Manipulation and hidden control: who pulls the strings, the puppet master, propaganda, lack of free will. Hang it above a character.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    480,
+    760
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide",
+      "sway"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "top": [
+      0.5,
+      0.0
+    ],
+    "strings_end": [
+      0.5,
+      0.9657894736842105
+    ]
+  },
+  "parts": {
+    "control": "sway = dikush tërheq fijet",
+    "strings": "statike; mbarojnë te anchor `strings_end`",
+    "hook": "statik"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "philosophy"
+  ],
+  "tags": [
+    "puppet",
+    "strings",
+    "control",
+    "manipulation",
+    "puppet-master",
+    "influence",
+    "power",
+    "free-will"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

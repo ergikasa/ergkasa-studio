@@ -1,0 +1,66 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_scepter_01",
+  "version": 1,
+  "name": "Skeptër mbretëror",
+  "description": "A golden royal scepter with a blue orb and small cross on top and red jewels on the rod.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "power",
+  "storyUse": "A symbol of authority: the right to rule, legitimacy, ceremony and power.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    140,
+    640
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide",
+      "float"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ],
+    "grip": [
+      0.5,
+      0.65
+    ]
+  },
+  "parts": {
+    "scepter": "pop_in, float, rotation"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "money"
+  ],
+  "tags": [
+    "scepter",
+    "royalty",
+    "authority",
+    "power",
+    "rule",
+    "symbol",
+    "king",
+    "queen"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

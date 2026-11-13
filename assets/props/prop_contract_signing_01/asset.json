@@ -1,0 +1,67 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_contract_signing_01",
+  "version": 1,
+  "name": "Firmosja e kontratës",
+  "description": "A close-up of a hand in a suit sleeve signing a contract with a fountain pen; a red seal on the paper.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "power",
+  "storyUse": "The moment of commitment: signing a deal, a legal promise, sunk cost, reading the fine print.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    600,
+    380
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.6
+    ],
+    "signature": [
+      0.48333333333333334,
+      0.7789473684210526
+    ]
+  },
+  "parts": {
+    "hand": "slide/shake = shkruan firmën",
+    "paper": "statike"
+  },
+  "themes": [
+    "money",
+    "decisions",
+    "psychology"
+  ],
+  "tags": [
+    "contract",
+    "signing",
+    "agreement",
+    "deal",
+    "commitment",
+    "law",
+    "business",
+    "promise",
+    "decision"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

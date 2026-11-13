@@ -1,0 +1,68 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_smartphone_01",
+  "version": 1,
+  "name": "Smartphone",
+  "description": "A large modern smartphone with colourful app icons and a notification banner. No text.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "business",
+  "storyUse": "Phone addiction and dopamine: notifications, social media, screen time, the attention economy.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    240,
+    460
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide",
+      "shake",
+      "float"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ],
+    "screen": [
+      0.5,
+      0.5
+    ]
+  },
+  "parts": {
+    "phone": "pop_in, shake (njoftim), float"
+  },
+  "themes": [
+    "psychology",
+    "money",
+    "decisions"
+  ],
+  "tags": [
+    "smartphone",
+    "phone",
+    "apps",
+    "notifications",
+    "social-media",
+    "addiction",
+    "dopamine",
+    "screen-time",
+    "tech"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_factory_01",
+  "version": 1,
+  "name": "Fabrikë",
+  "description": "A brick factory with a saw-tooth roof, tall chimneys with smoke, windows and a loading gate.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "business",
+  "storyUse": "Industry and production: the industrial revolution, factory jobs, mass production, pollution, the economy.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    980,
+    760
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ]
+  },
+  "parts": {
+    "smoke": "float/fade = tymi del",
+    "building": "statike"
+  },
+  "themes": [
+    "money",
+    "science",
+    "decisions"
+  ],
+  "tags": [
+    "factory",
+    "industry",
+    "production",
+    "manufacturing",
+    "industrial-revolution",
+    "work",
+    "economy",
+    "pollution",
+    "jobs"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

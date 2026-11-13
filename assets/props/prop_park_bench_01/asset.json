@@ -1,0 +1,79 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_park_bench_01",
+  "version": 1,
+  "name": "Stol parku",
+  "description": "A wooden park bench with dark iron legs and armrests, seen from the front.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "everyday",
+  "storyUse": "Sitting alone, waiting, reflecting, two people sitting apart. Two seat anchors.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    760,
+    420
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "seat_left": [
+      0.3,
+      0.45714285714285713
+    ],
+    "seat_right": [
+      0.7,
+      0.45714285714285713
+    ],
+    "hip_left": [
+      0.3,
+      0.4238095238095238
+    ],
+    "hip_right": [
+      0.7,
+      0.4238095238095238
+    ]
+  },
+  "parts": {
+    "slats": "statike",
+    "frame": "statike"
+  },
+  "themes": [
+    "psychology",
+    "growth",
+    "philosophy"
+  ],
+  "tags": [
+    "bench",
+    "park",
+    "sit",
+    "alone",
+    "waiting",
+    "reflection",
+    "loneliness",
+    "outdoor",
+    "furniture"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

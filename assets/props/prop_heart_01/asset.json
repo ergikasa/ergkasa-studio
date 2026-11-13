@@ -1,0 +1,65 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_heart_01",
+  "version": 1,
+  "name": "Zemër njerëzore",
+  "description": "A stylised anatomical heart, red, with the aorta and blue veins on top.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "psychology",
+  "storyUse": "Emotions in the body: fear and the racing heart, love, stress, the physical side of anxiety.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    320,
+    360
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide",
+      "pulse",
+      "scale_pulse"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.58
+    ]
+  },
+  "parts": {
+    "heart": "pulse = rrahje zemre; scale_pulse më i shpejtë për frikë/stres",
+    "vessels": "statike"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "heart",
+    "emotion",
+    "love",
+    "fear",
+    "anxiety",
+    "stress",
+    "body",
+    "health",
+    "pulse"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_marble_statue_01",
+  "version": 1,
+  "name": "Statujë mermeri (antike)",
+  "description": "A white marble classical statue of a figure in a draped toga holding a scroll, on a tall plinth.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "philosophy",
+  "storyUse": "Ancient ideals and legacy: Greek and Roman history, how great figures are remembered, Stoic calm.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    440,
+    1240
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "plinth_top": [
+      0.5,
+      0.8145161290322581
+    ]
+  },
+  "parts": {
+    "statue": "statike; fade",
+    "plinth": "statik"
+  },
+  "themes": [
+    "philosophy",
+    "decisions",
+    "science"
+  ],
+  "tags": [
+    "statue",
+    "marble",
+    "ancient",
+    "classical",
+    "greek",
+    "roman",
+    "history",
+    "ideal",
+    "legacy",
+    "stoic"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

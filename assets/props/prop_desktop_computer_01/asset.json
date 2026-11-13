@@ -1,0 +1,68 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_desktop_computer_01",
+  "version": 1,
+  "name": "Kompjuter tavoline",
+  "description": "A desktop monitor with windows on screen, a keyboard and a mouse, seen from the front.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "business",
+  "storyUse": "Office work and routine: emails, spreadsheets, staring at a screen all day, data and productivity.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    640,
+    560
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "screen": [
+      0.5,
+      0.2857142857142857
+    ]
+  },
+  "parts": {
+    "monitor": "statik; përmbajtje mbi anchor `screen`",
+    "keyboard": "statike",
+    "mouse": "statik"
+  },
+  "themes": [
+    "money",
+    "growth",
+    "psychology"
+  ],
+  "tags": [
+    "computer",
+    "desktop",
+    "office",
+    "work",
+    "screen",
+    "productivity",
+    "data",
+    "tech",
+    "routine"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

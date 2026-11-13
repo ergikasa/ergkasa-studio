@@ -1,0 +1,65 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_ink_bottle_01",
+  "version": 1,
+  "name": "Shishe boje",
+  "description": "A dark glass ink bottle with a gold-rimmed neck.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "philosophy",
+  "storyUse": "The writer's desk: putting ideas on paper, old letters and treaties, the craft of thinking in writing.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    220,
+    260
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "mouth": [
+      0.5,
+      0.1
+    ]
+  },
+  "parts": {
+    "bottle": "statike"
+  },
+  "themes": [
+    "philosophy",
+    "growth",
+    "decisions"
+  ],
+  "tags": [
+    "ink",
+    "ink-bottle",
+    "writing",
+    "author",
+    "history",
+    "philosophy",
+    "classic",
+    "desk"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

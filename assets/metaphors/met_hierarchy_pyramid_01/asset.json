@@ -1,0 +1,70 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "met_hierarchy_pyramid_01",
+  "version": 1,
+  "name": "Piramida e hierarkisë",
+  "description": "A five-tier pyramid from slate at the bottom to gold at the top, with more small figures on each lower tier and one at the top.",
+  "category": "metaphor",
+  "subcategory": "interactive",
+  "collection": "power",
+  "storyUse": "Power and inequality: social hierarchy, the elite at the top, corporate ladders, Maslow-style levels.",
+  "kind": "animated_metaphor",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    1100,
+    860
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "build"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "top": [
+      0.5,
+      0.046511627906976744
+    ]
+  },
+  "parts": {
+    "tier_1": "receta `build`: katet shfaqen nga poshtë lart",
+    "tier_2": "receta `build`: katet shfaqen nga poshtë lart",
+    "tier_3": "receta `build`: katet shfaqen nga poshtë lart",
+    "tier_4": "receta `build`: katet shfaqen nga poshtë lart",
+    "tier_5": "receta `build`: katet shfaqen nga poshtë lart"
+  },
+  "themes": [
+    "psychology",
+    "money",
+    "decisions"
+  ],
+  "tags": [
+    "pyramid",
+    "hierarchy",
+    "power",
+    "inequality",
+    "status",
+    "social-class",
+    "organization",
+    "elite",
+    "maslow"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

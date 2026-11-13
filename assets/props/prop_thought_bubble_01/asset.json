@@ -1,0 +1,68 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_thought_bubble_01",
+  "version": 1,
+  "name": "Flluskë mendimi",
+  "description": "A white cloud-shaped thought bubble with two small circles trailing to the lower left.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "psychology",
+  "storyUse": "What a character is thinking, imagining or worrying about. Put the tail near the head and an object over `content`.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    560,
+    460
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "float",
+      "bob"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "content": [
+      0.5,
+      0.37
+    ],
+    "tail": [
+      0.125,
+      0.9130434782608695
+    ]
+  },
+  "parts": {
+    "cloud": "pop_in pas pikave; vendos përmbajtjen mbi anchor `content`",
+    "dot_1": "pop_in",
+    "dot_2": "pop_in (e para)"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "thought",
+    "bubble",
+    "thinking",
+    "idea",
+    "imagination",
+    "inner-voice",
+    "daydream",
+    "worry"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

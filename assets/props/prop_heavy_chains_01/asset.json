@@ -1,0 +1,65 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_heavy_chains_01",
+  "version": 1,
+  "name": "Zinxhirë të rëndë",
+  "description": "A heavy steel chain sagging across the frame with a dark padlock hanging from the middle.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "psychology",
+  "storyUse": "What weighs on us: debt, guilt, addiction, bad habits, obligations that hold someone back.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    760,
+    300
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide",
+      "shake",
+      "sway"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.45
+    ]
+  },
+  "parts": {
+    "chain": "sway i rëndë",
+    "padlock": "shake"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "chains",
+    "heavy",
+    "burden",
+    "addiction",
+    "debt",
+    "guilt",
+    "trapped",
+    "habit",
+    "restriction"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

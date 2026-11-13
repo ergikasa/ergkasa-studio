@@ -1,0 +1,67 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_sword_01",
+  "version": 1,
+  "name": "Shpatë mesjetare",
+  "description": "A medieval longsword with a polished steel blade, gold crossguard, leather grip and a red pommel stone.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "history",
+  "storyUse": "War and force: knights and battles, conflict, power taken by violence, honour.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    220,
+    900
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ],
+    "hilt": [
+      0.5,
+      0.82
+    ]
+  },
+  "parts": {
+    "sword": "rotation/slide; pop_in"
+  },
+  "themes": [
+    "philosophy",
+    "decisions",
+    "science"
+  ],
+  "tags": [
+    "sword",
+    "medieval",
+    "war",
+    "power",
+    "conflict",
+    "honour",
+    "knight",
+    "history",
+    "battle",
+    "force"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

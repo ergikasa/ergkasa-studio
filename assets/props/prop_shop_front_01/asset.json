@@ -1,0 +1,66 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_shop_front_01",
+  "version": 1,
+  "name": "Dyqan (fasadë)",
+  "description": "A small shop front with a red-and-white striped awning, display windows with goods and a teal door. The sign board is blank.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "business",
+  "storyUse": "Retail and small business: shopping habits, entrepreneurs, the local shop versus the big chain.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    860,
+    760
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "door": [
+      0.5,
+      1.0
+    ]
+  },
+  "parts": {
+    "building": "statike",
+    "awning": "statike"
+  },
+  "themes": [
+    "money",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "shop",
+    "store",
+    "retail",
+    "small-business",
+    "consumer",
+    "shopping",
+    "entrepreneur",
+    "main-street"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

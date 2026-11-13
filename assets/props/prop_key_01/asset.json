@@ -1,0 +1,64 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_key_01",
+  "version": 1,
+  "name": "Çelës i artë antik",
+  "description": "A large antique golden key with an ornate star-shaped bow.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "psychology",
+  "storyUse": "The key to something: the answer, the secret, access to a locked room or opportunity, unlocking potential.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    440,
+    170
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide",
+      "spin",
+      "float"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ]
+  },
+  "parts": {
+    "key": "spin/rotation = hap derën; pop_in"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "key",
+    "solution",
+    "secret",
+    "access",
+    "unlock",
+    "answer",
+    "power",
+    "opportunity",
+    "insight"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

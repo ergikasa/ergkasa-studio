@@ -1,0 +1,69 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_brain_01",
+  "version": 1,
+  "name": "Tru njerëzor",
+  "description": "A stylised human brain in profile, pink, with folds, cerebellum and brain stem.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "psychology",
+  "storyUse": "Anything about the mind: how we think, memory, decisions, cognitive biases, what happens 'inside the head'.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    400,
+    330
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide",
+      "pulse",
+      "float"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.48
+    ],
+    "ground": [
+      0.5,
+      0.9696969696969697
+    ]
+  },
+  "parts": {
+    "cortex": "pulse = mendim intensiv",
+    "cerebellum": "statik",
+    "stem": "statik"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "brain",
+    "mind",
+    "thinking",
+    "psychology",
+    "neuroscience",
+    "memory",
+    "cognition",
+    "intelligence"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

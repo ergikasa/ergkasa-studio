@@ -1,0 +1,66 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_magnifier_01",
+  "version": 1,
+  "name": "Lupë (xham zmadhues)",
+  "description": "A brass magnifying glass with a wooden handle.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "philosophy",
+  "storyUse": "Looking closer: critical thinking, checking the evidence, investigation, confirmation bias (seeing only what you look for).",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    380,
+    420
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ],
+    "lens": [
+      0.38,
+      0.45
+    ]
+  },
+  "parts": {
+    "magnifier": "slide/sway = kërkon, zmadhon"
+  },
+  "themes": [
+    "philosophy",
+    "science",
+    "decisions"
+  ],
+  "tags": [
+    "magnifying-glass",
+    "investigation",
+    "detail",
+    "analysis",
+    "critical-thinking",
+    "search",
+    "evidence",
+    "focus",
+    "research"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

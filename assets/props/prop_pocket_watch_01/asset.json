@@ -1,0 +1,69 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_pocket_watch_01",
+  "version": 1,
+  "name": "Orë xhepi e vjetër",
+  "description": "An antique gold pocket watch with a cream dial, black hands and a gold chain.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "history",
+  "storyUse": "Time in history: the past, nostalgia, a moment frozen in time, patience and old values.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    320,
+    480
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide",
+      "sway"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.625
+    ],
+    "top": [
+      0.5,
+      0.0
+    ]
+  },
+  "parts": {
+    "watch": "sway = lëkundet në zinxhir",
+    "hour": "rotation",
+    "minute": "rotation"
+  },
+  "themes": [
+    "philosophy",
+    "decisions",
+    "science"
+  ],
+  "tags": [
+    "pocket-watch",
+    "time",
+    "history",
+    "vintage",
+    "past",
+    "nostalgia",
+    "patience",
+    "old-world",
+    "memory"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

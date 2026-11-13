@@ -1,0 +1,63 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_sailing_ship_01",
+  "version": 1,
+  "name": "Anije me vela prej druri",
+  "description": "A three-masted wooden sailing ship with white sails and red pennants on the waves.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "history",
+  "storyUse": "Voyages and exploration: the age of discovery, trade routes, taking a big risk into the unknown.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    1000,
+    1000
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      0.88
+    ]
+  },
+  "parts": {
+    "ship": "bob/sway = lundron",
+    "sea": "statik"
+  },
+  "themes": [
+    "philosophy",
+    "decisions",
+    "science"
+  ],
+  "tags": [
+    "ship",
+    "sailing",
+    "exploration",
+    "voyage",
+    "trade",
+    "colonialism",
+    "history",
+    "adventure",
+    "risk"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

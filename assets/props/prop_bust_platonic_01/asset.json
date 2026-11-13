@@ -1,0 +1,68 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_bust_platonic_01",
+  "version": 1,
+  "name": "Bust filozofi (stil Platoni)",
+  "description": "A marble philosopher bust with thick wavy hair held by a band and a long, full square beard. A generic classical figure, not a portrait.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "philosophy",
+  "storyUse": "Ancient wisdom: quoting a classical philosopher, Socratic questioning, ethics, Stoicism, the history of ideas.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    420,
+    640
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "head": [
+      0.5,
+      0.296875
+    ]
+  },
+  "parts": {
+    "bust": "statik; pop_in/fade",
+    "plinth": "statik"
+  },
+  "themes": [
+    "philosophy",
+    "growth",
+    "decisions"
+  ],
+  "tags": [
+    "philosopher",
+    "bust",
+    "statue",
+    "ancient-greece",
+    "wisdom",
+    "classical",
+    "philosophy",
+    "stoic",
+    "marble",
+    "platonic"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

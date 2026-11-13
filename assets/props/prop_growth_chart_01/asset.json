@@ -1,0 +1,66 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_growth_chart_01",
+  "version": 1,
+  "name": "Grafik rritjeje",
+  "description": "Five 3D bars rising from left to right with a gold arrow going up. Variant `down`: red bars falling and a red arrow down.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "business",
+  "storyUse": "Growth and progress (or decline): profits and losses, a company or habit improving, a recession, things getting worse.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "variants": {
+    "down": "down.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    560,
+    480
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide",
+      "bounce"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ]
+  },
+  "parts": {
+    "bars": "pop_in një nga një",
+    "arrow": "fade/slide"
+  },
+  "themes": [
+    "money",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "chart",
+    "growth",
+    "progress",
+    "success",
+    "business",
+    "economy",
+    "trend",
+    "profit"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

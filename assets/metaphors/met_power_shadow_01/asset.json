@@ -1,0 +1,63 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "met_power_shadow_01",
+  "version": 1,
+  "name": "Hija e një figure të fuqishme",
+  "description": "A huge looming shadow of a broad-shouldered figure in a long coat and hat, cast on a wall.",
+  "category": "metaphor",
+  "subcategory": "interactive",
+  "collection": "power",
+  "storyUse": "Hidden or threatening power: someone who dominates, intimidation, a fear larger than the person, the boss nobody sees.",
+  "kind": "animated_metaphor",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    1000,
+    1600
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "loom"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      0.975
+    ]
+  },
+  "parts": {
+    "shadow": "receta `loom`: hija rritet dhe errësohet",
+    "halo": "errësira rreth saj"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "philosophy"
+  ],
+  "tags": [
+    "shadow",
+    "power",
+    "authority",
+    "fear",
+    "threat",
+    "dominance",
+    "manipulator",
+    "hidden-power",
+    "intimidation"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

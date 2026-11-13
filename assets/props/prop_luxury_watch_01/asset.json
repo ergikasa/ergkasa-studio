@@ -1,0 +1,65 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_luxury_watch_01",
+  "version": 1,
+  "name": "Orë luksi",
+  "description": "A gold luxury wristwatch with a black dial, white diamond markers and a gold link bracelet.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "power",
+  "storyUse": "Status symbols and conspicuous consumption: wealth on display, buying identity, the rich lifestyle.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    200,
+    320
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide",
+      "pulse"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ]
+  },
+  "parts": {
+    "hour": "rotation",
+    "minute": "rotation",
+    "case": "statik"
+  },
+  "themes": [
+    "money",
+    "psychology",
+    "decisions"
+  ],
+  "tags": [
+    "watch",
+    "luxury",
+    "gold",
+    "status",
+    "wealth",
+    "rich",
+    "status-symbol",
+    "conspicuous-consumption",
+    "time"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

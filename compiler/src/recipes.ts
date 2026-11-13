@@ -248,6 +248,75 @@ export const METAPHOR_RECIPES: Record<string, Record<string, Recipe>> = {
     choose_left: (s) => choose(s, "sign_left", "sign_right"),
     choose_right: (s) => choose(s, "sign_right", "sign_left"),
   },
+  // erkasa_editorial_v2 (library expansion)
+  met_broken_mirror_01: {
+    crack: (s) => ({
+      tracks: {
+        "part.cracks.opacity": [kf(0, 0), kf(s, 0), kf(s + 4, 1, "easeOutCubic")],
+        "part.shards.opacity": [kf(0, 0), kf(s + 2, 0), kf(s + 10, 1, "easeOut")],
+        wiggle: [kf(s, 0), kf(s + 2, 6), kf(s + 4, -6), kf(s + 7, 3), kf(s + 10, 0)],
+      },
+      duration: 10,
+    }),
+  },
+  met_cage_01: {
+    open: (s) => ({
+      tracks: {
+        "part.lock.opacity": [kf(s, 1), kf(s + 6, 0, "easeOut")],
+        "part.door.scaleX": [kf(s + 4, 1), kf(s + 24, -0.35, "easeInOutCubic")],
+      },
+      duration: 24,
+    }),
+  },
+  met_door_light_01: {
+    open: (s) => ({
+      tracks: { "part.leaf.scaleX": [kf(s, 1), kf(s + 20, 0.16, "easeInOutCubic")] },
+      duration: 20,
+    }),
+  },
+  met_many_doors_01: {
+    open_middle: (s) => ({
+      tracks: { "part.door_3.scaleX": [kf(s, 1), kf(s + 18, 0.15, "easeInOutCubic")] },
+      duration: 18,
+    }),
+  },
+  met_watching_eye_01: {
+    blink: (s) => ({
+      tracks: { "part.lid.scaleY": [kf(s, 1), kf(s + 4, 2.2, "easeIn"), kf(s + 9, 1, "easeOut")] },
+      duration: 9,
+    }),
+    look_around: (s) => ({
+      tracks: {
+        "part.iris.x": [
+          kf(s, 0),
+          kf(s + 12, -90, "easeInOutCubic"),
+          kf(s + 30, -90),
+          kf(s + 46, 90, "easeInOutCubic"),
+          kf(s + 64, 90),
+          kf(s + 76, 0, "easeInOutCubic"),
+        ],
+      },
+      duration: 76,
+    }),
+  },
+  met_broken_stairs_01: {
+    collapse: (s) => ({
+      tracks: {
+        "part.falling.y": [kf(0, -240), kf(s, -240), kf(s + 22, 0, "easeInCubic")],
+        "part.falling.opacity": [kf(0, 1), kf(s + 22, 1), kf(s + 34, 0.85)],
+      },
+      duration: 34,
+    }),
+  },
+  met_spotlight_01: {
+    switch_on: (s) => ({
+      tracks: {
+        "part.beam.opacity": [kf(0, 0), kf(s, 0), kf(s + 3, 1), kf(s + 5, 0.4), kf(s + 8, 1, "easeOut")],
+        "part.pool.opacity": [kf(0, 0), kf(s, 0), kf(s + 3, 1), kf(s + 5, 0.4), kf(s + 8, 1, "easeOut")],
+      },
+      duration: 8,
+    }),
+  },
 };
 
 function balance(s: number, angle: number): { tracks: Tracks; duration: number } {

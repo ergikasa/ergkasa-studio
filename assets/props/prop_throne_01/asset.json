@@ -1,0 +1,72 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_throne_01",
+  "version": 1,
+  "name": "Fron mbretëror",
+  "description": "A golden royal throne with a tall arched back and red velvet, armrests with round finials.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "power",
+  "storyUse": "The seat of power: who sits on the throne, ruling, empires, the cost of holding power.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    620,
+    980
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "seat": [
+      0.5,
+      0.7326530612244898
+    ],
+    "hip": [
+      0.5,
+      0.7183673469387755
+    ]
+  },
+  "parts": {
+    "back": "statik",
+    "seat": "statik; personazhi ulet te anchor `hip`",
+    "arms": "statike"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "money"
+  ],
+  "tags": [
+    "throne",
+    "king",
+    "royalty",
+    "power",
+    "authority",
+    "rule",
+    "status",
+    "seat-of-power",
+    "empire"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

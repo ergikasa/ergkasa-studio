@@ -1,0 +1,66 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_briefcase_01",
+  "version": 1,
+  "name": "Çantë biznesi (e mbyllur)",
+  "description": "A closed brown leather briefcase with a handle and two gold clasps.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "power",
+  "storyUse": "Business and career, a professional identity, secret deals, going to work every day.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    400,
+    320
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "handle": [
+      0.5,
+      0.09375
+    ]
+  },
+  "parts": {
+    "case": "pop_in, slide"
+  },
+  "themes": [
+    "money",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "briefcase",
+    "business",
+    "career",
+    "work",
+    "secrets",
+    "deal",
+    "professional",
+    "corporate",
+    "money"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

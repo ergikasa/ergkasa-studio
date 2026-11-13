@@ -1,0 +1,86 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "met_many_doors_01",
+  "version": 1,
+  "name": "Shumë dyer",
+  "description": "Five coloured doors standing side by side, warm light behind each one.",
+  "category": "metaphor",
+  "subcategory": "interactive",
+  "collection": "psychology",
+  "storyUse": "Too many options: the paradox of choice, decision paralysis, FOMO, picking one path out of many.",
+  "kind": "animated_metaphor",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    1500,
+    900
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide",
+      "open_middle"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "door_1": [
+      0.11533333333333333,
+      0.5
+    ],
+    "door_2": [
+      0.30533333333333335,
+      0.5
+    ],
+    "door_3": [
+      0.49533333333333335,
+      0.5
+    ],
+    "door_4": [
+      0.6853333333333333,
+      0.5
+    ],
+    "door_5": [
+      0.8753333333333333,
+      0.5
+    ]
+  },
+  "parts": {
+    "door_1": "scaleX 1 → 0.15 = hapet (receta `open_middle` hap të tretën)",
+    "door_2": "scaleX 1 → 0.15 = hapet (receta `open_middle` hap të tretën)",
+    "door_3": "scaleX 1 → 0.15 = hapet (receta `open_middle` hap të tretën)",
+    "door_4": "scaleX 1 → 0.15 = hapet (receta `open_middle` hap të tretën)",
+    "door_5": "scaleX 1 → 0.15 = hapet (receta `open_middle` hap të tretën)"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "money"
+  ],
+  "tags": [
+    "doors",
+    "choices",
+    "options",
+    "paradox-of-choice",
+    "decision",
+    "opportunity",
+    "overwhelm",
+    "fomo"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

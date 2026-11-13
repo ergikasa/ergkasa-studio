@@ -1,0 +1,66 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_ladder_01",
+  "version": 1,
+  "name": "Shkallë dore",
+  "description": "A tall wooden ladder standing upright, seen from the front.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "psychology",
+  "storyUse": "Climbing: career ladder, social status, ambition, progress step by step.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    300,
+    1000
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "top": [
+      0.5,
+      0.0
+    ]
+  },
+  "parts": {
+    "ladder": "statike"
+  },
+  "themes": [
+    "growth",
+    "money",
+    "decisions"
+  ],
+  "tags": [
+    "ladder",
+    "climb",
+    "success",
+    "career",
+    "progress",
+    "status",
+    "ambition",
+    "step-by-step",
+    "social-ladder"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

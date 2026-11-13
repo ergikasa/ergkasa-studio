@@ -1,0 +1,67 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_chess_pawn_01",
+  "version": 1,
+  "name": "Ushtar shahu (pion)",
+  "description": "A white marble chess pawn. Variant `black`.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "power",
+  "storyUse": "The ordinary person in a bigger game: being used or sacrificed, small moves, starting at the bottom.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "variants": {
+    "black": "black.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    240,
+    400
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ]
+  },
+  "parts": {
+    "piece": "pop_in, slide (lëvizje në fushë), fall"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "money"
+  ],
+  "tags": [
+    "chess",
+    "strategy",
+    "power",
+    "game",
+    "hierarchy",
+    "manipulation",
+    "planning",
+    "pawn",
+    "ordinary-person",
+    "sacrifice",
+    "worker"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

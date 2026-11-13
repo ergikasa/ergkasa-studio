@@ -1,0 +1,69 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "met_light_beam_01",
+  "version": 1,
+  "name": "Rreze drite",
+  "description": "A soft column of warm light coming down from above, with floating dust motes and a glowing pool on the ground.",
+  "category": "metaphor",
+  "subcategory": "interactive",
+  "collection": "philosophy",
+  "storyUse": "Enlightenment and truth: a moment of clarity, an insight, the light of reason (Plato's cave), hope.",
+  "kind": "animated_metaphor",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    1000,
+    1800
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "pulse",
+      "shine"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      0.9388888888888889
+    ],
+    "center_stage": [
+      0.5,
+      0.9388888888888889
+    ]
+  },
+  "parts": {
+    "beam": "receta `shine`: drita zbret dhe zgjerohet",
+    "pool": "drita në tokë",
+    "motes": "grimca drite (float)"
+  },
+  "themes": [
+    "philosophy",
+    "growth",
+    "psychology"
+  ],
+  "tags": [
+    "light",
+    "beam",
+    "enlightenment",
+    "truth",
+    "insight",
+    "revelation",
+    "clarity",
+    "hope",
+    "awakening"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

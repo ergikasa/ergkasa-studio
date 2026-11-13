@@ -1,12 +1,12 @@
 {
  "schema": "erkasa.asset-manifest/1",
- "total": 438,
+ "total": 564,
  "counts": {
   "background": 20,
   "character": 6,
   "icon": 189,
-  "metaphor": 15,
-  "object": 208
+  "metaphor": 26,
+  "object": 323
  },
  "assets": [
   {
@@ -3496,6 +3496,80 @@
    "license": "LicenseRef-Erkasa-Original"
   },
   {
+   "assetId": "met_broken_mirror_01",
+   "category": "metaphor",
+   "kind": "animated_metaphor",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "metaphors/met_broken_mirror_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "mirror",
+    "broken",
+    "self-image",
+    "identity",
+    "trauma",
+    "self-esteem",
+    "shattered",
+    "reflection"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "met_broken_stairs_01",
+   "category": "metaphor",
+   "kind": "animated_metaphor",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "metaphors/met_broken_stairs_01",
+   "themes": [
+    "growth",
+    "psychology",
+    "decisions"
+   ],
+   "tags": [
+    "stairs",
+    "broken",
+    "gap",
+    "failure",
+    "setback",
+    "obstacle",
+    "progress",
+    "collapse",
+    "missing-step"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "met_cage_01",
+   "category": "metaphor",
+   "kind": "animated_metaphor",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "metaphors/met_cage_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "cage",
+    "trapped",
+    "prison",
+    "limiting-beliefs",
+    "fear",
+    "comfort-zone",
+    "freedom",
+    "control",
+    "locked"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
    "assetId": "met_chain_break_01",
    "category": "metaphor",
    "kind": "animated_metaphor",
@@ -3575,6 +3649,81 @@
    "license": "LicenseRef-Erkasa-Original"
   },
   {
+   "assetId": "met_door_light_01",
+   "category": "metaphor",
+   "kind": "animated_metaphor",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "metaphors/met_door_light_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "door",
+    "opportunity",
+    "new-beginning",
+    "choice",
+    "unknown",
+    "light",
+    "hope",
+    "change",
+    "locked",
+    "closed-door"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "met_glass_wall_01",
+   "category": "metaphor",
+   "kind": "animated_metaphor",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "metaphors/met_glass_wall_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "glass",
+    "invisible-wall",
+    "barrier",
+    "glass-ceiling",
+    "isolation",
+    "boundary",
+    "trapped",
+    "separation"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "met_hierarchy_pyramid_01",
+   "category": "metaphor",
+   "kind": "animated_metaphor",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "metaphors/met_hierarchy_pyramid_01",
+   "themes": [
+    "psychology",
+    "money",
+    "decisions"
+   ],
+   "tags": [
+    "pyramid",
+    "hierarchy",
+    "power",
+    "inequality",
+    "status",
+    "social-class",
+    "organization",
+    "elite",
+    "maslow"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
    "assetId": "met_hourglass_01",
    "category": "metaphor",
    "kind": "animated_metaphor",
@@ -3615,6 +3764,55 @@
    "license": "LicenseRef-Erkasa-Original"
   },
   {
+   "assetId": "met_light_beam_01",
+   "category": "metaphor",
+   "kind": "animated_metaphor",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "metaphors/met_light_beam_01",
+   "themes": [
+    "philosophy",
+    "growth",
+    "psychology"
+   ],
+   "tags": [
+    "light",
+    "beam",
+    "enlightenment",
+    "truth",
+    "insight",
+    "revelation",
+    "clarity",
+    "hope",
+    "awakening"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "met_many_doors_01",
+   "category": "metaphor",
+   "kind": "animated_metaphor",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "metaphors/met_many_doors_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "money"
+   ],
+   "tags": [
+    "doors",
+    "choices",
+    "options",
+    "paradox-of-choice",
+    "decision",
+    "opportunity",
+    "overwhelm",
+    "fomo"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
    "assetId": "met_maze_01",
    "category": "metaphor",
    "kind": "animated_metaphor",
@@ -3650,6 +3848,31 @@
     "journey",
     "summit",
     "achievement"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "met_power_shadow_01",
+   "category": "metaphor",
+   "kind": "animated_metaphor",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "metaphors/met_power_shadow_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "philosophy"
+   ],
+   "tags": [
+    "shadow",
+    "power",
+    "authority",
+    "fear",
+    "threat",
+    "dominance",
+    "manipulator",
+    "hidden-power",
+    "intimidation"
    ],
    "license": "LicenseRef-Erkasa-Original"
   },
@@ -3714,6 +3937,31 @@
    "license": "LicenseRef-Erkasa-Original"
   },
   {
+   "assetId": "met_spotlight_01",
+   "category": "metaphor",
+   "kind": "animated_metaphor",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "metaphors/met_spotlight_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "money"
+   ],
+   "tags": [
+    "spotlight",
+    "attention",
+    "stage",
+    "fame",
+    "spotlight-effect",
+    "public-speaking",
+    "exposed",
+    "center-of-attention",
+    "power"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
    "assetId": "met_stairs_01",
    "category": "metaphor",
    "kind": "animated_metaphor",
@@ -3749,6 +3997,31 @@
     "opportunity",
     "door",
     "unknown"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "met_watching_eye_01",
+   "category": "metaphor",
+   "kind": "animated_metaphor",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "metaphors/met_watching_eye_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "eye",
+    "watching",
+    "surveillance",
+    "judgement",
+    "social-pressure",
+    "spotlight-effect",
+    "big-brother",
+    "observed",
+    "paranoia"
    ],
    "license": "LicenseRef-Erkasa-Original"
   },
@@ -7020,6 +7293,81 @@
    "license": "LicenseRef-Erkasa-Original"
   },
   {
+   "assetId": "prop_ancient_book_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_ancient_book_01",
+   "themes": [
+    "philosophy",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "book",
+    "ancient",
+    "knowledge",
+    "wisdom",
+    "library",
+    "history",
+    "secret",
+    "manuscript",
+    "tradition"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_apartment_building_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_apartment_building_01",
+   "themes": [
+    "money",
+    "psychology",
+    "decisions"
+   ],
+   "tags": [
+    "apartment",
+    "building",
+    "city",
+    "housing",
+    "rent",
+    "neighbours",
+    "urban-life",
+    "loneliness",
+    "real-estate"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_bank_building_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_bank_building_01",
+   "themes": [
+    "money",
+    "decisions",
+    "philosophy"
+   ],
+   "tags": [
+    "bank",
+    "finance",
+    "institution",
+    "trust",
+    "money",
+    "loans",
+    "economy",
+    "history",
+    "power"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
    "assetId": "prop_bed_side_01",
    "category": "object",
    "kind": "prop",
@@ -7045,6 +7393,309 @@
    "license": "LicenseRef-Erkasa-Original"
   },
   {
+   "assetId": "prop_brain_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_brain_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "brain",
+    "mind",
+    "thinking",
+    "psychology",
+    "neuroscience",
+    "memory",
+    "cognition",
+    "intelligence"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_brain_network_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_brain_network_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "brain",
+    "neurons",
+    "network",
+    "connections",
+    "learning",
+    "neuroplasticity",
+    "habit",
+    "memory",
+    "neuroscience"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_brain_split_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_brain_split_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "brain",
+    "two-systems",
+    "logic",
+    "emotion",
+    "creativity",
+    "inner-conflict",
+    "system-1",
+    "system-2",
+    "decision"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_briefcase_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_briefcase_01",
+   "themes": [
+    "money",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "briefcase",
+    "business",
+    "career",
+    "work",
+    "secrets",
+    "deal",
+    "professional",
+    "corporate",
+    "money"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_broken_statue_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_broken_statue_01",
+   "themes": [
+    "philosophy",
+    "decisions",
+    "science"
+   ],
+   "tags": [
+    "statue",
+    "broken",
+    "fallen",
+    "ruin",
+    "fall-of-empire",
+    "ego",
+    "legacy",
+    "impermanence",
+    "history",
+    "ozymandias"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_bust_aristotelian_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_bust_aristotelian_01",
+   "themes": [
+    "philosophy",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "philosopher",
+    "bust",
+    "statue",
+    "ancient-greece",
+    "wisdom",
+    "classical",
+    "philosophy",
+    "stoic",
+    "marble",
+    "aristotelian"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_bust_platonic_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_bust_platonic_01",
+   "themes": [
+    "philosophy",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "philosopher",
+    "bust",
+    "statue",
+    "ancient-greece",
+    "wisdom",
+    "classical",
+    "philosophy",
+    "stoic",
+    "marble",
+    "platonic"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_bust_socratic_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_bust_socratic_01",
+   "themes": [
+    "philosophy",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "philosopher",
+    "bust",
+    "statue",
+    "ancient-greece",
+    "wisdom",
+    "classical",
+    "philosophy",
+    "stoic",
+    "marble",
+    "socratic"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_calculator_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_calculator_01",
+   "themes": [
+    "money",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "calculator",
+    "math",
+    "budget",
+    "accounting",
+    "costs",
+    "rational",
+    "numbers",
+    "finance",
+    "planning"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_candle_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_candle_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "candle",
+    "flame",
+    "hope",
+    "time",
+    "burnout",
+    "fragile",
+    "light-in-darkness",
+    "memory",
+    "mourning"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_candle_holder_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_candle_holder_01",
+   "themes": [
+    "philosophy",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "candle",
+    "candlestick",
+    "brass",
+    "night",
+    "study",
+    "philosophy",
+    "contemplation",
+    "light",
+    "history"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_castle_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_castle_01",
+   "themes": [
+    "philosophy",
+    "decisions",
+    "science"
+   ],
+   "tags": [
+    "castle",
+    "medieval",
+    "kingdom",
+    "fortress",
+    "power",
+    "defence",
+    "history",
+    "feudal",
+    "war"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
    "assetId": "prop_chair_office_side_01",
    "category": "object",
    "kind": "prop",
@@ -7061,6 +7712,144 @@
     "chair",
     "furniture",
     "sit"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_chess_board_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_chess_board_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "money"
+   ],
+   "tags": [
+    "chess",
+    "strategy",
+    "power",
+    "game",
+    "hierarchy",
+    "manipulation",
+    "planning",
+    "board",
+    "game-theory",
+    "competition",
+    "battlefield"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_chess_king_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_chess_king_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "money"
+   ],
+   "tags": [
+    "chess",
+    "strategy",
+    "power",
+    "game",
+    "hierarchy",
+    "manipulation",
+    "planning",
+    "king",
+    "leader",
+    "ruler",
+    "authority",
+    "checkmate"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_chess_pawn_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_chess_pawn_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "money"
+   ],
+   "tags": [
+    "chess",
+    "strategy",
+    "power",
+    "game",
+    "hierarchy",
+    "manipulation",
+    "planning",
+    "pawn",
+    "ordinary-person",
+    "sacrifice",
+    "worker"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_chess_queen_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_chess_queen_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "money"
+   ],
+   "tags": [
+    "chess",
+    "strategy",
+    "power",
+    "game",
+    "hierarchy",
+    "manipulation",
+    "planning",
+    "queen",
+    "influence",
+    "most-powerful",
+    "strategy",
+    "versatility"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_chess_rook_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_chess_rook_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "money"
+   ],
+   "tags": [
+    "chess",
+    "strategy",
+    "power",
+    "game",
+    "hierarchy",
+    "manipulation",
+    "planning",
+    "rook",
+    "castle",
+    "defence",
+    "stability",
+    "fortress"
    ],
    "license": "LicenseRef-Erkasa-Original"
   },
@@ -7090,6 +7879,179 @@
    "license": "LicenseRef-Erkasa-Original"
   },
   {
+   "assetId": "prop_coin_stacks_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_coin_stacks_01",
+   "themes": [
+    "money",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "coins",
+    "savings",
+    "compound-interest",
+    "growth",
+    "money",
+    "investing",
+    "wealth",
+    "small-steps"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_colonnade_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_colonnade_01",
+   "themes": [
+    "philosophy",
+    "decisions",
+    "money"
+   ],
+   "tags": [
+    "columns",
+    "colonnade",
+    "institution",
+    "power",
+    "government",
+    "authority",
+    "monumental",
+    "empire",
+    "law"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_compass_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_compass_01",
+   "themes": [
+    "philosophy",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "compass",
+    "direction",
+    "values",
+    "purpose",
+    "navigation",
+    "moral-compass",
+    "guidance",
+    "lost"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_contract_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_contract_01",
+   "themes": [
+    "money",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "contract",
+    "agreement",
+    "legal",
+    "deal",
+    "commitment",
+    "terms",
+    "fine-print",
+    "obligation",
+    "business"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_contract_signing_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_contract_signing_01",
+   "themes": [
+    "money",
+    "decisions",
+    "psychology"
+   ],
+   "tags": [
+    "contract",
+    "signing",
+    "agreement",
+    "deal",
+    "commitment",
+    "law",
+    "business",
+    "promise",
+    "decision"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_control_panel_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_control_panel_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "science"
+   ],
+   "tags": [
+    "control-panel",
+    "control",
+    "system",
+    "power",
+    "manipulation",
+    "algorithm",
+    "monitoring",
+    "command-center",
+    "levers"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_crown_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_crown_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "money"
+   ],
+   "tags": [
+    "crown",
+    "king",
+    "royalty",
+    "power",
+    "status",
+    "authority",
+    "winner",
+    "ego",
+    "throne"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
    "assetId": "prop_cv_flat_01",
    "category": "object",
    "kind": "prop",
@@ -7108,6 +8070,54 @@
     "paper",
     "office",
     "interview"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_delivery_truck_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_delivery_truck_01",
+   "themes": [
+    "money",
+    "decisions",
+    "science"
+   ],
+   "tags": [
+    "truck",
+    "delivery",
+    "logistics",
+    "shipping",
+    "online-shopping",
+    "transport",
+    "business",
+    "supply-chain"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_desk_calendar_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_desk_calendar_01",
+   "themes": [
+    "money",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "calendar",
+    "deadline",
+    "date",
+    "schedule",
+    "planning",
+    "office",
+    "time",
+    "appointment"
    ],
    "license": "LicenseRef-Erkasa-Original"
   },
@@ -7133,6 +8143,81 @@
    "license": "LicenseRef-Erkasa-Original"
   },
   {
+   "assetId": "prop_desktop_computer_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_desktop_computer_01",
+   "themes": [
+    "money",
+    "growth",
+    "psychology"
+   ],
+   "tags": [
+    "computer",
+    "desktop",
+    "office",
+    "work",
+    "screen",
+    "productivity",
+    "data",
+    "tech",
+    "routine"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_dice_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_dice_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "money"
+   ],
+   "tags": [
+    "dice",
+    "chance",
+    "luck",
+    "random",
+    "gambling",
+    "risk",
+    "probability",
+    "gambler-fallacy",
+    "fate"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_dollar_bills_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_dollar_bills_01",
+   "themes": [
+    "money",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "money",
+    "dollar",
+    "cash",
+    "banknotes",
+    "wealth",
+    "salary",
+    "spending",
+    "economy",
+    "usd"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
    "assetId": "prop_door_01",
    "category": "object",
    "kind": "prop",
@@ -7151,6 +8236,130 @@
     "home",
     "enter",
     "exit"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_empty_frame_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_empty_frame_01",
+   "themes": [
+    "philosophy",
+    "psychology",
+    "decisions"
+   ],
+   "tags": [
+    "frame",
+    "empty",
+    "absence",
+    "identity",
+    "art",
+    "framing",
+    "perspective",
+    "missing",
+    "memory"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_euro_bills_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_euro_bills_01",
+   "themes": [
+    "money",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "money",
+    "euro",
+    "cash",
+    "banknotes",
+    "europe",
+    "wealth",
+    "spending",
+    "economy",
+    "eur"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_eye_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_eye_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "eye",
+    "vision",
+    "attention",
+    "perception",
+    "seeing",
+    "focus",
+    "observation",
+    "bias"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_factory_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_factory_01",
+   "themes": [
+    "money",
+    "science",
+    "decisions"
+   ],
+   "tags": [
+    "factory",
+    "industry",
+    "production",
+    "manufacturing",
+    "industrial-revolution",
+    "work",
+    "economy",
+    "pollution",
+    "jobs"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_financial_report_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_financial_report_01",
+   "themes": [
+    "money",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "report",
+    "finance",
+    "data",
+    "analysis",
+    "results",
+    "earnings",
+    "accounting",
+    "business",
+    "numbers"
    ],
    "license": "LicenseRef-Erkasa-Original"
   },
@@ -7180,6 +8389,31 @@
    "license": "LicenseRef-Erkasa-Original"
   },
   {
+   "assetId": "prop_gavel_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_gavel_01",
+   "themes": [
+    "decisions",
+    "philosophy",
+    "psychology"
+   ],
+   "tags": [
+    "gavel",
+    "judge",
+    "law",
+    "court",
+    "verdict",
+    "justice",
+    "judgement",
+    "authority",
+    "decision"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
    "assetId": "prop_glasses_01",
    "category": "object",
    "kind": "prop",
@@ -7205,6 +8439,130 @@
    "license": "LicenseRef-Erkasa-Original"
   },
   {
+   "assetId": "prop_globe_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_globe_01",
+   "themes": [
+    "philosophy",
+    "science",
+    "decisions"
+   ],
+   "tags": [
+    "globe",
+    "world",
+    "antique",
+    "exploration",
+    "history",
+    "geography",
+    "travel",
+    "perspective",
+    "global"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_gold_bars_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_gold_bars_01",
+   "themes": [
+    "money",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "gold",
+    "gold-bars",
+    "wealth",
+    "safe-haven",
+    "investment",
+    "rich",
+    "value",
+    "treasure",
+    "economy"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_greek_column_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_greek_column_01",
+   "themes": [
+    "philosophy",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "column",
+    "greek",
+    "ancient",
+    "classical",
+    "philosophy",
+    "pillar",
+    "foundation",
+    "principles",
+    "history"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_greek_temple_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_greek_temple_01",
+   "themes": [
+    "philosophy",
+    "decisions",
+    "science"
+   ],
+   "tags": [
+    "temple",
+    "greek",
+    "ancient",
+    "parthenon",
+    "democracy",
+    "religion",
+    "classical",
+    "history",
+    "philosophy"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_growth_chart_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_growth_chart_01",
+   "themes": [
+    "money",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "chart",
+    "growth",
+    "progress",
+    "success",
+    "business",
+    "economy",
+    "trend",
+    "profit"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
    "assetId": "prop_halo_01",
    "category": "object",
    "kind": "prop",
@@ -7222,6 +8580,56 @@
     "bias",
     "impression",
     "psychology"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_hand_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_hand_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "hand",
+    "palm",
+    "open-hand",
+    "help",
+    "giving",
+    "stop",
+    "control",
+    "offer",
+    "human"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_handshake_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_handshake_01",
+   "themes": [
+    "money",
+    "decisions",
+    "psychology"
+   ],
+   "tags": [
+    "handshake",
+    "deal",
+    "agreement",
+    "trust",
+    "partnership",
+    "business",
+    "negotiation",
+    "alliance",
+    "cooperation"
    ],
    "license": "LicenseRef-Erkasa-Original"
   },
@@ -7247,6 +8655,228 @@
     "realization",
     "discovery",
     "home"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_head_silhouette_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_head_silhouette_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "head",
+    "profile",
+    "silhouette",
+    "mind",
+    "thoughts",
+    "identity",
+    "psychology",
+    "inner-voice"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_heart_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_heart_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "heart",
+    "emotion",
+    "love",
+    "fear",
+    "anxiety",
+    "stress",
+    "body",
+    "health",
+    "pulse"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_heavy_chains_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_heavy_chains_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "chains",
+    "heavy",
+    "burden",
+    "addiction",
+    "debt",
+    "guilt",
+    "trapped",
+    "habit",
+    "restriction"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_historical_document_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_historical_document_01",
+   "themes": [
+    "philosophy",
+    "decisions",
+    "science"
+   ],
+   "tags": [
+    "document",
+    "historical",
+    "treaty",
+    "charter",
+    "law",
+    "declaration",
+    "history",
+    "agreement",
+    "rights"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_house_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_house_01",
+   "themes": [
+    "money",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "house",
+    "home",
+    "real-estate",
+    "mortgage",
+    "family",
+    "property",
+    "dream",
+    "security",
+    "suburb"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_human_shadow_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_human_shadow_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "shadow",
+    "fear",
+    "dark-side",
+    "past",
+    "insecurity",
+    "shadow-self",
+    "jung",
+    "anxiety"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_ink_bottle_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_ink_bottle_01",
+   "themes": [
+    "philosophy",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "ink",
+    "ink-bottle",
+    "writing",
+    "author",
+    "history",
+    "philosophy",
+    "classic",
+    "desk"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_invoice_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_invoice_01",
+   "themes": [
+    "money",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "invoice",
+    "receipt",
+    "bill",
+    "cost",
+    "expenses",
+    "pain-of-paying",
+    "budget",
+    "spending",
+    "debt"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_key_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_key_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "key",
+    "solution",
+    "secret",
+    "access",
+    "unlock",
+    "answer",
+    "power",
+    "opportunity",
+    "insight"
    ],
    "license": "LicenseRef-Erkasa-Original"
   },
@@ -7324,6 +8954,81 @@
    "license": "LicenseRef-Erkasa-Original"
   },
   {
+   "assetId": "prop_labyrinth_entrance_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_labyrinth_entrance_01",
+   "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+   ],
+   "tags": [
+    "labyrinth",
+    "maze",
+    "entrance",
+    "hedge",
+    "confusion",
+    "journey",
+    "unknown",
+    "complexity",
+    "beginning"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_ladder_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_ladder_01",
+   "themes": [
+    "growth",
+    "money",
+    "decisions"
+   ],
+   "tags": [
+    "ladder",
+    "climb",
+    "success",
+    "career",
+    "progress",
+    "status",
+    "ambition",
+    "step-by-step",
+    "social-ladder"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_laptop_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_laptop_01",
+   "themes": [
+    "money",
+    "growth",
+    "psychology"
+   ],
+   "tags": [
+    "laptop",
+    "computer",
+    "work",
+    "remote-work",
+    "tech",
+    "productivity",
+    "online",
+    "screen",
+    "study"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
    "assetId": "prop_laptop_side_01",
    "category": "object",
    "kind": "prop",
@@ -7341,6 +9046,256 @@
     "computer",
     "work",
     "tech"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_luxury_watch_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_luxury_watch_01",
+   "themes": [
+    "money",
+    "psychology",
+    "decisions"
+   ],
+   "tags": [
+    "watch",
+    "luxury",
+    "gold",
+    "status",
+    "wealth",
+    "rich",
+    "status-symbol",
+    "conspicuous-consumption",
+    "time"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_magnifier_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_magnifier_01",
+   "themes": [
+    "philosophy",
+    "science",
+    "decisions"
+   ],
+   "tags": [
+    "magnifying-glass",
+    "investigation",
+    "detail",
+    "analysis",
+    "critical-thinking",
+    "search",
+    "evidence",
+    "focus",
+    "research"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_marble_statue_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_marble_statue_01",
+   "themes": [
+    "philosophy",
+    "decisions",
+    "science"
+   ],
+   "tags": [
+    "statue",
+    "marble",
+    "ancient",
+    "classical",
+    "greek",
+    "roman",
+    "history",
+    "ideal",
+    "legacy",
+    "stoic"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_market_stall_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_market_stall_01",
+   "themes": [
+    "money",
+    "philosophy",
+    "decisions"
+   ],
+   "tags": [
+    "market",
+    "medieval",
+    "trade",
+    "merchant",
+    "economy",
+    "barter",
+    "history",
+    "village",
+    "commerce"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_medal_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_medal_01",
+   "themes": [
+    "growth",
+    "psychology",
+    "money"
+   ],
+   "tags": [
+    "medal",
+    "gold",
+    "winner",
+    "achievement",
+    "first-place",
+    "recognition",
+    "reward",
+    "status",
+    "competition"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_meeting_table_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_meeting_table_01",
+   "themes": [
+    "money",
+    "decisions",
+    "psychology"
+   ],
+   "tags": [
+    "table",
+    "meeting",
+    "negotiation",
+    "boardroom",
+    "deal",
+    "conflict",
+    "conversation",
+    "business",
+    "furniture"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_merchant_shop_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_merchant_shop_01",
+   "themes": [
+    "money",
+    "philosophy",
+    "decisions"
+   ],
+   "tags": [
+    "merchant",
+    "shop",
+    "old",
+    "trade",
+    "history",
+    "commerce",
+    "craft",
+    "town",
+    "economy"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_microphone_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_microphone_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "microphone",
+    "speech",
+    "voice",
+    "public-speaking",
+    "media",
+    "podcast",
+    "announcement",
+    "influence",
+    "stage"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_military_helmet_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_military_helmet_01",
+   "themes": [
+    "philosophy",
+    "decisions",
+    "science"
+   ],
+   "tags": [
+    "helmet",
+    "military",
+    "war",
+    "soldier",
+    "history",
+    "conflict",
+    "world-war",
+    "sacrifice",
+    "duty"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_mirror_reflection_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_mirror_reflection_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "mirror",
+    "reflection",
+    "face",
+    "self-reflection",
+    "identity",
+    "self-awareness",
+    "introspection",
+    "vanity"
    ],
    "license": "LicenseRef-Erkasa-Original"
   },
@@ -7365,6 +9320,179 @@
    "license": "LicenseRef-Erkasa-Original"
   },
   {
+   "assetId": "prop_notebook_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_notebook_01",
+   "themes": [
+    "growth",
+    "money",
+    "decisions"
+   ],
+   "tags": [
+    "notebook",
+    "notes",
+    "planning",
+    "ideas",
+    "journal",
+    "goals",
+    "business",
+    "strategy",
+    "writing"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_office_desk_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_office_desk_01",
+   "themes": [
+    "money",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "desk",
+    "office",
+    "work",
+    "furniture",
+    "job",
+    "workplace",
+    "career",
+    "boss"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_office_tower_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_office_tower_01",
+   "themes": [
+    "money",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "skyscraper",
+    "office-tower",
+    "real-estate",
+    "corporation",
+    "city",
+    "business",
+    "wealth",
+    "property",
+    "investment"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_open_book_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_open_book_01",
+   "themes": [
+    "philosophy",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "book",
+    "open-book",
+    "reading",
+    "learning",
+    "knowledge",
+    "study",
+    "education",
+    "wisdom",
+    "story"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_palace_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_palace_01",
+   "themes": [
+    "philosophy",
+    "decisions",
+    "science"
+   ],
+   "tags": [
+    "palace",
+    "royalty",
+    "wealth",
+    "power",
+    "monarchy",
+    "aristocracy",
+    "luxury",
+    "history",
+    "elite"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_park_bench_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_park_bench_01",
+   "themes": [
+    "psychology",
+    "growth",
+    "philosophy"
+   ],
+   "tags": [
+    "bench",
+    "park",
+    "sit",
+    "alone",
+    "waiting",
+    "reflection",
+    "loneliness",
+    "outdoor",
+    "furniture"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_pen_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_pen_01",
+   "themes": [
+    "money",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "pen",
+    "writing",
+    "signature",
+    "decision",
+    "commitment",
+    "contract",
+    "planning",
+    "journal"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
    "assetId": "prop_plant_floor_01",
    "category": "object",
    "kind": "prop",
@@ -7381,6 +9509,598 @@
     "office",
     "home",
     "decor"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_playing_cards_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_playing_cards_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "money"
+   ],
+   "tags": [
+    "cards",
+    "playing-cards",
+    "gamble",
+    "bluff",
+    "risk",
+    "strategy",
+    "deception",
+    "luck",
+    "hidden-information"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_pocket_watch_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_pocket_watch_01",
+   "themes": [
+    "philosophy",
+    "decisions",
+    "science"
+   ],
+   "tags": [
+    "pocket-watch",
+    "time",
+    "history",
+    "vintage",
+    "past",
+    "nostalgia",
+    "patience",
+    "old-world",
+    "memory"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_podium_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_podium_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "podium",
+    "lectern",
+    "speech",
+    "politics",
+    "authority",
+    "public-speaking",
+    "announcement",
+    "leader",
+    "press-conference"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_portfolio_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_portfolio_01",
+   "themes": [
+    "money",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "portfolio",
+    "investing",
+    "diversification",
+    "assets",
+    "stocks",
+    "risk",
+    "wealth",
+    "finance",
+    "planning"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_presidential_desk_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_presidential_desk_01",
+   "themes": [
+    "decisions",
+    "money",
+    "psychology"
+   ],
+   "tags": [
+    "desk",
+    "president",
+    "power",
+    "office",
+    "politics",
+    "authority",
+    "leader",
+    "decision",
+    "government"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_printing_press_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_printing_press_01",
+   "themes": [
+    "philosophy",
+    "decisions",
+    "science"
+   ],
+   "tags": [
+    "printing-press",
+    "gutenberg",
+    "information",
+    "media",
+    "revolution",
+    "history",
+    "books",
+    "knowledge",
+    "propaganda"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_production_machine_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_production_machine_01",
+   "themes": [
+    "money",
+    "science",
+    "decisions"
+   ],
+   "tags": [
+    "machine",
+    "production",
+    "automation",
+    "assembly-line",
+    "efficiency",
+    "industry",
+    "routine",
+    "system"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_puppet_controller_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_puppet_controller_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "philosophy"
+   ],
+   "tags": [
+    "puppet",
+    "strings",
+    "control",
+    "manipulation",
+    "puppet-master",
+    "influence",
+    "power",
+    "free-will"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_puzzle_cube_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_puzzle_cube_01",
+   "themes": [
+    "philosophy",
+    "science",
+    "growth"
+   ],
+   "tags": [
+    "puzzle-cube",
+    "problem-solving",
+    "logic",
+    "complexity",
+    "patience",
+    "strategy",
+    "intelligence",
+    "challenge"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_puzzle_pieces_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_puzzle_pieces_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "puzzle",
+    "pieces",
+    "missing-piece",
+    "problem-solving",
+    "fit",
+    "teamwork",
+    "understanding",
+    "connection"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_question_sculpture_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_question_sculpture_01",
+   "themes": [
+    "philosophy",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "question",
+    "question-mark",
+    "doubt",
+    "curiosity",
+    "critical-thinking",
+    "philosophy",
+    "unknown",
+    "mystery",
+    "why"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_quill_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_quill_01",
+   "themes": [
+    "philosophy",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "quill",
+    "writing",
+    "author",
+    "history",
+    "philosophy",
+    "ideas",
+    "ink",
+    "manuscript",
+    "journal"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_red_carpet_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_red_carpet_01",
+   "themes": [
+    "psychology",
+    "money",
+    "decisions"
+   ],
+   "tags": [
+    "red-carpet",
+    "fame",
+    "celebrity",
+    "status",
+    "vip",
+    "exclusive",
+    "glamour",
+    "success",
+    "attention"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_roman_senate_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_roman_senate_01",
+   "themes": [
+    "philosophy",
+    "decisions",
+    "science"
+   ],
+   "tags": [
+    "senate",
+    "rome",
+    "republic",
+    "politics",
+    "power",
+    "law",
+    "ancient",
+    "history",
+    "debate",
+    "empire"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_safe_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_safe_01",
+   "themes": [
+    "money",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "safe",
+    "vault",
+    "security",
+    "savings",
+    "secrets",
+    "wealth",
+    "protection",
+    "loss-aversion",
+    "locked"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_sailing_ship_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_sailing_ship_01",
+   "themes": [
+    "philosophy",
+    "decisions",
+    "science"
+   ],
+   "tags": [
+    "ship",
+    "sailing",
+    "exploration",
+    "voyage",
+    "trade",
+    "colonialism",
+    "history",
+    "adventure",
+    "risk"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_scepter_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_scepter_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "money"
+   ],
+   "tags": [
+    "scepter",
+    "royalty",
+    "authority",
+    "power",
+    "rule",
+    "symbol",
+    "king",
+    "queen"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_scroll_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_scroll_01",
+   "themes": [
+    "philosophy",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "scroll",
+    "ancient",
+    "manuscript",
+    "law",
+    "wisdom",
+    "history",
+    "decree",
+    "philosophy",
+    "knowledge"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_security_camera_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_security_camera_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "science"
+   ],
+   "tags": [
+    "camera",
+    "surveillance",
+    "watching",
+    "privacy",
+    "control",
+    "security",
+    "big-brother",
+    "hawthorne-effect",
+    "monitoring"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_shipping_container_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_shipping_container_01",
+   "themes": [
+    "money",
+    "decisions",
+    "science"
+   ],
+   "tags": [
+    "container",
+    "shipping",
+    "trade",
+    "globalization",
+    "import",
+    "export",
+    "supply-chain",
+    "logistics",
+    "economy"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_shop_front_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_shop_front_01",
+   "themes": [
+    "money",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "shop",
+    "store",
+    "retail",
+    "small-business",
+    "consumer",
+    "shopping",
+    "entrepreneur",
+    "main-street"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_shopping_cart_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_shopping_cart_01",
+   "themes": [
+    "money",
+    "psychology",
+    "decisions"
+   ],
+   "tags": [
+    "shopping-cart",
+    "consumer",
+    "supermarket",
+    "impulse-buying",
+    "spending",
+    "consumerism",
+    "shopping"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_signpost_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_signpost_01",
+   "themes": [
+    "decisions",
+    "philosophy",
+    "growth"
+   ],
+   "tags": [
+    "signpost",
+    "crossroads",
+    "direction",
+    "choice",
+    "decision",
+    "options",
+    "path",
+    "uncertainty"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_smartphone_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_smartphone_01",
+   "themes": [
+    "psychology",
+    "money",
+    "decisions"
+   ],
+   "tags": [
+    "smartphone",
+    "phone",
+    "apps",
+    "notifications",
+    "social-media",
+    "addiction",
+    "dopamine",
+    "screen-time",
+    "tech"
    ],
    "license": "LicenseRef-Erkasa-Original"
   },
@@ -7406,6 +10126,282 @@
     "binge",
     "comfort",
     "furniture"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_steam_train_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_steam_train_01",
+   "themes": [
+    "science",
+    "philosophy",
+    "decisions"
+   ],
+   "tags": [
+    "train",
+    "steam",
+    "locomotive",
+    "industrial-revolution",
+    "progress",
+    "history",
+    "travel",
+    "railway",
+    "momentum"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_stock_chart_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_stock_chart_01",
+   "themes": [
+    "money",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "stocks",
+    "stock-market",
+    "trading",
+    "investing",
+    "chart",
+    "volatility",
+    "bull-market",
+    "speculation",
+    "economy"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_stone_bridge_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_stone_bridge_01",
+   "themes": [
+    "philosophy",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "bridge",
+    "stone",
+    "connection",
+    "history",
+    "crossing",
+    "transition",
+    "old-town",
+    "path",
+    "unity"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_stone_staircase_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_stone_staircase_01",
+   "themes": [
+    "philosophy",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "stairs",
+    "stone",
+    "ancient",
+    "climb",
+    "progress",
+    "path",
+    "journey",
+    "wisdom",
+    "temple"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_stopwatch_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_stopwatch_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "stopwatch",
+    "time",
+    "timer",
+    "deadline",
+    "speed",
+    "pressure",
+    "urgency",
+    "race",
+    "productivity"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_sword_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_sword_01",
+   "themes": [
+    "philosophy",
+    "decisions",
+    "science"
+   ],
+   "tags": [
+    "sword",
+    "medieval",
+    "war",
+    "power",
+    "conflict",
+    "honour",
+    "knight",
+    "history",
+    "battle",
+    "force"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_telescope_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_telescope_01",
+   "themes": [
+    "science",
+    "philosophy",
+    "growth"
+   ],
+   "tags": [
+    "telescope",
+    "astronomy",
+    "discovery",
+    "curiosity",
+    "science",
+    "vision",
+    "future",
+    "exploration",
+    "perspective"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_theater_mask_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_theater_mask_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "mask",
+    "theater",
+    "persona",
+    "fake",
+    "social-mask",
+    "hiding",
+    "identity",
+    "pretending",
+    "impostor"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_theater_masks_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_theater_masks_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "philosophy"
+   ],
+   "tags": [
+    "masks",
+    "theater",
+    "comedy",
+    "tragedy",
+    "duality",
+    "emotions",
+    "persona",
+    "two-faces",
+    "hypocrisy",
+    "manipulation"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_thought_bubble_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_thought_bubble_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "thought",
+    "bubble",
+    "thinking",
+    "idea",
+    "imagination",
+    "inner-voice",
+    "daydream",
+    "worry"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_throne_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_throne_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "money"
+   ],
+   "tags": [
+    "throne",
+    "king",
+    "royalty",
+    "power",
+    "authority",
+    "rule",
+    "status",
+    "seat-of-power",
+    "empire"
    ],
    "license": "LicenseRef-Erkasa-Original"
   },
@@ -7436,6 +10432,31 @@
    "license": "LicenseRef-Erkasa-Original"
   },
   {
+   "assetId": "prop_trophy_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_trophy_01",
+   "themes": [
+    "growth",
+    "psychology",
+    "money"
+   ],
+   "tags": [
+    "trophy",
+    "cup",
+    "winner",
+    "success",
+    "achievement",
+    "victory",
+    "competition",
+    "goal",
+    "status"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
    "assetId": "prop_tv_01",
    "category": "object",
    "kind": "prop",
@@ -7458,6 +10479,56 @@
     "distraction",
     "binge",
     "tech"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_vintage_newspaper_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_vintage_newspaper_01",
+   "themes": [
+    "philosophy",
+    "decisions",
+    "science"
+   ],
+   "tags": [
+    "newspaper",
+    "vintage",
+    "news",
+    "history",
+    "media",
+    "headline",
+    "propaganda",
+    "event",
+    "public-opinion"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_wall_calendar_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_wall_calendar_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "calendar",
+    "dates",
+    "deadline",
+    "time",
+    "habit",
+    "streak",
+    "planning",
+    "routine",
+    "days-passing"
    ],
    "license": "LicenseRef-Erkasa-Original"
   },
@@ -7527,6 +10598,80 @@
     "budget",
     "broke",
     "consumer"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_warehouse_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_warehouse_01",
+   "themes": [
+    "money",
+    "decisions",
+    "science"
+   ],
+   "tags": [
+    "warehouse",
+    "logistics",
+    "storage",
+    "supply-chain",
+    "inventory",
+    "industry",
+    "distribution",
+    "economy"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_warning_light_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_warning_light_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "warning",
+    "alarm",
+    "danger",
+    "red-flag",
+    "alert",
+    "stress",
+    "fight-or-flight",
+    "emergency",
+    "amygdala"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_wax_seal_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_wax_seal_01",
+   "themes": [
+    "philosophy",
+    "decisions",
+    "science"
+   ],
+   "tags": [
+    "wax-seal",
+    "seal",
+    "official",
+    "authority",
+    "secret",
+    "letter",
+    "history",
+    "authentic",
+    "commitment"
    ],
    "license": "LicenseRef-Erkasa-Original"
   },

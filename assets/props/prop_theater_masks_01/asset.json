@@ -1,0 +1,64 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_theater_masks_01",
+  "version": 1,
+  "name": "Dy maska teatri (gëzim dhe trishtim)",
+  "description": "Two overlapping theatre masks: a smiling gold comedy mask and a sad blue tragedy mask, with ribbons.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "psychology",
+  "storyUse": "Duality and two faces: the smile we show versus what we feel, manipulation, politics and acting.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    520,
+    400
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ]
+  },
+  "parts": {
+    "comedy": "maska e gëzuar (e artë)",
+    "tragedy": "maska e trishtuar (blu); secila sway/fade më vete"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "philosophy"
+  ],
+  "tags": [
+    "masks",
+    "theater",
+    "comedy",
+    "tragedy",
+    "duality",
+    "emotions",
+    "persona",
+    "two-faces",
+    "hypocrisy",
+    "manipulation"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

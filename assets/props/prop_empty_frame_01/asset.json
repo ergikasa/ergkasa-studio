@@ -1,0 +1,66 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_empty_frame_01",
+  "version": 1,
+  "name": "Kornizë bosh",
+  "description": "An ornate gold picture frame, empty, with a pale cream inside.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "philosophy",
+  "storyUse": "Framing and absence: what is missing, a lost person or memory, the framing effect, an identity not yet defined.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    520,
+    640
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ],
+    "inside": [
+      0.5,
+      0.5
+    ]
+  },
+  "parts": {
+    "frame": "statike; vendos çfarëdo brenda te anchor `inside`"
+  },
+  "themes": [
+    "philosophy",
+    "psychology",
+    "decisions"
+  ],
+  "tags": [
+    "frame",
+    "empty",
+    "absence",
+    "identity",
+    "art",
+    "framing",
+    "perspective",
+    "missing",
+    "memory"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

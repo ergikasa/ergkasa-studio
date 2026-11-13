@@ -1,0 +1,69 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_warning_light_01",
+  "version": 1,
+  "name": "Dritë paralajmëruese e kuqe",
+  "description": "A red rotating warning beacon on a dark base, glowing.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "psychology",
+  "storyUse": "Alarm and danger signals: red flags in a relationship, the amygdala's fight-or-flight response, a warning sign.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    260,
+    300
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide",
+      "pulse",
+      "shake"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "center": [
+      0.5,
+      0.42
+    ]
+  },
+  "parts": {
+    "glow": "pulse = alarmi ndizet e fiket",
+    "dome": "statik"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "warning",
+    "alarm",
+    "danger",
+    "red-flag",
+    "alert",
+    "stress",
+    "fight-or-flight",
+    "emergency",
+    "amygdala"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_microphone_01",
+  "version": 1,
+  "name": "Mikrofon me këmbë",
+  "description": "A classic round microphone on a tall stand with a tripod base. Mouth height of a standing character.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "power",
+  "storyUse": "Having a voice: speeches, media influence, interviews, public speaking anxiety, propaganda.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    300,
+    960
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "mic": [
+      0.5,
+      0.125
+    ]
+  },
+  "parts": {
+    "mic": "statik; pop_in",
+    "stand": "statik"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "microphone",
+    "speech",
+    "voice",
+    "public-speaking",
+    "media",
+    "podcast",
+    "announcement",
+    "influence",
+    "stage"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

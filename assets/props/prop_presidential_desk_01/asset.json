@@ -1,0 +1,72 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_presidential_desk_01",
+  "version": 1,
+  "name": "Tavolinë presidenciale",
+  "description": "A large dark wooden executive desk with gold trim and a gold seal, a green banker's lamp and two plain flags (blue and red, no symbols).",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "power",
+  "storyUse": "The highest office: political power, the person who decides, leadership under pressure.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    1200,
+    560
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "top": [
+      0.5,
+      0.34285714285714286
+    ],
+    "chair": [
+      0.5,
+      0.2
+    ]
+  },
+  "parts": {
+    "desk": "statik",
+    "flags": "sway i lehtë",
+    "items": "statike"
+  },
+  "themes": [
+    "decisions",
+    "money",
+    "psychology"
+  ],
+  "tags": [
+    "desk",
+    "president",
+    "power",
+    "office",
+    "politics",
+    "authority",
+    "leader",
+    "decision",
+    "government"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

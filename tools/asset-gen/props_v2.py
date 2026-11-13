@@ -367,8 +367,18 @@ def keys(d: Defs):
                 animations=("pop_in", "fade", "slide", "sway", "shake"))
 
 
-def wallet(d: Defs):
+def wallet(d: Defs, mode: str = "closed"):
     w, h = 260, 190
+    if mode == "open":
+        body = (
+            contact_shadow(d, 130, h, 124, 9)
+            + g("body", path("M14,70 L120,58 L130,182 L22,182 Z", d.v("lt", P["wood"], P["wood_dd"])) + path("M246,70 L140,58 L130,182 L238,182 Z", d.v("rt", P["wood_d"], P["wood_ddd"]))
+                + rect(34, 96, 74, 46, d.d("cd", P["gold_l"], P["gold_d"]), rx=6) + rect(34, 104, 74, 8, P["wood_dd"], extra='opacity="0.5"')
+                + rect(152, 84, 78, 82, P["wood_ddd"], rx=6) + rect(160, 92, 62, 6, P["wood_d"], rx=3)
+                + line("M126,60 L130,182", P["wood_ddd"], 4)))
+        return prop("Portofol (i hapur, bosh)", (w, h), body, {"ground": [0.5, 1.0], "center": [0.5, 0.6]},
+                    ["wallet", "empty", "broke", "money", "budget", "spending"], {"body": "statik"}, "everyday",
+                    "An open, empty leather wallet.", "Being broke, an empty wallet at the end of the month.", themes=("money", "psychology", "decisions"))
     body = (
         contact_shadow(d, 130, h, 124, 9)
         + g("bills", rect(42, 20, 170, 80, d.v("bl", P["green_l"], P["green_d"]), rx=6, extra='transform="rotate(-5 127 60)"')
@@ -384,9 +394,9 @@ def wallet(d: Defs):
     return prop("Portofol", (w, h), body, {"ground": [0.5, 1.0], "center": [0.5, 0.6]},
                 ["wallet", "money", "cash", "card", "spending", "identity", "budget", "broke", "consumer"],
                 {"bills": "slide lart/poshtë; fshihet për portofol bosh", "card": "slide lart = pagesë me kartë"}, "everyday",
-                "A brown leather wallet with banknotes and a card sticking out.",
-                "Money and identity, the pain of paying, an empty wallet for financial insecurity (hide the bills).",
-                themes=("money", "psychology", "decisions"))
+                "A brown leather wallet with banknotes and a card sticking out. Variant `open`: the wallet open and empty.",
+                "Money and identity, the pain of paying, an empty wallet for financial insecurity (variant `open`).",
+                themes=("money", "psychology", "decisions"), variants={"open": "open.svg"})
 
 
 def wristwatch(d: Defs):

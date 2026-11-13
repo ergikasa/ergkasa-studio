@@ -1,0 +1,64 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_compass_01",
+  "version": 1,
+  "name": "Busull",
+  "description": "A brass pocket compass with a parchment face, compass rose and a red needle.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "psychology",
+  "storyUse": "Inner direction: values, purpose, the moral compass, feeling lost and finding your way.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    280,
+    300
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide",
+      "spin",
+      "shake"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5333333333333333
+    ]
+  },
+  "parts": {
+    "needle": "rotation: gjilpëra lëkundet (shake) ose rrotullohet (spin) kur je i humbur",
+    "case": "statik"
+  },
+  "themes": [
+    "philosophy",
+    "growth",
+    "decisions"
+  ],
+  "tags": [
+    "compass",
+    "direction",
+    "values",
+    "purpose",
+    "navigation",
+    "moral-compass",
+    "guidance",
+    "lost"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

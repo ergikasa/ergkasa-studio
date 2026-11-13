@@ -1,0 +1,67 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_wall_calendar_01",
+  "version": 1,
+  "name": "Kalendar muri",
+  "description": "A spiral wall calendar with a red header; past days crossed out in red and one day circled.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "psychology",
+  "storyUse": "Time passing, a deadline approaching, habit streaks, 'it has been 30 days', planning versus doing.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    320,
+    400
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ],
+    "today": [
+      0.615625,
+      0.64
+    ]
+  },
+  "parts": {
+    "days": "ditët e kaluara janë kryqëzuar; dita e rrethuar = sot / afati",
+    "header": "statik"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "calendar",
+    "dates",
+    "deadline",
+    "time",
+    "habit",
+    "streak",
+    "planning",
+    "routine",
+    "days-passing"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

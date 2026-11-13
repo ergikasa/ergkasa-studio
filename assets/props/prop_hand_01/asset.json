@@ -1,0 +1,66 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_hand_01",
+  "version": 1,
+  "name": "Dorë njerëzore (pëllëmbë e hapur)",
+  "description": "An open human hand, palm facing the viewer, fingers slightly spread.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "psychology",
+  "storyUse": "Offering or receiving, help, control ('in your hands'), stop. Place a small object over the palm anchor.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    280,
+    400
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ],
+    "palm": [
+      0.5,
+      0.7
+    ]
+  },
+  "parts": {
+    "hand": "sway / pop_in; vendos objekte mbi anchor `palm`"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "hand",
+    "palm",
+    "open-hand",
+    "help",
+    "giving",
+    "stop",
+    "control",
+    "offer",
+    "human"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

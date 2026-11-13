@@ -3,16 +3,19 @@
   "assetId": "prop_wallet_01",
   "version": 1,
   "name": "Portofol",
-  "description": "A brown leather wallet with banknotes and a card sticking out.",
+  "description": "A brown leather wallet with banknotes and a card sticking out. Variant `open`: the wallet open and empty.",
   "category": "object",
   "subcategory": "scene_prop",
   "collection": "everyday",
-  "storyUse": "Money and identity, the pain of paying, an empty wallet for financial insecurity (hide the bills).",
+  "storyUse": "Money and identity, the pain of paying, an empty wallet for financial insecurity (variant `open`).",
   "kind": "prop",
   "adapter": "svg",
   "style": "erkasa_editorial_v2",
   "files": {
     "svg": "asset.svg"
+  },
+  "variants": {
+    "open": "open.svg"
   },
   "viewBox": [
     0,

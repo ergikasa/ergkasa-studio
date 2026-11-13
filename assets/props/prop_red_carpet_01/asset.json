@@ -1,0 +1,67 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_red_carpet_01",
+  "version": 1,
+  "name": "Tapet i kuq",
+  "description": "A red carpet runner in perspective with gold edges, lined by gold posts and velvet ropes.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "power",
+  "storyUse": "Fame and exclusivity: celebrities, VIP status, the illusion of success, who gets let in.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    1500,
+    700
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "walk": [
+      0.5,
+      0.9
+    ]
+  },
+  "parts": {
+    "carpet": "statik",
+    "posts": "shtyllat e arta me kordon"
+  },
+  "themes": [
+    "psychology",
+    "money",
+    "decisions"
+  ],
+  "tags": [
+    "red-carpet",
+    "fame",
+    "celebrity",
+    "status",
+    "vip",
+    "exclusive",
+    "glamour",
+    "success",
+    "attention"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

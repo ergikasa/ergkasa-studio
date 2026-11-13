@@ -1,0 +1,70 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "met_glass_wall_01",
+  "version": 1,
+  "name": "Mur xhami i padukshëm",
+  "description": "A tall clear glass pane standing on the floor with soft reflections. Variants: `box` (glass box around a person), `cracked`.",
+  "category": "metaphor",
+  "subcategory": "interactive",
+  "collection": "psychology",
+  "storyUse": "Invisible barriers: the glass ceiling, feeling separated from others, a boundary you only notice when you hit it. Put a character behind it.",
+  "kind": "animated_metaphor",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "variants": {
+    "box": "box.svg",
+    "cracked": "cracked.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    820,
+    1100
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "behind": [
+      0.5,
+      0.97
+    ]
+  },
+  "parts": {
+    "pane": "xhami (fade = bëhet i dukshëm)",
+    "feet": "mbajtëset në dysheme"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "glass",
+    "invisible-wall",
+    "barrier",
+    "glass-ceiling",
+    "isolation",
+    "boundary",
+    "trapped",
+    "separation"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

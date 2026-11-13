@@ -1,0 +1,73 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "met_broken_stairs_01",
+  "version": 1,
+  "name": "Shkallë e thyer",
+  "description": "A pale stone staircase rising to the right with two steps missing near the top and broken pieces falling.",
+  "category": "metaphor",
+  "subcategory": "interactive",
+  "collection": "psychology",
+  "storyUse": "A broken path to success: setbacks, a missing step, the gap between where you are and the goal, a system that failed.",
+  "kind": "animated_metaphor",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    1200,
+    900
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide",
+      "shake",
+      "collapse"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "gap": [
+      0.6729166666666667,
+      0.36666666666666664
+    ],
+    "top": [
+      0.8666666666666667,
+      0.17777777777777778
+    ]
+  },
+  "parts": {
+    "stairs": "statike",
+    "falling": "receta `collapse`: copat bien (y)"
+  },
+  "themes": [
+    "growth",
+    "psychology",
+    "decisions"
+  ],
+  "tags": [
+    "stairs",
+    "broken",
+    "gap",
+    "failure",
+    "setback",
+    "obstacle",
+    "progress",
+    "collapse",
+    "missing-step"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

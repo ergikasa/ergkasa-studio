@@ -24,8 +24,9 @@ def main() -> None:
     out = Path(sys.argv[1])
     ids = sys.argv[2:]
     if ids and ids[0] == "--style":
-        ids = sorted(p.parent.name for p in (ROOT / "assets" / "props").glob("*/asset.json")
-                     if json.loads(p.read_text())["style"] == ids[1])
+        ids = sorted(p.parent.name for p in (ROOT / "assets").glob("*/*/asset.json")
+                     if json.loads(p.read_text())["style"] == ids[1] and json.loads(p.read_text())["category"] != "background"
+                     and (len(ids) < 3 or json.loads(p.read_text()).get("collection") == ids[2]))
     cdefs, cbody = parts((ROOT / "assets" / "characters" / CHAR / "asset.svg").read_text())
     defs, rows, row, x = [cdefs], [], [], 0.0
 
@@ -37,7 +38,7 @@ def main() -> None:
 
     new_row()
     for aid in ids:
-        folder = ROOT / "assets" / "props" / aid
+        folder = next((ROOT / "assets").glob(f"*/{aid}"))
         meta = json.loads((folder / "asset.json").read_text())
         _, _, w, h = meta["viewBox"]
         if x + w > ROW_W - 20:

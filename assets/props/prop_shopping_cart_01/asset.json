@@ -1,0 +1,64 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_shopping_cart_01",
+  "version": 1,
+  "name": "Karrocë blerjesh",
+  "description": "An empty wire shopping cart with a red handle, seen from the side.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "business",
+  "storyUse": "Consumer behaviour: impulse buying, spending more than planned, supermarket psychology, consumerism.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    460,
+    420
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "inside": [
+      0.55,
+      0.4
+    ]
+  },
+  "parts": {
+    "cart": "slide (x)"
+  },
+  "themes": [
+    "money",
+    "psychology",
+    "decisions"
+  ],
+  "tags": [
+    "shopping-cart",
+    "consumer",
+    "supermarket",
+    "impulse-buying",
+    "spending",
+    "consumerism",
+    "shopping"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

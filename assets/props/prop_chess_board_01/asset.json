@@ -1,0 +1,89 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_chess_board_01",
+  "version": 1,
+  "name": "Fushë shahu",
+  "description": "A wooden chessboard in perspective, cream and dark squares, empty. Anchors mark squares for placing pieces.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "power",
+  "storyUse": "The game of power: strategy, game theory, competition, a world where people are moved like pieces.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    1000,
+    460
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "center": [
+      0.5,
+      0.43478260869565216
+    ],
+    "near_left": [
+      0.24988231287394486,
+      0.6329028108311536
+    ],
+    "near_right": [
+      0.7501176871260552,
+      0.6329028108311536
+    ],
+    "far_left": [
+      0.31698984368481364,
+      0.18998535642396738
+    ],
+    "far_right": [
+      0.6830101563151864,
+      0.18998535642396738
+    ],
+    "middle": [
+      0.5,
+      0.4440717563612858
+    ]
+  },
+  "parts": {
+    "squares": "statike",
+    "frame": "statik"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "money"
+  ],
+  "tags": [
+    "chess",
+    "strategy",
+    "power",
+    "game",
+    "hierarchy",
+    "manipulation",
+    "planning",
+    "board",
+    "game-theory",
+    "competition",
+    "battlefield"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

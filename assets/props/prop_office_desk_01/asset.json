@@ -1,0 +1,65 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_office_desk_01",
+  "version": 1,
+  "name": "Tavolinë zyre (pamje ballore)",
+  "description": "A wooden office desk seen from the front with drawers on both sides. Same height as the other desks.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "business",
+  "storyUse": "A front-facing desk for a character sitting or standing behind it: the boss, an interview, a job.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    900,
+    372
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "top": [
+      0.5,
+      0.06451612903225806
+    ]
+  },
+  "parts": {
+    "desk": "shtresë përpara: mbulon personazhin pas saj"
+  },
+  "themes": [
+    "money",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "desk",
+    "office",
+    "work",
+    "furniture",
+    "job",
+    "workplace",
+    "career",
+    "boss"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

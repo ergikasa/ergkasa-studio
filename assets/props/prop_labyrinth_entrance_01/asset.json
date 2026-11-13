@@ -1,0 +1,68 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_labyrinth_entrance_01",
+  "version": 1,
+  "name": "Hyrja e labirintit",
+  "description": "A tall green hedge wall with an arched opening and a sandy path leading into a dark maze.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "psychology",
+  "storyUse": "Stepping into confusion or a complex problem, the start of a hard journey, choices with no map.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    980,
+    640
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "entrance": [
+      0.5,
+      0.52
+    ]
+  },
+  "parts": {
+    "walls": "statike",
+    "inner": "errësira e brendshme",
+    "path_in": "shtegu hyrës"
+  },
+  "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+  ],
+  "tags": [
+    "labyrinth",
+    "maze",
+    "entrance",
+    "hedge",
+    "confusion",
+    "journey",
+    "unknown",
+    "complexity",
+    "beginning"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_control_panel_01",
+  "version": 1,
+  "name": "Panel kontrolli",
+  "description": "A dark control console with three screens (line chart, bars, gauge), buttons, sliders and a big red button.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "power",
+  "storyUse": "Who controls the system: levers of power, algorithms steering behaviour, monitoring, the person behind the curtain.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    900,
+    560
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "button": [
+      0.5888888888888889,
+      0.6071428571428571
+    ]
+  },
+  "parts": {
+    "screens": "pulse = të dhënat ndryshojnë",
+    "big_button": "scale_pulse = shtyhet",
+    "console": "statik"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "science"
+  ],
+  "tags": [
+    "control-panel",
+    "control",
+    "system",
+    "power",
+    "manipulation",
+    "algorithm",
+    "monitoring",
+    "command-center",
+    "levers"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

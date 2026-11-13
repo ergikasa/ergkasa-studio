@@ -1,0 +1,66 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "met_watching_eye_01",
+  "version": 1,
+  "name": "Syri që vëzhgon",
+  "description": "A huge open eye floating in a golden aura with rays, staring at the viewer.",
+  "category": "metaphor",
+  "subcategory": "interactive",
+  "collection": "psychology",
+  "storyUse": "Being watched: social pressure, the spotlight effect, surveillance, judgement, the Hawthorne effect.",
+  "kind": "animated_metaphor",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    760,
+    760
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "pulse",
+      "blink",
+      "look_around"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ]
+  },
+  "parts": {
+    "iris": "receta `look_around`: shikon majtas-djathtas",
+    "lid": "receta `blink`",
+    "rays": "spin i ngadaltë"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "eye",
+    "watching",
+    "surveillance",
+    "judgement",
+    "social-pressure",
+    "spotlight-effect",
+    "big-brother",
+    "observed",
+    "paranoia"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

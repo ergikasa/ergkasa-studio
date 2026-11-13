@@ -1,0 +1,65 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_human_shadow_01",
+  "version": 1,
+  "name": "Hija e njeriut (e zgjatur)",
+  "description": "A tall, stretched, semi-transparent human shadow, as if cast on a wall behind someone.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "psychology",
+  "storyUse": "The shadow self, fears that look bigger than they are, the past following someone. Place it behind a character, feet to feet.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    420,
+    1300
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "feet": [
+      0.5,
+      0.99
+    ]
+  },
+  "parts": {
+    "shadow": "scaleY rritet = frika rritet; fade; skewX për hije të shtrembër"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "shadow",
+    "fear",
+    "dark-side",
+    "past",
+    "insecurity",
+    "shadow-self",
+    "jung",
+    "anxiety"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

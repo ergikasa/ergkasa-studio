@@ -1,0 +1,68 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_medal_01",
+  "version": 1,
+  "name": "Medalje e artë",
+  "description": "A gold medal with a star relief hanging from a blue and red ribbon.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "power",
+  "storyUse": "Winning and recognition: first place, rewards, external validation, competition and status.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    280,
+    440
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide",
+      "sway"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.7272727272727273
+    ],
+    "top": [
+      0.5,
+      0.0
+    ]
+  },
+  "parts": {
+    "medal": "sway/pop_in (lëkundet në shirit)",
+    "ribbon": "statik"
+  },
+  "themes": [
+    "growth",
+    "psychology",
+    "money"
+  ],
+  "tags": [
+    "medal",
+    "gold",
+    "winner",
+    "achievement",
+    "first-place",
+    "recognition",
+    "reward",
+    "status",
+    "competition"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

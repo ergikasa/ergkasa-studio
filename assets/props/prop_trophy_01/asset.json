@@ -1,0 +1,68 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_trophy_01",
+  "version": 1,
+  "name": "Kupë (trofe)",
+  "description": "A golden trophy cup with two handles and a star, on a dark wooden base.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "power",
+  "storyUse": "Success and victory: the goal, winning, external rewards, survivorship bias ('only the winners are shown').",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    320,
+    480
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide",
+      "float",
+      "pulse"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "center": [
+      0.5,
+      0.4
+    ]
+  },
+  "parts": {
+    "trophy": "pop_in, float, shine"
+  },
+  "themes": [
+    "growth",
+    "psychology",
+    "money"
+  ],
+  "tags": [
+    "trophy",
+    "cup",
+    "winner",
+    "success",
+    "achievement",
+    "victory",
+    "competition",
+    "goal",
+    "status"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

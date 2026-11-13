@@ -46,6 +46,12 @@ P = {
     "violet": "#8E6BB0", "violet_d": "#6B4E8A",
     "night": "#1B2238", "night2": "#28324F", "night3": "#3B4770",
     "warm_light": "#FFE7A8", "warm_light2": "#FFF3D6",
+    # trup, mermer, organe
+    "skin_l": "#F1C6A6", "skin": "#E2B08C", "skin_d": "#C98F68",
+    "pink_l": "#F4C2B8", "pink": "#E6A096", "pink_d": "#C97A72",
+    "marble_l": "#FAF8F4", "marble": "#E6E2DA", "marble_d": "#C9C3B8", "marble_dd": "#A9A297",
+    "brass_l": "#F2D49A", "brass": "#C9A15A", "brass_d": "#8F6E36",
+    "parch_l": "#F5E6C4", "parch": "#E5CE9C", "parch_d": "#C4A56C",
 }
 PALETTE = sorted(set(P.values()))
 
@@ -148,3 +154,101 @@ def write_asset(folder: str, meta: dict, files: dict[str, str]) -> None:
     for name, text in files.items():
         (d / name).write_text(text, encoding="utf-8")
     (d / "asset.json").write_text(json.dumps(meta, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+
+# ================================================================ ndihmës për formë
+def lathe(defs: "Defs", name: str, cx: float, profile, light: str, dark: str, mid: str | None = None, extra: str = "") -> str:
+    """Trup simetrik rrotullimi (figura shahu, kolona, shandanë, shishe): `profile` = [(y, gjysmë-gjerësia), ...]
+    nga lart poshtë. Hija vjen nga gradienti horizontal (drita majtas)."""
+    left = [(cx - w, y) for y, w in profile]
+    right = [(cx + w, y) for y, w in reversed(profile)]
+    pts = " ".join(f"{x:.1f},{y:.1f}" for x, y in left + right)
+    return f'<polygon points="{pts}" fill="{defs.h(name, light, dark, mid)}" {extra}/>'
+
+
+def smooth_lathe(defs: "Defs", name: str, cx: float, profile, light: str, dark: str, mid: str | None = None) -> str:
+    """Si `lathe`, por me kthesa të buta (Catmull-Rom → Bézier) në të dy anët."""
+    def side(pts):
+        out = f"L{pts[0][0]:.1f},{pts[0][1]:.1f}"
+        for i in range(len(pts) - 1):
+            p0, p1, p2 = pts[max(i - 1, 0)], pts[i], pts[i + 1]
+            p3 = pts[min(i + 2, len(pts) - 1)]
+            c1 = (p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6)
+            c2 = (p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6)
+            out += f" C{c1[0]:.1f},{c1[1]:.1f} {c2[0]:.1f},{c2[1]:.1f} {p2[0]:.1f},{p2[1]:.1f}"
+        return out
+    left = [(cx - w, y) for y, w in profile]
+    right = [(cx + w, y) for y, w in reversed(profile)]
+    d = "M" + side(left)[1:] + " " + side(right) + " Z"
+    return f'<path d="{d}" fill="{defs.h(name, light, dark, mid)}"/>'
+
+
+def star(cx, cy, r_out, r_in, n, fill, rot=-90, extra=""):
+    import math
+    pts = []
+    for i in range(n * 2):
+        r = r_out if i % 2 == 0 else r_in
+        a = math.radians(rot + i * 180 / n)
+        pts.append((cx + r * math.cos(a), cy + r * math.sin(a)))
+    return poly(pts, fill, extra)
+
+
+def blob(cx, cy, r, n, rng, jitter, fill, extra=""):
+    """Formë organike e mbyllur (tym, bojë, gjethe): rreth me rreze që lëkundet."""
+    import math
+    pts = [(cx + r * (1 + rng.uniform(-jitter, jitter)) * math.cos(2 * math.pi * i / n),
+            cy + r * (1 + rng.uniform(-jitter, jitter)) * math.sin(2 * math.pi * i / n)) for i in range(n)]
+    d = ""
+    for i in range(n):
+        p0, p1 = pts[i], pts[(i + 1) % n]
+        m = ((p0[0] + p1[0]) / 2, (p0[1] + p1[1]) / 2)
+        d += (f"M{m[0]:.1f},{m[1]:.1f}" if i == 0 else "") + f" Q{p1[0]:.1f},{p1[1]:.1f} {((p1[0] + pts[(i + 2) % n][0]) / 2):.1f},{((p1[1] + pts[(i + 2) % n][1]) / 2):.1f}"
+    return f'<path d="{d} Z" fill="{fill}" {extra}/>'
+
+
+# ================================================================ shkrimi i një grupi objektesh
+THEMES_BY_COLLECTION = {
+    "home": ["psychology", "growth", "decisions"], "everyday": ["psychology", "growth", "decisions"],
+    "psychology": ["psychology", "decisions", "growth"], "power": ["psychology", "decisions", "money"],
+    "business": ["money", "decisions"], "philosophy": ["philosophy", "growth", "decisions"],
+    "history": ["philosophy", "decisions", "science"], "effects": ["everyday"],
+}
+
+
+def obj(name, size, body, anchors, tags, parts, description, story_use, animations=("pop_in", "fade", "slide"),
+        variants=None, collection=None, themes=None):
+    """Përshkrimi i një objekti nga funksioni vizatues; `run` plotëson pjesën tjetër të metadata-ve."""
+    return {"name": name, "size": size, "body": body, "anchors": anchors, "tags": tags, "parts": parts,
+            "description": description, "storyUse": story_use, "animations": list(animations),
+            "variants": variants or {}, "collection": collection, "themes": themes}
+
+
+def run(items, collection: str, folder: str = "props", category: str = "object", subcategory: str = "scene_prop",
+        kind: str = "prop") -> list[str]:
+    """Shkruan asetet. `items` = [(assetId, funksion)]; funksioni merr Defs (dhe çelësin e variantit, nëse ka)."""
+    written = []
+    for asset_id, fn in items:
+        d = Defs(asset_id)
+        p = fn(d)
+        w, h = p["size"]
+        files = {"asset.svg": svg_doc(asset_id, w, h, d.xml(), p["body"])}
+        for key, fname in p["variants"].items():
+            dv = Defs(f"{asset_id}_{key}")
+            variant_body = fn(dv, key)["body"]          # vizato së pari: gradientët regjistrohen gjatë vizatimit
+            files[fname] = svg_doc(asset_id, w, h, dv.xml(), variant_body)
+        coll = p["collection"] or collection
+        meta = {
+            "schema": "erkasa.asset/1", "assetId": asset_id, "version": 1, "name": p["name"],
+            "description": p["description"], "category": category, "subcategory": subcategory,
+            "collection": coll, "storyUse": p["storyUse"],
+            "kind": kind, "adapter": "svg", "style": STYLE, "files": {"svg": "asset.svg"},
+            **({"variants": p["variants"]} if p["variants"] else {}),
+            "viewBox": [0, 0, w, h],
+            "capabilities": {"animations": p["animations"], "scale": "1 = shkalla e personazhit standard (0.92)"},
+            "anchors": p["anchors"], "parts": p["parts"],
+            "themes": p["themes"] or THEMES_BY_COLLECTION.get(coll, ["psychology", "decisions"]),
+            "tags": p["tags"], "license": LICENSE,
+        }
+        write_asset(folder, meta, files)
+        written.append(asset_id)
+    return written

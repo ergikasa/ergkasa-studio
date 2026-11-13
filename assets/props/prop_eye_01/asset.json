@@ -1,0 +1,63 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_eye_01",
+  "version": 1,
+  "name": "Sy njerëzor",
+  "description": "A large open human eye: almond shape, teal iris with highlights, upper eyelid and lashes.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "psychology",
+  "storyUse": "Attention and perception: what we notice and what we miss, selective attention, 'seeing' a bias.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    420,
+    240
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide",
+      "pulse"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ]
+  },
+  "parts": {
+    "lid": "scaleY 1 → 0.1 = mbyll sytë (pulsi i pivot-it lart)",
+    "iris": "x ±40 = shikon majtas/djathtas"
+  },
+  "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "eye",
+    "vision",
+    "attention",
+    "perception",
+    "seeing",
+    "focus",
+    "observation",
+    "bias"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

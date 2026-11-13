@@ -1,0 +1,67 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_open_book_01",
+  "version": 1,
+  "name": "Libër i hapur",
+  "description": "An open book with blank pages showing lines of text as soft grey strokes, a faint glow above.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "philosophy",
+  "storyUse": "Learning and reading: knowledge, education, opening a new chapter, finding an answer in a book.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    520,
+    340
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "pages": [
+      0.5,
+      0.45
+    ]
+  },
+  "parts": {
+    "book": "statik",
+    "glow": "pulse/fade = zbulim"
+  },
+  "themes": [
+    "philosophy",
+    "growth",
+    "decisions"
+  ],
+  "tags": [
+    "book",
+    "open-book",
+    "reading",
+    "learning",
+    "knowledge",
+    "study",
+    "education",
+    "wisdom",
+    "story"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}
