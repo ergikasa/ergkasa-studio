@@ -1,9 +1,80 @@
 import { z } from "zod";
 import { AssetId, LocalId, Theme } from "./common.js";
 
-/** Where a scene sits in the story arc. */
-export const StoryBeat = z.enum(["hook", "relate", "tension", "explain", "twist", "turn", "resolve"]);
+/**
+ * Where a scene sits in the video's argument.
+ * Editorial structure (Erkasa standard): hook -> problem -> concept -> situation -> analysis -> conclusion.
+ * The older story arc (relate, tension, explain, twist, turn, resolve) stays valid for existing scripts.
+ */
+export const StoryBeat = z.enum([
+  "hook",
+  "problem",
+  "concept",
+  "situation",
+  "analysis",
+  "conclusion",
+  "relate",
+  "tension",
+  "explain",
+  "twist",
+  "turn",
+  "resolve",
+]);
 export type StoryBeat = z.infer<typeof StoryBeat>;
+
+/** The editorial structure, in order. */
+export const EDITORIAL_BEATS = ["hook", "problem", "concept", "situation", "analysis", "conclusion"] as const;
+
+/** How the video opens. Varies from video to video so the channel never sounds like a formula. */
+export const OpeningType = z.enum(["paradox", "question", "situation", "contrast", "fact"]);
+export type OpeningType = z.infer<typeof OpeningType>;
+
+/**
+ * The narrative identity of a video: how the concrete situation is told inside the fixed structure.
+ * - two_paths: two people (or two choices) side by side, the difference explains the concept
+ * - case_file: one real, verifiable case taken apart, then brought back to everyday life
+ * - myth_vs_mechanism: what people believe, then what actually happens
+ * - one_moment: one ordinary moment slowed down, decision by decision
+ * - thought_experiment: the viewer is put in a made-up choice and watches their own reasoning
+ * - rewind: start from the consequence, go back to the small decision that caused it
+ * - everyday_object: an ordinary object (a receipt, a phone, a chair) carries the idea
+ */
+export const NarrativeShape = z.enum([
+  "two_paths",
+  "case_file",
+  "myth_vs_mechanism",
+  "one_moment",
+  "thought_experiment",
+  "rewind",
+  "everyday_object",
+]);
+export type NarrativeShape = z.infer<typeof NarrativeShape>;
+
+/**
+ * A factual claim the narration makes (study, historical event, statistic, quote, definition), with what it
+ * proves in the argument. Nothing here is checked automatically: `to_verify` claims go to the editor before
+ * the video is published; `hypothetical` marks a made-up example presented as such.
+ */
+export const ScriptClaim = z
+  .object({
+    text: z.string().min(1).max(300),
+    kind: z.enum(["study", "history", "statistic", "quote", "definition"]),
+    status: z.enum(["to_verify", "widely_known", "hypothetical"]),
+    /** Why the claim is in the video: what it shows in the argument. */
+    role: z.string().min(1).max(200),
+    source: z.string().max(200).optional(),
+  })
+  .strict();
+export type ScriptClaim = z.infer<typeof ScriptClaim>;
+
+/** What the viewer leaves with: a principle, a question to ask themselves, or a concrete tool. */
+export const Takeaway = z
+  .object({
+    kind: z.enum(["principle", "question", "tool"]),
+    text: z.string().min(1).max(240),
+  })
+  .strict();
+export type Takeaway = z.infer<typeof Takeaway>;
 
 /** A character of the story, played by one studio character for the whole video. */
 export const CastMember = z
@@ -52,6 +123,12 @@ export const Script = z
     hook: z.string().min(1).max(200),
     /** The same characters play the whole video; the protagonist is the viewer's stand-in. */
     cast: z.array(CastMember).max(3).optional(),
+    /** What the viewer will understand by the end, one sentence. */
+    promise: z.string().min(1).max(200).optional(),
+    opening: OpeningType.optional(),
+    shape: NarrativeShape.optional(),
+    takeaway: Takeaway.optional(),
+    claims: z.array(ScriptClaim).max(10).optional(),
     scenes: z.array(ScriptScene).min(2).max(12),
     /** Rough length at ~165 words per minute. */
     estimatedSec: z.number().positive(),

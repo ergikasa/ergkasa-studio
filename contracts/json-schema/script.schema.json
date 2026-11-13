@@ -70,6 +70,104 @@
         "additionalProperties": false
       }
     },
+    "promise": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "opening": {
+      "type": "string",
+      "enum": [
+        "paradox",
+        "question",
+        "situation",
+        "contrast",
+        "fact"
+      ]
+    },
+    "shape": {
+      "type": "string",
+      "enum": [
+        "two_paths",
+        "case_file",
+        "myth_vs_mechanism",
+        "one_moment",
+        "thought_experiment",
+        "rewind",
+        "everyday_object"
+      ]
+    },
+    "takeaway": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "principle",
+            "question",
+            "tool"
+          ]
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        }
+      },
+      "required": [
+        "kind",
+        "text"
+      ],
+      "additionalProperties": false
+    },
+    "claims": {
+      "maxItems": 10,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "study",
+              "history",
+              "statistic",
+              "quote",
+              "definition"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "to_verify",
+              "widely_known",
+              "hypothetical"
+            ]
+          },
+          "role": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "source": {
+            "type": "string",
+            "maxLength": 200
+          }
+        },
+        "required": [
+          "text",
+          "kind",
+          "status",
+          "role"
+        ],
+        "additionalProperties": false
+      }
+    },
     "scenes": {
       "minItems": 2,
       "maxItems": 12,
@@ -99,6 +197,11 @@
             "type": "string",
             "enum": [
               "hook",
+              "problem",
+              "concept",
+              "situation",
+              "analysis",
+              "conclusion",
               "relate",
               "tension",
               "explain",

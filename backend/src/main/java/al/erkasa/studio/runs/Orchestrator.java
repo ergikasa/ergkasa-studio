@@ -96,7 +96,7 @@ public class Orchestrator {
         if (!THEMES.contains(theme)) {
             throw new BadRunRequest("theme must be one of " + THEMES);
         }
-        int seconds = req.seconds() == null ? 45 : req.seconds();
+        int seconds = req.seconds() == null ? 75 : req.seconds();
         if (seconds < 20 || seconds > 120) {
             throw new BadRunRequest("seconds must be 20-120");
         }

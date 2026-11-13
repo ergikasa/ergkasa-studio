@@ -216,15 +216,15 @@ ${JSON.stringify(EXAMPLE)}
 ${JSON.stringify(EXAMPLE_SET)}
 
 # Script: "${script.title}" (theme: ${script.theme})
-${cast ? `Cast: ${cast}` : ""}${narrator ? `\n${narrator}` : ""}${host ? `\nHost chosen by the user: ${host}. Decide in which scenes he appears (hook, explanation, conclusion); he is not part of the story's cast.` : ""}
+${script.promise ? `The viewer should understand: ${script.promise}\n` : ""}${script.takeaway ? `They leave with (${script.takeaway.kind}): ${script.takeaway.text}. The last scene shows it.\n` : ""}${cast ? `Cast: ${cast}` : ""}${narrator ? `\n${narrator}` : ""}${host ? `\nHost chosen by the user: ${host}. Decide in which scenes he appears (hook, explanation, conclusion); he is not part of the story's cast.` : ""}
 ${script.scenes
   .map((s) =>
     [
       `## ${s.sceneId}${s.beat ? ` (${s.beat})` : ""}`,
       `Narration: ${s.narration}`,
       s.setting ? `Setting: ${s.setting}` : "",
-      s.action ? `Protagonist does: ${s.action}` : "",
-      s.emotion ? `Protagonist feels: ${s.emotion}` : "",
+      s.action ? `${script.cast?.length ? "Protagonist does" : "On screen"}: ${s.action}` : "",
+      s.emotion ? `${script.cast?.length ? "Protagonist feels" : "Mood"}: ${s.emotion}` : "",
       `Visual idea: ${s.visualIdea}`,
       s.emphasis ? `Emphasis: ${s.emphasis}` : "",
     ]

@@ -18,7 +18,7 @@ export function NewVideo() {
   const [topic, setTopic] = useState("");
   const [theme, setTheme] = useState<string>("psychology");
   const [voice, setVoice] = useState<string>(stored(VOICE_KEY) ?? "");
-  const [seconds, setSeconds] = useState(45);
+  const [seconds, setSeconds] = useState(75);
   const [notes, setNotes] = useState("");
   const [silent, setSilent] = useState(false);
   const [host, setHost] = useState<string>(stored(HOST_KEY) ?? "char_host_01");

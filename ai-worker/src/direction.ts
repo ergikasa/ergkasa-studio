@@ -67,14 +67,18 @@ export function reviewDirection({ plan, script, durations, compileIssues, host }
     );
   }
   if (protagonist) {
+    // an editorial script (problem -> concept -> situation -> analysis -> conclusion) also explains with a
+    // real case, a metaphor or a chart; the protagonist carries the situation, not every scene
+    const editorial = script.shape !== undefined || script.scenes.some((s) => s.beat === "situation");
+    const need = Math.ceil(editorial ? n / 3 : n / 2);
     const present = scenes.filter((s) => actorsOf(s).some((a) => a.assetId.startsWith(protagonist))).length;
-    if (present < Math.ceil(n / 2))
+    if (present < need)
       out.push(
         issue(
           "PROTAGONIST_MISSING",
           "scenes",
           `the protagonist appears in ${present} of ${n} scenes`,
-          `keep ${protagonist} on screen in at least ${Math.ceil(n / 2)} scenes; concept scenes can show them reacting to the metaphor or chart`,
+          `keep ${protagonist} on screen in at least ${need} scenes; concept scenes can show them reacting to the metaphor or chart`,
         ),
       );
   }

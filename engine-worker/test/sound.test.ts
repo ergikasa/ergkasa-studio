@@ -246,6 +246,11 @@ describe("sound designer", () => {
   it("maps beats to music roles, with sad relate scenes as reflection", () => {
     expect(roleFor({ sceneId: "a", beat: "relate", emotion: "guilty" }, 1, 5)).toBe("reflection");
     expect(roleFor({ sceneId: "a", beat: "relate", emotion: "curious" }, 1, 5)).toBe("relate");
+    // editorial beats map onto the music roles
+    expect(roleFor({ sceneId: "a", beat: "situation" }, 3, 6)).toBe("tension");
+    expect(roleFor({ sceneId: "a", beat: "analysis" }, 4, 6)).toBe("twist");
+    expect(roleFor({ sceneId: "a", beat: "conclusion" }, 5, 6)).toBe("resolve");
+    expect(roleFor({ sceneId: "a", beat: "problem", emotion: "lonely" }, 1, 6)).toBe("reflection");
     expect(roleFor(undefined, 0, 5)).toBe("hook");
     expect(roleFor(undefined, 4, 5)).toBe("resolve");
   });

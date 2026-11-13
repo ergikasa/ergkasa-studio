@@ -58,12 +58,25 @@ export const DEFAULT_VOICE_LUFS = -18;
 
 const SAD = /(sad|guilt|guilty|ashamed|shame|lonely|tired|exhausted|regret|empty|hopeless|defeated|numb)/;
 
+/**
+ * The editorial structure in music terms: the problem is recognised (relate), the concept is explained
+ * under the words, the concrete situation builds, the analysis is the reveal, the conclusion resolves.
+ */
+const EDITORIAL_ROLE: Partial<Record<StoryBeat, MusicRole>> = {
+  problem: "relate",
+  concept: "explain",
+  situation: "tension",
+  analysis: "twist",
+  conclusion: "resolve",
+};
+
 export function roleFor(story: SceneStory | undefined, index: number, count: number): MusicRole {
   const beat = story?.beat;
   if (!beat) return index === 0 ? "hook" : index === count - 1 ? "resolve" : "explain";
-  if ((beat === "relate" || beat === "explain") && story.emotion && SAD.test(story.emotion.toLowerCase()))
+  const role = EDITORIAL_ROLE[beat] ?? (beat as MusicRole);
+  if ((role === "relate" || role === "explain") && story.emotion && SAD.test(story.emotion.toLowerCase()))
     return "reflection";
-  return beat;
+  return role;
 }
 
 /** What a role may borrow when the library has nothing for it, in order. */

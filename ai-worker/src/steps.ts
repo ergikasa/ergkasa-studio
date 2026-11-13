@@ -1,6 +1,6 @@
 import { execFileSync } from "node:child_process";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { basename, join } from "node:path";
+import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { basename, dirname, join, resolve } from "node:path";
 import { compileVideo, type CompileResult, type Issue, type TimedWord } from "@erkasa/compiler";
 import {
   Script,
@@ -26,7 +26,7 @@ import {
 import type { Catalog } from "./catalog.js";
 import type { Llm, Usage } from "./llm.js";
 import { planVideo, type PlanAttempt } from "./planner.js";
-import { writeScript } from "./script-writer.js";
+import { writeScript, type RecentStyles } from "./script-writer.js";
 import { narratorLine } from "./voice-catalog.js";
 import { toAlignment, type Voice } from "./voice.js";
 
@@ -36,6 +36,7 @@ import { toAlignment, type Voice } from "./voice.js";
  */
 export const RUN_FILES = {
   script: "script.json",
+  scriptIssues: "script-issues.json",
   voice: "voice/voice.json",
   plan: "video-plan.json",
   planAttempts: "plan-attempts.json",
@@ -88,8 +89,9 @@ export async function stepScript(
   params: ScriptParams,
   llm: Llm,
   catalog: Catalog,
-): Promise<{ script: Script; usage: Usage[] }> {
+): Promise<{ script: Script; usage: Usage[]; issues: string[] }> {
   mkdirSync(dir, { recursive: true });
+  const recent = recentStyles(dirname(resolve(dir)), dir);
   const res = await writeScript(
     llm,
     {
@@ -97,12 +99,39 @@ export async function stepScript(
       theme: params.theme,
       targetSec: params.seconds,
       ...(params.notes ? { notes: params.notes } : {}),
+      recent,
     },
     catalog.vocabulary(),
     catalog.characters.map((c) => c.id),
   );
   writeJson(join(dir, RUN_FILES.script), res.script);
+  // what the editorial checks still flag after the rewrites: for the editor, never blocks the video
+  const issuesFile = join(dir, RUN_FILES.scriptIssues);
+  if (res.issues.length) writeJson(issuesFile, res.issues);
+  else rmSync(issuesFile, { force: true });
   return res;
+}
+
+/**
+ * Openings and narrative shapes of the latest scripts in the other runs (newest first), so the next video
+ * opens and unfolds differently. Runs without these fields (older scripts) are skipped.
+ */
+export function recentStyles(runsDir: string, exclude?: string, limit = 6): RecentStyles {
+  const out: RecentStyles = { openings: [], shapes: [] };
+  if (!existsSync(runsDir)) return out;
+  const scripts = readdirSync(runsDir)
+    .map((name) => join(runsDir, name))
+    .filter((d) => d !== (exclude ? resolve(exclude) : "") && existsSync(join(d, RUN_FILES.script)))
+    .map((d) => ({ d, t: statSync(join(d, RUN_FILES.script)).mtimeMs }))
+    .sort((a, b) => b.t - a.t)
+    .slice(0, limit);
+  for (const { d } of scripts) {
+    const parsed = Script.safeParse(readJson(join(d, RUN_FILES.script)));
+    if (!parsed.success) continue;
+    if (parsed.data.opening) out.openings.push(parsed.data.opening);
+    if (parsed.data.shape) out.shapes.push(parsed.data.shape);
+  }
+  return out;
 }
 
 export function loadScript(dir: string): Script {
