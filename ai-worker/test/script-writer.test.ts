@@ -3,7 +3,8 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import type { JsonRequest, JsonResponse, Llm } from "../src/llm.js";
-import { editorialIssues, toScript, writeScript } from "../src/script-writer.js";
+import { DRAFT_SCHEMA } from "../src/plan-draft.js";
+import { SCRIPT_SCHEMA, editorialIssues, toScript, writeScript } from "../src/script-writer.js";
 import { recentStyles } from "../src/steps.js";
 
 const req = { topic: "sunk cost", theme: "decisions" as const, targetSec: 30 };
@@ -60,6 +61,16 @@ class ScriptedLlm implements Llm {
 }
 
 describe("editorial script", () => {
+  it("uses only schema keywords the structured-output API accepts", () => {
+    // the API rejects array/string/number limits; minItems is accepted only as 0 or 1
+    const banned = /"(maxItems|maxLength|minLength|minimum|maximum|pattern|format)":/;
+    for (const schema of [SCRIPT_SCHEMA, DRAFT_SCHEMA]) {
+      const json = JSON.stringify(schema);
+      expect(json).not.toMatch(banned);
+      for (const m of json.matchAll(/"minItems":(\d+)/g)) expect(Number(m[1])).toBeLessThanOrEqual(1);
+    }
+  });
+
   it("keeps the editorial fields and drops unknown or reserved cast", () => {
     const s = toScript(
       goodDraft({

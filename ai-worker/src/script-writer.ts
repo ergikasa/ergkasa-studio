@@ -43,7 +43,7 @@ export interface ScriptRequest {
 const OPENINGS = OpeningType.options;
 const SHAPES = NarrativeShape.options;
 
-const SCHEMA: StrictSchema = {
+export const SCRIPT_SCHEMA: StrictSchema = {
   type: "object",
   additionalProperties: false,
   required: ["title", "promise", "opening", "shape", "cast", "scenes", "claims", "takeaway"],
@@ -57,7 +57,7 @@ const SCHEMA: StrictSchema = {
     shape: { type: "string", enum: [...SHAPES] },
     cast: {
       type: "array",
-      maxItems: 2,
+      // no maxItems: the structured-output API rejects it; toScript keeps at most 3
       description: "0-2 studio characters who play the people of the situation for the whole video.",
       items: {
         type: "object",
@@ -474,7 +474,7 @@ ${visualVocabulary}`,
       label: `script#${attempt}`,
       system: SCRIPT_SYSTEM,
       messages,
-      schema: SCHEMA,
+      schema: SCRIPT_SCHEMA,
       maxTokens: 16000,
     });
     usage.push(res.usage);
