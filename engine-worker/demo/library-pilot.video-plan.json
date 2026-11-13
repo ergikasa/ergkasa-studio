@@ -1,0 +1,388 @@
+{
+  "schema": "erkasa.video-plan/1",
+  "projectId": "p_library_pilot",
+  "language": "en",
+  "format": "9:16",
+  "voiceId": "pending",
+  "musicMood": "curious",
+  "scenes": [
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s01",
+      "engine": "2d",
+      "narration": "Two thousand years ago, a philosopher asked a simple question.",
+      "durationPolicy": {
+        "mode": "fitNarration",
+        "padAfterSec": 0.5
+      },
+      "background": {
+        "assetId": "bg_ancient_greek_city_01"
+      },
+      "layers": [
+        {
+          "type": "actor",
+          "id": "socrates",
+          "assetId": "char_philosopher_01",
+          "place": {
+            "anchor": "ground",
+            "x": 0.3
+          },
+          "actions": [
+            {
+              "action": "present",
+              "at": {
+                "word": "philosopher"
+              }
+            },
+            {
+              "action": "think",
+              "at": {
+                "word": "question"
+              }
+            }
+          ],
+          "speaks": true
+        },
+        {
+          "type": "object",
+          "id": "bust",
+          "assetId": "prop_bust_socratic_01",
+          "place": {
+            "x": 0.72,
+            "y": 0.62,
+            "scale": 0.9
+          },
+          "in": {
+            "effect": "fade",
+            "at": "start",
+            "durationSec": 0.5
+          }
+        },
+        {
+          "type": "text",
+          "id": "t1",
+          "content": "WHO is truly WISE?",
+          "style": "hook_impact",
+          "place": {
+            "x": 0.5,
+            "region": "top-safe"
+          },
+          "highlight": ["WISE?"],
+          "in": {
+            "effect": "pop",
+            "at": {
+              "word": "question"
+            },
+            "durationSec": 0.35
+          }
+        }
+      ],
+      "effects": [
+        {
+          "preset": "fx_paper_texture_01",
+          "intensity": 0.35
+        },
+        {
+          "preset": "fx_light_rays_01",
+          "intensity": 0.5
+        }
+      ],
+      "camera": [
+        {
+          "move": "push_in",
+          "at": "start",
+          "to": 1.05
+        }
+      ],
+      "transitionOut": {
+        "type": "fade",
+        "durationSec": 0.4
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s02",
+      "engine": "2d",
+      "narration": "Kings had power. But power was never the same as wisdom.",
+      "durationPolicy": {
+        "mode": "fitNarration",
+        "padAfterSec": 0.5
+      },
+      "background": {
+        "assetId": "bg_throne_room_01"
+      },
+      "layers": [
+        {
+          "type": "actor",
+          "id": "king",
+          "assetId": "char_king_01",
+          "place": {
+            "anchor": "ground",
+            "x": 0.42
+          },
+          "actions": [
+            {
+              "action": "cross_arms",
+              "at": "start"
+            },
+            {
+              "action": "look_up",
+              "at": {
+                "word": "wisdom"
+              }
+            }
+          ],
+          "expression": "angry"
+        },
+        {
+          "type": "object",
+          "id": "crown",
+          "assetId": "prop_crown_01",
+          "place": {
+            "x": 0.75,
+            "y": 0.42,
+            "scale": 0.5
+          },
+          "in": {
+            "effect": "pop",
+            "at": {
+              "word": "power."
+            },
+            "durationSec": 0.3
+          }
+        }
+      ],
+      "effects": [
+        {
+          "preset": "fx_vignette_01",
+          "intensity": 0.6
+        }
+      ],
+      "camera": [
+        {
+          "move": "push_in",
+          "at": "start",
+          "to": 1.06
+        }
+      ],
+      "transitionOut": {
+        "type": "fade",
+        "durationSec": 0.4
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s03",
+      "engine": "2d",
+      "narration": "Today the rich and the powerful still argue about the same thing.",
+      "durationPolicy": {
+        "mode": "fitNarration",
+        "padAfterSec": 0.5
+      },
+      "background": {
+        "assetId": "bg_office_night_01"
+      },
+      "layers": [
+        {
+          "type": "actor",
+          "id": "viktor",
+          "assetId": "char_viktor_01",
+          "place": {
+            "anchor": "ground",
+            "x": 0.22
+          },
+          "actions": [
+            {
+              "action": "argue",
+              "at": {
+                "word": "argue"
+              }
+            }
+          ],
+          "expression": "angry",
+          "speaks": true
+        },
+        {
+          "type": "actor",
+          "id": "politician",
+          "assetId": "char_politician_01",
+          "place": {
+            "anchor": "ground",
+            "x": 0.68
+          },
+          "actions": [
+            {
+              "action": "cross_arms",
+              "at": "start"
+            },
+            {
+              "action": "shake_head",
+              "at": {
+                "word": "same"
+              }
+            }
+          ]
+        }
+      ],
+      "effects": [
+        {
+          "preset": "fx_glass_reflection_01",
+          "intensity": 0.4
+        },
+        {
+          "preset": "fx_film_grain_01",
+          "intensity": 0.3
+        }
+      ],
+      "camera": [],
+      "transitionOut": {
+        "type": "fade",
+        "durationSec": 0.4
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s04",
+      "engine": "2d",
+      "narration": "At home, people negotiate every single day.",
+      "durationPolicy": {
+        "mode": "fitNarration",
+        "padAfterSec": 0.5
+      },
+      "background": {
+        "assetId": "bg_home_kitchen_01"
+      },
+      "layers": [
+        {
+          "type": "actor",
+          "id": "mira",
+          "assetId": "char_mira_01",
+          "place": {
+            "anchor": "ground",
+            "x": 0.28
+          },
+          "actions": [
+            {
+              "action": "negotiate",
+              "at": {
+                "word": "negotiate"
+              }
+            }
+          ],
+          "expression": "happy",
+          "speaks": true
+        },
+        {
+          "type": "actor",
+          "id": "genti",
+          "assetId": "char_genti_01",
+          "place": {
+            "anchor": "ground",
+            "x": 0.7
+          },
+          "actions": [
+            {
+              "action": "observe",
+              "at": "start"
+            },
+            {
+              "action": "nod",
+              "at": {
+                "word": "day."
+              }
+            }
+          ]
+        }
+      ],
+      "effects": [
+        {
+          "preset": "fx_light_leak_01",
+          "intensity": 0.45
+        }
+      ],
+      "camera": [],
+      "transitionOut": {
+        "type": "fade",
+        "durationSec": 0.4
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s05",
+      "engine": "2d",
+      "narration": "And in the crowd, everyone thinks the question is about someone else.",
+      "durationPolicy": {
+        "mode": "fitNarration",
+        "padAfterSec": 1.0
+      },
+      "background": {
+        "assetId": "bg_city_street_night_01"
+      },
+      "layers": [
+        {
+          "type": "actor",
+          "id": "anyone",
+          "assetId": "char_silhouette_01",
+          "place": {
+            "anchor": "ground",
+            "x": 0.5
+          },
+          "actions": [
+            {
+              "action": "look_up",
+              "at": {
+                "word": "thinks"
+              }
+            }
+          ]
+        },
+        {
+          "type": "object",
+          "id": "crowd",
+          "assetId": "prop_crowd_mass_01",
+          "place": {
+            "x": 0.5,
+            "y": 0.9,
+            "scale": 3.2
+          }
+        },
+        {
+          "type": "text",
+          "id": "t5",
+          "content": "Is it about YOU?",
+          "style": "hook_impact",
+          "place": {
+            "x": 0.5,
+            "region": "top-safe"
+          },
+          "highlight": ["YOU?"],
+          "in": {
+            "effect": "pop",
+            "at": {
+              "word": "someone"
+            },
+            "durationSec": 0.35
+          }
+        }
+      ],
+      "effects": [
+        {
+          "preset": "fx_vignette_01",
+          "intensity": 0.5
+        },
+        {
+          "preset": "fx_speed_lines_01",
+          "intensity": 0.35
+        }
+      ],
+      "camera": [
+        {
+          "move": "punch_in",
+          "at": {
+            "word": "someone"
+          }
+        }
+      ]
+    }
+  ]
+}
