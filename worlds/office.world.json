@@ -1,0 +1,63 @@
+{
+  "schema": "erkasa.world-spec/1",
+  "worldId": "office",
+  "title": "The promotion coin",
+  "setting": "A glass office tower at golden hour: the CEO decides which of two managers gets the promotion with one coin flip.",
+  "style": "clean_editorial",
+  "places": [
+    {
+      "id": "wld_place_main",
+      "kind": "office_floor",
+      "time": "golden",
+      "sides": ["#2F8F8A", "#E8833A"],
+      "seed": 3
+    }
+  ],
+  "cast": [
+    {
+      "id": "wld_char_ruler",
+      "name": "The CEO",
+      "role": "holds the coin",
+      "body": {
+        "presentation": "woman",
+        "age": "middle",
+        "skin": "tan",
+        "hair": "bob",
+        "hairColor": "grey",
+        "glasses": true
+      },
+      "costume": { "preset": "business_suit", "main": "#2B3445" }
+    },
+    {
+      "id": "wld_char_a",
+      "name": "Sam",
+      "role": "the teal manager",
+      "body": {
+        "presentation": "man",
+        "age": "adult",
+        "skin": "brown",
+        "hair": "buzz",
+        "hairColor": "black"
+      },
+      "costume": { "preset": "office_casual", "main": "#2F8F8A" }
+    },
+    {
+      "id": "wld_char_b",
+      "name": "Nora",
+      "role": "the orange manager",
+      "body": {
+        "presentation": "woman",
+        "age": "young",
+        "skin": "light",
+        "hair": "long",
+        "hairColor": "auburn"
+      },
+      "costume": { "preset": "office_casual", "main": "#E8833A" }
+    }
+  ],
+  "props": [
+    { "id": "wld_prop_coin", "kind": "coin", "material": "silver", "motif": "star" },
+    { "id": "wld_prop_scale", "kind": "balance_scale" },
+    { "id": "wld_prop_board", "kind": "board", "material": "whiteboard" }
+  ]
+}

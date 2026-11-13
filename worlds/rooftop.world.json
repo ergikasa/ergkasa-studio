@@ -1,0 +1,63 @@
+{
+  "schema": "erkasa.world-spec/1",
+  "worldId": "rooftop",
+  "title": "The street hustler's coin",
+  "setting": "A city rooftop at night: an old street hustler settles a bet between two friends with one coin flip.",
+  "style": "night_noir",
+  "places": [
+    {
+      "id": "wld_place_main",
+      "kind": "rooftop_night",
+      "time": "night",
+      "sides": ["#8E6BB0", "#62A06C"],
+      "seed": 11
+    }
+  ],
+  "cast": [
+    {
+      "id": "wld_char_ruler",
+      "name": "Old Vic",
+      "role": "holds the coin",
+      "body": {
+        "presentation": "man",
+        "age": "old",
+        "skin": "medium",
+        "hair": "short",
+        "hairColor": "grey",
+        "beard": "moustache"
+      },
+      "costume": { "preset": "street", "main": "#6B4F3A", "accent": "#3B4048" }
+    },
+    {
+      "id": "wld_char_a",
+      "name": "Dee",
+      "role": "the purple friend",
+      "body": {
+        "presentation": "woman",
+        "age": "young",
+        "skin": "dark",
+        "hair": "bob",
+        "hairColor": "black"
+      },
+      "costume": { "preset": "street", "main": "#8E6BB0" }
+    },
+    {
+      "id": "wld_char_b",
+      "name": "Marco",
+      "role": "the green friend",
+      "body": {
+        "presentation": "man",
+        "age": "young",
+        "skin": "medium",
+        "hair": "messy",
+        "hairColor": "black"
+      },
+      "costume": { "preset": "street", "main": "#62A06C" }
+    }
+  ],
+  "props": [
+    { "id": "wld_prop_coin", "kind": "coin", "material": "copper", "motif": "plain" },
+    { "id": "wld_prop_scale", "kind": "balance_scale" },
+    { "id": "wld_prop_board", "kind": "board", "material": "neon" }
+  ]
+}

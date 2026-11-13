@@ -20,16 +20,21 @@ async function main(): Promise<void> {
   const timelinePath = process.argv[2];
   if (!timelinePath || timelinePath.startsWith("-")) {
     console.error(
-      "usage: erkasa-render <timeline.json> -o <out.mp4|out.png> [--still N] [--frames a:b] [--audio file] [--music-placeholder]",
+      "usage: erkasa-render <timeline.json> -o <out.mp4|out.png> [--still N] [--frames a:b] [--audio file] [--music-placeholder] [--world out/worlds/<id>] [--no-captions]",
     );
     process.exit(2);
   }
   const repoRoot = resolve(fileURLToPath(new URL("../..", import.meta.url)));
-  const assetsDir = process.env["ERKASA_ASSETS_DIR"] ?? resolve(repoRoot, "assets");
+  const library = process.env["ERKASA_ASSETS_DIR"] ?? resolve(repoRoot, "assets");
+  // --world <folder>: the assets the World Builder made for this video, searched before the library
+  const world = arg("--world");
+  const assetsDir = world ? [resolve(world), library] : library;
   const out = resolve(arg("-o") ?? "out/render.mp4");
   const still = arg("--still");
 
-  const input = loadInput(resolve(timelinePath), assetsDir);
+  const input = loadInput(resolve(timelinePath), assetsDir, {
+    captions: !process.argv.includes("--no-captions"),
+  });
   for (const i of input.issues) {
     const line = `${i.level.toUpperCase()} ${i.code} at ${i.path}: ${i.message}${i.hint ? `\n    hint: ${i.hint}` : ""}`;
     if (i.level === "error") console.error(line);

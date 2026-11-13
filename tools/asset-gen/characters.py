@@ -63,6 +63,8 @@ class Look:
     age_lines: bool = False       # rrudha të lehta (personazhe të moshuar)
     extra_tags: list[str] = field(default_factory=list)
     crown: str | None = None      # king | queen
+    hat: str | None = None        # chef | cap | circlet | helmet | tall_hat (World Builder: kostume për çdo botë)
+    hat_color: str = "#2A1E18"
     patches: bool = False         # rroba të arnuara (veshja `worn`)
     silhouette: bool = False      # figurë anonime: të gjitha ngjyrat bëhen dy tone të errëta
     skirt: int | None = None      # fund i gjatë (togë, mantel, fustan): y e cepit poshtë, në koordinatat e trupit
@@ -208,9 +210,38 @@ def head(look: Look) -> str:
         + _states("eyes", EYE_STATES, lambda s: _eye_state(s, look))
         + _states("brows", EXPRESSIONS, lambda s: _brow_state(s, look))
         + glasses
-        + f'<g id="hair">{_hair_front(look)}{crown_front(look)}</g>'
+        + f'<g id="hair">{_hair_front(look)}{crown_front(look)}{hat_front(look)}</g>'
         + "</g>"
     )
+
+
+def hat_front(look: Look) -> str:
+    """Kapelet e kostumeve (World Builder). Vizatohen mbi flokët, brenda grupit të kokës, ndaj lëvizin me të."""
+    c = look.hat_color
+    if look.hat == "chef":
+        return ('<rect x="152" y="54" width="96" height="30" rx="6" fill="#F4F1EA"/>'
+                '<path d="M152,62 Q140,30 168,24 Q176,2 200,8 Q224,2 232,24 Q260,30 248,62 Z" fill="#FFFFFF"/>'
+                '<path d="M176,60 Q172,36 184,26 M216,60 Q222,36 210,26" fill="none" stroke="#E2DED6" stroke-width="3"/>'
+                '<rect x="152" y="76" width="96" height="8" rx="3" fill="#E2DED6"/>')
+    if look.hat == "cap":
+        return (f'<path d="M150,90 Q148,48 200,44 Q252,48 250,90 Z" fill="{c}"/>'
+                f'<path d="M150,90 Q200,78 250,90 L254,96 Q200,86 146,96 Z" fill="{_shade(c)}"/>'
+                f'<ellipse cx="200" cy="96" rx="58" ry="9" fill="{_shade(c, 0.7)}"/>'
+                f'<circle cx="200" cy="46" r="5" fill="{_shade(c)}"/>')
+    if look.hat == "circlet":
+        return ('<path d="M156,78 L166,60 L176,74 L188,56 L200,72 L212,56 L224,74 L234,60 L244,78 Z" fill="#E3B66B"/>'
+                '<rect x="154" y="74" width="92" height="10" rx="4" fill="#C9963E"/><circle cx="200" cy="79" r="4" fill="#C2554D"/>')
+    if look.hat == "helmet":
+        return (f'<path d="M146,112 Q144,48 200,42 Q256,48 254,112 L246,112 Q244,72 200,68 Q156,72 154,112 Z" fill="{c}"/>'
+                f'<path d="M200,42 L200,112" stroke="{_shade(c)}" stroke-width="6"/>'
+                f'<rect x="196" y="100" width="8" height="44" rx="3" fill="{_shade(c)}"/>'
+                f'<path d="M158,64 Q180,50 200,48" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-opacity="0.35"/>')
+    if look.hat == "tall_hat":
+        return (f'<rect x="160" y="8" width="80" height="78" rx="8" fill="{c}"/>'
+                f'<rect x="150" y="76" width="100" height="12" rx="5" fill="{_shade(c, 0.7)}"/>'
+                f'<rect x="160" y="62" width="80" height="12" fill="#E3B66B"/>'
+                f'<path d="M170,14 L170,58" stroke="#FFFFFF" stroke-width="5" stroke-opacity="0.18"/>')
+    return ""
 
 
 def crown_front(look: Look) -> str:

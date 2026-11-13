@@ -8,22 +8,29 @@ interface ManifestEntry {
   path: string;
 }
 
-/** Reads assets from the repository's assets/ folder, using assets/manifest.json as the index. */
+/**
+ * Reads assets from folders that each hold a manifest.json index: the studio library (assets/) and, for a
+ * video with its own world, the World Builder's output. Roots are searched in order, so a world's assets
+ * come before the library's.
+ */
 export class FsAssetSource implements AssetSource {
   private readonly paths = new Map<string, string>();
   private readonly metas = new Map<string, AssetMetaT>();
 
-  constructor(private readonly root: string) {
-    const manifest = JSON.parse(readFileSync(join(root, "manifest.json"), "utf8")) as {
-      assets: ManifestEntry[];
-    };
-    for (const a of manifest.assets) this.paths.set(a.assetId, a.path);
+  constructor(roots: string | string[]) {
+    for (const root of Array.isArray(roots) ? roots : [roots]) {
+      const manifest = JSON.parse(readFileSync(join(root, "manifest.json"), "utf8")) as {
+        assets: ManifestEntry[];
+      };
+      for (const a of manifest.assets)
+        if (!this.paths.has(a.assetId)) this.paths.set(a.assetId, join(root, a.path));
+    }
   }
 
   private dir(assetId: string): string {
-    const rel = this.paths.get(assetId);
-    if (!rel) throw new Error(`asset '${assetId}' is not in assets/manifest.json`);
-    return join(this.root, rel);
+    const dir = this.paths.get(assetId);
+    if (!dir) throw new Error(`asset '${assetId}' is not in any asset manifest`);
+    return dir;
   }
 
   meta(assetId: string): AssetMetaT {

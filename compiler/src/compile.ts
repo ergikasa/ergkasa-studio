@@ -14,7 +14,7 @@ import {
   sampleNumber,
   type AssetSource,
 } from "@erkasa/engine";
-import { GENERIC_RECIPES, IDLE_MOTIONS, METAPHOR_RECIPES, type Tracks } from "./recipes.js";
+import { GENERIC_RECIPES, IDLE_MOTIONS, METAPHOR_RECIPES, RECIPE_SETS, type Tracks } from "./recipes.js";
 import { estimateWords, findWord, type TimedWord } from "./words.js";
 import { headPoint, stageActors, type StageResult, type StagedActor } from "./blocking.js";
 import { SETS, type StageSet } from "./sets.js";
@@ -62,6 +62,8 @@ export interface CompileOptions {
   /** Real word timings per scene (from the voice provider); otherwise estimated. */
   alignments?: Record<string, TimedWord[]>;
   seed?: number;
+  /** Word captions from the narration (default true). Off for a video told without a voice. */
+  captions?: boolean;
 }
 
 const FRAME_SIZES: Record<string, [number, number]> = {
@@ -289,7 +291,9 @@ export function compileVideo(planInput: unknown, opts: CompileOptions): CompileR
     seed: opts.seed ?? 1,
     scenes,
     audio: { ref: `file://audio/${plan.projectId}/mix.wav` },
-    captions: { style: "word_pop", wordsPerChunk: 3, words: compiled.flatMap((s) => s.words) },
+    ...(opts.captions === false
+      ? {}
+      : { captions: { style: "word_pop", wordsPerChunk: 3, words: compiled.flatMap((s) => s.words) } }),
   };
   // last line of defence: the compiler never hands the renderer a timeline that breaks the contract
   const checked = RenderTimelineSchema.safeParse(timeline);
@@ -965,7 +969,10 @@ function compileAssetLayer(
     props["idle"] = meta.capabilities["idle"];
 
   entrance(ctx, layer, path, tracks, { x, y, scale: 1 });
-  const metaphor = METAPHOR_RECIPES[meta.assetId] ?? {};
+  // a world asset (generated per video) names its recipe set in capabilities.recipes, since its id is a role
+  const set = meta.capabilities["recipes"];
+  const metaphor =
+    METAPHOR_RECIPES[meta.assetId] ?? (typeof set === "string" ? RECIPE_SETS[set] : undefined) ?? {};
   layer.animations.forEach((anim, ai) => {
     const apath = `${path}.animations[${ai}]`;
     const s = resolveAt(ctx, anim.at, `${apath}.at`);
@@ -991,7 +998,14 @@ function compileAssetLayer(
         tracks["y"] = [...(tracks["y"] ?? []), ...kfs.map((k) => ({ ...k, v: round(y + Number(k.v)) }))];
       else if (name === "wiggle") tracks["rotation"] = [...(tracks["rotation"] ?? []), ...kfs];
       else if (name === "pulse") tracks["scale"] = [...(tracks["scale"] ?? []), ...kfs];
-      else tracks[name] = [...(tracks[name] ?? []), ...kfs];
+      else {
+        const prev = tracks[name] ?? [];
+        const last = prev[prev.length - 1];
+        // world recipes continue from where the part is: the first keyframe takes the last value so far
+        const next =
+          last && typeof set === "string" && kfs[0] ? [{ ...kfs[0], v: last.v }, ...kfs.slice(1)] : kfs;
+        tracks[name] = [...prev, ...next];
+      }
     }
     ctx.events.set(`${layer.id}.${anim.name}`, s + duration);
   });

@@ -341,3 +341,46 @@ function choose(s: number, picked: string, other: string): { tracks: Tracks; dur
     duration: 16,
   };
 }
+
+/** Beam of a world balance scale: half-length 260 (pans hang from the ends, 90 and 610 around the post at 350). */
+function worldBalance(s: number, angle: number): { tracks: Tracks; duration: number } {
+  const dy = 260 * Math.sin((angle * Math.PI) / 180);
+  return {
+    tracks: {
+      "part.beam.rotation": [kf(s, 0), kf(s + 24, angle, "easeOutBack")],
+      "part.pan_l.y": [kf(s, 0), kf(s + 24, -dy, "easeOutBack")],
+      "part.pan_r.y": [kf(s, 0), kf(s + 24, dy, "easeOutBack")],
+    },
+    duration: 24,
+  };
+}
+
+/**
+ * Recipe sets for assets made per video by the World Builder. Their ids are roles (`wld_prop_coin`), so they
+ * name the set in `capabilities.recipes` instead of being listed by id like the library metaphors.
+ * A recipe's first keyframe is where it starts from; when a part already moved, the compiler starts it
+ * from where the part is (a beam tilted left, then levelled, swings back from the tilt).
+ */
+export const RECIPE_SETS: Record<string, Record<string, Recipe>> = {
+  coin: {
+    /** Tossed up, turning over and over, caught again: the face flips by scaling through zero. */
+    flip: (s) => {
+      const turns = 10;
+      const len = 36;
+      const scaleY = [kf(s, 1)];
+      for (let i = 1; i <= turns; i++) scaleY.push(kf(s + (i * len) / turns, i % 2 ? -1 : 1, "easeInOut"));
+      return {
+        tracks: {
+          "part.coin.y": [kf(s, 0), kf(s + len / 2, -520, "easeOutCubic"), kf(s + len, 0, "easeInCubic")],
+          "part.coin.scaleY": scaleY,
+        },
+        duration: len,
+      };
+    },
+  },
+  balance: {
+    tilt_left: (s) => worldBalance(s, -14),
+    tilt_right: (s) => worldBalance(s, 14),
+    level: (s) => worldBalance(s, 0),
+  },
+};

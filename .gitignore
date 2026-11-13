@@ -34,3 +34,6 @@ voices/samples/
 
 # downloaded audio library (Pixabay license: never redistribute the files themselves)
 assets-src/
+
+# World Builder output (rebuilt from worlds/*.world.json)
+out/

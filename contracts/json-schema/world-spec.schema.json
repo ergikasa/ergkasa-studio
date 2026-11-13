@@ -1,0 +1,283 @@
+{
+  "$id": "https://erkasa.studio/contracts/world-spec.schema.json",
+  "title": "world-spec",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "erkasa.world-spec/1"
+    },
+    "worldId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "setting": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300
+    },
+    "style": {
+      "type": "string",
+      "enum": [
+        "storybook",
+        "clean_editorial",
+        "night_noir",
+        "sunset_warm"
+      ]
+    },
+    "places": {
+      "minItems": 1,
+      "maxItems": 6,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^wld_[a-z0-9_]+$"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "castle_rampart",
+              "office_floor",
+              "rooftop_night"
+            ]
+          },
+          "time": {
+            "default": "day",
+            "type": "string",
+            "enum": [
+              "day",
+              "golden",
+              "dusk",
+              "night"
+            ]
+          },
+          "sides": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "string",
+                "pattern": "^#[0-9A-Fa-f]{6}$"
+              },
+              {
+                "type": "string",
+                "pattern": "^#[0-9A-Fa-f]{6}$"
+              }
+            ],
+            "items": false,
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "seed": {
+            "default": 1,
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "id",
+          "kind"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "cast": {
+      "minItems": 1,
+      "maxItems": 8,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^wld_[a-z0-9_]+$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40
+          },
+          "role": {
+            "type": "string",
+            "maxLength": 120
+          },
+          "body": {
+            "type": "object",
+            "properties": {
+              "presentation": {
+                "type": "string",
+                "enum": [
+                  "man",
+                  "woman"
+                ]
+              },
+              "age": {
+                "type": "string",
+                "enum": [
+                  "young",
+                  "adult",
+                  "middle",
+                  "old"
+                ]
+              },
+              "skin": {
+                "type": "string",
+                "enum": [
+                  "light",
+                  "medium",
+                  "tan",
+                  "brown",
+                  "dark"
+                ]
+              },
+              "hair": {
+                "type": "string",
+                "enum": [
+                  "short",
+                  "swept",
+                  "messy",
+                  "long",
+                  "bob",
+                  "buzz",
+                  "bald"
+                ]
+              },
+              "hairColor": {
+                "type": "string",
+                "enum": [
+                  "black",
+                  "brown",
+                  "auburn",
+                  "blond",
+                  "grey",
+                  "white"
+                ]
+              },
+              "beard": {
+                "default": "none",
+                "type": "string",
+                "enum": [
+                  "none",
+                  "full",
+                  "moustache"
+                ]
+              },
+              "glasses": {
+                "default": false,
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "presentation",
+              "age",
+              "skin",
+              "hair",
+              "hairColor"
+            ],
+            "additionalProperties": false
+          },
+          "costume": {
+            "type": "object",
+            "properties": {
+              "preset": {
+                "type": "string",
+                "enum": [
+                  "king",
+                  "queen",
+                  "prince",
+                  "knight",
+                  "peasant",
+                  "chef",
+                  "official",
+                  "business_suit",
+                  "office_casual",
+                  "street",
+                  "worker",
+                  "toga"
+                ]
+              },
+              "main": {
+                "type": "string",
+                "pattern": "^#[0-9A-Fa-f]{6}$"
+              },
+              "accent": {
+                "type": "string",
+                "pattern": "^#[0-9A-Fa-f]{6}$"
+              }
+            },
+            "required": [
+              "preset"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "body",
+          "costume"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "props": {
+      "default": [],
+      "maxItems": 40,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^wld_[a-z0-9_]+$"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "coin",
+              "balance_scale",
+              "board",
+              "pedestal"
+            ]
+          },
+          "material": {
+            "type": "string",
+            "pattern": "^[a-z_]+$"
+          },
+          "motif": {
+            "type": "string",
+            "enum": [
+              "crown",
+              "star",
+              "plain"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "kind"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schema",
+    "worldId",
+    "title",
+    "setting",
+    "style",
+    "places",
+    "cast"
+  ],
+  "additionalProperties": false
+}

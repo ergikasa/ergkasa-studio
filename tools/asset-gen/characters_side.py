@@ -122,7 +122,7 @@ def head_side(look: Look) -> str:
         + _states("eyes", EYE_STATES, lambda s: _eye(s, look))
         + _states("brows", EXPRESSIONS, lambda s: _brow(s, look))
         + glasses
-        + f'<g id="hair">{top}{_crown(look)}</g>'
+        + f'<g id="hair">{top}{_crown(look)}{_hat(look)}</g>'
         + "</g>"
     )
 
@@ -135,6 +135,30 @@ def _crown(look: Look) -> str:
     if look.crown == "queen":
         return ('<path d="M170,66 L178,44 L192,58 L206,32 L220,56 L234,42 L240,66 Z" fill="#E3B66B"/>'
                 '<rect x="168" y="60" width="74" height="12" rx="5" fill="#C9963E"/><circle cx="206" cy="30" r="6" fill="#F7D98A"/>')
+    return ""
+
+
+def _hat(look: Look) -> str:
+    """Kapelet e kostumeve në profil (të njëjtat si në pamjen ballore)."""
+    c = look.hat_color
+    dk = _darken(c, 0.78)
+    if look.hat == "chef":
+        return ('<rect x="160" y="52" width="94" height="30" rx="6" fill="#F4F1EA"/>'
+                '<path d="M160,60 Q146,28 174,22 Q184,0 208,6 Q234,0 240,22 Q268,28 254,60 Z" fill="#FFFFFF"/>'
+                '<rect x="160" y="74" width="94" height="8" rx="3" fill="#E2DED6"/>')
+    if look.hat == "cap":
+        return (f'<path d="M158,92 Q154,46 206,42 Q252,46 254,92 Z" fill="{c}"/>'
+                f'<path d="M246,86 Q280,84 290,96 Q270,100 244,96 Z" fill="{dk}"/>')
+    if look.hat == "circlet":
+        return ('<path d="M166,76 L176,58 L188,72 L200,54 L212,70 L224,56 L238,74 Z" fill="#E3B66B"/>'
+                '<rect x="164" y="70" width="80" height="10" rx="4" fill="#C9963E"/>')
+    if look.hat == "helmet":
+        return (f'<path d="M156,114 Q152,46 208,40 Q262,46 260,112 L252,112 Q250,70 208,66 Q166,70 164,114 Z" fill="{c}"/>'
+                f'<rect x="250" y="96" width="9" height="46" rx="3" fill="{dk}"/>')
+    if look.hat == "tall_hat":
+        return (f'<rect x="168" y="6" width="78" height="78" rx="8" fill="{c}"/>'
+                f'<rect x="158" y="74" width="100" height="12" rx="5" fill="{dk}"/>'
+                f'<rect x="168" y="60" width="78" height="12" fill="#E3B66B"/>')
     return ""
 
 

@@ -1,0 +1,64 @@
+{
+  "schema": "erkasa.world-spec/1",
+  "worldId": "castle",
+  "title": "The rigged coin of the crown",
+  "setting": "A medieval kingdom: on the castle rampart an old king decides which of his two sons inherits the crown with one coin flip.",
+  "style": "storybook",
+  "places": [
+    {
+      "id": "wld_place_main",
+      "kind": "castle_rampart",
+      "time": "golden",
+      "sides": ["#3E5F86", "#C2554D"],
+      "seed": 7
+    }
+  ],
+  "cast": [
+    {
+      "id": "wld_char_ruler",
+      "name": "The King",
+      "role": "holds the coin",
+      "body": {
+        "presentation": "man",
+        "age": "old",
+        "skin": "light",
+        "hair": "short",
+        "hairColor": "white",
+        "beard": "full"
+      },
+      "costume": { "preset": "king", "main": "#9C3F3A" }
+    },
+    {
+      "id": "wld_char_a",
+      "name": "Henry",
+      "role": "the blue heir",
+      "body": {
+        "presentation": "man",
+        "age": "adult",
+        "skin": "light",
+        "hair": "short",
+        "hairColor": "brown",
+        "beard": "full"
+      },
+      "costume": { "preset": "prince", "main": "#3E5F86" }
+    },
+    {
+      "id": "wld_char_b",
+      "name": "Louis",
+      "role": "the red heir",
+      "body": {
+        "presentation": "man",
+        "age": "young",
+        "skin": "light",
+        "hair": "swept",
+        "hairColor": "blond"
+      },
+      "costume": { "preset": "prince", "main": "#C2554D" }
+    }
+  ],
+  "props": [
+    { "id": "wld_prop_coin", "kind": "coin", "material": "gold", "motif": "crown" },
+    { "id": "wld_prop_scale", "kind": "balance_scale" },
+    { "id": "wld_prop_board", "kind": "board", "material": "parchment" }
+  ]
+}

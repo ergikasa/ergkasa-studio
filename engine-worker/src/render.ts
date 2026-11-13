@@ -88,7 +88,8 @@ export function audioArgs(
 export interface RenderOptions {
   /** A parsed Render Timeline (see loadInput). */
   timeline: unknown;
-  assetsDir: string;
+  /** The studio library, or several roots (a world's assets first, then the library). */
+  assetsDir: string | string[];
   out: string;
   /** A finished soundtrack (e.g. the designed mix.wav), used as is. */
   audio?: string;
@@ -109,15 +110,20 @@ export interface RenderOptions {
  */
 export function loadInput(
   path: string,
-  assetsDir: string,
+  assetsDir: string | string[],
+  opts: { captions?: boolean } = {},
 ): { timeline?: unknown; issues: Issue[]; compiled: boolean } {
   const json = JSON.parse(readFileSync(path, "utf8")) as { schema?: string };
   if (json.schema !== "erkasa.video-plan/1") return { timeline: json, issues: [], compiled: false };
-  const res = compileVideo(json, { assets: new FsAssetSource(assetsDir), seed: 20261108 });
+  const res = compileVideo(json, {
+    assets: new FsAssetSource(assetsDir),
+    seed: 20261108,
+    ...(opts.captions === false ? { captions: false } : {}),
+  });
   return { ...(res.timeline ? { timeline: res.timeline } : {}), issues: res.issues, compiled: true };
 }
 
-export function loadEngine(timeline: unknown, assetsDir: string): Engine {
+export function loadEngine(timeline: unknown, assetsDir: string | string[]): Engine {
   return new Engine(timeline, { assets: new FsAssetSource(assetsDir) });
 }
 

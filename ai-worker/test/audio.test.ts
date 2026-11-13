@@ -49,7 +49,10 @@ describe("soundtrack step", () => {
     };
     for (const e of cat.entries.filter((x) => x["id"] === "m_explain_calm" || x["id"] === "sfx_pop_clean")) {
       e["status"] = "imported";
-      e["imported"] = imported;
+      // the real catalog carries measured sections: the fake length must cover them
+      const sections = (e["sections"] ?? []) as Array<{ end: number }>;
+      const end = Math.max(0, ...sections.map((s) => s.end));
+      e["imported"] = { ...imported, durationSec: Math.max(imported.durationSec, Math.ceil(end) + 1) };
     }
     const file = join(lib, "catalog.json");
     writeFileSync(file, JSON.stringify(cat));

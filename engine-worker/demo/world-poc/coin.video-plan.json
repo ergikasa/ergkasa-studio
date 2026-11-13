@@ -1,0 +1,554 @@
+{
+  "schema": "erkasa.video-plan/1",
+  "projectId": "world-poc-coin",
+  "language": "en",
+  "format": "9:16",
+  "fps": 30,
+  "voiceId": "none",
+  "scenes": [
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s01",
+      "engine": "2d",
+      "narration": "One coin decides who wins. Two rivals, one flip.",
+      "durationPolicy": {
+        "mode": "fixed",
+        "sec": 6,
+        "padAfterSec": 0
+      },
+      "background": {
+        "assetId": "wld_place_main"
+      },
+      "layers": [
+        {
+          "type": "actor",
+          "id": "ruler",
+          "assetId": "wld_char_ruler",
+          "place": {
+            "anchor": "ground",
+            "x": 0.5,
+            "scale": 1.35
+          },
+          "facing": "front",
+          "expression": "neutral",
+          "actions": [
+            {
+              "action": "present",
+              "at": {
+                "sec": 0.8
+              }
+            },
+            {
+              "action": "talk",
+              "at": {
+                "sec": 3.0
+              }
+            }
+          ]
+        },
+        {
+          "type": "actor",
+          "id": "a",
+          "assetId": "wld_char_a",
+          "place": {
+            "anchor": "ground",
+            "x": 0.2,
+            "scale": 1.35
+          },
+          "facing": "front",
+          "expression": "neutral",
+          "actions": [
+            {
+              "action": "observe",
+              "at": {
+                "sec": 1.2
+              }
+            },
+            {
+              "action": "cross_arms",
+              "at": {
+                "sec": 3.6
+              }
+            }
+          ]
+        },
+        {
+          "type": "actor",
+          "id": "b",
+          "assetId": "wld_char_b",
+          "place": {
+            "anchor": "ground",
+            "x": 0.8,
+            "scale": 1.35
+          },
+          "facing": "front",
+          "expression": "neutral",
+          "actions": [
+            {
+              "action": "observe",
+              "at": {
+                "sec": 1.5
+              }
+            },
+            {
+              "action": "look_up",
+              "at": {
+                "sec": 3.8
+              }
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "t1",
+          "content": "ONE COIN. TWO RIVALS.",
+          "style": "hook_impact",
+          "place": {
+            "x": 0.5,
+            "y": 0.16
+          },
+          "highlight": ["COIN."],
+          "in": {
+            "effect": "pop",
+            "at": {
+              "sec": 0.6
+            },
+            "durationSec": 0.35
+          }
+        }
+      ],
+      "camera": [
+        {
+          "move": "push_in",
+          "at": "start",
+          "to": 1.08,
+          "durationSec": 6
+        }
+      ],
+      "transitionOut": {
+        "type": "fade",
+        "durationSec": 0.4
+      },
+      "shot": {
+        "size": "wide"
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s02",
+      "engine": "2d",
+      "narration": "Heads, the first one wins. Tails, the second.",
+      "durationPolicy": {
+        "mode": "fixed",
+        "sec": 6,
+        "padAfterSec": 0
+      },
+      "background": {
+        "assetId": "wld_place_main"
+      },
+      "layers": [
+        {
+          "type": "actor",
+          "id": "ruler",
+          "assetId": "wld_char_ruler",
+          "place": {
+            "anchor": "ground",
+            "x": 0.5,
+            "scale": 1
+          },
+          "facing": "front",
+          "expression": "neutral",
+          "actions": [
+            {
+              "action": "present",
+              "at": {
+                "sec": 0.3
+              },
+              "expression": "happy"
+            },
+            {
+              "action": "think",
+              "at": {
+                "sec": 3.4
+              },
+              "expression": "thinking"
+            }
+          ]
+        },
+        {
+          "type": "object",
+          "id": "coin",
+          "assetId": "wld_prop_coin",
+          "place": {
+            "x": 0.68,
+            "y": 0.36,
+            "scale": 0.6
+          },
+          "in": {
+            "effect": "pop",
+            "at": {
+              "sec": 0.5
+            },
+            "durationSec": 0.4
+          },
+          "animations": [
+            {
+              "name": "flip",
+              "at": {
+                "sec": 1.3
+              }
+            },
+            {
+              "name": "flip",
+              "at": {
+                "sec": 3.8
+              }
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "t2",
+          "content": "HEADS OR TAILS?",
+          "style": "hook_impact",
+          "place": {
+            "x": 0.5,
+            "y": 0.14
+          },
+          "highlight": ["TAILS?"],
+          "in": {
+            "effect": "pop",
+            "at": {
+              "sec": 0.9
+            },
+            "durationSec": 0.35
+          }
+        }
+      ],
+      "camera": [
+        {
+          "move": "push_in",
+          "at": "start",
+          "to": 1.06,
+          "durationSec": 6
+        }
+      ],
+      "transitionOut": {
+        "type": "whip",
+        "durationSec": 0.35
+      },
+      "shot": {
+        "size": "medium",
+        "subject": "ruler"
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s03",
+      "engine": "2d",
+      "narration": "But the coin is not fair. It lands heads eight times out of ten.",
+      "durationPolicy": {
+        "mode": "fixed",
+        "sec": 6,
+        "padAfterSec": 0
+      },
+      "background": {
+        "assetId": "wld_place_main"
+      },
+      "layers": [
+        {
+          "type": "object",
+          "id": "scale",
+          "assetId": "wld_prop_scale",
+          "place": {
+            "x": 0.5,
+            "y": 0.52,
+            "scale": 1.5
+          },
+          "in": {
+            "effect": "fade",
+            "at": {
+              "sec": 0.2
+            },
+            "durationSec": 0.4
+          },
+          "animations": [
+            {
+              "name": "tilt_left",
+              "at": {
+                "sec": 1.4
+              }
+            }
+          ]
+        },
+        {
+          "type": "object",
+          "id": "board",
+          "assetId": "wld_prop_board",
+          "place": {
+            "x": 0.5,
+            "y": 0.16,
+            "scale": 2.1
+          },
+          "in": {
+            "effect": "pop",
+            "at": {
+              "sec": 2.6
+            },
+            "durationSec": 0.4
+          },
+          "animations": []
+        },
+        {
+          "type": "text",
+          "id": "t3",
+          "content": "8 OUT OF 10",
+          "style": "title_light",
+          "place": {
+            "x": 0.5,
+            "y": 0.16
+          },
+          "highlight": ["8"],
+          "in": {
+            "effect": "pop",
+            "at": {
+              "sec": 2.8
+            },
+            "durationSec": 0.35
+          }
+        }
+      ],
+      "camera": [],
+      "transitionOut": {
+        "type": "cut",
+        "durationSec": 0
+      },
+      "shot": {
+        "size": "insert",
+        "subject": "scale"
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s04",
+      "engine": "2d",
+      "narration": "The first rival smiles. The second one sees the trick.",
+      "durationPolicy": {
+        "mode": "fixed",
+        "sec": 6,
+        "padAfterSec": 0
+      },
+      "background": {
+        "assetId": "wld_place_main"
+      },
+      "layers": [
+        {
+          "type": "actor",
+          "id": "ruler",
+          "assetId": "wld_char_ruler",
+          "place": {
+            "anchor": "ground",
+            "x": 0.5,
+            "scale": 1.35
+          },
+          "facing": "front",
+          "expression": "neutral",
+          "actions": [
+            {
+              "action": "shrug",
+              "at": {
+                "sec": 1.0
+              }
+            }
+          ]
+        },
+        {
+          "type": "actor",
+          "id": "a",
+          "assetId": "wld_char_a",
+          "place": {
+            "anchor": "ground",
+            "x": 0.2,
+            "scale": 1.35
+          },
+          "facing": "front",
+          "expression": "neutral",
+          "actions": [
+            {
+              "action": "arms_up",
+              "at": {
+                "sec": 0.6
+              },
+              "expression": "happy"
+            }
+          ]
+        },
+        {
+          "type": "actor",
+          "id": "b",
+          "assetId": "wld_char_b",
+          "place": {
+            "anchor": "ground",
+            "x": 0.8,
+            "scale": 1.35
+          },
+          "facing": "front",
+          "expression": "neutral",
+          "actions": [
+            {
+              "action": "argue",
+              "at": {
+                "sec": 1.2
+              },
+              "expression": "angry"
+            },
+            {
+              "action": "point_side_left",
+              "at": {
+                "sec": 3.4
+              },
+              "expression": "angry"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "t4",
+          "content": "RIGGED?",
+          "style": "hook_impact",
+          "place": {
+            "x": 0.5,
+            "y": 0.16
+          },
+          "highlight": ["RIGGED?"],
+          "in": {
+            "effect": "pop",
+            "at": {
+              "sec": 1.4
+            },
+            "durationSec": 0.35
+          }
+        }
+      ],
+      "camera": [
+        {
+          "move": "shake",
+          "at": {
+            "sec": 1.4
+          },
+          "durationSec": 0.5
+        }
+      ],
+      "transitionOut": {
+        "type": "fade",
+        "durationSec": 0.3
+      },
+      "shot": {
+        "size": "wide"
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s05",
+      "engine": "2d",
+      "narration": "So how do you make a rigged coin fair? Flip it twice.",
+      "durationPolicy": {
+        "mode": "fixed",
+        "sec": 6,
+        "padAfterSec": 0
+      },
+      "background": {
+        "assetId": "wld_place_main"
+      },
+      "layers": [
+        {
+          "type": "actor",
+          "id": "b",
+          "assetId": "wld_char_b",
+          "place": {
+            "anchor": "ground",
+            "x": 0.5,
+            "scale": 1
+          },
+          "facing": "front",
+          "expression": "neutral",
+          "actions": [
+            {
+              "action": "think",
+              "at": {
+                "sec": 0.4
+              },
+              "expression": "thinking"
+            },
+            {
+              "action": "point_side",
+              "at": {
+                "sec": 3.2
+              },
+              "expression": "happy"
+            }
+          ]
+        },
+        {
+          "type": "object",
+          "id": "coin",
+          "assetId": "wld_prop_coin",
+          "place": {
+            "x": 0.74,
+            "y": 0.34,
+            "scale": 0.6
+          },
+          "in": {
+            "effect": "pop",
+            "at": {
+              "sec": 2.6
+            },
+            "durationSec": 0.4
+          },
+          "animations": [
+            {
+              "name": "flip",
+              "at": {
+                "sec": 3.0
+              }
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "t5",
+          "content": "FLIP IT TWICE.",
+          "style": "hook_impact",
+          "place": {
+            "x": 0.5,
+            "y": 0.15
+          },
+          "highlight": ["TWICE."],
+          "in": {
+            "effect": "pop",
+            "at": {
+              "sec": 3.1
+            },
+            "durationSec": 0.35
+          }
+        }
+      ],
+      "camera": [
+        {
+          "move": "push_in",
+          "at": "start",
+          "to": 1.05,
+          "durationSec": 6
+        }
+      ],
+      "transitionOut": {
+        "type": "cut",
+        "durationSec": 0
+      },
+      "shot": {
+        "size": "close",
+        "subject": "b"
+      }
+    }
+  ]
+}
