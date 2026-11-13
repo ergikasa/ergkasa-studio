@@ -26,6 +26,18 @@ afterEach(() => {
 
 describe("soundtrack step", () => {
   it("says why there is no designed soundtrack while nothing is imported", () => {
+    // a catalog with nothing imported, whatever the machine's own audio library holds
+    const lib = mkdtempSync(join(tmpdir(), "erkasa-lib-"));
+    const cat = JSON.parse(readFileSync(join(repoRoot(), "audio", "catalog.json"), "utf8")) as {
+      entries: Array<Record<string, unknown>>;
+    };
+    for (const e of cat.entries)
+      if (e["status"] === "imported") {
+        e["status"] = "pending";
+        delete e["imported"];
+      }
+    writeFileSync(join(lib, "catalog.json"), JSON.stringify(cat));
+    process.env["ERKASA_AUDIO_CATALOG"] = join(lib, "catalog.json");
     const dir = demoRun();
     const compiled = compileRun(dir, loadPlan(dir), catalog);
     if (!compiled.timeline) throw new Error("demo plan must compile");

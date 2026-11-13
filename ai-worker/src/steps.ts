@@ -117,20 +117,37 @@ export async function stepScript(
   return res;
 }
 
-/** Runs a Python script with whichever interpreter exists (python3 on macOS/Linux, python or py on Windows). */
-export function runPython(args: string[]): string {
-  let lastError: unknown;
+let python: string | undefined;
+
+/**
+ * The Python interpreter of this machine: python3 (macOS/Linux), python or py (Windows). Each name is tried
+ * with --version first: on Windows `python3` is often the Microsoft Store placeholder, which exists but
+ * only prints "Python was not found".
+ */
+export function findPython(): string {
+  if (python) return python;
   for (const cmd of ["python3", "python", "py"]) {
     try {
-      return execFileSync(cmd, args, { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
-    } catch (e) {
-      const err = e as { code?: string; stderr?: string };
-      if (err.code === "ENOENT") continue; // not installed under this name
-      lastError = new Error(`${cmd} ${args[0] ?? ""} failed: ${err.stderr?.trim() || String(e)}`);
-      break;
+      const v = execFileSync(cmd, ["--version"], { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+      if (/Python 3\./.test(v)) return (python = cmd);
+    } catch {
+      // not installed under this name, or a placeholder: try the next one
     }
   }
-  throw lastError ?? new Error("Python 3 not found (python3, python, py)");
+  throw new Error(
+    "Python 3 not found (tried python3, python, py). Install it from https://www.python.org/downloads/",
+  );
+}
+
+/** Runs a Python script with the machine's Python 3. */
+export function runPython(args: string[]): string {
+  const cmd = findPython();
+  try {
+    return execFileSync(cmd, args, { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+  } catch (e) {
+    const err = e as { stderr?: string };
+    throw new Error(`${cmd} ${args[0] ?? ""} failed: ${err.stderr?.trim() || String(e)}`, { cause: e });
+  }
 }
 
 export interface WorldStepResult {
