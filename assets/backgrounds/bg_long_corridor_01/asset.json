@@ -1,0 +1,103 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "bg_long_corridor_01",
+  "version": 1,
+  "name": "Korridor i gjatë",
+  "description": "A long, symmetrical corridor in one-point perspective with doors on both sides, ceiling lights and warm light at the far end.",
+  "category": "background",
+  "subcategory": "interior",
+  "collection": "backgrounds",
+  "storyUse": "A long road ahead: waiting for news, a hospital or office corridor, liminal spaces, walking towards the unknown.",
+  "kind": "layered_background",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    1920
+  ],
+  "layers": [
+    {
+      "id": "layer_wall",
+      "depth": 0
+    }
+  ],
+  "groundY": 1690,
+  "actorZones": [
+    [
+      700,
+      1860
+    ]
+  ],
+  "anchors": {
+    "vanishing_point": [
+      1280,
+      900
+    ],
+    "near": [
+      1280,
+      1690
+    ]
+  },
+  "safeFrames": {
+    "9:16": [
+      740,
+      0,
+      1080,
+      1920
+    ],
+    "16:9": [
+      0,
+      240,
+      2560,
+      1440
+    ],
+    "1:1": [
+      320,
+      0,
+      1920,
+      1920
+    ]
+  },
+  "capabilities": {
+    "camera": [
+      "pan",
+      "zoom",
+      "parallax",
+      "shake"
+    ]
+  },
+  "mood": [
+    "long",
+    "journey",
+    "liminal",
+    "anticipation",
+    "uncertain"
+  ],
+  "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+  ],
+  "tags": [
+    "corridor",
+    "long",
+    "perspective",
+    "hospital",
+    "office",
+    "journey",
+    "liminal",
+    "indoor",
+    "endless"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

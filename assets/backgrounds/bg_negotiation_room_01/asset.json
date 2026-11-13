@@ -1,0 +1,110 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "bg_negotiation_room_01",
+  "version": 1,
+  "name": "Dhomë negociatash",
+  "description": "A private, warm negotiation room: dark wood panelling, framed art, wall lamps, two pendant lights over the empty floor where a table goes.",
+  "category": "background",
+  "subcategory": "interior",
+  "collection": "backgrounds",
+  "storyUse": "Negotiations and tense talks: deals, diplomacy, persuasion, two sides across a table.",
+  "kind": "layered_background",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    1920
+  ],
+  "layers": [
+    {
+      "id": "layer_wall",
+      "depth": 0
+    },
+    {
+      "id": "layer_floor",
+      "depth": 0
+    }
+  ],
+  "groundY": 1690,
+  "actorZones": [
+    [
+      300,
+      2260
+    ]
+  ],
+  "anchors": {
+    "table": [
+      1280,
+      1690
+    ],
+    "chair_left": [
+      880,
+      1690
+    ],
+    "chair_right": [
+      1680,
+      1690
+    ]
+  },
+  "safeFrames": {
+    "9:16": [
+      740,
+      0,
+      1080,
+      1920
+    ],
+    "16:9": [
+      0,
+      240,
+      2560,
+      1440
+    ],
+    "1:1": [
+      320,
+      0,
+      1920,
+      1920
+    ]
+  },
+  "capabilities": {
+    "camera": [
+      "pan",
+      "zoom",
+      "parallax",
+      "shake"
+    ]
+  },
+  "mood": [
+    "tense",
+    "private",
+    "serious",
+    "warm",
+    "negotiation"
+  ],
+  "themes": [
+    "money",
+    "decisions",
+    "psychology"
+  ],
+  "tags": [
+    "negotiation",
+    "meeting",
+    "private",
+    "deal",
+    "conflict",
+    "business",
+    "indoor",
+    "diplomacy"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

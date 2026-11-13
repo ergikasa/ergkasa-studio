@@ -1,0 +1,114 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "bg_ancient_greek_city_01",
+  "version": 1,
+  "name": "Qytet i lashtë grek",
+  "description": "An ancient Greek city: white houses with blue doors, cypress and olive trees, and a temple on the hill (acropolis) under a clear sky.",
+  "category": "background",
+  "subcategory": "exterior",
+  "collection": "backgrounds",
+  "storyUse": "Ancient Greece: philosophers in the agora, the birth of democracy, Socratic questions, classical wisdom.",
+  "kind": "layered_background",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    1920
+  ],
+  "layers": [
+    {
+      "id": "layer_sky",
+      "depth": 8
+    },
+    {
+      "id": "layer_acropolis",
+      "depth": 2.2
+    },
+    {
+      "id": "layer_houses",
+      "depth": 0.5
+    },
+    {
+      "id": "layer_ground",
+      "depth": 0
+    }
+  ],
+  "groundY": 1690,
+  "actorZones": [
+    [
+      300,
+      2260
+    ]
+  ],
+  "anchors": {
+    "temple": [
+      1280,
+      640
+    ],
+    "street": [
+      1280,
+      1690
+    ]
+  },
+  "safeFrames": {
+    "9:16": [
+      740,
+      0,
+      1080,
+      1920
+    ],
+    "16:9": [
+      0,
+      240,
+      2560,
+      1440
+    ],
+    "1:1": [
+      320,
+      0,
+      1920,
+      1920
+    ]
+  },
+  "capabilities": {
+    "camera": [
+      "pan",
+      "zoom",
+      "parallax",
+      "shake"
+    ]
+  },
+  "mood": [
+    "ancient",
+    "sunny",
+    "classical",
+    "philosophy",
+    "warm"
+  ],
+  "themes": [
+    "philosophy",
+    "science",
+    "decisions"
+  ],
+  "tags": [
+    "ancient-greece",
+    "athens",
+    "acropolis",
+    "philosophy",
+    "democracy",
+    "history",
+    "mediterranean",
+    "outdoor"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

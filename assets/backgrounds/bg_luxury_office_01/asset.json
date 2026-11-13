@@ -1,0 +1,115 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "bg_luxury_office_01",
+  "version": 1,
+  "name": "Zyrë luksoze",
+  "description": "A luxury executive office: dark wood panelling, a bookcase, framed art, a wall lamp, marble floor and a huge window over the city at sunset.",
+  "category": "background",
+  "subcategory": "interior",
+  "collection": "backgrounds",
+  "storyUse": "Success and power: the CEO's office, wealth, the top of the ladder, ambition, a deal made behind closed doors.",
+  "kind": "layered_background",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    1920
+  ],
+  "layers": [
+    {
+      "id": "layer_window_view",
+      "depth": 4
+    },
+    {
+      "id": "layer_wall",
+      "depth": 0
+    },
+    {
+      "id": "layer_floor",
+      "depth": 0
+    }
+  ],
+  "groundY": 1690,
+  "actorZones": [
+    [
+      300,
+      2260
+    ]
+  ],
+  "anchors": {
+    "window": [
+      1780,
+      770
+    ],
+    "desk": [
+      1250,
+      1690
+    ],
+    "shelves": [
+      400,
+      900
+    ]
+  },
+  "safeFrames": {
+    "9:16": [
+      740,
+      0,
+      1080,
+      1920
+    ],
+    "16:9": [
+      0,
+      240,
+      2560,
+      1440
+    ],
+    "1:1": [
+      320,
+      0,
+      1920,
+      1920
+    ]
+  },
+  "capabilities": {
+    "camera": [
+      "pan",
+      "zoom",
+      "parallax",
+      "shake"
+    ]
+  },
+  "mood": [
+    "luxury",
+    "power",
+    "success",
+    "sunset",
+    "wealth"
+  ],
+  "themes": [
+    "money",
+    "decisions",
+    "psychology"
+  ],
+  "tags": [
+    "office",
+    "luxury",
+    "ceo",
+    "executive",
+    "wealth",
+    "power",
+    "success",
+    "indoor",
+    "penthouse"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

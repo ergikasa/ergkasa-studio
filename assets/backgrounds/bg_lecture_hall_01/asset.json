@@ -1,0 +1,109 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "bg_lecture_hall_01",
+  "version": 1,
+  "name": "Auditor universiteti",
+  "description": "A university lecture hall seen from the stage: a large double chalkboard with diagrams, wood panelling, high windows and rising rows of benches at the sides.",
+  "category": "background",
+  "subcategory": "interior",
+  "collection": "backgrounds",
+  "storyUse": "Learning and expertise: a professor explaining, university life, research, the authority of experts.",
+  "kind": "layered_background",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    1920
+  ],
+  "layers": [
+    {
+      "id": "layer_wall",
+      "depth": 0
+    },
+    {
+      "id": "layer_floor",
+      "depth": 0
+    }
+  ],
+  "groundY": 1690,
+  "actorZones": [
+    [
+      300,
+      2260
+    ]
+  ],
+  "anchors": {
+    "board": [
+      1280,
+      640
+    ],
+    "lectern": [
+      1900,
+      1690
+    ],
+    "stage": [
+      1280,
+      1690
+    ]
+  },
+  "safeFrames": {
+    "9:16": [
+      740,
+      0,
+      1080,
+      1920
+    ],
+    "16:9": [
+      0,
+      240,
+      2560,
+      1440
+    ],
+    "1:1": [
+      320,
+      0,
+      1920,
+      1920
+    ]
+  },
+  "capabilities": {
+    "camera": [
+      "pan",
+      "zoom",
+      "parallax",
+      "shake"
+    ]
+  },
+  "mood": [
+    "academic",
+    "learning",
+    "formal",
+    "bright"
+  ],
+  "themes": [
+    "growth",
+    "science",
+    "philosophy"
+  ],
+  "tags": [
+    "university",
+    "lecture-hall",
+    "professor",
+    "education",
+    "academic",
+    "learning",
+    "science",
+    "indoor"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

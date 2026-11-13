@@ -1,0 +1,111 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "bg_palace_exterior_01",
+  "version": 1,
+  "name": "Pallati nga jashtë",
+  "description": "A grand cream palace facade with a teal dome behind clipped hedges and a fountain in a gravel courtyard.",
+  "category": "background",
+  "subcategory": "exterior",
+  "collection": "backgrounds",
+  "storyUse": "Wealth and the elite: royalty and aristocracy, inequality, the gap between palace and village.",
+  "kind": "layered_background",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    1920
+  ],
+  "layers": [
+    {
+      "id": "layer_sky",
+      "depth": 8
+    },
+    {
+      "id": "layer_palace",
+      "depth": 0.5
+    },
+    {
+      "id": "layer_ground",
+      "depth": 0
+    }
+  ],
+  "groundY": 1690,
+  "actorZones": [
+    [
+      300,
+      2260
+    ]
+  ],
+  "anchors": {
+    "fountain": [
+      1280,
+      1630
+    ],
+    "courtyard": [
+      1280,
+      1690
+    ]
+  },
+  "safeFrames": {
+    "9:16": [
+      740,
+      0,
+      1080,
+      1920
+    ],
+    "16:9": [
+      0,
+      240,
+      2560,
+      1440
+    ],
+    "1:1": [
+      320,
+      0,
+      1920,
+      1920
+    ]
+  },
+  "capabilities": {
+    "camera": [
+      "pan",
+      "zoom",
+      "parallax",
+      "shake"
+    ]
+  },
+  "mood": [
+    "royal",
+    "wealth",
+    "grand",
+    "day",
+    "elite"
+  ],
+  "themes": [
+    "money",
+    "decisions",
+    "philosophy"
+  ],
+  "tags": [
+    "palace",
+    "royal",
+    "garden",
+    "fountain",
+    "wealth",
+    "elite",
+    "aristocracy",
+    "outdoor",
+    "history"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

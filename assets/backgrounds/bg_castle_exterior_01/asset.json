@@ -1,0 +1,111 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "bg_castle_exterior_01",
+  "version": 1,
+  "name": "Kështjella nga jashtë",
+  "description": "A dark stone castle on a green hill at dusk with conical towers, a winding path leading up to the gate.",
+  "category": "background",
+  "subcategory": "exterior",
+  "collection": "backgrounds",
+  "storyUse": "Kingdoms and power: the castle as a symbol of defence, ambition, the fortress you build around yourself.",
+  "kind": "layered_background",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    1920
+  ],
+  "layers": [
+    {
+      "id": "layer_sky",
+      "depth": 8
+    },
+    {
+      "id": "layer_castle",
+      "depth": 1.4
+    },
+    {
+      "id": "layer_ground",
+      "depth": 0
+    }
+  ],
+  "groundY": 1690,
+  "actorZones": [
+    [
+      300,
+      2260
+    ]
+  ],
+  "anchors": {
+    "castle": [
+      1280,
+      700
+    ],
+    "path": [
+      1280,
+      1690
+    ]
+  },
+  "safeFrames": {
+    "9:16": [
+      740,
+      0,
+      1080,
+      1920
+    ],
+    "16:9": [
+      0,
+      240,
+      2560,
+      1440
+    ],
+    "1:1": [
+      320,
+      0,
+      1920,
+      1920
+    ]
+  },
+  "capabilities": {
+    "camera": [
+      "pan",
+      "zoom",
+      "parallax",
+      "shake"
+    ]
+  },
+  "mood": [
+    "dramatic",
+    "medieval",
+    "power",
+    "dusk",
+    "epic"
+  ],
+  "themes": [
+    "philosophy",
+    "decisions",
+    "psychology"
+  ],
+  "tags": [
+    "castle",
+    "medieval",
+    "kingdom",
+    "fortress",
+    "dusk",
+    "epic",
+    "history",
+    "outdoor",
+    "power"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

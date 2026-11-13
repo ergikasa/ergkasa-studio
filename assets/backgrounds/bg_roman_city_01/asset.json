@@ -1,0 +1,115 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "bg_roman_city_01",
+  "version": 1,
+  "name": "Qytet romak",
+  "description": "A Roman city: a forum colonnade and a triumphal arch in front of terracotta-roofed houses, with the Colosseum in the distance.",
+  "category": "background",
+  "subcategory": "exterior",
+  "collection": "backgrounds",
+  "storyUse": "The Roman Empire: power and politics, rise and fall of empires, Stoic emperors, bread and circuses.",
+  "kind": "layered_background",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    1920
+  ],
+  "layers": [
+    {
+      "id": "layer_sky",
+      "depth": 8
+    },
+    {
+      "id": "layer_far",
+      "depth": 2
+    },
+    {
+      "id": "layer_city",
+      "depth": 0.4
+    },
+    {
+      "id": "layer_ground",
+      "depth": 0
+    }
+  ],
+  "groundY": 1690,
+  "actorZones": [
+    [
+      300,
+      2260
+    ]
+  ],
+  "anchors": {
+    "forum": [
+      1700,
+      1300
+    ],
+    "street": [
+      1280,
+      1690
+    ]
+  },
+  "safeFrames": {
+    "9:16": [
+      740,
+      0,
+      1080,
+      1920
+    ],
+    "16:9": [
+      0,
+      240,
+      2560,
+      1440
+    ],
+    "1:1": [
+      320,
+      0,
+      1920,
+      1920
+    ]
+  },
+  "capabilities": {
+    "camera": [
+      "pan",
+      "zoom",
+      "parallax",
+      "shake"
+    ]
+  },
+  "mood": [
+    "ancient",
+    "empire",
+    "grand",
+    "warm",
+    "history"
+  ],
+  "themes": [
+    "philosophy",
+    "decisions",
+    "money"
+  ],
+  "tags": [
+    "rome",
+    "roman-empire",
+    "forum",
+    "colosseum",
+    "history",
+    "empire",
+    "politics",
+    "outdoor",
+    "ancient"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

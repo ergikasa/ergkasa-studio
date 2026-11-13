@@ -1,8 +1,8 @@
 {
  "schema": "erkasa.asset-manifest/1",
- "total": 564,
+ "total": 606,
  "counts": {
-  "background": 20,
+  "background": 62,
   "character": 6,
   "icon": 189,
   "metaphor": 26,
@@ -60,6 +60,153 @@
    "license": "LicenseRef-Erkasa-Original"
   },
   {
+   "assetId": "bg_airport_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_airport_01",
+   "themes": [
+    "growth",
+    "decisions",
+    "psychology"
+   ],
+   "tags": [
+    "airport",
+    "terminal",
+    "travel",
+    "flight",
+    "departure",
+    "goodbye",
+    "adventure",
+    "indoor",
+    "transport"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_ancient_greek_city_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_ancient_greek_city_01",
+   "themes": [
+    "philosophy",
+    "science",
+    "decisions"
+   ],
+   "tags": [
+    "ancient-greece",
+    "athens",
+    "acropolis",
+    "philosophy",
+    "democracy",
+    "history",
+    "mediterranean",
+    "outdoor"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_ancient_library_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_ancient_library_01",
+   "themes": [
+    "philosophy",
+    "science",
+    "growth"
+   ],
+   "tags": [
+    "ancient",
+    "library",
+    "scrolls",
+    "alexandria",
+    "knowledge",
+    "history",
+    "philosophy",
+    "indoor"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_bank_interior_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_bank_interior_01",
+   "themes": [
+    "money",
+    "decisions",
+    "psychology"
+   ],
+   "tags": [
+    "bank",
+    "interior",
+    "vault",
+    "money",
+    "finance",
+    "savings",
+    "loans",
+    "institution",
+    "indoor"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_bridge_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_bridge_01",
+   "themes": [
+    "philosophy",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "bridge",
+    "river",
+    "sunset",
+    "connection",
+    "crossing",
+    "city",
+    "reflection",
+    "outdoor",
+    "transition"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_business_district_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_business_district_01",
+   "themes": [
+    "money",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "business-district",
+    "downtown",
+    "corporate",
+    "skyscrapers",
+    "office",
+    "career",
+    "outdoor",
+    "city"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
    "assetId": "bg_cafe_01",
    "category": "background",
    "kind": "layered_background",
@@ -74,6 +221,55 @@
     "cafe",
     "social",
     "indoor"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_castle_exterior_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_castle_exterior_01",
+   "themes": [
+    "philosophy",
+    "decisions",
+    "psychology"
+   ],
+   "tags": [
+    "castle",
+    "medieval",
+    "kingdom",
+    "fortress",
+    "dusk",
+    "epic",
+    "history",
+    "outdoor",
+    "power"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_city_skyline_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_city_skyline_01",
+   "themes": [
+    "money",
+    "growth",
+    "psychology"
+   ],
+   "tags": [
+    "city",
+    "skyline",
+    "sunset",
+    "urban",
+    "ambition",
+    "dream",
+    "success",
+    "outdoor"
    ],
    "license": "LicenseRef-Erkasa-Original"
   },
@@ -97,6 +293,56 @@
    "license": "LicenseRef-Erkasa-Original"
   },
   {
+   "assetId": "bg_city_street_night_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_city_street_night_01",
+   "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+   ],
+   "tags": [
+    "street",
+    "night",
+    "empty",
+    "city",
+    "lonely",
+    "late",
+    "walk-home",
+    "outdoor",
+    "urban"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_city_street_rain_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_city_street_rain_01",
+   "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+   ],
+   "tags": [
+    "rain",
+    "street",
+    "city",
+    "grey",
+    "melancholy",
+    "sadness",
+    "bad-day",
+    "outdoor",
+    "weather"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
    "assetId": "bg_classroom_01",
    "category": "background",
    "kind": "layered_background",
@@ -112,6 +358,203 @@
     "school",
     "classroom",
     "indoor"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_courtroom_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_courtroom_01",
+   "themes": [
+    "decisions",
+    "philosophy",
+    "psychology"
+   ],
+   "tags": [
+    "courtroom",
+    "court",
+    "judge",
+    "law",
+    "justice",
+    "trial",
+    "verdict",
+    "history",
+    "indoor"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_crossroads_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_crossroads_01",
+   "themes": [
+    "decisions",
+    "philosophy",
+    "growth"
+   ],
+   "tags": [
+    "crossroads",
+    "fork",
+    "road",
+    "choice",
+    "decision",
+    "path",
+    "future",
+    "outdoor",
+    "dilemma"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_desert_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_desert_01",
+   "themes": [
+    "philosophy",
+    "psychology",
+    "growth"
+   ],
+   "tags": [
+    "desert",
+    "dunes",
+    "heat",
+    "lonely",
+    "survival",
+    "journey",
+    "emptiness",
+    "outdoor",
+    "endurance"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_elevator_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_elevator_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "elevator",
+    "lift",
+    "confined",
+    "awkward",
+    "social-norms",
+    "office",
+    "indoor",
+    "small-talk"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_empty_road_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_empty_road_01",
+   "themes": [
+    "growth",
+    "philosophy",
+    "decisions"
+   ],
+   "tags": [
+    "road",
+    "empty",
+    "horizon",
+    "journey",
+    "freedom",
+    "future",
+    "long-road",
+    "outdoor",
+    "path"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_factory_interior_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_factory_interior_01",
+   "themes": [
+    "money",
+    "science",
+    "decisions"
+   ],
+   "tags": [
+    "factory",
+    "industrial",
+    "manufacturing",
+    "workers",
+    "assembly-line",
+    "machines",
+    "routine",
+    "indoor"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_financial_district_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_financial_district_01",
+   "themes": [
+    "money",
+    "decisions",
+    "psychology"
+   ],
+   "tags": [
+    "financial-district",
+    "wall-street",
+    "stock-exchange",
+    "banks",
+    "money",
+    "markets",
+    "finance",
+    "outdoor"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_hallway_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_hallway_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "hallway",
+    "corridor",
+    "doors",
+    "apartment",
+    "hotel",
+    "waiting",
+    "transition",
+    "indoor",
+    "choice"
    ],
    "license": "LicenseRef-Erkasa-Original"
   },
@@ -248,6 +691,30 @@
    "license": "LicenseRef-Erkasa-Original"
   },
   {
+   "assetId": "bg_industrial_district_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_industrial_district_01",
+   "themes": [
+    "money",
+    "science",
+    "decisions"
+   ],
+   "tags": [
+    "industrial",
+    "factories",
+    "chimneys",
+    "port",
+    "containers",
+    "pollution",
+    "working-class",
+    "outdoor"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
    "assetId": "bg_interview_office_01",
    "category": "background",
    "kind": "layered_background",
@@ -264,6 +731,128 @@
     "interview",
     "work",
     "indoor"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_lecture_hall_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_lecture_hall_01",
+   "themes": [
+    "growth",
+    "science",
+    "philosophy"
+   ],
+   "tags": [
+    "university",
+    "lecture-hall",
+    "professor",
+    "education",
+    "academic",
+    "learning",
+    "science",
+    "indoor"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_library_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_library_01",
+   "themes": [
+    "growth",
+    "philosophy",
+    "science"
+   ],
+   "tags": [
+    "library",
+    "books",
+    "study",
+    "knowledge",
+    "reading",
+    "learning",
+    "quiet",
+    "indoor"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_long_corridor_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_long_corridor_01",
+   "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+   ],
+   "tags": [
+    "corridor",
+    "long",
+    "perspective",
+    "hospital",
+    "office",
+    "journey",
+    "liminal",
+    "indoor",
+    "endless"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_luxury_office_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_luxury_office_01",
+   "themes": [
+    "money",
+    "decisions",
+    "psychology"
+   ],
+   "tags": [
+    "office",
+    "luxury",
+    "ceo",
+    "executive",
+    "wealth",
+    "power",
+    "success",
+    "indoor",
+    "penthouse"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_medieval_village_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_medieval_village_01",
+   "themes": [
+    "philosophy",
+    "decisions",
+    "money"
+   ],
+   "tags": [
+    "medieval",
+    "village",
+    "peasants",
+    "feudal",
+    "history",
+    "rural",
+    "community",
+    "outdoor"
    ],
    "license": "LicenseRef-Erkasa-Original"
   },
@@ -287,6 +876,30 @@
     "indoor",
     "corporate",
     "team"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_museum_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_museum_01",
+   "themes": [
+    "philosophy",
+    "growth",
+    "science"
+   ],
+   "tags": [
+    "museum",
+    "gallery",
+    "art",
+    "history",
+    "culture",
+    "exhibition",
+    "contemplation",
+    "indoor"
    ],
    "license": "LicenseRef-Erkasa-Original"
   },
@@ -331,6 +944,55 @@
    "license": "LicenseRef-Erkasa-Original"
   },
   {
+   "assetId": "bg_negotiation_room_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_negotiation_room_01",
+   "themes": [
+    "money",
+    "decisions",
+    "psychology"
+   ],
+   "tags": [
+    "negotiation",
+    "meeting",
+    "private",
+    "deal",
+    "conflict",
+    "business",
+    "indoor",
+    "diplomacy"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_ocean_horizon_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_ocean_horizon_01",
+   "themes": [
+    "philosophy",
+    "growth",
+    "psychology"
+   ],
+   "tags": [
+    "ocean",
+    "horizon",
+    "sunset",
+    "sea",
+    "infinite",
+    "calm",
+    "reflection",
+    "future",
+    "outdoor"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
    "assetId": "bg_office_01",
    "category": "background",
    "kind": "layered_background",
@@ -346,6 +1008,80 @@
     "office",
     "work",
     "indoor"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_office_night_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_office_night_01",
+   "themes": [
+    "money",
+    "decisions",
+    "psychology"
+   ],
+   "tags": [
+    "office",
+    "night",
+    "dark",
+    "overtime",
+    "work",
+    "city",
+    "indoor",
+    "burnout"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_old_european_street_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_old_european_street_01",
+   "themes": [
+    "growth",
+    "philosophy",
+    "psychology"
+   ],
+   "tags": [
+    "old-town",
+    "europe",
+    "street",
+    "cobblestone",
+    "history",
+    "travel",
+    "charm",
+    "outdoor",
+    "cafe"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_palace_exterior_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_palace_exterior_01",
+   "themes": [
+    "money",
+    "decisions",
+    "philosophy"
+   ],
+   "tags": [
+    "palace",
+    "royal",
+    "garden",
+    "fountain",
+    "wealth",
+    "elite",
+    "aristocracy",
+    "outdoor",
+    "history"
    ],
    "license": "LicenseRef-Erkasa-Original"
   },
@@ -374,6 +1110,156 @@
    "license": "LicenseRef-Erkasa-Original"
   },
   {
+   "assetId": "bg_parking_garage_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_parking_garage_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "money"
+   ],
+   "tags": [
+    "parking-garage",
+    "underground",
+    "concrete",
+    "empty",
+    "tense",
+    "secret-meeting",
+    "urban",
+    "indoor",
+    "noir"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_parliament_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_parliament_01",
+   "themes": [
+    "decisions",
+    "philosophy",
+    "psychology"
+   ],
+   "tags": [
+    "parliament",
+    "politics",
+    "democracy",
+    "government",
+    "debate",
+    "law",
+    "vote",
+    "institution",
+    "indoor"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_prison_cell_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_prison_cell_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "philosophy"
+   ],
+   "tags": [
+    "prison",
+    "cell",
+    "trapped",
+    "punishment",
+    "regret",
+    "isolation",
+    "consequences",
+    "indoor",
+    "night"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_public_square_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_public_square_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "philosophy"
+   ],
+   "tags": [
+    "square",
+    "plaza",
+    "public",
+    "town",
+    "community",
+    "protest",
+    "crowd",
+    "outdoor",
+    "european"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_roman_city_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_roman_city_01",
+   "themes": [
+    "philosophy",
+    "decisions",
+    "money"
+   ],
+   "tags": [
+    "rome",
+    "roman-empire",
+    "forum",
+    "colosseum",
+    "history",
+    "empire",
+    "politics",
+    "outdoor",
+    "ancient"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_rooftop_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_rooftop_01",
+   "themes": [
+    "psychology",
+    "growth",
+    "philosophy"
+   ],
+   "tags": [
+    "rooftop",
+    "night",
+    "city",
+    "view",
+    "reflection",
+    "freedom",
+    "escape",
+    "outdoor",
+    "urban"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
    "assetId": "bg_space_01",
    "category": "background",
    "kind": "layered_background",
@@ -388,6 +1274,55 @@
     "space",
     "cosmos",
     "stars"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_stairwell_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_stairwell_01",
+   "themes": [
+    "growth",
+    "psychology",
+    "decisions"
+   ],
+   "tags": [
+    "stairs",
+    "stairwell",
+    "building",
+    "climb",
+    "effort",
+    "escape",
+    "indoor",
+    "transition"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_subway_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_subway_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+   ],
+   "tags": [
+    "subway",
+    "metro",
+    "underground",
+    "commute",
+    "routine",
+    "city",
+    "anonymous",
+    "waiting",
+    "transport"
    ],
    "license": "LicenseRef-Erkasa-Original"
   },
@@ -416,6 +1351,31 @@
    "license": "LicenseRef-Erkasa-Original"
   },
   {
+   "assetId": "bg_throne_room_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_throne_room_01",
+   "themes": [
+    "philosophy",
+    "decisions",
+    "money"
+   ],
+   "tags": [
+    "throne-room",
+    "royal",
+    "king",
+    "palace",
+    "power",
+    "court",
+    "history",
+    "monarchy",
+    "indoor"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
    "assetId": "bg_trading_room_01",
    "category": "background",
    "kind": "layered_background",
@@ -431,6 +1391,79 @@
     "stocks",
     "screens",
     "indoor"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_train_station_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_train_station_01",
+   "themes": [
+    "decisions",
+    "psychology",
+    "growth"
+   ],
+   "tags": [
+    "train-station",
+    "platform",
+    "travel",
+    "departure",
+    "goodbye",
+    "waiting",
+    "journey",
+    "outdoor",
+    "transport"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_tunnel_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_tunnel_01",
+   "themes": [
+    "psychology",
+    "growth",
+    "philosophy"
+   ],
+   "tags": [
+    "tunnel",
+    "underground",
+    "dark",
+    "light-at-the-end",
+    "journey",
+    "escape",
+    "hope",
+    "indoor"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_warehouse_interior_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_warehouse_interior_01",
+   "themes": [
+    "money",
+    "decisions",
+    "science"
+   ],
+   "tags": [
+    "warehouse",
+    "logistics",
+    "storage",
+    "boxes",
+    "supply-chain",
+    "inventory",
+    "indoor",
+    "work"
    ],
    "license": "LicenseRef-Erkasa-Original"
   },

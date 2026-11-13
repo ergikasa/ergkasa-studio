@@ -1,0 +1,107 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "bg_throne_room_01",
+  "version": 1,
+  "name": "Salla e fronit",
+  "description": "A royal throne room: deep red walls, marble columns, blue banners with gold stars, tall arched windows, chandeliers and a golden throne on a dais at the end of a red carpet.",
+  "category": "background",
+  "subcategory": "interior",
+  "collection": "backgrounds",
+  "storyUse": "Royal power: kings and courts, petitioners before the throne, the corruption of power, history's rulers.",
+  "kind": "layered_background",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    1920
+  ],
+  "layers": [
+    {
+      "id": "layer_wall",
+      "depth": 0
+    },
+    {
+      "id": "layer_floor",
+      "depth": 0
+    }
+  ],
+  "groundY": 1690,
+  "actorZones": [
+    [
+      300,
+      2260
+    ]
+  ],
+  "anchors": {
+    "throne": [
+      1280,
+      1240
+    ],
+    "carpet": [
+      1280,
+      1690
+    ]
+  },
+  "safeFrames": {
+    "9:16": [
+      740,
+      0,
+      1080,
+      1920
+    ],
+    "16:9": [
+      0,
+      240,
+      2560,
+      1440
+    ],
+    "1:1": [
+      320,
+      0,
+      1920,
+      1920
+    ]
+  },
+  "capabilities": {
+    "camera": [
+      "pan",
+      "zoom",
+      "parallax",
+      "shake"
+    ]
+  },
+  "mood": [
+    "royal",
+    "power",
+    "grand",
+    "formal",
+    "history"
+  ],
+  "themes": [
+    "philosophy",
+    "decisions",
+    "money"
+  ],
+  "tags": [
+    "throne-room",
+    "royal",
+    "king",
+    "palace",
+    "power",
+    "court",
+    "history",
+    "monarchy",
+    "indoor"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

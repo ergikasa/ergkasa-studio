@@ -1,0 +1,101 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "bg_elevator_01",
+  "version": 1,
+  "name": "Brendësi e ashensorit",
+  "description": "Inside an elevator: brushed steel side walls, a mirrored back wall, a handrail, a button panel and bright ceiling light.",
+  "category": "background",
+  "subcategory": "interior",
+  "collection": "backgrounds",
+  "storyUse": "Awkward social moments: elevator silence, conformity experiments (everyone facing the wrong way), small talk, confined spaces.",
+  "kind": "layered_background",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    1920
+  ],
+  "layers": [
+    {
+      "id": "layer_wall",
+      "depth": 0
+    }
+  ],
+  "groundY": 1690,
+  "actorZones": [
+    [
+      740,
+      1820
+    ]
+  ],
+  "anchors": {
+    "center": [
+      1280,
+      1690
+    ],
+    "mirror": [
+      1280,
+      760
+    ]
+  },
+  "safeFrames": {
+    "9:16": [
+      740,
+      0,
+      1080,
+      1920
+    ],
+    "16:9": [
+      0,
+      240,
+      2560,
+      1440
+    ],
+    "1:1": [
+      320,
+      0,
+      1920,
+      1920
+    ]
+  },
+  "capabilities": {
+    "camera": [
+      "pan",
+      "zoom",
+      "parallax",
+      "shake"
+    ]
+  },
+  "mood": [
+    "confined",
+    "awkward",
+    "neutral",
+    "social-pressure"
+  ],
+  "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "elevator",
+    "lift",
+    "confined",
+    "awkward",
+    "social-norms",
+    "office",
+    "indoor",
+    "small-talk"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

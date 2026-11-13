@@ -1,0 +1,111 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "bg_subway_01",
+  "version": 1,
+  "name": "Platformë metroje",
+  "description": "An underground subway platform: white tiled walls with a teal stripe, blank posters, the track pit and a dark tunnel mouth with light coming.",
+  "category": "background",
+  "subcategory": "exterior",
+  "collection": "backgrounds",
+  "storyUse": "The daily commute: routine, anonymity among strangers, waiting, city life on autopilot.",
+  "kind": "layered_background",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    1920
+  ],
+  "layers": [
+    {
+      "id": "layer_wall",
+      "depth": 1
+    },
+    {
+      "id": "layer_track",
+      "depth": 0.4
+    },
+    {
+      "id": "layer_platform",
+      "depth": 0
+    }
+  ],
+  "groundY": 1690,
+  "actorZones": [
+    [
+      300,
+      2260
+    ]
+  ],
+  "anchors": {
+    "tunnel": [
+      2300,
+      900
+    ],
+    "platform": [
+      1280,
+      1690
+    ]
+  },
+  "safeFrames": {
+    "9:16": [
+      740,
+      0,
+      1080,
+      1920
+    ],
+    "16:9": [
+      0,
+      240,
+      2560,
+      1440
+    ],
+    "1:1": [
+      320,
+      0,
+      1920,
+      1920
+    ]
+  },
+  "capabilities": {
+    "camera": [
+      "pan",
+      "zoom",
+      "parallax",
+      "shake"
+    ]
+  },
+  "mood": [
+    "urban",
+    "commute",
+    "routine",
+    "waiting",
+    "anonymous"
+  ],
+  "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "subway",
+    "metro",
+    "underground",
+    "commute",
+    "routine",
+    "city",
+    "anonymous",
+    "waiting",
+    "transport"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

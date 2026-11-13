@@ -1,0 +1,106 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "bg_factory_interior_01",
+  "version": 1,
+  "name": "Brendësi e fabrikës",
+  "description": "A factory floor: steel beams, high grid windows, a yellow machine and a conveyor with boxes in the background, safety lines on the concrete floor.",
+  "category": "background",
+  "subcategory": "interior",
+  "collection": "backgrounds",
+  "storyUse": "Industrial work: factory jobs, routine and automation, workers' lives, the industrial revolution.",
+  "kind": "layered_background",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    1920
+  ],
+  "layers": [
+    {
+      "id": "layer_wall",
+      "depth": 0
+    },
+    {
+      "id": "layer_floor",
+      "depth": 0
+    }
+  ],
+  "groundY": 1690,
+  "actorZones": [
+    [
+      300,
+      2260
+    ]
+  ],
+  "anchors": {
+    "machine": [
+      600,
+      1300
+    ],
+    "conveyor": [
+      2000,
+      1300
+    ]
+  },
+  "safeFrames": {
+    "9:16": [
+      740,
+      0,
+      1080,
+      1920
+    ],
+    "16:9": [
+      0,
+      240,
+      2560,
+      1440
+    ],
+    "1:1": [
+      320,
+      0,
+      1920,
+      1920
+    ]
+  },
+  "capabilities": {
+    "camera": [
+      "pan",
+      "zoom",
+      "parallax",
+      "shake"
+    ]
+  },
+  "mood": [
+    "industrial",
+    "work",
+    "routine",
+    "hard-work",
+    "mechanical"
+  ],
+  "themes": [
+    "money",
+    "science",
+    "decisions"
+  ],
+  "tags": [
+    "factory",
+    "industrial",
+    "manufacturing",
+    "workers",
+    "assembly-line",
+    "machines",
+    "routine",
+    "indoor"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

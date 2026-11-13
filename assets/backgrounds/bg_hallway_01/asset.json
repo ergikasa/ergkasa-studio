@@ -1,0 +1,110 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "bg_hallway_01",
+  "version": 1,
+  "name": "Korridor bosh",
+  "description": "An empty hallway seen from the side: three doors (one teal), framed pictures, wall lamps and a red runner on a wooden floor.",
+  "category": "background",
+  "subcategory": "interior",
+  "collection": "backgrounds",
+  "storyUse": "In-between moments: waiting outside a door, choosing which door to open, a new apartment, a hotel at night.",
+  "kind": "layered_background",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    1920
+  ],
+  "layers": [
+    {
+      "id": "layer_wall",
+      "depth": 0
+    },
+    {
+      "id": "layer_floor",
+      "depth": 0
+    }
+  ],
+  "groundY": 1690,
+  "actorZones": [
+    [
+      300,
+      2260
+    ]
+  ],
+  "anchors": {
+    "door_1": [
+      330,
+      1560
+    ],
+    "door_2": [
+      1280,
+      1560
+    ],
+    "door_3": [
+      2230,
+      1560
+    ]
+  },
+  "safeFrames": {
+    "9:16": [
+      740,
+      0,
+      1080,
+      1920
+    ],
+    "16:9": [
+      0,
+      240,
+      2560,
+      1440
+    ],
+    "1:1": [
+      320,
+      0,
+      1920,
+      1920
+    ]
+  },
+  "capabilities": {
+    "camera": [
+      "pan",
+      "zoom",
+      "parallax",
+      "shake"
+    ]
+  },
+  "mood": [
+    "quiet",
+    "waiting",
+    "transition",
+    "neutral"
+  ],
+  "themes": [
+    "psychology",
+    "decisions",
+    "growth"
+  ],
+  "tags": [
+    "hallway",
+    "corridor",
+    "doors",
+    "apartment",
+    "hotel",
+    "waiting",
+    "transition",
+    "indoor",
+    "choice"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

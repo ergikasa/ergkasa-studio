@@ -1,0 +1,105 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "bg_warehouse_interior_01",
+  "version": 1,
+  "name": "Brendësi e magazinës",
+  "description": "A large warehouse: tall blue and orange pallet racks full of cardboard boxes, a roller door in the middle and hanging lights.",
+  "category": "background",
+  "subcategory": "interior",
+  "collection": "backgrounds",
+  "storyUse": "Logistics and stuff: supply chains, online shopping, storage of things we buy, the hidden side of consumption.",
+  "kind": "layered_background",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    1920
+  ],
+  "layers": [
+    {
+      "id": "layer_wall",
+      "depth": 0
+    },
+    {
+      "id": "layer_floor",
+      "depth": 0
+    }
+  ],
+  "groundY": 1690,
+  "actorZones": [
+    [
+      300,
+      2260
+    ]
+  ],
+  "anchors": {
+    "door": [
+      1280,
+      1560
+    ],
+    "center": [
+      1280,
+      1690
+    ]
+  },
+  "safeFrames": {
+    "9:16": [
+      740,
+      0,
+      1080,
+      1920
+    ],
+    "16:9": [
+      0,
+      240,
+      2560,
+      1440
+    ],
+    "1:1": [
+      320,
+      0,
+      1920,
+      1920
+    ]
+  },
+  "capabilities": {
+    "camera": [
+      "pan",
+      "zoom",
+      "parallax",
+      "shake"
+    ]
+  },
+  "mood": [
+    "industrial",
+    "logistics",
+    "big",
+    "cold"
+  ],
+  "themes": [
+    "money",
+    "decisions",
+    "science"
+  ],
+  "tags": [
+    "warehouse",
+    "logistics",
+    "storage",
+    "boxes",
+    "supply-chain",
+    "inventory",
+    "indoor",
+    "work"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "bg_bank_interior_01",
+  "version": 1,
+  "name": "Brendësi e bankës",
+  "description": "A grand marble bank hall with columns, teller counters behind glass, chandeliers and a huge round steel vault door in the centre.",
+  "category": "background",
+  "subcategory": "interior",
+  "collection": "backgrounds",
+  "storyUse": "Money and trust: savings and loans, the bank vault, financial crises, the power of banks.",
+  "kind": "layered_background",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    1920
+  ],
+  "layers": [
+    {
+      "id": "layer_wall",
+      "depth": 0
+    },
+    {
+      "id": "layer_floor",
+      "depth": 0
+    }
+  ],
+  "groundY": 1690,
+  "actorZones": [
+    [
+      300,
+      2260
+    ]
+  ],
+  "anchors": {
+    "vault": [
+      1280,
+      820
+    ],
+    "counter_left": [
+      600,
+      1180
+    ],
+    "counter_right": [
+      2000,
+      1180
+    ]
+  },
+  "safeFrames": {
+    "9:16": [
+      740,
+      0,
+      1080,
+      1920
+    ],
+    "16:9": [
+      0,
+      240,
+      2560,
+      1440
+    ],
+    "1:1": [
+      320,
+      0,
+      1920,
+      1920
+    ]
+  },
+  "capabilities": {
+    "camera": [
+      "pan",
+      "zoom",
+      "parallax",
+      "shake"
+    ]
+  },
+  "mood": [
+    "formal",
+    "wealth",
+    "trust",
+    "cold",
+    "institution"
+  ],
+  "themes": [
+    "money",
+    "decisions",
+    "psychology"
+  ],
+  "tags": [
+    "bank",
+    "interior",
+    "vault",
+    "money",
+    "finance",
+    "savings",
+    "loans",
+    "institution",
+    "indoor"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "bg_museum_01",
+  "version": 1,
+  "name": "Muze",
+  "description": "A bright museum gallery: white walls with four framed paintings under spotlights and a teal vase on a pedestal in the middle.",
+  "category": "background",
+  "subcategory": "interior",
+  "collection": "backgrounds",
+  "storyUse": "History and culture: looking at the past, art and meaning, how we value things, a quiet moment of contemplation.",
+  "kind": "layered_background",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    1920
+  ],
+  "layers": [
+    {
+      "id": "layer_wall",
+      "depth": 0
+    },
+    {
+      "id": "layer_floor",
+      "depth": 0
+    }
+  ],
+  "groundY": 1690,
+  "actorZones": [
+    [
+      300,
+      2260
+    ]
+  ],
+  "anchors": {
+    "pedestal": [
+      1280,
+      940
+    ],
+    "center": [
+      1280,
+      1690
+    ]
+  },
+  "safeFrames": {
+    "9:16": [
+      740,
+      0,
+      1080,
+      1920
+    ],
+    "16:9": [
+      0,
+      240,
+      2560,
+      1440
+    ],
+    "1:1": [
+      320,
+      0,
+      1920,
+      1920
+    ]
+  },
+  "capabilities": {
+    "camera": [
+      "pan",
+      "zoom",
+      "parallax",
+      "shake"
+    ]
+  },
+  "mood": [
+    "quiet",
+    "cultural",
+    "contemplative",
+    "bright"
+  ],
+  "themes": [
+    "philosophy",
+    "growth",
+    "science"
+  ],
+  "tags": [
+    "museum",
+    "gallery",
+    "art",
+    "history",
+    "culture",
+    "exhibition",
+    "contemplation",
+    "indoor"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

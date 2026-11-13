@@ -1,0 +1,111 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "bg_ocean_horizon_01",
+  "version": 1,
+  "name": "Horizonti i oqeanit",
+  "description": "An open ocean horizon at sunset: the sun on the waterline, a golden path on the sea, dark rocks on the shore.",
+  "category": "background",
+  "subcategory": "exterior",
+  "collection": "backgrounds",
+  "storyUse": "Big-picture moments: the future, infinity and perspective, calm after a storm, contemplating life.",
+  "kind": "layered_background",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    1920
+  ],
+  "layers": [
+    {
+      "id": "layer_sky",
+      "depth": 8
+    },
+    {
+      "id": "layer_sea",
+      "depth": 2
+    },
+    {
+      "id": "layer_shore",
+      "depth": 0
+    }
+  ],
+  "groundY": 1690,
+  "actorZones": [
+    [
+      300,
+      2260
+    ]
+  ],
+  "anchors": {
+    "horizon": [
+      1280,
+      1160
+    ],
+    "shore": [
+      1280,
+      1690
+    ]
+  },
+  "safeFrames": {
+    "9:16": [
+      740,
+      0,
+      1080,
+      1920
+    ],
+    "16:9": [
+      0,
+      240,
+      2560,
+      1440
+    ],
+    "1:1": [
+      320,
+      0,
+      1920,
+      1920
+    ]
+  },
+  "capabilities": {
+    "camera": [
+      "pan",
+      "zoom",
+      "parallax",
+      "shake"
+    ]
+  },
+  "mood": [
+    "sunset",
+    "calm",
+    "reflective",
+    "infinite",
+    "hope"
+  ],
+  "themes": [
+    "philosophy",
+    "growth",
+    "psychology"
+  ],
+  "tags": [
+    "ocean",
+    "horizon",
+    "sunset",
+    "sea",
+    "infinite",
+    "calm",
+    "reflection",
+    "future",
+    "outdoor"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

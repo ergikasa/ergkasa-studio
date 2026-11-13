@@ -1,0 +1,115 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "bg_crossroads_01",
+  "version": 1,
+  "name": "Udhëkryq",
+  "description": "A country road that splits into two paths across green fields, each going to a different horizon.",
+  "category": "background",
+  "subcategory": "exterior",
+  "collection": "backgrounds",
+  "storyUse": "A life decision: two paths, a dilemma, choosing one future over another, opportunity cost.",
+  "kind": "layered_background",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    1920
+  ],
+  "layers": [
+    {
+      "id": "layer_sky",
+      "depth": 8
+    },
+    {
+      "id": "layer_land",
+      "depth": 0
+    }
+  ],
+  "groundY": 1690,
+  "actorZones": [
+    [
+      900,
+      1700
+    ]
+  ],
+  "anchors": {
+    "fork": [
+      1290,
+      1300
+    ],
+    "road": [
+      1290,
+      1690
+    ],
+    "left_path": [
+      760,
+      1100
+    ],
+    "right_path": [
+      1800,
+      1100
+    ]
+  },
+  "safeFrames": {
+    "9:16": [
+      740,
+      0,
+      1080,
+      1920
+    ],
+    "16:9": [
+      0,
+      240,
+      2560,
+      1440
+    ],
+    "1:1": [
+      320,
+      0,
+      1920,
+      1920
+    ]
+  },
+  "capabilities": {
+    "camera": [
+      "pan",
+      "zoom",
+      "parallax",
+      "shake"
+    ]
+  },
+  "mood": [
+    "decision",
+    "open",
+    "choice",
+    "day",
+    "uncertain"
+  ],
+  "themes": [
+    "decisions",
+    "philosophy",
+    "growth"
+  ],
+  "tags": [
+    "crossroads",
+    "fork",
+    "road",
+    "choice",
+    "decision",
+    "path",
+    "future",
+    "outdoor",
+    "dilemma"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

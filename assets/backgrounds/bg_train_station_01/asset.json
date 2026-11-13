@@ -1,0 +1,115 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "bg_train_station_01",
+  "version": 1,
+  "name": "Stacion treni",
+  "description": "A train station: a red train at the platform under an arched steel-and-glass roof with a big round clock. No signs or text.",
+  "category": "background",
+  "subcategory": "exterior",
+  "collection": "backgrounds",
+  "storyUse": "Departures and goodbyes: leaving home, missed chances (the train you didn't take), waiting, a new chapter.",
+  "kind": "layered_background",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    1920
+  ],
+  "layers": [
+    {
+      "id": "layer_hall",
+      "depth": 2
+    },
+    {
+      "id": "layer_train",
+      "depth": 0.3
+    },
+    {
+      "id": "layer_platform",
+      "depth": 0
+    }
+  ],
+  "groundY": 1690,
+  "actorZones": [
+    [
+      300,
+      2260
+    ]
+  ],
+  "anchors": {
+    "clock": [
+      1280,
+      660
+    ],
+    "platform": [
+      1280,
+      1690
+    ],
+    "train_door": [
+      600,
+      1300
+    ]
+  },
+  "safeFrames": {
+    "9:16": [
+      740,
+      0,
+      1080,
+      1920
+    ],
+    "16:9": [
+      0,
+      240,
+      2560,
+      1440
+    ],
+    "1:1": [
+      320,
+      0,
+      1920,
+      1920
+    ]
+  },
+  "capabilities": {
+    "camera": [
+      "pan",
+      "zoom",
+      "parallax",
+      "shake"
+    ]
+  },
+  "mood": [
+    "travel",
+    "departure",
+    "waiting",
+    "transition",
+    "busy"
+  ],
+  "themes": [
+    "decisions",
+    "psychology",
+    "growth"
+  ],
+  "tags": [
+    "train-station",
+    "platform",
+    "travel",
+    "departure",
+    "goodbye",
+    "waiting",
+    "journey",
+    "outdoor",
+    "transport"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

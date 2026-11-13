@@ -1,0 +1,111 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "bg_old_european_street_01",
+  "version": 1,
+  "name": "Rrugë e vjetër europiane",
+  "description": "An old European street: tall colourful houses with shutters, balconies and gabled roofs, a red café awning and a cobbled street with lamps.",
+  "category": "background",
+  "subcategory": "exterior",
+  "collection": "backgrounds",
+  "storyUse": "Old towns and history: travel, a slower life, the past preserved, a historical city street.",
+  "kind": "layered_background",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    1920
+  ],
+  "layers": [
+    {
+      "id": "layer_sky",
+      "depth": 8
+    },
+    {
+      "id": "layer_street",
+      "depth": 0
+    },
+    {
+      "id": "layer_ground",
+      "depth": 0
+    }
+  ],
+  "groundY": 1690,
+  "actorZones": [
+    [
+      300,
+      2260
+    ]
+  ],
+  "anchors": {
+    "cafe": [
+      1280,
+      1240
+    ],
+    "street": [
+      1280,
+      1690
+    ]
+  },
+  "safeFrames": {
+    "9:16": [
+      740,
+      0,
+      1080,
+      1920
+    ],
+    "16:9": [
+      0,
+      240,
+      2560,
+      1440
+    ],
+    "1:1": [
+      320,
+      0,
+      1920,
+      1920
+    ]
+  },
+  "capabilities": {
+    "camera": [
+      "pan",
+      "zoom",
+      "parallax",
+      "shake"
+    ]
+  },
+  "mood": [
+    "old-town",
+    "warm",
+    "charming",
+    "history",
+    "travel"
+  ],
+  "themes": [
+    "growth",
+    "philosophy",
+    "psychology"
+  ],
+  "tags": [
+    "old-town",
+    "europe",
+    "street",
+    "cobblestone",
+    "history",
+    "travel",
+    "charm",
+    "outdoor",
+    "cafe"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

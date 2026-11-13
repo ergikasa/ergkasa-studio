@@ -1,0 +1,107 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "bg_empty_road_01",
+  "version": 1,
+  "name": "Rrugë bosh drejt horizontit",
+  "description": "A straight empty road running to the horizon through green fields, poles along the side and the sun at the end.",
+  "category": "background",
+  "subcategory": "exterior",
+  "collection": "backgrounds",
+  "storyUse": "The road ahead: a long journey, freedom, starting over, discipline over a long distance.",
+  "kind": "layered_background",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    1920
+  ],
+  "layers": [
+    {
+      "id": "layer_sky",
+      "depth": 8
+    },
+    {
+      "id": "layer_land",
+      "depth": 0
+    }
+  ],
+  "groundY": 1690,
+  "actorZones": [
+    [
+      700,
+      1860
+    ]
+  ],
+  "anchors": {
+    "vanishing_point": [
+      1280,
+      1080
+    ],
+    "road": [
+      1280,
+      1690
+    ]
+  },
+  "safeFrames": {
+    "9:16": [
+      740,
+      0,
+      1080,
+      1920
+    ],
+    "16:9": [
+      0,
+      240,
+      2560,
+      1440
+    ],
+    "1:1": [
+      320,
+      0,
+      1920,
+      1920
+    ]
+  },
+  "capabilities": {
+    "camera": [
+      "pan",
+      "zoom",
+      "parallax",
+      "shake"
+    ]
+  },
+  "mood": [
+    "open",
+    "journey",
+    "freedom",
+    "lonely",
+    "future"
+  ],
+  "themes": [
+    "growth",
+    "philosophy",
+    "decisions"
+  ],
+  "tags": [
+    "road",
+    "empty",
+    "horizon",
+    "journey",
+    "freedom",
+    "future",
+    "long-road",
+    "outdoor",
+    "path"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "bg_tunnel_01",
+  "version": 1,
+  "name": "Tunel nëntokësor",
+  "description": "An arched underground tunnel in perspective with warm lamps along the wall and a bright light at the far end.",
+  "category": "background",
+  "subcategory": "interior",
+  "collection": "backgrounds",
+  "storyUse": "The light at the end of the tunnel: hard times and hope, an escape route, the long dark middle of a journey.",
+  "kind": "layered_background",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    1920
+  ],
+  "layers": [
+    {
+      "id": "layer_wall",
+      "depth": 0
+    },
+    {
+      "id": "layer_floor",
+      "depth": 0
+    }
+  ],
+  "groundY": 1690,
+  "actorZones": [
+    [
+      700,
+      1860
+    ]
+  ],
+  "anchors": {
+    "light": [
+      1280,
+      900
+    ],
+    "center": [
+      1280,
+      1690
+    ]
+  },
+  "safeFrames": {
+    "9:16": [
+      740,
+      0,
+      1080,
+      1920
+    ],
+    "16:9": [
+      0,
+      240,
+      2560,
+      1440
+    ],
+    "1:1": [
+      320,
+      0,
+      1920,
+      1920
+    ]
+  },
+  "capabilities": {
+    "camera": [
+      "pan",
+      "zoom",
+      "parallax",
+      "shake"
+    ]
+  },
+  "mood": [
+    "dark",
+    "underground",
+    "journey",
+    "hope",
+    "light-at-the-end"
+  ],
+  "themes": [
+    "psychology",
+    "growth",
+    "philosophy"
+  ],
+  "tags": [
+    "tunnel",
+    "underground",
+    "dark",
+    "light-at-the-end",
+    "journey",
+    "escape",
+    "hope",
+    "indoor"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}
