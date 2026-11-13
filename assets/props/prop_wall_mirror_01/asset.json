@@ -1,0 +1,65 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_wall_mirror_01",
+  "version": 1,
+  "name": "Pasqyrë në këmbë",
+  "description": "A full-length standing mirror with a rounded gold frame.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "home",
+  "storyUse": "Self-image and self-esteem: the character facing themselves, the gap between who they are and who they see.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    340,
+    840
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "glass": [
+      0.5,
+      0.46904761904761905
+    ]
+  },
+  "parts": {
+    "glass": "statike; një personazh i dytë (i kthyer me flip) mund të vendoset mbi anchor `glass` si reflektim"
+  },
+  "themes": [
+    "psychology",
+    "growth",
+    "decisions"
+  ],
+  "tags": [
+    "mirror",
+    "reflection",
+    "self-image",
+    "self-esteem",
+    "identity",
+    "bedroom",
+    "home",
+    "vanity"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

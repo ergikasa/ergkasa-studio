@@ -1,0 +1,79 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_bed_side_01",
+  "version": 1,
+  "name": "Krevat (anash)",
+  "description": "A single bed seen from the side: wooden frame and headboard on the left, mattress, pillow, blue duvet.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "home",
+  "storyUse": "Sleep, snoozing, not wanting to get up, insomnia and late-night thoughts. A character can sit on the foot end (anchor hip).",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    980,
+    560
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "lie": [
+      0.52,
+      0.6053571428571428
+    ],
+    "head": [
+      0.19387755102040816,
+      0.5446428571428571
+    ],
+    "seat": [
+      0.8979591836734694,
+      0.6160714285714286
+    ],
+    "hip": [
+      0.8979591836734694,
+      0.5696428571428571
+    ]
+  },
+  "parts": {
+    "duvet": "statik; fshihet për krevat të rregulluar",
+    "pillow": "statik"
+  },
+  "themes": [
+    "psychology",
+    "growth",
+    "decisions"
+  ],
+  "tags": [
+    "bed",
+    "sleep",
+    "bedroom",
+    "home",
+    "rest",
+    "insomnia",
+    "morning",
+    "procrastination",
+    "furniture"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

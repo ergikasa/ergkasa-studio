@@ -181,6 +181,73 @@ describe("engine", () => {
   });
 });
 
+describe("library scenes (erkasa_editorial_v2)", () => {
+  const scene = (windowProps: Record<string, unknown>): unknown => ({
+    schema: "erkasa.timeline/1",
+    fps: 30,
+    width: 1080,
+    height: 1920,
+    seed: 7,
+    audio: { ref: "file://placeholder/music-bed" },
+    scenes: [
+      {
+        sceneId: "s01",
+        from: 0,
+        duration: 30,
+        background: { asset: "bg_home_kitchen_01@1" },
+        camera: { x: [{ f: 0, v: 1280 }], zoom: [{ f: 0, v: 1 }] },
+        nodes: [
+          {
+            id: "table",
+            adapter: "svg",
+            asset: "prop_kitchen_table_01@1",
+            z: 3,
+            props: {},
+            tracks: { x: [{ f: 0, v: 1280 }], y: [{ f: 0, v: 1500 }] },
+          },
+          {
+            id: "window",
+            adapter: "svg",
+            asset: "prop_window_01@1",
+            z: 1,
+            props: windowProps,
+            tracks: { x: [{ f: 0, v: 1700 }], y: [{ f: 0, v: 700 }] },
+          },
+          {
+            id: "era",
+            adapter: "character",
+            asset: "char_era_01@1",
+            z: 2,
+            props: {},
+            tracks: { x: [{ f: 0, v: 900 }], y: [{ f: 0, v: 1690 }], clip: [{ f: 0, v: "talk" }] },
+          },
+        ],
+      },
+    ],
+  });
+
+  it("draws new backgrounds and props with their gradients next to a character", () => {
+    const svg = new Engine(scene({}), { assets: new RepoAssets() }).renderFrame(10);
+    expect(svg).toContain('data-node="table"');
+    expect(svg).toContain('id="bg_home_kitchen_01__wall"');
+    expect(svg).toContain('id="prop_kitchen_table_01__tp"');
+  });
+
+  it("draws the variant of a prop when asked, and the default otherwise", () => {
+    const day = new Engine(scene({}), { assets: new RepoAssets() }).renderFrame(10);
+    const night = new Engine(scene({ variant: "night" }), { assets: new RepoAssets() }).renderFrame(10);
+    expect(day).toContain('id="prop_window_01__sky"');
+    expect(night).toContain('id="prop_window_01_night__sky"');
+    expect(night).not.toContain('id="prop_window_01__sky"');
+  });
+
+  it("rejects a variant the prop does not have", () => {
+    expect(() => new Engine(scene({ variant: "snow" }), { assets: new RepoAssets() })).toThrow(
+      /prop_window_01 has no variant 'snow' \(has: night, rain\)/,
+    );
+  });
+});
+
 describe("charts", () => {
   it("renders every chart kind while building and when finished", async () => {
     const { renderChart, CHART_KINDS } = await import("../src/adapters/charts.js");

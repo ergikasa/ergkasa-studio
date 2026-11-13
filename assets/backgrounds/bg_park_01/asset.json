@@ -1,0 +1,125 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "bg_park_01",
+  "version": 1,
+  "name": "Park",
+  "description": "A city park on a sunny day: lawn, a sandy path, trees, a lamp post and a pale skyline far away. The path is free for a bench and walking characters.",
+  "category": "background",
+  "collection": "backgrounds",
+  "storyUse": "Reflection, a walk to clear the head, meeting someone, being alone among people.",
+  "kind": "layered_background",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    1920
+  ],
+  "layers": [
+    {
+      "id": "layer_sky",
+      "depth": 8
+    },
+    {
+      "id": "layer_city",
+      "depth": 4
+    },
+    {
+      "id": "layer_far_trees",
+      "depth": 1.6
+    },
+    {
+      "id": "layer_mid",
+      "depth": 0.25
+    },
+    {
+      "id": "layer_ground",
+      "depth": 0
+    },
+    {
+      "id": "layer_foreground",
+      "depth": -0.4
+    }
+  ],
+  "groundY": 1690,
+  "actorZones": [
+    [
+      150,
+      2400
+    ]
+  ],
+  "anchors": {
+    "bench": [
+      1180,
+      1690
+    ],
+    "lamp": [
+      1855,
+      910
+    ],
+    "path": [
+      1280,
+      1690
+    ]
+  },
+  "safeFrames": {
+    "9:16": [
+      740,
+      0,
+      1080,
+      1920
+    ],
+    "16:9": [
+      0,
+      240,
+      2560,
+      1440
+    ],
+    "1:1": [
+      320,
+      0,
+      1920,
+      1920
+    ]
+  },
+  "capabilities": {
+    "camera": [
+      "pan",
+      "zoom",
+      "parallax",
+      "shake"
+    ]
+  },
+  "mood": [
+    "outdoor",
+    "calm",
+    "day",
+    "reflective",
+    "nature"
+  ],
+  "themes": [
+    "psychology",
+    "growth",
+    "philosophy"
+  ],
+  "tags": [
+    "park",
+    "outdoor",
+    "nature",
+    "trees",
+    "walk",
+    "city",
+    "day",
+    "bench"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

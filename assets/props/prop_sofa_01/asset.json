@@ -1,0 +1,78 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_sofa_01",
+  "version": 1,
+  "name": "Divan",
+  "description": "A two-seat sofa seen from the front, blue upholstery with an orange throw pillow.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "home",
+  "storyUse": "Passivity, binge-watching, comfort zone, a couple sitting apart. Two seat anchors, left and right.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    940,
+    470
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "seat_left": [
+      0.3159574468085106,
+      0.548936170212766
+    ],
+    "seat_right": [
+      0.6840425531914893,
+      0.548936170212766
+    ],
+    "hip_left": [
+      0.3159574468085106,
+      0.49361702127659574
+    ],
+    "hip_right": [
+      0.6840425531914893,
+      0.49361702127659574
+    ]
+  },
+  "parts": {
+    "pillow": "statik; mund të fshihet"
+  },
+  "themes": [
+    "psychology",
+    "growth",
+    "decisions"
+  ],
+  "tags": [
+    "sofa",
+    "couch",
+    "living-room",
+    "home",
+    "rest",
+    "passive",
+    "binge",
+    "comfort",
+    "furniture"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

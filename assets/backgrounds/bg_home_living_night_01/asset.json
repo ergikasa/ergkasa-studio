@@ -1,0 +1,115 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "bg_home_living_night_01",
+  "version": 1,
+  "name": "Dhomë ndenjeje (natë)",
+  "description": "A living room at night: dark blue wall, one warm floor lamp, city lights and a moon in the window. The floor is free for the sofa and TV props.",
+  "category": "background",
+  "collection": "backgrounds",
+  "storyUse": "Loneliness, binge-watching, late-night thoughts and doomscrolling. Pairs with the day living room.",
+  "kind": "layered_background",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    1920
+  ],
+  "layers": [
+    {
+      "id": "layer_window_view",
+      "depth": 5
+    },
+    {
+      "id": "layer_wall",
+      "depth": 0
+    },
+    {
+      "id": "layer_floor",
+      "depth": 0
+    }
+  ],
+  "groundY": 1690,
+  "actorZones": [
+    [
+      500,
+      2300
+    ]
+  ],
+  "anchors": {
+    "sofa": [
+      1220,
+      1690
+    ],
+    "tv": [
+      2200,
+      1690
+    ],
+    "lamp": [
+      640,
+      820
+    ],
+    "window": [
+      1860,
+      710
+    ]
+  },
+  "safeFrames": {
+    "9:16": [
+      740,
+      0,
+      1080,
+      1920
+    ],
+    "16:9": [
+      0,
+      240,
+      2560,
+      1440
+    ],
+    "1:1": [
+      320,
+      0,
+      1920,
+      1920
+    ]
+  },
+  "capabilities": {
+    "camera": [
+      "pan",
+      "zoom",
+      "parallax",
+      "shake"
+    ]
+  },
+  "mood": [
+    "home",
+    "night",
+    "lonely",
+    "quiet",
+    "late"
+  ],
+  "themes": [
+    "psychology",
+    "growth",
+    "philosophy"
+  ],
+  "tags": [
+    "home",
+    "living-room",
+    "night",
+    "indoor",
+    "lonely",
+    "late"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

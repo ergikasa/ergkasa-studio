@@ -1,0 +1,62 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_clothes_pile_01",
+  "version": 1,
+  "name": "Grumbull rrobash",
+  "description": "A messy pile of clothes on the floor: jeans, an orange t-shirt, a white shirt and a sock.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "home",
+  "storyUse": "Visible procrastination and mental clutter: the chore that keeps getting postponed.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    460,
+    250
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ]
+  },
+  "parts": {
+    "pile": "statik"
+  },
+  "themes": [
+    "psychology",
+    "growth",
+    "decisions"
+  ],
+  "tags": [
+    "clothes",
+    "laundry",
+    "mess",
+    "clutter",
+    "bedroom",
+    "home",
+    "procrastination",
+    "chores",
+    "overwhelm"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

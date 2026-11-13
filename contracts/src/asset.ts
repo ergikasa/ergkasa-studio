@@ -45,6 +45,10 @@ export const AssetMeta = z
     description: z.string().optional(),
     category: AssetCategory,
     subcategory: z.string().optional(),
+    /** Editorial grouping of the library (home, everyday, work, relationships, tech, money, health, city, metaphors, backgrounds). */
+    collection: z.string().min(1).optional(),
+    /** What the asset is for in a story, in English: the planner searches and reads this. */
+    storyUse: z.string().min(1).optional(),
     kind: AssetKind,
     adapter: AdapterName,
     style: z.string().min(1),

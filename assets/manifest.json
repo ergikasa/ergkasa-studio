@@ -1,14 +1,64 @@
 {
  "schema": "erkasa.asset-manifest/1",
- "total": 413,
+ "total": 438,
  "counts": {
-  "background": 11,
+  "background": 20,
   "character": 6,
   "icon": 189,
   "metaphor": 15,
-  "object": 192
+  "object": 208
  },
  "assets": [
+  {
+   "assetId": "bg_abstract_dark_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_abstract_dark_01",
+   "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+   ],
+   "tags": [
+    "abstract",
+    "dark",
+    "void",
+    "spotlight",
+    "mind",
+    "inner",
+    "fear",
+    "night"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_abstract_light_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_abstract_light_01",
+   "themes": [
+    "psychology",
+    "growth",
+    "decisions",
+    "money",
+    "philosophy",
+    "science"
+   ],
+   "tags": [
+    "abstract",
+    "light",
+    "studio",
+    "neutral",
+    "concept",
+    "editorial",
+    "clean"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
   {
    "assetId": "bg_cafe_01",
    "category": "background",
@@ -66,6 +116,28 @@
    "license": "LicenseRef-Erkasa-Original"
   },
   {
+   "assetId": "bg_home_bedroom_day_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_home_bedroom_day_01",
+   "themes": [
+    "psychology",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "home",
+    "bedroom",
+    "day",
+    "morning",
+    "indoor",
+    "wake-up"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
    "assetId": "bg_home_bedroom_night_01",
    "category": "background",
    "kind": "layered_background",
@@ -82,6 +154,30 @@
     "bedroom",
     "night",
     "indoor"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_home_kitchen_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_home_kitchen_01",
+   "themes": [
+    "psychology",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "home",
+    "kitchen",
+    "day",
+    "indoor",
+    "family",
+    "food",
+    "morning",
+    "habit"
    ],
    "license": "LicenseRef-Erkasa-Original"
   },
@@ -106,6 +202,52 @@
    "license": "LicenseRef-Erkasa-Original"
   },
   {
+   "assetId": "bg_home_living_night_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_home_living_night_01",
+   "themes": [
+    "psychology",
+    "growth",
+    "philosophy"
+   ],
+   "tags": [
+    "home",
+    "living-room",
+    "night",
+    "indoor",
+    "lonely",
+    "late"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_home_office_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_home_office_01",
+   "themes": [
+    "growth",
+    "psychology",
+    "decisions"
+   ],
+   "tags": [
+    "home",
+    "home-office",
+    "work",
+    "remote",
+    "desk",
+    "indoor",
+    "day",
+    "study"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
    "assetId": "bg_interview_office_01",
    "category": "background",
    "kind": "layered_background",
@@ -122,6 +264,29 @@
     "interview",
     "work",
     "indoor"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_meeting_room_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_meeting_room_01",
+   "themes": [
+    "psychology",
+    "decisions",
+    "money"
+   ],
+   "tags": [
+    "office",
+    "meeting",
+    "work",
+    "presentation",
+    "indoor",
+    "corporate",
+    "team"
    ],
    "license": "LicenseRef-Erkasa-Original"
   },
@@ -185,6 +350,30 @@
    "license": "LicenseRef-Erkasa-Original"
   },
   {
+   "assetId": "bg_park_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_park_01",
+   "themes": [
+    "psychology",
+    "growth",
+    "philosophy"
+   ],
+   "tags": [
+    "park",
+    "outdoor",
+    "nature",
+    "trees",
+    "walk",
+    "city",
+    "day",
+    "bench"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
    "assetId": "bg_space_01",
    "category": "background",
    "kind": "layered_background",
@@ -199,6 +388,30 @@
     "space",
     "cosmos",
     "stars"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "bg_supermarket_01",
+   "category": "background",
+   "kind": "layered_background",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "backgrounds/bg_supermarket_01",
+   "themes": [
+    "money",
+    "psychology",
+    "decisions"
+   ],
+   "tags": [
+    "supermarket",
+    "store",
+    "shopping",
+    "shelves",
+    "consumer",
+    "choice",
+    "indoor",
+    "money"
    ],
    "license": "LicenseRef-Erkasa-Original"
   },
@@ -6782,6 +6995,56 @@
    "license": "MIT"
   },
   {
+   "assetId": "prop_alarm_clock_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_alarm_clock_01",
+   "themes": [
+    "psychology",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "alarm",
+    "clock",
+    "morning",
+    "wake-up",
+    "snooze",
+    "time",
+    "discipline",
+    "deadline",
+    "bedroom"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_bed_side_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_bed_side_01",
+   "themes": [
+    "psychology",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "bed",
+    "sleep",
+    "bedroom",
+    "home",
+    "rest",
+    "insomnia",
+    "morning",
+    "procrastination",
+    "furniture"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
    "assetId": "prop_chair_office_side_01",
    "category": "object",
    "kind": "prop",
@@ -6798,6 +7061,31 @@
     "chair",
     "furniture",
     "sit"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_clothes_pile_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_clothes_pile_01",
+   "themes": [
+    "psychology",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "clothes",
+    "laundry",
+    "mess",
+    "clutter",
+    "bedroom",
+    "home",
+    "procrastination",
+    "chores",
+    "overwhelm"
    ],
    "license": "LicenseRef-Erkasa-Original"
   },
@@ -6867,6 +7155,56 @@
    "license": "LicenseRef-Erkasa-Original"
   },
   {
+   "assetId": "prop_fridge_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_fridge_01",
+   "themes": [
+    "psychology",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "fridge",
+    "refrigerator",
+    "kitchen",
+    "food",
+    "home",
+    "temptation",
+    "snack",
+    "emotional-eating",
+    "habit"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_glasses_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_glasses_01",
+   "themes": [
+    "psychology",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "glasses",
+    "perspective",
+    "view",
+    "clarity",
+    "focus",
+    "bias",
+    "framing",
+    "see",
+    "smart"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
    "assetId": "prop_halo_01",
    "category": "object",
    "kind": "prop",
@@ -6884,6 +7222,104 @@
     "bias",
     "impression",
     "psychology"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_hanging_bulb_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_hanging_bulb_01",
+   "themes": [
+    "psychology",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "bulb",
+    "lamp",
+    "light",
+    "idea",
+    "insight",
+    "aha",
+    "realization",
+    "discovery",
+    "home"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_keys_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_keys_01",
+   "themes": [
+    "psychology",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "keys",
+    "key",
+    "access",
+    "home",
+    "car",
+    "responsibility",
+    "forget",
+    "memory",
+    "attention",
+    "security"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_kitchen_chair_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_kitchen_chair_01",
+   "themes": [
+    "psychology",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "chair",
+    "kitchen",
+    "dining",
+    "home",
+    "sit",
+    "empty-chair",
+    "furniture"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_kitchen_table_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_kitchen_table_01",
+   "themes": [
+    "psychology",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "table",
+    "kitchen",
+    "dining",
+    "home",
+    "family",
+    "meal",
+    "conversation",
+    "furniture"
    ],
    "license": "LicenseRef-Erkasa-Original"
   },
@@ -6949,6 +7385,83 @@
    "license": "LicenseRef-Erkasa-Original"
   },
   {
+   "assetId": "prop_sofa_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_sofa_01",
+   "themes": [
+    "psychology",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "sofa",
+    "couch",
+    "living-room",
+    "home",
+    "rest",
+    "passive",
+    "binge",
+    "comfort",
+    "furniture"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_trash_bin_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_trash_bin_01",
+   "themes": [
+    "psychology",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "trash",
+    "bin",
+    "waste",
+    "paper",
+    "office",
+    "home",
+    "give-up",
+    "discard",
+    "failure",
+    "perfectionism"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_tv_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_tv_01",
+   "themes": [
+    "psychology",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "tv",
+    "television",
+    "screen",
+    "living-room",
+    "home",
+    "media",
+    "news",
+    "distraction",
+    "binge",
+    "tech"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
    "assetId": "prop_wall_clock_01",
    "category": "object",
    "kind": "prop",
@@ -6965,6 +7478,105 @@
     "time",
     "office",
     "deadline"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_wall_mirror_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_wall_mirror_01",
+   "themes": [
+    "psychology",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "mirror",
+    "reflection",
+    "self-image",
+    "self-esteem",
+    "identity",
+    "bedroom",
+    "home",
+    "vanity"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_wallet_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_wallet_01",
+   "themes": [
+    "money",
+    "psychology",
+    "decisions"
+   ],
+   "tags": [
+    "wallet",
+    "money",
+    "cash",
+    "card",
+    "spending",
+    "identity",
+    "budget",
+    "broke",
+    "consumer"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_window_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_window_01",
+   "themes": [
+    "psychology",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "window",
+    "home",
+    "view",
+    "outside",
+    "hope",
+    "loneliness",
+    "waiting",
+    "day",
+    "night",
+    "rain"
+   ],
+   "license": "LicenseRef-Erkasa-Original"
+  },
+  {
+   "assetId": "prop_wristwatch_01",
+   "category": "object",
+   "kind": "prop",
+   "adapter": "svg",
+   "style": "erkasa_editorial_v2",
+   "path": "props/prop_wristwatch_01",
+   "themes": [
+    "psychology",
+    "growth",
+    "decisions"
+   ],
+   "tags": [
+    "watch",
+    "wristwatch",
+    "time",
+    "deadline",
+    "late",
+    "pressure",
+    "status",
+    "punctual"
    ],
    "license": "LicenseRef-Erkasa-Original"
   }

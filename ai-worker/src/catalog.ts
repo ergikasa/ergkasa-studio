@@ -32,6 +32,8 @@ export interface AssetInfo {
   /** Metaphors: named animations (recipes); objects/icons: generic animations. */
   animations: string[];
   extra?: string;
+  /** English description + story use, when the asset has them: searched, not printed in full. */
+  about?: string;
 }
 
 /**
@@ -92,7 +94,7 @@ export class Catalog {
         if (words.has(tl)) score += 3;
         else if (stems.some((s) => tl.startsWith(s))) score += 1;
       }
-      const hay = `${p.id} ${p.name}`.toLowerCase();
+      const hay = `${p.id} ${p.name} ${p.about ?? ""}`.toLowerCase();
       for (const s of stems) if (hay.includes(s)) score += 1;
       return { p, score };
     });
@@ -184,5 +186,6 @@ function info(m: AssetMeta, extra?: string): AssetInfo {
     tags: m.tags,
     animations: strings(m.capabilities["animations"]),
     ...(extra ? { extra } : {}),
+    ...(m.description || m.storyUse ? { about: [m.description, m.storyUse].filter(Boolean).join(" ") } : {}),
   };
 }

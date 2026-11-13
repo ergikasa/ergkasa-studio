@@ -1,0 +1,111 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "bg_abstract_light_01",
+  "version": 1,
+  "name": "Studio abstrakte e çelët",
+  "description": "A bright editorial studio: cream backdrop with a large warm disc, a soft blue disc and a curved floor.",
+  "category": "background",
+  "collection": "backgrounds",
+  "storyUse": "A neutral stage for metaphors, concepts and the host explaining an idea, without a real-world location.",
+  "kind": "layered_background",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    1920
+  ],
+  "layers": [
+    {
+      "id": "layer_backdrop",
+      "depth": 2.5
+    },
+    {
+      "id": "layer_shapes",
+      "depth": 1.2
+    },
+    {
+      "id": "layer_floor",
+      "depth": 0
+    }
+  ],
+  "groundY": 1690,
+  "actorZones": [
+    [
+      400,
+      2160
+    ]
+  ],
+  "anchors": {
+    "center": [
+      1280,
+      1690
+    ],
+    "above": [
+      1280,
+      700
+    ]
+  },
+  "safeFrames": {
+    "9:16": [
+      740,
+      0,
+      1080,
+      1920
+    ],
+    "16:9": [
+      0,
+      240,
+      2560,
+      1440
+    ],
+    "1:1": [
+      320,
+      0,
+      1920,
+      1920
+    ]
+  },
+  "capabilities": {
+    "camera": [
+      "pan",
+      "zoom",
+      "parallax",
+      "shake"
+    ]
+  },
+  "mood": [
+    "light",
+    "abstract",
+    "clean",
+    "neutral",
+    "editorial"
+  ],
+  "themes": [
+    "psychology",
+    "growth",
+    "decisions",
+    "money",
+    "philosophy",
+    "science"
+  ],
+  "tags": [
+    "abstract",
+    "light",
+    "studio",
+    "neutral",
+    "concept",
+    "editorial",
+    "clean"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

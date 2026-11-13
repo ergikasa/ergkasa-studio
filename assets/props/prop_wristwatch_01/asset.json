@@ -1,0 +1,63 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_wristwatch_01",
+  "version": 1,
+  "name": "Orë dore",
+  "description": "A wristwatch with a steel case and a brown leather strap, seen from the front.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "everyday",
+  "storyUse": "Time pressure and status; as an insert shot it pairs with the character action check_watch.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    150,
+    280
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide",
+      "pulse"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ]
+  },
+  "parts": {
+    "hour": "rotation (orët)",
+    "minute": "rotation (minutat)"
+  },
+  "themes": [
+    "psychology",
+    "growth",
+    "decisions"
+  ],
+  "tags": [
+    "watch",
+    "wristwatch",
+    "time",
+    "deadline",
+    "late",
+    "pressure",
+    "status",
+    "punctual"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

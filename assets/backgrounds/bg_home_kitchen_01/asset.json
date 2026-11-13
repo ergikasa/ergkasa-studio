@@ -1,0 +1,116 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "bg_home_kitchen_01",
+  "version": 1,
+  "name": "Kuzhinë",
+  "description": "A warm home kitchen: teal lower cabinets, white counter, window over the sink, tiled wall. The floor is free for a table and chairs.",
+  "category": "background",
+  "collection": "backgrounds",
+  "storyUse": "Family life, eating habits, morning routines, conversations at the kitchen table.",
+  "kind": "layered_background",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    1920
+  ],
+  "layers": [
+    {
+      "id": "layer_window_view",
+      "depth": 4
+    },
+    {
+      "id": "layer_wall",
+      "depth": 0
+    },
+    {
+      "id": "layer_floor",
+      "depth": 0
+    }
+  ],
+  "groundY": 1690,
+  "actorZones": [
+    [
+      250,
+      2350
+    ]
+  ],
+  "anchors": {
+    "counter": [
+      1280,
+      1150
+    ],
+    "table": [
+      1280,
+      1690
+    ],
+    "fridge": [
+      2330,
+      1590
+    ],
+    "window": [
+      1280,
+      580
+    ]
+  },
+  "safeFrames": {
+    "9:16": [
+      740,
+      0,
+      1080,
+      1920
+    ],
+    "16:9": [
+      0,
+      240,
+      2560,
+      1440
+    ],
+    "1:1": [
+      320,
+      0,
+      1920,
+      1920
+    ]
+  },
+  "capabilities": {
+    "camera": [
+      "pan",
+      "zoom",
+      "parallax",
+      "shake"
+    ]
+  },
+  "mood": [
+    "home",
+    "warm",
+    "day",
+    "routine"
+  ],
+  "themes": [
+    "psychology",
+    "growth",
+    "decisions"
+  ],
+  "tags": [
+    "home",
+    "kitchen",
+    "day",
+    "indoor",
+    "family",
+    "food",
+    "morning",
+    "habit"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

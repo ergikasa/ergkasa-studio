@@ -1,0 +1,76 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_fridge_01",
+  "version": 1,
+  "name": "Frigorifer",
+  "description": "A tall fridge-freezer seen from the front. The main door opens to show lit shelves with food.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "home",
+  "storyUse": "Emotional eating, temptation, the late-night snack habit, opening the fridge with no reason (boredom).",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    320,
+    780
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "hinge": [
+      0.08125,
+      0.6333333333333333
+    ],
+    "handle": [
+      0.83125,
+      0.4935897435897436
+    ],
+    "center": [
+      0.5,
+      0.5
+    ]
+  },
+  "parts": {
+    "door": "scaleX 1 → 0.12: hapet rreth menteshës majtas dhe zbulon brendësinë",
+    "freezer_door": "statike",
+    "interior": "statike"
+  },
+  "themes": [
+    "psychology",
+    "growth",
+    "decisions"
+  ],
+  "tags": [
+    "fridge",
+    "refrigerator",
+    "kitchen",
+    "food",
+    "home",
+    "temptation",
+    "snack",
+    "emotional-eating",
+    "habit"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

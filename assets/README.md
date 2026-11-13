@@ -50,3 +50,23 @@ python3 tools/asset-validate/validate.py
 - Pamja anash e personazheve, e nevojshme për ecje dhe vrapim.
 - Pozat ulur dhe duart që mbajnë objekte.
 - Grafikët, stilet e tekstit dhe efektet. Këto nuk janë vizatime: i gjeneron motori me kod.
+
+## Stili `erkasa_editorial_v2` (plani i 300 aseteve)
+
+Asetet e reja vizatohen me kod si më parë, por me thellësi: gradient për vëllimin (drita nga lart-majtas),
+hije kontakti, paletë e mbyllur. Rregullat janë te `tools/asset-gen/editorial.py` dhe i zbaton validatori
+(ngjyra jashtë paletës, raster, tekst, filtra ose gradient pa prefiksin e asetit = gabim).
+
+- Metadata shtesë, të detyrueshme për këtë stil: `description` dhe `storyUse` (anglisht, i lexon dhe i kërkon
+  planeri), `collection` (kategoria e bibliotekës).
+- `variants`: vizatime të tjera të të njëjtit objekt (p.sh. `prop_window_01`: `night`, `rain`). Në timeline
+  zgjidhen me `props.variant`.
+- Sfondet e reja e lënë dyshemenë të lirë; `anchors` tregon ku vendosen mobiljet (props).
+
+```bash
+python3 tools/asset-gen/props_v2.py          # objektet
+python3 tools/asset-gen/backgrounds_v2.py    # sfondet
+python3 tools/asset-preview/style_sheet.py out.png --style erkasa_editorial_v2   # fleta e stilit, në shkallë reale
+```
+
+Grupi 1 (25 asete): 16 objekte te `props/` dhe 9 sfonde te `backgrounds/`.

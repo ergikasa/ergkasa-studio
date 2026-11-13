@@ -1,0 +1,70 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_keys_01",
+  "version": 1,
+  "name": "Çelësa",
+  "description": "A key ring with a gold key, a silver key and a red fob.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "everyday",
+  "storyUse": "Responsibility and access; the classic 'where did I put my keys?' for memory and attention lapses.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    200,
+    230
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide",
+      "sway",
+      "shake"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "center": [
+      0.5,
+      0.5
+    ],
+    "top": [
+      0.5,
+      0.05217391304347826
+    ]
+  },
+  "parts": {
+    "ring": "statik",
+    "key_front": "sway i lehtë"
+  },
+  "themes": [
+    "psychology",
+    "growth",
+    "decisions"
+  ],
+  "tags": [
+    "keys",
+    "key",
+    "access",
+    "home",
+    "car",
+    "responsibility",
+    "forget",
+    "memory",
+    "attention",
+    "security"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

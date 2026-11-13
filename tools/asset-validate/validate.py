@@ -10,6 +10,7 @@ Kontrollon për çdo aset:
 Del me kod 1 nëse ka gabime.
 """
 import json
+import re
 import sys
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -24,6 +25,45 @@ NS = "{http://www.w3.org/2000/svg}"
 def group_ids(svg_path: Path) -> set[str]:
     root = ET.parse(svg_path).getroot()
     return {el.get("id") for el in root.iter() if el.get("id")}
+
+
+EDITORIAL_STYLE = "erkasa_editorial_v2"
+
+
+def check_editorial(rel, meta: dict, folder: Path, errors: list[str]) -> None:
+    """Rregullat e stilit të ri: metadata për planerin, paletë e mbyllur, pa raster/tekst/referenca, ID unike."""
+    sys.path.insert(0, str(ROOT / "tools" / "asset-gen"))
+    from editorial import PALETTE  # noqa: PLC0415  (burimi i vetëm i paletës)
+
+    for k in ("description", "collection", "storyUse"):
+        if not meta.get(k):
+            errors.append(f"{rel}: stili {EDITORIAL_STYLE} kërkon fushën '{k}'")
+    names = [meta["files"].get("svg", "asset.svg"), *meta.get("variants", {}).values()]
+    for name in names:
+        f = folder / name
+        if not f.exists():
+            errors.append(f"{rel}: varianti '{name}' mungon")
+            continue
+        text = f.read_text(encoding="utf-8")
+        for bad in ("<image", "<text", "<script", "<foreignObject", "<filter", "href=", "<style"):
+            if bad in text:
+                errors.append(f"{rel}: {name} përmban '{bad}' (i ndaluar në këtë stil)")
+        colours = {c.upper() for c in re.findall(r"#[0-9A-Fa-f]{6}\b", text)}
+        extra = sorted(colours - set(PALETTE))
+        if extra:
+            errors.append(f"{rel}: {name} ka ngjyra jashtë paletës {extra}")
+        for gid in re.findall(r'<(?:linear|radial)Gradient id="([^"]+)"', text):
+            if not gid.startswith(meta["assetId"]):
+                errors.append(f"{rel}: gradienti '{gid}' duhet të ketë si prefiks ID-në e asetit")
+    vb = meta.get("viewBox") or [0, 0, 1, 1]
+    if meta.get("kind") == "prop":
+        for key, a in meta.get("anchors", {}).items():
+            if not (0 <= a[0] <= 1 and 0 <= a[1] <= 1):
+                errors.append(f"{rel}: anchor '{key}' jashtë viewBox-it")
+    elif meta.get("kind") == "layered_background":
+        for key, a in meta.get("anchors", {}).items():
+            if not (0 <= a[0] <= vb[2] and 0 <= a[1] <= vb[3]):
+                errors.append(f"{rel}: anchor '{key}' jashtë sfondit")
 
 
 def check(folder: Path, errors: list[str]) -> dict | None:
@@ -102,6 +142,9 @@ def check(folder: Path, errors: list[str]) -> dict | None:
         for layer in meta.get("layers", []):
             if layer["id"] not in ids:
                 errors.append(f"{rel}: shtresa '{layer['id']}' nuk ekziston në SVG")
+
+    if meta.get("style") == EDITORIAL_STYLE:
+        check_editorial(rel, meta, folder, errors)
 
     return {
         "assetId": meta.get("assetId"), "category": meta.get("category"), "kind": meta.get("kind"),

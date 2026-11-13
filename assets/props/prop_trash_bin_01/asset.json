@@ -1,0 +1,68 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_trash_bin_01",
+  "version": 1,
+  "name": "Kosh plehrash",
+  "description": "A dark waste bin with crumpled paper balls on top.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "home",
+  "storyUse": "Giving up, discarded ideas and drafts, perfectionism, clearing the mind.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    220,
+    300
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide",
+      "shake"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "top": [
+      0.5,
+      0.30666666666666664
+    ]
+  },
+  "parts": {
+    "papers": "pop_in / bounce: letra që hidhen; fshihet për kosh bosh"
+  },
+  "themes": [
+    "psychology",
+    "growth",
+    "decisions"
+  ],
+  "tags": [
+    "trash",
+    "bin",
+    "waste",
+    "paper",
+    "office",
+    "home",
+    "give-up",
+    "discard",
+    "failure",
+    "perfectionism"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

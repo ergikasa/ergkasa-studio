@@ -1,0 +1,108 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "bg_supermarket_01",
+  "version": 1,
+  "name": "Korridor supermarketi",
+  "description": "A supermarket aisle seen from the front: full shelves of colourful products with price tags, hanging aisle signs, bright shiny floor.",
+  "category": "background",
+  "collection": "backgrounds",
+  "storyUse": "Consumer behaviour, the paradox of choice, impulse buying, anchoring and product placement.",
+  "kind": "layered_background",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    1920
+  ],
+  "layers": [
+    {
+      "id": "layer_wall",
+      "depth": 0
+    },
+    {
+      "id": "layer_floor",
+      "depth": 0
+    }
+  ],
+  "groundY": 1690,
+  "actorZones": [
+    [
+      200,
+      2400
+    ]
+  ],
+  "anchors": {
+    "shelf": [
+      1280,
+      1020
+    ],
+    "cart": [
+      1500,
+      1690
+    ],
+    "sign": [
+      1280,
+      215
+    ]
+  },
+  "safeFrames": {
+    "9:16": [
+      740,
+      0,
+      1080,
+      1920
+    ],
+    "16:9": [
+      0,
+      240,
+      2560,
+      1440
+    ],
+    "1:1": [
+      320,
+      0,
+      1920,
+      1920
+    ]
+  },
+  "capabilities": {
+    "camera": [
+      "pan",
+      "zoom",
+      "parallax",
+      "shake"
+    ]
+  },
+  "mood": [
+    "shopping",
+    "bright",
+    "busy",
+    "choice"
+  ],
+  "themes": [
+    "money",
+    "psychology",
+    "decisions"
+  ],
+  "tags": [
+    "supermarket",
+    "store",
+    "shopping",
+    "shelves",
+    "consumer",
+    "choice",
+    "indoor",
+    "money"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

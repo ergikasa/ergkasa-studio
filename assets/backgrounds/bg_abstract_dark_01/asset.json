@@ -1,0 +1,109 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "bg_abstract_dark_01",
+  "version": 1,
+  "name": "Hapësirë abstrakte e errët",
+  "description": "A dark abstract space: deep navy backdrop with faint particles and one pool of cool light on the floor.",
+  "category": "background",
+  "collection": "backgrounds",
+  "storyUse": "The stage for metaphors of fear, isolation and inner conflict: the character alone inside their own mind.",
+  "kind": "layered_background",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    1920
+  ],
+  "layers": [
+    {
+      "id": "layer_backdrop",
+      "depth": 3
+    },
+    {
+      "id": "layer_beam",
+      "depth": 0.5
+    },
+    {
+      "id": "layer_floor",
+      "depth": 0
+    }
+  ],
+  "groundY": 1690,
+  "actorZones": [
+    [
+      500,
+      2060
+    ]
+  ],
+  "anchors": {
+    "spot": [
+      1280,
+      1690
+    ],
+    "above": [
+      1280,
+      700
+    ]
+  },
+  "safeFrames": {
+    "9:16": [
+      740,
+      0,
+      1080,
+      1920
+    ],
+    "16:9": [
+      0,
+      240,
+      2560,
+      1440
+    ],
+    "1:1": [
+      320,
+      0,
+      1920,
+      1920
+    ]
+  },
+  "capabilities": {
+    "camera": [
+      "pan",
+      "zoom",
+      "parallax",
+      "shake"
+    ]
+  },
+  "mood": [
+    "dark",
+    "abstract",
+    "tense",
+    "inner",
+    "dramatic"
+  ],
+  "themes": [
+    "psychology",
+    "philosophy",
+    "decisions"
+  ],
+  "tags": [
+    "abstract",
+    "dark",
+    "void",
+    "spotlight",
+    "mind",
+    "inner",
+    "fear",
+    "night"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

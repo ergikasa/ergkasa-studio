@@ -97,8 +97,15 @@ export class Engine {
         characterKey(node),
         prepareCharacter(meta, assets.text(meta.assetId, frontSvg), assets.text(meta.assetId, rigFile), side),
       );
-    } else if (node.adapter === "svg" && !this.svgAssets.has(node.asset)) {
-      this.svgAssets.set(node.asset, prepareSvgAsset(meta, svg()));
+    } else if (node.adapter === "svg" && !this.svgAssets.has(svgKey(node))) {
+      // a variant is another drawing of the same object (a window at night): same anchors, other SVG
+      const variant = typeof node.props["variant"] === "string" ? node.props["variant"] : undefined;
+      const file = variant ? meta.variants?.[variant] : undefined;
+      if (variant && !file)
+        throw new Error(
+          `node ${node.id}: ${meta.assetId} has no variant '${variant}' (has: ${Object.keys(meta.variants ?? {}).join(", ") || "none"})`,
+        );
+      this.svgAssets.set(svgKey(node), prepareSvgAsset(meta, file ? assets.text(meta.assetId, file) : svg()));
     } else if (node.adapter === "sprite") {
       throw new Error(`node ${node.id}: adapter 'sprite' (Lottie/sprite sheets) is not implemented yet`);
     }
@@ -162,7 +169,7 @@ export class Engine {
           });
         }
         case "svg": {
-          const a = this.svgAssets.get(n.asset as string) as PreparedSvgAsset;
+          const a = this.svgAssets.get(svgKey(n)) as PreparedSvgAsset;
           if (a.template.defs) defs.add(a.template.defs);
           return renderSvgAsset(a, n.id, n.tracks, n.props, local, this.fps, seed);
         }
@@ -240,6 +247,12 @@ export class Engine {
         return b;
     }
   }
+}
+
+/** One prepared drawing per asset and variant. */
+function svgKey(node: TimelineNode): string {
+  const variant = typeof node.props["variant"] === "string" ? node.props["variant"] : "";
+  return `${node.asset ?? ""}#${variant}`;
 }
 
 /** One prepared character per asset and outfit. */

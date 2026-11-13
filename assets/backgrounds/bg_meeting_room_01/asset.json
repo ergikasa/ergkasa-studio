@@ -1,0 +1,115 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "bg_meeting_room_01",
+  "version": 1,
+  "name": "Sallë mbledhjesh",
+  "description": "A corporate meeting room: cool grey panels, a large presentation screen, a city window on the right, blue carpet. The floor is free for a table.",
+  "category": "background",
+  "collection": "backgrounds",
+  "storyUse": "Groupthink, authority, presenting under pressure, a decision made by a team. Content can be placed on the screen anchor.",
+  "kind": "layered_background",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    1920
+  ],
+  "layers": [
+    {
+      "id": "layer_window_view",
+      "depth": 3
+    },
+    {
+      "id": "layer_wall",
+      "depth": 0
+    },
+    {
+      "id": "layer_floor",
+      "depth": 0
+    }
+  ],
+  "groundY": 1690,
+  "actorZones": [
+    [
+      250,
+      2350
+    ]
+  ],
+  "anchors": {
+    "screen": [
+      1200.0,
+      640.0
+    ],
+    "table": [
+      1280,
+      1690
+    ],
+    "presenter": [
+      620,
+      1690
+    ],
+    "window": [
+      2300,
+      700
+    ]
+  },
+  "safeFrames": {
+    "9:16": [
+      740,
+      0,
+      1080,
+      1920
+    ],
+    "16:9": [
+      0,
+      240,
+      2560,
+      1440
+    ],
+    "1:1": [
+      320,
+      0,
+      1920,
+      1920
+    ]
+  },
+  "capabilities": {
+    "camera": [
+      "pan",
+      "zoom",
+      "parallax",
+      "shake"
+    ]
+  },
+  "mood": [
+    "work",
+    "formal",
+    "pressure",
+    "corporate"
+  ],
+  "themes": [
+    "psychology",
+    "decisions",
+    "money"
+  ],
+  "tags": [
+    "office",
+    "meeting",
+    "work",
+    "presentation",
+    "indoor",
+    "corporate",
+    "team"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

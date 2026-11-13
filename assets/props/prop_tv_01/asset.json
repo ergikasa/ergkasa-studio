@@ -1,0 +1,72 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_tv_01",
+  "version": 1,
+  "name": "Televizor",
+  "description": "A flat-screen TV on a low wooden console, seen from the front, screen glowing blue.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "home",
+  "storyUse": "Distraction, passive media influence, news framing, binge-watching. Place content over the screen anchor.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    760,
+    640
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "ground": [
+      0.5,
+      1.0
+    ],
+    "screen": [
+      0.5,
+      0.3375
+    ],
+    "top": [
+      0.5,
+      0.703125
+    ]
+  },
+  "parts": {
+    "screen": "pulse (opacity 0.75 ↔ 1) = drita e ekranit; përmbajtja vendoset mbi anchor `screen`",
+    "led": "statike"
+  },
+  "themes": [
+    "psychology",
+    "growth",
+    "decisions"
+  ],
+  "tags": [
+    "tv",
+    "television",
+    "screen",
+    "living-room",
+    "home",
+    "media",
+    "news",
+    "distraction",
+    "binge",
+    "tech"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

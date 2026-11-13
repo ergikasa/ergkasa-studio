@@ -1,0 +1,116 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "bg_home_office_01",
+  "version": 1,
+  "name": "Kënd pune në shtëpi",
+  "description": "A home-office corner: warm wall with book shelves and a cork board, window with blinds on the left, blue rug. The floor is free for a desk and chair.",
+  "category": "background",
+  "collection": "backgrounds",
+  "storyUse": "Remote work, the blurred line between work and life, studying, procrastinating at the desk.",
+  "kind": "layered_background",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    2560,
+    1920
+  ],
+  "layers": [
+    {
+      "id": "layer_window_view",
+      "depth": 4
+    },
+    {
+      "id": "layer_wall",
+      "depth": 0
+    },
+    {
+      "id": "layer_floor",
+      "depth": 0
+    }
+  ],
+  "groundY": 1690,
+  "actorZones": [
+    [
+      300,
+      2400
+    ]
+  ],
+  "anchors": {
+    "desk": [
+      1500,
+      1690
+    ],
+    "chair": [
+      1150,
+      1690
+    ],
+    "window": [
+      700,
+      660
+    ],
+    "shelves": [
+      1620,
+      760
+    ]
+  },
+  "safeFrames": {
+    "9:16": [
+      740,
+      0,
+      1080,
+      1920
+    ],
+    "16:9": [
+      0,
+      240,
+      2560,
+      1440
+    ],
+    "1:1": [
+      320,
+      0,
+      1920,
+      1920
+    ]
+  },
+  "capabilities": {
+    "camera": [
+      "pan",
+      "zoom",
+      "parallax",
+      "shake"
+    ]
+  },
+  "mood": [
+    "home",
+    "work",
+    "focus",
+    "day"
+  ],
+  "themes": [
+    "growth",
+    "psychology",
+    "decisions"
+  ],
+  "tags": [
+    "home",
+    "home-office",
+    "work",
+    "remote",
+    "desk",
+    "indoor",
+    "day",
+    "study"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}

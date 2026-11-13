@@ -1,0 +1,69 @@
+{
+  "schema": "erkasa.asset/1",
+  "assetId": "prop_hanging_bulb_01",
+  "version": 1,
+  "name": "Llambë e varur",
+  "description": "A bare light bulb hanging from a cord, lit, with a warm glow.",
+  "category": "object",
+  "subcategory": "scene_prop",
+  "collection": "home",
+  "storyUse": "The idea, the insight, the 'aha' moment. Fade the glow in when the character realises something.",
+  "kind": "prop",
+  "adapter": "svg",
+  "style": "erkasa_editorial_v2",
+  "files": {
+    "svg": "asset.svg"
+  },
+  "viewBox": [
+    0,
+    0,
+    300,
+    600
+  ],
+  "capabilities": {
+    "animations": [
+      "pop_in",
+      "fade",
+      "slide",
+      "sway",
+      "pulse"
+    ],
+    "scale": "1 = shkalla e personazhit standard (0.92)"
+  },
+  "anchors": {
+    "top": [
+      0.5,
+      0.0
+    ],
+    "center": [
+      0.5,
+      0.7166666666666667
+    ]
+  },
+  "parts": {
+    "glow": "opacity 0 → 1 = llamba ndizet (momenti \"aha\"); pulse për dritë që dridhet",
+    "lamp": "sway rreth majës së kordonit"
+  },
+  "themes": [
+    "psychology",
+    "growth",
+    "decisions"
+  ],
+  "tags": [
+    "bulb",
+    "lamp",
+    "light",
+    "idea",
+    "insight",
+    "aha",
+    "realization",
+    "discovery",
+    "home"
+  ],
+  "license": {
+    "spdx": "LicenseRef-Erkasa-Original",
+    "source": "Erkasa (origjinal, i gjeneruar me kod)",
+    "commercial": true,
+    "attributionRequired": false
+  }
+}
