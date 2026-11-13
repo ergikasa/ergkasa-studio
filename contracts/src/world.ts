@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { AssetId } from "./common.js";
 
 /**
  * World Spec: the world of one video, written by Claude after the script (or by hand). It says what the
@@ -8,6 +9,10 @@ import { z } from "zod";
  *
  * Asset ids are role ids (`wld_char_ruler`, `wld_place_main`...): a plan written against roles renders in
  * any world that fills them, which is how the same story can be shown in a castle, an office or a rooftop.
+ *
+ * Anything the generators cannot draw yet comes from the studio library with `from` (a library asset id):
+ * the World Builder copies it into the world and grades it with the world's style kit, so it still looks
+ * like the rest of the video.
  */
 
 const Hex = z.string().regex(/^#[0-9A-Fa-f]{6}$/);
@@ -21,6 +26,10 @@ export const WorldCharacter = z
     id: RoleId,
     name: z.string().min(1).max(40),
     role: z.string().max(120).optional(),
+    /** The script cast member (a library character id) this character plays in the story. */
+    plays: AssetId.optional(),
+    /** A library character used as is (only regraded), e.g. the host chosen by the user. */
+    from: AssetId.optional(),
     /** Identity: stays the same in every outfit and scene. */
     body: z
       .object({
@@ -32,7 +41,8 @@ export const WorldCharacter = z
         beard: z.enum(["none", "full", "moustache"]).default("none"),
         glasses: z.boolean().default(false),
       })
-      .strict(),
+      .strict()
+      .optional(),
     /** A costume preset of the World Builder, coloured with the character's own colours. */
     costume: z
       .object({
@@ -53,26 +63,37 @@ export const WorldCharacter = z
         main: Hex.optional(),
         accent: Hex.optional(),
       })
-      .strict(),
+      .strict()
+      .optional(),
   })
-  .strict();
+  .strict()
+  .refine((c) => (c.from ? !c.body && !c.costume : c.body && c.costume), {
+    message: "a character is either `from` a library character or has both `body` and `costume`",
+  });
 export type WorldCharacter = z.infer<typeof WorldCharacter>;
 
 export const WorldPlace = z
   .object({
     id: RoleId,
-    kind: z.enum(["castle_rampart", "office_floor", "rooftop_night"]),
+    kind: z.enum(["castle_rampart", "office_floor", "rooftop_night", "library"]),
+    /** kind library: the library background to copy into the world. */
+    from: AssetId.optional(),
     time: z.enum(["day", "golden", "dusk", "night"]).default("day"),
     /** Two colours that tell the sides of the story apart (banners, flags, details). */
     sides: z.tuple([Hex, Hex]).optional(),
     seed: z.number().int().min(0).default(1),
   })
-  .strict();
+  .strict()
+  .refine((p) => (p.kind === "library") === (p.from !== undefined), {
+    message: "kind library needs `from` (a library background id); generated kinds take none",
+  });
 
 export const WorldProp = z
   .object({
     id: RoleId,
-    kind: z.enum(["coin", "balance_scale", "board", "pedestal"]),
+    kind: z.enum(["coin", "balance_scale", "board", "pedestal", "library"]),
+    /** kind library: the library object or metaphor to copy into the world. */
+    from: AssetId.optional(),
     /** coin: gold | silver | copper; board: parchment | whiteboard | neon; others ignore it. */
     material: z
       .string()
@@ -81,7 +102,10 @@ export const WorldProp = z
     /** coin: the face motif. */
     motif: z.enum(["crown", "star", "plain"]).optional(),
   })
-  .strict();
+  .strict()
+  .refine((p) => (p.kind === "library") === (p.from !== undefined), {
+    message: "kind library needs `from` (a library object or metaphor id); generated kinds take none",
+  });
 
 export const WorldSpec = z
   .object({
@@ -92,7 +116,7 @@ export const WorldSpec = z
     setting: z.string().min(1).max(300),
     style: StyleKit,
     places: z.array(WorldPlace).min(1).max(6),
-    cast: z.array(WorldCharacter).min(1).max(8),
+    cast: z.array(WorldCharacter).max(8).default([]),
     props: z.array(WorldProp).max(40).default([]),
   })
   .strict()

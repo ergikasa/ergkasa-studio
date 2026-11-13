@@ -47,8 +47,13 @@
             "enum": [
               "castle_rampart",
               "office_floor",
-              "rooftop_night"
+              "rooftop_night",
+              "library"
             ]
+          },
+          "from": {
+            "type": "string",
+            "pattern": "^[a-z]+_[a-z0-9_]+$"
           },
           "time": {
             "default": "day",
@@ -91,7 +96,7 @@
       }
     },
     "cast": {
-      "minItems": 1,
+      "default": [],
       "maxItems": 8,
       "type": "array",
       "items": {
@@ -109,6 +114,14 @@
           "role": {
             "type": "string",
             "maxLength": 120
+          },
+          "plays": {
+            "type": "string",
+            "pattern": "^[a-z]+_[a-z0-9_]+$"
+          },
+          "from": {
+            "type": "string",
+            "pattern": "^[a-z]+_[a-z0-9_]+$"
           },
           "body": {
             "type": "object",
@@ -222,9 +235,7 @@
         },
         "required": [
           "id",
-          "name",
-          "body",
-          "costume"
+          "name"
         ],
         "additionalProperties": false
       }
@@ -246,8 +257,13 @@
               "coin",
               "balance_scale",
               "board",
-              "pedestal"
+              "pedestal",
+              "library"
             ]
+          },
+          "from": {
+            "type": "string",
+            "pattern": "^[a-z]+_[a-z0-9_]+$"
           },
           "material": {
             "type": "string",
@@ -276,8 +292,7 @@
     "title",
     "setting",
     "style",
-    "places",
-    "cast"
+    "places"
   ],
   "additionalProperties": false
 }

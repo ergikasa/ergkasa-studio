@@ -971,8 +971,11 @@ function compileAssetLayer(
   entrance(ctx, layer, path, tracks, { x, y, scale: 1 });
   // a world asset (generated per video) names its recipe set in capabilities.recipes, since its id is a role
   const set = meta.capabilities["recipes"];
+  // (a metaphor copied into a world names its library id there and keeps that metaphor's recipes)
   const metaphor =
-    METAPHOR_RECIPES[meta.assetId] ?? (typeof set === "string" ? RECIPE_SETS[set] : undefined) ?? {};
+    METAPHOR_RECIPES[meta.assetId] ??
+    (typeof set === "string" ? (RECIPE_SETS[set] ?? METAPHOR_RECIPES[set]) : undefined) ??
+    {};
   layer.animations.forEach((anim, ai) => {
     const apath = `${path}.animations[${ai}]`;
     const s = resolveAt(ctx, anim.at, `${apath}.at`);
@@ -1003,7 +1006,9 @@ function compileAssetLayer(
         const last = prev[prev.length - 1];
         // world recipes continue from where the part is: the first keyframe takes the last value so far
         const next =
-          last && typeof set === "string" && kfs[0] ? [{ ...kfs[0], v: last.v }, ...kfs.slice(1)] : kfs;
+          last && typeof set === "string" && RECIPE_SETS[set] && kfs[0]
+            ? [{ ...kfs[0], v: last.v }, ...kfs.slice(1)]
+            : kfs;
         tracks[name] = [...prev, ...next];
       }
     }

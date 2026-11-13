@@ -25,9 +25,11 @@ import {
 } from "@erkasa/engine-worker";
 import type { Catalog } from "./catalog.js";
 import type { Llm, Usage } from "./llm.js";
+import { repoRoot } from "./env.js";
 import { planVideo, type PlanAttempt } from "./planner.js";
 import { writeScript, type RecentStyles } from "./script-writer.js";
 import { narratorLine } from "./voice-catalog.js";
+import { castIntoWorld, writeWorld } from "./world-writer.js";
 import { toAlignment, type Voice } from "./voice.js";
 
 /**
@@ -45,6 +47,9 @@ export const RUN_FILES = {
   audioNotes: "audio-notes.txt",
   mix: "mix.wav",
   video: "video.mp4",
+  world: "world.json",
+  worldIssues: "world-issues.json",
+  worldDir: "world",
 } as const;
 
 export const SEED = 20261108;
@@ -110,6 +115,75 @@ export async function stepScript(
   if (res.issues.length) writeJson(issuesFile, res.issues);
   else rmSync(issuesFile, { force: true });
   return res;
+}
+
+/** Runs a Python script with whichever interpreter exists (python3 on macOS/Linux, python or py on Windows). */
+export function runPython(args: string[]): string {
+  let lastError: unknown;
+  for (const cmd of ["python3", "python", "py"]) {
+    try {
+      return execFileSync(cmd, args, { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+    } catch (e) {
+      const err = e as { code?: string; stderr?: string };
+      if (err.code === "ENOENT") continue; // not installed under this name
+      lastError = new Error(`${cmd} ${args[0] ?? ""} failed: ${err.stderr?.trim() || String(e)}`);
+      break;
+    }
+  }
+  throw lastError ?? new Error("Python 3 not found (python3, python, py)");
+}
+
+export interface WorldStepResult {
+  /** The world's asset folder, searched before the library; absent when the world could not be made. */
+  dir?: string;
+  /** The script with its cast replaced by the world's characters. */
+  script: Script;
+  hostId?: string;
+  usage: Usage[];
+  issues: string[];
+  attempts: number;
+  buildSec?: number;
+  summary?: string;
+}
+
+/**
+ * Script -> World Spec (Claude) -> the world's assets (World Builder). Writes world.json and world/ in the
+ * run folder. If the model cannot give a valid world after its repair turns, the video goes on with the
+ * library (the old way) and the problems are written to world-issues.json: a world never blocks a video.
+ */
+export async function stepWorld(
+  dir: string,
+  script: Script,
+  llm: Llm,
+  catalog: Catalog,
+  worldId: string,
+  host?: string,
+): Promise<WorldStepResult> {
+  const res = await writeWorld(llm, script, catalog, { worldId, ...(host ? { host } : {}) });
+  const issuesFile = join(dir, RUN_FILES.worldIssues);
+  if (!res.spec) {
+    writeJson(issuesFile, res.issues);
+    return { script, usage: res.usage, issues: res.issues, attempts: res.attempts };
+  }
+  rmSync(issuesFile, { force: true });
+  const specFile = join(dir, RUN_FILES.world);
+  writeJson(specFile, res.spec);
+  const out = join(dir, RUN_FILES.worldDir);
+  rmSync(out, { recursive: true, force: true });
+  const t0 = Date.now();
+  runPython([join(repoRoot(), "tools", "world-builder", "build.py"), specFile, "-o", out]);
+  const buildSec = (Date.now() - t0) / 1000;
+  const s = res.spec;
+  return {
+    dir: out,
+    script: castIntoWorld(script, res.castMap),
+    ...(res.hostId ? { hostId: res.hostId } : {}),
+    usage: res.usage,
+    issues: [],
+    attempts: res.attempts,
+    buildSec,
+    summary: `${s.style}; places ${s.places.map((p) => (p.kind === "library" ? `library:${p.from}` : p.kind)).join(", ")}; cast ${s.cast.map((c) => (c.from ? `${c.name} (${c.from})` : `${c.name} (${c.costume?.preset})`)).join(", ")}; props ${s.props.map((p) => (p.kind === "library" ? p.from : p.kind)).join(", ")}`,
+  };
 }
 
 /**
@@ -382,7 +456,7 @@ export async function stepRender(
   let last = -1;
   const rendered = await renderVideo({
     timeline: compiled.timeline,
-    assetsDir: opts.catalog.assetsDir,
+    assetsDir: opts.catalog.roots,
     out: video,
     ...(mixFile ? { audio: mixFile } : { voice: clips, musicPlaceholder: opts.music }),
     onProgress: (done, total) => {

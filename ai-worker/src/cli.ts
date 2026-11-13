@@ -9,12 +9,13 @@ import { makeVideo } from "./make.js";
 import { runAiSvg } from "./poc/ai-svg.js";
 import { runHalo } from "./poc/run-halo.js";
 import { THEME_BRIEFS } from "./script-writer.js";
+import { ReplayLlm } from "./llm-record.js";
 import { ElevenLabsVoice, listVoices, voiceExists } from "./voice.js";
 import { loadVoiceCatalog, voiceCatalogPath } from "./voice-catalog.js";
 import { runWorkerForever } from "./worker.js";
 
 const USAGE = `Usage:
-  pnpm video "<topic>" --theme <theme> [--voice <id>] [--seconds 45] [--notes "..."] [--no-voice] [--no-music]
+  pnpm video "<topic>" --theme <theme> [--voice <id>] [--seconds 45] [--notes "..."] [--no-voice] [--no-music] [--no-world] [--replay <run folder>]
   pnpm video --from-script <run>/script.json [--voice <id>] [--no-voice]
   pnpm video --from-plan <run>/video-plan.json [--voice <id>] [--no-voice]
   pnpm video:rerender <run> [--name video-h1.mp4] [--no-music]
@@ -46,6 +47,8 @@ async function make(argv: string[]): Promise<void> {
       "no-voice": { type: "boolean", default: false },
       host: { type: "string" },
       "no-music": { type: "boolean", default: false },
+      "no-world": { type: "boolean", default: false },
+      replay: { type: "string" },
       out: { type: "string" },
     },
   });
@@ -78,9 +81,13 @@ async function make(argv: string[]): Promise<void> {
       ...(values.voice ? { voice: values.voice } : {}),
       ...(values.host ? { host: values.host } : {}),
       music: values["no-music"] !== true,
+      world: values["no-world"] !== true,
     },
     {
-      ...(fromPlan ? {} : { llm: new AnthropicLlm() }),
+      // --replay <run folder>: the model's answers come from a recorded run (llm/*.json), no API call
+      ...(fromPlan
+        ? {}
+        : { llm: values.replay ? new ReplayLlm(userPath(values.replay)) : new AnthropicLlm() }),
       ...(noVoice ? {} : { voiceFor: (preset) => new ElevenLabsVoice(preset) }),
     },
   );
@@ -93,6 +100,13 @@ async function make(argv: string[]): Promise<void> {
       `Claude: ${report.usage.length} calls, ${tokens} tokens${report.llmCostUsd !== undefined ? `, ~$${report.llmCostUsd.toFixed(3)}` : ""}`,
     );
   if (report.voiceCharacters) console.info(`ElevenLabs: ${report.voiceCharacters} characters`);
+  if (report.world) console.info(`world: ${report.world}`);
+  const t = report.timingsSec;
+  console.info(
+    `time: ${Object.entries(t)
+      .map(([k, v]) => `${k} ${v.toFixed(1)}s`)
+      .join(", ")}`,
+  );
   if (!report.video) process.exitCode = 1;
 }
 

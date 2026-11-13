@@ -1,0 +1,85 @@
+{
+  "label": "world#1",
+  "value": {
+    "title": "The promotion coin",
+    "setting": "A glass office tower at golden hour: the CEO decides which of two managers gets the promotion with one coin.",
+    "style": "clean_editorial",
+    "places": [
+      {
+        "key": "main",
+        "kind": "office_floor",
+        "from": "",
+        "time": "golden",
+        "sideA": "#2F8F8A",
+        "sideB": "#E8833A"
+      }
+    ],
+    "cast": [
+      {
+        "plays": "char_arti_01",
+        "name": "Sam",
+        "presentation": "man",
+        "age": "young",
+        "skin": "brown",
+        "hair": "buzz",
+        "hairColor": "black",
+        "beard": "none",
+        "glasses": false,
+        "costume": "office_casual",
+        "main": "#E8833A",
+        "accent": ""
+      },
+      {
+        "plays": "char_drini_01",
+        "name": "Mark",
+        "presentation": "man",
+        "age": "adult",
+        "skin": "light",
+        "hair": "short",
+        "hairColor": "brown",
+        "beard": "full",
+        "glasses": false,
+        "costume": "office_casual",
+        "main": "#2F8F8A",
+        "accent": ""
+      },
+      {
+        "plays": "char_bardhi_01",
+        "name": "The CEO",
+        "presentation": "man",
+        "age": "old",
+        "skin": "tan",
+        "hair": "short",
+        "hairColor": "grey",
+        "beard": "moustache",
+        "glasses": true,
+        "costume": "business_suit",
+        "main": "#2B3445",
+        "accent": "#7A2E3A"
+      }
+    ],
+    "props": [
+      {
+        "key": "coin",
+        "kind": "coin",
+        "from": "",
+        "material": "silver",
+        "motif": "star"
+      },
+      {
+        "key": "scale",
+        "kind": "balance_scale",
+        "from": "",
+        "material": "",
+        "motif": "none"
+      },
+      {
+        "key": "board",
+        "kind": "board",
+        "from": "",
+        "material": "whiteboard",
+        "motif": "none"
+      }
+    ]
+  }
+}

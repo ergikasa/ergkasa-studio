@@ -285,6 +285,7 @@ export async function planVideo(
         durations: Object.fromEntries(compiled.scenes.map((s) => [s.sceneId, s.duration / fps])),
         compileIssues: compiled.issues,
         ...(opts.host ? { host: opts.host } : {}),
+        ...(catalog.world ? { world: true } : {}),
       });
       if (!best || findings.length < best.findings.length)
         best = { plan: converted.plan, compiled, findings };

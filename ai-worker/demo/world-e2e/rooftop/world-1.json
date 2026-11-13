@@ -1,0 +1,85 @@
+{
+  "label": "world#1",
+  "value": {
+    "title": "The street bet",
+    "setting": "A city rooftop at night: an old hustler settles a bet between two friends with one coin.",
+    "style": "night_noir",
+    "places": [
+      {
+        "key": "main",
+        "kind": "rooftop_night",
+        "from": "",
+        "time": "night",
+        "sideA": "#8E6BB0",
+        "sideB": "#62A06C"
+      }
+    ],
+    "cast": [
+      {
+        "plays": "char_arti_01",
+        "name": "Marco",
+        "presentation": "man",
+        "age": "young",
+        "skin": "medium",
+        "hair": "messy",
+        "hairColor": "black",
+        "beard": "none",
+        "glasses": false,
+        "costume": "street",
+        "main": "#62A06C",
+        "accent": ""
+      },
+      {
+        "plays": "char_drini_01",
+        "name": "Dee",
+        "presentation": "man",
+        "age": "adult",
+        "skin": "dark",
+        "hair": "buzz",
+        "hairColor": "black",
+        "beard": "none",
+        "glasses": false,
+        "costume": "street",
+        "main": "#8E6BB0",
+        "accent": ""
+      },
+      {
+        "plays": "char_bardhi_01",
+        "name": "Old Vic",
+        "presentation": "man",
+        "age": "old",
+        "skin": "medium",
+        "hair": "short",
+        "hairColor": "grey",
+        "beard": "moustache",
+        "glasses": false,
+        "costume": "street",
+        "main": "#6B4F3A",
+        "accent": "#3B4048"
+      }
+    ],
+    "props": [
+      {
+        "key": "coin",
+        "kind": "coin",
+        "from": "",
+        "material": "copper",
+        "motif": "plain"
+      },
+      {
+        "key": "scale",
+        "kind": "balance_scale",
+        "from": "",
+        "material": "",
+        "motif": "none"
+      },
+      {
+        "key": "board",
+        "kind": "board",
+        "from": "",
+        "material": "neon",
+        "motif": "none"
+      }
+    ]
+  }
+}

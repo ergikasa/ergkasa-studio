@@ -22,6 +22,8 @@ export interface CharacterInfo {
   side: string[];
   expressions: string[];
   outfits: string[];
+  /** World characters: the script cast member (library id) this character plays. */
+  plays?: string;
 }
 
 export interface AssetInfo {
@@ -49,12 +51,35 @@ export class Catalog {
   readonly overlays: AssetInfo[] = [];
   readonly source: FsAssetSource;
 
-  constructor(readonly assetsDir: string) {
-    this.source = new FsAssetSource(assetsDir);
-    const manifest = JSON.parse(readFileSync(join(assetsDir, "manifest.json"), "utf8")) as {
-      assets: ManifestEntry[];
-    };
-    for (const e of manifest.assets) {
+  /** Asset roots, searched in order: a video's world first (when it has one), then the library. */
+  readonly roots: string[];
+  /** The library folder (the last root). */
+  readonly assetsDir: string;
+  /** Set when the catalog is a video's own world: the planner then sees only the world's assets. */
+  readonly world?: { id: string; style: string };
+
+  constructor(roots: string | string[]) {
+    this.roots = Array.isArray(roots) ? roots : [roots];
+    this.assetsDir = this.roots[this.roots.length - 1] as string;
+    this.source = new FsAssetSource(this.roots);
+    const read = (dir: string) =>
+      JSON.parse(readFileSync(join(dir, "manifest.json"), "utf8")) as {
+        world?: string;
+        style?: string;
+        assets: ManifestEntry[];
+      };
+    const first = read(this.roots[0] as string);
+    let entries: ManifestEntry[];
+    if (this.roots.length > 1 && first.world) {
+      this.world = { id: first.world, style: first.style ?? "" };
+      // a world is one picture: its own cast, places and objects; from the library only the screen textures
+      const library = read(this.assetsDir).assets.filter((e) => e.category === "effect");
+      entries = [...first.assets, ...library];
+    } else entries = this.roots.flatMap((r) => read(r).assets);
+    const seen = new Set<string>();
+    for (const e of entries) {
+      if (seen.has(e.assetId)) continue;
+      seen.add(e.assetId);
       const m = this.source.meta(e.assetId);
       if (m.kind === "rigged_character") this.characters.push(character(m));
       else if (m.category === "background")
@@ -72,7 +97,7 @@ export class Catalog {
       else if (m.category === "object" || m.category === "icon") this.props.push(info(m));
       else if (m.category === "effect") {
         if (m.capabilities["placement"] === "screen") this.overlays.push(info(m));
-        else this.props.push(info(m)); // fire, smoke, sparks...: placed like objects
+        else if (!this.world) this.props.push(info(m)); // fire, smoke, sparks...: placed like objects
       }
     }
   }
@@ -86,6 +111,8 @@ export class Catalog {
    * Same idea as the backend's /api/assets/candidates: tag match counts most, id/name substring less.
    */
   relevantProps(text: string, limit = 60): AssetInfo[] {
+    // a world holds only what its story needs: all of it is relevant
+    if (this.world) return this.props.slice(0, limit);
     const words = new Set(
       text
         .toLowerCase()
@@ -132,6 +159,10 @@ export class Catalog {
   plannerSection(scriptText: string): string {
     const props = this.relevantProps(scriptText);
     const lines: string[] = [];
+    if (this.world)
+      lines.push(
+        `## This video has its own world ("${this.world.id}", style ${this.world.style}). Every character, place and object below was made for this story and drawn in one style: use only these ids. A world has few places on purpose: return to them with different shots (wide, medium, close, insert) instead of looking for other places.\n`,
+      );
     lines.push(
       "## Characters (type actor). Use `front` actions when facing front, `side` actions when facing left/right.",
     );
@@ -156,13 +187,16 @@ export class Catalog {
         `- ${c.id}: ${c.name} (${c.tags.join(", ")}) | can hold: ${c.items.join(", ") || "nothing"}${c.outfits.length > 1 ? ` | outfits: ${c.outfits.join(", ")}` : ""}${extra.length ? ` | also: ${extra.join(", ")}` : ""}`,
       );
     }
-    lines.push(
-      "\n## Staged sets (scene.set). Actors on a set use `blocking` (marks below) instead of x and walk actions.",
-    );
-    lines.push(describeSets());
-    lines.push(
-      "Scene props in the house style (prop_*, in the object list below) can attachTo an actor on a set.",
-    );
+    // staged sets are built on library backgrounds: not part of a world (scene.set stays "none")
+    if (!this.world) {
+      lines.push(
+        "\n## Staged sets (scene.set). Actors on a set use `blocking` (marks below) instead of x and walk actions.",
+      );
+      lines.push(describeSets());
+      lines.push(
+        "Scene props in the house style (prop_*, in the object list below) can attachTo an actor on a set.",
+      );
+    } else lines.push('\nStaged sets: none in this world (scene.set = "none").');
     lines.push("\n## Backgrounds (scene.background)");
     for (const b of this.backgrounds) lines.push(`- ${b.id}: ${b.tags.join(", ")}; ${b.extra}`);
     lines.push("\n## Metaphors (type metaphor). Animation names are exact; play them with `animations`.");
@@ -214,6 +248,9 @@ function character(m: AssetMeta): CharacterInfo {
     side: strings(actions["side"]),
     expressions: strings(caps["expressions"]),
     outfits: strings((caps["outfits"] as { available?: unknown } | undefined)?.available),
+    ...(m.tags.find((t) => t.startsWith("plays:"))
+      ? { plays: (m.tags.find((t) => t.startsWith("plays:")) as string).slice(6) }
+      : {}),
   };
 }
 

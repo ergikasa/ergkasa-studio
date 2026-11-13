@@ -1,9 +1,10 @@
-import { mkdirSync, readFileSync } from "node:fs";
-import { join, relative, resolve } from "node:path";
+import { existsSync, mkdirSync, readFileSync } from "node:fs";
+import { dirname, join, relative, resolve } from "node:path";
 import { Script, VideoPlan, type Theme, type VoicePreset } from "@erkasa/contracts";
 import { Catalog } from "./catalog.js";
 import { repoRoot } from "./env.js";
 import { llmCost, type Llm, type Usage } from "./llm.js";
+import { RecordingLlm } from "./llm-record.js";
 import {
   RUN_FILES,
   loadVoiceTrack,
@@ -11,6 +12,7 @@ import {
   stepRender,
   stepScript,
   stepVoice,
+  stepWorld,
   writeJson,
   type Narration,
 } from "./steps.js";
@@ -35,6 +37,8 @@ export interface MakeOptions {
   noVoice?: boolean;
   /** Placeholder music bed under the voice (default true until real music exists). */
   music?: boolean;
+  /** Design the video's own world after the script (default true). false = the library, as before. */
+  world?: boolean;
   outDir?: string;
   log?: (line: string) => void;
 }
@@ -57,6 +61,8 @@ export interface MakeReport {
   planAttempts: number;
   warnings: string[];
   timingsSec: Record<string, number>;
+  /** The video's world, when it has one: style, places, cast and props in one line. */
+  world?: string;
 }
 
 export function slugify(s: string): string {
@@ -81,7 +87,8 @@ function stamp(d = new Date()): string {
 export async function makeVideo(opts: MakeOptions, deps: MakeDeps = {}): Promise<MakeReport> {
   const log = opts.log ?? ((l: string) => console.info(l));
   const root = repoRoot();
-  const catalog = deps.catalog ?? new Catalog(join(root, "assets"));
+  const library = deps.catalog ?? new Catalog(join(root, "assets"));
+  let catalog = library;
   const timings: Record<string, number> = {};
   const usage: Usage[] = [];
   const warnings: string[] = [];
@@ -110,6 +117,10 @@ export async function makeVideo(opts: MakeOptions, deps: MakeDeps = {}): Promise
   log(`voice: ${preset.name} (${preset.id})${opts.noVoice ? ", not synthesized (--no-voice)" : ""}`);
   let voiceCharacters = 0;
   let planAttempts = 0;
+  let worldSummary: string | undefined;
+  let host = opts.host;
+  // every answer of the model is kept in the run folder (llm/), so the run can be replayed at no cost
+  const llm = deps.llm ? new RecordingLlm(deps.llm, join(outDir, "llm")) : undefined;
   /** Writes run.json (also on failure, so a broken run can be inspected) and returns the report. */
   const finish = (extra: Partial<MakeReport> = {}): MakeReport => {
     const cost = llmCost(usage);
@@ -123,6 +134,7 @@ export async function makeVideo(opts: MakeOptions, deps: MakeDeps = {}): Promise
       planAttempts,
       warnings,
       timingsSec: timings,
+      ...(worldSummary ? { world: worldSummary } : {}),
     };
     writeJson(join(outDir, "run.json"), r);
     return r;
@@ -131,19 +143,47 @@ export async function makeVideo(opts: MakeOptions, deps: MakeDeps = {}): Promise
   // 1. script
   if (!script && !plan) {
     if (!opts.topic || !opts.theme) throw new Error("a new video needs a topic and a theme");
-    if (!deps.llm) throw new Error("no language model configured");
-    const llm = deps.llm;
+    if (!llm) throw new Error("no language model configured");
     const params = {
       topic: opts.topic,
       theme: opts.theme,
       seconds: opts.seconds ?? 45,
       ...(opts.notes ? { notes: opts.notes } : {}),
     };
-    const res = await time("script", () => stepScript(outDir, params, llm, catalog));
+    const res = await time("script", () => stepScript(outDir, params, llm, library));
     usage.push(...res.usage);
     script = res.script;
     log(`script: "${script.title}", ${script.scenes.length} scenes, ~${script.estimatedSec}s`);
   } else if (script) writeJson(join(outDir, RUN_FILES.script), script);
+
+  // 1b. the video's own world: Claude designs it from the script, the World Builder draws it
+  if (script && !plan && opts.world !== false) {
+    if (!llm) throw new Error("no language model configured");
+    const s = script;
+    const w = await time("world", () => stepWorld(outDir, s, llm, library, name.replace(/-/g, "_"), host));
+    usage.push(...w.usage);
+    if (w.dir) {
+      catalog = new Catalog([w.dir, library.assetsDir]);
+      script = w.script;
+      writeJson(join(outDir, "script.world.json"), script);
+      if (w.hostId) host = w.hostId;
+      worldSummary = w.summary;
+      timings["worldBuild"] = w.buildSec ?? 0;
+      log(`world: ${w.summary} (attempt ${w.attempts}, built in ${(w.buildSec ?? 0).toFixed(2)} s)`);
+    } else {
+      const line = `world: no valid world after ${w.attempts} attempts (see ${RUN_FILES.worldIssues}); using the library`;
+      warnings.push(line);
+      log(line);
+    }
+  }
+  // resuming a plan made in a world: its assets are in the plan's run folder
+  if (plan && opts.fromPlan) {
+    const worldDir = join(dirname(opts.fromPlan), RUN_FILES.worldDir);
+    if (existsSync(join(worldDir, "manifest.json"))) {
+      catalog = new Catalog([worldDir, library.assetsDir]);
+      log(`world: ${relative(process.cwd(), worldDir)}`);
+    }
+  }
 
   // 2. voice (before planning, so the planner is checked against the real word timings)
   const narrations: Narration[] = plan
@@ -162,10 +202,10 @@ export async function makeVideo(opts: MakeOptions, deps: MakeDeps = {}): Promise
     plan = { ...plan, voiceId: preset.id };
     writeJson(join(outDir, RUN_FILES.plan), plan);
   } else {
-    if (!deps.llm) throw new Error("no language model configured");
-    const llm = deps.llm;
+    if (!llm) throw new Error("no language model configured");
     const s = script as Script;
-    const res = await time("plan", () => stepPlan(outDir, s, preset, llm, catalog, name, opts.host));
+    const cat = catalog;
+    const res = await time("plan", () => stepPlan(outDir, s, preset, llm, cat, name, host));
     usage.push(...res.usage);
     planAttempts = res.attempts.length;
     if (!res.plan) {

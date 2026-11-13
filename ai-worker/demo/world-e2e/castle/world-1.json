@@ -1,0 +1,85 @@
+{
+  "label": "world#1",
+  "value": {
+    "title": "The crown on a coin",
+    "setting": "A medieval kingdom: on the castle rampart an old king decides which of two heirs gets the crown with one coin.",
+    "style": "storybook",
+    "places": [
+      {
+        "key": "main",
+        "kind": "castle_rampart",
+        "from": "",
+        "time": "golden",
+        "sideA": "#3E5F86",
+        "sideB": "#C2554D"
+      }
+    ],
+    "cast": [
+      {
+        "plays": "char_arti_01",
+        "name": "Louis",
+        "presentation": "man",
+        "age": "young",
+        "skin": "light",
+        "hair": "swept",
+        "hairColor": "blond",
+        "beard": "none",
+        "glasses": false,
+        "costume": "prince",
+        "main": "#C2554D",
+        "accent": ""
+      },
+      {
+        "plays": "char_drini_01",
+        "name": "Henry",
+        "presentation": "man",
+        "age": "adult",
+        "skin": "light",
+        "hair": "short",
+        "hairColor": "brown",
+        "beard": "full",
+        "glasses": false,
+        "costume": "prince",
+        "main": "#3E5F86",
+        "accent": ""
+      },
+      {
+        "plays": "char_bardhi_01",
+        "name": "The King",
+        "presentation": "man",
+        "age": "old",
+        "skin": "light",
+        "hair": "short",
+        "hairColor": "white",
+        "beard": "full",
+        "glasses": false,
+        "costume": "king",
+        "main": "#9C3F3A",
+        "accent": ""
+      }
+    ],
+    "props": [
+      {
+        "key": "coin",
+        "kind": "coin",
+        "from": "",
+        "material": "gold",
+        "motif": "crown"
+      },
+      {
+        "key": "scale",
+        "kind": "balance_scale",
+        "from": "",
+        "material": "",
+        "motif": "none"
+      },
+      {
+        "key": "board",
+        "kind": "board",
+        "from": "",
+        "material": "parchment",
+        "motif": "none"
+      }
+    ]
+  }
+}

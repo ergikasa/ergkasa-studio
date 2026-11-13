@@ -1,0 +1,79 @@
+{
+  "schema": "erkasa.script/1",
+  "title": "The rigged coin",
+  "topic": "how to make an unfair coin fair",
+  "theme": "decisions",
+  "language": "en",
+  "hook": "Two rivals. One prize. And one coin to decide who gets it.",
+  "cast": [
+    {
+      "role": "protagonist",
+      "characterId": "char_arti_01",
+      "description": "The younger rival, sharp and suspicious; he spots the trick and finds the fix."
+    },
+    {
+      "role": "supporting",
+      "characterId": "char_drini_01",
+      "description": "The older rival, confident; he would win with the rigged coin."
+    },
+    {
+      "role": "supporting",
+      "characterId": "char_bardhi_01",
+      "description": "The old man who holds the coin and decides by flipping it."
+    }
+  ],
+  "promise": "A biased coin becomes fair when you flip it twice and only count heads-tails or tails-heads.",
+  "takeaway": {
+    "kind": "tool",
+    "text": "Flip twice. Heads-tails, the first wins. Tails-heads, the second. Same, flip again."
+  },
+  "scenes": [
+    {
+      "sceneId": "s01",
+      "beat": "hook",
+      "narration": "Two rivals. One prize. And one coin to decide who gets it.",
+      "visualIdea": "The old man holds up the coin, it spins in the air.",
+      "emotion": "tense",
+      "action": "The old man shows the coin."
+    },
+    {
+      "sceneId": "s02",
+      "beat": "situation",
+      "narration": "The old man tosses it in the air. Heads, the first one wins. Tails, the second.",
+      "visualIdea": "All three: the old man flips the coin between the two rivals.",
+      "action": "The protagonist watches the coin closely.",
+      "emotion": "curious"
+    },
+    {
+      "sceneId": "s03",
+      "beat": "twist",
+      "narration": "But this coin is not fair. It lands heads eight times out of ten.",
+      "visualIdea": "A balance scale tips to one side; a sign says eight out of ten.",
+      "emphasis": "8 out of 10"
+    },
+    {
+      "sceneId": "s04",
+      "beat": "tension",
+      "narration": "The first rival smiles. The second one sees the trick, and he is angry.",
+      "visualIdea": "The older rival celebrates, the protagonist argues, the old man shrugs.",
+      "action": "The protagonist argues.",
+      "emotion": "angry"
+    },
+    {
+      "sceneId": "s05",
+      "beat": "explain",
+      "narration": "Here is the surprise. You can make a rigged coin fair. Just flip it twice.",
+      "visualIdea": "Close on the protagonist: he thinks, then gets the idea; the coin flips twice.",
+      "action": "The protagonist has the idea.",
+      "emotion": "thinking"
+    },
+    {
+      "sceneId": "s06",
+      "beat": "resolve",
+      "narration": "Heads then tails, the first one wins. Tails then heads, the second. Same odds for both.",
+      "visualIdea": "The balance scale comes back level; a sign says fifty fifty.",
+      "emphasis": "50 / 50"
+    }
+  ],
+  "estimatedSec": 36
+}

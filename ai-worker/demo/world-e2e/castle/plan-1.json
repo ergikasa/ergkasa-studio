@@ -1,0 +1,759 @@
+{
+  "label": "plan#1",
+  "value": {
+    "scenes": [
+      {
+        "sceneId": "s01",
+        "background": "wld_place_main",
+        "set": "none",
+        "shot": {
+          "size": "medium",
+          "subject": "ruler"
+        },
+        "layers": [
+          {
+            "id": "ruler",
+            "type": "actor",
+            "assetId": "wld_char_3",
+            "x": 0.45,
+            "y": -1,
+            "scale": 1,
+            "region": "none",
+            "facing": "front",
+            "expression": "happy",
+            "speaks": false,
+            "holding": "none",
+            "outfit": "",
+            "blocking": [],
+            "attachTo": "",
+            "enter": "none",
+            "enterAt": "start",
+            "actions": [
+              {
+                "action": "present",
+                "at": "word:coin",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": ""
+              },
+              {
+                "action": "talk",
+                "at": "word:decide",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": ""
+              }
+            ],
+            "animations": [],
+            "text": "",
+            "textStyle": "",
+            "highlight": [],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          },
+          {
+            "id": "coin",
+            "type": "object",
+            "assetId": "wld_prop_coin",
+            "x": 0.7,
+            "y": 0.34,
+            "scale": 0.6,
+            "region": "none",
+            "facing": "front",
+            "expression": "",
+            "speaks": false,
+            "holding": "none",
+            "outfit": "",
+            "blocking": [],
+            "attachTo": "",
+            "enter": "pop",
+            "enterAt": "word:coin",
+            "actions": [],
+            "animations": [
+              {
+                "name": "flip",
+                "at": "word:decide"
+              }
+            ],
+            "text": "",
+            "textStyle": "",
+            "highlight": [],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          }
+        ],
+        "camera": [
+          {
+            "move": "push_in",
+            "at": "start",
+            "to": 1.06
+          }
+        ],
+        "effects": [
+          {
+            "preset": "fx_film_grain_01",
+            "intensity": 0.25
+          }
+        ],
+        "transition": "fade",
+        "transitionDirection": "none"
+      },
+      {
+        "sceneId": "s02",
+        "background": "wld_place_main",
+        "set": "none",
+        "shot": {
+          "size": "wide",
+          "subject": ""
+        },
+        "layers": [
+          {
+            "id": "rival",
+            "type": "actor",
+            "assetId": "wld_char_2",
+            "x": 0.2,
+            "y": -1,
+            "scale": 1.35,
+            "region": "none",
+            "facing": "front",
+            "expression": "",
+            "speaks": false,
+            "holding": "none",
+            "outfit": "",
+            "blocking": [],
+            "attachTo": "",
+            "enter": "none",
+            "enterAt": "start",
+            "actions": [
+              {
+                "action": "observe",
+                "at": "word:tosses",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": ""
+              },
+              {
+                "action": "cross_arms",
+                "at": "word:Heads",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": ""
+              }
+            ],
+            "animations": [],
+            "text": "",
+            "textStyle": "",
+            "highlight": [],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          },
+          {
+            "id": "ruler",
+            "type": "actor",
+            "assetId": "wld_char_3",
+            "x": 0.5,
+            "y": -1,
+            "scale": 1.35,
+            "region": "none",
+            "facing": "front",
+            "expression": "",
+            "speaks": false,
+            "holding": "none",
+            "outfit": "",
+            "blocking": [],
+            "attachTo": "",
+            "enter": "none",
+            "enterAt": "start",
+            "actions": [
+              {
+                "action": "present",
+                "at": "word:tosses",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": "happy"
+              }
+            ],
+            "animations": [],
+            "text": "",
+            "textStyle": "",
+            "highlight": [],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          },
+          {
+            "id": "hero",
+            "type": "actor",
+            "assetId": "wld_char_1",
+            "x": 0.8,
+            "y": -1,
+            "scale": 1.35,
+            "region": "none",
+            "facing": "front",
+            "expression": "neutral",
+            "speaks": false,
+            "holding": "none",
+            "outfit": "",
+            "blocking": [],
+            "attachTo": "",
+            "enter": "none",
+            "enterAt": "start",
+            "actions": [
+              {
+                "action": "look_up",
+                "at": "word:air",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": "surprised"
+              },
+              {
+                "action": "think",
+                "at": "word:Tails",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": "thinking"
+              }
+            ],
+            "animations": [],
+            "text": "",
+            "textStyle": "",
+            "highlight": [],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          },
+          {
+            "id": "coin",
+            "type": "object",
+            "assetId": "wld_prop_coin",
+            "x": 0.5,
+            "y": 0.3,
+            "scale": 0.45,
+            "region": "none",
+            "facing": "front",
+            "expression": "",
+            "speaks": false,
+            "holding": "none",
+            "outfit": "",
+            "blocking": [],
+            "attachTo": "",
+            "enter": "pop",
+            "enterAt": "word:tosses",
+            "actions": [],
+            "animations": [
+              {
+                "name": "flip",
+                "at": "word:air"
+              }
+            ],
+            "text": "",
+            "textStyle": "",
+            "highlight": [],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          }
+        ],
+        "camera": [
+          {
+            "move": "push_in",
+            "at": "start",
+            "to": 1.05
+          }
+        ],
+        "effects": [
+          {
+            "preset": "fx_film_grain_01",
+            "intensity": 0.25
+          }
+        ],
+        "transition": "whip",
+        "transitionDirection": "left"
+      },
+      {
+        "sceneId": "s03",
+        "background": "wld_place_main",
+        "set": "none",
+        "shot": {
+          "size": "insert",
+          "subject": "scale"
+        },
+        "layers": [
+          {
+            "id": "scale",
+            "type": "object",
+            "assetId": "wld_prop_scale",
+            "x": 0.5,
+            "y": 0.55,
+            "scale": 1.5,
+            "region": "none",
+            "facing": "front",
+            "expression": "",
+            "speaks": false,
+            "holding": "none",
+            "outfit": "",
+            "blocking": [],
+            "attachTo": "",
+            "enter": "fade",
+            "enterAt": "start",
+            "actions": [],
+            "animations": [
+              {
+                "name": "tilt_left",
+                "at": "word:fair"
+              }
+            ],
+            "text": "",
+            "textStyle": "",
+            "highlight": [],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          },
+          {
+            "id": "board",
+            "type": "object",
+            "assetId": "wld_prop_board",
+            "x": 0.5,
+            "y": 0.16,
+            "scale": 2.1,
+            "region": "none",
+            "facing": "front",
+            "expression": "",
+            "speaks": false,
+            "holding": "none",
+            "outfit": "",
+            "blocking": [],
+            "attachTo": "",
+            "enter": "pop",
+            "enterAt": "word:eight",
+            "actions": [],
+            "animations": [],
+            "text": "",
+            "textStyle": "",
+            "highlight": [],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          },
+          {
+            "id": "label",
+            "type": "text",
+            "assetId": "",
+            "x": 0.5,
+            "y": 0.16,
+            "scale": 1,
+            "region": "none",
+            "facing": "front",
+            "expression": "",
+            "speaks": false,
+            "holding": "none",
+            "outfit": "",
+            "blocking": [],
+            "attachTo": "",
+            "enter": "pop",
+            "enterAt": "word:eight",
+            "actions": [],
+            "animations": [],
+            "text": "8 OUT OF 10",
+            "textStyle": "title_light",
+            "highlight": ["8"],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          }
+        ],
+        "camera": [
+          {
+            "move": "static",
+            "at": "start",
+            "to": 0
+          }
+        ],
+        "effects": [
+          {
+            "preset": "fx_film_grain_01",
+            "intensity": 0.25
+          }
+        ],
+        "transition": "cut",
+        "transitionDirection": "none"
+      },
+      {
+        "sceneId": "s04",
+        "background": "wld_place_main",
+        "set": "none",
+        "shot": {
+          "size": "wide",
+          "subject": ""
+        },
+        "layers": [
+          {
+            "id": "rival",
+            "type": "actor",
+            "assetId": "wld_char_2",
+            "x": 0.2,
+            "y": -1,
+            "scale": 1.35,
+            "region": "none",
+            "facing": "front",
+            "expression": "",
+            "speaks": false,
+            "holding": "none",
+            "outfit": "",
+            "blocking": [],
+            "attachTo": "",
+            "enter": "none",
+            "enterAt": "start",
+            "actions": [
+              {
+                "action": "arms_up",
+                "at": "word:smiles",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": "happy"
+              }
+            ],
+            "animations": [],
+            "text": "",
+            "textStyle": "",
+            "highlight": [],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          },
+          {
+            "id": "ruler",
+            "type": "actor",
+            "assetId": "wld_char_3",
+            "x": 0.5,
+            "y": -1,
+            "scale": 1.35,
+            "region": "none",
+            "facing": "front",
+            "expression": "",
+            "speaks": false,
+            "holding": "none",
+            "outfit": "",
+            "blocking": [],
+            "attachTo": "",
+            "enter": "none",
+            "enterAt": "start",
+            "actions": [
+              {
+                "action": "shrug",
+                "at": "word:trick",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": ""
+              }
+            ],
+            "animations": [],
+            "text": "",
+            "textStyle": "",
+            "highlight": [],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          },
+          {
+            "id": "hero",
+            "type": "actor",
+            "assetId": "wld_char_1",
+            "x": 0.8,
+            "y": -1,
+            "scale": 1.35,
+            "region": "none",
+            "facing": "front",
+            "expression": "",
+            "speaks": false,
+            "holding": "none",
+            "outfit": "",
+            "blocking": [],
+            "attachTo": "",
+            "enter": "none",
+            "enterAt": "start",
+            "actions": [
+              {
+                "action": "argue",
+                "at": "word:sees",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": "angry"
+              },
+              {
+                "action": "point_side_left",
+                "at": "word:angry",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": "angry"
+              }
+            ],
+            "animations": [],
+            "text": "",
+            "textStyle": "",
+            "highlight": [],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          }
+        ],
+        "camera": [
+          {
+            "move": "shake",
+            "at": "word:angry",
+            "to": 0
+          }
+        ],
+        "effects": [
+          {
+            "preset": "fx_film_grain_01",
+            "intensity": 0.25
+          }
+        ],
+        "transition": "fade",
+        "transitionDirection": "none"
+      },
+      {
+        "sceneId": "s05",
+        "background": "wld_place_main",
+        "set": "none",
+        "shot": {
+          "size": "close",
+          "subject": "hero"
+        },
+        "layers": [
+          {
+            "id": "hero",
+            "type": "actor",
+            "assetId": "wld_char_1",
+            "x": 0.45,
+            "y": -1,
+            "scale": 1,
+            "region": "none",
+            "facing": "front",
+            "expression": "thinking",
+            "speaks": false,
+            "holding": "none",
+            "outfit": "",
+            "blocking": [],
+            "attachTo": "",
+            "enter": "none",
+            "enterAt": "start",
+            "actions": [
+              {
+                "action": "think",
+                "at": "word:surprise",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": "thinking"
+              },
+              {
+                "action": "point_side",
+                "at": "word:twice",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": "happy"
+              }
+            ],
+            "animations": [],
+            "text": "",
+            "textStyle": "",
+            "highlight": [],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          },
+          {
+            "id": "coin",
+            "type": "object",
+            "assetId": "wld_prop_coin",
+            "x": 0.78,
+            "y": 0.36,
+            "scale": 0.55,
+            "region": "none",
+            "facing": "front",
+            "expression": "",
+            "speaks": false,
+            "holding": "none",
+            "outfit": "",
+            "blocking": [],
+            "attachTo": "",
+            "enter": "pop",
+            "enterAt": "word:surprise",
+            "actions": [],
+            "animations": [
+              {
+                "name": "flip",
+                "at": "word:surprise"
+              }
+            ],
+            "text": "",
+            "textStyle": "",
+            "highlight": [],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          },
+          {
+            "id": "title",
+            "type": "text",
+            "assetId": "",
+            "x": 0.5,
+            "y": -1,
+            "scale": 1,
+            "region": "top-safe",
+            "facing": "front",
+            "expression": "",
+            "speaks": false,
+            "holding": "none",
+            "outfit": "",
+            "blocking": [],
+            "attachTo": "",
+            "enter": "pop",
+            "enterAt": "word:twice",
+            "actions": [],
+            "animations": [],
+            "text": "FLIP IT TWICE.",
+            "textStyle": "hook_impact",
+            "highlight": ["TWICE."],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          }
+        ],
+        "camera": [
+          {
+            "move": "push_in",
+            "at": "start",
+            "to": 1.05
+          }
+        ],
+        "effects": [
+          {
+            "preset": "fx_film_grain_01",
+            "intensity": 0.25
+          }
+        ],
+        "transition": "cut",
+        "transitionDirection": "none"
+      },
+      {
+        "sceneId": "s06",
+        "background": "wld_place_main",
+        "set": "none",
+        "shot": {
+          "size": "insert",
+          "subject": "scale"
+        },
+        "layers": [
+          {
+            "id": "scale",
+            "type": "object",
+            "assetId": "wld_prop_scale",
+            "x": 0.5,
+            "y": 0.55,
+            "scale": 1.5,
+            "region": "none",
+            "facing": "front",
+            "expression": "",
+            "speaks": false,
+            "holding": "none",
+            "outfit": "",
+            "blocking": [],
+            "attachTo": "",
+            "enter": "fade",
+            "enterAt": "start",
+            "actions": [],
+            "animations": [
+              {
+                "name": "tilt_left",
+                "at": "start"
+              },
+              {
+                "name": "level",
+                "at": "word:Same"
+              }
+            ],
+            "text": "",
+            "textStyle": "",
+            "highlight": [],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          },
+          {
+            "id": "board",
+            "type": "object",
+            "assetId": "wld_prop_board",
+            "x": 0.5,
+            "y": 0.16,
+            "scale": 2.1,
+            "region": "none",
+            "facing": "front",
+            "expression": "",
+            "speaks": false,
+            "holding": "none",
+            "outfit": "",
+            "blocking": [],
+            "attachTo": "",
+            "enter": "pop",
+            "enterAt": "word:Same",
+            "actions": [],
+            "animations": [],
+            "text": "",
+            "textStyle": "",
+            "highlight": [],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          },
+          {
+            "id": "label",
+            "type": "text",
+            "assetId": "",
+            "x": 0.5,
+            "y": 0.16,
+            "scale": 1,
+            "region": "none",
+            "facing": "front",
+            "expression": "",
+            "speaks": false,
+            "holding": "none",
+            "outfit": "",
+            "blocking": [],
+            "attachTo": "",
+            "enter": "pop",
+            "enterAt": "word:Same",
+            "actions": [],
+            "animations": [],
+            "text": "50 / 50",
+            "textStyle": "title_light",
+            "highlight": ["50"],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          }
+        ],
+        "camera": [
+          {
+            "move": "static",
+            "at": "start",
+            "to": 0
+          }
+        ],
+        "effects": [
+          {
+            "preset": "fx_film_grain_01",
+            "intensity": 0.25
+          }
+        ],
+        "transition": "cut",
+        "transitionDirection": "none"
+      }
+    ]
+  }
+}

@@ -39,9 +39,18 @@ export interface ReviewInput {
   compileIssues: Issue[];
   /** The host chosen by the user; he may appear next to the story's cast. */
   host?: string;
+  /** The video has its own world: few places on purpose, so places may repeat (shots must still vary). */
+  world?: boolean;
 }
 
-export function reviewDirection({ plan, script, durations, compileIssues, host }: ReviewInput): Issue[] {
+export function reviewDirection({
+  plan,
+  script,
+  durations,
+  compileIssues,
+  host,
+  world,
+}: ReviewInput): Issue[] {
   const out: Issue[] = [];
   const scenes = plan.scenes;
   const n = scenes.length;
@@ -90,7 +99,7 @@ export function reviewDirection({ plan, script, durations, compileIssues, host }
   // a staged set is where the story happens (an interview): it may hold more scenes, still with varied shots
   const staged = new Set(scenes.filter((s) => s.set).map((s) => s.background.assetId));
   for (const [bg, idx] of uses)
-    if (idx.length > (staged.has(bg) ? Math.max(maxUses, Math.ceil(n * 0.6)) : maxUses))
+    if (!world && idx.length > (staged.has(bg) ? Math.max(maxUses, Math.ceil(n * 0.6)) : maxUses))
       out.push(
         issue(
           "BACKGROUND_OVERUSED",
