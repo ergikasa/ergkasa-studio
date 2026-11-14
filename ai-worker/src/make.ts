@@ -39,6 +39,8 @@ export interface MakeOptions {
   music?: boolean;
   /** Design the video's own world after the script (default true). false = the library, as before. */
   world?: boolean;
+  /** Let Claude look at the storyboard frames before rendering and fix what a viewer would trip on (default false). */
+  critic?: boolean;
   outDir?: string;
   log?: (line: string) => void;
 }
@@ -209,7 +211,9 @@ export async function makeVideo(opts: MakeOptions, deps: MakeDeps = {}): Promise
     if (!llm) throw new Error("no language model configured");
     const s = script as Script;
     const cat = catalog;
-    const res = await time("plan", () => stepPlan(outDir, s, preset, llm, cat, name, host));
+    const res = await time("plan", () =>
+      stepPlan(outDir, s, preset, llm, cat, name, host, { critic: opts.critic === true }),
+    );
     usage.push(...res.usage);
     planAttempts = res.attempts.length;
     if (!res.plan) {

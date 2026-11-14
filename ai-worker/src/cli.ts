@@ -15,7 +15,7 @@ import { loadVoiceCatalog, voiceCatalogPath } from "./voice-catalog.js";
 import { runWorkerForever } from "./worker.js";
 
 const USAGE = `Usage:
-  pnpm video "<topic>" --theme <theme> [--voice <id>] [--seconds 45] [--notes "..."] [--no-voice] [--no-music] [--no-world] [--replay <run folder>]
+  pnpm video "<topic>" --theme <theme> [--voice <id>] [--seconds 45] [--notes "..."] [--no-voice] [--no-music] [--no-world] [--critic] [--replay <run folder>]
   pnpm video --from-script <run>/script.json [--voice <id>] [--no-voice]
   pnpm video --from-plan <run>/video-plan.json [--voice <id>] [--no-voice]
   pnpm video:rerender <run> [--name video-h1.mp4] [--no-music]
@@ -48,6 +48,7 @@ async function make(argv: string[]): Promise<void> {
       host: { type: "string" },
       "no-music": { type: "boolean", default: false },
       "no-world": { type: "boolean", default: false },
+      critic: { type: "boolean", default: false },
       replay: { type: "string" },
       out: { type: "string" },
     },
@@ -82,6 +83,7 @@ async function make(argv: string[]): Promise<void> {
       ...(values.host ? { host: values.host } : {}),
       music: values["no-music"] !== true,
       world: values["no-world"] !== true,
+      critic: values["critic"] === true,
     },
     {
       // --replay <run folder>: the model's answers come from a recorded run (llm/*.json), no API call

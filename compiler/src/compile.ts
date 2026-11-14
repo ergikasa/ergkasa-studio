@@ -281,6 +281,7 @@ export function compileVideo(planInput: unknown, opts: CompileOptions): CompileR
     }
     camera = cutAtEnd(camera, lastFrame).tracks;
     checkFraming(ctx, nodes, camera);
+    checkActorsOverlap(ctx, nodes);
     const captionY = chooseCaptionY(ctx, nodes);
     for (const [si, s] of scene.sfx.entries()) {
       const f = resolveAt(ctx, s.at, `${path}.sfx[${si}].at`);
@@ -1492,6 +1493,39 @@ function checkFraming(ctx: SceneContext, nodes: TimelineNode[], camera: Tracks):
           hint: "move it toward the center or reduce the camera pan/zoom",
         });
         break;
+      }
+    }
+  }
+}
+
+/**
+ * Two people standing in each other: at the last frame (and midway) two characters whose centres are closer
+ * than half a body width. Warned once per pair; the director's review treats it as a defect.
+ */
+function checkActorsOverlap(ctx: SceneContext, nodes: TimelineNode[]): void {
+  if (ctx.plan.set) return;
+  const people = nodes.filter((n) => n.space === "world" && n.adapter === "character");
+  const seen = new Set<string>();
+  for (const f of [Math.floor(ctx.duration / 2), ctx.duration - 1]) {
+    for (let i = 0; i < people.length; i++) {
+      for (let j = i + 1; j < people.length; j++) {
+        const a = people[i] as TimelineNode;
+        const b = people[j] as TimelineNode;
+        const key = `${a.id}|${b.id}`;
+        if (seen.has(key)) continue;
+        const dx = Math.abs(sample(a.tracks["x"], f, 0) - sample(b.tracks["x"], f, 0));
+        const dy = Math.abs(sample(a.tracks["y"], f, 0) - sample(b.tracks["y"], f, 0));
+        const body = 130 * Math.min(sample(a.tracks["scale"], f, 1), sample(b.tracks["scale"], f, 1));
+        if (dx < body * 0.5 && dy < body * 0.8) {
+          seen.add(key);
+          ctx.issues.push({
+            level: "warning",
+            code: "ACTORS_OVERLAP",
+            path: `${ctx.path}.layers.${b.id}`,
+            message: `'${a.id}' and '${b.id}' stand on top of each other at ${(f / ctx.fps).toFixed(1)} s`,
+            hint: "place them at least one body width apart (different `at` values or a walk)",
+          });
+        }
       }
     }
   }

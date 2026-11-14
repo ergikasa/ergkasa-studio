@@ -365,6 +365,59 @@ interface Candidate {
   maxSec?: number;
 }
 
+/** Sounds a library may not have a dedicated effect for yet: the nearest events whose effects fit. */
+export const EVENT_FALLBACKS: Record<string, string[]> = {
+  state_change: ["chart_in", "object_in"],
+  lock_unlock: ["state_change", "object_in"],
+  lock_lock: ["state_change", "object_in"],
+  door_open: ["object_in"],
+  group_light: ["state_change", "chart_in"],
+  coin_flip: ["object_in"],
+  scale_tilt: ["object_in"],
+  camera_travel: ["scene_cut"],
+  camera_whip: ["camera_travel", "scene_cut", "camera_push"],
+};
+
+/** Frames at which a 0..1 track starts rising after the first frame (a part appearing, a state taking over). */
+export function risesAfterStart(kfs: { f: number; v: unknown }[] | undefined): number[] {
+  const out: number[] = [];
+  (kfs ?? []).forEach((k, i) => {
+    const p = kfs?.[i - 1];
+    if (p && p.f > 0 && Number(p.v) < 0.5 && Number(k.v) > 0.5 && k.f > p.f) out.push(p.f);
+  });
+  return out;
+}
+
+/** What a world object's states and animations sound like: a value changing, a lock, a door, a coin, a scale. */
+export function stateEvents(
+  id: string,
+  nodeId: string,
+  tracks: Record<string, { f: number; v: unknown }[]>,
+  at: (f: number) => number,
+): Candidate[] {
+  const out: Candidate[] = [];
+  const push = (event: string, f: number, what: string): void => {
+    out.push({ event, atSec: at(f), priority: 2, reason: `${id} ${nodeId} ${what}` });
+  };
+  for (const [name, kfs] of Object.entries(tracks)) {
+    if (/^part\.v[1-5]\.opacity$/.test(name))
+      for (const f of risesAfterStart(kfs)) push("state_change", f, "value changes");
+    else if (name === "part.lock_open.opacity")
+      for (const f of risesAfterStart(kfs)) push("lock_unlock", f, "unlocks");
+    else if (name === "part.lock_closed.opacity")
+      for (const f of risesAfterStart(kfs)) push("lock_lock", f, "locks");
+    else if (/^part\.c\d\.opacity$/.test(name))
+      for (const f of risesAfterStart(kfs)) push("group_light", f, "a group lights up");
+    else if (name === "part.leaf.scaleX" && kfs[0] && kfs.length > 1)
+      push("door_open", kfs[0].f, "door moves");
+    else if (name === "part.coin.scaleY" && kfs[0] && kfs.length > 2)
+      push("coin_flip", kfs[0].f, "coin flips");
+    else if (name === "part.beam.rotation" && kfs[0] && kfs.length > 1)
+      push("scale_tilt", kfs[0].f, "scale tilts");
+  }
+  return out;
+}
+
 const ACTION_EVENT: Record<string, { event: string; priority: number }> = {
   use_phone: { event: "action_use_phone", priority: 2 },
   walk_phone: { event: "action_walk_phone", priority: 2 },
@@ -402,6 +455,27 @@ export function collectEvents(input: DesignInput, spans: Span[]): Candidate[] {
       out.push({ event: "into_reflection", atSec: t0, priority: 3, reason: `${id} into reflection` });
     prevRole = role;
 
+    // the camera travels along a wide place: a whoosh at the start (a whip when it is quick)
+    const camX = scene.camera["x"] ?? [];
+    camX.forEach((k, i) => {
+      const p = camX[i - 1];
+      if (
+        p &&
+        typeof k.v === "number" &&
+        typeof p.v === "number" &&
+        Math.abs(k.v - p.v) > 1200 &&
+        k.f > p.f
+      ) {
+        const whip = (k.f - p.f) / fps < 0.6;
+        out.push({
+          event: whip ? "camera_whip" : "camera_travel",
+          atSec: at(p.f),
+          priority: 2,
+          reason: `${id} camera ${whip ? "whips" : "travels"}`,
+        });
+      }
+    });
+
     // quick punch-in of the camera (not the slow drift)
     const zoom = scene.camera["zoom"] ?? [];
     zoom.forEach((k, i) => {
@@ -427,6 +501,7 @@ export function collectEvents(input: DesignInput, spans: Span[]): Candidate[] {
           priority: 2,
           reason: `${id} ${node.id} chart appears`,
         });
+      if (node.adapter === "svg") out.push(...stateEvents(id, node.id, node.tracks, at));
       if (node.adapter === "svg" && enter !== undefined && enter > 3)
         out.push({ event: "object_in", atSec: at(enter), priority: 1, reason: `${id} ${node.id} enters` });
       if (/timer|clock|hourglass/.test(asset))
@@ -562,11 +637,16 @@ function planSfx(
       dropped.push(`${c.reason} (budget)`);
       continue;
     }
-    const options = lib.filter(
-      (i) => i.events?.includes(c.event) && (uses.get(i.id) ?? 0) < (i.maxPerVideo ?? 99),
+    // the effect made for this event, else the nearest event the library has an effect for
+    const events = [c.event, ...(EVENT_FALLBACKS[c.event] ?? [])];
+    const usable = events.find((e) =>
+      lib.some((i) => i.events?.includes(e) && (uses.get(i.id) ?? 0) < (i.maxPerVideo ?? 99)),
     );
+    const options = usable
+      ? lib.filter((i) => i.events?.includes(usable) && (uses.get(i.id) ?? 0) < (i.maxPerVideo ?? 99))
+      : [];
     if (!options.length) {
-      if (lib.some((i) => i.events?.includes(c.event))) dropped.push(`${c.reason} (cap)`);
+      if (events.some((e) => lib.some((i) => i.events?.includes(e)))) dropped.push(`${c.reason} (cap)`);
       continue;
     }
     const item = [...options].sort(

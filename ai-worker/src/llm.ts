@@ -15,6 +15,8 @@ export interface JsonRequest {
   messages: LlmMessage[];
   schema: StrictSchema;
   maxTokens?: number;
+  /** Pictures the model should look at, attached to the last user message. */
+  images?: Array<{ mediaType: "image/png" | "image/jpeg"; base64: string }>;
 }
 
 export interface Usage {
@@ -36,6 +38,25 @@ export interface JsonResponse {
 /** What the planner and script writer need from a language model. Tests pass a scripted fake. */
 export interface Llm {
   json(req: JsonRequest): Promise<JsonResponse>;
+}
+
+/** The request's messages as the API wants them: the last one carries the pictures, if any. */
+export function apiMessages(req: JsonRequest): unknown[] {
+  if (!req.images?.length) return req.messages;
+  return req.messages.map((m, i) =>
+    i === req.messages.length - 1 && m.role === "user"
+      ? {
+          role: "user",
+          content: [
+            ...(req.images ?? []).map((im) => ({
+              type: "image",
+              source: { type: "base64", media_type: im.mediaType, data: im.base64 },
+            })),
+            { type: "text", text: m.content },
+          ],
+        }
+      : m,
+  );
 }
 
 export class LlmError extends Error {
@@ -80,13 +101,13 @@ export class AnthropicLlm implements Llm {
             model: this.model,
             max_tokens: req.maxTokens ?? 32000,
             system: `${req.system}\n\nAnswer with ONE JSON object only (no prose, no code fences) that follows this JSON Schema exactly:\n${JSON.stringify(req.schema)}`,
-            messages: req.messages,
+            messages: apiMessages(req),
           }
         : {
             model: this.model,
             max_tokens: req.maxTokens ?? 32000,
             system: req.system,
-            messages: req.messages,
+            messages: apiMessages(req),
             output_config: { format: { type: "json_schema", schema: req.schema } },
           },
     );

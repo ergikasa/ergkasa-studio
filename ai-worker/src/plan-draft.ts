@@ -293,8 +293,15 @@ export function draftToPlan(
     const path = `scenes[${i}]`;
     const last = i === script.scenes.length - 1;
     if (!d) return undefined;
+    // people who all enter "at the start" come in one after another (0.3 s apart), never as one block
+    let startingActors = 0;
     const layers = d.layers.map((l, li) => {
       const lp = `${path}.layers[${li}]`;
+      let enterAnchor = l.enter !== "none" ? at(l.enterAt, `${lp}.enterAt`) : "start";
+      if (l.type === "actor" && l.enter !== "none" && enterAnchor === "start") {
+        if (startingActors > 0) enterAnchor = { sec: Math.min(1.5, startingActors * 0.3) };
+        startingActors++;
+      }
       const base = {
         id: l.id,
         place: placement(l),
@@ -303,7 +310,7 @@ export function draftToPlan(
           ? {
               in: {
                 effect: l.enter,
-                at: at(l.enterAt, `${lp}.enterAt`),
+                at: enterAnchor,
                 durationSec: l.enter === "draw_on" ? 1.4 : 0.45,
               },
             }

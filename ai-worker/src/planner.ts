@@ -1,5 +1,5 @@
 import { compileVideo, type CompileResult, type Issue, type TimedWord } from "@erkasa/compiler";
-import type { Script, VideoPlan } from "@erkasa/contracts";
+import type { RenderTimeline, Script, VideoPlan } from "@erkasa/contracts";
 import type { Catalog } from "./catalog.js";
 import { reviewDirection } from "./direction.js";
 import type { Llm, LlmMessage, Usage } from "./llm.js";
@@ -226,6 +226,11 @@ export interface PlanOptions {
   narrator?: string;
   /** The host chosen by the user (a character id). The model decides where he appears, never who he is. */
   host?: string;
+  /** The visual critic: looks at the compiled plan once it passes the director's review and returns what to fix. */
+  critic?: (
+    plan: VideoPlan,
+    compiled: CompileResult & { timeline: RenderTimeline },
+  ) => Promise<{ issues: Issue[]; usage: Usage[] }>;
 }
 
 function formatIssues(issues: Issue[]): string {
@@ -279,6 +284,7 @@ export async function planVideo(
   opts: PlanOptions,
 ): Promise<PlanResult> {
   const maxAttempts = opts.maxAttempts ?? 3;
+  let looked = false; // the visual critic looks once, when everything else is clean
   const messages: LlmMessage[] = [
     { role: "user", content: plannerPrompt(script, catalog, opts.narrator, opts.host) },
   ];
@@ -318,6 +324,15 @@ export async function planVideo(
         ...(opts.host ? { host: opts.host } : {}),
         ...(catalog.world ? { world: true } : {}),
       });
+      if (findings.length === 0 && opts.critic && !looked && compiled.timeline) {
+        looked = true;
+        const seen = await opts.critic(
+          converted.plan,
+          compiled as CompileResult & { timeline: RenderTimeline },
+        );
+        usage.push(...seen.usage);
+        findings = seen.issues;
+      }
       if (!best || findings.length < best.findings.length)
         best = { plan: converted.plan, compiled, findings };
     }

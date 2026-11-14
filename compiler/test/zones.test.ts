@@ -148,3 +148,29 @@ describe("wide places: zones and the travelling camera", () => {
     expect(r.camera?.["x"]?.[0]?.v).toBeCloseTo(3840, 0);
   });
 });
+
+describe("people standing on top of each other", () => {
+  it("warns when two characters share the same spot", () => {
+    const r = compile(
+      plan({
+        layers: [
+          actor({ id: "a", place: { anchor: "ground", x: 0.5, scale: 1 } }),
+          actor({ id: "b", place: { anchor: "ground", x: 0.52, scale: 1 } }),
+        ],
+      }),
+    );
+    expect(r.issues.map((i) => i.code)).toContain("ACTORS_OVERLAP");
+  });
+
+  it("is quiet when they stand apart", () => {
+    const r = compile(
+      plan({
+        layers: [
+          actor({ id: "a", place: { anchor: "ground", x: 0.25, scale: 1 } }),
+          actor({ id: "b", place: { anchor: "ground", x: 0.75, scale: 1 } }),
+        ],
+      }),
+    );
+    expect(r.issues.map((i) => i.code)).not.toContain("ACTORS_OVERLAP");
+  });
+});

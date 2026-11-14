@@ -1,4 +1,5 @@
 import { makeCustomAssets, type CustomReport } from "./asset-maker.js";
+import { criticIssues, critique } from "./critic.js";
 import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { basename, dirname, join, resolve } from "node:path";
@@ -332,9 +333,19 @@ export async function stepPlan(
   catalog: Catalog,
   projectId: string,
   host?: string,
+  opts: { critic?: boolean } = {},
 ): Promise<PlanStepResult> {
   const alignments = alignmentsOf(dir, loadVoiceTrack(dir));
   const res = await planVideo(llm, script, catalog, {
+    ...(opts.critic
+      ? {
+          critic: async (plan, compiled) => {
+            const seen = await critique(llm, plan, script, compiled, catalog.roots, join(dir, "critic"));
+            writeJson(join(dir, "critic.json"), { verdict: seen.verdict, findings: seen.findings });
+            return { issues: criticIssues(plan, seen), usage: seen.usage };
+          },
+        }
+      : {}),
     projectId,
     voiceId: preset.id,
     ...(host ? { host } : {}),

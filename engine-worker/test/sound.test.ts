@@ -12,7 +12,14 @@ import {
 } from "@erkasa/contracts";
 import { describe, expect, it } from "vitest";
 import { loadInput } from "../src/render.js";
-import { designSoundtrack, mergeSpans, roleFor, type SceneStory } from "../src/sound/design.js";
+import {
+  EVENT_FALLBACKS,
+  designSoundtrack,
+  mergeSpans,
+  roleFor,
+  stateEvents,
+  type SceneStory,
+} from "../src/sound/design.js";
 import { applyListeningNotes, importLibrary, parseTime, type Measurer } from "../src/sound/importer.js";
 import { openLibrary, type AudioLibrary, type LibraryItem } from "../src/sound/library.js";
 import { autoSections, measureLoudness } from "../src/sound/measure.js";
@@ -333,6 +340,44 @@ describe("sound designer", () => {
     expect(plan.music).toEqual([]);
     expect(plan.sfx).toEqual([]);
     expect(notes.join(" ")).toMatch(/music library empty/);
+  });
+});
+
+describe("sounds for objects and travelling", () => {
+  const kf = (f: number, v: number): { f: number; v: number } => ({ f, v });
+  it("hears a screen value change, a lock opening, a group lighting up and a coin flip", () => {
+    const events = stateEvents(
+      "s01",
+      "p",
+      {
+        "part.v0.opacity": [kf(0, 1), kf(60, 1), kf(69, 0)],
+        "part.v1.opacity": [kf(0, 0), kf(60, 0), kf(69, 1)],
+        "part.lock_open.opacity": [kf(0, 0), kf(90, 0), kf(96, 1)],
+        "part.c1.opacity": [kf(0, 0), kf(120, 0), kf(134, 1)],
+        "part.coin.scaleY": [kf(30, 1), kf(40, -1), kf(50, 1)],
+      },
+      (f) => f / 30,
+    );
+    expect(events.map((e) => [e.event, e.atSec])).toEqual([
+      ["state_change", 2],
+      ["lock_unlock", 3],
+      ["group_light", 4],
+      ["coin_flip", 1],
+    ]);
+  });
+
+  it("does not count the opening state (frame 0) as a change", () => {
+    expect(stateEvents("s01", "p", { "part.v1.opacity": [kf(0, 1)] }, (f) => f)).toEqual([]);
+  });
+
+  it("every new event has a fallback to an effect the library already has", () => {
+    const real = AudioCatalog.parse(JSON.parse(readFileSync(join(REPO, "audio", "catalog.json"), "utf8")));
+    const have = new Set(real.entries.flatMap((e) => e.events ?? []));
+    for (const [event, fallbacks] of Object.entries(EVENT_FALLBACKS))
+      expect(
+        have.has(event) || fallbacks.some((f) => have.has(f) || f in EVENT_FALLBACKS),
+        `${event} has no sound to fall back on`,
+      ).toBe(true);
   });
 });
 

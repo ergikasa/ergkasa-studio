@@ -16,7 +16,7 @@ type Actor = Extract<Layer, { type: "actor" }>;
 /** Actions that do not count as acting: standing, breathing, lip-sync. */
 const PASSIVE = new Set(["idle", "talk"]);
 /** Compiler warnings that are real defects for a finished video. */
-const BLOCKING_WARNINGS = new Set(["OUT_OF_FRAME", "CUT_AT_SCENE_END"]);
+const BLOCKING_WARNINGS = new Set(["OUT_OF_FRAME", "CUT_AT_SCENE_END", "ACTORS_OVERLAP"]);
 
 const issue = (code: string, path: string, message: string, hint: string): Issue => ({
   level: "error",
@@ -310,6 +310,35 @@ function reviewDirected(
       );
       return;
     }
+    // pacing by tone: tense scenes that run long must move the camera; calm ones must not jolt
+    const beat = script.scenes.find((x) => x.sceneId === s.sceneId)?.beat;
+    const sceneSec = durations[s.sceneId] ?? 0;
+    const moves = s.camera.map((m) => m.move);
+    if (
+      (beat === "tension" || beat === "twist" || beat === "problem") &&
+      sceneSec > 5 &&
+      !moves.some((m) => m !== "static")
+    )
+      out.push(
+        issue(
+          "PACING_STATIC_TENSION",
+          `scenes[${i}].camera`,
+          `a ${beat} scene of ${sceneSec.toFixed(1)} s with a static camera feels flat`,
+          "add a push_in or a follow so the tension builds",
+        ),
+      );
+    if (
+      (beat === "resolve" || beat === "conclusion" || beat === "relate") &&
+      moves.some((m) => m === "shake" || m === "punch_in")
+    )
+      out.push(
+        issue(
+          "PACING_JOLT_IN_CALM",
+          `scenes[${i}].camera`,
+          `a ${beat} scene must be calm but the camera ${moves.includes("shake") ? "shakes" : "punches in"}`,
+          "use static, a slow push_in or a pull_out here",
+        ),
+      );
     if (norm(d.before) === norm(d.after) || events(s) === 0)
       out.push(
         issue(
