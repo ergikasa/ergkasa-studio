@@ -24,6 +24,7 @@ const CAMERA = [
   "follow",
   "shake",
   "punch_in",
+  "travel",
 ] as const;
 
 const BLOCKING = ["seated", "standing", "enter", "walk_to", "sit", "stand_up", "give", "exit"] as const;
@@ -64,6 +65,7 @@ export const DRAFT_SCHEMA: StrictSchema = obj({
       shot: obj({
         size: { type: "string", enum: ["wide", "medium", "close", "insert"] },
         subject: str('Layer id to frame; "" = the speaking actor (or the first object for insert).'),
+        zone: str('Wide place: the zone the scene starts in (see the background\'s zones); "" for ordinary places.'),
       }),
       layers: arr(
         obj({
@@ -79,6 +81,7 @@ export const DRAFT_SCHEMA: StrictSchema = obj({
           ),
           scale: num("Size multiplier, 1 = default size."),
           region: { type: "string", enum: ["none", "top-safe", "center", "bottom-safe"] },
+          zone: str('Wide place: the zone this layer stands in (x is then relative to that zone); "" = the scene\'s own view.'),
           facing: { type: "string", enum: ["front", "left", "right"] },
           expression: str('Actor expression, e.g. neutral. "" for non-actors.'),
           speaks: {
@@ -112,6 +115,7 @@ export const DRAFT_SCHEMA: StrictSchema = obj({
               at: str(ANCHOR_DOC),
               durationSec: num("0 = default duration."),
               toX: num("Walk/run destination x (0..1), or -1 if the action does not move."),
+              toZone: str('Wide place: the zone the walk ends in; "" = the scene\'s own view.'),
               expression: str('Face from this moment on (an expression name), or "" to keep it.'),
             }),
           ),
@@ -129,6 +133,8 @@ export const DRAFT_SCHEMA: StrictSchema = obj({
           move: { type: "string", enum: [...CAMERA] },
           at: str(ANCHOR_DOC),
           to: num("Zoom target for push_in/pull_out/punch_in (e.g. 1.08), pan amount for pans; 0 = default."),
+          zone: str('travel: the zone of a wide place the camera moves to; "" otherwise.'),
+          target: str('travel: the layer id the camera travels WITH (it walks, the camera follows it); "" otherwise.'),
         }),
       ),
       effects: arr(
@@ -148,6 +154,7 @@ export interface DraftLayer {
   y: number;
   scale: number;
   region: "none" | "top-safe" | "center" | "bottom-safe";
+  zone?: string;
   facing: "front" | "left" | "right";
   expression: string;
   speaks: boolean;
@@ -157,7 +164,7 @@ export interface DraftLayer {
   attachTo?: string;
   enter: (typeof ENTER)[number];
   enterAt: string;
-  actions: Array<{ action: string; at: string; durationSec: number; toX: number; expression: string }>;
+  actions: Array<{ action: string; at: string; durationSec: number; toX: number; toZone?: string; expression: string }>;
   animations: Array<{ name: string; at: string }>;
   text: string;
   textStyle: string;
@@ -173,9 +180,9 @@ export interface DraftScene {
   direction?: { idea: string; demonstration: string; before: string; after: string; focus: string };
   background: string;
   set?: string;
-  shot: { size: "wide" | "medium" | "close" | "insert"; subject: string };
+  shot: { size: "wide" | "medium" | "close" | "insert"; subject: string; zone?: string };
   layers: DraftLayer[];
-  camera: Array<{ move: (typeof CAMERA)[number]; at: string; to: number }>;
+  camera: Array<{ move: (typeof CAMERA)[number]; at: string; to: number; zone?: string; target?: string }>;
   effects: Array<{ preset: string; intensity: number }>;
   transition: (typeof TRANSITION)[number];
   transitionDirection: "none" | "left" | "right" | "up" | "down";
@@ -304,7 +311,9 @@ export function draftToPlan(
               action: a.action,
               at: at(a.at, `${lp}.actions[${ai}].at`),
               ...(a.durationSec > 0 ? { durationSec: a.durationSec } : {}),
-              ...(a.toX >= 0 ? { to: { x: clamp(a.toX, -0.5, 1.5) } } : {}),
+              ...(a.toX >= 0
+                ? { to: { x: clamp(a.toX, -0.5, 1.5), ...(a.toZone?.trim() ? { zone: a.toZone.trim() } : {}) } }
+                : {}),
               ...(a.expression?.trim() ? { expression: a.expression.trim() } : {}),
             })),
           };
@@ -360,6 +369,7 @@ export function draftToPlan(
             shot: {
               size: d.shot.size,
               ...(d.shot.subject?.trim() ? { subject: d.shot.subject.trim() } : {}),
+              ...(d.shot.zone?.trim() ? { zone: d.shot.zone.trim() } : {}),
             },
           }
         : {}),
@@ -369,6 +379,8 @@ export function draftToPlan(
         move: c.move,
         at: at(c.at, `${path}.camera[${ci}].at`),
         ...(c.to > 0 ? { to: c.to } : {}),
+        ...(c.zone?.trim() ? { zone: c.zone.trim() } : {}),
+        ...(c.target?.trim() ? { target: c.target.trim() } : {}),
       })),
       transitionOut: last
         ? { type: "cut" as const, durationSec: 0 }
@@ -395,8 +407,10 @@ export function draftToPlan(
 function placement(l: DraftLayer): VideoPlan["scenes"][number]["layers"][number]["place"] {
   const scale = l.scale > 0 ? clamp(l.scale, 0.1, 10) : 1;
   const x = clamp(l.x, -0.5, 1.5);
-  if (l.type === "actor" && l.y < 0) return { anchor: "ground", x, scale };
+  const zone = l.zone?.trim() ? { zone: l.zone.trim() } : {};
+  if (l.type === "actor" && l.y < 0) return { anchor: "ground", x, scale, ...zone };
   return {
+    ...zone,
     anchor: "free",
     x,
     ...(l.y >= 0 ? { y: clamp(l.y, -0.5, 1.5) } : {}),

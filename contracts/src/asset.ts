@@ -79,6 +79,13 @@ export const AssetMeta = z
     actorZones: z.array(Vec2).optional(),
     safeFrames: z.record(z.string(), z.tuple([z.number(), z.number(), z.number(), z.number()])).optional(),
     mood: z.array(z.string()).optional(),
+    /** Wide places: named zones along the background, x as a fraction of its width (0..1). */
+    zones: z
+      .record(
+        z.string().regex(/^[a-z][a-z0-9_]*$/),
+        z.object({ x: z.number().min(0).max(1), label: z.string().optional() }).strict(),
+      )
+      .optional(),
     // metaphors: part id -> how it moves
     parts: z.record(z.string(), z.string()).optional(),
     themes: z.array(Theme),

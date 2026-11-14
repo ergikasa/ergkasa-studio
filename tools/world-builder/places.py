@@ -21,9 +21,12 @@ SKIES = {
 }
 
 
+_SKY_BASE = True  # False while a panorama is built: it paints one sky over the whole width instead of one per part
+
+
 def _sky(d: Defs, time: str) -> str:
     top, bottom = SKIES[time]
-    out = rect(X0 - 400, -600, X1 - X0 + 800, 2700, d.v("sky", top, bottom))
+    out = rect(X0 - 400, -600, X1 - X0 + 800, 2700, d.v("sky", top, bottom)) if _SKY_BASE else ""
     if time in ("golden", "dusk"):
         out += circle(1880, 520, 120, P["warm_light2"]) + circle(1880, 520, 320, d.glow("sun", P["warm_light"], 0.55, 0.0))
     return out
@@ -162,5 +165,58 @@ def build_place(spec: dict, style: str) -> tuple[str, dict]:
         "groundY": GROUND_Y, "actorZones": [[300, 2260]], "anchors": info["anchors"], "safeFrames": SAFE,
         "capabilities": {"camera": ["pan", "zoom", "parallax", "shake"]}, "mood": info["mood"],
         "themes": ["psychology", "decisions"], "tags": tags, "license": LICENSE,
+    }
+    return svg, meta
+
+
+def build_panorama(spec: dict, style: str) -> tuple[str, dict]:
+    """A wide place: 2-4 generated places side by side (2560 px each). Each part is a named zone; layers of the
+    same name are joined so parallax keeps working across the whole width."""
+    pid = spec["id"]
+    parts = spec["parts"]
+    n = len(parts)
+    sides = tuple(spec.get("sides") or (P["blue_d"], P["red"]))
+    global _SKY_BASE
+    time = spec.get("time", "day")
+    top, bottom = SKIES["night" if all(p["kind"] == "rooftop_night" for p in parts) else time]
+    sd = Defs(f"{pid}_sky")
+    merged: dict[str, tuple[float, str]] = {}
+    order: list[str] = []
+    zones: dict[str, dict] = {}
+    clips: dict[str, str] = {}
+    tags: list[str] = []
+    descr: list[str] = []
+    base = rect(-1200, -600, W * n + 2400, 2700, sd.v("sky", top, bottom))
+    defs = ""
+    _SKY_BASE = False
+    for i, part in enumerate(parts):
+        d = Defs(f"{pid}_p{i}")
+        layers, info, ptags, pdesc = BUILDERS[part["kind"]](d, spec.get("time", "day"), sides, part.get("seed", spec.get("seed", 1) + i))
+        defs += d.xml()
+        for lid, dep, content in layers:
+            if lid not in merged:
+                merged[lid] = (dep, "")
+                order.append(lid)
+            # parts overlap by their 400 px margins; all parts share one time of day so the overlap is invisible
+            # (a clip-path here makes resvg panic when a clipped group is fully off-screen)
+            merged[lid] = (dep, merged[lid][1] + f'<g transform="translate({i * W} 0)">{content}</g>')
+        zones[part["zone"]] = {"x": round((i + 0.5) / n, 4), "label": pdesc}
+        tags += [t for t in ptags if t not in tags]
+        descr.append(f"{part['zone']}: {pdesc}")
+    _SKY_BASE = True
+    defs = sd.xml() + defs
+    merged["sky"] = (merged["sky"][0], base + merged["sky"][1])
+    body = "".join(layer(lid, merged[lid][0], merged[lid][1]) for lid in order)
+    total = W * n
+    svg = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {total} {H}" width="{total}" height="{H}">'
+           f'<defs>{defs}</defs><g id="{pid}">{body}</g></svg>\n')
+    meta = {
+        "schema": "erkasa.asset/1", "assetId": pid, "version": 1, "name": "wide place",
+        "description": "A wide place with zones. " + " | ".join(descr), "category": "background", "subcategory": "world",
+        "kind": "layered_background", "adapter": "svg", "style": f"world_{style}", "files": {"svg": "asset.svg"},
+        "viewBox": [0, 0, total, H], "layers": [{"id": f"layer_{lid}", "depth": merged[lid][0]} for lid in order],
+        "groundY": GROUND_Y, "actorZones": [[300, total - 300]], "anchors": {"center": [total // 2, GROUND_Y]},
+        "safeFrames": SAFE, "capabilities": {"camera": ["pan", "zoom", "parallax", "shake", "travel"]},
+        "mood": ["wide", style], "zones": zones, "themes": ["psychology", "decisions"], "tags": tags, "license": LICENSE,
     }
     return svg, meta

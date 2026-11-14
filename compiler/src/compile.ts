@@ -103,7 +103,7 @@ interface SceneContext {
   height: number;
   words: TimedWord[];
   duration: number;
-  world: { width: number; height: number; groundY: number };
+  world: { width: number; height: number; groundY: number; zones: Record<string, number> };
   /** The scene's framing (from `shot`): world point at the frame center and zoom. Layers are placed in it. */
   view: { cx: number; cy: number; zoom: number; subject?: string; size?: string };
   /** `layerId.event` -> scene-local frame where that event ends. */
@@ -155,7 +155,12 @@ export function compileVideo(planInput: unknown, opts: CompileOptions): CompileR
       height,
       words,
       duration,
-      world: { width: vb[2], height: vb[3], groundY: bgMeta.groundY ?? vb[3] * 0.88 },
+      world: {
+        width: vb[2],
+        height: vb[3],
+        groundY: bgMeta.groundY ?? vb[3] * 0.88,
+        zones: Object.fromEntries(Object.entries(bgMeta.zones ?? {}).map(([k, z]) => [k, z.x * vb[2]])),
+      },
       view: { cx: vb[2] / 2, cy: vb[3] / 2, zoom: 1 },
       events: new Map(),
       issues,
@@ -429,11 +434,35 @@ const clampFrame = (ctx: SceneContext, f: number): number =>
 
 // ------------------------------------------------------------------ placement
 /** Normalized frame coordinates -> world pixels, in the scene's framed view (see `shot`). */
-function toWorld(ctx: SceneContext, x: number, y: number, view = ctx.view): [number, number] {
+function toWorld(
+  ctx: SceneContext,
+  x: number,
+  y: number,
+  view = ctx.view,
+  zone?: string,
+  path = ctx.path,
+): [number, number] {
   const cover = Math.max(ctx.width / ctx.world.width, ctx.height / ctx.world.height);
   const vw = ctx.width / (cover * view.zoom);
   const vh = ctx.height / (cover * view.zoom);
-  return [view.cx - vw / 2 + x * vw, view.cy - vh / 2 + y * vh];
+  const cx = zone ? zoneX(ctx, zone, path) : view.cx;
+  return [cx - vw / 2 + x * vw, view.cy - vh / 2 + y * vh];
+}
+
+/** World x of a named zone of the background; reports an unknown zone and falls back to the middle. */
+function zoneX(ctx: SceneContext, zone: string, path: string): number {
+  const x = ctx.world.zones[zone];
+  if (x === undefined) {
+    ctx.issues.push({
+      level: "error",
+      code: "ZONE_UNKNOWN",
+      path,
+      message: `the background has no zone '${zone}'`,
+      hint: `zones: ${Object.keys(ctx.world.zones).join(", ") || "none (this place is not wide)"}`,
+    });
+    return ctx.world.width / 2;
+  }
+  return x;
 }
 
 /** World pixels -> normalized frame coordinates in the framed view. */
@@ -455,8 +484,12 @@ const actorHeight = (ctx: SceneContext, meta: AssetMeta | undefined, placeScale:
  * position on screen (its place.x), the camera moves around it, and the view never leaves the background.
  */
 function frameShot(ctx: SceneContext, assets: AssetSource): SceneContext["view"] {
-  const wide = { cx: ctx.world.width / 2, cy: ctx.world.height / 2, zoom: 1 };
   const shot = ctx.plan.shot;
+  const wide = {
+    cx: shot?.zone ? zoneX(ctx, shot.zone, `${ctx.path}.shot.zone`) : ctx.world.width / 2,
+    cy: ctx.world.height / 2,
+    zoom: 1,
+  };
   if (!shot || shot.size === "wide") return wide;
   const layers = ctx.plan.layers;
   const subject =
@@ -481,7 +514,7 @@ function frameShot(ctx: SceneContext, assets: AssetSource): SceneContext["view"]
   let zoom: number;
   let cy: number;
   // the subject keeps its on-screen x; its world x comes from where it stands in the wide view
-  const [sx, sy] = toWorld(ctx, subject.place.x, subject.place.y ?? 0.45, wide);
+  const [sx, sy] = toWorld(ctx, subject.place.x, subject.place.y ?? 0.45, wide, subject.place.zone);
   if (subject.type === "actor" && shot.size !== "insert") {
     let meta: AssetMeta | undefined;
     try {
@@ -665,7 +698,7 @@ function compileActor(
       hint: `items: ${[...items].join(", ") || "none"}`,
     });
   const exprK: Keyframe[] = [{ f: 0, v: layer.expression }];
-  const [wx, wyFree] = toWorld(ctx, layer.place.x, layer.place.y ?? 0.88);
+  const [wx, wyFree] = toWorld(ctx, layer.place.x, layer.place.y ?? 0.88, ctx.view, layer.place.zone, `${path}.place.zone`);
   const y = layer.place.anchor === "ground" ? ctx.world.groundY : wyFree;
   const startFacing = layer.facing;
 
@@ -703,7 +736,7 @@ function compileActor(
     }
     if (SIDE_ONLY_MOVES.has(a.action) && a.to) {
       if (!hasSide) return;
-      const [tx] = toWorld(ctx, a.to.x, 0);
+      const [tx] = toWorld(ctx, a.to.x, 0, ctx.view, a.to.zone, `${apath}.to.zone`);
       const dir = tx >= x ? "right" : "left";
       const speed = (a.action === "run" ? RUN_SPEED : WALK_SPEED) * scale;
       const travel = Math.max(1, Math.round((Math.abs(tx - x) / speed) * ctx.fps));
@@ -970,6 +1003,9 @@ function compileAssetLayer(
     ctx,
     layer.place.x,
     layer.place.y ?? REGION_Y[layer.place.region ?? "center"] ?? 0.42,
+    ctx.view,
+    layer.place.zone,
+    `${path}.place.zone`,
   );
   // sizes are what the viewer sees (a fraction of the frame width), whatever the shot's zoom; the subject
   // of an insert shot is what the camera came to show, so it is drawn bigger, but always inside the frame
@@ -1223,6 +1259,55 @@ function compileCamera(ctx: SceneContext, nodes: TimelineNode[]): Tracks {
             push("x", [{ f: k.f, v: round(cx + (Number(k.v) - cx) * 0.7), ease: "easeInOutCubic" }]);
         break;
       }
+      case "travel": {
+        if (m.target) {
+          // travelling WITH someone: the camera keeps that layer where it already is on screen while it walks
+          const target = nodes.find((nd) => nd.id === m.target);
+          const txs = target?.tracks["x"] ?? [];
+          if (!target || txs.length === 0) {
+            ctx.issues.push({
+              level: "error",
+              code: "CAMERA_TARGET_UNKNOWN",
+              path: `${ctx.path}.camera[${i}].target`,
+              message: `no layer '${m.target}' to travel with`,
+            });
+            return;
+          }
+          const off = x - sample(txs, s, x);
+          // no duration given: travel until the target has arrived
+          const end = m.durationSec === undefined ? Math.min(last, Math.max(s + 1, (txs[txs.length - 1] as Keyframe).f)) : e;
+          push("x", [{ f: s, v: round(x) }]);
+          for (const k of txs) if (k.f > s && k.f < end) push("x", [{ f: k.f, v: round(Number(k.v) + off), ease: k.ease }]);
+          x = sample(txs, end, x) + off;
+          push("x", [{ f: end, v: round(x) }]);
+          break;
+        }
+        if (!m.zone) {
+          ctx.issues.push({
+            level: "error",
+            code: "CAMERA_ZONE",
+            path: `${ctx.path}.camera[${i}].zone`,
+            message: "travel needs the zone to move to (or a target layer to travel with)",
+            hint: `zones: ${Object.keys(ctx.world.zones).join(", ") || "none"}`,
+          });
+          return;
+        }
+        const to = zoneX(ctx, m.zone, `${ctx.path}.camera[${i}].zone`);
+        push("x", [
+          { f: s, v: round(x) },
+          { f: e, v: round(to), ease: m.ease },
+        ]);
+        x = to;
+        if (m.to !== undefined) {
+          const z = base * m.to;
+          push("zoom", [
+            { f: s, v: zoom },
+            { f: e, v: z, ease: m.ease },
+          ]);
+          zoom = z;
+        }
+        break;
+      }
       case "static":
         break;
     }
@@ -1301,8 +1386,11 @@ function checkFraming(ctx: SceneContext, nodes: TimelineNode[], camera: Tracks):
       (node.id.startsWith("set_") || (node.adapter === "character" && node.id !== ctx.view.subject))
     )
       continue;
-    const frames = new Set<number>([0, ctx.duration - 1]);
-    for (const k of node.tracks["x"] ?? []) frames.add(Math.min(ctx.duration - 1, k.f));
+    // with a camera that travels between zones, things in other zones are out of frame on purpose:
+    // judge them only where the camera ends
+    const travels = ctx.plan.camera.some((m) => m.move === "travel");
+    const frames = new Set<number>(travels ? [ctx.duration - 1] : [0, ctx.duration - 1]);
+    if (!travels) for (const k of node.tracks["x"] ?? []) frames.add(Math.min(ctx.duration - 1, k.f));
     for (const f of [...frames].sort((a, b) => a - b)) {
       // a walk-in from off-screen is intentional: only judge from the moment the node has arrived
       const xs = node.tracks["x"] ?? [];

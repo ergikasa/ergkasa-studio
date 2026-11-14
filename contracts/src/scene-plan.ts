@@ -33,6 +33,11 @@ export const Placement = z
     y: Unit.optional(),
     scale: z.number().positive().max(10).default(1),
     region: z.enum(["top-safe", "center", "bottom-safe"]).optional(),
+    /** A named zone of a wide place: x is then relative to the view centered on that zone. */
+    zone: z
+      .string()
+      .regex(/^[a-z][a-z0-9_]*$/)
+      .optional(),
   })
   .strict();
 
@@ -41,7 +46,18 @@ export const CharacterAction = z
     action: z.string().regex(/^[a-z_]+$/),
     at: TimeAnchor,
     durationSec: z.number().positive().optional(),
-    to: z.object({ x: Unit, y: Unit.optional() }).strict().optional(),
+    to: z
+      .object({
+        x: Unit,
+        y: Unit.optional(),
+        /** Walk to a point of another zone of a wide place (x relative to that zone's view). */
+        zone: z
+          .string()
+          .regex(/^[a-z][a-z0-9_]*$/)
+          .optional(),
+      })
+      .strict()
+      .optional(),
     target: LocalId.optional(),
     /** The face changes with the action (guilt -> relief inside one scene). */
     expression: z
@@ -189,7 +205,22 @@ export const SceneLayer = z.discriminatedUnion("type", [ActorLayer, AssetLayer, 
 
 export const CameraMove = z
   .object({
-    move: z.enum(["static", "push_in", "pull_out", "pan_left", "pan_right", "follow", "shake", "punch_in"]),
+    move: z.enum([
+      "static",
+      "push_in",
+      "pull_out",
+      "pan_left",
+      "pan_right",
+      "follow",
+      "shake",
+      "punch_in",
+      "travel",
+    ]),
+    /** travel: the zone of a wide place the camera moves to (a short duration is a whip). */
+    zone: z
+      .string()
+      .regex(/^[a-z][a-z0-9_]*$/)
+      .optional(),
     at: TimeAnchor.default("start"),
     durationSec: z.number().positive().optional(),
     to: z.number().positive().max(4).optional(),
@@ -238,7 +269,15 @@ export const ScenePlan = z
      * framed view, so x 0.5 is always the middle of what the viewer sees.
      */
     shot: z
-      .object({ size: z.enum(["wide", "medium", "close", "insert"]), subject: LocalId.optional() })
+      .object({
+        size: z.enum(["wide", "medium", "close", "insert"]),
+        subject: LocalId.optional(),
+        /** The zone of a wide place the scene starts in (default: the middle of the place). */
+        zone: z
+          .string()
+          .regex(/^[a-z][a-z0-9_]*$/)
+          .optional(),
+      })
       .strict()
       .optional(),
     layers: z.array(SceneLayer).max(12),

@@ -26,7 +26,7 @@ sys.path.insert(0, str(HERE))
 from cast import look_for  # noqa: E402
 from characters import asset_json, character_svg, rig_json  # noqa: E402
 from characters_side import side_rig, side_svg  # noqa: E402
-from places import build_place  # noqa: E402
+from places import build_panorama, build_place  # noqa: E402
 from props import build_prop  # noqa: E402
 from style import grade  # noqa: E402
 
@@ -156,7 +156,7 @@ def build(spec: dict, out: Path, custom_dir: Path | None = None) -> dict:
         if place["kind"] == "set":
             entries.extend(build_set(out, place, style))
             continue
-        svg, meta = build_place(place, style)
+        svg, meta = (build_panorama if place["kind"] == "panorama" else build_place)(place, style)
         entries.append(write(out, "backgrounds", meta, {"asset.svg": grade(svg, style)}))
     for i, ch in enumerate(spec["cast"]):
         if ch.get("from"):

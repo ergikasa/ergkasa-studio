@@ -259,6 +259,30 @@
         "type": "string"
       }
     },
+    "zones": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_]*$"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "label": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "x"
+        ],
+        "additionalProperties": false
+      }
+    },
     "parts": {
       "type": "object",
       "propertyNames": {

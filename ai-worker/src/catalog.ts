@@ -85,7 +85,12 @@ export class Catalog {
       const m = this.source.meta(e.assetId);
       if (m.kind === "rigged_character") this.characters.push(character(m));
       else if (m.category === "background")
-        this.backgrounds.push(info(m, `mood: ${(m.mood ?? []).join(", ")}`));
+        this.backgrounds.push(
+          info(
+            m,
+            `mood: ${(m.mood ?? []).join(", ")}${m.zones ? `; WIDE place (${Math.round((m.viewBox?.[2] ?? 2560) / 2560)} screens wide), zones: ${Object.keys(m.zones).join(", ")}` : ""}`,
+          ),
+        );
       else if (m.category === "metaphor")
         this.metaphors.push(
           info(

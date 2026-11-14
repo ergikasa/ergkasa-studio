@@ -75,11 +75,28 @@ export type WorldCharacter = z.infer<typeof WorldCharacter>;
 export const WorldPlace = z
   .object({
     id: RoleId,
-    kind: z.enum(["castle_rampart", "office_floor", "rooftop_night", "library", "set"]),
+    kind: z.enum(["castle_rampart", "office_floor", "rooftop_night", "library", "set", "panorama"]),
     /** kind set: a staged set (people enter, walk, sit, hand things over), copied into the world. */
     set: z.enum(["interview_office"]).optional(),
     /** kind library: the library background to copy into the world. */
     from: AssetId.optional(),
+    /**
+     * kind panorama: a wide place of 2 to 4 generated places side by side, each one a named zone the camera
+     * can travel to and the cast can walk to without a cut.
+     */
+    parts: z
+      .array(
+        z
+          .object({
+            kind: z.enum(["castle_rampart", "office_floor", "rooftop_night"]),
+            zone: z.string().regex(/^[a-z][a-z0-9_]*$/),
+            seed: z.number().int().min(0).optional(),
+          })
+          .strict(),
+      )
+      .min(2)
+      .max(4)
+      .optional(),
     time: z.enum(["day", "golden", "dusk", "night"]).default("day"),
     /** Two colours that tell the sides of the story apart (banners, flags, details). */
     sides: z.tuple([Hex, Hex]).optional(),
@@ -89,7 +106,13 @@ export const WorldPlace = z
   .refine((p) => (p.kind === "library") === (p.from !== undefined), {
     message: "kind library needs `from` (a library background id); generated kinds take none",
   })
-  .refine((p) => (p.kind === "set") === (p.set !== undefined), { message: "kind set needs `set`" });
+  .refine((p) => (p.kind === "set") === (p.set !== undefined), { message: "kind set needs `set`" })
+  .refine((p) => (p.kind === "panorama") === (p.parts !== undefined), {
+    message: "kind panorama needs `parts` (2 to 4 zones)",
+  })
+  .refine((p) => !p.parts || new Set(p.parts.map((x) => x.zone)).size === p.parts.length, {
+    message: "panorama zones must have different names",
+  });
 
 export const WorldProp = z
   .object({

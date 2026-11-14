@@ -113,6 +113,7 @@ describe("world step and world catalog", () => {
       time: "day",
       sideA: "",
       sideB: "",
+      parts: "",
     });
     d.props.push({
       key: "hourglass",

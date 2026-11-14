@@ -132,6 +132,10 @@
         "subject": {
           "type": "string",
           "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+        },
+        "zone": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*$"
         }
       },
       "required": [
@@ -185,6 +189,10 @@
                       "center",
                       "bottom-safe"
                     ]
+                  },
+                  "zone": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_]*$"
                   }
                 },
                 "required": [
@@ -682,6 +690,10 @@
                           "type": "number",
                           "minimum": -0.5,
                           "maximum": 1.5
+                        },
+                        "zone": {
+                          "type": "string",
+                          "pattern": "^[a-z][a-z0-9_]*$"
                         }
                       },
                       "required": [
@@ -865,6 +877,10 @@
                       "center",
                       "bottom-safe"
                     ]
+                  },
+                  "zone": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_]*$"
                   }
                 },
                 "required": [
@@ -1418,6 +1434,10 @@
                       "center",
                       "bottom-safe"
                     ]
+                  },
+                  "zone": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_]*$"
                   }
                 },
                 "required": [
@@ -1875,6 +1895,10 @@
                       "center",
                       "bottom-safe"
                     ]
+                  },
+                  "zone": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_]*$"
                   }
                 },
                 "required": [
@@ -2353,8 +2377,13 @@
               "pan_right",
               "follow",
               "shake",
-              "punch_in"
+              "punch_in",
+              "travel"
             ]
+          },
+          "zone": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
           },
           "at": {
             "default": "start",
