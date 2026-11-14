@@ -1,3 +1,4 @@
+import { Storyboard } from "./Storyboard";
 import { useCallback, useEffect, useState } from "react";
 import {
   ApiError,
@@ -214,6 +215,8 @@ function RunPanel({ id }: { id: string }) {
             {chars > 0 ? ` · ${chars} ElevenLabs characters` : ""}
           </div>
         )}
+
+        {files.includes("storyboard.json") && <Storyboard detail={detail} onChange={setDetail} />}
 
         {script && (
           <div className="mt-6">

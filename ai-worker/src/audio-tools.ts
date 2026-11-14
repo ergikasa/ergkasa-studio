@@ -1,9 +1,8 @@
+import { runCatalog } from "./producer.js";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 import type { MixSettings } from "@erkasa/contracts";
 import { renderMix } from "@erkasa/engine-worker";
-import { Catalog } from "./catalog.js";
-import { repoRoot } from "./env.js";
 import { RUN_FILES, compileRun, loadPlan, stepRender, stepSoundtrack } from "./steps.js";
 
 /**
@@ -60,7 +59,7 @@ export async function rerender(
 ): Promise<string | undefined> {
   requireRun(dir);
   const log = opts.log ?? ((l: string) => console.info(l));
-  const catalog = new Catalog(join(repoRoot(), "assets"));
+  const catalog = runCatalog(dir);
   let last = -1;
   const res = await stepRender(dir, loadPlan(dir), {
     catalog,
@@ -92,7 +91,7 @@ export async function mixRun(
 ): Promise<string[]> {
   requireRun(dir);
   const log = opts.log ?? ((l: string) => console.info(l));
-  const compiled = compileRun(dir, loadPlan(dir), new Catalog(join(repoRoot(), "assets")));
+  const compiled = compileRun(dir, loadPlan(dir), runCatalog(dir));
   const timeline = compiled.timeline;
   if (!timeline)
     throw new Error("the plan does not compile; render it once with pnpm video --from-plan to see why");

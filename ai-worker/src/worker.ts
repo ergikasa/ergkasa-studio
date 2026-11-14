@@ -1,3 +1,5 @@
+import { availableParallelism } from "node:os";
+import { redoRunScene, showStoryboard } from "./producer.js";
 import { randomUUID } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
 import { isAbsolute, join, resolve } from "node:path";
@@ -113,6 +115,14 @@ export function runWorld(
 }
 
 /** Runs one task. Returns its outputs and metrics, or throws (TaskFailure for known failures). */
+/** How many render processes to use: the task's `workers`, else ERKASA_RENDER_WORKERS, else 2 (1 on a single core). */
+function renderWorkers(p: Record<string, unknown>): number {
+  const asked =
+    typeof p["workers"] === "number" ? p["workers"] : Number(process.env["ERKASA_RENDER_WORKERS"]);
+  const n = Number.isFinite(asked) && asked >= 1 ? Math.floor(asked) : Math.min(2, availableParallelism());
+  return Math.max(1, Math.min(8, n));
+}
+
 export async function executeTask(
   cmd: TaskCommand,
   deps: WorkerDeps,
@@ -157,6 +167,7 @@ export async function executeTask(
         deps.catalog,
         (str("projectId") || cmd.runId).replace(/[^a-z0-9]+/g, "_").replace(/^[^a-z]+/, "w_"),
         str("host") || undefined,
+        str("style") || undefined,
       );
       // no valid world: the video goes on with the library (world-issues.json says why)
       progress(100, res.summary ? `world: ${res.summary}` : "no valid world: using the library");
@@ -199,6 +210,7 @@ export async function executeTask(
         w.catalog,
         str("projectId") || cmd.runId,
         w.host,
+        { critic: p["critic"] === true },
       );
       if (!res.plan) {
         const summary = res.errors
@@ -220,12 +232,47 @@ export async function executeTask(
         },
       };
     }
+    case "storyboard.build": {
+      progress(5, "drawing the storyboard");
+      const only = Array.isArray(p["only"]) ? (p["only"] as unknown[]).map(String) : undefined;
+      const sb = showStoryboard(dir, { ...(only ? { only } : {}), workers: renderWorkers(p) });
+      progress(100, `${sb.scenes.length} scenes, render ~${Math.ceil(sb.estimate.renderSec / 60)} min`);
+      return {
+        outputs: [ref(cmd.runId, "storyboard.json", "storyboard", "application/json")],
+        metrics: {
+          scenes: sb.scenes.length,
+          totalSec: sb.totalSec,
+          estimatedRenderSec: sb.estimate.renderSec,
+        },
+      };
+    }
+    case "scene.redo": {
+      const sceneId = str("sceneId");
+      if (!/^[a-z][a-z0-9_-]{0,40}$/i.test(sceneId))
+        throw new TaskFailure("BAD_SCENE", `invalid scene id '${sceneId}'`, false);
+      progress(5, `redoing ${sceneId}`);
+      const r = await redoRunScene(deps.llm(), dir, sceneId, {
+        ...(str("request") ? { request: str("request").slice(0, 500) } : {}),
+        ...(str("host") ? { host: str("host") } : {}),
+        ...(str("voice") ? { voice: str("voice") } : {}),
+        workers: renderWorkers(p),
+      });
+      progress(100, r.clean ? `${sceneId} redone` : `${sceneId}: ${r.issues[0]?.message ?? "unchanged"}`);
+      return {
+        outputs: [
+          ref(cmd.runId, RUN_FILES.plan, "plan", "application/json"),
+          ref(cmd.runId, "storyboard.json", "storyboard", "application/json"),
+        ],
+        metrics: { ...usageMetrics(r.usage), clean: r.clean ? 1 : 0, openPoints: r.issues.length },
+      };
+    }
     case "render.finalize": {
       progress(0, "compiling");
       const started = Date.now();
       const res = await stepRender(dir, loadPlan(dir), {
         catalog: runWorld(dir, deps.catalog).catalog,
         music: p["music"] !== false,
+        workers: renderWorkers(p),
         progress,
       });
       if (!res.video) {

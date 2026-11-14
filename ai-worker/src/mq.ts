@@ -8,7 +8,14 @@ import { optional } from "./env.js";
  *   {prefix}.events -> {prefix}.results (result), {prefix}.progress (progress)
  */
 export class MqNames {
-  static readonly AI_TASKS = ["script.write", "world.design", "voice.synthesize", "visual.plan"] as const;
+  static readonly AI_TASKS = [
+    "script.write",
+    "world.design",
+    "voice.synthesize",
+    "visual.plan",
+    "storyboard.build",
+    "scene.redo",
+  ] as const;
   static readonly RENDER_TASKS = ["render.finalize"] as const;
   static readonly RESULT_KEY = "result";
   static readonly PROGRESS_KEY = "progress";

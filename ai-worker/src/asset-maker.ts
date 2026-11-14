@@ -248,6 +248,15 @@ function cacheKey(req: CustomRequest): string {
 }
 
 /** Draws one object: up to `maxAttempts` tries, each told what was wrong with the previous drawing. */
+/**
+ * The model that draws the bulk objects (default: the cheap one; the gate checks every drawing, so a weaker
+ * model costs attempts, not quality). ERKASA_ASSET_MODEL=same uses the main model, any other value names a model.
+ */
+export function assetModel(): string | undefined {
+  const m = process.env["ERKASA_ASSET_MODEL"] ?? "claude-haiku-5-5";
+  return m === "same" || m === "" ? undefined : m;
+}
+
 export async function drawCustom(llm: Llm, req: CustomRequest, maxAttempts = 3): Promise<CustomResult> {
   const key = cacheKey(req);
   const cached = join(cacheDir(), `${key}.svg`);
@@ -261,6 +270,7 @@ export async function drawCustom(llm: Llm, req: CustomRequest, maxAttempts = 3):
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     const res = await llm.json({
       label: `asset:${req.id}${attempt > 1 ? `:${attempt}` : ""}`,
+      ...(assetModel() ? { model: assetModel() as string } : {}),
       system: `You draw scene props for a 2D animation studio as clean SVG code.\n${STYLE_GUIDE}`,
       messages: [
         {

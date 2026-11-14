@@ -15,6 +15,8 @@ export interface JsonRequest {
   messages: LlmMessage[];
   schema: StrictSchema;
   maxTokens?: number;
+  /** A different (cheaper) model for this request, e.g. for bulk drawing. Default: the client's model. */
+  model?: string;
   /** Pictures the model should look at, attached to the last user message. */
   images?: Array<{ mediaType: "image/png" | "image/jpeg"; base64: string }>;
 }
@@ -95,16 +97,17 @@ export class AnthropicLlm implements Llm {
   private loose = false;
 
   async json(req: JsonRequest): Promise<JsonResponse> {
+    const model = req.model ?? this.model;
     const body = JSON.stringify(
       this.loose
         ? {
-            model: this.model,
+            model,
             max_tokens: req.maxTokens ?? 32000,
             system: `${req.system}\n\nAnswer with ONE JSON object only (no prose, no code fences) that follows this JSON Schema exactly:\n${JSON.stringify(req.schema)}`,
             messages: apiMessages(req),
           }
         : {
-            model: this.model,
+            model,
             max_tokens: req.maxTokens ?? 32000,
             system: req.system,
             messages: apiMessages(req),

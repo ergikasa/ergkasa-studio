@@ -45,7 +45,7 @@ const COSTUMES = [
   "worker",
   "toga",
 ] as const;
-const STYLES = ["storybook", "clean_editorial", "night_noir", "sunset_warm"] as const;
+export const STYLES = ["storybook", "clean_editorial", "night_noir", "sunset_warm"] as const;
 const TIMES = ["day", "golden", "dusk", "night"] as const;
 
 export interface WorldDraft {
@@ -444,9 +444,14 @@ export async function writeWorld(
   llm: Llm,
   script: Script,
   catalog: Catalog,
-  opts: { worldId: string; host?: string; maxAttempts?: number },
+  opts: { worldId: string; host?: string; maxAttempts?: number; style?: string },
 ): Promise<WorldResult> {
-  const messages: LlmMessage[] = [{ role: "user", content: worldPrompt(script, catalog) }];
+  const messages: LlmMessage[] = [
+    {
+      role: "user",
+      content: `${worldPrompt(script, catalog)}${opts.style ? `\n\nThe producer chose the look of this video: "${opts.style}". Use exactly this style and design the world to suit it.` : ""}`,
+    },
+  ];
   const usage: Usage[] = [];
   const max = opts.maxAttempts ?? 3;
   let last: ReturnType<typeof draftToWorld> = { castMap: {}, issues: [] };
@@ -459,7 +464,10 @@ export async function writeWorld(
       maxTokens: 8000,
     });
     usage.push(res.usage);
-    last = draftToWorld(res.value as WorldDraft, script, catalog, opts.worldId, opts.host);
+    const value = res.value as WorldDraft;
+    if (opts.style && (STYLES as readonly string[]).includes(opts.style))
+      value.style = opts.style as (typeof STYLES)[number];
+    last = draftToWorld(value, script, catalog, opts.worldId, opts.host);
     if (last.spec) return { ...last, usage, attempts: attempt };
     messages.push(
       { role: "assistant", content: res.text },

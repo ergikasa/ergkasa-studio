@@ -55,6 +55,35 @@ export interface NewRun {
   silent: boolean;
   /** Design the video's own world after the script (World Builder); false = the studio library. */
   world?: boolean;
+  /** The look of the world, chosen by the user; absent = Claude chooses. */
+  style?: WorldStyle;
+  /** Stop after the plan and show the storyboard; the user approves, redoes scenes, then renders. */
+  storyboard?: boolean;
+  /** Claude looks at the storyboard frames before the plan is accepted. */
+  critic?: boolean;
+}
+
+export const WORLD_STYLES = [
+  ["storybook", "Storybook: warm, soft, hand-made"],
+  ["clean_editorial", "Clean editorial: bright, flat, precise"],
+  ["night_noir", "Night noir: dark, lit windows, tense"],
+  ["sunset_warm", "Sunset warm: golden light, calm"],
+] as const;
+export type WorldStyle = (typeof WORLD_STYLES)[number][0];
+
+/** One scene of the storyboard (storyboard.json written by the worker). */
+export interface StoryboardScene {
+  sceneId: string;
+  narration: string;
+  idea?: string;
+  seconds: number;
+  frames: string[];
+  warnings: string[];
+}
+export interface Storyboard {
+  scenes: StoryboardScene[];
+  totalSec: number;
+  estimate: { renderSec: number; workers: number };
 }
 
 export class ApiError extends Error {
@@ -105,6 +134,15 @@ export const api = {
     }),
   cancel: (id: string) => call<RunDetail>(`/api/runs/${encodeURIComponent(id)}/cancel`, { method: "POST" }),
   retry: (id: string) => call<RunDetail>(`/api/runs/${encodeURIComponent(id)}/retry`, { method: "POST" }),
+  render: (id: string) => call<RunDetail>(`/api/runs/${encodeURIComponent(id)}/render`, { method: "POST" }),
+  redo: (id: string, sceneId: string, request?: string) =>
+    call<RunDetail>(`/api/runs/${encodeURIComponent(id)}/scenes/${encodeURIComponent(sceneId)}/redo`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(request?.trim() ? { request: request.trim() } : {}),
+    }),
+  storyboard: async (id: string) =>
+    await call<Storyboard>(`/api/runs/${encodeURIComponent(id)}/files/storyboard.json?t=${Date.now()}`),
   fileUrl: (id: string, file: string) => `/api/runs/${encodeURIComponent(id)}/files/${file}`,
 };
 
@@ -114,6 +152,8 @@ export const THEMES = ["psychology", "money", "growth", "philosophy", "science",
 export const VOICE_KEY = "erkasa.voice";
 export const HOST_KEY = "erkasa.host";
 export const WORLD_KEY = "erkasa.world";
+export const STYLE_KEY = "erkasa.style";
+export const STORYBOARD_KEY = "erkasa.storyboard";
 /** A plan handed from a run to Plan Preview. */
 export const PREVIEW_PLAN_KEY = "erkasa.preview-plan";
 

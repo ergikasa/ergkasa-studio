@@ -32,3 +32,4 @@ export {
 export { measureVoiceLufs, mixGraph, renderMix, type MixResult, type Resolve } from "./sound/mix.js";
 export { applyListeningNotes, importLibrary } from "./sound/importer.js";
 export { sha256File } from "./sound/measure.js";
+export { renderParallel, splitRanges } from "./parallel.js";

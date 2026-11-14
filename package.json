@@ -18,6 +18,8 @@
     "demo:plan": "pnpm --filter @erkasa/engine-worker demo:plan",
     "studio": "pnpm --filter @erkasa/studio dev",
     "video": "pnpm --filter @erkasa/ai-worker video",
+    "video:scene": "pnpm --filter @erkasa/ai-worker scene",
+    "video:render": "pnpm --filter @erkasa/ai-worker render-run",
     "video:rerender": "pnpm --filter @erkasa/ai-worker rerender",
     "poc:halo": "pnpm --filter @erkasa/ai-worker poc:halo",
     "poc:ai-svg": "pnpm --filter @erkasa/ai-worker poc:ai-svg",

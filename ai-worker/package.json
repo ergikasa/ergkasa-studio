@@ -9,6 +9,8 @@
   },
   "scripts": {
     "video": "tsx src/cli.ts make",
+    "scene": "tsx src/cli.ts scene",
+    "render-run": "tsx src/cli.ts render",
     "voices": "tsx src/cli.ts voices",
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest run",

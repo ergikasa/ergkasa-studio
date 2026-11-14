@@ -3,7 +3,8 @@ import { dirname, join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { Theme } from "@erkasa/contracts";
 import { MissingConfigError } from "./env.js";
-import { AnthropicLlm } from "./llm.js";
+import { AnthropicLlm, llmCost } from "./llm.js";
+import { redoRunScene, renderRun, showStoryboard, undoRedo } from "./producer.js";
 import { mixRun, parseMixSet, parseVariants, rerender } from "./audio-tools.js";
 import { makeVideo } from "./make.js";
 import { runAiSvg } from "./poc/ai-svg.js";
@@ -15,9 +16,14 @@ import { loadVoiceCatalog, voiceCatalogPath } from "./voice-catalog.js";
 import { runWorkerForever } from "./worker.js";
 
 const USAGE = `Usage:
-  pnpm video "<topic>" --theme <theme> [--voice <id>] [--seconds 45] [--notes "..."] [--no-voice] [--no-music] [--no-world] [--critic] [--replay <run folder>]
+  pnpm video "<topic>" --theme <theme> [--voice <id>] [--seconds 45] [--notes "..."] [--no-voice] [--no-music] [--no-world] [--critic] [--style night_noir] [--storyboard] [--workers 2] [--replay <run folder>]
   pnpm video --from-script <run>/script.json [--voice <id>] [--no-voice]
   pnpm video --from-plan <run>/video-plan.json [--voice <id>] [--no-voice]
+  pnpm video "<topic>" --theme <theme> --storyboard
+                              stops after the plan: stills of every scene in <run>/storyboard/ and storyboard.json
+  pnpm video:scene <run> <sceneId> ["what you want"]   redo one scene (empty = try again); video-plan.prev.json keeps the old one
+  pnpm video:scene <run> --undo                        back to the plan before the last redo
+  pnpm video:render <run> [--workers 2] [--no-music]   render the approved plan of a run to <run>/video.mp4
   pnpm video:rerender <run> [--name video-h1.mp4] [--no-music]
                               same run, new soundtrack (no Claude/ElevenLabs calls): compare with video.mp4
   pnpm audio:mix <run> [--set musicUnderVoiceDb=16,duckDb=9] [--variants musicUnderVoiceDb=14,18,22]
@@ -49,6 +55,9 @@ async function make(argv: string[]): Promise<void> {
       "no-music": { type: "boolean", default: false },
       "no-world": { type: "boolean", default: false },
       critic: { type: "boolean", default: false },
+      style: { type: "string" },
+      storyboard: { type: "boolean", default: false },
+      workers: { type: "string" },
       replay: { type: "string" },
       out: { type: "string" },
     },
@@ -84,6 +93,9 @@ async function make(argv: string[]): Promise<void> {
       music: values["no-music"] !== true,
       world: values["no-world"] !== true,
       critic: values["critic"] === true,
+      ...(values.style ? { style: values.style } : {}),
+      storyboard: values["storyboard"] === true,
+      ...(values.workers ? { workers: Number(values.workers) } : {}),
     },
     {
       // --replay <run folder>: the model's answers come from a recorded run (llm/*.json), no API call
@@ -187,12 +199,82 @@ async function audioMixCmd(argv: string[]): Promise<void> {
   await mixRun(userPath(run), { set: parseMixSet(values.set), variants: parseVariants(values.variants) });
 }
 
+async function sceneCmd(argv: string[]): Promise<void> {
+  const { values, positionals } = parseArgs({
+    args: argv,
+    allowPositionals: true,
+    options: {
+      undo: { type: "boolean", default: false },
+      replay: { type: "string" },
+      workers: { type: "string" },
+    },
+  });
+  const [run, sceneId, ...words] = positionals;
+  if (!run) throw new UsageError("give the run folder");
+  const dir = userPath(run);
+  if (values.undo) {
+    if (!undoRedo(dir)) throw new UsageError("nothing to undo (no video-plan.prev.json)");
+    console.info("back to the previous plan");
+    showStoryboard(dir);
+    return;
+  }
+  if (!sceneId) throw new UsageError("give the scene id, e.g. s03");
+  const llm = values.replay ? new ReplayLlm(userPath(values.replay)) : new AnthropicLlm();
+  const request = words.join(" ").trim();
+  const r = await redoRunScene(llm, dir, sceneId, {
+    ...(request ? { request } : {}),
+    ...(values.workers ? { workers: Number(values.workers) } : {}),
+  });
+  const cost = llmCost(r.usage);
+  console.info(
+    `${sceneId}: ${r.clean ? "redone" : "redone, with open points"}${cost !== undefined ? ` (~$${cost.toFixed(3)})` : ""}`,
+  );
+  for (const i of r.issues) console.info(`  ${i.code}: ${i.message}`);
+  console.info(`stills: ${join(dir, "storyboard")}`);
+}
+
+async function renderCmd(argv: string[]): Promise<void> {
+  const { values, positionals } = parseArgs({
+    args: argv,
+    allowPositionals: true,
+    options: {
+      workers: { type: "string" },
+      "no-music": { type: "boolean", default: false },
+      name: { type: "string" },
+    },
+  });
+  const run = positionals[0];
+  if (!run) throw new UsageError("give the run folder");
+  let last = -1;
+  const t0 = Date.now();
+  const res = await renderRun(userPath(run), {
+    music: values["no-music"] !== true,
+    ...(values.name ? { name: values.name } : {}),
+    ...(values.workers ? { workers: Number(values.workers) } : {}),
+    progress: (pct) => {
+      if (pct % 10 === 0 && pct !== last) {
+        last = pct;
+        console.info(`render ${pct}%`);
+      }
+    },
+  });
+  for (const i of res.compiled.issues.filter((x) => x.level === "error"))
+    console.info(`error ${i.code} ${i.path}: ${i.message}`);
+  if (res.video)
+    console.info(
+      `done: ${res.video} (${res.durationSec?.toFixed(1)} s of film in ${((Date.now() - t0) / 1000).toFixed(0)} s)`,
+    );
+  else process.exitCode = 1;
+}
+
 class UsageError extends Error {}
 
 const [command, ...rest] = process.argv.slice(2);
 try {
   if (command === "make") await make(rest);
   else if (command === "voices") await voices(rest);
+  else if (command === "scene") await sceneCmd(rest);
+  else if (command === "render") await renderCmd(rest);
   else if (command === "rerender") await rerenderCmd(rest);
   else if (command === "poc-halo") await runHalo(rest);
   else if (command === "poc-ai-svg") await runAiSvg();

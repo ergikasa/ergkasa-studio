@@ -24,6 +24,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,6 +41,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class Orchestrator {
 
     private static final Logger log = LoggerFactory.getLogger(Orchestrator.class);
+    private static final Set<String> STYLES = Set.of("storybook", "clean_editorial", "night_noir", "sunset_warm");
+    private static final Pattern SCENE_ID = Pattern.compile("^[a-z][a-z0-9_-]{0,40}$", Pattern.CASE_INSENSITIVE);
     private static final Set<String> THEMES = Set.of("psychology", "money", "growth", "philosophy", "science", "decisions");
     private static final DateTimeFormatter ID_TIME = DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss");
 
@@ -49,8 +52,12 @@ public class Orchestrator {
     /** What the Studio sends to start a video. */
     /** {@code host}: the main character chosen by the user (e.g. char_host_01); the planner decides where he appears. */
     /** `world`: design the video's own world after the script (World Builder); absent = false (the library). */
+    /** {@code style}: the look of the world chosen by the user (STYLES); absent = Claude chooses. */
+    /** {@code storyboard}: stop after the plan and show the scenes; the user approves, redoes scenes, then renders. */
+    /** {@code critic}: Claude looks at the storyboard frames before the plan is accepted (one more call). */
     public record NewRun(
-            String topic, String theme, String voice, Integer seconds, String notes, Boolean silent, String host, Boolean world) {}
+            String topic, String theme, String voice, Integer seconds, String notes, Boolean silent, String host, Boolean world,
+            String style, Boolean storyboard, Boolean critic) {}
 
     private final JdbcClient jdbc;
     private final ContractSchemas contracts;
@@ -80,6 +87,10 @@ public class Orchestrator {
     }
 
     static List<StepDef> videoDag(boolean silent, boolean world) {
+        return videoDag(silent, world, false);
+    }
+
+    static List<StepDef> videoDag(boolean silent, boolean world, boolean storyboard) {
         List<StepDef> steps = new ArrayList<>();
         steps.add(new StepDef("script", "script.write", List.of(), 300, 3));
         if (world) {
@@ -96,7 +107,12 @@ public class Orchestrator {
             planDeps.add("voice");
         }
         steps.add(new StepDef("plan", "visual.plan", List.copyOf(planDeps), 900, 2));
-        steps.add(new StepDef("render", "render.finalize", silent ? List.of("plan") : List.of("plan", "voice"), 3600, 2));
+        if (storyboard) {
+            // the render is added by render(runId) once the user approves the storyboard
+            steps.add(new StepDef("storyboard", "storyboard.build", List.of("plan"), 300, 2));
+        } else {
+            steps.add(new StepDef("render", "render.finalize", silent ? List.of("plan") : List.of("plan", "voice"), 3600, 2));
+        }
         return steps;
     }
 
@@ -129,6 +145,12 @@ public class Orchestrator {
         if (host != null && !host.matches("^char_[a-z0-9_]{1,60}$")) {
             throw new BadRunRequest("host must be a character id like char_host_01");
         }
+        String style = req.style() == null || req.style().isBlank() ? null : req.style().trim();
+        if (style != null && !STYLES.contains(style)) {
+            throw new BadRunRequest("style must be one of " + STYLES);
+        }
+        boolean storyboard = Boolean.TRUE.equals(req.storyboard());
+        boolean critic = Boolean.TRUE.equals(req.critic());
         String id = newRunId(topic);
 
         jdbc.sql("""
@@ -145,7 +167,7 @@ public class Orchestrator {
                 .update();
 
         boolean world = Boolean.TRUE.equals(req.world());
-        List<StepDef> dag = videoDag(silent, world);
+        List<StepDef> dag = videoDag(silent, world, storyboard);
         for (int i = 0; i < dag.size(); i++) {
             StepDef s = dag.get(i);
             ObjectNode params = mapper.createObjectNode();
@@ -158,6 +180,9 @@ public class Orchestrator {
                 }
                 case "world.design" -> {
                     params.put("projectId", id);
+                    if (style != null) {
+                        params.put("style", style);
+                    }
                     if (host != null) {
                         params.put("host", host);
                     }
@@ -165,11 +190,17 @@ public class Orchestrator {
                 case "voice.synthesize" -> params.put("voice", voice);
                 case "visual.plan" -> {
                     params.put("voice", voice).put("projectId", id);
+                    if (critic) {
+                        params.put("critic", true);
+                    }
                     if (host != null) {
                         params.put("host", host);
                     }
                 }
                 case "render.finalize" -> params.put("music", true);
+                case "storyboard.build" -> {
+                    // no parameters: the worker draws every scene
+                }
                 default -> throw new IllegalStateException("no params for " + s.taskType());
             }
             jdbc.sql("""
@@ -472,6 +503,99 @@ public class Orchestrator {
                 """)
                 .param("run", runId)
                 .update();
+        return true;
+    }
+
+    // ------------------------------------------------------------------ storyboard review
+
+    private int count(String runId, String where) {
+        Integer n = jdbc.sql("select count(*) from step where run_id = :run and " + where)
+                .param("run", runId)
+                .query(Integer.class)
+                .single();
+        return n == null ? 0 : n;
+    }
+
+    /** True when the plan is drawn and waiting: a succeeded storyboard, no render, nothing being redone. */
+    private boolean awaitingApproval(String runId) {
+        return count(runId, "id = 'storyboard' and status = 'SUCCEEDED'") == 1
+                && count(runId, "id = 'render'") == 0
+                && count(runId, "id like 'redo-%' and status <> 'SUCCEEDED'") == 0;
+    }
+
+    private void addStep(String runId, String id, String taskType, String deps, ObjectNode params, int timeoutS, int maxAttempts) {
+        Integer pos = jdbc.sql("select coalesce(max(position), -1) + 1 from step where run_id = :run")
+                .param("run", runId)
+                .query(Integer.class)
+                .single();
+        jdbc.sql("""
+                insert into step (run_id, id, position, task_type, depends_on, params, max_attempts, timeout_s)
+                values (:run, :id, :pos, :type, :deps, cast(:params as jsonb), :max, :timeout)
+                """)
+                .param("run", runId)
+                .param("id", id)
+                .param("pos", pos == null ? 0 : pos)
+                .param("type", taskType)
+                .param("deps", deps)
+                .param("params", params.toString())
+                .param("max", maxAttempts)
+                .param("timeout", timeoutS)
+                .update();
+        jdbc.sql("update run set status = 'RUNNING', error = null, finished_at = null, updated_at = now() where id = :id and status = 'SUCCEEDED'")
+                .param("id", runId)
+                .update();
+    }
+
+    /** The user approved the storyboard: adds the render step. */
+    @Transactional
+    public boolean render(String runId) {
+        if (!awaitingApproval(runId)) {
+            return false;
+        }
+        Boolean silent = jdbc.sql("select silent from run where id = :id").param("id", runId).query(Boolean.class).optional().orElse(null);
+        if (silent == null) {
+            return false;
+        }
+        ObjectNode params = mapper.createObjectNode();
+        params.put("music", true);
+        addStep(runId, "render", "render.finalize", silent ? "plan" : "plan,voice", params, 3600, 2);
+        log.info("Run {}: storyboard approved, rendering", runId);
+        return true;
+    }
+
+    /** Redoes one scene of the plan; the new plan replaces the old one, the storyboard shows it again. */
+    @Transactional
+    public boolean redoScene(String runId, String sceneId, String request) {
+        if (sceneId == null || !SCENE_ID.matcher(sceneId).matches()) {
+            throw new BadRunRequest("scene id like s03");
+        }
+        String wish = request == null || request.isBlank() ? null : request.trim();
+        if (wish != null && wish.length() > 500) {
+            throw new BadRunRequest("the request must be at most 500 characters");
+        }
+        if (!awaitingApproval(runId)) {
+            return false;
+        }
+        String planParams = jdbc.sql("select params::text from step where run_id = :run and id = 'plan'")
+                .param("run", runId)
+                .query(String.class)
+                .optional()
+                .orElse("{}");
+        JsonNode plan = read(planParams);
+        ObjectNode params = mapper.createObjectNode();
+        params.put("sceneId", sceneId);
+        if (wish != null) {
+            params.put("request", wish);
+        }
+        if (plan.hasNonNull("voice")) {
+            params.put("voice", plan.get("voice").asText());
+        }
+        if (plan.hasNonNull("host")) {
+            params.put("host", plan.get("host").asText());
+        }
+        int n = count(runId, "id like 'redo-%'") + 1;
+        addStep(runId, "redo-" + n, "scene.redo", "storyboard", params, 600, 2);
+        log.info("Run {}: redoing scene {} ({})", runId, sceneId, wish == null ? "try again" : "with a request");
         return true;
     }
 

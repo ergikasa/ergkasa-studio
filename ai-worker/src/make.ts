@@ -5,6 +5,7 @@ import { Catalog } from "./catalog.js";
 import { repoRoot } from "./env.js";
 import { llmCost, type Llm, type Usage } from "./llm.js";
 import { RecordingLlm } from "./llm-record.js";
+import { buildStoryboard } from "./storyboard.js";
 import {
   RUN_FILES,
   loadVoiceTrack,
@@ -41,6 +42,12 @@ export interface MakeOptions {
   world?: boolean;
   /** Let Claude look at the storyboard frames before rendering and fix what a viewer would trip on (default false). */
   critic?: boolean;
+  /** The look of the world, chosen by the producer (storybook, clean_editorial, night_noir, sunset_warm). */
+  style?: string;
+  /** Stop after the plan and the storyboard stills; render later with `render <run folder>`. */
+  storyboard?: boolean;
+  /** Render with this many processes at once (default 1). */
+  workers?: number;
   outDir?: string;
   log?: (line: string) => void;
 }
@@ -162,7 +169,9 @@ export async function makeVideo(opts: MakeOptions, deps: MakeDeps = {}): Promise
   if (script && !plan && opts.world !== false) {
     if (!llm) throw new Error("no language model configured");
     const s = script;
-    const w = await time("world", () => stepWorld(outDir, s, llm, library, name.replace(/-/g, "_"), host));
+    const w = await time("world", () =>
+      stepWorld(outDir, s, llm, library, name.replace(/-/g, "_"), host, opts.style),
+    );
     usage.push(...w.usage);
     if (w.dir) {
       catalog = new Catalog([w.dir, library.assetsDir]);
@@ -232,12 +241,22 @@ export async function makeVideo(opts: MakeOptions, deps: MakeDeps = {}): Promise
     }
   }
 
+  // 3b. storyboard: the scenes as frames, with what the render will take; the producer decides before it starts
+  if (opts.storyboard) {
+    const sb = buildStoryboard(outDir, plan as VideoPlan, catalog, { workers: opts.workers ?? 1 });
+    log(
+      `storyboard: ${sb.scenes.length} scenes, ${sb.totalSec}s of film, render ~${Math.ceil(sb.estimate.renderSec / 60)} min with ${sb.estimate.workers} worker(s); frames in ${relative(process.cwd(), join(outDir, "storyboard")) || "storyboard"}`,
+    );
+    return finish();
+  }
+
   // 4. compile + render
   let lastLogged = -1;
   const rendered = await time("render", () =>
     stepRender(outDir, plan as VideoPlan, {
       catalog,
       music: opts.music ?? true,
+      ...(opts.workers ? { workers: opts.workers } : {}),
       progress: (pct) => {
         if (pct % 10 === 0 && pct !== lastLogged) {
           lastLogged = pct;

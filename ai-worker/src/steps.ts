@@ -20,6 +20,7 @@ import {
   measureVoiceLufs,
   openLibrary,
   renderMix,
+  renderParallel,
   renderVideo,
   type Resolve,
   type SceneStory,
@@ -179,8 +180,13 @@ export async function stepWorld(
   catalog: Catalog,
   worldId: string,
   host?: string,
+  style?: string,
 ): Promise<WorldStepResult> {
-  const res = await writeWorld(llm, script, catalog, { worldId, ...(host ? { host } : {}) });
+  const res = await writeWorld(llm, script, catalog, {
+    worldId,
+    ...(host ? { host } : {}),
+    ...(style ? { style } : {}),
+  });
   const issuesFile = join(dir, RUN_FILES.worldIssues);
   if (!res.spec) {
     writeJson(issuesFile, res.issues);
@@ -467,7 +473,7 @@ export function compileRun(dir: string, plan: VideoPlan, catalog: Catalog): Comp
 export async function stepRender(
   dir: string,
   plan: VideoPlan,
-  opts: { catalog: Catalog; music: boolean; progress?: Progress; videoName?: string },
+  opts: { catalog: Catalog; music: boolean; progress?: Progress; videoName?: string; workers?: number },
 ): Promise<RenderStepResult> {
   const track = loadVoiceTrack(dir);
   const compiled = compileRun(dir, plan, opts.catalog);
@@ -495,7 +501,11 @@ export async function stepRender(
     }
   } else audio = { mode: clips.length ? "voice" : "silent", notes: [] };
   let last = -1;
-  const rendered = await renderVideo({
+  const render =
+    (opts.workers ?? 1) > 1
+      ? (o: Parameters<typeof renderVideo>[0]) => renderParallel({ ...o, workers: opts.workers })
+      : renderVideo;
+  const rendered = await render({
     timeline: compiled.timeline,
     assetsDir: opts.catalog.roots,
     out: video,

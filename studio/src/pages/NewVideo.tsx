@@ -1,6 +1,19 @@
 import type { VoiceCatalog } from "@erkasa/contracts";
 import { useEffect, useState } from "react";
-import { ApiError, HOST_KEY, THEMES, VOICE_KEY, WORLD_KEY, api, store, stored } from "../lib/api";
+import {
+  ApiError,
+  HOST_KEY,
+  STORYBOARD_KEY,
+  STYLE_KEY,
+  THEMES,
+  VOICE_KEY,
+  WORLD_KEY,
+  WORLD_STYLES,
+  api,
+  store,
+  stored,
+  type WorldStyle,
+} from "../lib/api";
 import { Button, Field, Toggle } from "../ui";
 
 const THEME_LABELS: Record<string, string> = {
@@ -23,6 +36,8 @@ export function NewVideo() {
   const [silent, setSilent] = useState(false);
   const [host, setHost] = useState<string>(stored(HOST_KEY) ?? "char_host_01");
   const [world, setWorld] = useState<boolean>(stored(WORLD_KEY) !== "off");
+  const [style, setStyle] = useState<string>(stored(STYLE_KEY) ?? "");
+  const [storyboard, setStoryboard] = useState<boolean>(stored(STORYBOARD_KEY) !== "off");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string>();
 
@@ -43,6 +58,8 @@ export function NewVideo() {
       store(VOICE_KEY, voice);
       store(HOST_KEY, host);
       store(WORLD_KEY, world ? "on" : "off");
+      store(STYLE_KEY, style || null);
+      store(STORYBOARD_KEY, storyboard ? "on" : "off");
       const created = await api.create({
         topic: topic.trim(),
         theme,
@@ -52,6 +69,8 @@ export function NewVideo() {
         silent,
         ...(host ? { host } : {}),
         world,
+        ...(world && style ? { style: style as WorldStyle } : {}),
+        storyboard,
       });
       window.location.hash = `runs/${created.run.id}`;
     } catch (e) {
@@ -172,6 +191,29 @@ export function NewVideo() {
           checked={world}
           onChange={setWorld}
           label="Own world: Claude designs the place, costumes and objects for this story (World Builder)"
+        />
+
+        {world && (
+          <Field label="Look of the world">
+            <select
+              value={style}
+              onChange={(e) => setStyle(e.target.value)}
+              className="w-full rounded-md border border-ink-700 bg-ink-950 px-3 py-2 text-sm"
+            >
+              <option value="">Let Claude choose the look for this story</option>
+              {WORLD_STYLES.map(([id, label]) => (
+                <option key={id} value={id}>
+                  {label}
+                </option>
+              ))}
+            </select>
+          </Field>
+        )}
+
+        <Toggle
+          checked={storyboard}
+          onChange={setStoryboard}
+          label="Storyboard first: see every scene as pictures, redo any scene, then render (saves the cost of a bad render)"
         />
 
         <Toggle

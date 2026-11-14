@@ -13,7 +13,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class MqConfig {
 
-    static final String[] AI_TASKS = {"script.write", "world.design", "voice.synthesize", "visual.plan"};
+    static final String[] AI_TASKS = {"script.write", "world.design", "voice.synthesize", "visual.plan", "storyboard.build", "scene.redo"};
     static final String[] RENDER_TASKS = {"render.finalize"};
 
     @Bean

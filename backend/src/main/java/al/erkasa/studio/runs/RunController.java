@@ -78,6 +78,31 @@ public class RunController {
         return serve(id, "voice/" + name);
     }
 
+    @GetMapping("/{id}/files/storyboard/{name:.+}")
+    public ResponseEntity<Resource> storyboardFile(@PathVariable String id, @PathVariable String name) {
+        return serve(id, "storyboard/" + name);
+    }
+
+    /** Approves the storyboard: renders the video. */
+    @PostMapping("/{id}/render")
+    public RunQueries.RunDetail render(@PathVariable String id) {
+        if (!orchestrator.render(id)) {
+            throw conflict("run " + id + " has no storyboard to approve, or is already rendering");
+        }
+        return detail(id);
+    }
+
+    /** Redoes one scene of the storyboard; {@code request} (optional) says in words what is wanted. */
+    @PostMapping("/{id}/scenes/{sceneId}/redo")
+    public RunQueries.RunDetail redo(
+            @PathVariable String id, @PathVariable String sceneId, @RequestBody(required = false) Map<String, String> body) {
+        String request = body == null ? null : body.get("request");
+        if (!orchestrator.redoScene(id, sceneId, request)) {
+            throw conflict("run " + id + " is not waiting for approval, or a scene is already being redone");
+        }
+        return detail(id);
+    }
+
     @ExceptionHandler(Orchestrator.BadRunRequest.class)
     public ResponseEntity<Map<String, String>> badRequest(Orchestrator.BadRunRequest e) {
         return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
@@ -90,6 +115,7 @@ public class RunController {
         MediaType type = name.endsWith(".mp4") ? MediaType.parseMediaType("video/mp4")
                 : name.endsWith(".mp3") ? MediaType.parseMediaType("audio/mpeg")
                 : name.endsWith(".wav") ? MediaType.parseMediaType("audio/wav")
+                : name.endsWith(".jpg") ? MediaType.IMAGE_JPEG
                 : name.endsWith(".txt") ? MediaType.TEXT_PLAIN
                 : MediaType.APPLICATION_JSON;
         // a Resource body gets HTTP Range support, so the video can be seeked in the browser

@@ -7,6 +7,7 @@ export const TaskType = z.enum([
   "script.write",
   "world.design",
   "storyboard.build",
+  "scene.redo",
   "visual.plan",
   "assets.resolve",
   "voice.synthesize",
