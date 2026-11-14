@@ -70,14 +70,26 @@ export class AnthropicLlm implements Llm {
     this.model = opts.model ?? optional("ERKASA_LLM_MODEL", "claude-sonnet-5-5");
   }
 
+  /** Set once the API says a schema is too large for constrained decoding; later calls skip strict mode. */
+  private loose = false;
+
   async json(req: JsonRequest): Promise<JsonResponse> {
-    const body = JSON.stringify({
-      model: this.model,
-      max_tokens: req.maxTokens ?? 32000,
-      system: req.system,
-      messages: req.messages,
-      output_config: { format: { type: "json_schema", schema: req.schema } },
-    });
+    const body = JSON.stringify(
+      this.loose
+        ? {
+            model: this.model,
+            max_tokens: req.maxTokens ?? 32000,
+            system: `${req.system}\n\nAnswer with ONE JSON object only (no prose, no code fences) that follows this JSON Schema exactly:\n${JSON.stringify(req.schema)}`,
+            messages: req.messages,
+          }
+        : {
+            model: this.model,
+            max_tokens: req.maxTokens ?? 32000,
+            system: req.system,
+            messages: req.messages,
+            output_config: { format: { type: "json_schema", schema: req.schema } },
+          },
+    );
     const started = Date.now();
     for (let attempt = 1; ; attempt++) {
       let res: Response;
@@ -101,6 +113,11 @@ export class AnthropicLlm implements Llm {
       }
       if (!res.ok) {
         const detail = (await res.text()).slice(0, 600);
+        if (res.status === 400 && !this.loose && /grammar is too large/i.test(detail)) {
+          // Schema too big for strict structured outputs: fall back to prompt-guided JSON (validated downstream).
+          this.loose = true;
+          return this.json(req);
+        }
         if (RETRY_STATUS.has(res.status) && attempt < 5) {
           const after = Number(res.headers.get("retry-after"));
           await sleep(Number.isFinite(after) && after > 0 ? after * 1000 : 2000 * 2 ** attempt);
@@ -120,7 +137,7 @@ export class AnthropicLlm implements Llm {
         );
       let value: unknown;
       try {
-        value = JSON.parse(text);
+        value = JSON.parse(this.loose ? text.replace(/^\s*```(?:json)?\s*|\s*```\s*$/g, "") : text);
       } catch {
         throw new LlmError(`${req.label}: model output is not JSON`, true);
       }
