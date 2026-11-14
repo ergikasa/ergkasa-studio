@@ -1,0 +1,507 @@
+{
+  "schema": "erkasa.film/1",
+  "title": "Why we stay where it hurts",
+  "voiceId": "mark_natural",
+  "cast": [
+    {
+      "id": "dritan",
+      "name": "Dritan",
+      "build": "man",
+      "coat": "#3D5A80"
+    }
+  ],
+  "shots": [
+    {
+      "id": "sh01",
+      "scene": "s01",
+      "from": "start",
+      "moment": "Time is dragging; the day is over and he is still here.",
+      "kind": "editorial",
+      "template": "clock",
+      "params": {
+        "time": "5:58"
+      },
+      "text": {
+        "lines": [
+          {
+            "t": "5:58 PM.",
+            "weight": "bold"
+          },
+          {
+            "t": "Another Tuesday."
+          }
+        ],
+        "at": "sec:0.3",
+        "place": "bottom"
+      }
+    },
+    {
+      "id": "sh02",
+      "scene": "s01",
+      "from": "word:dritan",
+      "moment": "He has stopped working; he is only waiting.",
+      "kind": "set",
+      "set": "office",
+      "light": "golden",
+      "framing": "medium",
+      "subject": "dritan",
+      "camera": "drift",
+      "actors": [
+        {
+          "id": "dritan",
+          "at": "chair",
+          "pose": "seated",
+          "mood": "tired"
+        }
+      ],
+      "actions": [
+        {
+          "who": "dritan",
+          "do": "type",
+          "at": "start",
+          "sec": 1.1
+        },
+        {
+          "who": "dritan",
+          "do": "glance",
+          "target": "clock",
+          "at": "word:waiting",
+          "sec": 1.3
+        }
+      ]
+    },
+    {
+      "id": "sh03",
+      "scene": "s02",
+      "from": "start",
+      "moment": "Six years of a job he hates, and he knows it.",
+      "kind": "set",
+      "set": "office",
+      "light": "golden",
+      "framing": "close",
+      "subject": "dritan",
+      "camera": "push_in",
+      "actors": [
+        {
+          "id": "dritan",
+          "at": "chair",
+          "pose": "seated",
+          "mood": "tired"
+        }
+      ],
+      "actions": [
+        {
+          "who": "dritan",
+          "do": "sigh",
+          "at": "word:hated"
+        },
+        {
+          "who": "dritan",
+          "do": "look",
+          "target": "window_view",
+          "at": "word:knows"
+        }
+      ],
+      "text": {
+        "lines": [
+          {
+            "t": "Six years.",
+            "weight": "bold",
+            "accent": true
+          }
+        ],
+        "at": "word:six",
+        "out": "word:knows",
+        "place": "top"
+      }
+    },
+    {
+      "id": "sh04",
+      "scene": "s02",
+      "from": "word:and",
+      "moment": "The window pulls him out of the chair.",
+      "kind": "set",
+      "set": "office",
+      "light": "golden",
+      "framing": "wide",
+      "camera": "drift",
+      "actors": [
+        {
+          "id": "dritan",
+          "at": "chair",
+          "pose": "seated",
+          "mood": "tired"
+        }
+      ],
+      "actions": [
+        {
+          "who": "dritan",
+          "do": "mood",
+          "target": "hopeful",
+          "at": "start"
+        },
+        {
+          "who": "dritan",
+          "do": "walk_to",
+          "target": "window",
+          "at": "sec:0.2"
+        }
+      ]
+    },
+    {
+      "id": "sh05",
+      "scene": "s02",
+      "from": "word:just",
+      "moment": "The life he imagines, just outside.",
+      "kind": "editorial",
+      "template": "window_dream",
+      "text": {
+        "lines": [
+          {
+            "t": "He imagines"
+          },
+          {
+            "t": "another life.",
+            "weight": "bold"
+          }
+        ],
+        "at": "sec:0.3",
+        "place": "top"
+      }
+    },
+    {
+      "id": "sh06",
+      "scene": "s03",
+      "from": "start",
+      "moment": "He goes back and sits down; the light goes out of the day.",
+      "kind": "set",
+      "set": "office",
+      "light": "golden",
+      "lightTo": {
+        "to": "dusk",
+        "at": "word:tomorrow"
+      },
+      "framing": "medium",
+      "subject": "dritan",
+      "camera": "follow",
+      "actors": [
+        {
+          "id": "dritan",
+          "at": "window",
+          "pose": "standing",
+          "mood": "hopeful"
+        }
+      ],
+      "actions": [
+        {
+          "who": "dritan",
+          "do": "mood",
+          "target": "tired",
+          "at": "start"
+        },
+        {
+          "who": "dritan",
+          "do": "walk_to",
+          "target": "chair",
+          "at": "sec:0.1"
+        },
+        {
+          "who": "dritan",
+          "do": "shake_head",
+          "at": "word:tomorrow"
+        }
+      ]
+    },
+    {
+      "id": "sh07",
+      "scene": "s04",
+      "from": "start",
+      "moment": "He is in a cage, and the door opens.",
+      "kind": "set",
+      "set": "cage",
+      "framing": "wide",
+      "camera": "push_in",
+      "actors": [
+        {
+          "id": "dritan",
+          "at": "chair",
+          "pose": "seated",
+          "mood": "tired"
+        }
+      ],
+      "actions": [
+        {
+          "do": "open",
+          "at": "word:happy"
+        },
+        {
+          "who": "dritan",
+          "do": "look",
+          "target": "door",
+          "at": "word:happy"
+        }
+      ]
+    },
+    {
+      "id": "sh08",
+      "scene": "s04",
+      "from": "word:leaving",
+      "moment": "He leans toward the light, and stays.",
+      "kind": "set",
+      "set": "cage",
+      "framing": "medium",
+      "subject": "dritan",
+      "camera": "drift",
+      "actors": [
+        {
+          "id": "dritan",
+          "at": "chair",
+          "pose": "seated",
+          "mood": "anxious"
+        }
+      ],
+      "actions": [
+        {
+          "do": "open",
+          "at": "start"
+        },
+        {
+          "who": "dritan",
+          "do": "hesitate",
+          "target": "light",
+          "at": "sec:0.1"
+        },
+        {
+          "who": "dritan",
+          "do": "cross_arms",
+          "at": "word:suffering"
+        }
+      ],
+      "text": {
+        "lines": [
+          {
+            "t": "Leaving feels"
+          },
+          {
+            "t": "scarier",
+            "weight": "bold",
+            "accent": true
+          },
+          {
+            "t": "than staying."
+          }
+        ],
+        "at": "word:frightening",
+        "place": "top"
+      }
+    },
+    {
+      "id": "sh09",
+      "scene": "s05",
+      "from": "start",
+      "moment": "He has a name for it now.",
+      "kind": "set",
+      "set": "cage",
+      "framing": "close",
+      "subject": "dritan",
+      "camera": "push_in",
+      "actors": [
+        {
+          "id": "dritan",
+          "at": "chair",
+          "pose": "seated",
+          "mood": "sad"
+        }
+      ],
+      "actions": [
+        {
+          "do": "open",
+          "at": "start"
+        },
+        {
+          "who": "dritan",
+          "do": "hand_on_face",
+          "at": "word:sunk",
+          "sec": 1.4
+        }
+      ],
+      "text": {
+        "lines": [
+          {
+            "t": "The sunk cost"
+          },
+          {
+            "t": "fallacy",
+            "weight": "bold",
+            "accent": true
+          }
+        ],
+        "at": "word:sunk",
+        "place": "top"
+      }
+    },
+    {
+      "id": "sh10",
+      "scene": "s05",
+      "from": "word:more",
+      "moment": "Every year given weighs on the scale; then it falls away.",
+      "kind": "editorial",
+      "template": "scale",
+      "params": {
+        "left": "What you gave",
+        "right": "What's left",
+        "items": [
+          {
+            "label": "2019",
+            "side": "left",
+            "at": "word:more"
+          },
+          {
+            "label": "2020",
+            "side": "left",
+            "at": "word:have"
+          },
+          {
+            "label": "2021",
+            "side": "left",
+            "at": "word:given"
+          },
+          {
+            "label": "2022",
+            "side": "left",
+            "at": "word:harder"
+          },
+          {
+            "label": "2023",
+            "side": "left",
+            "at": "word:hold"
+          },
+          {
+            "label": "2024",
+            "side": "left",
+            "at": "word:on"
+          }
+        ],
+        "clearAt": "word:past"
+      }
+    },
+    {
+      "id": "sh11",
+      "scene": "s05",
+      "from": "word:bought",
+      "moment": "The past can't be bought back.",
+      "kind": "editorial",
+      "template": "statement",
+      "text": {
+        "lines": [
+          {
+            "t": "The past"
+          },
+          {
+            "t": "can't be"
+          },
+          {
+            "t": "bought back.",
+            "weight": "bold",
+            "accent": true
+          }
+        ],
+        "at": "start",
+        "place": "top"
+      }
+    },
+    {
+      "id": "sh12",
+      "scene": "s06",
+      "from": "start",
+      "moment": "The door is open; the question is his.",
+      "kind": "set",
+      "set": "cage",
+      "framing": "medium",
+      "subject": "dritan",
+      "camera": "drift",
+      "actors": [
+        {
+          "id": "dritan",
+          "at": "chair",
+          "pose": "seated",
+          "mood": "thinking"
+        }
+      ],
+      "actions": [
+        {
+          "do": "open",
+          "at": "start"
+        },
+        {
+          "who": "dritan",
+          "do": "look",
+          "target": "light",
+          "at": "word:question"
+        },
+        {
+          "who": "dritan",
+          "do": "mood",
+          "target": "determined",
+          "at": "word:given"
+        }
+      ],
+      "text": {
+        "lines": [
+          {
+            "t": "Not what you've"
+          },
+          {
+            "t": "already given."
+          }
+        ],
+        "at": "word:not",
+        "place": "top"
+      }
+    },
+    {
+      "id": "sh13",
+      "scene": "s06",
+      "from": "word:it",
+      "moment": "He stands up and walks to the door.",
+      "kind": "set",
+      "set": "cage",
+      "framing": "wide",
+      "camera": "push_in",
+      "actors": [
+        {
+          "id": "dritan",
+          "at": "chair",
+          "pose": "seated",
+          "mood": "determined"
+        }
+      ],
+      "actions": [
+        {
+          "do": "open",
+          "at": "start"
+        },
+        {
+          "who": "dritan",
+          "do": "walk_to",
+          "target": "door",
+          "at": "word:what"
+        }
+      ],
+      "text": {
+        "lines": [
+          {
+            "t": "What will"
+          },
+          {
+            "t": "you give?",
+            "weight": "bold",
+            "accent": true
+          }
+        ],
+        "at": "word:willing",
+        "place": "bottom"
+      }
+    }
+  ]
+}

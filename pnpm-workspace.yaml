@@ -5,6 +5,7 @@ packages:
   - engine-worker
   - studio
   - ai-worker
+  - film
 
 onlyBuiltDependencies:
   - esbuild

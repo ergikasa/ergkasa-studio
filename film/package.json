@@ -1,0 +1,27 @@
+{
+  "name": "@erkasa/film",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Erkasa studio v2: a film is directed as moments and shots; characters act with key-pose clips, look at things and handle props on vertical sets; editorial scenes come from designed templates. Renders MP4 with resvg + FFmpeg.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "film": "tsx src/cli.ts"
+  },
+  "dependencies": {
+    "@erkasa/compiler": "workspace:*",
+    "@erkasa/contracts": "workspace:*",
+    "@erkasa/engine": "workspace:*",
+    "@expo-google-fonts/montserrat": "0.4.2",
+    "@resvg/resvg-js": "2.6.2",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "tsx": "4.23.15",
+    "vitest": "5.1.0"
+  }
+}
