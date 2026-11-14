@@ -170,6 +170,10 @@ export async function makeVideo(opts: MakeOptions, deps: MakeDeps = {}): Promise
       worldSummary = w.summary;
       timings["worldBuild"] = w.buildSec ?? 0;
       log(`world: ${w.summary} (attempt ${w.attempts}, built in ${(w.buildSec ?? 0).toFixed(2)} s)`);
+      if (w.custom)
+        log(
+          `custom objects: ${w.custom.passed}/${w.custom.requested} passed the gate${w.custom.failed.length ? `; left out: ${w.custom.failed.map((f) => `${f.id} (${f.problems.join("; ")})`).join(", ")}` : ""}`,
+        );
     } else {
       const line = `world: no valid world after ${w.attempts} attempts (see ${RUN_FILES.worldIssues}); using the library`;
       warnings.push(line);

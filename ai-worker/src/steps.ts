@@ -1,3 +1,4 @@
+import { makeCustomAssets, type CustomReport } from "./asset-maker.js";
 import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { basename, dirname, join, resolve } from "node:path";
@@ -161,6 +162,8 @@ export interface WorldStepResult {
   attempts: number;
   buildSec?: number;
   summary?: string;
+  /** Objects drawn for this video (kind custom): how many were asked for and how many passed the gate. */
+  custom?: CustomReport;
 }
 
 /**
@@ -184,21 +187,31 @@ export async function stepWorld(
   }
   rmSync(issuesFile, { force: true });
   const specFile = join(dir, RUN_FILES.world);
-  writeJson(specFile, res.spec);
   const out = join(dir, RUN_FILES.worldDir);
   rmSync(out, { recursive: true, force: true });
+  // objects no generator covers: Claude draws them, the gate checks them (props that fail are left out)
+  const customDir = join(dir, "world-custom");
+  const made = await makeCustomAssets(llm, res.spec, customDir);
+  const s = made.spec;
+  writeJson(specFile, s);
   const t0 = Date.now();
-  runPython([join(repoRoot(), "tools", "world-builder", "build.py"), specFile, "-o", out]);
+  runPython([
+    join(repoRoot(), "tools", "world-builder", "build.py"),
+    specFile,
+    "-o",
+    out,
+    ...(made.report.requested ? ["--custom", customDir] : []),
+  ]);
   const buildSec = (Date.now() - t0) / 1000;
-  const s = res.spec;
   return {
     dir: out,
     script: castIntoWorld(script, res.castMap),
     ...(res.hostId ? { hostId: res.hostId } : {}),
-    usage: res.usage,
+    usage: [...res.usage, ...made.report.usage],
     issues: [],
     attempts: res.attempts,
     buildSec,
+    ...(made.report.requested ? { custom: made.report } : {}),
     summary: `${s.style}; places ${s.places.map((p) => (p.kind === "library" ? `library:${p.from}` : p.kind)).join(", ")}; cast ${s.cast.map((c) => (c.from ? `${c.name} (${c.from})` : `${c.name} (${c.costume?.preset})`)).join(", ")}; props ${s.props.map((p) => (p.kind === "library" ? p.from : p.kind)).join(", ")}`,
   };
 }

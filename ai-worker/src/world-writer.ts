@@ -69,6 +69,8 @@ export interface WorldDraft {
     motif: string;
     function: string;
     scenes: string;
+    brief: string;
+    size: string;
   }>;
 }
 
@@ -124,8 +126,16 @@ export const WORLD_SCHEMA: StrictSchema = obj({
       "0 to 10 objects; only objects a scene needs to SHOW its idea (no decoration). Each one names its function and scenes.",
     items: obj({
       key: str("short lowercase key, e.g. coin, laptop"),
-      kind: str("a generated object, or library", [...Object.keys(GENERATED_PROPS), "library"]),
+      kind: str("a generated object, library, or custom (drawn for this video)", [
+        ...Object.keys(GENERATED_PROPS),
+        "library",
+        "custom",
+      ]),
       from: str('kind library: a library object or metaphor id; otherwise ""'),
+      brief: str(
+        'kind custom: what to draw, concretely (shape, colours, details, view from the side or front); otherwise ""',
+      ),
+      size: str("kind custom: how big it is in the story", ["hand", "table", "floor", "none"]),
       material: str('coin: gold/silver/copper; board: parchment/whiteboard/neon; otherwise ""'),
       motif: str("coin face", ["crown", "star", "plain", "none"]),
       function: str(
@@ -144,7 +154,7 @@ Rules:
 - Prefer a generated place when it fits the story; otherwise pick library backgrounds whose tags fit. One to three places; a main place first. Fewer places, used well, read better than many.
 - Costumes say who someone is (era, rank, job). Rivals or two sides get two clearly different colours (sideA/sideB and their costume colours).
 - Keep each script cast member's presentation (man/woman) and approximate age from their description.
-- Props: only objects a scene needs to SHOW its idea or to make a situation real (the CV in an interview, the coin in a bet). Give each one its function and the scenes that use it. An object that only matches a word of the narration (boxing gloves for "fight for a job") is decoration: leave it out. Fewer, meaningful objects are better than many. Use generated objects when they fit (they animate); otherwise library objects or metaphors from the list, read their description first.
+- Props: only objects a scene needs to SHOW its idea or to make a situation real (the CV in an interview, the coin in a bet). Give each one its function and the scenes that use it. An object that only matches a word of the narration (boxing gloves for "fight for a job") is decoration: leave it out. Fewer, meaningful objects are better than many. Use generated objects when they fit (they animate); otherwise library objects or metaphors from the list, read their description first. Only when the story needs a specific object that none of them covers (a radio, a licence plate, a mooncake), use kind custom and describe it in brief: it is drawn for this video. At most 3 custom objects.
 - When people talk across a desk (interview, meeting, a boss and an employee), use the staged set interview_office as a place: the characters can enter, sit, hand things over there.
 - Style: storybook = warm picture-book (history, fables, gentle); clean_editorial = neutral modern; night_noir = dark, tense, night; sunset_warm = warm evening, nostalgic.
 - Use only ids from the lists. Answer in the JSON format.`;
@@ -318,6 +328,8 @@ export function draftToWorld(
       .split(/[,\s]+/)
       .map((x) => x.trim())
       .filter(Boolean);
+    if (p.kind === "custom" && (p.brief ?? "").trim().length < 8)
+      issues.push(`props[${i}] (${p.key}): kind custom needs a brief saying what to draw`);
     const fn = (p.function ?? "").trim();
     if (!fn || !scenes.length)
       issues.push(
@@ -331,6 +343,9 @@ export function draftToWorld(
       id: unique(`wld_prop_${key(p.key, `p${i + 1}`)}`),
       kind: p.kind,
       ...(p.kind === "library" ? { from: p.from } : {}),
+      ...(p.kind === "custom"
+        ? { brief: (p.brief ?? "").trim().slice(0, 300), size: p.size === "hand" || p.size === "floor" ? p.size : "table" }
+        : {}),
       ...(p.material ? { material: key(p.material, "gold") } : {}),
       ...(p.motif && p.motif !== "none" ? { motif: p.motif } : {}),
     };

@@ -214,6 +214,42 @@ export async function renderVideo(opts: RenderOptions): Promise<{ frames: number
   return { frames, seconds: (Date.now() - started) / 1000 };
 }
 
+export interface SvgCoverage {
+  width: number;
+  height: number;
+  /** Share of pixels that are drawn (alpha > 0), 0..1. */
+  coverage: number;
+  /** Bounding box of drawn pixels as fractions of the image (0..1). */
+  bbox: { x0: number; y0: number; x1: number; y1: number } | null;
+}
+
+/** How much of its canvas a drawing fills and where (transparent background), to catch empty or clipped assets. */
+export function svgCoverage(svg: string, height = 128): SvgCoverage {
+  const r = new Resvg(svg, { fitTo: { mode: "height", value: height } }).render();
+  const px = r.pixels;
+  const { width, height: h } = r;
+  let n = 0;
+  let x0 = width;
+  let y0 = h;
+  let x1 = -1;
+  let y1 = -1;
+  for (let y = 0; y < h; y++)
+    for (let x = 0; x < width; x++)
+      if ((px[(y * width + x) * 4 + 3] ?? 0) > 8) {
+        n++;
+        if (x < x0) x0 = x;
+        if (x > x1) x1 = x;
+        if (y < y0) y0 = y;
+        if (y > y1) y1 = y;
+      }
+  return {
+    width,
+    height: h,
+    coverage: n / (width * h),
+    bbox: n ? { x0: x0 / width, y0: y0 / h, x1: (x1 + 1) / width, y1: (y1 + 1) / h } : null,
+  };
+}
+
 /** One SVG document to PNG (for previews and asset checks); throws if resvg cannot render it. */
 export function svgToPng(svg: string, height: number, background = "#EDE5DA"): Buffer {
   return Buffer.from(

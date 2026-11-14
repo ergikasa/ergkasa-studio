@@ -265,7 +265,8 @@
               "balance_scale",
               "board",
               "pedestal",
-              "library"
+              "library",
+              "custom"
             ]
           },
           "from": {
@@ -282,6 +283,19 @@
               "crown",
               "star",
               "plain"
+            ]
+          },
+          "brief": {
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 300
+          },
+          "size": {
+            "type": "string",
+            "enum": [
+              "hand",
+              "table",
+              "floor"
             ]
           },
           "function": {

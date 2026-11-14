@@ -6,6 +6,8 @@ export {
   loadInput,
   renderStill,
   svgToPng,
+  svgCoverage,
+  type SvgCoverage,
   renderVideo,
   type RenderOptions,
   type VoiceClip,

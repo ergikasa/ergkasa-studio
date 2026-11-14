@@ -60,7 +60,7 @@ describe("world writer", () => {
       material: "",
       motif: "none",
       function: "decoration",
-      scenes: "s01",
+      scenes: "s01", brief: "", size: "none",
     });
     const r = draftToWorld(d, script, library, "coin");
     expect(r.spec).toBeUndefined();
@@ -121,7 +121,7 @@ describe("world step and world catalog", () => {
       material: "",
       motif: "none",
       function: "time running out for the second heir",
-      scenes: "s04",
+      scenes: "s04", brief: "", size: "none",
     });
     const dir = mkdtempSync(join(tmpdir(), "erkasa-world-"));
     const res = await stepWorld(dir, script, new ScriptedLlm([d]), library, "coin");

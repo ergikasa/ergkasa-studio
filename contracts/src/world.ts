@@ -94,7 +94,7 @@ export const WorldPlace = z
 export const WorldProp = z
   .object({
     id: RoleId,
-    kind: z.enum(["coin", "balance_scale", "board", "pedestal", "library"]),
+    kind: z.enum(["coin", "balance_scale", "board", "pedestal", "library", "custom"]),
     /** kind library: the library object or metaphor to copy into the world. */
     from: AssetId.optional(),
     /** coin: gold | silver | copper; board: parchment | whiteboard | neon; others ignore it. */
@@ -104,6 +104,10 @@ export const WorldProp = z
       .optional(),
     /** coin: the face motif. */
     motif: z.enum(["crown", "star", "plain"]).optional(),
+    /** kind custom: what to draw, for an object no generator or library asset covers (a radio, a plate, a mooncake). */
+    brief: z.string().min(8).max(300).optional(),
+    /** kind custom: how big it is in the story: held in a hand, on a table, standing on the floor. */
+    size: z.enum(["hand", "table", "floor"]).optional(),
     /** What the object shows or does in the story ("the CV the candidate hands over"). */
     function: z.string().max(160).optional(),
     /** The script scenes that use it. */
@@ -115,6 +119,9 @@ export const WorldProp = z
   .strict()
   .refine((p) => (p.kind === "library") === (p.from !== undefined), {
     message: "kind library needs `from` (a library object or metaphor id); generated kinds take none",
+  })
+  .refine((p) => (p.kind === "custom") === (p.brief !== undefined), {
+    message: "kind custom needs `brief` (what to draw); other kinds take none",
   });
 
 export const WorldSpec = z

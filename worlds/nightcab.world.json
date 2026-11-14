@@ -1,0 +1,103 @@
+{
+  "schema": "erkasa.world-spec/1",
+  "worldId": "nightcab",
+  "title": "The night cab",
+  "setting": "A rooftop at night; a driver shows a few things from his cab.",
+  "style": "night_noir",
+  "places": [
+    {
+      "id": "wld_place_main",
+      "kind": "rooftop_night",
+      "time": "night",
+      "sides": [
+        "#8E6BB0",
+        "#62A06C"
+      ],
+      "seed": 11
+    }
+  ],
+  "cast": [
+    {
+      "id": "wld_char_ruler",
+      "name": "Old Vic",
+      "role": "holds the coin",
+      "body": {
+        "presentation": "man",
+        "age": "old",
+        "skin": "medium",
+        "hair": "short",
+        "hairColor": "grey",
+        "beard": "moustache"
+      },
+      "costume": {
+        "preset": "street",
+        "main": "#6B4F3A",
+        "accent": "#3B4048"
+      }
+    },
+    {
+      "id": "wld_char_a",
+      "name": "Dee",
+      "role": "the purple friend",
+      "body": {
+        "presentation": "woman",
+        "age": "young",
+        "skin": "dark",
+        "hair": "bob",
+        "hairColor": "black"
+      },
+      "costume": {
+        "preset": "street",
+        "main": "#8E6BB0"
+      }
+    },
+    {
+      "id": "wld_char_b",
+      "name": "Marco",
+      "role": "the green friend",
+      "body": {
+        "presentation": "man",
+        "age": "young",
+        "skin": "medium",
+        "hair": "messy",
+        "hairColor": "black"
+      },
+      "costume": {
+        "preset": "street",
+        "main": "#62A06C"
+      }
+    }
+  ],
+  "props": [
+    {
+      "id": "wld_prop_radio",
+      "kind": "custom",
+      "brief": "A vintage tabletop radio with speaker grille, dial window, two knobs and an antenna.",
+      "size": "table",
+      "function": "the radio that announces the news",
+      "scenes": [
+        "s01"
+      ]
+    },
+    {
+      "id": "wld_prop_plate",
+      "kind": "custom",
+      "brief": "A yellow taxi licence plate with a blue top band and six dark glyph blocks.",
+      "size": "hand",
+      "function": "the cab's plate the driver holds up",
+      "scenes": [
+        "s01"
+      ]
+    },
+    {
+      "id": "wld_prop_mooncake",
+      "kind": "custom",
+      "brief": "A baked mooncake: scalloped round top seen slightly from above, pressed pattern.",
+      "size": "hand",
+      "function": "the gift in the driver's hand",
+      "scenes": [
+        "s01"
+      ]
+    }
+  ]
+}

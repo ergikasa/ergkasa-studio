@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 import time
 from dataclasses import replace
@@ -117,7 +118,34 @@ def build_set(out: Path, place: dict, style: str) -> list[dict]:
     return [bg, *entries]
 
 
-def build(spec: dict, out: Path) -> dict:
+def custom_prop(out: Path, prop: dict, style: str, custom_dir: Path | None) -> dict | None:
+    """A prop drawn for this video (asset maker): graded with the world's style kit like everything else."""
+    src = (custom_dir / f"{prop['id']}.svg") if custom_dir else None
+    if not src or not src.exists():
+        print(f"warning: custom prop '{prop['id']}' has no drawing; left out", file=sys.stderr)
+        return None
+    svg = src.read_text(encoding="utf-8")
+    m = re.search(r'viewBox\s*=\s*"\s*0\s+0\s+([\d.]+)\s+([\d.]+)', svg)
+    w, h = (float(m.group(1)), float(m.group(2))) if m else (200.0, 200.0)
+    brief = prop.get("brief", "")
+    words = [x for x in re.findall(r"[a-z]{3,}", brief.lower())][:8]
+    meta = {
+        "schema": "erkasa.asset/1", "assetId": prop["id"], "version": 1, "name": brief[:40] or prop["id"],
+        "description": brief, "category": "object", "subcategory": "scene_prop", "collection": "world",
+        "storyUse": brief, "kind": "prop", "adapter": "svg", "style": f"world_{style}",
+        "files": {"svg": "asset.svg"}, "viewBox": [0, 0, w, h],
+        "capabilities": {"animations": ["pop_in", "fade", "slide", "shake", "bounce"], "scale": "1 = standard"},
+        "anchors": {"ground": [0.5, 1.0], "center": [0.5, 0.5]},
+        "themes": ["psychology", "growth", "decisions"], "tags": ["custom", *words],
+        "license": {"spdx": "LicenseRef-Erkasa-Original", "source": "Erkasa (drawn by Claude for this video, gated)",
+                    "commercial": True, "attributionRequired": False},
+    }
+    if prop.get("function"):
+        meta["storyUse"] = prop["function"] + (f" (scenes {', '.join(prop['scenes'])})" if prop.get("scenes") else "")
+    return write(out, "props", meta, {"asset.svg": grade(svg, style)})
+
+
+def build(spec: dict, out: Path, custom_dir: Path | None = None) -> dict:
     style = spec["style"]
     entries = []
     t0 = time.perf_counter()
@@ -154,6 +182,11 @@ def build(spec: dict, out: Path) -> dict:
             set_function(out, entry, prop)
             entries.append(entry)
             continue
+        if prop["kind"] == "custom":
+            entry = custom_prop(out, prop, style, custom_dir)
+            if entry:
+                entries.append(entry)
+            continue
         svg, meta = build_prop(prop, style)
         if prop.get("function"):
             meta["storyUse"] = prop["function"] + (f" (scenes {', '.join(prop['scenes'])})" if prop.get("scenes") else "")
@@ -172,13 +205,14 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("spec")
     ap.add_argument("-o", "--out")
+    ap.add_argument("--custom", help="folder with the drawings of kind custom props (<propId>.svg)")
     a = ap.parse_args()
     spec = json.loads(Path(a.spec).read_text(encoding="utf-8"))
     if spec.get("schema") != "erkasa.world-spec/1":
         raise SystemExit(f"{a.spec}: not a world spec (schema erkasa.world-spec/1)")
     out = Path(a.out) if a.out else ROOT / "out" / "worlds" / spec["worldId"]
     out.mkdir(parents=True, exist_ok=True)
-    res = build(spec, out)
+    res = build(spec, out, Path(a.custom) if a.custom else None)
     print(f"world '{spec['worldId']}' ({spec['style']}): {res['assets']} assets in {res['seconds']} s -> {out}")
 
 
