@@ -175,7 +175,7 @@ hook -> problem -> concept -> situation -> analysis -> conclusion. Every part ge
 - Human tendencies are tendencies, not laws: "many people", "often", not "everyone", "always". Do not diagnose anyone. No medical, legal or investment advice beyond general education.
 
 # Cast and pictures
-- Cast: 0 to 2 studio characters (never char_host_01: he is the studio's host). Use a protagonist when the situation follows a person through decisions; two_paths uses two (protagonist and supporting). A real case can be told without the cast, with generic people, places and objects. The same characters keep the same role for the whole video.
+- Cast: 0 to 2 studio characters (never char_host_01: he is the studio's host). Use a protagonist when the situation follows a person through decisions; two_paths uses two (protagonist and supporting). A real case can be told without the cast, with generic people, places and objects. The same characters keep the same role for the whole video. The catalog names (Arti, Era, Drini...) are the studio's internal labels, never names in the story: in the narration call people by their role ("the candidate", "your boss", "she") or give them an ordinary story name of your own.
 - visualIdea: the picture that explains, drawable with the studio vocabulary below: characters acting, objects with a job, places, metaphors that make the concept clearer, simple charts when the narration compares numbers. Interpret the meaning; never just decorate. No words inside the pictures (titles are added separately), no photos, no real people's likeness, no brands or logos.
 
 # Spoken style

@@ -53,7 +53,15 @@ describe("world writer", () => {
   it("lists what the model must fix: a missing cast member, an unknown cast id, a wrong library id", () => {
     const d = castleDraft();
     d.cast = [{ ...(d.cast[0] as WorldDraft["cast"][number]), plays: "char_era_01" }, ...d.cast.slice(1, 2)];
-    d.props.push({ key: "x", kind: "library", from: "bg_office_01", material: "", motif: "none" });
+    d.props.push({
+      key: "x",
+      kind: "library",
+      from: "bg_office_01",
+      material: "",
+      motif: "none",
+      function: "decoration",
+      scenes: "s01",
+    });
     const r = draftToWorld(d, script, library, "coin");
     expect(r.spec).toBeUndefined();
     expect(r.issues.join("\n")).toMatch(/plays 'char_era_01', which is not in the script cast/);
@@ -112,6 +120,8 @@ describe("world step and world catalog", () => {
       from: "met_hourglass_01",
       material: "",
       motif: "none",
+      function: "time running out for the second heir",
+      scenes: "s04",
     });
     const dir = mkdtempSync(join(tmpdir(), "erkasa-world-"));
     const res = await stepWorld(dir, script, new ScriptedLlm([d]), library, "coin");

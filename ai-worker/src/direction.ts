@@ -216,9 +216,157 @@ export function reviewDirection({
       ),
     );
 
-  // 5. finished frames: nothing cut by the edge, nothing still animating when the scene ends
+  // 5. directed scenes (plans whose scenes carry a direction): demonstrate, do not illustrate
+  if (scenes.some((s) => s.direction)) out.push(...reviewDirected(scenes, script, durations, host));
+
+  // 6. finished frames: nothing cut by the edge, nothing still animating when the scene ends
   for (const w of compileIssues)
     if (w.level === "warning" && BLOCKING_WARNINGS.has(w.code)) out.push({ ...w, level: "error" });
 
+  return out;
+}
+
+const norm = (t: string): string =>
+  t
+    .toLowerCase()
+    .replace(/[^a-z0-9 ]+/g, "")
+    .trim();
+
+/** What an actor does in a scene that a viewer reads as acting: gestures, face changes, moves. */
+function beats(a: Actor): number {
+  return (
+    a.actions.filter((x) => !PASSIVE.has(x.action)).length +
+    a.actions.filter((x) => x.expression).length +
+    a.blocking.filter((b) => b.do !== "seated" && b.do !== "standing").length
+  );
+}
+
+/** Things that happen in a scene after it opens (moves, gestures, objects changing, things appearing). */
+function events(s: Scene): number {
+  let n = s.camera.filter((c) => c.move !== "static").length;
+  for (const l of s.layers) {
+    if (l.in && l.in.at !== "start") n++;
+    if (l.type === "actor") n += beats(l);
+    if (l.type === "object" || l.type === "icon" || l.type === "metaphor") n += l.animations.length;
+    if (l.type === "chart") n++;
+  }
+  return n;
+}
+
+/** Same place, same framing, the same people where they were: the viewer sees the same picture again. */
+function samePicture(a: Scene, b: Scene): boolean {
+  if (a.background.assetId !== b.background.assetId || shotOf(a) !== shotOf(b)) return false;
+  if ((a.shot?.subject ?? "") !== (b.shot?.subject ?? "")) return false; // the camera is on someone else
+  const aa = actorsOf(a);
+  const bb = actorsOf(b);
+  if (!aa.length || aa.length !== bb.length) return !aa.length && !bb.length && !a.set && !b.set;
+  return aa.every((x) => {
+    const y = bb.find((z) => z.assetId === x.assetId);
+    if (!y) return false;
+    if (a.set || b.set) {
+      const start = (q: Actor) => q.blocking[0]?.mark ?? "";
+      return start(x) === start(y) && q(x) === q(y);
+    }
+    return Math.abs(x.place.x - y.place.x) < 0.08 && x.facing === y.facing;
+  });
+  function q(z: Actor): string {
+    return z.blocking.map((b) => b.do).join(",");
+  }
+}
+
+function reviewDirected(
+  scenes: Scene[],
+  script: Script,
+  durations: Record<string, number>,
+  host?: string,
+): Issue[] {
+  const out: Issue[] = [];
+  const n = scenes.length;
+  scenes.forEach((s, i) => {
+    const d = s.direction;
+    if (!d) {
+      out.push(
+        issue(
+          "DIRECTION_MISSING",
+          `scenes[${i}].direction`,
+          "this scene has no direction",
+          "write its idea, how it is demonstrated, and what the viewer sees before and after",
+        ),
+      );
+      return;
+    }
+    if (norm(d.before) === norm(d.after) || events(s) === 0)
+      out.push(
+        issue(
+          "NO_VISIBLE_CHANGE",
+          `scenes[${i}]`,
+          events(s) === 0
+            ? "nothing happens after the scene opens: it is an illustration, not a demonstration"
+            : "before and after are the same",
+          "make something visibly change on the key words: someone enters or reacts, an object changes, a comparison flips, a chart grows",
+        ),
+      );
+    for (const l of s.layers)
+      if ((l.type === "object" || l.type === "icon" || l.type === "metaphor") && !l.purpose?.trim())
+        out.push(
+          issue(
+            "PURPOSELESS_LAYER",
+            `scenes[${i}].layers.${l.id}`,
+            `${l.assetId} has no job in the scene`,
+            "say what it shows for the idea, or remove it: an object that only matches a word is decoration",
+          ),
+        );
+    const dur = durations[s.sceneId] ?? 0;
+    if (dur >= 3.5)
+      for (const a of actorsOf(s)) {
+        if (host && a.assetId.startsWith(host)) continue;
+        if (beats(a) < 2)
+          out.push(
+            issue(
+              "ONE_NOTE_ACTOR",
+              `scenes[${i}].layers.${a.id}`,
+              `${a.id} does only one thing in ${dur.toFixed(1)} s`,
+              "give them a gesture and a reaction timed to the words (and an expression change on the key word)",
+            ),
+          );
+      }
+    for (const back of [1, 2]) {
+      const prev = scenes[i - back];
+      if (prev && samePicture(prev, s)) {
+        out.push(
+          issue(
+            "REPEATED_PICTURE",
+            `scenes[${i}]`,
+            `same place, framing and positions as scene ${i - back + 1}`,
+            "move the event forward with a new picture: another shot size, another moment of the action, people elsewhere or turned, or an insert on the key object",
+          ),
+        );
+        break;
+      }
+    }
+  });
+  const statements = scenes.filter((s) => s.direction?.demonstration === "statement").length;
+  const maxStatements = Math.max(1, Math.floor(n / 5));
+  if (statements > maxStatements)
+    out.push(
+      issue(
+        "TOO_MANY_STATEMENTS",
+        "scenes",
+        `${statements} scenes only state the idea (title or host)`,
+        `at most ${maxStatements}: show it instead, with a situation, a comparison or a changing metaphor`,
+      ),
+    );
+  const shown = scenes.filter((s) =>
+    ["story_moment", "comparison"].includes(s.direction?.demonstration ?? ""),
+  ).length;
+  if (script.cast?.length && shown < Math.ceil(n / 3))
+    out.push(
+      issue(
+        "TOLD_NOT_SHOWN",
+        "scenes",
+        `only ${shown} of ${n} scenes show people in a situation or a comparison`,
+        "stage the script's situation across consecutive scenes as one event (enter, watch, mistake, judgement...)",
+      ),
+    );
   return out;
 }

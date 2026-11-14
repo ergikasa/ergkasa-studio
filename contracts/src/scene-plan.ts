@@ -86,7 +86,32 @@ const LayerBase = {
   in: EntranceExit.optional(),
   out: EntranceExit.optional(),
   zIndex: z.number().int().optional(),
+  /** Why this layer is in the scene: what it shows or does for the scene's idea (directed plans). */
+  purpose: z.string().max(160).optional(),
 };
+
+/**
+ * Scene direction: what the scene must make the viewer understand and what visibly changes to show it.
+ * Written by the planner before the layers; the director's review checks the layers against it.
+ */
+export const SceneDirection = z
+  .object({
+    /** The one idea of the scene, in a sentence. */
+    idea: z.string().min(1).max(200),
+    /**
+     * How the idea is shown. story_moment = people in a concrete situation; comparison = two cases side by
+     * side; metaphor_change = an object or metaphor that changes; diagram = a chart or process built up;
+     * statement = a title or the host saying it (use rarely).
+     */
+    demonstration: z.enum(["story_moment", "comparison", "metaphor_change", "diagram", "statement"]),
+    /** What the viewer sees at the start of the scene, and at its end: the visible change. */
+    before: z.string().min(1).max(160),
+    after: z.string().min(1).max(160),
+    /** The layer the eye should follow. */
+    focus: LocalId.optional(),
+  })
+  .strict();
+export type SceneDirection = z.infer<typeof SceneDirection>;
 
 export const ActorLayer = z
   .object({
@@ -186,6 +211,7 @@ export const ScenePlan = z
     schema: z.literal("erkasa.scene-plan/1"),
     sceneId: LocalId,
     engine: z.literal("2d"),
+    direction: SceneDirection.optional(),
     /** Narration spoken during this scene (English in V1). */
     narration: z.string().min(1).max(600),
     durationPolicy: z

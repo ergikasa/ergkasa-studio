@@ -64,21 +64,27 @@
         "kind": "coin",
         "from": "",
         "material": "silver",
-        "motif": "star"
+        "motif": "star",
+        "function": "the coin that decides who wins; it flips",
+        "scenes": "s01,s02,s05"
       },
       {
         "key": "scale",
         "kind": "balance_scale",
         "from": "",
         "material": "",
-        "motif": "none"
+        "motif": "none",
+        "function": "shows the coin is unfair (tilts), then fair again (level)",
+        "scenes": "s03,s06"
       },
       {
         "key": "board",
         "kind": "board",
         "from": "",
         "material": "whiteboard",
-        "motif": "none"
+        "motif": "none",
+        "function": "holds the short label of the odds",
+        "scenes": "s03,s06"
       }
     ]
   }

@@ -36,6 +36,8 @@ export interface AssetInfo {
   extra?: string;
   /** English description + story use, when the asset has them: searched, not printed in full. */
   about?: string;
+  /** The asset's story use alone (in a world: the object's job in this story). */
+  use?: string;
 }
 
 /**
@@ -94,12 +96,25 @@ export class Catalog {
               .join("; "),
           ),
         );
-      else if (m.category === "object" || m.category === "icon") this.props.push(info(m));
-      else if (m.category === "effect") {
+      // a world's copies of a set's furniture are placed by the set, not by the planner
+      else if (m.category === "object" || m.category === "icon") {
+        if (!e.assetId.startsWith("wld_set_")) this.props.push(info(m));
+      } else if (m.category === "effect") {
         if (m.capabilities["placement"] === "screen") this.overlays.push(info(m));
         else if (!this.world) this.props.push(info(m)); // fire, smoke, sparks...: placed like objects
       }
     }
+  }
+
+  /** Set id -> the world background that holds a copy of that set. */
+  worldSets(): Record<string, string> {
+    const out: Record<string, string> = {};
+    if (!this.world) return out;
+    for (const b of this.backgrounds) {
+      const set = this.source.meta(b.id).capabilities["set"];
+      if (typeof set === "string") out[set] = b.id;
+    }
+    return out;
   }
 
   get textStyles(): string[] {
@@ -161,7 +176,7 @@ export class Catalog {
     const lines: string[] = [];
     if (this.world)
       lines.push(
-        `## This video has its own world ("${this.world.id}", style ${this.world.style}). Every character, place and object below was made for this story and drawn in one style: use only these ids. A world has few places on purpose: return to them with different shots (wide, medium, close, insert) instead of looking for other places.\n`,
+        `## This video has its own world ("${this.world.id}", style ${this.world.style}). Every character, place and object below was made for this story and drawn in one style: use only these ids. A world has few places on purpose: return to them with a different shot, a different moment of the action and different positions, never the same picture twice. Objects are tools, not decoration: use one only in the scenes and for the job written next to it; a scene may have no object at all.\n`,
       );
     lines.push(
       "## Characters (type actor). Use `front` actions when facing front, `side` actions when facing left/right.",
@@ -188,14 +203,13 @@ export class Catalog {
       );
     }
     // staged sets are built on library backgrounds: not part of a world (scene.set stays "none")
-    if (!this.world) {
+    const worldSets = this.worldSets();
+    if (!this.world || Object.keys(worldSets).length) {
       lines.push(
-        "\n## Staged sets (scene.set). Actors on a set use `blocking` (marks below) instead of x and walk actions.",
+        "\n## Staged sets (scene.set). Actors on a set use `blocking` (marks below) instead of x and walk actions. Use a set whenever people meet, enter, sit, talk across a desk or hand something over: that is how a situation is shown, not told.",
       );
-      lines.push(describeSets());
-      lines.push(
-        "Scene props in the house style (prop_*, in the object list below) can attachTo an actor on a set.",
-      );
+      lines.push(this.world ? describeSets(worldSets) : describeSets());
+      lines.push("Scene props (in the object list below) can attachTo an actor on a set.");
     } else lines.push('\nStaged sets: none in this world (scene.set = "none").');
     lines.push("\n## Backgrounds (scene.background)");
     for (const b of this.backgrounds) lines.push(`- ${b.id}: ${b.tags.join(", ")}; ${b.extra}`);
@@ -207,7 +221,10 @@ export class Catalog {
     lines.push(
       `\n## Objects and icons (type object or icon) relevant to this script (${props.length} of ${this.props.length}). Animations: ${Object.keys(GENERIC_RECIPES).join(", ")}, ${IDLE_MOTIONS.join(", ")}.`,
     );
-    for (const p of props) lines.push(`- ${p.id} (${p.category}): ${p.tags.slice(0, 8).join(", ")}`);
+    for (const p of props)
+      lines.push(
+        `- ${p.id} (${p.category}): ${p.tags.slice(0, 8).join(", ")}${this.world && p.use ? ` | job in this story: ${p.use}` : ""}`,
+      );
     lines.push(`\n## Text styles: ${this.textStyles.join(", ")}`);
     lines.push(`## Chart kinds: ${CHART_KINDS.join(", ")}`);
     lines.push(`## Camera moves: ${CameraMove.shape.move.options.join(", ")}`);
@@ -263,5 +280,6 @@ function info(m: AssetMeta, extra?: string): AssetInfo {
     animations: strings(m.capabilities["animations"]),
     ...(extra ? { extra } : {}),
     ...(m.description || m.storyUse ? { about: [m.description, m.storyUse].filter(Boolean).join(" ") } : {}),
+    ...(m.storyUse ? { use: m.storyUse } : {}),
   };
 }

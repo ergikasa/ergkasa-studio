@@ -1,0 +1,96 @@
+{
+  "schema": "erkasa.script/1",
+  "title": "The first impression trap",
+  "topic": "why your boss never forgets a first impression",
+  "theme": "psychology",
+  "language": "en",
+  "hook": "Two new hires. The same work. But the boss has already decided who is better.",
+  "cast": [
+    {
+      "role": "protagonist",
+      "characterId": "char_arti_01",
+      "description": "Sam, a young new hire who starts his first day badly but works well."
+    },
+    {
+      "role": "supporting",
+      "characterId": "char_mira_01",
+      "description": "The boss, a woman around fifty who judges the new hires."
+    },
+    {
+      "role": "supporting",
+      "characterId": "char_era_01",
+      "description": "Nora, the other new hire, who does the same work."
+    }
+  ],
+  "promise": "The first thing we see about someone becomes the lens for everything they do after (the primacy effect).",
+  "takeaway": {
+    "kind": "question",
+    "text": "Before you judge someone, ask: what would I think if this were their first day?"
+  },
+  "scenes": [
+    {
+      "sceneId": "s01",
+      "beat": "hook",
+      "narration": "Two new hires. The same work. But the boss has already decided who is better.",
+      "visualIdea": "Close on the boss, judging, then she has decided.",
+      "emotion": "suspicious"
+    },
+    {
+      "sceneId": "s02",
+      "beat": "situation",
+      "narration": "Day one. Sam walks into his interview a little late, hands over a crumpled CV, and sits down.",
+      "visualIdea": "Sam enters the boss's office, sits, hands over his CV.",
+      "setting": "interview office",
+      "action": "Sam walks in late and hands over his CV.",
+      "emotion": "nervous"
+    },
+    {
+      "sceneId": "s03",
+      "beat": "problem",
+      "narration": "In the first ten seconds, the boss reads it, frowns, and types one word. Careless.",
+      "visualIdea": "The boss reads, frowns and types.",
+      "setting": "interview office",
+      "emotion": "cold"
+    },
+    {
+      "sceneId": "s04",
+      "beat": "situation",
+      "narration": "Then Sam answers every question well. Clear, calm, smart.",
+      "visualIdea": "Sam talks with confidence, smiling.",
+      "setting": "interview office",
+      "action": "Sam answers well.",
+      "emotion": "confident"
+    },
+    {
+      "sceneId": "s05",
+      "beat": "analysis",
+      "narration": "But later, the boss thinks it over. Good answers? He probably memorised them.",
+      "visualIdea": "The boss alone, judging, unconvinced.",
+      "setting": "office",
+      "emotion": "doubtful"
+    },
+    {
+      "sceneId": "s06",
+      "beat": "concept",
+      "narration": "Psychologists call it the primacy effect. What we see first becomes the lens for everything after.",
+      "visualIdea": "Sam and Nora side by side, a balance scale tips toward Nora although they did the same.",
+      "emphasis": "primacy effect"
+    },
+    {
+      "sceneId": "s07",
+      "beat": "situation",
+      "narration": "Six months later, the same results. Nora gets the praise. Sam gets the doubt.",
+      "visualIdea": "Nora celebrates, Sam slumps.",
+      "setting": "office",
+      "emotion": "sad"
+    },
+    {
+      "sceneId": "s08",
+      "beat": "conclusion",
+      "narration": "So before you judge someone, ask: what would I think if this were their first day?",
+      "visualIdea": "The boss thinks, then sees it.",
+      "emotion": "thoughtful"
+    }
+  ],
+  "estimatedSec": 50
+}

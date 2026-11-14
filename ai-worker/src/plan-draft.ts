@@ -42,6 +42,18 @@ export const DRAFT_SCHEMA: StrictSchema = obj({
   scenes: arr(
     obj({
       sceneId: str("Same id as the script scene, e.g. s01."),
+      direction: obj({
+        idea: str("The one idea this scene must make the viewer understand, in a sentence."),
+        demonstration: {
+          type: "string",
+          enum: ["story_moment", "comparison", "metaphor_change", "diagram", "statement"],
+          description:
+            "How the idea is SHOWN: story_moment = people in a concrete situation doing something; comparison = two cases side by side; metaphor_change = an object or metaphor that changes; diagram = a chart or process built up; statement = only a title or the host (rare).",
+        },
+        before: str("What the viewer sees at the start of the scene."),
+        after: str("What the viewer sees at the end: the visible change that proves the idea."),
+        focus: str("Layer id the eye follows."),
+      }),
       background: str("Background asset id (on a set: the set's background)."),
       set: {
         type: "string",
@@ -56,6 +68,9 @@ export const DRAFT_SCHEMA: StrictSchema = obj({
       layers: arr(
         obj({
           id: str("Unique within the scene, lowercase, e.g. drini, coin, title."),
+          purpose: str(
+            "Why this layer is here: what it does for the scene's idea (an actor's role in the moment, an object's job). A layer without a job does not belong in the scene.",
+          ),
           type: { type: "string", enum: ["actor", "object", "icon", "metaphor", "text", "chart"] },
           assetId: str('Asset id for actor/object/icon/metaphor; "" for text and chart.'),
           x: num("Horizontal position, 0 = left edge, 0.5 = center, 1 = right edge of the 9:16 frame."),
@@ -150,10 +165,12 @@ export interface DraftLayer {
   chart: (typeof CHART)[number];
   chartData: Array<{ label: string; value: number }>;
   unit: string;
+  purpose?: string;
 }
 
 export interface DraftScene {
   sceneId: string;
+  direction?: { idea: string; demonstration: string; before: string; after: string; focus: string };
   background: string;
   set?: string;
   shot: { size: "wide" | "medium" | "close" | "insert"; subject: string };
@@ -173,6 +190,21 @@ type Anchor =
   | { sec: number }
   | { word: string; occurrence: number; offsetSec?: number }
   | { after: string; offsetSec: number };
+
+const DEMONSTRATIONS = ["story_moment", "comparison", "metaphor_change", "diagram", "statement"] as const;
+
+/** The draft's direction as the plan contract has it (absent or unusable = undefined). */
+function direction(d: DraftScene["direction"]) {
+  if (!d?.idea?.trim() || !DEMONSTRATIONS.includes(d.demonstration as (typeof DEMONSTRATIONS)[number]))
+    return undefined;
+  return {
+    idea: d.idea.trim().slice(0, 200),
+    demonstration: d.demonstration as (typeof DEMONSTRATIONS)[number],
+    before: (d.before.trim() || "-").slice(0, 160),
+    after: (d.after.trim() || "-").slice(0, 160),
+    ...(/^[A-Za-z][A-Za-z0-9_-]{0,63}$/.test(d.focus.trim()) ? { focus: d.focus.trim() } : {}),
+  };
+}
 
 /** How long a text overlay stays before it fades out. */
 export const TEXT_HOLD_SEC = 2.6;
@@ -240,6 +272,7 @@ export function draftToPlan(
       const base = {
         id: l.id,
         place: placement(l),
+        ...(l.purpose?.trim() ? { purpose: l.purpose.trim().slice(0, 160) } : {}),
         ...(l.enter !== "none"
           ? {
               in: {
@@ -317,6 +350,7 @@ export function draftToPlan(
       schema: "erkasa.scene-plan/1" as const,
       sceneId: sc.sceneId,
       engine: "2d" as const,
+      ...(direction(d.direction) ? { direction: direction(d.direction) } : {}),
       narration: sc.narration,
       durationPolicy: { mode: "fitNarration" as const, padAfterSec: last ? 1.2 : 0.45 },
       background: { assetId: d.background },

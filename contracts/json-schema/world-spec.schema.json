@@ -48,7 +48,14 @@
               "castle_rampart",
               "office_floor",
               "rooftop_night",
-              "library"
+              "library",
+              "set"
+            ]
+          },
+          "set": {
+            "type": "string",
+            "enum": [
+              "interview_office"
             ]
           },
           "from": {
@@ -276,6 +283,18 @@
               "star",
               "plain"
             ]
+          },
+          "function": {
+            "type": "string",
+            "maxLength": 160
+          },
+          "scenes": {
+            "maxItems": 20,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+            }
           }
         },
         "required": [

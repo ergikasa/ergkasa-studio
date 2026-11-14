@@ -16,6 +16,8 @@ export const GENERATED_PLACES = {
   castle_rampart: "medieval castle walkway over a kingdom with two army camps (kings, heirs, history, power)",
   office_floor: "glass office tower floor over a city skyline (work, business, careers, money decisions)",
   rooftop_night: "city rooftop at night with string lights (street life, friends, bets, risk, loneliness)",
+  interview_office:
+    "a STAGED office set seen from the side: door, desk, a chair on each side. People enter, walk, sit, talk across the desk and hand things over (interviews, meetings, a boss and an employee, a doctor, a negotiation). Use it whenever the story has a conversation across a desk.",
 } as const;
 export const GENERATED_PROPS = {
   coin: "a coin that can flip (animation: flip); material gold/silver/copper, motif crown/star/plain",
@@ -59,7 +61,15 @@ export interface WorldDraft {
     main: string;
     accent: string;
   }>;
-  props: Array<{ key: string; kind: string; from: string; material: string; motif: string }>;
+  props: Array<{
+    key: string;
+    kind: string;
+    from: string;
+    material: string;
+    motif: string;
+    function: string;
+    scenes: string;
+  }>;
 }
 
 const str = (description: string, values?: readonly string[]): Record<string, unknown> =>
@@ -110,13 +120,18 @@ export const WORLD_SCHEMA: StrictSchema = obj({
   },
   props: {
     type: "array",
-    description: "3 to 12 objects the story shows",
+    description:
+      "0 to 10 objects; only objects a scene needs to SHOW its idea (no decoration). Each one names its function and scenes.",
     items: obj({
       key: str("short lowercase key, e.g. coin, laptop"),
       kind: str("a generated object, or library", [...Object.keys(GENERATED_PROPS), "library"]),
       from: str('kind library: a library object or metaphor id; otherwise ""'),
       material: str('coin: gold/silver/copper; board: parchment/whiteboard/neon; otherwise ""'),
       motif: str("coin face", ["crown", "star", "plain", "none"]),
+      function: str(
+        "What this object shows or does in the story, in a sentence (e.g. 'the CV the candidate hands to the boss')",
+      ),
+      scenes: str("Comma-separated script scene ids that use it, e.g. s02,s03"),
     }),
   },
 });
@@ -129,7 +144,8 @@ Rules:
 - Prefer a generated place when it fits the story; otherwise pick library backgrounds whose tags fit. One to three places; a main place first. Fewer places, used well, read better than many.
 - Costumes say who someone is (era, rank, job). Rivals or two sides get two clearly different colours (sideA/sideB and their costume colours).
 - Keep each script cast member's presentation (man/woman) and approximate age from their description.
-- Props: only what the scenes show or explain. Use generated objects when they fit (they animate); otherwise library objects or metaphors from the list.
+- Props: only objects a scene needs to SHOW its idea or to make a situation real (the CV in an interview, the coin in a bet). Give each one its function and the scenes that use it. An object that only matches a word of the narration (boxing gloves for "fight for a job") is decoration: leave it out. Fewer, meaningful objects are better than many. Use generated objects when they fit (they animate); otherwise library objects or metaphors from the list, read their description first.
+- When people talk across a desk (interview, meeting, a boss and an employee), use the staged set interview_office as a place: the characters can enter, sit, hand things over there.
 - Style: storybook = warm picture-book (history, fables, gentle); clean_editorial = neutral modern; night_noir = dark, tense, night; sunset_warm = warm evening, nostalgic.
 - Use only ids from the lists. Answer in the JSON format.`;
 
@@ -138,9 +154,11 @@ function libraryPick(catalog: Catalog, text: string): string {
   const props = catalog
     .relevantProps(text, 40)
     .filter((p) => p.category === "object" && p.id.startsWith("prop_"))
-    .map((p) => `- ${p.id}: ${p.tags.slice(0, 6).join(", ")}`)
+    .map((p) => `- ${p.id}: ${p.tags.slice(0, 6).join(", ")}${p.about ? ` | ${p.about.slice(0, 140)}` : ""}`)
     .join("\n");
-  const mets = catalog.metaphors.map((m) => `- ${m.id}: ${m.tags.slice(0, 6).join(", ")}`).join("\n");
+  const mets = catalog.metaphors
+    .map((m) => `- ${m.id}: ${m.tags.slice(0, 6).join(", ")}${m.about ? ` | ${m.about.slice(0, 140)}` : ""}`)
+    .join("\n");
   return `## Library backgrounds (kind library)\n${bgs}\n\n## Library objects relevant to this script (kind library)\n${props}\n\n## Library metaphors (kind library)\n${mets}`;
 }
 
@@ -236,6 +254,8 @@ export function draftToWorld(
     if (p.kind === "library" && !lib(p.from, ["background"]))
       issues.push(`places[${i}]: '${p.from}' is not a library background`);
     const sides = hex(p.sideA) && hex(p.sideB) ? [hex(p.sideA), hex(p.sideB)] : undefined;
+    if (p.kind === "interview_office")
+      return { id, kind: "set", set: "interview_office", time: "day", seed: i + 1 };
     return {
       id,
       kind: p.kind,
@@ -290,10 +310,24 @@ export function draftToWorld(
     cast.push({ id: hostId, name: "Host", role: "the narrator chosen by the user", from: host });
   }
 
+  const sceneIds = new Set(script.scenes.map((s) => s.sceneId));
   const props = draft.props.map((p, i) => {
     if (p.kind === "library" && !lib(p.from, ["object", "metaphor"]))
       issues.push(`props[${i}]: '${p.from}' is not a library object or metaphor`);
+    const scenes = (p.scenes ?? "")
+      .split(/[,\s]+/)
+      .map((x) => x.trim())
+      .filter(Boolean);
+    const fn = (p.function ?? "").trim();
+    if (!fn || !scenes.length)
+      issues.push(
+        `props[${i}] (${p.key}): give its function in the story and the scenes that use it, or leave it out`,
+      );
+    for (const sc of scenes)
+      if (!sceneIds.has(sc)) issues.push(`props[${i}] (${p.key}): scene '${sc}' is not in the script`);
     return {
+      ...(fn ? { function: fn.slice(0, 160) } : {}),
+      ...(scenes.length ? { scenes: scenes.filter((x) => sceneIds.has(x)) } : {}),
       id: unique(`wld_prop_${key(p.key, `p${i + 1}`)}`),
       kind: p.kind,
       ...(p.kind === "library" ? { from: p.from } : {}),

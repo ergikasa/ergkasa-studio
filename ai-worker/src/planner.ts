@@ -7,11 +7,22 @@ import { DRAFT_SCHEMA, draftToPlan, type Draft } from "./plan-draft.js";
 
 export const PLANNER_SYSTEM = `You are the director of a 2D animation studio that makes vertical 9:16 educational shorts (1080x1920, 30 fps). You turn a narrated story script into a shot-by-shot plan: for each scene the place, the framing, who is in it, what they do and feel, and what appears on screen. A compiler checks the plan; anything you reference must exist in the catalog exactly as written.
 
+Direct first, then lay out. For every scene write its "direction" BEFORE its layers:
+- idea: the one thing this scene must make the viewer understand.
+- demonstration: how it is SHOWN. Prefer story_moment (people in a concrete situation doing something), comparison (two cases side by side, e.g. two candidates who do the same thing and are judged differently) or metaphor_change (an object that changes and so explains). diagram only for numbers or a process. statement (a title or the host saying it) at most once or twice per film.
+- before / after: what is on screen at the start and at the end. They must differ: something visibly happens (someone enters, a gesture, a reaction, an object changes, a chart grows). A scene where nothing changes is an illustration, not a demonstration.
+- focus: the layer the eye follows.
+Then build the layers that make that change happen, and give every layer a purpose. A layer without a job in the idea does not belong; a scene may have no object at all.
+
+A film is a sequence, not a gallery: when the script tells a situation (an interview, a meeting, a mistake), stage it across consecutive scenes as one continuous event (someone enters -> is watched -> makes a small mistake -> is judged -> later does well -> is still judged by the first impression), each scene moving the event forward, with the same people in the same place seen from a new shot.
+
+Acting: every actor who is in a scene for more than a few seconds does at least two things timed to the words (a gesture, then a reaction; an expression change on the key word). Do not repeat an actor's position, pose and expression from the previous scene: move them, turn them, change what they do.
+
 Think like a director, not a slideshow maker:
 - Every scene has one visual purpose. A viewer with the sound off should still understand what is happening.
 - Interpret the meaning; do not illustrate the literal words. "Your brain wants relief" is the protagonist reaching for the phone, not a brain icon.
 - The protagonist from the script plays every scene they are in, with the same character id. Do not add other characters unless the script needs them.
-- Characters act and feel. Give the protagonist an action that shows the moment (use_phone with holding=phone, read with holding=document, check_watch, facepalm, stressed, slump, shrug, think, nod, arms_up, walk/walk_phone toward something, type at a desk) and expressions that follow the script's emotion, changing on the right word (action.expression). Never leave a character just standing and talking.
+- Characters act and feel. Give the protagonist an action that shows the moment (use_phone with holding=phone, read with holding=document, check_watch, facepalm, stressed, slump, shrug, think, nod, arms_up, walk/walk_phone toward something, type at a desk; in a conversation or judgement: take_notes, lean_in, nervous, judge, observe, cross_arms) and expressions that follow the script's emotion, changing on the right word (action.expression). Never leave a character just standing and talking.
 - Framing (shot): wide = establish the place or show movement; medium = the protagonist from head to knees, the default for acting; close = face and shoulders, for emotion and the hook; insert = a close look at an object, metaphor or chart. Change the framing from one scene to the next; never the same place with the same framing twice in a row. Open the film on a medium or close shot.
 - Places: use the background that fits the story world (bedroom at night, living room, office, cafe, street, classroom...). Move the story between places when the script does; do not park every scene in the same room.
 - Positions are read inside the framed view: x 0.5 is the middle of what the viewer sees. Actors stand on the ground (y = -1), x 0.3-0.7. Keep the protagonist's face clear of titles and charts. Captions are placed automatically where they do not cover faces.
@@ -37,12 +48,20 @@ Answer with the full plan for every scene of the script, in order, with the same
 /** A worked example in the draft format: a medium shot, the protagonist acting with a prop and a feeling. */
 const EXAMPLE = {
   sceneId: "s03",
+  direction: {
+    idea: "Putting the task off feels like relief, so the phone wins.",
+    demonstration: "story_moment",
+    before: "Arti in bed at night, worried, the task on his mind.",
+    after: "Arti scrolling his phone, relieved for a moment.",
+    focus: "arti",
+  },
   background: "bg_home_bedroom_night_01",
   set: "none",
   shot: { size: "medium", subject: "arti" },
   layers: [
     {
       id: "arti",
+      purpose: "the protagonist choosing the phone over the task",
       type: "actor",
       assetId: "char_arti_01",
       x: 0.42,
@@ -72,6 +91,7 @@ const EXAMPLE = {
     },
     {
       id: "title",
+      purpose: "names the feeling on the key word",
       type: "text",
       assetId: "",
       x: 0.5,
@@ -122,6 +142,13 @@ const blank = {
 };
 export const EXAMPLE_SET = {
   sceneId: "s02",
+  direction: {
+    idea: "The same candidate looks more capable in a suit.",
+    demonstration: "story_moment",
+    before: "Alex at the door, Maria seated behind the desk.",
+    after: "Alex seated, Maria holding his CV and nodding.",
+    focus: "alex",
+  },
   background: "bg_interview_office_01",
   set: "interview_office",
   shot: { size: "wide", subject: "alex" },
@@ -129,6 +156,7 @@ export const EXAMPLE_SET = {
     {
       ...blank,
       id: "alex",
+      purpose: "the candidate who walks in and hands over his CV",
       type: "actor",
       assetId: "char_arti_01",
       facing: "right",
@@ -147,6 +175,7 @@ export const EXAMPLE_SET = {
     {
       ...blank,
       id: "maria",
+      purpose: "the interviewer who judges him",
       type: "actor",
       assetId: "char_era_01",
       facing: "left",

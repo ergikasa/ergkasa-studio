@@ -57,6 +57,16 @@ def library_path(asset_id: str) -> Path:
     return LIBRARY / rel
 
 
+def set_function(out: Path, entry: dict, prop: dict) -> None:
+    """The object's job in this story (from the World Spec) becomes its storyUse: the planner reads it."""
+    if not prop.get("function"):
+        return
+    f = out / entry["path"] / "asset.json"
+    meta = json.loads(f.read_text(encoding="utf-8"))
+    meta["storyUse"] = prop["function"] + (f" (scenes {', '.join(prop['scenes'])})" if prop.get("scenes") else "")
+    f.write_text(json.dumps(meta, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+
 def copy_library(out: Path, new_id: str, from_id: str, style: str, folder: str, expect: tuple[str, ...]) -> dict:
     """A library asset copied into the world under a role id, every SVG graded with the world's style kit.
     The original keeps its recipes: a metaphor names its library id in capabilities.recipes."""
@@ -78,6 +88,35 @@ def copy_library(out: Path, new_id: str, from_id: str, style: str, folder: str, 
     return write(out, folder, meta, files)
 
 
+# The staged sets of the compiler (compiler/src/sets.ts, SETS[id].background / .assets): a world copies the
+# background and every piece of furniture, graded, so people can enter, walk, sit and hand things over in it.
+SETS = {
+    "interview_office": {
+        "background": "bg_interview_office_01",
+        "assets": {"door": "prop_door_01", "clock": "prop_wall_clock_01", "plant": "prop_plant_floor_01",
+                   "chair": "prop_chair_office_side_01", "desk": "prop_desk_side_01",
+                   "laptop": "prop_laptop_side_01", "mug": "prop_mug_01"},
+    },
+}
+
+
+def build_set(out: Path, place: dict, style: str) -> list[dict]:
+    st = SETS[place["set"]]
+    key = place["id"].removeprefix("wld_place_")
+    entries, refs = [], {}
+    for role, lib in st["assets"].items():
+        rid = f"wld_set_{key}_{role}"
+        entries.append(copy_library(out, rid, lib, style, "props", ("object",)))
+        refs[role] = rid
+    bg = copy_library(out, place["id"], st["background"], style, "backgrounds", ("background",))
+    meta_file = out / bg["path"] / "asset.json"
+    meta = json.loads(meta_file.read_text(encoding="utf-8"))
+    meta["capabilities"]["set"] = place["set"]
+    meta["capabilities"]["setAssets"] = refs
+    meta_file.write_text(json.dumps(meta, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    return [bg, *entries]
+
+
 def build(spec: dict, out: Path) -> dict:
     style = spec["style"]
     entries = []
@@ -85,6 +124,9 @@ def build(spec: dict, out: Path) -> dict:
     for place in spec["places"]:
         if place["kind"] == "library":
             entries.append(copy_library(out, place["id"], place["from"], style, "backgrounds", ("background",)))
+            continue
+        if place["kind"] == "set":
+            entries.extend(build_set(out, place, style))
             continue
         svg, meta = build_place(place, style)
         entries.append(write(out, "backgrounds", meta, {"asset.svg": grade(svg, style)}))
@@ -108,9 +150,13 @@ def build(spec: dict, out: Path) -> dict:
         entries.append(write(out, "characters", meta, files))
     for prop in spec.get("props", []):
         if prop["kind"] == "library":
-            entries.append(copy_library(out, prop["id"], prop["from"], style, "props", ("object", "metaphor", "icon")))
+            entry = copy_library(out, prop["id"], prop["from"], style, "props", ("object", "metaphor", "icon"))
+            set_function(out, entry, prop)
+            entries.append(entry)
             continue
         svg, meta = build_prop(prop, style)
+        if prop.get("function"):
+            meta["storyUse"] = prop["function"] + (f" (scenes {', '.join(prop['scenes'])})" if prop.get("scenes") else "")
         entries.append(write(out, "props", meta, {"asset.svg": grade(svg, style)}))
     counts: dict[str, int] = {}
     for e in entries:

@@ -1,0 +1,81 @@
+{
+  "label": "world#1",
+  "value": {
+    "title": "The first impression office",
+    "setting": "A modern company: a glass office floor and the boss's interview office.",
+    "style": "clean_editorial",
+    "places": [
+      {
+        "key": "main",
+        "kind": "office_floor",
+        "from": "",
+        "time": "golden",
+        "sideA": "#E8833A",
+        "sideB": "#2F8F8A"
+      },
+      {
+        "key": "interview",
+        "kind": "interview_office",
+        "from": "",
+        "time": "day",
+        "sideA": "",
+        "sideB": ""
+      }
+    ],
+    "cast": [
+      {
+        "plays": "char_arti_01",
+        "name": "Sam",
+        "presentation": "man",
+        "age": "young",
+        "skin": "brown",
+        "hair": "buzz",
+        "hairColor": "black",
+        "beard": "none",
+        "glasses": false,
+        "costume": "office_casual",
+        "main": "#E8833A",
+        "accent": ""
+      },
+      {
+        "plays": "char_mira_01",
+        "name": "The boss",
+        "presentation": "woman",
+        "age": "middle",
+        "skin": "light",
+        "hair": "bob",
+        "hairColor": "grey",
+        "beard": "none",
+        "glasses": true,
+        "costume": "business_suit",
+        "main": "#2B3445",
+        "accent": ""
+      },
+      {
+        "plays": "char_era_01",
+        "name": "Nora",
+        "presentation": "woman",
+        "age": "young",
+        "skin": "tan",
+        "hair": "long",
+        "hairColor": "auburn",
+        "beard": "none",
+        "glasses": false,
+        "costume": "office_casual",
+        "main": "#2F8F8A",
+        "accent": ""
+      }
+    ],
+    "props": [
+      {
+        "key": "scale",
+        "kind": "balance_scale",
+        "from": "",
+        "material": "",
+        "motif": "none",
+        "function": "weighs the same work of the two hires and tips toward Nora: the first impression decides",
+        "scenes": "s06"
+      }
+    ]
+  }
+}

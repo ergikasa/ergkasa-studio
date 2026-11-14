@@ -524,7 +524,8 @@ def asset_json(look: Look) -> dict:
             "actions": {
                 "front": ["idle", "talk", "wave", "point_side", "point_side_left", "think", "arms_up", "nod", "shake_head",
                           "use_phone", "read", "check_watch", "facepalm", "stressed", "slump", "shrug",
-                          "cross_arms", "argue", "negotiate", "present", "observe", "look_up"],
+                          "cross_arms", "argue", "negotiate", "present", "observe", "look_up",
+                          "take_notes", "lean_in", "nervous", "judge"],
                 "side": ["idle", "walk", "run", "talk", "point_forward", "jump", "walk_phone", "type", "give",
                          "sit", "stand_up", "seated", "seated_talk", "seated_type", "seated_nod", "seated_read", "seated_give",
                          "shake_hands", "fall", "climb"],

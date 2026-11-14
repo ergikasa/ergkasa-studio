@@ -50,7 +50,11 @@
         "negotiate",
         "present",
         "observe",
-        "look_up"
+        "look_up",
+        "take_notes",
+        "lean_in",
+        "nervous",
+        "judge"
       ],
       "side": [
         "idle",

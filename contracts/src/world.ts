@@ -75,7 +75,9 @@ export type WorldCharacter = z.infer<typeof WorldCharacter>;
 export const WorldPlace = z
   .object({
     id: RoleId,
-    kind: z.enum(["castle_rampart", "office_floor", "rooftop_night", "library"]),
+    kind: z.enum(["castle_rampart", "office_floor", "rooftop_night", "library", "set"]),
+    /** kind set: a staged set (people enter, walk, sit, hand things over), copied into the world. */
+    set: z.enum(["interview_office"]).optional(),
     /** kind library: the library background to copy into the world. */
     from: AssetId.optional(),
     time: z.enum(["day", "golden", "dusk", "night"]).default("day"),
@@ -86,7 +88,8 @@ export const WorldPlace = z
   .strict()
   .refine((p) => (p.kind === "library") === (p.from !== undefined), {
     message: "kind library needs `from` (a library background id); generated kinds take none",
-  });
+  })
+  .refine((p) => (p.kind === "set") === (p.set !== undefined), { message: "kind set needs `set`" });
 
 export const WorldProp = z
   .object({
@@ -101,6 +104,13 @@ export const WorldProp = z
       .optional(),
     /** coin: the face motif. */
     motif: z.enum(["crown", "star", "plain"]).optional(),
+    /** What the object shows or does in the story ("the CV the candidate hands over"). */
+    function: z.string().max(160).optional(),
+    /** The script scenes that use it. */
+    scenes: z
+      .array(z.string().regex(/^[A-Za-z][A-Za-z0-9_-]*$/))
+      .max(20)
+      .optional(),
   })
   .strict()
   .refine((p) => (p.kind === "library") === (p.from !== undefined), {

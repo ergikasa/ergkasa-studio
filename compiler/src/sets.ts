@@ -26,8 +26,16 @@ export interface StageSet {
   marks: Record<string, Mark>;
   /** Pairs of chair marks across a desk whose occupants can hand things over (hands meet above it). */
   handover: Array<[string, string]>;
-  /** Furniture nodes; `doorOpen` = frames where the door should be open (someone passes). */
-  furniture(doorOpen: number[]): TimelineNode[];
+  /**
+   * The library assets the set is built from, by role (door, desk...). A video's world can hold graded
+   * copies of them: its background then names the set and its copies in capabilities.set / setAssets.
+   */
+  assets: Record<string, string>;
+  /**
+   * Furniture nodes; `doorOpen` = frames where the door should be open (someone passes); `refs` = the asset
+   * ref used for each role (default: the library assets).
+   */
+  furniture(doorOpen: number[], refs?: Record<string, string>): TimelineNode[];
 }
 
 /** Where the feet are for someone standing at a mark (in front of a chair, or on the spot). */
@@ -110,31 +118,49 @@ export const SETS: Record<string, StageSet> = {
       },
     },
     handover: [["chair_left", "chair_right"]],
-    furniture: (doorOpen) => [
-      svg("set_door", "prop_door_01@1", 2, 560, 1560 - 465, {
-        tracks: { "part.leaf.scaleX": doorTrack(doorOpen) },
-      }),
-      svg("set_clock", "prop_wall_clock_01@1", 2, 1220, 640, { scale: 0.8 }),
-      svg("set_plant", "prop_plant_floor_01@1", 3, 1840, 1600 - 210),
-      svg("set_chair_left", "prop_chair_office_side_01@1", 5, 880 + 30, FLOOR - 280),
-      svg("set_chair_right", "prop_chair_office_side_01@1", 5, 1540 - 30, FLOOR - 280, {
-        props: { flip: true },
-      }),
-      svg("set_desk", "prop_desk_side_01@1", 15, DESK_X, FLOOR - 190),
-      svg("set_laptop", "prop_laptop_side_01@1", 16, DESK_X + 70, DESK_TOP - (162 - 85) * 0.62, {
-        scale: 0.62,
-      }),
-      svg("set_mug", "prop_mug_01@1", 16, DESK_X - 100, DESK_TOP - 43, { scale: 0.85 }),
-    ],
+    assets: {
+      door: "prop_door_01",
+      clock: "prop_wall_clock_01",
+      plant: "prop_plant_floor_01",
+      chair: "prop_chair_office_side_01",
+      desk: "prop_desk_side_01",
+      laptop: "prop_laptop_side_01",
+      mug: "prop_mug_01",
+    },
+    furniture: (doorOpen, refs = {}) => {
+      const a = (role: string, lib: string): string => refs[role] ?? `${lib}@1`;
+      return [
+        svg("set_door", a("door", "prop_door_01"), 2, 560, 1560 - 465, {
+          tracks: { "part.leaf.scaleX": doorTrack(doorOpen) },
+        }),
+        svg("set_clock", a("clock", "prop_wall_clock_01"), 2, 1220, 640, { scale: 0.8 }),
+        svg("set_plant", a("plant", "prop_plant_floor_01"), 3, 1840, 1600 - 210),
+        svg("set_chair_left", a("chair", "prop_chair_office_side_01"), 5, 880 + 30, FLOOR - 280),
+        svg("set_chair_right", a("chair", "prop_chair_office_side_01"), 5, 1540 - 30, FLOOR - 280, {
+          props: { flip: true },
+        }),
+        svg("set_desk", a("desk", "prop_desk_side_01"), 15, DESK_X, FLOOR - 190),
+        svg("set_laptop", a("laptop", "prop_laptop_side_01"), 16, DESK_X + 70, DESK_TOP - (162 - 85) * 0.62, {
+          scale: 0.62,
+        }),
+        svg("set_mug", a("mug", "prop_mug_01"), 16, DESK_X - 100, DESK_TOP - 43, { scale: 0.85 }),
+      ];
+    },
   },
 };
 
-/** The sets section of the planner prompt. */
-export function describeSets(): string {
+/**
+ * The sets section of the planner prompt. `backgrounds` = set id -> the background to use (a video's world
+ * has its own copy); only those sets are listed then.
+ */
+export function describeSets(backgrounds?: Record<string, string>): string {
   return Object.values(SETS)
+    .filter((s) => !backgrounds || backgrounds[s.id])
     .map(
       (s) =>
-        `- ${s.id} (background ${s.background}): ${s.description}\n  marks: ${Object.entries(s.marks)
+        `- ${s.id} (background ${backgrounds?.[s.id] ?? s.background}): ${s.description}\n  marks: ${Object.entries(
+          s.marks,
+        )
           .map(([k, m]) => `${k} = ${m.description}`)
           .join("; ")}\n  hand-overs across the desk: ${s.handover.map((p) => p.join(" <-> ")).join(", ")}`,
     )

@@ -302,6 +302,65 @@ export const ACTIONS: Record<string, Action> = {
       arm_upper_l: { rotation: -2 * k },
     });
   },
+
+  /** Writing on a pad held at the chest: the left forearm holds it, the right hand writes, head down. */
+  take_notes: (t, ph) => {
+    const k = ramp(t, 0.45);
+    const w = sin(t, 3.2, ph) * k;
+    return merge(idleBase(t, ph), {
+      arm_upper_l: { rotation: -16 * k },
+      arm_lower_l: { rotation: -112 * k },
+      hand_l: { rotation: -8 * k },
+      arm_upper_r: { rotation: 18 * k },
+      arm_lower_r: { rotation: (116 + 6 * w) * k },
+      hand_r: { rotation: 10 * w },
+      head: { rotation: -4 * k, y: 6 * k },
+      eyes: { y: 4 * k },
+    });
+  },
+
+  /** Leaning in with interest: shoulders forward and down, forearms forward, head tilted. */
+  lean_in: (t, ph) => {
+    const k = ramp(t, 0.5);
+    return merge(idleBase(t, ph), {
+      torso: { y: 8 * k, scaleY: 1 - 0.025 * k },
+      neck: { y: 9 * k },
+      head: { y: 12 * k, rotation: 6 * k, scaleX: 1 + 0.03 * k, scaleY: 1 + 0.03 * k },
+      arm_upper_l: { rotation: -10 * k, y: 8 * k },
+      arm_lower_l: { rotation: -58 * k },
+      arm_upper_r: { rotation: 10 * k, y: 8 * k },
+      arm_lower_r: { rotation: 58 * k },
+    });
+  },
+
+  /** Nervous: hands wring in front, small quick head shifts, weight moves foot to foot. */
+  nervous: (t, ph) => {
+    const k = ramp(t, 0.3);
+    const f = sin(t, 2.6, ph) * k;
+    return merge(idleBase(t, ph), {
+      torso: { x: 3 * sin(t, 0.9, ph) * k },
+      arm_upper_l: { rotation: (-8 + 3 * f) * k },
+      arm_lower_l: { rotation: (-46 + 8 * f) * k },
+      arm_upper_r: { rotation: (8 + 3 * f) * k },
+      arm_lower_r: { rotation: (46 - 8 * f) * k },
+      head: { rotation: 5 * sin(t, 1.3, ph + 1) * k, x: 3 * sin(t, 1.7, ph) * k, y: 3 * k },
+      eyes: { x: 3 * sin(t, 1.1, ph + 2) * k },
+    });
+  },
+
+  /** Judging: one arm across, the other hand at the chin, head tilted, a long look. */
+  judge: (t, ph) => {
+    const k = ramp(t, 0.5);
+    return merge(idleBase(t, ph), {
+      arm_upper_l: { rotation: -12 * k },
+      arm_lower_l: { rotation: -118 * k },
+      arm_upper_r: { rotation: 26 * k },
+      arm_lower_r: { rotation: 152 * k },
+      hand_r: { rotation: -24 * k },
+      head: { rotation: -9 * k, y: -2 * k },
+      brows: { y: 3 * k },
+    });
+  },
 };
 
 export const ACTION_NAMES = Object.keys(ACTIONS);

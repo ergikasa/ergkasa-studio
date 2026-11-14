@@ -1,0 +1,928 @@
+{
+  "label": "plan#1",
+  "value": {
+    "scenes": [
+      {
+        "sceneId": "s01",
+        "direction": {
+          "idea": "The boss has already decided who is better, before seeing the work.",
+          "demonstration": "story_moment",
+          "before": "The boss looks over her two new hires, undecided.",
+          "after": "She has made up her mind and smiles.",
+          "focus": "boss"
+        },
+        "background": "wld_place_main",
+        "set": "none",
+        "shot": {
+          "size": "close",
+          "subject": "boss"
+        },
+        "layers": [
+          {
+            "id": "boss",
+            "purpose": "the judge whose first impression drives the story",
+            "type": "actor",
+            "assetId": "wld_char_2",
+            "x": 0.5,
+            "y": -1,
+            "scale": 1,
+            "region": "none",
+            "facing": "front",
+            "expression": "neutral",
+            "speaks": false,
+            "holding": "none",
+            "outfit": "",
+            "blocking": [],
+            "attachTo": "",
+            "enter": "none",
+            "enterAt": "start",
+            "actions": [
+              {
+                "action": "judge",
+                "at": "word:hires",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": ""
+              },
+              {
+                "action": "nod",
+                "at": "word:decided",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": "happy"
+              }
+            ],
+            "animations": [],
+            "text": "",
+            "textStyle": "",
+            "highlight": [],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          }
+        ],
+        "camera": [
+          {
+            "move": "push_in",
+            "at": "start",
+            "to": 1.06
+          }
+        ],
+        "effects": [],
+        "transition": "whip",
+        "transitionDirection": "left"
+      },
+      {
+        "sceneId": "s02",
+        "direction": {
+          "idea": "Sam's first moments go badly: late, rushed.",
+          "demonstration": "story_moment",
+          "before": "The boss alone at her desk, the door closed.",
+          "after": "Sam seated across the desk, his CV in her hand.",
+          "focus": "sam"
+        },
+        "background": "wld_place_interview",
+        "set": "interview_office",
+        "shot": {
+          "size": "wide",
+          "subject": "sam"
+        },
+        "layers": [
+          {
+            "id": "sam",
+            "purpose": "the new hire making a clumsy first entrance",
+            "type": "actor",
+            "assetId": "wld_char_1",
+            "x": 0.5,
+            "y": -1,
+            "scale": 1,
+            "region": "none",
+            "facing": "front",
+            "expression": "surprised",
+            "speaks": false,
+            "holding": "document",
+            "outfit": "",
+            "blocking": [
+              {
+                "do": "enter",
+                "mark": "door",
+                "to": "",
+                "at": "word:walks"
+              },
+              {
+                "do": "walk_to",
+                "mark": "chair_left",
+                "to": "",
+                "at": ""
+              },
+              {
+                "do": "give",
+                "mark": "",
+                "to": "boss",
+                "at": "word:hands"
+              },
+              {
+                "do": "sit",
+                "mark": "",
+                "to": "",
+                "at": "word:sits"
+              }
+            ],
+            "attachTo": "",
+            "enter": "none",
+            "enterAt": "start",
+            "actions": [],
+            "animations": [],
+            "text": "",
+            "textStyle": "",
+            "highlight": [],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          },
+          {
+            "id": "boss",
+            "purpose": "the interviewer watching him come in",
+            "type": "actor",
+            "assetId": "wld_char_2",
+            "x": 0.5,
+            "y": -1,
+            "scale": 1,
+            "region": "none",
+            "facing": "front",
+            "expression": "neutral",
+            "speaks": false,
+            "holding": "none",
+            "outfit": "",
+            "blocking": [
+              {
+                "do": "seated",
+                "mark": "chair_right",
+                "to": "",
+                "at": ""
+              }
+            ],
+            "attachTo": "",
+            "enter": "none",
+            "enterAt": "start",
+            "actions": [
+              {
+                "action": "type",
+                "at": "start",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": ""
+              },
+              {
+                "action": "read",
+                "at": "word:sits",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": "angry"
+              }
+            ],
+            "animations": [],
+            "text": "",
+            "textStyle": "",
+            "highlight": [],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          }
+        ],
+        "camera": [
+          {
+            "move": "static",
+            "at": "start",
+            "to": 0
+          }
+        ],
+        "effects": [],
+        "transition": "cut",
+        "transitionDirection": "none"
+      },
+      {
+        "sceneId": "s03",
+        "direction": {
+          "idea": "Ten seconds are enough: she labels him careless.",
+          "demonstration": "story_moment",
+          "before": "The boss looks at the CV.",
+          "after": "She frowns and types the word: careless.",
+          "focus": "boss"
+        },
+        "background": "wld_place_interview",
+        "set": "interview_office",
+        "shot": {
+          "size": "medium",
+          "subject": "boss"
+        },
+        "layers": [
+          {
+            "id": "boss",
+            "purpose": "forms the first impression",
+            "type": "actor",
+            "assetId": "wld_char_2",
+            "x": 0.5,
+            "y": -1,
+            "scale": 1,
+            "region": "none",
+            "facing": "front",
+            "expression": "neutral",
+            "speaks": false,
+            "holding": "document",
+            "outfit": "",
+            "blocking": [
+              {
+                "do": "seated",
+                "mark": "chair_right",
+                "to": "",
+                "at": ""
+              }
+            ],
+            "attachTo": "",
+            "enter": "none",
+            "enterAt": "start",
+            "actions": [
+              {
+                "action": "read",
+                "at": "word:reads",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": ""
+              },
+              {
+                "action": "type",
+                "at": "word:types",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": "angry"
+              }
+            ],
+            "animations": [],
+            "text": "",
+            "textStyle": "",
+            "highlight": [],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          },
+          {
+            "id": "sam",
+            "purpose": "waits, unaware of the verdict",
+            "type": "actor",
+            "assetId": "wld_char_1",
+            "x": 0.5,
+            "y": -1,
+            "scale": 1,
+            "region": "none",
+            "facing": "front",
+            "expression": "neutral",
+            "speaks": false,
+            "holding": "none",
+            "outfit": "",
+            "blocking": [
+              {
+                "do": "seated",
+                "mark": "chair_left",
+                "to": "",
+                "at": ""
+              }
+            ],
+            "attachTo": "",
+            "enter": "none",
+            "enterAt": "start",
+            "actions": [
+              {
+                "action": "nod",
+                "at": "word:frowns",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": "sad"
+              }
+            ],
+            "animations": [],
+            "text": "",
+            "textStyle": "",
+            "highlight": [],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          },
+          {
+            "id": "title",
+            "purpose": "the word she types, the label that will stick",
+            "type": "text",
+            "assetId": "",
+            "x": 0.5,
+            "y": -1,
+            "scale": 1,
+            "region": "top-safe",
+            "facing": "front",
+            "expression": "",
+            "speaks": false,
+            "holding": "none",
+            "outfit": "",
+            "blocking": [],
+            "attachTo": "",
+            "enter": "pop",
+            "enterAt": "word:Careless",
+            "actions": [],
+            "animations": [],
+            "text": "CARELESS.",
+            "textStyle": "hook_impact",
+            "highlight": ["CARELESS."],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          }
+        ],
+        "camera": [
+          {
+            "move": "punch_in",
+            "at": "word:Careless",
+            "to": 1.15
+          }
+        ],
+        "effects": [],
+        "transition": "cut",
+        "transitionDirection": "none"
+      },
+      {
+        "sceneId": "s04",
+        "direction": {
+          "idea": "Sam is actually good: clear, calm, smart.",
+          "demonstration": "story_moment",
+          "before": "Sam answers, a bit tense.",
+          "after": "Sam smiles, sure of himself.",
+          "focus": "sam"
+        },
+        "background": "wld_place_interview",
+        "set": "interview_office",
+        "shot": {
+          "size": "close",
+          "subject": "sam"
+        },
+        "layers": [
+          {
+            "id": "sam",
+            "purpose": "shows his real ability",
+            "type": "actor",
+            "assetId": "wld_char_1",
+            "x": 0.5,
+            "y": -1,
+            "scale": 1,
+            "region": "none",
+            "facing": "front",
+            "expression": "neutral",
+            "speaks": true,
+            "holding": "none",
+            "outfit": "",
+            "blocking": [
+              {
+                "do": "seated",
+                "mark": "chair_left",
+                "to": "",
+                "at": ""
+              }
+            ],
+            "attachTo": "",
+            "enter": "none",
+            "enterAt": "start",
+            "actions": [
+              {
+                "action": "talk",
+                "at": "word:answers",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": "happy"
+              },
+              {
+                "action": "nod",
+                "at": "word:smart",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": "happy"
+              }
+            ],
+            "animations": [],
+            "text": "",
+            "textStyle": "",
+            "highlight": [],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          },
+          {
+            "id": "boss",
+            "purpose": "listens without being moved",
+            "type": "actor",
+            "assetId": "wld_char_2",
+            "x": 0.5,
+            "y": -1,
+            "scale": 1,
+            "region": "none",
+            "facing": "front",
+            "expression": "neutral",
+            "speaks": false,
+            "holding": "none",
+            "outfit": "",
+            "blocking": [
+              {
+                "do": "seated",
+                "mark": "chair_right",
+                "to": "",
+                "at": ""
+              }
+            ],
+            "attachTo": "",
+            "enter": "none",
+            "enterAt": "start",
+            "actions": [
+              {
+                "action": "nod",
+                "at": "word:calm",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": ""
+              },
+              {
+                "action": "type",
+                "at": "word:smart",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": "angry"
+              }
+            ],
+            "animations": [],
+            "text": "",
+            "textStyle": "",
+            "highlight": [],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          }
+        ],
+        "camera": [
+          {
+            "move": "push_in",
+            "at": "start",
+            "to": 1.05
+          }
+        ],
+        "effects": [],
+        "transition": "fade",
+        "transitionDirection": "none"
+      },
+      {
+        "sceneId": "s05",
+        "direction": {
+          "idea": "The first impression rewrites the good answers as a trick.",
+          "demonstration": "story_moment",
+          "before": "The boss alone by the window, thinking.",
+          "after": "She dismisses the good answers with a skeptical look.",
+          "focus": "boss"
+        },
+        "background": "wld_place_main",
+        "set": "none",
+        "shot": {
+          "size": "medium",
+          "subject": "boss"
+        },
+        "layers": [
+          {
+            "id": "boss",
+            "purpose": "reinterprets the evidence through the first impression",
+            "type": "actor",
+            "assetId": "wld_char_2",
+            "x": 0.42,
+            "y": -1,
+            "scale": 1,
+            "region": "none",
+            "facing": "front",
+            "expression": "thinking",
+            "speaks": false,
+            "holding": "none",
+            "outfit": "",
+            "blocking": [],
+            "attachTo": "",
+            "enter": "none",
+            "enterAt": "start",
+            "actions": [
+              {
+                "action": "think",
+                "at": "word:thinks",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": "thinking"
+              },
+              {
+                "action": "judge",
+                "at": "word:memorised",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": "angry"
+              }
+            ],
+            "animations": [],
+            "text": "",
+            "textStyle": "",
+            "highlight": [],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          }
+        ],
+        "camera": [
+          {
+            "move": "static",
+            "at": "start",
+            "to": 0
+          }
+        ],
+        "effects": [],
+        "transition": "slide",
+        "transitionDirection": "left"
+      },
+      {
+        "sceneId": "s06",
+        "direction": {
+          "idea": "The same work weighs differently because of what was seen first.",
+          "demonstration": "comparison",
+          "before": "Sam and Nora side by side, the scale level.",
+          "after": "The scale tips toward Nora though their work is the same.",
+          "focus": "scale"
+        },
+        "background": "wld_place_main",
+        "set": "none",
+        "shot": {
+          "size": "wide",
+          "subject": "scale"
+        },
+        "layers": [
+          {
+            "id": "sam",
+            "purpose": "one of two hires doing the same work",
+            "type": "actor",
+            "assetId": "wld_char_1",
+            "x": 0.17,
+            "y": -1,
+            "scale": 1.3,
+            "region": "none",
+            "facing": "front",
+            "expression": "neutral",
+            "speaks": false,
+            "holding": "document",
+            "outfit": "",
+            "blocking": [],
+            "attachTo": "",
+            "enter": "none",
+            "enterAt": "start",
+            "actions": [
+              {
+                "action": "present",
+                "at": "word:Psychologists",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": ""
+              },
+              {
+                "action": "shrug",
+                "at": "word:lens",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": "sad"
+              }
+            ],
+            "animations": [],
+            "text": "",
+            "textStyle": "",
+            "highlight": [],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          },
+          {
+            "id": "nora",
+            "purpose": "the other hire with the same work",
+            "type": "actor",
+            "assetId": "wld_char_3",
+            "x": 0.83,
+            "y": -1,
+            "scale": 1.3,
+            "region": "none",
+            "facing": "front",
+            "expression": "neutral",
+            "speaks": false,
+            "holding": "document",
+            "outfit": "",
+            "blocking": [],
+            "attachTo": "",
+            "enter": "none",
+            "enterAt": "start",
+            "actions": [
+              {
+                "action": "present",
+                "at": "word:Psychologists",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": ""
+              },
+              {
+                "action": "arms_up",
+                "at": "word:lens",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": "happy"
+              }
+            ],
+            "animations": [],
+            "text": "",
+            "textStyle": "",
+            "highlight": [],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          },
+          {
+            "id": "scale",
+            "purpose": "weighs the same work and tips toward Nora: the first impression decides",
+            "type": "object",
+            "assetId": "wld_prop_scale",
+            "x": 0.5,
+            "y": 0.44,
+            "scale": 1.7,
+            "region": "none",
+            "facing": "front",
+            "expression": "",
+            "speaks": false,
+            "holding": "none",
+            "outfit": "",
+            "blocking": [],
+            "attachTo": "",
+            "enter": "fade",
+            "enterAt": "start",
+            "actions": [],
+            "animations": [
+              {
+                "name": "tilt_right",
+                "at": "word:lens"
+              }
+            ],
+            "text": "",
+            "textStyle": "",
+            "highlight": [],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          },
+          {
+            "id": "title",
+            "purpose": "names the concept when it is shown",
+            "type": "text",
+            "assetId": "",
+            "x": 0.5,
+            "y": -1,
+            "scale": 1,
+            "region": "top-safe",
+            "facing": "front",
+            "expression": "",
+            "speaks": false,
+            "holding": "none",
+            "outfit": "",
+            "blocking": [],
+            "attachTo": "",
+            "enter": "pop",
+            "enterAt": "word:primacy",
+            "actions": [],
+            "animations": [],
+            "text": "PRIMACY EFFECT",
+            "textStyle": "hook_impact",
+            "highlight": ["PRIMACY"],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          }
+        ],
+        "camera": [
+          {
+            "move": "static",
+            "at": "start",
+            "to": 0
+          }
+        ],
+        "effects": [],
+        "transition": "cut",
+        "transitionDirection": "none"
+      },
+      {
+        "sceneId": "s07",
+        "direction": {
+          "idea": "Six months on, the same results get opposite verdicts.",
+          "demonstration": "comparison",
+          "before": "Sam and Nora with the same report.",
+          "after": "Nora is praised and cheers, Sam slumps under doubt.",
+          "focus": "sam"
+        },
+        "background": "wld_place_main",
+        "set": "none",
+        "shot": {
+          "size": "medium",
+          "subject": "sam"
+        },
+        "layers": [
+          {
+            "id": "sam",
+            "purpose": "carries the doubt from day one",
+            "type": "actor",
+            "assetId": "wld_char_1",
+            "x": 0.3,
+            "y": -1,
+            "scale": 1,
+            "region": "none",
+            "facing": "front",
+            "expression": "neutral",
+            "speaks": false,
+            "holding": "document",
+            "outfit": "",
+            "blocking": [],
+            "attachTo": "",
+            "enter": "none",
+            "enterAt": "start",
+            "actions": [
+              {
+                "action": "present",
+                "at": "word:results",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": ""
+              },
+              {
+                "action": "slump",
+                "at": "word:doubt",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": "sad"
+              }
+            ],
+            "animations": [],
+            "text": "",
+            "textStyle": "",
+            "highlight": [],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          },
+          {
+            "id": "nora",
+            "purpose": "gets the praise for the same work",
+            "type": "actor",
+            "assetId": "wld_char_3",
+            "x": 0.76,
+            "y": -1,
+            "scale": 1,
+            "region": "none",
+            "facing": "front",
+            "expression": "neutral",
+            "speaks": false,
+            "holding": "none",
+            "outfit": "",
+            "blocking": [],
+            "attachTo": "",
+            "enter": "none",
+            "enterAt": "start",
+            "actions": [
+              {
+                "action": "present",
+                "at": "word:results",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": ""
+              },
+              {
+                "action": "nod",
+                "at": "word:praise",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": "happy"
+              }
+            ],
+            "animations": [],
+            "text": "",
+            "textStyle": "",
+            "highlight": [],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          }
+        ],
+        "camera": [
+          {
+            "move": "static",
+            "at": "start",
+            "to": 0
+          }
+        ],
+        "effects": [],
+        "transition": "fade",
+        "transitionDirection": "none"
+      },
+      {
+        "sceneId": "s08",
+        "direction": {
+          "idea": "The fix is a question: judge as if it were their first day.",
+          "demonstration": "story_moment",
+          "before": "The boss thinking, still unconvinced.",
+          "after": "She sees it and nods.",
+          "focus": "boss"
+        },
+        "background": "wld_place_main",
+        "set": "none",
+        "shot": {
+          "size": "close",
+          "subject": "boss"
+        },
+        "layers": [
+          {
+            "id": "boss",
+            "purpose": "the viewer's stand-in who changes her mind",
+            "type": "actor",
+            "assetId": "wld_char_2",
+            "x": 0.5,
+            "y": -1,
+            "scale": 1,
+            "region": "none",
+            "facing": "front",
+            "expression": "thinking",
+            "speaks": false,
+            "holding": "none",
+            "outfit": "",
+            "blocking": [],
+            "attachTo": "",
+            "enter": "none",
+            "enterAt": "start",
+            "actions": [
+              {
+                "action": "think",
+                "at": "word:judge",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": "thinking"
+              },
+              {
+                "action": "nod",
+                "at": "word:first",
+                "durationSec": 0,
+                "toX": -1,
+                "expression": "happy"
+              }
+            ],
+            "animations": [],
+            "text": "",
+            "textStyle": "",
+            "highlight": [],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          },
+          {
+            "id": "title",
+            "purpose": "the question to take away",
+            "type": "text",
+            "assetId": "",
+            "x": 0.5,
+            "y": -1,
+            "scale": 1,
+            "region": "top-safe",
+            "facing": "front",
+            "expression": "",
+            "speaks": false,
+            "holding": "none",
+            "outfit": "",
+            "blocking": [],
+            "attachTo": "",
+            "enter": "pop",
+            "enterAt": "word:first",
+            "actions": [],
+            "animations": [],
+            "text": "THEIR FIRST DAY?",
+            "textStyle": "hook_impact",
+            "highlight": ["FIRST"],
+            "chart": "none",
+            "chartData": [],
+            "unit": ""
+          }
+        ],
+        "camera": [
+          {
+            "move": "push_in",
+            "at": "start",
+            "to": 1.06
+          }
+        ],
+        "effects": [],
+        "transition": "cut",
+        "transitionDirection": "none"
+      }
+    ]
+  }
+}

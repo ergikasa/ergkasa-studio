@@ -59,6 +59,47 @@
             "type": "string",
             "const": "2d"
           },
+          "direction": {
+            "type": "object",
+            "properties": {
+              "idea": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "demonstration": {
+                "type": "string",
+                "enum": [
+                  "story_moment",
+                  "comparison",
+                  "metaphor_change",
+                  "diagram",
+                  "statement"
+                ]
+              },
+              "before": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 160
+              },
+              "after": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 160
+              },
+              "focus": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+              }
+            },
+            "required": [
+              "idea",
+              "demonstration",
+              "before",
+              "after"
+            ],
+            "additionalProperties": false
+          },
           "narration": {
             "type": "string",
             "minLength": 1,
@@ -568,6 +609,10 @@
                       "type": "integer",
                       "minimum": -9007199254740991,
                       "maximum": 9007199254740991
+                    },
+                    "purpose": {
+                      "type": "string",
+                      "maxLength": 160
                     },
                     "type": {
                       "type": "string",
@@ -1245,6 +1290,10 @@
                       "minimum": -9007199254740991,
                       "maximum": 9007199254740991
                     },
+                    "purpose": {
+                      "type": "string",
+                      "maxLength": 160
+                    },
                     "type": {
                       "type": "string",
                       "enum": [
@@ -1794,6 +1843,10 @@
                       "minimum": -9007199254740991,
                       "maximum": 9007199254740991
                     },
+                    "purpose": {
+                      "type": "string",
+                      "maxLength": 160
+                    },
                     "type": {
                       "type": "string",
                       "const": "text"
@@ -2246,6 +2299,10 @@
                       "type": "integer",
                       "minimum": -9007199254740991,
                       "maximum": 9007199254740991
+                    },
+                    "purpose": {
+                      "type": "string",
+                      "maxLength": 160
                     },
                     "type": {
                       "type": "string",

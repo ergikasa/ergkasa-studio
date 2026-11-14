@@ -170,7 +170,9 @@ export function compileVideo(planInput: unknown, opts: CompileOptions): CompileR
         message: `no set '${scene.set.id}'`,
         hint: `sets: ${Object.keys(SETS).join(", ")}`,
       });
-    if (set && set.background !== bgMeta.assetId)
+    // a world's copy of a set's background names the set (capabilities.set) and its furniture copies
+    const worldSet = bgMeta && set && bgMeta.capabilities["set"] === set.id;
+    if (set && set.background !== bgMeta.assetId && !worldSet)
       issues.push({
         level: "error",
         code: "SET_BACKGROUND_MISMATCH",
@@ -181,7 +183,23 @@ export function compileVideo(planInput: unknown, opts: CompileOptions): CompileR
     let staged: StageResult | undefined;
     if (set) {
       staged = stageScene(ctx, set, opts.assets);
-      nodes.push(...set.furniture(staged.doorOpen), ...staged.nodes);
+      const refs: Record<string, string> = {};
+      if (worldSet)
+        for (const [role, id] of Object.entries(
+          (bgMeta.capabilities["setAssets"] ?? {}) as Record<string, string>,
+        )) {
+          try {
+            refs[role] = `${id}@${opts.assets.meta(id).version}`;
+          } catch {
+            issues.push({
+              level: "error",
+              code: "ASSET_NOT_FOUND",
+              path: `${path}.set`,
+              message: `the set's ${role} '${id}' is missing from the world`,
+            });
+          }
+        }
+      nodes.push(...set.furniture(staged.doorOpen, refs), ...staged.nodes);
       ctx.view = stagedView(ctx, staged);
     } else ctx.view = frameShot(ctx, opts.assets);
 
