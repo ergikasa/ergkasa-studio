@@ -14,7 +14,14 @@ import {
   sampleNumber,
   type AssetSource,
 } from "@erkasa/engine";
-import { GENERIC_RECIPES, IDLE_MOTIONS, METAPHOR_RECIPES, RECIPE_SETS, type Tracks } from "./recipes.js";
+import {
+  GENERIC_RECIPES,
+  IDLE_MOTIONS,
+  METAPHOR_RECIPES,
+  RECIPE_INITIAL,
+  RECIPE_SETS,
+  type Tracks,
+} from "./recipes.js";
 import { estimateWords, findWord, type TimedWord } from "./words.js";
 import { headPoint, stageActors, type StageResult, type StagedActor } from "./blocking.js";
 import { SETS, type StageSet } from "./sets.js";
@@ -226,6 +233,10 @@ export function compileVideo(planInput: unknown, opts: CompileOptions): CompileR
       if (layer.type !== "actor" && layer.type !== "text" && layer.type !== "chart" && layer.attach)
         attachToActor(ctx, node, layer.attach, nodes, staged, lpath);
       nodes.push(node);
+      if ((layer.type === "object" || layer.type === "icon" || layer.type === "metaphor") && layer.label) {
+        const label = compileLabel(ctx, layer, node, `${lpath}.label`);
+        if (label) nodes.push(label);
+      }
     });
     scene.effects.forEach((e, ei) => {
       if (!PARTICLE_PRESETS.includes(e.preset)) {
@@ -698,7 +709,14 @@ function compileActor(
       hint: `items: ${[...items].join(", ") || "none"}`,
     });
   const exprK: Keyframe[] = [{ f: 0, v: layer.expression }];
-  const [wx, wyFree] = toWorld(ctx, layer.place.x, layer.place.y ?? 0.88, ctx.view, layer.place.zone, `${path}.place.zone`);
+  const [wx, wyFree] = toWorld(
+    ctx,
+    layer.place.x,
+    layer.place.y ?? 0.88,
+    ctx.view,
+    layer.place.zone,
+    `${path}.place.zone`,
+  );
   const y = layer.place.anchor === "ground" ? ctx.world.groundY : wyFree;
   const startFacing = layer.facing;
 
@@ -1030,6 +1048,10 @@ function compileAssetLayer(
     METAPHOR_RECIPES[meta.assetId] ??
     (typeof set === "string" ? (RECIPE_SETS[set] ?? METAPHOR_RECIPES[set]) : undefined) ??
     {};
+  // a world prop with states starts the scene in its first state (a screen shows its first value)
+  if (typeof set === "string" && RECIPE_INITIAL[set])
+    for (const [name, kfs] of Object.entries(RECIPE_INITIAL[set] ?? {}))
+      if (hasPart(meta, name)) tracks[name] = [...kfs];
   layer.animations.forEach((anim, ai) => {
     const apath = `${path}.animations[${ai}]`;
     const s = resolveAt(ctx, anim.at, `${apath}.at`);
@@ -1051,6 +1073,7 @@ function compileAssetLayer(
     }
     const { tracks: rt, duration } = recipe(s, ctx.duration - 1, ctx.fps);
     for (const [name, kfs] of Object.entries(rt)) {
+      if (typeof set === "string" && RECIPE_SETS[set] && !hasPart(meta, name)) continue; // e.g. a screen with 3 values has no v4
       if (name === "bounce")
         tracks["y"] = [...(tracks["y"] ?? []), ...kfs.map((k) => ({ ...k, v: round(y + Number(k.v)) }))];
       else if (name === "wiggle") tracks["rotation"] = [...(tracks["rotation"] ?? []), ...kfs];
@@ -1078,6 +1101,12 @@ function compileAssetLayer(
     props,
     tracks: finalize(tracks),
   };
+}
+
+/** A part track (`part.<id>.<prop>`) of an asset that does not have that part is dropped (a 3-value screen has no v4). */
+function hasPart(meta: AssetMeta, track: string): boolean {
+  const m = /^part\.([^.]+)\./.exec(track);
+  return !m || !meta.parts || (m[1] as string) in meta.parts;
 }
 
 // --- charts ----------------------------------------------------------------------------------
@@ -1184,6 +1213,46 @@ function compileText(
   };
 }
 
+/** A sign in the world next to an object: it appears at its time and stays with the object. */
+function compileLabel(
+  ctx: SceneContext,
+  layer: Extract<Layer, { type: "object" | "icon" | "metaphor" }>,
+  node: TimelineNode,
+  path: string,
+): TimelineNode | undefined {
+  const label = layer.label;
+  if (!label) return undefined;
+  const s = resolveAt(ctx, label.at, `${path}.at`);
+  if (s === undefined) return undefined;
+  const x = Number(node.tracks["x"]?.[0]?.v ?? 0);
+  const y = Number(node.tracks["y"]?.[0]?.v ?? 0);
+  const size = Number(node.tracks["size"]?.[0]?.v ?? 300);
+  const gap = size * 0.5 + 70;
+  const d = Math.round(0.35 * ctx.fps);
+  return {
+    id: `${layer.id}_label`,
+    adapter: "text",
+    z: (node.z ?? 12) + 1,
+    space: "world",
+    props: {
+      content: label.text,
+      style: "world_label",
+      highlight: [],
+      maxWidth: Math.round(ctx.width * 0.8),
+    },
+    tracks: {
+      x: [{ f: 0, v: round(x) }],
+      y: [{ f: 0, v: round(label.side === "below" ? y + gap : y - gap) }],
+      scale: [
+        { f: 0, v: 0 },
+        { f: s, v: 0 },
+        { f: s + Math.round(d * 0.65), v: 1.1, ease: "easeOutCubic" },
+        { f: s + d, v: 1, ease: "easeInOut" },
+      ],
+    },
+  };
+}
+
 // --- camera --------------------------------------------------------------------------------------
 function compileCamera(ctx: SceneContext, nodes: TimelineNode[]): Tracks {
   // moves start from the scene's framing; zoom targets are relative to it (push_in 1.1 = 10% closer)
@@ -1275,9 +1344,13 @@ function compileCamera(ctx: SceneContext, nodes: TimelineNode[]): Tracks {
           }
           const off = x - sample(txs, s, x);
           // no duration given: travel until the target has arrived
-          const end = m.durationSec === undefined ? Math.min(last, Math.max(s + 1, (txs[txs.length - 1] as Keyframe).f)) : e;
+          const end =
+            m.durationSec === undefined
+              ? Math.min(last, Math.max(s + 1, (txs[txs.length - 1] as Keyframe).f))
+              : e;
           push("x", [{ f: s, v: round(x) }]);
-          for (const k of txs) if (k.f > s && k.f < end) push("x", [{ f: k.f, v: round(Number(k.v) + off), ease: k.ease }]);
+          for (const k of txs)
+            if (k.f > s && k.f < end) push("x", [{ f: k.f, v: round(Number(k.v) + off), ease: k.ease }]);
           x = sample(txs, end, x) + off;
           push("x", [{ f: end, v: round(x) }]);
           break;

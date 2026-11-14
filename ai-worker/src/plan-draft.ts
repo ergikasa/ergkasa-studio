@@ -65,7 +65,9 @@ export const DRAFT_SCHEMA: StrictSchema = obj({
       shot: obj({
         size: { type: "string", enum: ["wide", "medium", "close", "insert"] },
         subject: str('Layer id to frame; "" = the speaking actor (or the first object for insert).'),
-        zone: str('Wide place: the zone the scene starts in (see the background\'s zones); "" for ordinary places.'),
+        zone: str(
+          'Wide place: the zone the scene starts in (see the background\'s zones); "" for ordinary places.',
+        ),
       }),
       layers: arr(
         obj({
@@ -81,7 +83,9 @@ export const DRAFT_SCHEMA: StrictSchema = obj({
           ),
           scale: num("Size multiplier, 1 = default size."),
           region: { type: "string", enum: ["none", "top-safe", "center", "bottom-safe"] },
-          zone: str('Wide place: the zone this layer stands in (x is then relative to that zone); "" = the scene\'s own view.'),
+          zone: str(
+            'Wide place: the zone this layer stands in (x is then relative to that zone); "" = the scene\'s own view.',
+          ),
           facing: { type: "string", enum: ["front", "left", "right"] },
           expression: str('Actor expression, e.g. neutral. "" for non-actors.'),
           speaks: {
@@ -120,6 +124,10 @@ export const DRAFT_SCHEMA: StrictSchema = obj({
             }),
           ),
           animations: arr(obj({ name: str("Exact animation name from the asset."), at: str(ANCHOR_DOC) })),
+          label: str(
+            'A short sign next to an object, in the world (at most 24 characters, e.g. "LOCKED", "ONLY 3 CUTS"); "" = none. Key concepts only: at most 6 labels in the whole film.',
+          ),
+          labelAt: str(`When the sign appears; "" = with the object. ${ANCHOR_DOC}`),
           text: str('Text layers: the words to show (max 40 characters). "" otherwise.'),
           textStyle: str('Text style name, or "".'),
           highlight: arr(str("Word inside `text` to color with the accent.")),
@@ -134,7 +142,9 @@ export const DRAFT_SCHEMA: StrictSchema = obj({
           at: str(ANCHOR_DOC),
           to: num("Zoom target for push_in/pull_out/punch_in (e.g. 1.08), pan amount for pans; 0 = default."),
           zone: str('travel: the zone of a wide place the camera moves to; "" otherwise.'),
-          target: str('travel: the layer id the camera travels WITH (it walks, the camera follows it); "" otherwise.'),
+          target: str(
+            'travel: the layer id the camera travels WITH (it walks, the camera follows it); "" otherwise.',
+          ),
         }),
       ),
       effects: arr(
@@ -164,8 +174,17 @@ export interface DraftLayer {
   attachTo?: string;
   enter: (typeof ENTER)[number];
   enterAt: string;
-  actions: Array<{ action: string; at: string; durationSec: number; toX: number; toZone?: string; expression: string }>;
+  actions: Array<{
+    action: string;
+    at: string;
+    durationSec: number;
+    toX: number;
+    toZone?: string;
+    expression: string;
+  }>;
   animations: Array<{ name: string; at: string }>;
+  label?: string;
+  labelAt?: string;
   text: string;
   textStyle: string;
   highlight: string[];
@@ -312,7 +331,12 @@ export function draftToPlan(
               at: at(a.at, `${lp}.actions[${ai}].at`),
               ...(a.durationSec > 0 ? { durationSec: a.durationSec } : {}),
               ...(a.toX >= 0
-                ? { to: { x: clamp(a.toX, -0.5, 1.5), ...(a.toZone?.trim() ? { zone: a.toZone.trim() } : {}) } }
+                ? {
+                    to: {
+                      x: clamp(a.toX, -0.5, 1.5),
+                      ...(a.toZone?.trim() ? { zone: a.toZone.trim() } : {}),
+                    },
+                  }
                 : {}),
               ...(a.expression?.trim() ? { expression: a.expression.trim() } : {}),
             })),
@@ -325,6 +349,14 @@ export function draftToPlan(
             type: l.type,
             assetId: l.assetId,
             ...attachOf(l.attachTo, `${lp}.attachTo`, err),
+            ...(l.label?.trim()
+              ? {
+                  label: {
+                    text: l.label.trim().slice(0, 24),
+                    at: l.labelAt?.trim() ? at(l.labelAt, `${lp}.labelAt`) : ("start" as const),
+                  },
+                }
+              : {}),
             animations: l.animations.map((a, ai) => ({
               name: a.name,
               at: at(a.at, `${lp}.animations[${ai}].at`),

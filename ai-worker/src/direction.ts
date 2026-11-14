@@ -55,6 +55,21 @@ export function reviewDirection({
   const scenes = plan.scenes;
   const n = scenes.length;
 
+  // 0. signs in the world are for key concepts: not a second set of captions
+  const labels = scenes.reduce(
+    (c, sc) => c + sc.layers.filter((l) => "label" in l && l.label !== undefined).length,
+    0,
+  );
+  if (labels > 6)
+    out.push(
+      issue(
+        "LABELS_MANY",
+        "scenes",
+        `${labels} signs in the world; they are for key concepts only (at most 6)`,
+        "remove the signs that repeat the narration or name the obvious",
+      ),
+    );
+
   // 1. one cast for the whole film; the protagonist carries it
   const cast = new Set((script.cast ?? []).map((c) => c.characterId));
   if (cast.size && host) cast.add(host); // the host presents; he is allowed next to the cast

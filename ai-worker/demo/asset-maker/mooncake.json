@@ -1,6 +1,6 @@
 {
- "value": {
-  "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 120 120\" width=\"120\" height=\"120\"><g id=\"x\"><ellipse cx=\"60\" cy=\"104\" rx=\"46\" ry=\"8\" fill=\"#6B4F3A\"/><circle cx=\"60\" cy=\"60\" r=\"46\" fill=\"#8A6849\"/><circle cx=\"60\" cy=\"56\" r=\"42\" fill=\"#C9A27E\"/><circle cx=\"60\" cy=\"56\" r=\"30\" fill=\"#B08A68\"/><circle cx=\"60\" cy=\"56\" r=\"8\" fill=\"#8A6849\"/><path d=\"M60 26 L60 40 M60 72 L60 86 M30 56 L44 56 M76 56 L90 56\" stroke=\"#6B4F3A\" stroke-width=\"5\" stroke-linecap=\"round\"/><path d=\"M39 35 L48 44 M81 35 L72 44 M39 77 L48 68 M81 77 L72 68\" stroke=\"#6B4F3A\" stroke-width=\"4\" stroke-linecap=\"round\"/><circle cx=\"60\" cy=\"56\" r=\"42\" fill=\"none\" stroke=\"#A9825F\" stroke-width=\"3\"/></g></svg>",
-  "notes": "A baked mooncake: scalloped round top seen slightly from above, pressed pattern."
- }
+  "value": {
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 120 120\" width=\"120\" height=\"120\"><g id=\"x\"><ellipse cx=\"60\" cy=\"104\" rx=\"46\" ry=\"8\" fill=\"#6B4F3A\"/><circle cx=\"60\" cy=\"60\" r=\"46\" fill=\"#8A6849\"/><circle cx=\"60\" cy=\"56\" r=\"42\" fill=\"#C9A27E\"/><circle cx=\"60\" cy=\"56\" r=\"30\" fill=\"#B08A68\"/><circle cx=\"60\" cy=\"56\" r=\"8\" fill=\"#8A6849\"/><path d=\"M60 26 L60 40 M60 72 L60 86 M30 56 L44 56 M76 56 L90 56\" stroke=\"#6B4F3A\" stroke-width=\"5\" stroke-linecap=\"round\"/><path d=\"M39 35 L48 44 M81 35 L72 44 M39 77 L48 68 M81 77 L72 68\" stroke=\"#6B4F3A\" stroke-width=\"4\" stroke-linecap=\"round\"/><circle cx=\"60\" cy=\"56\" r=\"42\" fill=\"none\" stroke=\"#A9825F\" stroke-width=\"3\"/></g></svg>",
+    "notes": "A baked mooncake: scalloped round top seen slightly from above, pressed pattern."
+  }
 }

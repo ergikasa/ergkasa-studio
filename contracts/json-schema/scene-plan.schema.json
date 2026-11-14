@@ -1300,6 +1300,92 @@
                 ],
                 "additionalProperties": false
               },
+              "label": {
+                "type": "object",
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 24
+                  },
+                  "at": {
+                    "default": "start",
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "word": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "occurrence": {
+                            "default": 1,
+                            "type": "integer",
+                            "exclusiveMinimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "offsetSec": {
+                            "default": 0,
+                            "type": "number",
+                            "minimum": -2,
+                            "maximum": 10
+                          }
+                        },
+                        "required": [
+                          "word"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "sec": {
+                            "type": "number",
+                            "minimum": 0
+                          }
+                        },
+                        "required": [
+                          "sec"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "after": {
+                            "type": "string",
+                            "pattern": "^[A-Za-z][\\w-]*\\.[a-z_]+$"
+                          },
+                          "offsetSec": {
+                            "default": 0,
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "after"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "string",
+                        "const": "start"
+                      }
+                    ]
+                  },
+                  "side": {
+                    "default": "above",
+                    "type": "string",
+                    "enum": [
+                      "above",
+                      "below"
+                    ]
+                  }
+                },
+                "required": [
+                  "text"
+                ],
+                "additionalProperties": false
+              },
               "animations": {
                 "default": [],
                 "type": "array",
@@ -1308,7 +1394,7 @@
                   "properties": {
                     "name": {
                       "type": "string",
-                      "pattern": "^[a-z_]+$"
+                      "pattern": "^[a-z][a-z0-9_]*$"
                     },
                     "at": {
                       "anyOf": [

@@ -9,10 +9,7 @@
       "id": "wld_place_main",
       "kind": "panorama",
       "time": "day",
-      "sides": [
-        "#3E5F86",
-        "#C2554D"
-      ],
+      "sides": ["#3E5F86", "#C2554D"],
       "seed": 3,
       "parts": [
         {

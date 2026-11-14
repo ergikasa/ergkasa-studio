@@ -361,7 +361,95 @@ function worldBalance(s: number, angle: number): { tracks: Tracks; duration: num
  * A recipe's first keyframe is where it starts from; when a part already moved, the compiler starts it
  * from where the part is (a beam tilted left, then levelled, swings back from the tilt).
  */
+/** Tracks a world prop starts the scene with (a screen shows its first value, a grid starts grey). */
+export const RECIPE_INITIAL: Record<string, Tracks> = {
+  screen: Object.fromEntries(
+    Array.from({ length: 6 }, (_, i) => [`part.v${i}.opacity`, [kf(0, i === 0 ? 1 : 0)]]),
+  ),
+  door: { "part.lock_open.opacity": [kf(0, 0)] },
+  grid: Object.fromEntries(Array.from({ length: 5 }, (_, i) => [`part.c${i}.opacity`, [kf(0, 0)]])),
+};
+
+/** Every value of a screen: the one asked for fades in with a small pop, the others fade out. */
+const screenTo =
+  (k: number): Recipe =>
+  (s) => {
+    const t: Tracks = {};
+    for (let i = 0; i < 6; i++)
+      t[`part.v${i}.opacity`] =
+        i === k ? [kf(s, 0), kf(s + 9, 1, "easeOutCubic")] : [kf(s, 1), kf(s + 9, 0, "easeInOut")];
+    t[`part.v${k}.scaleX`] = [kf(s, 1.35), kf(s + 12, 1, "easeOutCubic")];
+    t[`part.v${k}.scaleY`] = [kf(s, 1.35), kf(s + 12, 1, "easeOutCubic")];
+    return { tracks: t, duration: 12 };
+  };
+
+/** A group of a people grid lights up; the people of the group pop in one wave. */
+const gridGroup =
+  (k: number): Recipe =>
+  (s) => ({
+    tracks: {
+      [`part.c${k}.opacity`]: [kf(s, 0), kf(s + 14, 1, "easeOutCubic")],
+      [`part.c${k}.scaleX`]: [kf(s, 1.12), kf(s + 16, 1, "easeOutCubic")],
+      [`part.c${k}.scaleY`]: [kf(s, 1.12), kf(s + 16, 1, "easeOutCubic")],
+    },
+    duration: 16,
+  });
+
+/** Everything but group k dims: the eye goes to k. */
+const gridFocus =
+  (k: number): Recipe =>
+  (s) => {
+    const t: Tracks = {};
+    for (let i = 0; i < 5; i++)
+      t[`part.c${i}.opacity`] = [kf(s, 0.5), kf(s + 10, i === k ? 1 : 0.18, "easeInOut")];
+    return { tracks: t, duration: 10 };
+  };
+
 export const RECIPE_SETS: Record<string, Record<string, Recipe>> = {
+  screen: Object.fromEntries([1, 2, 3, 4, 5].map((k) => [`to_value_${k}`, screenTo(k)])),
+  door: {
+    unlock: (s) => ({
+      tracks: {
+        "part.lock_closed.opacity": [kf(s, 1), kf(s + 6, 0)],
+        "part.lock_open.opacity": [kf(s, 0), kf(s + 6, 1)],
+        "part.lock_open.rotation": [kf(s, -14), kf(s + 8, 0, "easeOutCubic")],
+      },
+      duration: 8,
+    }),
+    lock: (s) => ({
+      tracks: {
+        "part.lock_closed.opacity": [kf(s, 0), kf(s + 6, 1)],
+        "part.lock_open.opacity": [kf(s, 1), kf(s + 6, 0)],
+        "part.lock_closed.scaleX": [kf(s, 1.3), kf(s + 8, 1, "easeOutCubic")],
+        "part.lock_closed.scaleY": [kf(s, 1.3), kf(s + 8, 1, "easeOutCubic")],
+      },
+      duration: 8,
+    }),
+    open: (s) => ({
+      tracks: { "part.leaf.scaleX": [kf(s, 1), kf(s + 22, 0.22, "easeInOut")] },
+      duration: 22,
+    }),
+    close: (s) => ({
+      tracks: { "part.leaf.scaleX": [kf(s, 0.22), kf(s + 18, 1, "easeOutCubic")] },
+      duration: 18,
+    }),
+    shake: (s) => ({
+      tracks: {
+        "part.leaf.x": [kf(s, 0), kf(s + 3, 9), kf(s + 6, -9), kf(s + 9, 6), kf(s + 12, -4), kf(s + 15, 0)],
+      },
+      duration: 15,
+    }),
+  },
+  grid: {
+    ...Object.fromEntries([0, 1, 2, 3, 4].map((k) => [`group_${k + 1}`, gridGroup(k)])),
+    ...Object.fromEntries([0, 1, 2, 3, 4].map((k) => [`focus_${k + 1}`, gridFocus(k)])),
+    reset: (s) => ({
+      tracks: Object.fromEntries(
+        [0, 1, 2, 3, 4].map((i) => [`part.c${i}.opacity`, [kf(s, 1), kf(s + 10, 0)]]),
+      ),
+      duration: 10,
+    }),
+  },
   coin: {
     /** Tossed up, turning over and over, caught again: the face flips by scaling through zero. */
     flip: (s) => {

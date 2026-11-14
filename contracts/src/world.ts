@@ -117,7 +117,18 @@ export const WorldPlace = z
 export const WorldProp = z
   .object({
     id: RoleId,
-    kind: z.enum(["coin", "balance_scale", "board", "pedestal", "library", "custom"]),
+    kind: z.enum([
+      "coin",
+      "balance_scale",
+      "board",
+      "pedestal",
+      "screen",
+      "door",
+      "grid",
+      "thought",
+      "library",
+      "custom",
+    ]),
     /** kind library: the library object or metaphor to copy into the world. */
     from: AssetId.optional(),
     /** coin: gold | silver | copper; board: parchment | whiteboard | neon; others ignore it. */
@@ -125,6 +136,10 @@ export const WorldProp = z
       .string()
       .regex(/^[a-z_]+$/)
       .optional(),
+    /** screen: the texts it shows one after another (a battery 4% then 3%); 1 to 6. */
+    values: z.array(z.string().min(1).max(12)).min(1).max(6).optional(),
+    /** grid: how many people in each group (up to 5 groups, 100 people in all). */
+    groups: z.array(z.number().int().min(1).max(100)).min(1).max(5).optional(),
     /** coin: the face motif. */
     motif: z.enum(["crown", "star", "plain"]).optional(),
     /** kind custom: what to draw, for an object no generator or library asset covers (a radio, a plate, a mooncake). */
@@ -142,6 +157,9 @@ export const WorldProp = z
   .strict()
   .refine((p) => (p.kind === "library") === (p.from !== undefined), {
     message: "kind library needs `from` (a library object or metaphor id); generated kinds take none",
+  })
+  .refine((p) => p.kind !== "grid" || (p.groups?.reduce((a, b) => a + b, 0) ?? 0) <= 100, {
+    message: "grid groups add up to at most 100 people",
   })
   .refine((p) => (p.kind === "custom") === (p.brief !== undefined), {
     message: "kind custom needs `brief` (what to draw); other kinds take none",

@@ -8,9 +8,11 @@ import { drawCustom, gate, makeCustomAssets, renderProblems } from "../src/asset
 import { WorldSpec } from "@erkasa/contracts";
 
 const demo = (id: string): { svg: string; notes: string } =>
-  (JSON.parse(readFileSync(join(repoRoot(), "ai-worker", "demo", "asset-maker", `${id}.json`), "utf8")) as {
-    value: { svg: string; notes: string };
-  }).value;
+  (
+    JSON.parse(readFileSync(join(repoRoot(), "ai-worker", "demo", "asset-maker", `${id}.json`), "utf8")) as {
+      value: { svg: string; notes: string };
+    }
+  ).value;
 
 class Scripted implements Llm {
   readonly requests: JsonRequest[] = [];
@@ -42,7 +44,7 @@ describe("asset gate", () => {
 
   it("rejects scripts, external references, text and filters", () => {
     for (const bad of [
-      '<script>alert(1)</script>',
+      "<script>alert(1)</script>",
       '<image href="https://x/y.png"/>',
       '<text x="1" y="1">hi</text>',
       '<filter id="f"/>',
@@ -55,17 +57,30 @@ describe("asset gate", () => {
   it("flags empty, cut-off and floating drawings", () => {
     const wrap = (inner: string): string =>
       `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200"><g>${inner}</g></svg>`;
-    expect(renderProblems(wrap('<rect x="95" y="95" width="4" height="4" fill="#C2554D"/>'), "table")[0]).toMatch(/empty/);
-    expect(renderProblems(wrap('<rect x="-20" y="40" width="240" height="160" fill="#C2554D"/>'), "hand").join()).toMatch(/edge/);
-    expect(renderProblems(wrap('<rect x="40" y="20" width="120" height="100" fill="#C2554D"/>'), "floor").join()).toMatch(/bottom/);
+    expect(
+      renderProblems(wrap('<rect x="95" y="95" width="4" height="4" fill="#C2554D"/>'), "table")[0],
+    ).toMatch(/empty/);
+    expect(
+      renderProblems(wrap('<rect x="-20" y="40" width="240" height="160" fill="#C2554D"/>'), "hand").join(),
+    ).toMatch(/edge/);
+    expect(
+      renderProblems(wrap('<rect x="40" y="20" width="120" height="100" fill="#C2554D"/>'), "floor").join(),
+    ).toMatch(/bottom/);
   });
 });
 
 describe("drawCustom", () => {
   it("sends a rejected drawing back with the problems, then accepts the fixed one", async () => {
-    const bad = { svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><script/></svg>', notes: "x" };
+    const bad = {
+      svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><script/></svg>',
+      notes: "x",
+    };
     const llm = new Scripted([bad, demo("radio")]);
-    const r = await drawCustom(llm, { id: "wld_prop_radio", brief: "a vintage tabletop radio", size: "table" });
+    const r = await drawCustom(llm, {
+      id: "wld_prop_radio",
+      brief: "a vintage tabletop radio",
+      size: "table",
+    });
     expect(r.ok).toBe(true);
     expect(r.attempts).toBe(2);
     expect(llm.requests[1]?.messages[0]?.content).toContain("rejected");
@@ -101,8 +116,22 @@ describe("makeCustomAssets", () => {
       style: "night_noir",
       places: [{ id: "wld_place_main", kind: "rooftop_night" }],
       props: [
-        { id: "wld_prop_radio", kind: "custom", brief: "a vintage tabletop radio", size: "table", function: "plays the news", scenes: ["s01"] },
-        { id: "wld_prop_odd", kind: "custom", brief: "an impossible object", size: "hand", function: "x", scenes: ["s01"] },
+        {
+          id: "wld_prop_radio",
+          kind: "custom",
+          brief: "a vintage tabletop radio",
+          size: "table",
+          function: "plays the news",
+          scenes: ["s01"],
+        },
+        {
+          id: "wld_prop_odd",
+          kind: "custom",
+          brief: "an impossible object",
+          size: "hand",
+          function: "x",
+          scenes: ["s01"],
+        },
       ],
     });
 
@@ -110,8 +139,14 @@ describe("makeCustomAssets", () => {
     const dir = mkdtempSync(join(tmpdir(), "custom-"));
     const llm: Llm = {
       async json(req) {
-        const value = req.label.startsWith("asset:wld_prop_radio") ? demo("radio") : { svg: "<svg/>", notes: "" };
-        return { value, text: "", usage: { label: req.label, model: "m", inputTokens: 1, outputTokens: 1, ms: 1 } };
+        const value = req.label.startsWith("asset:wld_prop_radio")
+          ? demo("radio")
+          : { svg: "<svg/>", notes: "" };
+        return {
+          value,
+          text: "",
+          usage: { label: req.label, model: "m", inputTokens: 1, outputTokens: 1, ms: 1 },
+        };
       },
     };
     const { spec: out, report } = await makeCustomAssets(llm, spec(), dir);

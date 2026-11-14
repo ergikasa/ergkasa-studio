@@ -1,6 +1,6 @@
 {
- "value": {
-  "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 220 110\" width=\"220\" height=\"110\"><g id=\"x\"><rect x=\"8\" y=\"12\" width=\"204\" height=\"92\" rx=\"12\" fill=\"#3E4A5C\"/><rect x=\"14\" y=\"18\" width=\"192\" height=\"80\" rx=\"8\" fill=\"#FFE7A8\"/><rect x=\"14\" y=\"18\" width=\"192\" height=\"14\" rx=\"6\" fill=\"#3E5F86\"/><g fill=\"#2A1E18\"><rect x=\"30\" y=\"46\" width=\"22\" height=\"40\" rx=\"3\"/><rect x=\"60\" y=\"46\" width=\"22\" height=\"40\" rx=\"3\"/><rect x=\"90\" y=\"46\" width=\"10\" height=\"40\" rx=\"3\"/><rect x=\"108\" y=\"46\" width=\"22\" height=\"40\" rx=\"3\"/><rect x=\"138\" y=\"46\" width=\"22\" height=\"40\" rx=\"3\"/><rect x=\"168\" y=\"46\" width=\"22\" height=\"40\" rx=\"3\"/></g><circle cx=\"22\" cy=\"26\" r=\"3\" fill=\"#F6F3EE\"/><circle cx=\"198\" cy=\"26\" r=\"3\" fill=\"#F6F3EE\"/></g></svg>",
-  "notes": "A yellow taxi licence plate with a blue top band and six dark glyph blocks."
- }
+  "value": {
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 220 110\" width=\"220\" height=\"110\"><g id=\"x\"><rect x=\"8\" y=\"12\" width=\"204\" height=\"92\" rx=\"12\" fill=\"#3E4A5C\"/><rect x=\"14\" y=\"18\" width=\"192\" height=\"80\" rx=\"8\" fill=\"#FFE7A8\"/><rect x=\"14\" y=\"18\" width=\"192\" height=\"14\" rx=\"6\" fill=\"#3E5F86\"/><g fill=\"#2A1E18\"><rect x=\"30\" y=\"46\" width=\"22\" height=\"40\" rx=\"3\"/><rect x=\"60\" y=\"46\" width=\"22\" height=\"40\" rx=\"3\"/><rect x=\"90\" y=\"46\" width=\"10\" height=\"40\" rx=\"3\"/><rect x=\"108\" y=\"46\" width=\"22\" height=\"40\" rx=\"3\"/><rect x=\"138\" y=\"46\" width=\"22\" height=\"40\" rx=\"3\"/><rect x=\"168\" y=\"46\" width=\"22\" height=\"40\" rx=\"3\"/></g><circle cx=\"22\" cy=\"26\" r=\"3\" fill=\"#F6F3EE\"/><circle cx=\"198\" cy=\"26\" r=\"3\" fill=\"#F6F3EE\"/></g></svg>",
+    "notes": "A yellow taxi licence plate with a blue top band and six dark glyph blocks."
+  }
 }

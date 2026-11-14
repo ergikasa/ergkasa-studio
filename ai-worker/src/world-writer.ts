@@ -24,6 +24,12 @@ export const GENERATED_PROPS = {
   balance_scale: "a balance scale that tilts (animations: tilt_left, tilt_right, level): fairness, weighing",
   board: "an empty sign for a short label set by a text layer; material parchment/whiteboard/neon",
   pedestal: "a display pedestal",
+  screen:
+    "a phone (or a sign: material sign) whose big text changes through `values` (animations: to_value_1..5): a battery 4% then 3%, a score, LOCKED then OPEN, a price. Give values in order, 1 to 6, each at most 12 characters",
+  door: "a door with a padlock (animations: lock, unlock, open, close, shake): access, a barrier, a decision to open",
+  grid: "up to 100 little people in a grid; `groups` = how many in each group, e.g. 64,16,16,4 (animations: group_1..5 light a group, focus_1..5 dims the others, reset): statistics shown as a crowd",
+  thought:
+    "a thought bubble with a picture inside (material: question, heart, coin, clock, lock, warning, star, dollar): what a person is thinking about",
 } as const;
 const COSTUMES = [
   "king",
@@ -46,7 +52,15 @@ export interface WorldDraft {
   title: string;
   setting: string;
   style: string;
-  places: Array<{ key: string; kind: string; from: string; time: string; sideA: string; sideB: string; parts: string }>;
+  places: Array<{
+    key: string;
+    kind: string;
+    from: string;
+    time: string;
+    sideA: string;
+    sideB: string;
+    parts: string;
+  }>;
   cast: Array<{
     plays: string;
     name: string;
@@ -69,8 +83,10 @@ export interface WorldDraft {
     motif: string;
     function: string;
     scenes: string;
-    brief: string;
-    size: string;
+    brief?: string;
+    size?: string;
+    values?: string;
+    groups?: string;
   }>;
 }
 
@@ -140,6 +156,12 @@ export const WORLD_SCHEMA: StrictSchema = obj({
         'kind custom: what to draw, concretely (shape, colours, details, view from the side or front); otherwise ""',
       ),
       size: str("kind custom: how big it is in the story", ["hand", "table", "floor", "none"]),
+      values: str(
+        'kind screen: the texts it shows in order, comma-separated (e.g. "4%,3%,1%"); otherwise ""',
+      ),
+      groups: str(
+        'kind grid: people per group, comma-separated numbers adding up to at most 100 (e.g. "64,16,16,4"); otherwise ""',
+      ),
       material: str('coin: gold/silver/copper; board: parchment/whiteboard/neon; otherwise ""'),
       motif: str("coin face", ["crown", "star", "plain", "none"]),
       function: str(
@@ -158,6 +180,7 @@ Rules:
 - Prefer a generated place when it fits the story; otherwise pick library backgrounds whose tags fit. One to three places; a main place first. Fewer places, used well, read better than many.
 - Costumes say who someone is (era, rank, job). Rivals or two sides get two clearly different colours (sideA/sideB and their costume colours).
 - Keep each script cast member's presentation (man/woman) and approximate age from their description.
+- Objects that EXPLAIN beat words: a screen whose number changes (battery 4% to 3%), a door that unlocks, a grid of 100 people lighting up in groups (64/16/16/4), a thought bubble with the thing someone is thinking about. When the story has a number, a change of state or a barrier, choose the object that shows it.
 - Props: only objects a scene needs to SHOW its idea or to make a situation real (the CV in an interview, the coin in a bet). Give each one its function and the scenes that use it. An object that only matches a word of the narration (boxing gloves for "fight for a job") is decoration: leave it out. Fewer, meaningful objects are better than many. Use generated objects when they fit (they animate); otherwise library objects or metaphors from the list, read their description first. Only when the story needs a specific object that none of them covers (a radio, a licence plate, a mooncake), use kind custom and describe it in brief: it is drawn for this video. At most 3 custom objects.
 - When the story TRAVELS (someone walks through a gate into a yard, a journey through a building) use kind panorama: a wide place of 2 to 4 zones the camera moves along and the cast walks through without a cut. Name the zones by what they are (gate, yard, tower). Use it only when movement between places is the story; most videos need one ordinary place.
 - When people talk across a desk (interview, meeting, a boss and an employee), use the staged set interview_office as a place: the characters can enter, sit, hand things over there.
@@ -278,7 +301,8 @@ export function draftToWorld(
         .filter(Boolean)
         .map((x, n) => {
           const [kind = "", zone = ""] = x.split(":").map((y) => y.trim());
-          if (!(kind in GENERATED_PLACES)) issues.push(`places[${i}].parts: '${kind}' is not a generated place`);
+          if (!(kind in GENERATED_PLACES))
+            issues.push(`places[${i}].parts: '${kind}' is not a generated place`);
           return { kind, zone: key(zone, `zone${n + 1}`), seed: i + n + 1 };
         });
       return {
@@ -368,7 +392,28 @@ export function draftToWorld(
       kind: p.kind,
       ...(p.kind === "library" ? { from: p.from } : {}),
       ...(p.kind === "custom"
-        ? { brief: (p.brief ?? "").trim().slice(0, 300), size: p.size === "hand" || p.size === "floor" ? p.size : "table" }
+        ? {
+            brief: (p.brief ?? "").trim().slice(0, 300),
+            size: p.size === "hand" || p.size === "floor" ? p.size : "table",
+          }
+        : {}),
+      ...(p.kind === "screen" && p.values?.trim()
+        ? {
+            values: p.values
+              .split(",")
+              .map((v) => v.trim().slice(0, 12))
+              .filter(Boolean)
+              .slice(0, 6),
+          }
+        : {}),
+      ...(p.kind === "grid" && p.groups?.trim()
+        ? {
+            groups: p.groups
+              .split(",")
+              .map((v) => Math.round(Number(v)))
+              .filter((v) => Number.isFinite(v) && v > 0)
+              .slice(0, 5),
+          }
         : {}),
       ...(p.material ? { material: key(p.material, "gold") } : {}),
       ...(p.motif && p.motif !== "none" ? { motif: p.motif } : {}),

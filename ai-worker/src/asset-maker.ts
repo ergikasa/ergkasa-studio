@@ -173,7 +173,6 @@ export function gate(svg: string, assetId: string): { check: Check; normalized?:
   return safe && renders && vb ? { check, normalized } : { check };
 }
 
-
 // ------------------------------------------------------------------ render check
 
 export type PropSize = "hand" | "table" | "floor";
@@ -196,9 +195,11 @@ export function renderProblems(svg: string, size: PropSize): string[] {
   if (!c.bbox || c.coverage < 0.05) return ["almost empty: the object fills under 5% of its canvas"];
   if (c.coverage > 0.92) out.push("fills the whole canvas: it must be an object, not a background");
   const { x0, y0, x1 } = c.bbox;
-  if (x0 < 0.003 || x1 > 0.997 || y0 < 0.003) out.push("touches or crosses the canvas edge: it is cut off; leave a small margin");
+  if (x0 < 0.003 || x1 > 0.997 || y0 < 0.003)
+    out.push("touches or crosses the canvas edge: it is cut off; leave a small margin");
   if (size !== "hand" && c.bbox.y1 < 0.95) out.push("does not stand on the bottom edge of the viewBox");
-  if (c.bbox.x1 - c.bbox.x0 < 0.3 && c.bbox.y1 - c.bbox.y0 < 0.3) out.push("too small inside its canvas: crop the viewBox to the object");
+  if (c.bbox.x1 - c.bbox.x0 < 0.3 && c.bbox.y1 - c.bbox.y0 < 0.3)
+    out.push("too small inside its canvas: crop the viewBox to the object");
   return out;
 }
 
@@ -240,7 +241,10 @@ export function cacheDir(): string {
 }
 
 function cacheKey(req: CustomRequest): string {
-  return createHash("sha1").update(`v1|${req.size}|${req.brief.trim().toLowerCase()}`).digest("hex").slice(0, 16);
+  return createHash("sha1")
+    .update(`v1|${req.size}|${req.brief.trim().toLowerCase()}`)
+    .digest("hex")
+    .slice(0, 16);
 }
 
 /** Draws one object: up to `maxAttempts` tries, each told what was wrong with the previous drawing. */
@@ -271,11 +275,21 @@ export async function drawCustom(llm: Llm, req: CustomRequest, maxAttempts = 3):
     const svg = String((res.value as { svg?: unknown }).svg ?? "");
     const { check, normalized } = gate(svg, req.id);
     problems = [...check.problems];
-    if (normalized && !problems.some((p) => p.startsWith("forbidden"))) problems.push(...renderProblems(normalized, req.size));
+    if (normalized && !problems.some((p) => p.startsWith("forbidden")))
+      problems.push(...renderProblems(normalized, req.size));
     if (normalized && problems.length === 0) {
       mkdirSync(cacheDir(), { recursive: true });
       writeFileSync(cached, normalized);
-      return { id: req.id, ok: true, attempts: attempt, cached: false, svg: normalized, problems: [], usage, shapes: check.shapes };
+      return {
+        id: req.id,
+        ok: true,
+        attempts: attempt,
+        cached: false,
+        svg: normalized,
+        problems: [],
+        usage,
+        shapes: check.shapes,
+      };
     }
     feedback = `\n\nYour previous drawing was rejected: ${problems.join("; ")}. Draw it again and fix exactly these problems.`;
   }
@@ -303,7 +317,12 @@ export async function makeCustomAssets(
   mkdirSync(dir, { recursive: true });
   const custom = spec.props.filter((p) => p.kind === "custom");
   for (const p of custom) {
-    const r = await drawCustom(llm, { id: p.id, brief: p.brief ?? p.id, size: p.size ?? "table", style: spec.style });
+    const r = await drawCustom(llm, {
+      id: p.id,
+      brief: p.brief ?? p.id,
+      size: p.size ?? "table",
+      style: spec.style,
+    });
     results.push(r);
     if (r.ok && r.svg) writeFileSync(join(dir, `${p.id}.svg`), r.svg);
   }

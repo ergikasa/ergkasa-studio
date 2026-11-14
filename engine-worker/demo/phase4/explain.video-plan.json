@@ -1,0 +1,317 @@
+{
+  "schema": "erkasa.video-plan/1",
+  "projectId": "phase4-explain",
+  "language": "en",
+  "format": "9:16",
+  "fps": 30,
+  "voiceId": "none",
+  "scenes": [
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s01",
+      "engine": "2d",
+      "narration": "Four percent. Then three. Then one.",
+      "durationPolicy": {
+        "mode": "fixed",
+        "sec": 8,
+        "padAfterSec": 0
+      },
+      "background": {
+        "assetId": "wld_place_main"
+      },
+      "layers": [
+        {
+          "type": "object",
+          "id": "phone",
+          "assetId": "wld_prop_phone",
+          "place": {
+            "x": 0.5,
+            "y": 0.45,
+            "scale": 1.0
+          },
+          "in": {
+            "effect": "pop",
+            "at": {
+              "sec": 0.3
+            },
+            "durationSec": 0.4
+          },
+          "animations": [
+            {
+              "name": "to_value_1",
+              "at": {
+                "sec": 2.5
+              }
+            },
+            {
+              "name": "to_value_2",
+              "at": {
+                "sec": 5.0
+              }
+            }
+          ],
+          "label": {
+            "text": "BATTERY",
+            "at": {
+              "sec": 0.8
+            }
+          }
+        }
+      ],
+      "shot": {
+        "size": "insert",
+        "subject": "phone"
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s02",
+      "engine": "2d",
+      "narration": "The door stays shut, until someone has the right key.",
+      "durationPolicy": {
+        "mode": "fixed",
+        "sec": 8,
+        "padAfterSec": 0
+      },
+      "background": {
+        "assetId": "wld_place_main"
+      },
+      "layers": [
+        {
+          "type": "object",
+          "id": "door",
+          "assetId": "wld_prop_door",
+          "place": {
+            "x": 0.5,
+            "y": 0.5,
+            "scale": 1.0
+          },
+          "in": {
+            "effect": "pop",
+            "at": {
+              "sec": 0.3
+            },
+            "durationSec": 0.4
+          },
+          "animations": [
+            {
+              "name": "shake",
+              "at": {
+                "sec": 1.4
+              }
+            },
+            {
+              "name": "unlock",
+              "at": {
+                "sec": 3.5
+              }
+            },
+            {
+              "name": "open",
+              "at": {
+                "sec": 5.0
+              }
+            }
+          ],
+          "label": {
+            "text": "LOCKED",
+            "at": {
+              "sec": 0.8
+            }
+          }
+        }
+      ],
+      "shot": {
+        "size": "insert",
+        "subject": "door"
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s03",
+      "engine": "2d",
+      "narration": "Out of a hundred couples, sixty-four stay together. Sixteen drift. Sixteen quarrel. Four break.",
+      "durationPolicy": {
+        "mode": "fixed",
+        "sec": 14,
+        "padAfterSec": 0
+      },
+      "background": {
+        "assetId": "wld_place_main"
+      },
+      "layers": [
+        {
+          "type": "object",
+          "id": "grid",
+          "assetId": "wld_prop_grid",
+          "place": {
+            "x": 0.5,
+            "y": 0.46,
+            "scale": 1.0
+          },
+          "in": {
+            "effect": "pop",
+            "at": {
+              "sec": 0.3
+            },
+            "durationSec": 0.4
+          },
+          "animations": [
+            {
+              "name": "group_1",
+              "at": {
+                "sec": 2.0
+              }
+            },
+            {
+              "name": "group_2",
+              "at": {
+                "sec": 5.0
+              }
+            },
+            {
+              "name": "group_3",
+              "at": {
+                "sec": 8.0
+              }
+            },
+            {
+              "name": "group_4",
+              "at": {
+                "sec": 11.0
+              }
+            }
+          ],
+          "label": {
+            "text": "100 COUPLES",
+            "at": {
+              "sec": 0.8
+            }
+          }
+        }
+      ],
+      "shot": {
+        "size": "insert",
+        "subject": "grid"
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s04",
+      "engine": "2d",
+      "narration": "And he keeps thinking about one coin.",
+      "durationPolicy": {
+        "mode": "fixed",
+        "sec": 8,
+        "padAfterSec": 0
+      },
+      "background": {
+        "assetId": "wld_place_main"
+      },
+      "layers": [
+        {
+          "type": "actor",
+          "id": "a",
+          "assetId": "wld_char_a",
+          "place": {
+            "anchor": "ground",
+            "x": 0.5,
+            "scale": 1.3
+          },
+          "facing": "front",
+          "expression": "neutral",
+          "actions": [
+            {
+              "action": "think",
+              "at": {
+                "sec": 1.0
+              }
+            }
+          ],
+          "speaks": true
+        },
+        {
+          "type": "object",
+          "id": "think",
+          "assetId": "wld_prop_think",
+          "place": {
+            "x": 0.62,
+            "y": 0.3,
+            "scale": 0.75
+          },
+          "in": {
+            "effect": "pop",
+            "at": {
+              "sec": 1.0
+            },
+            "durationSec": 0.4
+          },
+          "animations": [
+            {
+              "name": "scale_pulse",
+              "at": {
+                "sec": 2.5
+              }
+            }
+          ]
+        }
+      ],
+      "shot": {
+        "size": "medium",
+        "subject": "a"
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s05",
+      "engine": "2d",
+      "narration": "The sign flips. Closed becomes open.",
+      "durationPolicy": {
+        "mode": "fixed",
+        "sec": 8,
+        "padAfterSec": 0
+      },
+      "background": {
+        "assetId": "wld_place_main"
+      },
+      "layers": [
+        {
+          "type": "object",
+          "id": "sign",
+          "assetId": "wld_prop_sign",
+          "place": {
+            "x": 0.5,
+            "y": 0.45,
+            "scale": 1.0
+          },
+          "in": {
+            "effect": "pop",
+            "at": {
+              "sec": 0.3
+            },
+            "durationSec": 0.4
+          },
+          "animations": [
+            {
+              "name": "to_value_1",
+              "at": {
+                "sec": 3.0
+              }
+            }
+          ],
+          "label": {
+            "text": "NEW RULE",
+            "at": {
+              "sec": 3.0
+            },
+            "side": "below"
+          }
+        }
+      ],
+      "shot": {
+        "size": "insert",
+        "subject": "sign"
+      }
+    }
+  ]
+}

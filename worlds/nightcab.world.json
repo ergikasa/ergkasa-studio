@@ -9,10 +9,7 @@
       "id": "wld_place_main",
       "kind": "rooftop_night",
       "time": "night",
-      "sides": [
-        "#8E6BB0",
-        "#62A06C"
-      ],
+      "sides": ["#8E6BB0", "#62A06C"],
       "seed": 11
     }
   ],
@@ -75,9 +72,7 @@
       "brief": "A vintage tabletop radio with speaker grille, dial window, two knobs and an antenna.",
       "size": "table",
       "function": "the radio that announces the news",
-      "scenes": [
-        "s01"
-      ]
+      "scenes": ["s01"]
     },
     {
       "id": "wld_prop_plate",
@@ -85,9 +80,7 @@
       "brief": "A yellow taxi licence plate with a blue top band and six dark glyph blocks.",
       "size": "hand",
       "function": "the cab's plate the driver holds up",
-      "scenes": [
-        "s01"
-      ]
+      "scenes": ["s01"]
     },
     {
       "id": "wld_prop_mooncake",
@@ -95,9 +88,7 @@
       "brief": "A baked mooncake: scalloped round top seen slightly from above, pressed pattern.",
       "size": "hand",
       "function": "the gift in the driver's hand",
-      "scenes": [
-        "s01"
-      ]
+      "scenes": ["s01"]
     }
   ]
 }

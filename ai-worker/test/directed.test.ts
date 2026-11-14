@@ -65,7 +65,9 @@ describe("staged sets inside a world", () => {
       material: "",
       motif: "none",
       function: "",
-      scenes: "", brief: "", size: "none",
+      scenes: "",
+      brief: "",
+      size: "none",
     });
     const r = draftToWorld(d, script, library, "fi");
     expect(r.issues.join("\n")).toMatch(

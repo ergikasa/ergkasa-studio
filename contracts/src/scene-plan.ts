@@ -167,11 +167,24 @@ export const AssetLayer = z
       .object({ to: LocalId, at: z.enum(["above_head", "beside"]) })
       .strict()
       .optional(),
+    /** A short sign next to the object, in the world (\"LOCKED\", \"ONLY 3 CUTS\"): for key concepts only. */
+    label: z
+      .object({
+        text: z.string().min(1).max(24),
+        at: TimeAnchor.default("start"),
+        side: z.enum(["above", "below"]).default("above"),
+      })
+      .strict()
+      .optional(),
     /** Named animations from the asset's capabilities/parts. */
     animations: z
       .array(
         z
-          .object({ name: z.string().regex(/^[a-z_]+$/), at: TimeAnchor, part: z.string().optional() })
+          .object({
+            name: z.string().regex(/^[a-z][a-z0-9_]*$/),
+            at: TimeAnchor,
+            part: z.string().optional(),
+          })
           .strict(),
       )
       .default([]),

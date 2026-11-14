@@ -67,7 +67,11 @@ type Node = { id: string; tracks: Record<string, Array<{ f: number; v: number | 
 const compile = (p: Record<string, unknown>) => {
   const r = compileVideo(p, { assets });
   const nodes = (r.timeline?.scenes[0]?.nodes ?? []) as unknown as Node[];
-  return { ...r, nodes, camera: r.timeline?.scenes[0]?.camera as Record<string, Array<{ f: number; v: number }>> | undefined };
+  return {
+    ...r,
+    nodes,
+    camera: r.timeline?.scenes[0]?.camera as Record<string, Array<{ f: number; v: number }>> | undefined,
+  };
 };
 
 describe("wide places: zones and the travelling camera", () => {
@@ -135,7 +139,9 @@ describe("wide places: zones and the travelling camera", () => {
     const r = compile(
       plan({
         shot: { size: "insert", subject: "o", zone: "yard" },
-        layers: [{ type: "object", id: "o", assetId: PROP, place: { x: 0.5, y: 0.4, scale: 1, zone: "yard" } }],
+        layers: [
+          { type: "object", id: "o", assetId: PROP, place: { x: 0.5, y: 0.4, scale: 1, zone: "yard" } },
+        ],
       }),
     );
     expect(r.issues.filter((i) => i.level === "error")).toEqual([]);

@@ -298,6 +298,10 @@
               "balance_scale",
               "board",
               "pedestal",
+              "screen",
+              "door",
+              "grid",
+              "thought",
               "library",
               "custom"
             ]
@@ -309,6 +313,26 @@
           "material": {
             "type": "string",
             "pattern": "^[a-z_]+$"
+          },
+          "values": {
+            "minItems": 1,
+            "maxItems": 6,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 12
+            }
+          },
+          "groups": {
+            "minItems": 1,
+            "maxItems": 5,
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
           },
           "motif": {
             "type": "string",

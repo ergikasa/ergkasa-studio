@@ -63,6 +63,19 @@ export const TEXT_STYLES: Record<string, TextStyle> = {
     lineHeight: 1.2,
     advance: 0.58,
   },
+  /** A sign standing in the world next to an object: bold, outlined, readable at any zoom. */
+  world_label: {
+    family: "Montserrat",
+    weight: 900,
+    size: 64,
+    fill: "#FFFFFF",
+    highlight: "#FFD23F",
+    stroke: { color: "#14110F", width: 12 },
+    uppercase: true,
+    lineHeight: 1.08,
+    advance: 0.68,
+    shadow: true,
+  },
   caption_word_pop: {
     family: "Montserrat",
     weight: 900,

@@ -1,726 +1,722 @@
 {
- "schema": "erkasa.video-plan/1",
- "projectId": "phase3-wide",
- "language": "en",
- "format": "9:16",
- "fps": 30,
- "voiceId": "none",
- "scenes": [
-  {
-   "schema": "erkasa.scene-plan/1",
-   "sceneId": "s01",
-   "engine": "2d",
-   "narration": "Two rivals reach the castle gate. Only one coin can decide.",
-   "durationPolicy": {
-    "mode": "fixed",
-    "sec": 9,
-    "padAfterSec": 0
-   },
-   "background": {
-    "assetId": "wld_place_main"
-   },
-   "layers": [
+  "schema": "erkasa.video-plan/1",
+  "projectId": "phase3-wide",
+  "language": "en",
+  "format": "9:16",
+  "fps": 30,
+  "voiceId": "none",
+  "scenes": [
     {
-     "type": "actor",
-     "id": "ruler",
-     "assetId": "wld_char_ruler",
-     "place": {
-      "anchor": "ground",
-      "x": 0.5,
-      "scale": 1.2,
-      "zone": "gate"
-     },
-     "facing": "front",
-     "expression": "neutral",
-     "actions": [
-      {
-       "action": "present",
-       "at": {
-        "sec": 1.0
-       }
-      }
-     ],
-     "speaks": true
-    },
-    {
-     "type": "actor",
-     "id": "a",
-     "assetId": "wld_char_a",
-     "place": {
-      "anchor": "ground",
-      "x": 0.18,
-      "scale": 1.2,
-      "zone": "gate"
-     },
-     "facing": "front",
-     "expression": "neutral",
-     "actions": [
-      {
-       "action": "observe",
-       "at": {
-        "sec": 1.5
-       }
-      }
-     ],
-     "speaks": false
-    },
-    {
-     "type": "actor",
-     "id": "b",
-     "assetId": "wld_char_b",
-     "place": {
-      "anchor": "ground",
-      "x": 0.82,
-      "scale": 1.2,
-      "zone": "gate"
-     },
-     "facing": "front",
-     "expression": "neutral",
-     "actions": [
-      {
-       "action": "observe",
-       "at": {
-        "sec": 2.0
-       }
-      }
-     ],
-     "speaks": false
-    },
-    {
-     "type": "text",
-     "id": "t",
-     "content": "ONE COIN. TWO RIVALS.",
-     "style": "hook_impact",
-     "place": {
-      "x": 0.5,
-      "y": 0.13
-     },
-     "highlight": [
-      "COIN."
-     ],
-     "in": {
-      "effect": "pop",
-      "at": {
-       "sec": 0.4
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s01",
+      "engine": "2d",
+      "narration": "Two rivals reach the castle gate. Only one coin can decide.",
+      "durationPolicy": {
+        "mode": "fixed",
+        "sec": 9,
+        "padAfterSec": 0
       },
-      "durationSec": 0.35
-     }
-    }
-   ],
-   "shot": {
-    "size": "wide",
-    "zone": "gate"
-   }
-  },
-  {
-   "schema": "erkasa.scene-plan/1",
-   "sceneId": "s02",
-   "engine": "2d",
-   "narration": "The king holds it up. Heads or tails.",
-   "durationPolicy": {
-    "mode": "fixed",
-    "sec": 7,
-    "padAfterSec": 0
-   },
-   "background": {
-    "assetId": "wld_place_main"
-   },
-   "layers": [
-    {
-     "type": "object",
-     "id": "coin",
-     "assetId": "wld_prop_coin",
-     "place": {
-      "x": 0.5,
-      "y": 0.3,
-      "scale": 0.6,
-      "zone": "gate"
-     },
-     "in": {
-      "effect": "pop",
-      "at": {
-       "sec": 0.4
+      "background": {
+        "assetId": "wld_place_main"
       },
-      "durationSec": 0.4
-     },
-     "animations": [
-      {
-       "name": "flip",
-       "at": {
-        "sec": 1.5
-       }
+      "layers": [
+        {
+          "type": "actor",
+          "id": "ruler",
+          "assetId": "wld_char_ruler",
+          "place": {
+            "anchor": "ground",
+            "x": 0.5,
+            "scale": 1.2,
+            "zone": "gate"
+          },
+          "facing": "front",
+          "expression": "neutral",
+          "actions": [
+            {
+              "action": "present",
+              "at": {
+                "sec": 1.0
+              }
+            }
+          ],
+          "speaks": true
+        },
+        {
+          "type": "actor",
+          "id": "a",
+          "assetId": "wld_char_a",
+          "place": {
+            "anchor": "ground",
+            "x": 0.18,
+            "scale": 1.2,
+            "zone": "gate"
+          },
+          "facing": "front",
+          "expression": "neutral",
+          "actions": [
+            {
+              "action": "observe",
+              "at": {
+                "sec": 1.5
+              }
+            }
+          ],
+          "speaks": false
+        },
+        {
+          "type": "actor",
+          "id": "b",
+          "assetId": "wld_char_b",
+          "place": {
+            "anchor": "ground",
+            "x": 0.82,
+            "scale": 1.2,
+            "zone": "gate"
+          },
+          "facing": "front",
+          "expression": "neutral",
+          "actions": [
+            {
+              "action": "observe",
+              "at": {
+                "sec": 2.0
+              }
+            }
+          ],
+          "speaks": false
+        },
+        {
+          "type": "text",
+          "id": "t",
+          "content": "ONE COIN. TWO RIVALS.",
+          "style": "hook_impact",
+          "place": {
+            "x": 0.5,
+            "y": 0.13
+          },
+          "highlight": ["COIN."],
+          "in": {
+            "effect": "pop",
+            "at": {
+              "sec": 0.4
+            },
+            "durationSec": 0.35
+          }
+        }
+      ],
+      "shot": {
+        "size": "wide",
+        "zone": "gate"
       }
-     ]
-    }
-   ],
-   "shot": {
-    "size": "insert",
-    "subject": "coin",
-    "zone": "gate"
-   }
-  },
-  {
-   "schema": "erkasa.scene-plan/1",
-   "sceneId": "s03",
-   "engine": "2d",
-   "narration": "So they follow him through the gate, into the yard.",
-   "durationPolicy": {
-    "mode": "fixed",
-    "sec": 13,
-    "padAfterSec": 0
-   },
-   "background": {
-    "assetId": "wld_place_main"
-   },
-   "layers": [
+    },
     {
-     "type": "actor",
-     "id": "ruler",
-     "assetId": "wld_char_ruler",
-     "place": {
-      "anchor": "ground",
-      "x": 0.5,
-      "scale": 1.2,
-      "zone": "gate"
-     },
-     "facing": "front",
-     "expression": "neutral",
-     "actions": [
-      {
-       "action": "walk",
-       "at": {
-        "sec": 1.4
-       },
-       "to": {
-        "x": 0.55,
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s02",
+      "engine": "2d",
+      "narration": "The king holds it up. Heads or tails.",
+      "durationPolicy": {
+        "mode": "fixed",
+        "sec": 7,
+        "padAfterSec": 0
+      },
+      "background": {
+        "assetId": "wld_place_main"
+      },
+      "layers": [
+        {
+          "type": "object",
+          "id": "coin",
+          "assetId": "wld_prop_coin",
+          "place": {
+            "x": 0.5,
+            "y": 0.3,
+            "scale": 0.6,
+            "zone": "gate"
+          },
+          "in": {
+            "effect": "pop",
+            "at": {
+              "sec": 0.4
+            },
+            "durationSec": 0.4
+          },
+          "animations": [
+            {
+              "name": "flip",
+              "at": {
+                "sec": 1.5
+              }
+            }
+          ]
+        }
+      ],
+      "shot": {
+        "size": "insert",
+        "subject": "coin",
+        "zone": "gate"
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s03",
+      "engine": "2d",
+      "narration": "So they follow him through the gate, into the yard.",
+      "durationPolicy": {
+        "mode": "fixed",
+        "sec": 13,
+        "padAfterSec": 0
+      },
+      "background": {
+        "assetId": "wld_place_main"
+      },
+      "layers": [
+        {
+          "type": "actor",
+          "id": "ruler",
+          "assetId": "wld_char_ruler",
+          "place": {
+            "anchor": "ground",
+            "x": 0.5,
+            "scale": 1.2,
+            "zone": "gate"
+          },
+          "facing": "front",
+          "expression": "neutral",
+          "actions": [
+            {
+              "action": "walk",
+              "at": {
+                "sec": 1.4
+              },
+              "to": {
+                "x": 0.55,
+                "zone": "yard"
+              }
+            }
+          ],
+          "speaks": true
+        },
+        {
+          "type": "actor",
+          "id": "a",
+          "assetId": "wld_char_a",
+          "place": {
+            "anchor": "ground",
+            "x": 0.18,
+            "scale": 1.2,
+            "zone": "gate"
+          },
+          "facing": "front",
+          "expression": "neutral",
+          "actions": [
+            {
+              "action": "walk",
+              "at": {
+                "sec": 1.8
+              },
+              "to": {
+                "x": 0.3,
+                "zone": "yard"
+              }
+            }
+          ],
+          "speaks": false
+        },
+        {
+          "type": "actor",
+          "id": "b",
+          "assetId": "wld_char_b",
+          "place": {
+            "anchor": "ground",
+            "x": 0.82,
+            "scale": 1.2,
+            "zone": "gate"
+          },
+          "facing": "front",
+          "expression": "neutral",
+          "actions": [
+            {
+              "action": "walk",
+              "at": {
+                "sec": 1.0
+              },
+              "to": {
+                "x": 0.8,
+                "zone": "yard"
+              }
+            }
+          ],
+          "speaks": false
+        }
+      ],
+      "shot": {
+        "size": "wide",
+        "zone": "gate"
+      },
+      "camera": [
+        {
+          "move": "travel",
+          "target": "ruler",
+          "at": {
+            "sec": 1.4
+          }
+        }
+      ]
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s04",
+      "engine": "2d",
+      "narration": "In the yard waits the scale of justice.",
+      "durationPolicy": {
+        "mode": "fixed",
+        "sec": 7,
+        "padAfterSec": 0
+      },
+      "background": {
+        "assetId": "wld_place_main"
+      },
+      "layers": [
+        {
+          "type": "object",
+          "id": "scale",
+          "assetId": "wld_prop_scale",
+          "place": {
+            "x": 0.5,
+            "y": 0.45,
+            "scale": 0.75,
+            "zone": "yard"
+          },
+          "in": {
+            "effect": "pop",
+            "at": {
+              "sec": 0.4
+            },
+            "durationSec": 0.4
+          },
+          "animations": [
+            {
+              "name": "tilt_left",
+              "at": {
+                "sec": 2.0
+              }
+            }
+          ]
+        }
+      ],
+      "shot": {
+        "size": "insert",
+        "subject": "scale",
         "zone": "yard"
-       }
       }
-     ],
-     "speaks": true
     },
     {
-     "type": "actor",
-     "id": "a",
-     "assetId": "wld_char_a",
-     "place": {
-      "anchor": "ground",
-      "x": 0.18,
-      "scale": 1.2,
-      "zone": "gate"
-     },
-     "facing": "front",
-     "expression": "neutral",
-     "actions": [
-      {
-       "action": "walk",
-       "at": {
-        "sec": 1.8
-       },
-       "to": {
-        "x": 0.3,
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s05",
+      "engine": "2d",
+      "narration": "Each rival states a case. The yard is silent.",
+      "durationPolicy": {
+        "mode": "fixed",
+        "sec": 12,
+        "padAfterSec": 0
+      },
+      "background": {
+        "assetId": "wld_place_main"
+      },
+      "layers": [
+        {
+          "type": "actor",
+          "id": "a",
+          "assetId": "wld_char_a",
+          "place": {
+            "anchor": "ground",
+            "x": 0.25,
+            "scale": 1.2,
+            "zone": "yard"
+          },
+          "facing": "front",
+          "expression": "neutral",
+          "actions": [
+            {
+              "action": "talk",
+              "at": {
+                "sec": 0.8
+              }
+            }
+          ],
+          "speaks": true
+        },
+        {
+          "type": "actor",
+          "id": "b",
+          "assetId": "wld_char_b",
+          "place": {
+            "anchor": "ground",
+            "x": 0.75,
+            "scale": 1.2,
+            "zone": "yard"
+          },
+          "facing": "front",
+          "expression": "neutral",
+          "actions": [
+            {
+              "action": "cross_arms",
+              "at": {
+                "sec": 1.5
+              }
+            }
+          ],
+          "speaks": false
+        },
+        {
+          "type": "actor",
+          "id": "ruler",
+          "assetId": "wld_char_ruler",
+          "place": {
+            "anchor": "ground",
+            "x": 0.5,
+            "scale": 1.2,
+            "zone": "yard"
+          },
+          "facing": "front",
+          "expression": "neutral",
+          "actions": [
+            {
+              "action": "observe",
+              "at": {
+                "sec": 1.0
+              }
+            }
+          ],
+          "speaks": false
+        },
+        {
+          "type": "text",
+          "id": "t",
+          "content": "TWO CASES.",
+          "style": "hook_impact",
+          "place": {
+            "x": 0.5,
+            "y": 0.13
+          },
+          "highlight": [],
+          "in": {
+            "effect": "pop",
+            "at": {
+              "sec": 0.4
+            },
+            "durationSec": 0.35
+          }
+        }
+      ],
+      "shot": {
+        "size": "wide",
         "zone": "yard"
-       }
       }
-     ],
-     "speaks": false
     },
     {
-     "type": "actor",
-     "id": "b",
-     "assetId": "wld_char_b",
-     "place": {
-      "anchor": "ground",
-      "x": 0.82,
-      "scale": 1.2,
-      "zone": "gate"
-     },
-     "facing": "front",
-     "expression": "neutral",
-     "actions": [
-      {
-       "action": "walk",
-       "at": {
-        "sec": 1.0
-       },
-       "to": {
-        "x": 0.8,
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s06",
+      "engine": "2d",
+      "narration": "But the king knows a better test, and it sits in the tower.",
+      "durationPolicy": {
+        "mode": "fixed",
+        "sec": 13,
+        "padAfterSec": 0
+      },
+      "background": {
+        "assetId": "wld_place_main"
+      },
+      "layers": [
+        {
+          "type": "actor",
+          "id": "ruler",
+          "assetId": "wld_char_ruler",
+          "place": {
+            "anchor": "ground",
+            "x": 0.5,
+            "scale": 1.2,
+            "zone": "yard"
+          },
+          "facing": "front",
+          "expression": "neutral",
+          "actions": [
+            {
+              "action": "walk",
+              "at": {
+                "sec": 1.4
+              },
+              "to": {
+                "x": 0.55,
+                "zone": "tower"
+              }
+            }
+          ],
+          "speaks": true
+        },
+        {
+          "type": "actor",
+          "id": "a",
+          "assetId": "wld_char_a",
+          "place": {
+            "anchor": "ground",
+            "x": 0.25,
+            "scale": 1.2,
+            "zone": "yard"
+          },
+          "facing": "front",
+          "expression": "neutral",
+          "actions": [
+            {
+              "action": "walk",
+              "at": {
+                "sec": 1.8
+              },
+              "to": {
+                "x": 0.3,
+                "zone": "tower"
+              }
+            }
+          ],
+          "speaks": false
+        },
+        {
+          "type": "actor",
+          "id": "b",
+          "assetId": "wld_char_b",
+          "place": {
+            "anchor": "ground",
+            "x": 0.75,
+            "scale": 1.2,
+            "zone": "yard"
+          },
+          "facing": "front",
+          "expression": "neutral",
+          "actions": [
+            {
+              "action": "walk",
+              "at": {
+                "sec": 1.0
+              },
+              "to": {
+                "x": 0.8,
+                "zone": "tower"
+              }
+            }
+          ],
+          "speaks": false
+        }
+      ],
+      "shot": {
+        "size": "wide",
         "zone": "yard"
-       }
-      }
-     ],
-     "speaks": false
-    }
-   ],
-   "shot": {
-    "size": "wide",
-    "zone": "gate"
-   },
-   "camera": [
-    {
-     "move": "travel",
-     "target": "ruler",
-     "at": {
-      "sec": 1.4
-     }
-    }
-   ]
-  },
-  {
-   "schema": "erkasa.scene-plan/1",
-   "sceneId": "s04",
-   "engine": "2d",
-   "narration": "In the yard waits the scale of justice.",
-   "durationPolicy": {
-    "mode": "fixed",
-    "sec": 7,
-    "padAfterSec": 0
-   },
-   "background": {
-    "assetId": "wld_place_main"
-   },
-   "layers": [
-    {
-     "type": "object",
-     "id": "scale",
-     "assetId": "wld_prop_scale",
-     "place": {
-      "x": 0.5,
-      "y": 0.45,
-      "scale": 0.75,
-      "zone": "yard"
-     },
-     "in": {
-      "effect": "pop",
-      "at": {
-       "sec": 0.4
       },
-      "durationSec": 0.4
-     },
-     "animations": [
-      {
-       "name": "tilt_left",
-       "at": {
-        "sec": 2.0
-       }
-      }
-     ]
-    }
-   ],
-   "shot": {
-    "size": "insert",
-    "subject": "scale",
-    "zone": "yard"
-   }
-  },
-  {
-   "schema": "erkasa.scene-plan/1",
-   "sceneId": "s05",
-   "engine": "2d",
-   "narration": "Each rival states a case. The yard is silent.",
-   "durationPolicy": {
-    "mode": "fixed",
-    "sec": 12,
-    "padAfterSec": 0
-   },
-   "background": {
-    "assetId": "wld_place_main"
-   },
-   "layers": [
-    {
-     "type": "actor",
-     "id": "a",
-     "assetId": "wld_char_a",
-     "place": {
-      "anchor": "ground",
-      "x": 0.25,
-      "scale": 1.2,
-      "zone": "yard"
-     },
-     "facing": "front",
-     "expression": "neutral",
-     "actions": [
-      {
-       "action": "talk",
-       "at": {
-        "sec": 0.8
-       }
-      }
-     ],
-     "speaks": true
+      "camera": [
+        {
+          "move": "travel",
+          "target": "ruler",
+          "at": {
+            "sec": 1.4
+          }
+        }
+      ]
     },
     {
-     "type": "actor",
-     "id": "b",
-     "assetId": "wld_char_b",
-     "place": {
-      "anchor": "ground",
-      "x": 0.75,
-      "scale": 1.2,
-      "zone": "yard"
-     },
-     "facing": "front",
-     "expression": "neutral",
-     "actions": [
-      {
-       "action": "cross_arms",
-       "at": {
-        "sec": 1.5
-       }
-      }
-     ],
-     "speaks": false
-    },
-    {
-     "type": "actor",
-     "id": "ruler",
-     "assetId": "wld_char_ruler",
-     "place": {
-      "anchor": "ground",
-      "x": 0.5,
-      "scale": 1.2,
-      "zone": "yard"
-     },
-     "facing": "front",
-     "expression": "neutral",
-     "actions": [
-      {
-       "action": "observe",
-       "at": {
-        "sec": 1.0
-       }
-      }
-     ],
-     "speaks": false
-    },
-    {
-     "type": "text",
-     "id": "t",
-     "content": "TWO CASES.",
-     "style": "hook_impact",
-     "place": {
-      "x": 0.5,
-      "y": 0.13
-     },
-     "highlight": [],
-     "in": {
-      "effect": "pop",
-      "at": {
-       "sec": 0.4
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s07",
+      "engine": "2d",
+      "narration": "Golden light. One last look at the coin.",
+      "durationPolicy": {
+        "mode": "fixed",
+        "sec": 7,
+        "padAfterSec": 0
       },
-      "durationSec": 0.35
-     }
-    }
-   ],
-   "shot": {
-    "size": "wide",
-    "zone": "yard"
-   }
-  },
-  {
-   "schema": "erkasa.scene-plan/1",
-   "sceneId": "s06",
-   "engine": "2d",
-   "narration": "But the king knows a better test, and it sits in the tower.",
-   "durationPolicy": {
-    "mode": "fixed",
-    "sec": 13,
-    "padAfterSec": 0
-   },
-   "background": {
-    "assetId": "wld_place_main"
-   },
-   "layers": [
-    {
-     "type": "actor",
-     "id": "ruler",
-     "assetId": "wld_char_ruler",
-     "place": {
-      "anchor": "ground",
-      "x": 0.5,
-      "scale": 1.2,
-      "zone": "yard"
-     },
-     "facing": "front",
-     "expression": "neutral",
-     "actions": [
-      {
-       "action": "walk",
-       "at": {
-        "sec": 1.4
-       },
-       "to": {
-        "x": 0.55,
+      "background": {
+        "assetId": "wld_place_main"
+      },
+      "layers": [
+        {
+          "type": "object",
+          "id": "coin",
+          "assetId": "wld_prop_coin",
+          "place": {
+            "x": 0.5,
+            "y": 0.35,
+            "scale": 0.6,
+            "zone": "tower"
+          },
+          "in": {
+            "effect": "pop",
+            "at": {
+              "sec": 0.4
+            },
+            "durationSec": 0.4
+          },
+          "animations": [
+            {
+              "name": "flip",
+              "at": {
+                "sec": 1.2
+              }
+            },
+            {
+              "name": "flip",
+              "at": {
+                "sec": 3.8
+              }
+            }
+          ]
+        }
+      ],
+      "shot": {
+        "size": "insert",
+        "subject": "coin",
         "zone": "tower"
-       }
       }
-     ],
-     "speaks": true
     },
     {
-     "type": "actor",
-     "id": "a",
-     "assetId": "wld_char_a",
-     "place": {
-      "anchor": "ground",
-      "x": 0.25,
-      "scale": 1.2,
-      "zone": "yard"
-     },
-     "facing": "front",
-     "expression": "neutral",
-     "actions": [
-      {
-       "action": "walk",
-       "at": {
-        "sec": 1.8
-       },
-       "to": {
-        "x": 0.3,
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s08",
+      "engine": "2d",
+      "narration": "The king nods. Let fate speak.",
+      "durationPolicy": {
+        "mode": "fixed",
+        "sec": 11,
+        "padAfterSec": 0
+      },
+      "background": {
+        "assetId": "wld_place_main"
+      },
+      "layers": [
+        {
+          "type": "actor",
+          "id": "ruler",
+          "assetId": "wld_char_ruler",
+          "place": {
+            "anchor": "ground",
+            "x": 0.5,
+            "scale": 1.2,
+            "zone": "tower"
+          },
+          "facing": "front",
+          "expression": "neutral",
+          "actions": [
+            {
+              "action": "present",
+              "at": {
+                "sec": 0.8
+              }
+            }
+          ],
+          "speaks": true
+        }
+      ],
+      "shot": {
+        "size": "medium",
+        "subject": "ruler",
         "zone": "tower"
-       }
       }
-     ],
-     "speaks": false
     },
     {
-     "type": "actor",
-     "id": "b",
-     "assetId": "wld_char_b",
-     "place": {
-      "anchor": "ground",
-      "x": 0.75,
-      "scale": 1.2,
-      "zone": "yard"
-     },
-     "facing": "front",
-     "expression": "neutral",
-     "actions": [
-      {
-       "action": "walk",
-       "at": {
-        "sec": 1.0
-       },
-       "to": {
-        "x": 0.8,
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s09",
+      "engine": "2d",
+      "narration": "Back at the scale, the tilt shows the winner.",
+      "durationPolicy": {
+        "mode": "fixed",
+        "sec": 8,
+        "padAfterSec": 0
+      },
+      "background": {
+        "assetId": "wld_place_main"
+      },
+      "layers": [
+        {
+          "type": "object",
+          "id": "scale",
+          "assetId": "wld_prop_scale",
+          "place": {
+            "x": 0.5,
+            "y": 0.45,
+            "scale": 0.75,
+            "zone": "tower"
+          },
+          "in": {
+            "effect": "pop",
+            "at": {
+              "sec": 0.4
+            },
+            "durationSec": 0.4
+          },
+          "animations": [
+            {
+              "name": "tilt_right",
+              "at": {
+                "sec": 1.6
+              }
+            }
+          ]
+        }
+      ],
+      "shot": {
+        "size": "insert",
+        "subject": "scale",
         "zone": "tower"
-       }
       }
-     ],
-     "speaks": false
-    }
-   ],
-   "shot": {
-    "size": "wide",
-    "zone": "yard"
-   },
-   "camera": [
-    {
-     "move": "travel",
-     "target": "ruler",
-     "at": {
-      "sec": 1.4
-     }
-    }
-   ]
-  },
-  {
-   "schema": "erkasa.scene-plan/1",
-   "sceneId": "s07",
-   "engine": "2d",
-   "narration": "Golden light. One last look at the coin.",
-   "durationPolicy": {
-    "mode": "fixed",
-    "sec": 7,
-    "padAfterSec": 0
-   },
-   "background": {
-    "assetId": "wld_place_main"
-   },
-   "layers": [
-    {
-     "type": "object",
-     "id": "coin",
-     "assetId": "wld_prop_coin",
-     "place": {
-      "x": 0.5,
-      "y": 0.35,
-      "scale": 0.6,
-      "zone": "tower"
-     },
-     "in": {
-      "effect": "pop",
-      "at": {
-       "sec": 0.4
-      },
-      "durationSec": 0.4
-     },
-     "animations": [
-      {
-       "name": "flip",
-       "at": {
-        "sec": 1.2
-       }
-      },
-      {
-       "name": "flip",
-       "at": {
-        "sec": 3.8
-       }
-      }
-     ]
-    }
-   ],
-   "shot": {
-    "size": "insert",
-    "subject": "coin",
-    "zone": "tower"
-   }
-  },
-  {
-   "schema": "erkasa.scene-plan/1",
-   "sceneId": "s08",
-   "engine": "2d",
-   "narration": "The king nods. Let fate speak.",
-   "durationPolicy": {
-    "mode": "fixed",
-    "sec": 11,
-    "padAfterSec": 0
-   },
-   "background": {
-    "assetId": "wld_place_main"
-   },
-   "layers": [
-    {
-     "type": "actor",
-     "id": "ruler",
-     "assetId": "wld_char_ruler",
-     "place": {
-      "anchor": "ground",
-      "x": 0.5,
-      "scale": 1.2,
-      "zone": "tower"
-     },
-     "facing": "front",
-     "expression": "neutral",
-     "actions": [
-      {
-       "action": "present",
-       "at": {
-        "sec": 0.8
-       }
-      }
-     ],
-     "speaks": true
-    }
-   ],
-   "shot": {
-    "size": "medium",
-    "subject": "ruler",
-    "zone": "tower"
-   }
-  },
-  {
-   "schema": "erkasa.scene-plan/1",
-   "sceneId": "s09",
-   "engine": "2d",
-   "narration": "Back at the scale, the tilt shows the winner.",
-   "durationPolicy": {
-    "mode": "fixed",
-    "sec": 8,
-    "padAfterSec": 0
-   },
-   "background": {
-    "assetId": "wld_place_main"
-   },
-   "layers": [
-    {
-     "type": "object",
-     "id": "scale",
-     "assetId": "wld_prop_scale",
-     "place": {
-      "x": 0.5,
-      "y": 0.45,
-      "scale": 0.75,
-      "zone": "tower"
-     },
-     "in": {
-      "effect": "pop",
-      "at": {
-       "sec": 0.4
-      },
-      "durationSec": 0.4
-     },
-     "animations": [
-      {
-       "name": "tilt_right",
-       "at": {
-        "sec": 1.6
-       }
-      }
-     ]
-    }
-   ],
-   "shot": {
-    "size": "insert",
-    "subject": "scale",
-    "zone": "tower"
-   }
-  },
-  {
-   "schema": "erkasa.scene-plan/1",
-   "sceneId": "s10",
-   "engine": "2d",
-   "narration": "And all it took was one coin.",
-   "durationPolicy": {
-    "mode": "fixed",
-    "sec": 8,
-    "padAfterSec": 0
-   },
-   "background": {
-    "assetId": "wld_place_main"
-   },
-   "layers": [
-    {
-     "type": "actor",
-     "id": "ruler",
-     "assetId": "wld_char_ruler",
-     "place": {
-      "anchor": "ground",
-      "x": 0.5,
-      "scale": 1.2,
-      "zone": "tower"
-     },
-     "facing": "front",
-     "expression": "neutral",
-     "actions": [],
-     "speaks": true
     },
     {
-     "type": "text",
-     "id": "t",
-     "content": "FATE DECIDES.",
-     "style": "hook_impact",
-     "place": {
-      "x": 0.5,
-      "y": 0.13
-     },
-     "highlight": [
-      "FATE"
-     ],
-     "in": {
-      "effect": "pop",
-      "at": {
-       "sec": 0.4
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s10",
+      "engine": "2d",
+      "narration": "And all it took was one coin.",
+      "durationPolicy": {
+        "mode": "fixed",
+        "sec": 8,
+        "padAfterSec": 0
       },
-      "durationSec": 0.35
-     }
+      "background": {
+        "assetId": "wld_place_main"
+      },
+      "layers": [
+        {
+          "type": "actor",
+          "id": "ruler",
+          "assetId": "wld_char_ruler",
+          "place": {
+            "anchor": "ground",
+            "x": 0.5,
+            "scale": 1.2,
+            "zone": "tower"
+          },
+          "facing": "front",
+          "expression": "neutral",
+          "actions": [],
+          "speaks": true
+        },
+        {
+          "type": "text",
+          "id": "t",
+          "content": "FATE DECIDES.",
+          "style": "hook_impact",
+          "place": {
+            "x": 0.5,
+            "y": 0.13
+          },
+          "highlight": ["FATE"],
+          "in": {
+            "effect": "pop",
+            "at": {
+              "sec": 0.4
+            },
+            "durationSec": 0.35
+          }
+        }
+      ],
+      "shot": {
+        "size": "wide",
+        "zone": "tower"
+      }
     }
-   ],
-   "shot": {
-    "size": "wide",
-    "zone": "tower"
-   }
-  }
- ]
+  ]
 }
