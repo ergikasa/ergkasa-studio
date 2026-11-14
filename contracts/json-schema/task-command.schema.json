@@ -17,6 +17,7 @@
       "enum": [
         "director.plan",
         "script.write",
+        "world.design",
         "storyboard.build",
         "visual.plan",
         "assets.resolve",

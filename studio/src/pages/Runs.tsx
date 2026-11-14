@@ -14,6 +14,7 @@ const POLL_MS = 1500;
 
 const STEP_LABELS: Record<string, string> = {
   script: "Script (Claude)",
+  world: "World (Claude + World Builder)",
   voice: "Voice (ElevenLabs)",
   plan: "Visual plan (Claude + compiler)",
   render: "Render (engine + FFmpeg)",

@@ -48,7 +48,9 @@ public class Orchestrator {
 
     /** What the Studio sends to start a video. */
     /** {@code host}: the main character chosen by the user (e.g. char_host_01); the planner decides where he appears. */
-    public record NewRun(String topic, String theme, String voice, Integer seconds, String notes, Boolean silent, String host) {}
+    /** `world`: design the video's own world after the script (World Builder); absent = false (the library). */
+    public record NewRun(
+            String topic, String theme, String voice, Integer seconds, String notes, Boolean silent, String host, Boolean world) {}
 
     private final JdbcClient jdbc;
     private final ContractSchemas contracts;
@@ -74,12 +76,26 @@ public class Orchestrator {
     }
 
     static List<StepDef> videoDag(boolean silent) {
+        return videoDag(silent, false);
+    }
+
+    static List<StepDef> videoDag(boolean silent, boolean world) {
         List<StepDef> steps = new ArrayList<>();
         steps.add(new StepDef("script", "script.write", List.of(), 300, 3));
+        if (world) {
+            steps.add(new StepDef("world", "world.design", List.of("script"), 600, 2));
+        }
         if (!silent) {
             steps.add(new StepDef("voice", "voice.synthesize", List.of("script"), 900, 3));
         }
-        steps.add(new StepDef("plan", "visual.plan", silent ? List.of("script") : List.of("script", "voice"), 900, 2));
+        List<String> planDeps = new ArrayList<>(List.of("script"));
+        if (world) {
+            planDeps.add("world");
+        }
+        if (!silent) {
+            planDeps.add("voice");
+        }
+        steps.add(new StepDef("plan", "visual.plan", List.copyOf(planDeps), 900, 2));
         steps.add(new StepDef("render", "render.finalize", silent ? List.of("plan") : List.of("plan", "voice"), 3600, 2));
         return steps;
     }
@@ -128,7 +144,8 @@ public class Orchestrator {
                 .param("silent", silent)
                 .update();
 
-        List<StepDef> dag = videoDag(silent);
+        boolean world = Boolean.TRUE.equals(req.world());
+        List<StepDef> dag = videoDag(silent, world);
         for (int i = 0; i < dag.size(); i++) {
             StepDef s = dag.get(i);
             ObjectNode params = mapper.createObjectNode();
@@ -137,6 +154,12 @@ public class Orchestrator {
                     params.put("topic", topic).put("theme", theme).put("seconds", seconds);
                     if (notes != null) {
                         params.put("notes", notes);
+                    }
+                }
+                case "world.design" -> {
+                    params.put("projectId", id);
+                    if (host != null) {
+                        params.put("host", host);
                     }
                 }
                 case "voice.synthesize" -> params.put("voice", voice);
@@ -163,7 +186,8 @@ public class Orchestrator {
                     .param("timeout", s.timeoutS())
                     .update();
         }
-        log.info("Run {} created: \"{}\" ({}, voice {}, {} s{})", id, topic, theme, voice, seconds, silent ? ", silent" : "");
+        log.info("Run {} created: \"{}\" ({}, voice {}, {} s{}{})", id, topic, theme, voice, seconds,
+                silent ? ", silent" : "", world ? ", own world" : "");
         return id;
     }
 

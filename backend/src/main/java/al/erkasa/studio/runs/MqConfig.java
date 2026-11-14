@@ -13,7 +13,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class MqConfig {
 
-    static final String[] AI_TASKS = {"script.write", "voice.synthesize", "visual.plan"};
+    static final String[] AI_TASKS = {"script.write", "world.design", "voice.synthesize", "visual.plan"};
     static final String[] RENDER_TASKS = {"render.finalize"};
 
     @Bean
@@ -34,6 +34,7 @@ public class MqConfig {
                 BindingBuilder.bind(ai).to(tasks).with(AI_TASKS[0]),
                 BindingBuilder.bind(ai).to(tasks).with(AI_TASKS[1]),
                 BindingBuilder.bind(ai).to(tasks).with(AI_TASKS[2]),
+                BindingBuilder.bind(ai).to(tasks).with(AI_TASKS[3]),
                 BindingBuilder.bind(render).to(tasks).with(RENDER_TASKS[0]),
                 BindingBuilder.bind(results).to(events).with(MqNames.RESULT_KEY),
                 BindingBuilder.bind(progress).to(events).with(MqNames.PROGRESS_KEY));

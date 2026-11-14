@@ -1,6 +1,14 @@
 import { randomUUID } from "node:crypto";
+import { existsSync, readFileSync } from "node:fs";
 import { isAbsolute, join, resolve } from "node:path";
-import { TaskCommand, TaskProgress, TaskResult, type Theme, type VoicePreset } from "@erkasa/contracts";
+import {
+  Script,
+  TaskCommand,
+  TaskProgress,
+  TaskResult,
+  type Theme,
+  type VoicePreset,
+} from "@erkasa/contracts";
 import amqp, { type ConfirmChannel, type ConsumeMessage } from "amqplib";
 import { Catalog } from "./catalog.js";
 import { MissingConfigError, optional, repoRoot } from "./env.js";
@@ -14,6 +22,7 @@ import {
   stepRender,
   stepScript,
   stepVoice,
+  stepWorld,
   type Progress,
 } from "./steps.js";
 import { ElevenLabsVoice, type Voice } from "./voice.js";
@@ -77,6 +86,32 @@ const ref = (runId: string, file: string, role: string, mediaType: string): Arti
   mediaType,
 });
 
+/**
+ * The run's world, when the world step made one: a catalog over the world's assets and the library, the
+ * script with its cast as world characters (script.world.json) and the host's id in the world.
+ */
+export function runWorld(
+  dir: string,
+  library: Catalog,
+  script?: Script,
+  host?: string,
+): { catalog: Catalog; script: Script; host?: string } {
+  const worldDir = join(dir, RUN_FILES.worldDir);
+  const base = { catalog: library, script: script as Script, ...(host ? { host } : {}) };
+  if (!existsSync(join(worldDir, "manifest.json"))) return base;
+  const catalog = new Catalog([worldDir, library.assetsDir]);
+  const mapped = join(dir, "script.world.json");
+  const worldScript = existsSync(mapped) ? Script.parse(JSON.parse(readFileSync(mapped, "utf8"))) : script;
+  let worldHost = host;
+  if (host && existsSync(join(dir, RUN_FILES.world))) {
+    const spec = JSON.parse(readFileSync(join(dir, RUN_FILES.world), "utf8")) as {
+      cast?: Array<{ id: string; from?: string }>;
+    };
+    worldHost = spec.cast?.find((c) => c.from === host)?.id ?? host;
+  }
+  return { catalog, script: worldScript as Script, ...(worldHost ? { host: worldHost } : {}) };
+}
+
 /** Runs one task. Returns its outputs and metrics, or throws (TaskFailure for known failures). */
 export async function executeTask(
   cmd: TaskCommand,
@@ -112,6 +147,34 @@ export async function executeTask(
         },
       };
     }
+    case "world.design": {
+      progress(5, "designing the world");
+      const script = loadScript(dir);
+      const res = await stepWorld(
+        dir,
+        script,
+        deps.llm(),
+        deps.catalog,
+        (str("projectId") || cmd.runId).replace(/[^a-z0-9]+/g, "_").replace(/^[^a-z]+/, "w_"),
+        str("host") || undefined,
+      );
+      // no valid world: the video goes on with the library (world-issues.json says why)
+      progress(100, res.summary ? `world: ${res.summary}` : "no valid world: using the library");
+      return {
+        outputs: res.dir
+          ? [
+              ref(cmd.runId, RUN_FILES.world, "world", "application/json"),
+              ref(cmd.runId, `${RUN_FILES.worldDir}/manifest.json`, "world_assets", "application/json"),
+            ]
+          : [ref(cmd.runId, RUN_FILES.worldIssues, "world_issues", "application/json")],
+        metrics: {
+          ...usageMetrics(res.usage),
+          world: res.dir ? 1 : 0,
+          worldAttempts: res.attempts,
+          worldBuildSec: Math.round((res.buildSec ?? 0) * 100) / 100,
+        },
+      };
+    }
     case "voice.synthesize": {
       const script = loadScript(dir);
       const track = await stepVoice(dir, script.scenes, deps.voiceFor(preset()), progress);
@@ -126,15 +189,16 @@ export async function executeTask(
     }
     case "visual.plan": {
       progress(5, "planning the visuals");
-      const script = loadScript(dir);
+      // in its own world: the world's catalog, the cast as world characters, the host's world copy
+      const w = runWorld(dir, deps.catalog, loadScript(dir), str("host") || undefined);
       const res = await stepPlan(
         dir,
-        script,
+        w.script,
         preset(),
         deps.llm(),
-        deps.catalog,
+        w.catalog,
         str("projectId") || cmd.runId,
-        str("host") || undefined,
+        w.host,
       );
       if (!res.plan) {
         const summary = res.errors
@@ -160,7 +224,7 @@ export async function executeTask(
       progress(0, "compiling");
       const started = Date.now();
       const res = await stepRender(dir, loadPlan(dir), {
-        catalog: deps.catalog,
+        catalog: runWorld(dir, deps.catalog).catalog,
         music: p["music"] !== false,
         progress,
       });

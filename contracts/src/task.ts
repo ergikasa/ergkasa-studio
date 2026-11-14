@@ -5,6 +5,7 @@ import { ArtifactUri, Sha256 } from "./common.js";
 export const TaskType = z.enum([
   "director.plan",
   "script.write",
+  "world.design",
   "storyboard.build",
   "visual.plan",
   "assets.resolve",

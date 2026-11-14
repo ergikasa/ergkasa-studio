@@ -1,6 +1,6 @@
 import type { VoiceCatalog } from "@erkasa/contracts";
 import { useEffect, useState } from "react";
-import { ApiError, HOST_KEY, THEMES, VOICE_KEY, api, store, stored } from "../lib/api";
+import { ApiError, HOST_KEY, THEMES, VOICE_KEY, WORLD_KEY, api, store, stored } from "../lib/api";
 import { Button, Field, Toggle } from "../ui";
 
 const THEME_LABELS: Record<string, string> = {
@@ -22,6 +22,7 @@ export function NewVideo() {
   const [notes, setNotes] = useState("");
   const [silent, setSilent] = useState(false);
   const [host, setHost] = useState<string>(stored(HOST_KEY) ?? "char_host_01");
+  const [world, setWorld] = useState<boolean>(stored(WORLD_KEY) !== "off");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string>();
 
@@ -41,6 +42,7 @@ export function NewVideo() {
     try {
       store(VOICE_KEY, voice);
       store(HOST_KEY, host);
+      store(WORLD_KEY, world ? "on" : "off");
       const created = await api.create({
         topic: topic.trim(),
         theme,
@@ -49,6 +51,7 @@ export function NewVideo() {
         ...(notes.trim() ? { notes: notes.trim() } : {}),
         silent,
         ...(host ? { host } : {}),
+        world,
       });
       window.location.hash = `runs/${created.run.id}`;
     } catch (e) {
@@ -164,6 +167,12 @@ export function NewVideo() {
             className="w-full rounded-md border border-ink-700 bg-ink-950 px-3 py-2 text-sm"
           />
         </Field>
+
+        <Toggle
+          checked={world}
+          onChange={setWorld}
+          label="Own world: Claude designs the place, costumes and objects for this story (World Builder)"
+        />
 
         <Toggle
           checked={silent}

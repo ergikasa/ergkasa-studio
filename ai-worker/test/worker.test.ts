@@ -1,4 +1,4 @@
-import { mkdtempSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { TaskCommand, TaskResult } from "@erkasa/contracts";
@@ -125,5 +125,63 @@ describe("worker", () => {
       "erkasa.results",
       "erkasa.progress",
     ]);
+  });
+});
+
+describe("worker in a world (what the Studio runs)", () => {
+  it("world.design builds the run's world, visual.plan plans in it", async () => {
+    const demo = join(repoRoot(), "ai-worker", "demo", "first-impression");
+    const answer = (f: string): unknown =>
+      (JSON.parse(readFileSync(join(demo, f), "utf8")) as { value: unknown }).value;
+    const d: WorkerDeps = {
+      ...deps(),
+      llm: () => ({
+        async json(req: JsonRequest): Promise<JsonResponse> {
+          const value = answer(req.label.startsWith("world") ? "world-1.json" : "plan-1.json");
+          return {
+            value,
+            text: JSON.stringify(value),
+            usage: {
+              label: req.label,
+              model: "claude-sonnet-5-5",
+              inputTokens: 1000,
+              outputTokens: 200,
+              ms: 1,
+            },
+          };
+        },
+      }),
+    };
+    const runId = "20261114-120000-world-a1b2";
+    const dir = join(d.storageDir, runId);
+    mkdirSync(dir, { recursive: true });
+    copyFileSync(join(demo, "script.json"), join(dir, "script.json"));
+
+    const w = await handleCommand(
+      command({ taskType: "world.design", stepId: "world", runId, params: { projectId: runId } }),
+      d,
+      () => undefined,
+    );
+    expect(w.status).toBe("SUCCEEDED");
+    expect(w.metrics["world"]).toBe(1);
+    expect(existsSync(join(dir, "world", "manifest.json"))).toBe(true);
+
+    const p = await handleCommand(
+      command({
+        taskType: "visual.plan",
+        stepId: "plan",
+        runId,
+        params: { projectId: runId, voice: "mark_natural" },
+      }),
+      d,
+      () => undefined,
+    );
+    expect(p.status).toBe("SUCCEEDED");
+    const plan = JSON.parse(readFileSync(join(dir, "video-plan.json"), "utf8")) as {
+      scenes: Array<{ background: { assetId: string }; set?: { id: string }; direction?: unknown }>;
+    };
+    expect(plan.scenes.every((s) => s.background.assetId.startsWith("wld_place_"))).toBe(true);
+    expect(plan.scenes.some((s) => s.set?.id === "interview_office")).toBe(true);
+    expect(plan.scenes.every((s) => s.direction)).toBe(true);
   });
 });

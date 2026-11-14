@@ -53,6 +53,8 @@ export interface NewRun {
   /** Main character chosen by the user (e.g. char_host_01); the planner decides where he appears. */
   host?: string;
   silent: boolean;
+  /** Design the video's own world after the script (World Builder); false = the studio library. */
+  world?: boolean;
 }
 
 export class ApiError extends Error {
@@ -111,6 +113,7 @@ export const THEMES = ["psychology", "money", "growth", "philosophy", "science",
 /** Shared between the Voices page and the New video form. */
 export const VOICE_KEY = "erkasa.voice";
 export const HOST_KEY = "erkasa.host";
+export const WORLD_KEY = "erkasa.world";
 /** A plan handed from a run to Plan Preview. */
 export const PREVIEW_PLAN_KEY = "erkasa.preview-plan";
 

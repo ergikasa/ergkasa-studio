@@ -3,12 +3,12 @@ import { optional } from "./env.js";
 
 /**
  * RabbitMQ names, identical to the backend's MqNames.java. Task routing keys are the task types.
- *   {prefix}.tasks  -> {prefix}.tasks.ai (script.write, voice.synthesize, visual.plan)
+ *   {prefix}.tasks  -> {prefix}.tasks.ai (script.write, world.design, voice.synthesize, visual.plan)
  *                   -> {prefix}.tasks.render (render.finalize)
  *   {prefix}.events -> {prefix}.results (result), {prefix}.progress (progress)
  */
 export class MqNames {
-  static readonly AI_TASKS = ["script.write", "voice.synthesize", "visual.plan"] as const;
+  static readonly AI_TASKS = ["script.write", "world.design", "voice.synthesize", "visual.plan"] as const;
   static readonly RENDER_TASKS = ["render.finalize"] as const;
   static readonly RESULT_KEY = "result";
   static readonly PROGRESS_KEY = "progress";
