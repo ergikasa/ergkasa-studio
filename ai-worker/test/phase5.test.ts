@@ -2,7 +2,7 @@ import { mkdtempSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { compileVideo } from "@erkasa/compiler";
-import { Script, type VideoPlan } from "@erkasa/contracts";
+import { Script, VideoPlan } from "@erkasa/contracts";
 import { describe, expect, it } from "vitest";
 import { Catalog } from "../src/catalog.js";
 import { criticIssues, type CriticResult } from "../src/critic.js";
@@ -121,5 +121,47 @@ describe("visual critic", () => {
     const m = apiMessages(req)[0] as { content: Array<{ type: string }> };
     expect(m.content.map((c) => c.type)).toEqual(["image", "text"]);
     expect(apiMessages({ ...req, images: undefined })).toEqual(req.messages);
+  });
+});
+
+describe("a real film that felt repetitive (Maya, first Studio run with the world builder)", () => {
+  const MAYA = join(repoRoot(), "ai-worker", "demo", "maya");
+  const plan = VideoPlan.parse(JSON.parse(readFileSync(join(MAYA, "video-plan.json"), "utf8")));
+  const script = Script.parse(JSON.parse(readFileSync(join(MAYA, "script.json"), "utf8")));
+  const found = reviewDirection({
+    plan,
+    script,
+    durations: Object.fromEntries(plan.scenes.map((s) => [s.sceneId, 8])),
+    compileIssues: [],
+    world: true,
+  }).map((i) => i.code);
+
+  it("is now told that nearly every scene is the same push-in with the person in the middle", () => {
+    expect(found).toContain("CAMERA_MONOTONE");
+    expect(found).toContain("LAYOUT_MONOTONE");
+  });
+
+  it("does not flag the varied demo film", async () => {
+    const { catalog, script: s } = await world();
+    const { plan: p } = draftToPlan(draft(), s, { projectId: "t", voiceId: "v" });
+    const c = codes(p as VideoPlan, s, catalog);
+    expect(c).not.toContain("CAMERA_MONOTONE");
+    expect(c).not.toContain("LAYOUT_MONOTONE");
+  });
+});
+
+describe("the Studio path keeps the world's cast for the plan step", () => {
+  it("stepWorld saves script.world.json with the cast as world characters", async () => {
+    const dir = mkdtempSync(join(tmpdir(), "erkasa-p5w-"));
+    const res = await stepWorld(
+      dir,
+      script0,
+      new One(read<{ value: WorldDraft }>("world-1.json").value),
+      library,
+      "first_impression",
+    );
+    const saved = Script.parse(JSON.parse(readFileSync(join(dir, "script.world.json"), "utf8")));
+    expect(saved.cast?.map((c) => c.characterId)).toEqual(res.script.cast?.map((c) => c.characterId));
+    expect(saved.cast?.[0]?.characterId).toMatch(/^wld_char_/);
   });
 });

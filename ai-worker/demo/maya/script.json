@@ -1,0 +1,149 @@
+{
+  "schema": "erkasa.script/1",
+  "title": "Why You Become Someone Else Around Others",
+  "topic": "Why People Change Around Different People",
+  "theme": "psychology",
+  "language": "en",
+  "hook": "Imagine Maya on one ordinary Tuesday.",
+  "cast": [
+    {
+      "role": "protagonist",
+      "characterId": "char_era_01",
+      "description": "Maya, a young professional, shown in three rooms on one ordinary Tuesday."
+    }
+  ],
+  "promise": "The viewer will understand that changing between groups is a built-in way of staying accepted, and learn how to tell a change of style from a change of values.",
+  "opening": "contrast",
+  "shape": "myth_vs_mechanism",
+  "takeaway": {
+    "kind": "question",
+    "text": "When you notice yourself changing around people, ask whether your style is adapting or your values are bending."
+  },
+  "claims": [
+    {
+      "text": "Maya's Tuesday in three rooms is a made-up example used to show the idea.",
+      "kind": "history",
+      "status": "hypothetical",
+      "role": "Gives the viewer a concrete person whose behaviour changes across groups."
+    },
+    {
+      "text": "Sociologist Erving Goffman compared everyday life to a stage, where people present different versions of themselves to different audiences.",
+      "kind": "study",
+      "status": "widely_known",
+      "role": "Gives the concept a name and a respected source: we adapt to our audience.",
+      "source": "Erving Goffman, The Presentation of Self in Everyday Life (1956 Edinburgh; 1959 US edition)"
+    },
+    {
+      "text": "In 1995, Baumeister and Leary argued that the need to belong is a fundamental human drive.",
+      "kind": "study",
+      "status": "widely_known",
+      "role": "Supports the claim that the adapting is driven by a basic need to be accepted.",
+      "source": "Baumeister, R. F., & Leary, M. R. (1995). The need to belong. Psychological Bulletin, 117(3), 497-529."
+    },
+    {
+      "text": "For most of human history, being cast out of a group meant danger, so disapproval can feel like a threat.",
+      "kind": "history",
+      "status": "to_verify",
+      "role": "Explains why adapting to others is plausibly built into us. Presented as one explanation, not a proven fact.",
+      "source": "Evolutionary psychology overview, e.g. Baumeister & Leary (1995) discussion of belonging and survival"
+    },
+    {
+      "text": "In Asch's 1950s experiments, many people gave an obviously wrong answer about line lengths to match the group.",
+      "kind": "study",
+      "status": "widely_known",
+      "role": "Shows that group pressure changes behaviour even when the stakes are tiny and the answer is clear.",
+      "source": "Solomon Asch, 'Studies of independence and conformity' (Psychological Monographs, 1956)"
+    }
+  ],
+  "scenes": [
+    {
+      "sceneId": "s01",
+      "narration": "Imagine Maya on one ordinary Tuesday. Three rooms, three different Mayas. And none of them is a deliberate act.",
+      "visualIdea": "Three panels side by side show the same woman in three different postures, as if three people shared one face.",
+      "emphasis": "Three Mayas",
+      "beat": "hook",
+      "setting": "Screen split in three panels: office meeting, cafe, home kitchen.",
+      "action": "Maya appears in each panel in a different posture: upright, leaning back laughing, hands folded.",
+      "emotion": "curiosity"
+    },
+    {
+      "sceneId": "s02",
+      "narration": "At work she's careful and agrees fast. With friends she's loud and sarcastic. At her parents' table she keeps her opinions to herself.",
+      "visualIdea": "A quick triptych of Maya: nodding at a meeting table, gesturing wildly at a cafe table, and sitting still at a kitchen table.",
+      "beat": "problem",
+      "setting": "office/meeting/work/presentation/indoor/corporate/team",
+      "action": "Maya in the business outfit nods along, then the scene wipes to a cafe where she talks with her arms up, then to a kitchen where she sits quietly.",
+      "emotion": "recognition"
+    },
+    {
+      "sceneId": "s03",
+      "narration": "Sociologist Erving Goffman compared daily life to a stage. Each audience gets a slightly different version of you, mostly without any decision.",
+      "visualIdea": "The spotlight metaphor: one figure on a stage, with a different silhouette audience in front each time, and her pose changing to match.",
+      "emphasis": "Different audiences",
+      "beat": "concept",
+      "setting": "abstract/light/studio/neutral/concept/editorial/clean",
+      "action": "Maya stands in a spotlight while three different audience silhouettes appear one after another, and her posture shifts for each.",
+      "emotion": "insight"
+    },
+    {
+      "sceneId": "s04",
+      "narration": "Underneath sits the need to belong. In 1995, Baumeister and Leary argued that being accepted is a basic human drive, not a luxury.",
+      "visualIdea": "A ring of anonymous figures opens to let one person in. The ring closing is the feeling of belonging.",
+      "emphasis": "Need to belong",
+      "beat": "concept",
+      "setting": "abstract/light/studio/neutral/concept/editorial/clean",
+      "action": "A circle of silhouettes opens a gap, and a single silhouette steps in and the circle closes around it.",
+      "emotion": "warmth"
+    },
+    {
+      "sceneId": "s05",
+      "narration": "In the meeting, Maya doubts the plan. Her manager sounds certain, so she says, \"Sounds good.\" At lunch with friends, she takes the plan apart and everyone laughs.",
+      "visualIdea": "Two moments back to back: Maya nodding with a held-back thought bubble at the meeting, then the same thought spilling out freely at the cafe.",
+      "emphasis": "Sounds good",
+      "beat": "situation",
+      "setting": "office/meeting/work/presentation/indoor/corporate/team",
+      "action": "Maya in the business outfit nods while her manager presents. Then, at a cafe table, she talks with her arms up and the friends laugh.",
+      "emotion": "tension"
+    },
+    {
+      "sceneId": "s06",
+      "narration": "At dinner, her father says something she disagrees with. She smiles and passes the salt. She never decided to stay quiet.",
+      "visualIdea": "A small thought bubble above Maya holds a tiny crossed-out reply. Her hand passes the salt, and the reply fades away.",
+      "beat": "situation",
+      "setting": "home/kitchen/day/indoor/family/food/morning/habit",
+      "action": "Maya sits at a kitchen table, hears her father, smiles, and passes the salt shaker.",
+      "emotion": "restraint"
+    },
+    {
+      "sceneId": "s07",
+      "narration": "For most of human history, being cast out meant danger, so disapproval feels like a threat. In Asch's 1950s experiments, many people gave an obviously wrong answer to match the group.",
+      "visualIdea": "The watching-eye metaphor over one lone figure, next to two clearly different lines with a group of silhouettes all pointing at the shorter one.",
+      "emphasis": "Disapproval feels like danger",
+      "beat": "analysis",
+      "setting": "abstract/dark/void/spotlight/mind/inner/fear/night",
+      "action": "A watching eye looms over a single figure. Beside it, a row of lines in a group test where the crowd points to the wrong one.",
+      "emotion": "pressure"
+    },
+    {
+      "sceneId": "s08",
+      "narration": "We assume one true self sits underneath. But Maya never lied; she let out whichever part the room could accept.",
+      "visualIdea": "The iceberg metaphor: above the waterline, one version of Maya. Below it, many other versions, with a different one rising depending on the room.",
+      "emphasis": "Which part is allowed out",
+      "beat": "analysis",
+      "setting": "abstract/light/studio/neutral/concept/editorial/clean",
+      "action": "An iceberg: the small visible tip shows Maya's face, and below the water many other faces wait, one of them lit.",
+      "emotion": "realization"
+    },
+    {
+      "sceneId": "s09",
+      "narration": "So is Maya expressing herself, or surviving the room? Maybe both. Next time you shift, ask: did my style adapt, or did my values bend?",
+      "visualIdea": "A balance scale with 'tone' on one pan and 'values' on the other, drawn as simple icons, with Maya studying which one is moving.",
+      "emphasis": "Style or values?",
+      "beat": "conclusion",
+      "setting": "abstract/light/studio/neutral/concept/editorial/clean",
+      "action": "Maya faces a split path. On one side her tone changes, on the other her values bend, and she looks from one to the other.",
+      "emotion": "reflection"
+    }
+  ],
+  "estimatedSec": 77.1
+}

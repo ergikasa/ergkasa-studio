@@ -210,9 +210,12 @@ export async function stepWorld(
     ...(made.report.requested ? ["--custom", customDir] : []),
   ]);
   const buildSec = (Date.now() - t0) / 1000;
+  // the plan step (in the worker: a later task) reads the cast as the world's characters from this file
+  const worldScript = castIntoWorld(script, res.castMap);
+  writeJson(join(dir, "script.world.json"), worldScript);
   return {
     dir: out,
-    script: castIntoWorld(script, res.castMap),
+    script: worldScript,
     ...(res.hostId ? { hostId: res.hostId } : {}),
     usage: [...res.usage, ...made.report.usage],
     issues: [],

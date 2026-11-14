@@ -1,0 +1,1262 @@
+{
+  "schema": "erkasa.video-plan/1",
+  "projectId": "20261114-122910-why-people-change-around-diffe-18f5",
+  "language": "en",
+  "format": "9:16",
+  "fps": 30,
+  "voiceId": "american_man",
+  "scenes": [
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s01",
+      "engine": "2d",
+      "direction": {
+        "idea": "One woman, three different Mayas in three different postures, and none of it is a choice.",
+        "demonstration": "comparison",
+        "before": "Three Mayas side by side: upright, laughing, hands folded.",
+        "after": "The title lands on the three and the camera punches in on the middle Maya, who now laughs with her arms up.",
+        "focus": "maya_cafe"
+      },
+      "narration": "Imagine Maya on one ordinary Tuesday. Three rooms, three different Mayas. And none of them is a deliberate act.",
+      "durationPolicy": {
+        "mode": "fitNarration",
+        "padAfterSec": 0.45
+      },
+      "background": {
+        "assetId": "wld_place_cafe"
+      },
+      "shot": {
+        "size": "medium",
+        "subject": "maya_cafe"
+      },
+      "layers": [
+        {
+          "id": "maya_work",
+          "place": {
+            "anchor": "ground",
+            "x": 0.2,
+            "scale": 0.75
+          },
+          "purpose": "the upright, careful Maya of the office",
+          "type": "actor",
+          "assetId": "char_era_01",
+          "facing": "front",
+          "expression": "neutral",
+          "speaks": false,
+          "blocking": [],
+          "actions": [
+            {
+              "action": "observe",
+              "at": "start"
+            },
+            {
+              "action": "nod",
+              "at": {
+                "word": "rooms",
+                "occurrence": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "maya_cafe",
+          "place": {
+            "anchor": "ground",
+            "x": 0.5,
+            "scale": 0.8
+          },
+          "purpose": "the loud, laughing Maya with friends",
+          "type": "actor",
+          "assetId": "char_era_01",
+          "facing": "front",
+          "expression": "happy",
+          "speaks": false,
+          "blocking": [],
+          "actions": [
+            {
+              "action": "talk",
+              "at": "start",
+              "expression": "happy"
+            },
+            {
+              "action": "arms_up",
+              "at": {
+                "word": "different",
+                "occurrence": 1
+              },
+              "expression": "happy"
+            }
+          ]
+        },
+        {
+          "id": "maya_home",
+          "place": {
+            "anchor": "ground",
+            "x": 0.8,
+            "scale": 0.75
+          },
+          "purpose": "the quiet Maya with hands folded at her parents' home",
+          "type": "actor",
+          "assetId": "char_era_01",
+          "facing": "front",
+          "expression": "sad",
+          "speaks": false,
+          "blocking": [],
+          "actions": [
+            {
+              "action": "nervous",
+              "at": "start"
+            },
+            {
+              "action": "idle",
+              "at": {
+                "word": "deliberate",
+                "occurrence": 1
+              },
+              "expression": "neutral"
+            }
+          ]
+        },
+        {
+          "id": "title",
+          "place": {
+            "anchor": "free",
+            "x": 0.5,
+            "scale": 1,
+            "region": "top-safe"
+          },
+          "purpose": "names the hook idea on the key word",
+          "in": {
+            "effect": "pop",
+            "at": {
+              "word": "different",
+              "occurrence": 1
+            },
+            "durationSec": 0.45
+          },
+          "out": {
+            "effect": "fade",
+            "at": {
+              "word": "different",
+              "occurrence": 1,
+              "offsetSec": 2.6
+            },
+            "durationSec": 0.35
+          },
+          "type": "text",
+          "content": "THREE MAYAS",
+          "style": "hook_impact",
+          "highlight": ["THREE"]
+        }
+      ],
+      "effects": [],
+      "camera": [
+        {
+          "move": "punch_in",
+          "at": {
+            "word": "different",
+            "occurrence": 1
+          },
+          "to": 1.15
+        }
+      ],
+      "transitionOut": {
+        "type": "cut",
+        "durationSec": 0
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s02",
+      "engine": "2d",
+      "direction": {
+        "idea": "Maya's behavior shifts from room to room: agreeable at work, loud with friends, silent at her parents' table.",
+        "demonstration": "story_moment",
+        "before": "Maya nods along at the meeting, attentive and careful.",
+        "after": "Maya sits quiet and still with arms crossed, having passed through loud and happy on the way.",
+        "focus": "maya"
+      },
+      "narration": "At work she's careful and agrees fast. With friends she's loud and sarcastic. At her parents' table she keeps her opinions to herself.",
+      "durationPolicy": {
+        "mode": "fitNarration",
+        "padAfterSec": 0.45
+      },
+      "background": {
+        "assetId": "wld_place_main"
+      },
+      "shot": {
+        "size": "medium",
+        "subject": "maya"
+      },
+      "layers": [
+        {
+          "id": "maya",
+          "place": {
+            "anchor": "ground",
+            "x": 0.5,
+            "scale": 1
+          },
+          "purpose": "the protagonist whose posture and mood change with each audience",
+          "type": "actor",
+          "assetId": "char_era_01",
+          "facing": "front",
+          "expression": "neutral",
+          "speaks": false,
+          "blocking": [],
+          "actions": [
+            {
+              "action": "nod",
+              "at": "start",
+              "expression": "neutral"
+            },
+            {
+              "action": "arms_up",
+              "at": {
+                "word": "friends",
+                "occurrence": 1
+              },
+              "expression": "happy"
+            },
+            {
+              "action": "cross_arms",
+              "at": {
+                "word": "table",
+                "occurrence": 1
+              },
+              "expression": "sad"
+            }
+          ]
+        }
+      ],
+      "effects": [],
+      "camera": [
+        {
+          "move": "push_in",
+          "at": "start",
+          "to": 1.05
+        }
+      ],
+      "transitionOut": {
+        "type": "cut",
+        "durationSec": 0
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s03",
+      "engine": "2d",
+      "direction": {
+        "idea": "Life is a stage: each audience gets a slightly different Maya, without any decision.",
+        "demonstration": "metaphor_change",
+        "before": "Maya stands in an unlit stage, upright and still.",
+        "after": "Under the lit spotlight her pose has changed three times, ending in a shrug of no decision.",
+        "focus": "maya"
+      },
+      "narration": "Sociologist Erving Goffman compared daily life to a stage. Each audience gets a slightly different version of you, mostly without any decision.",
+      "durationPolicy": {
+        "mode": "fitNarration",
+        "padAfterSec": 0.45
+      },
+      "background": {
+        "assetId": "wld_place_main"
+      },
+      "shot": {
+        "size": "wide",
+        "subject": "maya"
+      },
+      "layers": [
+        {
+          "id": "spot",
+          "place": {
+            "anchor": "free",
+            "x": 0.5,
+            "y": 0.5,
+            "scale": 1.1
+          },
+          "purpose": "the spotlight stage that turns daily life into a performance",
+          "type": "metaphor",
+          "assetId": "wld_prop_spot",
+          "animations": [
+            {
+              "name": "switch_on",
+              "at": {
+                "word": "stage",
+                "occurrence": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "maya",
+          "place": {
+            "anchor": "ground",
+            "x": 0.5,
+            "scale": 1
+          },
+          "purpose": "the performer who shifts pose for each audience",
+          "type": "actor",
+          "assetId": "char_era_01",
+          "facing": "front",
+          "expression": "neutral",
+          "speaks": false,
+          "blocking": [],
+          "actions": [
+            {
+              "action": "present",
+              "at": "start",
+              "expression": "thinking"
+            },
+            {
+              "action": "cross_arms",
+              "at": {
+                "word": "audience",
+                "occurrence": 1
+              },
+              "expression": "neutral"
+            },
+            {
+              "action": "arms_up",
+              "at": {
+                "word": "different",
+                "occurrence": 1
+              },
+              "expression": "happy"
+            },
+            {
+              "action": "shrug",
+              "at": {
+                "word": "decision",
+                "occurrence": 1
+              },
+              "expression": "surprised"
+            }
+          ]
+        }
+      ],
+      "effects": [
+        {
+          "preset": "fx_vignette_01",
+          "intensity": 0.35
+        }
+      ],
+      "camera": [
+        {
+          "move": "push_in",
+          "at": "start",
+          "to": 1.06
+        }
+      ],
+      "transitionOut": {
+        "type": "fade",
+        "durationSec": 0.35
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s04",
+      "engine": "2d",
+      "direction": {
+        "idea": "Underneath it all is the need to belong: the ring opens, takes you in and closes around you.",
+        "demonstration": "metaphor_change",
+        "before": "A ring of anonymous figures, with Maya outside it, uncertain.",
+        "after": "Maya stands warmly inside the pulsing ring, accepted.",
+        "focus": "maya"
+      },
+      "narration": "Underneath sits the need to belong. In 1995, Baumeister and Leary argued that being accepted is a basic human drive, not a luxury.",
+      "durationPolicy": {
+        "mode": "fitNarration",
+        "padAfterSec": 0.45
+      },
+      "background": {
+        "assetId": "wld_place_cafe"
+      },
+      "shot": {
+        "size": "medium",
+        "subject": "maya"
+      },
+      "layers": [
+        {
+          "id": "crowd",
+          "place": {
+            "anchor": "free",
+            "x": 0.5,
+            "y": 0.5,
+            "scale": 2.4
+          },
+          "purpose": "the ring of figures that opens and closes around her, standing for belonging",
+          "in": {
+            "effect": "pop",
+            "at": "start",
+            "durationSec": 0.45
+          },
+          "type": "object",
+          "assetId": "wld_prop_crowd",
+          "animations": [
+            {
+              "name": "pulse",
+              "at": {
+                "word": "accepted",
+                "occurrence": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "maya",
+          "place": {
+            "anchor": "ground",
+            "x": 0.5,
+            "scale": 1
+          },
+          "purpose": "the protagonist stepping into the circle and feeling accepted",
+          "in": {
+            "effect": "slide_left",
+            "at": "start",
+            "durationSec": 0.45
+          },
+          "type": "actor",
+          "assetId": "char_era_01",
+          "facing": "front",
+          "expression": "neutral",
+          "speaks": false,
+          "blocking": [],
+          "actions": [
+            {
+              "action": "nervous",
+              "at": "start",
+              "expression": "neutral"
+            },
+            {
+              "action": "nod",
+              "at": {
+                "word": "accepted",
+                "occurrence": 1
+              },
+              "expression": "happy"
+            },
+            {
+              "action": "wave",
+              "at": {
+                "word": "luxury",
+                "occurrence": 1
+              },
+              "expression": "happy"
+            }
+          ]
+        },
+        {
+          "id": "title",
+          "place": {
+            "anchor": "free",
+            "x": 0.5,
+            "scale": 1,
+            "region": "top-safe"
+          },
+          "purpose": "names the core need on the key word",
+          "in": {
+            "effect": "fade",
+            "at": {
+              "word": "belong",
+              "occurrence": 1
+            },
+            "durationSec": 0.45
+          },
+          "out": {
+            "effect": "fade",
+            "at": {
+              "word": "belong",
+              "occurrence": 1,
+              "offsetSec": 2.6
+            },
+            "durationSec": 0.35
+          },
+          "type": "text",
+          "content": "NEED TO BELONG",
+          "style": "title_clean",
+          "highlight": ["BELONG"]
+        }
+      ],
+      "effects": [
+        {
+          "preset": "fx_light_leak_01",
+          "intensity": 0.3
+        }
+      ],
+      "camera": [
+        {
+          "move": "push_in",
+          "at": "start",
+          "to": 1.06
+        }
+      ],
+      "transitionOut": {
+        "type": "slide",
+        "direction": "left",
+        "durationSec": 0.35
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s05",
+      "engine": "2d",
+      "direction": {
+        "idea": "The same doubt is held back at the meeting and spills out freely with friends.",
+        "demonstration": "comparison",
+        "before": "Maya nods in the meeting while a doubt bubble jitters, held back, beside her.",
+        "after": "The bubble drifts and pulses free as Maya talks with her arms up, laughing.",
+        "focus": "maya"
+      },
+      "narration": "In the meeting, Maya doubts the plan. Her manager sounds certain, so she says, \"Sounds good.\" At lunch with friends, she takes the plan apart and everyone laughs.",
+      "durationPolicy": {
+        "mode": "fitNarration",
+        "padAfterSec": 0.45
+      },
+      "background": {
+        "assetId": "wld_place_main"
+      },
+      "shot": {
+        "size": "medium",
+        "subject": "maya"
+      },
+      "layers": [
+        {
+          "id": "maya",
+          "place": {
+            "anchor": "ground",
+            "x": 0.4,
+            "scale": 1
+          },
+          "purpose": "the protagonist agreeing at work, then taking the plan apart with friends",
+          "type": "actor",
+          "assetId": "char_era_01",
+          "facing": "front",
+          "expression": "neutral",
+          "speaks": false,
+          "blocking": [],
+          "actions": [
+            {
+              "action": "nod",
+              "at": "start",
+              "expression": "neutral"
+            },
+            {
+              "action": "nervous",
+              "at": {
+                "word": "certain",
+                "occurrence": 1
+              },
+              "expression": "sad"
+            },
+            {
+              "action": "nod",
+              "at": {
+                "word": "good",
+                "occurrence": 1
+              },
+              "expression": "neutral"
+            },
+            {
+              "action": "arms_up",
+              "at": {
+                "word": "lunch",
+                "occurrence": 1
+              },
+              "expression": "happy"
+            },
+            {
+              "action": "talk",
+              "at": {
+                "word": "laughs",
+                "occurrence": 1
+              },
+              "expression": "happy"
+            }
+          ]
+        },
+        {
+          "id": "doubt",
+          "place": {
+            "anchor": "free",
+            "x": 0.68,
+            "y": 0.3,
+            "scale": 0.9
+          },
+          "purpose": "the held-back thought that stays trapped, then spills out",
+          "in": {
+            "effect": "pop",
+            "at": {
+              "word": "doubts",
+              "occurrence": 1
+            },
+            "durationSec": 0.45
+          },
+          "type": "object",
+          "assetId": "wld_prop_doubt",
+          "animations": [
+            {
+              "name": "jitter",
+              "at": {
+                "word": "certain",
+                "occurrence": 1
+              }
+            },
+            {
+              "name": "drift",
+              "at": {
+                "word": "lunch",
+                "occurrence": 1
+              }
+            },
+            {
+              "name": "scale_pulse",
+              "at": {
+                "word": "apart",
+                "occurrence": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "title",
+          "place": {
+            "anchor": "free",
+            "x": 0.5,
+            "scale": 1,
+            "region": "top-safe"
+          },
+          "purpose": "quotes the fast agreement on the key word",
+          "in": {
+            "effect": "pop",
+            "at": {
+              "word": "good",
+              "occurrence": 1
+            },
+            "durationSec": 0.45
+          },
+          "out": {
+            "effect": "fade",
+            "at": {
+              "word": "good",
+              "occurrence": 1,
+              "offsetSec": 2.6
+            },
+            "durationSec": 0.35
+          },
+          "type": "text",
+          "content": "SOUNDS GOOD",
+          "style": "hook_impact",
+          "highlight": ["GOOD"]
+        }
+      ],
+      "effects": [],
+      "camera": [
+        {
+          "move": "push_in",
+          "at": "start",
+          "to": 1.05
+        }
+      ],
+      "transitionOut": {
+        "type": "slide",
+        "direction": "left",
+        "durationSec": 0.35
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s06",
+      "engine": "2d",
+      "direction": {
+        "idea": "Staying quiet at home happens without a decision: she smiles, passes the salt and the reply fades.",
+        "demonstration": "story_moment",
+        "before": "Maya listens to her father at the table, a tiny crossed-out reply forming above her.",
+        "after": "Maya smiles, the salt has been passed and the reply has faded away.",
+        "focus": "maya"
+      },
+      "narration": "At dinner, her father says something she disagrees with. She smiles and passes the salt. She never decided to stay quiet.",
+      "durationPolicy": {
+        "mode": "fitNarration",
+        "padAfterSec": 0.45
+      },
+      "background": {
+        "assetId": "wld_place_kitchen"
+      },
+      "shot": {
+        "size": "close",
+        "subject": "maya"
+      },
+      "layers": [
+        {
+          "id": "maya",
+          "place": {
+            "anchor": "ground",
+            "x": 0.45,
+            "scale": 1
+          },
+          "purpose": "the protagonist swallowing her disagreement and smiling",
+          "type": "actor",
+          "assetId": "char_era_01",
+          "facing": "front",
+          "expression": "neutral",
+          "speaks": false,
+          "blocking": [],
+          "actions": [
+            {
+              "action": "observe",
+              "at": "start",
+              "expression": "neutral"
+            },
+            {
+              "action": "nervous",
+              "at": {
+                "word": "disagrees",
+                "occurrence": 1
+              },
+              "expression": "sad"
+            },
+            {
+              "action": "nod",
+              "at": {
+                "word": "smiles",
+                "occurrence": 1
+              },
+              "expression": "happy"
+            },
+            {
+              "action": "point_side",
+              "at": {
+                "word": "passes",
+                "occurrence": 1
+              },
+              "expression": "happy"
+            }
+          ]
+        },
+        {
+          "id": "table",
+          "place": {
+            "anchor": "free",
+            "x": 0.5,
+            "y": 0.95,
+            "scale": 1.4
+          },
+          "purpose": "the family table where the quiet moment happens",
+          "type": "object",
+          "assetId": "wld_prop_table_kitchen",
+          "animations": []
+        },
+        {
+          "id": "salt",
+          "place": {
+            "anchor": "free",
+            "x": 0.68,
+            "y": 0.82,
+            "scale": 0.6
+          },
+          "purpose": "the shaker passed instead of speaking her mind",
+          "in": {
+            "effect": "pop",
+            "at": "start",
+            "durationSec": 0.45
+          },
+          "type": "object",
+          "assetId": "wld_prop_salt",
+          "animations": [
+            {
+              "name": "drift",
+              "at": {
+                "word": "passes",
+                "occurrence": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "doubt",
+          "place": {
+            "anchor": "free",
+            "x": 0.72,
+            "y": 0.2,
+            "scale": 0.6
+          },
+          "purpose": "tiny crossed-out reply that fades without being said",
+          "in": {
+            "effect": "pop",
+            "at": {
+              "word": "disagrees",
+              "occurrence": 1
+            },
+            "durationSec": 0.45
+          },
+          "type": "object",
+          "assetId": "wld_prop_doubt",
+          "animations": [
+            {
+              "name": "fade",
+              "at": {
+                "word": "never",
+                "occurrence": 1
+              }
+            }
+          ]
+        }
+      ],
+      "effects": [],
+      "camera": [
+        {
+          "move": "push_in",
+          "at": "start",
+          "to": 1.06
+        }
+      ],
+      "transitionOut": {
+        "type": "fade",
+        "durationSec": 0.35
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s07",
+      "engine": "2d",
+      "direction": {
+        "idea": "Disapproval feels like danger because exclusion once was; in Asch's test people even gave a wrong answer to match the group.",
+        "demonstration": "metaphor_change",
+        "before": "A lone, uneasy Maya under a looming eye, with an empty test card beside her.",
+        "after": "The crowd points at the shorter line while the eye pulses and Maya slumps.",
+        "focus": "maya"
+      },
+      "narration": "For most of human history, being cast out meant danger, so disapproval feels like a threat. In Asch's 1950s experiments, many people gave an obviously wrong answer to match the group.",
+      "durationPolicy": {
+        "mode": "fitNarration",
+        "padAfterSec": 0.45
+      },
+      "background": {
+        "assetId": "wld_place_main"
+      },
+      "shot": {
+        "size": "wide",
+        "subject": "maya"
+      },
+      "layers": [
+        {
+          "id": "eye",
+          "place": {
+            "anchor": "free",
+            "x": 0.5,
+            "y": 0.14,
+            "scale": 0.55
+          },
+          "purpose": "the watching eye: disapproval felt as threat",
+          "in": {
+            "effect": "pop",
+            "at": "start",
+            "durationSec": 0.45
+          },
+          "type": "metaphor",
+          "assetId": "wld_prop_eye",
+          "animations": [
+            {
+              "name": "look_around",
+              "at": {
+                "word": "danger",
+                "occurrence": 1
+              }
+            },
+            {
+              "name": "pulse",
+              "at": {
+                "word": "threat",
+                "occurrence": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "maya",
+          "place": {
+            "anchor": "ground",
+            "x": 0.3,
+            "scale": 0.9
+          },
+          "purpose": "the lone figure feeling the pressure",
+          "type": "actor",
+          "assetId": "char_era_01",
+          "facing": "front",
+          "expression": "neutral",
+          "speaks": false,
+          "blocking": [],
+          "actions": [
+            {
+              "action": "nervous",
+              "at": "start",
+              "expression": "sad"
+            },
+            {
+              "action": "stressed",
+              "at": {
+                "word": "threat",
+                "occurrence": 1
+              },
+              "expression": "surprised"
+            },
+            {
+              "action": "slump",
+              "at": {
+                "word": "match",
+                "occurrence": 1
+              },
+              "expression": "sad"
+            }
+          ]
+        },
+        {
+          "id": "lines",
+          "place": {
+            "anchor": "free",
+            "x": 0.74,
+            "y": 0.4,
+            "scale": 1
+          },
+          "purpose": "Asch's card with two clearly different lines",
+          "in": {
+            "effect": "pop",
+            "at": {
+              "word": "experiments",
+              "occurrence": 1
+            },
+            "durationSec": 0.45
+          },
+          "type": "object",
+          "assetId": "wld_prop_lines",
+          "animations": []
+        },
+        {
+          "id": "crowd",
+          "place": {
+            "anchor": "free",
+            "x": 0.74,
+            "y": 0.7,
+            "scale": 1.1
+          },
+          "purpose": "the group pointing at the wrong line",
+          "in": {
+            "effect": "pop",
+            "at": {
+              "word": "wrong",
+              "occurrence": 1
+            },
+            "durationSec": 0.45
+          },
+          "type": "object",
+          "assetId": "wld_prop_crowd",
+          "animations": [
+            {
+              "name": "shake",
+              "at": {
+                "word": "match",
+                "occurrence": 1
+              }
+            }
+          ]
+        }
+      ],
+      "effects": [
+        {
+          "preset": "fx_vignette_01",
+          "intensity": 0.5
+        },
+        {
+          "preset": "fx_shadow_overlay_01",
+          "intensity": 0.3
+        }
+      ],
+      "camera": [
+        {
+          "move": "push_in",
+          "at": "start",
+          "to": 1.04
+        }
+      ],
+      "transitionOut": {
+        "type": "cut",
+        "durationSec": 0
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s08",
+      "engine": "2d",
+      "direction": {
+        "idea": "There is no single true self underneath: Maya lets out whichever part the room can accept.",
+        "demonstration": "metaphor_change",
+        "before": "Maya thinks beside an iceberg with only its tip showing.",
+        "after": "The iceberg is revealed with many parts below the surface and Maya understands, nodding.",
+        "focus": "iceberg"
+      },
+      "narration": "We assume one true self sits underneath. But Maya never lied; she let out whichever part the room could accept.",
+      "durationPolicy": {
+        "mode": "fitNarration",
+        "padAfterSec": 0.45
+      },
+      "background": {
+        "assetId": "wld_place_cafe"
+      },
+      "shot": {
+        "size": "wide",
+        "subject": "iceberg"
+      },
+      "layers": [
+        {
+          "id": "iceberg",
+          "place": {
+            "anchor": "free",
+            "x": 0.66,
+            "y": 0.5,
+            "scale": 0.7
+          },
+          "purpose": "visible tip versus the many hidden parts of a person",
+          "in": {
+            "effect": "pop",
+            "at": "start",
+            "durationSec": 0.45
+          },
+          "type": "metaphor",
+          "assetId": "wld_prop_iceberg",
+          "label": {
+            "text": "ONE TRUE SELF?",
+            "at": {
+              "word": "assume",
+              "occurrence": 1
+            }
+          },
+          "animations": [
+            {
+              "name": "reveal",
+              "at": {
+                "word": "underneath",
+                "occurrence": 1
+              }
+            },
+            {
+              "name": "bob",
+              "at": {
+                "word": "never",
+                "occurrence": 1
+              }
+            },
+            {
+              "name": "pulse",
+              "at": {
+                "word": "accept",
+                "occurrence": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "maya",
+          "place": {
+            "anchor": "ground",
+            "x": 0.25,
+            "scale": 1
+          },
+          "purpose": "the protagonist realizing she has many parts, not one fake self",
+          "type": "actor",
+          "assetId": "char_era_01",
+          "facing": "front",
+          "expression": "thinking",
+          "speaks": false,
+          "blocking": [],
+          "actions": [
+            {
+              "action": "think",
+              "at": "start",
+              "expression": "thinking"
+            },
+            {
+              "action": "point_side",
+              "at": {
+                "word": "underneath",
+                "occurrence": 1
+              },
+              "expression": "surprised"
+            },
+            {
+              "action": "nod",
+              "at": {
+                "word": "accept",
+                "occurrence": 1
+              },
+              "expression": "happy"
+            }
+          ]
+        }
+      ],
+      "effects": [
+        {
+          "preset": "fx_light_rays_01",
+          "intensity": 0.3
+        }
+      ],
+      "camera": [
+        {
+          "move": "push_in",
+          "at": "start",
+          "to": 1.05
+        }
+      ],
+      "transitionOut": {
+        "type": "cut",
+        "durationSec": 0
+      }
+    },
+    {
+      "schema": "erkasa.scene-plan/1",
+      "sceneId": "s09",
+      "engine": "2d",
+      "direction": {
+        "idea": "Ask whether your style adapted or your values bent: the scale shows which one is moving.",
+        "demonstration": "metaphor_change",
+        "before": "Maya studies a balanced scale, thinking.",
+        "after": "The scale tips and shakes on 'values' while Maya, reflective, settles on the question.",
+        "focus": "scale"
+      },
+      "narration": "So is Maya expressing herself, or surviving the room? Maybe both. Next time you shift, ask: did my style adapt, or did my values bend?",
+      "durationPolicy": {
+        "mode": "fitNarration",
+        "padAfterSec": 1.2
+      },
+      "background": {
+        "assetId": "wld_place_main"
+      },
+      "shot": {
+        "size": "medium",
+        "subject": "maya"
+      },
+      "layers": [
+        {
+          "id": "scale",
+          "place": {
+            "anchor": "free",
+            "x": 0.66,
+            "y": 0.5,
+            "scale": 1.8
+          },
+          "purpose": "balance weighing tone against values so she can tell which one moves",
+          "in": {
+            "effect": "pop",
+            "at": "start",
+            "durationSec": 0.45
+          },
+          "type": "object",
+          "assetId": "wld_prop_scale",
+          "animations": [
+            {
+              "name": "sway",
+              "at": {
+                "word": "adapt",
+                "occurrence": 1
+              }
+            },
+            {
+              "name": "shake",
+              "at": {
+                "word": "bend",
+                "occurrence": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "maya",
+          "place": {
+            "anchor": "ground",
+            "x": 0.28,
+            "scale": 1
+          },
+          "purpose": "the protagonist looking from one pan to the other and reflecting",
+          "type": "actor",
+          "assetId": "char_era_01",
+          "facing": "front",
+          "expression": "thinking",
+          "speaks": false,
+          "blocking": [],
+          "actions": [
+            {
+              "action": "think",
+              "at": "start",
+              "expression": "thinking"
+            },
+            {
+              "action": "shrug",
+              "at": {
+                "word": "both",
+                "occurrence": 1
+              },
+              "expression": "neutral"
+            },
+            {
+              "action": "point_side",
+              "at": {
+                "word": "values",
+                "occurrence": 1
+              },
+              "expression": "thinking"
+            },
+            {
+              "action": "nod",
+              "at": {
+                "word": "bend",
+                "occurrence": 1
+              },
+              "expression": "happy"
+            }
+          ]
+        },
+        {
+          "id": "title",
+          "place": {
+            "anchor": "free",
+            "x": 0.5,
+            "scale": 1,
+            "region": "top-safe"
+          },
+          "purpose": "states the closing question on the key words",
+          "in": {
+            "effect": "fade",
+            "at": {
+              "word": "style",
+              "occurrence": 1
+            },
+            "durationSec": 0.45
+          },
+          "out": {
+            "effect": "fade",
+            "at": {
+              "word": "style",
+              "occurrence": 1,
+              "offsetSec": 2.6
+            },
+            "durationSec": 0.35
+          },
+          "type": "text",
+          "content": "STYLE OR VALUES?",
+          "style": "title_clean",
+          "highlight": ["STYLE", "VALUES"]
+        }
+      ],
+      "effects": [],
+      "camera": [
+        {
+          "move": "push_in",
+          "at": "start",
+          "to": 1.05
+        }
+      ],
+      "transitionOut": {
+        "type": "cut",
+        "durationSec": 0
+      }
+    }
+  ]
+}

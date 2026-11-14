@@ -166,7 +166,7 @@ export class Catalog {
   /** Short list for the script writer: what kinds of pictures the studio can draw. */
   vocabulary(): string {
     return [
-      `Characters: ${this.characters.map((c) => `${c.id} = ${c.name} (${c.tags.join(", ")}${c.outfits.length > 1 ? `; outfits ${c.outfits.join("/")}` : ""})`).join("; ")}.`,
+      `Characters: ${this.characters.map((c) => `${c.id} = ${c.name} (${c.tags.join(", ")}${c.outfits.length > 1 ? `; outfits ${c.outfits.join("/")}` : c.tags.includes("world") ? "; wears its own costume: leave outfit empty" : ""})`).join("; ")}.`,
       `Staged sets where people walk in, sit, talk across a desk and hand things over: ${describeSets().split("\n")[0] ?? ""}`,
       `Character actions: ${[...new Set(this.characters.flatMap((c) => [...c.front, ...c.side]))].join(", ")}.`,
       `Places: ${this.backgrounds.map((b) => b.tags.join("/")).join("; ")}.`,
@@ -204,7 +204,7 @@ export class Catalog {
         ...c.expressions.filter((e) => !expressions.includes(e)).map((e) => `expression ${e}`),
       ];
       lines.push(
-        `- ${c.id}: ${c.name} (${c.tags.join(", ")}) | can hold: ${c.items.join(", ") || "nothing"}${c.outfits.length > 1 ? ` | outfits: ${c.outfits.join(", ")}` : ""}${extra.length ? ` | also: ${extra.join(", ")}` : ""}`,
+        `- ${c.id}: ${c.name} (${c.tags.join(", ")}) | can hold: ${c.items.join(", ") || "nothing"}${c.outfits.length > 1 ? ` | outfits: ${c.outfits.join(", ")}` : c.tags.includes("world") ? " | wears its own costume: leave outfit empty (its tags are looks, not outfit names)" : ""}${extra.length ? ` | also: ${extra.join(", ")}` : ""}`,
       );
     }
     // staged sets are built on library backgrounds: not part of a world (scene.set stays "none")

@@ -147,6 +147,36 @@ export function reviewDirection({
         ),
       );
   }
+  if (n >= 6) {
+    const moves = scenes.map((s) => s.camera.find((m) => m.move !== "static")?.move ?? "static");
+    const count = new Map<string, number>();
+    for (const m of moves) count.set(m, (count.get(m) ?? 0) + 1);
+    const [top, topN] = [...count.entries()].sort((a, b) => b[1] - a[1])[0] ?? ["static", 0];
+    if (top !== "static" && topN > n * 0.6)
+      out.push(
+        issue(
+          "CAMERA_MONOTONE",
+          "scenes",
+          `${topN} of ${n} scenes use the same camera move (${top}): the film feels mechanical`,
+          "vary it: pull_out to reveal, punch_in on the key word, follow a walking actor, a held static beat, a pan along a wide place",
+        ),
+      );
+    // one person always centred and the same size: the frame never changes
+    const alone = scenes.filter((s) => actorsOf(s).length === 1);
+    const centred = alone.filter((s) => {
+      const a = s.layers.find((l) => l.type === "actor");
+      return a !== undefined && Math.abs((a.place.x ?? 0.5) - 0.5) < 0.12;
+    });
+    if (alone.length >= 5 && centred.length > alone.length * 0.6)
+      out.push(
+        issue(
+          "LAYOUT_MONOTONE",
+          "scenes",
+          `the main person stands in the middle of the frame in ${centred.length} of ${alone.length} single-person scenes`,
+          "use the sides: person at 0.25 with the object at 0.7, then swap; a close shot with the person off-centre; let the object take the middle",
+        ),
+      );
+  }
   const first = scenes[0];
   if (first && shotOf(first) === "wide")
     out.push(
