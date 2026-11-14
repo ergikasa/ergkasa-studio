@@ -1,0 +1,57 @@
+{
+  "schema": "erkasa.script/1",
+  "title": "One percent",
+  "topic": "how small daily improvements or declines compound over a year",
+  "theme": "growth",
+  "language": "en",
+  "hook": "One percent sounds like nothing.",
+  "promise": "Small daily changes compound: one percent better every day is about thirty-seven times better after a year, one percent worse is almost nothing left.",
+  "opening": "fact",
+  "shape": "myth_vs_mechanism",
+  "takeaway": {
+    "kind": "principle",
+    "text": "Judge a habit by where it leads in a year, not by how it feels today."
+  },
+  "scenes": [
+    {
+      "sceneId": "s01",
+      "beat": "hook",
+      "narration": "One percent sounds like nothing.",
+      "visualIdea": "The number 1% alone in the middle of the frame, small and unimpressive."
+    },
+    {
+      "sceneId": "s02",
+      "beat": "problem",
+      "narration": "One better choice today changes almost nothing you can see. So most people stop.",
+      "visualIdea": "A runner trains once and sees no change; the scale does not move.",
+      "emotion": "disappointed"
+    },
+    {
+      "sceneId": "s03",
+      "beat": "concept",
+      "narration": "But improve by one percent every day for a year and you end up about thirty-seven times better. Get one percent worse every day and you are left with almost nothing.",
+      "visualIdea": "Two lines start at the same point: one bends upward, one sinks toward zero."
+    },
+    {
+      "sceneId": "s04",
+      "beat": "analysis",
+      "narration": "The difference stays invisible for months. Then it becomes impossible to miss.",
+      "visualIdea": "The two lines stay together for months, then split apart near the end."
+    },
+    {
+      "sceneId": "s05",
+      "beat": "conclusion",
+      "narration": "So do not judge a habit by today. Judge it by where it takes you in a year.",
+      "visualIdea": "The 1% from the opening, now with the year's curve drawn behind it."
+    }
+  ],
+  "estimatedSec": 29.1,
+  "claims": [
+    {
+      "text": "1.01 to the power of 365 is about 37.8; 0.99 to the power of 365 is about 0.03.",
+      "kind": "statistic",
+      "status": "widely_known",
+      "role": "the arithmetic behind the claim"
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "schema": "erkasa.script/1",
+  "title": "Every yes is a no",
+  "topic": "opportunity cost: what every choice quietly costs",
+  "theme": "decisions",
+  "language": "en",
+  "hook": "Every time you say yes, you are also saying no.",
+  "promise": "Every choice has a hidden price: the best option you gave up (opportunity cost).",
+  "opening": "paradox",
+  "shape": "everyday_object",
+  "takeaway": {
+    "kind": "tool",
+    "text": "For your next big yes, name the one thing it says no to."
+  },
+  "scenes": [
+    {
+      "sceneId": "s01",
+      "beat": "hook",
+      "narration": "Every time you say yes, you are also saying no.",
+      "visualIdea": "A single word, YES, fills the frame; its shadow on the wall reads NO."
+    },
+    {
+      "sceneId": "s02",
+      "beat": "problem",
+      "narration": "You have one evening. If you spend it on the series, it is not spent on the gym, the call or the project.",
+      "visualIdea": "An evening drawn as a strip of time; one activity slides in and pushes the others out of the strip."
+    },
+    {
+      "sceneId": "s03",
+      "beat": "concept",
+      "narration": "Economists call this opportunity cost. The real price of anything is the best thing you gave up for it.",
+      "visualIdea": "A price tag hangs on the choice; on the tag is not money but the drawing of what was pushed out."
+    },
+    {
+      "sceneId": "s04",
+      "beat": "analysis",
+      "narration": "We feel the money we spend. We almost never feel the option we lost, because it never shows up on a receipt.",
+      "visualIdea": "Two receipts side by side: one shows what you paid, a hidden second receipt slides out from behind it."
+    },
+    {
+      "sceneId": "s05",
+      "beat": "conclusion",
+      "narration": "So before your next big yes, ask one question: what is it saying no to?",
+      "visualIdea": "The YES and its NO shadow turn to face each other."
+    }
+  ],
+  "estimatedSec": 32.4,
+  "claims": [
+    {
+      "text": "Opportunity cost is the value of the best alternative given up when making a choice.",
+      "kind": "definition",
+      "status": "widely_known",
+      "role": "names the concept"
+    }
+  ]
+}

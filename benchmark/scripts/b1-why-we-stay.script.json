@@ -1,0 +1,69 @@
+{
+  "schema": "erkasa.script/1",
+  "title": "Why we stay where it hurts",
+  "topic": "why people stay in jobs, relationships and situations that make them unhappy",
+  "theme": "psychology",
+  "language": "en",
+  "hook": "It is five fifty-eight. Dritan has stopped typing. He has been waiting for this minute all day.",
+  "promise": "People often stay not because they are happy, but because leaving feels more frightening than suffering, and the more they have invested the harder it gets (the sunk cost fallacy).",
+  "opening": "situation",
+  "shape": "one_moment",
+  "takeaway": {
+    "kind": "question",
+    "text": "Ignore what you have already given. Would you choose this today?"
+  },
+  "scenes": [
+    {
+      "sceneId": "s01",
+      "beat": "hook",
+      "narration": "It is five fifty-eight. Dritan has stopped typing. He has been waiting for this minute all day.",
+      "visualIdea": "Close on a wall clock at 5:58, then the man at his desk who has stopped typing.",
+      "setting": "an office at the end of the day",
+      "emotion": "tired"
+    },
+    {
+      "sceneId": "s02",
+      "beat": "problem",
+      "narration": "For six years he has hated this job. He knows it. And every evening he imagines a different life, just outside that window.",
+      "visualIdea": "He looks up from the screen to the window, a long look, then a sigh.",
+      "setting": "the same office, golden light from the window",
+      "emotion": "longing"
+    },
+    {
+      "sceneId": "s03",
+      "beat": "situation",
+      "narration": "Then he sits back down and tells himself that tomorrow might be better.",
+      "visualIdea": "He sits back down; the light fades.",
+      "emotion": "resigned"
+    },
+    {
+      "sceneId": "s04",
+      "beat": "concept",
+      "narration": "We rarely stay because we are happy. We stay because leaving feels more frightening than suffering.",
+      "visualIdea": "The same man in the same chair, inside a cage whose door is open. He leans toward the light and does not get up.",
+      "emotion": "afraid"
+    },
+    {
+      "sceneId": "s05",
+      "beat": "analysis",
+      "narration": "Psychologists call one part of this the sunk cost fallacy. The more we have given, the harder we hold on. But the past cannot be bought back by spending more of the future.",
+      "visualIdea": "Years drop onto one side of a scale and outweigh the empty side, then fall away into the dark."
+    },
+    {
+      "sceneId": "s06",
+      "beat": "conclusion",
+      "narration": "So the question is not what you have already given. It is what you are still willing to give.",
+      "visualIdea": "He stands up inside the cage and turns toward the open door.",
+      "emotion": "resolved"
+    }
+  ],
+  "estimatedSec": 44.0,
+  "claims": [
+    {
+      "text": "The sunk cost fallacy: continuing something because of what has already been invested, not because of its future value.",
+      "kind": "definition",
+      "status": "widely_known",
+      "role": "names the mechanism behind staying"
+    }
+  ]
+}

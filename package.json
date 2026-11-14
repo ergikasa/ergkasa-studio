@@ -27,7 +27,8 @@
     "voices": "pnpm --filter @erkasa/ai-worker voices",
     "worker": "pnpm --filter @erkasa/ai-worker worker",
     "assets:validate": "node tools/run-python.mjs tools/asset-validate/validate.py",
-    "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm assets:validate"
+    "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm assets:validate",
+    "bench": "node tools/run-python.mjs tools/benchmark/measure.py"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

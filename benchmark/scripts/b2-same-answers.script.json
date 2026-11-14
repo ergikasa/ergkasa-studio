@@ -1,0 +1,65 @@
+{
+  "schema": "erkasa.script/1",
+  "title": "Same answers, two verdicts",
+  "topic": "the halo effect: why a first impression changes how we judge everything after it",
+  "theme": "psychology",
+  "language": "en",
+  "hook": "Same person. Same answers. Two completely different interviews.",
+  "promise": "One visible trait colours how we judge everything else about a person (the halo effect).",
+  "opening": "contrast",
+  "shape": "two_paths",
+  "takeaway": {
+    "kind": "question",
+    "text": "Before you judge an answer, ask whether you already judged the person."
+  },
+  "scenes": [
+    {
+      "sceneId": "s01",
+      "beat": "hook",
+      "narration": "Same person. Same answers. Two completely different interviews.",
+      "visualIdea": "Two doors, the same candidate walks through both: once in a wrinkled hoodie, once in a suit."
+    },
+    {
+      "sceneId": "s02",
+      "beat": "situation",
+      "narration": "Alex walks in, hands over his CV and answers every question well. The interviewer nods politely and writes almost nothing.",
+      "visualIdea": "Alex walks in, in a hoodie, hands his CV across the desk. Maria barely looks up and keeps typing.",
+      "setting": "an interview office",
+      "emotion": "nervous"
+    },
+    {
+      "sceneId": "s03",
+      "beat": "situation",
+      "narration": "Now the same Alex walks in wearing a suit. Same CV, same answers. This time she leans in and fills the page.",
+      "visualIdea": "The same scene again: Alex in a suit. Maria leans forward, smiles, takes notes.",
+      "setting": "the same office"
+    },
+    {
+      "sceneId": "s04",
+      "beat": "concept",
+      "narration": "Psychologists call this the halo effect. One thing we notice first spills over onto everything else.",
+      "visualIdea": "Over Alex's head a soft glow appears that only the interviewer seems to see."
+    },
+    {
+      "sceneId": "s05",
+      "beat": "analysis",
+      "narration": "The suit did not make him smarter. It changed what she was looking for.",
+      "visualIdea": "Her notes: on one side 'smart, reliable, a leader', on the other almost blank."
+    },
+    {
+      "sceneId": "s06",
+      "beat": "conclusion",
+      "narration": "So next time an answer impresses you, ask what you saw before you heard it.",
+      "visualIdea": "Alex alone, in neither outfit, looking at the viewer."
+    }
+  ],
+  "estimatedSec": 34.5,
+  "claims": [
+    {
+      "text": "Edward Thorndike described the halo effect in 1920 after studying how officers rated soldiers.",
+      "kind": "study",
+      "status": "to_verify",
+      "role": "gives the effect its origin and name"
+    }
+  ]
+}

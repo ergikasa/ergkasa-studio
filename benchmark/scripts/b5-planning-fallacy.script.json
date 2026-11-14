@@ -1,0 +1,68 @@
+{
+  "schema": "erkasa.script/1",
+  "title": "It always takes longer",
+  "topic": "the planning fallacy: why we underestimate how long things take",
+  "theme": "decisions",
+  "language": "en",
+  "hook": "Why does everything take longer than you planned?",
+  "promise": "We plan for the best case even when we know our past projects ran late (the planning fallacy).",
+  "opening": "question",
+  "shape": "rewind",
+  "takeaway": {
+    "kind": "tool",
+    "text": "Plan from how long it took last time, not from how long it should take."
+  },
+  "scenes": [
+    {
+      "sceneId": "s01",
+      "beat": "hook",
+      "narration": "Why does everything take longer than you planned?",
+      "visualIdea": "A calendar with one date circled; the pages start to fly."
+    },
+    {
+      "sceneId": "s02",
+      "beat": "situation",
+      "narration": "Week one. Lea plans her thesis: one month, maybe five weeks. She has a plan on the wall.",
+      "visualIdea": "Lea at her desk in week one, confident, a neat plan on the wall.",
+      "setting": "a student room",
+      "emotion": "confident"
+    },
+    {
+      "sceneId": "s03",
+      "beat": "situation",
+      "narration": "Week six. Week seven. The plan is still on the wall. The thesis is not finished.",
+      "visualIdea": "Weeks pass on the wall; the plan gets covered in notes; cups pile up; it is night.",
+      "setting": "the same room, weeks later, at night",
+      "emotion": "stressed"
+    },
+    {
+      "sceneId": "s04",
+      "beat": "concept",
+      "narration": "Psychologists call this the planning fallacy. We imagine the best case, and forget how our last project went.",
+      "visualIdea": "Two timelines: the plan in a straight line, the real one with detours."
+    },
+    {
+      "sceneId": "s05",
+      "beat": "analysis",
+      "narration": "In one well-known study, students guessed about thirty-four days for their thesis. It took them about fifty-six.",
+      "visualIdea": "A study's two bars: the students' estimate and the real time."
+    },
+    {
+      "sceneId": "s06",
+      "beat": "conclusion",
+      "narration": "So plan from how long it took last time, not from how long it should take.",
+      "visualIdea": "Lea pins her old timeline next to the new plan.",
+      "emotion": "calm"
+    }
+  ],
+  "estimatedSec": 33.8,
+  "claims": [
+    {
+      "text": "Buehler, Griffin and Ross (1994): students predicted about 34 days to finish their thesis; the average was about 56 days.",
+      "kind": "study",
+      "status": "to_verify",
+      "role": "evidence for the planning fallacy",
+      "source": "Buehler, Griffin & Ross, Journal of Personality and Social Psychology, 1994"
+    }
+  ]
+}
