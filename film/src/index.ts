@@ -6,3 +6,16 @@ export { SETS, describeSets } from "./sets.js";
 export { PARAMS, TEMPLATES } from "./templates.js";
 export { layoutTiming, shotTimes, type Timing } from "./timing.js";
 export type { Issue } from "./perform.js";
+export {
+  direct,
+  decode,
+  encode,
+  review,
+  repairBrief,
+  directorSystem,
+  DIRECTOR_SCHEMA,
+  type DirectorLlm,
+  type DirectResult,
+  type DirectOptions,
+} from "./director.js";
+export { directorExample } from "./examples.js";

@@ -5,7 +5,8 @@
 import { spawn } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { createRequire } from "node:module";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import type { TimedWord } from "@erkasa/compiler";
 import { Script } from "@erkasa/contracts";
 import { compose, frameAt, type Composed } from "./compose.js";
@@ -96,10 +97,12 @@ export function storyboard(job: FilmJob, dir: string): string[] {
 }
 
 const CHILD = fileURLToPath(new URL("./shot-child.ts", import.meta.url));
+/** The child runs TypeScript whatever started the parent (tsx, vitest, node --import): load tsx explicitly. */
+const TSX = createRequire(import.meta.url).resolve("tsx/esm");
 
 function renderInChild(jobFile: string, i: number, out: string): Promise<void> {
   return new Promise((resolve, reject) => {
-    const p = spawn(process.execPath, [...process.execArgv, CHILD, jobFile, String(i), out], {
+    const p = spawn(process.execPath, ["--import", pathToFileURL(TSX).href, CHILD, jobFile, String(i), out], {
       stdio: ["ignore", "ignore", "pipe"],
     });
     let err = "";

@@ -16,6 +16,7 @@ import {
   stepVoice,
   type Progress,
 } from "./steps.js";
+import { FILM_FILES, engineFor, hasFilmPlan, stepFilmPlan, stepFilmRender } from "./film-steps.js";
 import { ElevenLabsVoice, type Voice } from "./voice.js";
 import { loadVoiceCatalog, resolvePreset } from "./voice-catalog.js";
 
@@ -125,8 +126,33 @@ export async function executeTask(
       };
     }
     case "visual.plan": {
-      progress(5, "planning the visuals");
       const script = loadScript(dir);
+      if (engineFor(p["engine"]) === "film") {
+        progress(5, "directing the film");
+        const res = await stepFilmPlan(dir, script, preset(), deps.llm());
+        if (!res.plan) {
+          const last = res.attempts[res.attempts.length - 1];
+          const summary = (last?.errors ?? [])
+            .slice(0, 5)
+            .map((e) => `${e.code} ${e.path}: ${e.message}`)
+            .join("; ");
+          throw new TaskFailure(
+            "PLAN_INVALID",
+            `no valid film plan after ${res.attempts.length} attempts: ${summary} (see ${FILM_FILES.attempts})`,
+            true,
+          );
+        }
+        return {
+          outputs: [ref(cmd.runId, FILM_FILES.plan, "plan", "application/json")],
+          metrics: {
+            ...usageMetrics(res.usage),
+            planAttempts: res.attempts.length,
+            shots: res.plan.shots.length,
+            directionIssues: res.attempts[res.attempts.length - 1]?.warnings.length ?? 0,
+          },
+        };
+      }
+      progress(5, "planning the visuals");
       const res = await stepPlan(
         dir,
         script,
@@ -157,8 +183,24 @@ export async function executeTask(
       };
     }
     case "render.finalize": {
-      progress(0, "compiling");
       const started = Date.now();
+      if (hasFilmPlan(dir)) {
+        progress(0, "composing the shots");
+        const res = await stepFilmRender(dir, loadScript(dir), { music: p["music"] !== false, progress });
+        progress(100, "film rendered");
+        return {
+          outputs: [
+            ref(cmd.runId, RUN_FILES.video, "video", "video/mp4"),
+            ref(cmd.runId, FILM_FILES.plan, "plan", "application/json"),
+          ],
+          metrics: {
+            durationSec: Math.round(res.durationSec * 100) / 100,
+            renderSec: Math.round((Date.now() - started) / 100) / 10,
+            warnings: res.warnings,
+          },
+        };
+      }
+      progress(0, "compiling");
       const res = await stepRender(dir, loadPlan(dir), {
         catalog: deps.catalog,
         music: p["music"] !== false,

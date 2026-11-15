@@ -49,7 +49,9 @@ describe("soundtrack step", () => {
     };
     for (const e of cat.entries.filter((x) => x["id"] === "m_explain_calm" || x["id"] === "sfx_pop_clean")) {
       e["status"] = "imported";
-      e["imported"] = imported;
+      // the track is as long as its catalogued sections (the catalog rejects a section past the end)
+      const ends = ((e["sections"] as Array<{ end: number }> | undefined) ?? []).map((x) => x.end);
+      e["imported"] = { ...imported, durationSec: Math.max(imported.durationSec, ...ends) };
     }
     const file = join(lib, "catalog.json");
     writeFileSync(file, JSON.stringify(cat));

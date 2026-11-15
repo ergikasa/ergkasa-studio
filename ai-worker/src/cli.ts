@@ -14,7 +14,8 @@ import { loadVoiceCatalog, voiceCatalogPath } from "./voice-catalog.js";
 import { runWorkerForever } from "./worker.js";
 
 const USAGE = `Usage:
-  pnpm video "<topic>" --theme <theme> [--voice <id>] [--seconds 45] [--notes "..."] [--no-voice] [--no-music]
+  pnpm video "<topic>" --theme <theme> [--voice <id>] [--seconds 45] [--notes "..."] [--no-voice] [--no-music] [--engine film|v1]
+                              engine: film (v2, default; ERKASA_ENGINE) or v1 (the old scene engine)
   pnpm video --from-script <run>/script.json [--voice <id>] [--no-voice]
   pnpm video --from-plan <run>/video-plan.json [--voice <id>] [--no-voice]
   pnpm video:rerender <run> [--name video-h1.mp4] [--no-music]
@@ -47,6 +48,7 @@ async function make(argv: string[]): Promise<void> {
       host: { type: "string" },
       "no-music": { type: "boolean", default: false },
       out: { type: "string" },
+      engine: { type: "string" },
     },
   });
   const topic = positionals.join(" ").trim();
@@ -77,6 +79,7 @@ async function make(argv: string[]): Promise<void> {
       noVoice,
       ...(values.voice ? { voice: values.voice } : {}),
       ...(values.host ? { host: values.host } : {}),
+      ...(values.engine ? { engine: values.engine } : {}),
       music: values["no-music"] !== true,
     },
     {

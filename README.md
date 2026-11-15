@@ -15,6 +15,8 @@ engine/         Motori 2D: renderFrame(n) → SVG; personazhe, kamerë, parallax
 compiler/       Scene Plan semantik (çfarë shkruan AI-ja) → Render Timeline frame pas frame, me validim
 engine-worker/  Kthen një Render Timeline ose një Video Plan në MP4 (resvg + FFmpeg); demo te engine-worker/demo/
 backend/        Spring Boot 4.1, Java 21: projektet, regjistri i aseteve (REST), orkestrimi
+film/           Motori v2 (Studio v2): Film Plan me shote, sete, aktrim, templata, regjisori AI, render paralel
+benchmark/      5 skenarë të ngrirë + matja e videos (`pnpm bench`) për të krahasuar motorët
 ai-worker/      AI: skenari dhe plani vizual (Claude), zëri me kohën e fjalëve (ElevenLabs), `pnpm video`
 studio/         UI (Vite + React): Rig Lab, Biblioteka e aseteve, Plan Preview, me motorin e vërtetë në shfletues
 assets/         Biblioteka e aseteve: 402 asete me metadata (shih assets/README.md)
@@ -71,6 +73,22 @@ pnpm studio                                                # 4. http://127.0.0.1
 Te **New video** zgjidh temën, kategorinë, narratorin dhe gjatësinë. Te **Runs** ndjek çdo hap live
 (skenari, zëri, plani, render-i), shikon koston, videon, skedarët, dhe bën **Resume** pas një gabimi.
 Skedarët e çdo run-i: `out/runs/<runId>/`. "Silent test" e kalon gjithë rrjedhën pa ElevenLabs.
+
+### Motori v2: Film (Studio v2)
+
+Nga dega `studio-v2`, çdo video e re (UI ose `pnpm video`) bëhet me motorin `film/`: regjisori AI shkruan
+`film-plan.json` (shote të ankoruara te fjalët, sete, aktrim, templata editoriale), motori e kontrollon dhe ia
+kthen gabimet modelit deri në 3 herë, pastaj e renderon shot pas shoti paralelisht. Në run folder shfaqen
+`film-plan.json`, `film-attempts.json` (çdo përpjekje me gabimet e saj) dhe `film-issues.json` (paralajmërimet
+e QA-së). Motori i vjetër mbetet: `ERKASA_ENGINE=v1` te `.env`, ose `pnpm video ... --engine v1`.
+
+```bash
+cd film
+npx tsx src/cli.ts check      ../benchmark/scripts/b1-why-we-stay.script.json plans/b1-why-we-stay.film.json
+npx tsx src/cli.ts storyboard ../benchmark/scripts/b1-why-we-stay.script.json plans/b1-why-we-stay.film.json /tmp/sb
+npx tsx src/cli.ts render     ../benchmark/scripts/b1-why-we-stay.script.json plans/b1-why-we-stay.film.json /tmp/b1.mp4 --workers 2
+pnpm bench /tmp/b1.mp4        # nga rrënja: shote, kohë e vdekur, % e sekondave me lëvizje
+```
 
 ### Video nga një temë në terminal (Faza E)
 

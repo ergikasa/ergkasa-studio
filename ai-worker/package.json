@@ -23,7 +23,8 @@
     "@erkasa/contracts": "workspace:*",
     "@erkasa/engine": "workspace:*",
     "@erkasa/engine-worker": "workspace:*",
-    "amqplib": "0.10.8"
+    "amqplib": "0.10.8",
+    "@erkasa/film": "workspace:*"
   },
   "devDependencies": {
     "tsx": "4.23.15",

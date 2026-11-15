@@ -14,6 +14,7 @@ import {
   writeJson,
   type Narration,
 } from "./steps.js";
+import { FILM_FILES, engineFor, stepFilmPlan, stepFilmRender } from "./film-steps.js";
 import type { Voice } from "./voice.js";
 import { loadVoiceCatalog, resolvePreset } from "./voice-catalog.js";
 
@@ -36,6 +37,8 @@ export interface MakeOptions {
   /** Placeholder music bed under the voice (default true until real music exists). */
   music?: boolean;
   outDir?: string;
+  /** "film" (v2, default) or "v1"; default from ERKASA_ENGINE. A resumed --from-plan is always v1. */
+  engine?: string;
   log?: (line: string) => void;
 }
 
@@ -155,6 +158,43 @@ export async function makeVideo(opts: MakeOptions, deps: MakeDeps = {}): Promise
     const track = await time("voice", () => stepVoice(outDir, narrations, voice));
     voiceCharacters = track.characters;
     for (const c of track.scenes) log(`voice ${c.sceneId}: ${c.durationSec.toFixed(2)}s`);
+  }
+
+  // 3+4 on the v2 engine: the AI director writes film-plan.json, the film engine renders it
+  if (!plan && engineFor(opts.engine) === "film") {
+    if (!deps.llm) throw new Error("no language model configured");
+    const llm = deps.llm;
+    const s = script as Script;
+    const res = await time("plan", () => stepFilmPlan(outDir, s, preset, llm));
+    usage.push(...res.usage);
+    planAttempts = res.attempts.length;
+    const last = res.attempts[res.attempts.length - 1];
+    if (!res.plan) {
+      log(
+        `film plan: still ${last?.errors.length ?? 0} error(s) after ${planAttempts} attempts; see ${FILM_FILES.attempts}`,
+      );
+      for (const e of (last?.errors ?? []).slice(0, 10)) log(`  ${e.code} ${e.path}: ${e.message}`);
+      return finish();
+    }
+    log(`film plan: ${res.plan.shots.length} shots, clean on attempt ${planAttempts}`);
+    for (const w of last?.warnings ?? []) {
+      const line = `film ${w.code} ${w.path}: ${w.message}`;
+      warnings.push(line);
+      log(`  ${line}`);
+    }
+    let lastLogged = -1;
+    const film = await time("render", () =>
+      stepFilmRender(outDir, s, {
+        music: opts.music ?? true,
+        progress: (pct) => {
+          if (pct % 10 === 0 && pct !== lastLogged) {
+            lastLogged = pct;
+            log(`render ${pct}%`);
+          }
+        },
+      }),
+    );
+    return finish({ video: film.video, durationSec: film.durationSec });
   }
 
   // 3. plan

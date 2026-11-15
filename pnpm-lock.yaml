@@ -41,6 +41,9 @@ importers:
       '@erkasa/engine-worker':
         specifier: workspace:*
         version: link:../engine-worker
+      '@erkasa/film':
+        specifier: workspace:*
+        version: link:../film
       amqplib:
         specifier: 0.10.8
         version: 0.10.8
@@ -139,13 +142,13 @@ importers:
       '@resvg/resvg-js':
         specifier: 2.6.2
         version: 2.6.2
+      tsx:
+        specifier: 4.23.15
+        version: 4.23.15
       zod:
         specifier: 4.6.7
         version: 4.6.7
     devDependencies:
-      tsx:
-        specifier: 4.23.15
-        version: 4.23.15
       vitest:
         specifier: 5.1.0
         version: 5.1.0(@types/node@22.19.1)(vite@8.3.6(@types/node@22.19.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15))
