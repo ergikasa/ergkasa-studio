@@ -172,7 +172,7 @@ const roomSet: SetDef = {
     wall: { x: 900, kind: "stand", facing: 1, look: [1180, 700] },
     desk_top: { x: 860, kind: "stand", facing: 1, surfaceY: 1290 },
   },
-  props: { cup: { kind: "cup", x: 1180, y: 1262 }, paper: { kind: "paper", x: 820, y: 1270 } },
+  props: { cup: { kind: "cup", x: 860, y: 1262 }, paper: { kind: "paper", x: 760, y: 1270 } },
   targets: { plan: [1180, 700], window_view: [330, 560], laptop: [1000, 1170] },
   back: (s) =>
     room(1700, 2100, ROOM_FLOOR, s) +

@@ -150,38 +150,41 @@ type Draw = (ctx: TemplateCtx) => { bg: string; svg: string };
 const statement: Draw = ({ t, dur }) => ({
   bg: C.night,
   svg: `<circle cx="${fmt(
-    760 +
+    800 -
       K(t, [
         [0, 0],
-        [dur, -160],
+        [dur, 90],
       ]),
-  )}" cy="${fmt(
-    1250 -
-      K(t, [
-        [0, 0],
-        [dur, 120],
-      ]),
-  )}" r="${fmt(
+  )}" cy="1320" r="${fmt(
     K(t, [
-      [0, 300],
-      [0.8, 420, "back"],
-      [dur, 470],
+      [0, 120],
+      [0.9, 300, "back"],
+      [dur, 360],
     ]),
-  )}" fill="${C.ochre}" opacity=".16"/>
+  )}" fill="none" stroke="${C.ochre}" stroke-width="3" opacity=".45"/>
         <circle cx="${fmt(
-          300 +
+          800 -
             K(t, [
               [0, 0],
-              [dur, 120],
+              [dur, 90],
             ]),
-        )}" cy="1500" r="${fmt(
+        )}" cy="1320" r="${fmt(
           K(t, [
-            [0, 140],
-            [dur, 220],
+            [0.2, 60],
+            [1.1, 190, "back"],
+            [dur, 230],
           ]),
-        )}" fill="${C.coral}" opacity=".12"/>
+        )}" fill="none" stroke="${C.coral}" stroke-width="2" opacity=".35"/>
+        <circle cx="${fmt(
+          800 -
+            K(t, [
+              [0, 0],
+              [dur, 90],
+            ]) +
+            Math.cos(t * 0.9) * 300,
+        )}" cy="${fmt(1320 + Math.sin(t * 0.9) * 300)}" r="12" fill="${C.ochre}"/>
         <rect x="90" y="${fmt(
-          1500 +
+          1100 +
             K(t, [
               [0, 40],
               [0.6, 0, "back"],
@@ -290,13 +293,13 @@ const curves: Draw = ({ t, dur, params }) => {
     return pts.join(" ");
   };
   const endV = (end: number): number => Math.pow(end, Math.pow(p, 1.6));
-  const tip = (end: number, col: string, name: string): string => {
+  const tip = (end: number, col: string, name: string, dy: number): string => {
     if (p < 0.05) return "";
     const x = x0 + p * (x1 - x0),
       y = yOf(endV(end));
     const v = endV(end);
     const shown = v >= 10 ? v.toFixed(0) : v.toFixed(2);
-    return `<circle cx="${fmt(x)}" cy="${fmt(y)}" r="14" fill="${col}"/>${label(Math.min(x, 860), y - 34, `${name.toUpperCase()}  ${shown}×`, 30, col, 800, "middle", 1)}`;
+    return `<circle cx="${fmt(x)}" cy="${fmt(y)}" r="14" fill="${col}"/>${label(Math.min(x, 860), y + dy, `${name.toUpperCase()}  ${shown}×`, 30, col, 800, "middle", 1)}`;
   };
   return {
     bg: C.night,
@@ -305,7 +308,7 @@ const curves: Draw = ({ t, dur, params }) => {
       <line x1="${x0}" y1="${fmt(yOf(1))}" x2="${x1}" y2="${fmt(yOf(1))}" stroke="${C.cream}" stroke-width="2" stroke-dasharray="8 10" opacity=".35"/>
       <polyline points="${path(b.end)}" fill="none" stroke="${C.coral}" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
       <polyline points="${path(a.end)}" fill="none" stroke="${C.ochre}" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-      ${tip(b.end, C.coral, b.label)}${tip(a.end, C.ochre, a.label)}
+      ${tip(b.end, C.coral, b.label, 64)}${tip(a.end, C.ochre, a.label, -34)}
       ${label(x0, base + 60, String(params["start"] ?? "DAY 1"), 28, C.cream, 500, "start")}${label(x1, base + 60, String(params["finish"] ?? "DAY 365"), 28, C.cream, 500, "end")}`,
   };
 };
@@ -385,36 +388,63 @@ const wordShadow: Draw = ({ t, dur, params }) => {
   };
 };
 
+/** The evening passing: a playhead across the strip and the clock time above it. */
+function playhead(t: number, dur: number, x0: number, x1: number, y: number, h: number): string {
+  const p = ramp(t, 0.3, dur, "lin");
+  const x = x0 + (x1 - x0) * p;
+  const mins = Math.round(19 * 60 + p * 4 * 60);
+  const hh = Math.floor(mins / 60) % 12 || 12,
+    mm = mins % 60;
+  return `<rect x="${fmt(x - 4)}" y="${y - 40}" width="8" height="${h + 80}" rx="4" fill="${C.cream}"/>
+    ${label(Math.min(x1 - 40, Math.max(x0 + 40, x)), y - 56, `${hh}:${String(mm).padStart(2, "0")} PM`, 34, C.cream, 800, "middle", 1)}`;
+}
+
 const timeStrip: Draw = (ctx) => {
-  const { t, params } = ctx;
+  const { t, dur, params } = ctx;
   const segs = (params["segments"] as string[]) ?? [];
   const keep = Math.min(segs.length - 1, Number(params["keep"] ?? 0));
   const pushT = typeof params["pushAt"] === "string" ? (ctx.at(params["pushAt"]) ?? 1.5) : 1.5;
   const p = ramp(t, pushT, pushT + 0.9, "back");
   const x0 = 120,
     x1 = 960,
-    y = 980,
+    y = 760,
     h = 220;
   const w = (x1 - x0) / segs.length;
   const cols = [C.teal, C.coral, C.ochre, C.slate, "#8E6BB0"];
+  const lost = segs.map((_, i) => i).filter((i) => i !== keep);
   return {
     bg: C.night,
-    svg: `${label(x0, y - 70, String(params["label"] ?? "").toUpperCase(), 34, C.cream, 500, "start", 6)}
+    svg: `${label(x0, y - 150, String(params["label"] ?? "").toUpperCase(), 34, C.cream, 500, "start", 6)}
       <rect x="${x0 - 8}" y="${y - 8}" width="${x1 - x0 + 16}" height="${h + 16}" rx="18" fill="none" stroke="${C.cream}" stroke-width="4" opacity=".6"/>
+      ${label(x0, 1250, "WHAT IT COST", 30, C.cream, 500, "start", 6).replace("<text", `<text opacity="${fmt(ramp(t, pushT + 0.6, pushT + 1.1))}"`)}
       ${segs
         .map((s, i) => {
-          const isKeep = i === keep;
           const sx = x0 + i * w;
-          const nx = isKeep ? sx + (x0 - sx) * p : sx + (i < keep ? -1 : 1) * 700 * p;
-          const nw = isKeep ? w + (x1 - x0 - w) * p : w;
           const appear = K(t, [
             [0.15 * i, 0],
             [0.15 * i + 0.4, 1, "back"],
           ]);
-          return `<g opacity="${fmt(isKeep ? 1 : 1 - clamp(p))}"><rect x="${fmt(nx + 4)}" y="${fmt(y + (1 - appear) * 60)}" width="${fmt(nw - 8)}" height="${h}" rx="12" fill="${cols[i % cols.length]}"/>
-            ${label(nx + nw / 2, y + h / 2 + 12, s.toUpperCase(), fit(s.toUpperCase(), isKeep ? 40 + 14 * p : 30, nw - 24, "light"), C.cream, 800, "middle", 1)}</g>`;
+          if (i === keep) {
+            const nx = sx + (x0 - sx) * p,
+              nw = w + (x1 - x0 - w) * p;
+            return `<rect x="${fmt(nx + 4)}" y="${fmt(y + (1 - appear) * 60)}" width="${fmt(nw - 8)}" height="${h}" rx="12" fill="${cols[i % cols.length]}"/>
+              ${label(nx + nw / 2, y + h / 2 + 14, s.toUpperCase(), fit(s.toUpperCase(), 30 + 18 * clamp(p), nw - 24, "light"), C.cream, 800, "middle", 1)}`;
+          }
+          // a lost activity drops out of the evening into the row below, and gets crossed out
+          const k = lost.indexOf(i);
+          const d = ramp(t, pushT + k * 0.25, pushT + 0.9 + k * 0.25, "back");
+          const tx = x0 + k * ((x1 - x0) / lost.length);
+          const tw = (x1 - x0) / lost.length;
+          const nx = sx + (tx - sx) * d,
+            nw = w + (tw - w) * d,
+            ny = y + (1330 - y) * d;
+          const strike = ramp(t, pushT + 1.0 + k * 0.35, pushT + 1.5 + k * 0.35, "out");
+          return `<g opacity="${fmt(1 - 0.45 * d)}"><rect x="${fmt(nx + 4)}" y="${fmt(ny + (1 - appear) * 60)}" width="${fmt(nw - 8)}" height="${fmt(h - 70 * d)}" rx="12" fill="${cols[i % cols.length]}"/>
+            ${label(nx + nw / 2, ny + (h - 70 * d) / 2 + 12, s.toUpperCase(), fit(s.toUpperCase(), 30, nw - 24, "light"), C.cream, 800, "middle", 1)}</g>
+            ${strike > 0.01 ? `<rect x="${fmt(nx + 14)}" y="${fmt(ny + (h - 70) / 2 - 3)}" width="${fmt((nw - 28) * strike)}" height="6" rx="3" fill="${C.cream}"/>` : ""}`;
         })
-        .join("")}`,
+        .join("")}
+      ${playhead(t, dur, x0, x1, y, h)}`,
   };
 };
 

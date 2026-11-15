@@ -1,0 +1,278 @@
+{
+  "schema": "erkasa.film/1",
+  "title": "Every yes is a no",
+  "voiceId": "mark_natural",
+  "cast": [
+    {
+      "id": "sam",
+      "name": "Sam",
+      "build": "man",
+      "coat": "#264653",
+      "hair": "#1B1B2F"
+    }
+  ],
+  "shots": [
+    {
+      "id": "sh01",
+      "scene": "s01",
+      "from": "start",
+      "moment": "Every yes casts the shadow of a no.",
+      "kind": "editorial",
+      "template": "word_shadow",
+      "params": {
+        "word": "YES",
+        "shadow": "NO"
+      }
+    },
+    {
+      "id": "sh02",
+      "scene": "s02",
+      "from": "start",
+      "moment": "One evening, one person, one choice.",
+      "kind": "set",
+      "set": "room",
+      "light": "night",
+      "framing": "wide",
+      "camera": "drift",
+      "actors": [
+        {
+          "id": "sam",
+          "at": "chair",
+          "pose": "seated",
+          "mood": "happy"
+        }
+      ],
+      "actions": [
+        {
+          "who": "sam",
+          "do": "look",
+          "target": "laptop",
+          "at": "start"
+        },
+        {
+          "who": "sam",
+          "do": "pick_up",
+          "target": "cup",
+          "at": "word:evening"
+        }
+      ],
+      "text": {
+        "lines": [
+          {
+            "t": "One evening.",
+            "weight": "bold",
+            "accent": true
+          }
+        ],
+        "at": "word:one",
+        "place": "top"
+      }
+    },
+    {
+      "id": "sh03",
+      "scene": "s02",
+      "from": "word:if",
+      "moment": "Choosing the series pushes everything else out.",
+      "kind": "editorial",
+      "template": "time_strip",
+      "params": {
+        "label": "Tonight",
+        "segments": ["Series", "Gym", "Call", "Project"],
+        "keep": 0,
+        "pushAt": "word:not"
+      },
+      "text": {
+        "lines": [
+          {
+            "t": "Everything else"
+          },
+          {
+            "t": "pushed out.",
+            "weight": "bold",
+            "accent": true
+          }
+        ],
+        "at": "word:gym",
+        "place": "top"
+      }
+    },
+    {
+      "id": "sh04",
+      "scene": "s03",
+      "from": "start",
+      "moment": "The idea has a name.",
+      "kind": "editorial",
+      "template": "statement",
+      "text": {
+        "lines": [
+          {
+            "t": "Opportunity"
+          },
+          {
+            "t": "cost",
+            "weight": "bold",
+            "accent": true
+          }
+        ],
+        "at": "word:opportunity",
+        "place": "top"
+      }
+    },
+    {
+      "id": "sh05",
+      "scene": "s03",
+      "from": "word:the",
+      "moment": "The real price is what you gave up.",
+      "kind": "editorial",
+      "template": "scale",
+      "params": {
+        "left": "You got",
+        "right": "You gave up",
+        "items": [
+          {
+            "label": "Series",
+            "side": "left",
+            "at": "word:real"
+          },
+          {
+            "label": "Gym",
+            "side": "right",
+            "at": "word:best"
+          },
+          {
+            "label": "Call",
+            "side": "right",
+            "at": "word:gave"
+          },
+          {
+            "label": "Project",
+            "side": "right",
+            "at": "word:up"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sh06",
+      "scene": "s04",
+      "from": "start",
+      "moment": "We see one receipt; the other one is hidden.",
+      "kind": "editorial",
+      "template": "receipts",
+      "params": {
+        "front": {
+          "title": "Receipt",
+          "lines": ["Streaming  12.99", "Snacks  4.50", "Total  17.49"]
+        },
+        "back": {
+          "title": "Hidden cost",
+          "lines": ["Gym session", "Call with Mum", "2 hours of work"]
+        },
+        "revealAt": "word:almost"
+      },
+      "text": {
+        "lines": [
+          {
+            "t": "We feel"
+          },
+          {
+            "t": "what we spend.",
+            "weight": "bold"
+          }
+        ],
+        "at": "sec:0.4",
+        "out": "word:almost",
+        "place": "top"
+      }
+    },
+    {
+      "id": "sh07",
+      "scene": "s04",
+      "from": "word:because",
+      "moment": "The hidden receipt never arrives.",
+      "kind": "set",
+      "set": "room",
+      "light": "night",
+      "framing": "medium",
+      "subject": "sam",
+      "camera": "push_in",
+      "actors": [
+        {
+          "id": "sam",
+          "at": "chair",
+          "pose": "seated",
+          "mood": "happy",
+          "holding": "cup"
+        }
+      ],
+      "actions": [
+        {
+          "who": "sam",
+          "do": "drink",
+          "at": "start"
+        },
+        {
+          "who": "sam",
+          "do": "mood",
+          "target": "thinking",
+          "at": "word:receipt"
+        }
+      ]
+    },
+    {
+      "id": "sh08",
+      "scene": "s05",
+      "from": "start",
+      "moment": "The question to ask.",
+      "kind": "set",
+      "set": "room",
+      "light": "night",
+      "framing": "close",
+      "subject": "sam",
+      "camera": "push_in",
+      "actors": [
+        {
+          "id": "sam",
+          "at": "chair",
+          "pose": "seated",
+          "mood": "thinking",
+          "holding": "cup"
+        }
+      ],
+      "actions": [
+        {
+          "who": "sam",
+          "do": "put_down",
+          "target": "desk_top",
+          "at": "start"
+        },
+        {
+          "who": "sam",
+          "do": "glance",
+          "target": "plan",
+          "at": "word:ask"
+        },
+        {
+          "who": "sam",
+          "do": "mood",
+          "target": "determined",
+          "at": "word:saying"
+        }
+      ],
+      "text": {
+        "lines": [
+          {
+            "t": "What is it"
+          },
+          {
+            "t": "saying no to?",
+            "weight": "bold",
+            "accent": true
+          }
+        ],
+        "at": "word:what",
+        "place": "top"
+      }
+    }
+  ]
+}

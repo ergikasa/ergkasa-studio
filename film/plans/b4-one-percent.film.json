@@ -1,0 +1,267 @@
+{
+  "schema": "erkasa.film/1",
+  "title": "One percent",
+  "voiceId": "mark_natural",
+  "cast": [
+    {
+      "id": "nora",
+      "name": "Nora",
+      "build": "woman",
+      "coat": "#2A9D8F",
+      "hair": "#5A3A2A"
+    }
+  ],
+  "shots": [
+    {
+      "id": "sh01",
+      "scene": "s01",
+      "from": "start",
+      "moment": "One percent looks like nothing.",
+      "kind": "editorial",
+      "template": "counter",
+      "params": {
+        "from": 0,
+        "to": 1,
+        "suffix": "%",
+        "label": "better, once"
+      }
+    },
+    {
+      "id": "sh02",
+      "scene": "s02",
+      "from": "start",
+      "moment": "Today's effort changes nothing she can see.",
+      "kind": "set",
+      "set": "room",
+      "light": "day",
+      "framing": "medium",
+      "subject": "nora",
+      "camera": "drift",
+      "actors": [
+        {
+          "id": "nora",
+          "at": "wall",
+          "pose": "standing",
+          "mood": "hopeful"
+        }
+      ],
+      "actions": [
+        {
+          "who": "nora",
+          "do": "look",
+          "target": "plan",
+          "at": "start"
+        },
+        {
+          "who": "nora",
+          "do": "mood",
+          "target": "sad",
+          "at": "word:nothing"
+        },
+        {
+          "who": "nora",
+          "do": "shake_head",
+          "at": "word:see"
+        }
+      ]
+    },
+    {
+      "id": "sh03",
+      "scene": "s02",
+      "from": "word:so",
+      "moment": "So she stops.",
+      "kind": "set",
+      "set": "room",
+      "light": "day",
+      "framing": "wide",
+      "camera": "drift",
+      "actors": [
+        {
+          "id": "nora",
+          "at": "wall",
+          "pose": "standing",
+          "mood": "sad"
+        }
+      ],
+      "actions": [
+        {
+          "who": "nora",
+          "do": "sigh",
+          "at": "start"
+        },
+        {
+          "who": "nora",
+          "do": "walk_to",
+          "target": "chair",
+          "at": "word:people"
+        }
+      ]
+    },
+    {
+      "id": "sh04",
+      "scene": "s03",
+      "from": "start",
+      "moment": "A small step, every single day.",
+      "kind": "editorial",
+      "template": "calendar",
+      "params": {
+        "from": 1,
+        "to": 30,
+        "label": "Day"
+      },
+      "text": {
+        "lines": [
+          {
+            "t": "1% better"
+          },
+          {
+            "t": "every day",
+            "weight": "bold",
+            "accent": true
+          }
+        ],
+        "at": "word:improve",
+        "place": "top"
+      }
+    },
+    {
+      "id": "sh04b",
+      "scene": "s03",
+      "from": "word:end",
+      "moment": "A year later: thirty-seven times better.",
+      "kind": "editorial",
+      "template": "counter",
+      "params": {
+        "from": 1,
+        "to": 37.8,
+        "decimals": 1,
+        "suffix": "\u00d7",
+        "label": "after one year"
+      }
+    },
+    {
+      "id": "sh05",
+      "scene": "s03",
+      "from": "word:get",
+      "moment": "Every day for a year, worse.",
+      "kind": "editorial",
+      "template": "counter",
+      "params": {
+        "from": 1,
+        "to": 0.03,
+        "decimals": 2,
+        "suffix": "\u00d7",
+        "label": "1% worse every day"
+      }
+    },
+    {
+      "id": "sh06",
+      "scene": "s04",
+      "from": "start",
+      "moment": "Invisible for months, then impossible to miss.",
+      "kind": "editorial",
+      "template": "curves",
+      "params": {
+        "a": {
+          "label": "Better",
+          "end": 37.8
+        },
+        "b": {
+          "label": "Worse",
+          "end": 0.03
+        },
+        "start": "DAY 1",
+        "finish": "DAY 365"
+      },
+      "text": {
+        "lines": [
+          {
+            "t": "Invisible,"
+          },
+          {
+            "t": "then obvious.",
+            "weight": "bold",
+            "accent": true
+          }
+        ],
+        "at": "word:then",
+        "place": "top"
+      }
+    },
+    {
+      "id": "sh07",
+      "scene": "s05",
+      "from": "start",
+      "moment": "She goes back to work, judging by the year.",
+      "kind": "set",
+      "set": "room",
+      "light": "day",
+      "framing": "medium",
+      "subject": "nora",
+      "camera": "push_in",
+      "actors": [
+        {
+          "id": "nora",
+          "at": "chair",
+          "pose": "seated",
+          "mood": "determined"
+        }
+      ],
+      "actions": [
+        {
+          "who": "nora",
+          "do": "type",
+          "at": "start",
+          "sec": 2.2
+        }
+      ]
+    },
+    {
+      "id": "sh08",
+      "scene": "s05",
+      "from": "word:judge#2",
+      "moment": "She looks at the long game.",
+      "kind": "set",
+      "set": "room",
+      "light": "day",
+      "framing": "close",
+      "subject": "nora",
+      "camera": "push_in",
+      "actors": [
+        {
+          "id": "nora",
+          "at": "chair",
+          "pose": "seated",
+          "mood": "determined"
+        }
+      ],
+      "actions": [
+        {
+          "who": "nora",
+          "do": "look",
+          "target": "plan",
+          "at": "start"
+        },
+        {
+          "who": "nora",
+          "do": "nod",
+          "at": "word:year"
+        }
+      ],
+      "text": {
+        "lines": [
+          {
+            "t": "Judge it"
+          },
+          {
+            "t": "by the year.",
+            "weight": "bold",
+            "accent": true
+          }
+        ],
+        "at": "sec:0.2",
+        "place": "top"
+      }
+    }
+  ]
+}
