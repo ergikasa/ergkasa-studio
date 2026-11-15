@@ -139,12 +139,12 @@ const interview: SetDef = {
     door: { x: 200, kind: "stand", facing: 1 },
     chair_l: { x: 560, kind: "seat", facing: 1, seatY: 1395, work: [790, 1266] },
     chair_r: { x: 1240, kind: "seat", facing: -1, seatY: 1395, work: [1010, 1266] },
-    stand_l: { x: 520, kind: "stand", facing: 1 },
-    stand_r: { x: 1290, kind: "stand", facing: -1 },
+    stand_l: { x: 640, kind: "stand", facing: 1 },
+    stand_r: { x: 1160, kind: "stand", facing: -1 },
     desk_top: { x: 900, kind: "stand", facing: 1, surfaceY: 1290 },
   },
   props: { notebook: { kind: "notebook", x: 1020, y: 1266 }, cv: { kind: "paper", x: 820, y: 1266 } },
-  targets: { door: [200, 1250], window_view: [900, 520] },
+  targets: { door: [200, 1250], window_view: [900, 520], maria_spot: [1210, 1050] },
   back: (s) =>
     room(1800, 2100, INT_FLOOR, s) +
     windowView(690, 260, 420, 520, s, false) +

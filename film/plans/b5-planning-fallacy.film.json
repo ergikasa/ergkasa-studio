@@ -1,0 +1,364 @@
+{
+  "schema": "erkasa.film/1",
+  "title": "It always takes longer",
+  "voiceId": "mark_natural",
+  "cast": [
+    {
+      "id": "lea",
+      "name": "Lea",
+      "build": "woman",
+      "coat": "#8E6BB0",
+      "hair": "#2B2118"
+    }
+  ],
+  "shots": [
+    {
+      "id": "sh01",
+      "scene": "s01",
+      "from": "start",
+      "moment": "Time slipping past a deadline.",
+      "kind": "editorial",
+      "template": "calendar",
+      "params": {
+        "from": 1,
+        "to": 7,
+        "label": "Week"
+      },
+      "text": {
+        "lines": [
+          {
+            "t": "Why does it"
+          },
+          {
+            "t": "always take",
+            "weight": "bold"
+          },
+          {
+            "t": "longer?",
+            "weight": "bold",
+            "accent": true
+          }
+        ],
+        "at": "sec:0.2",
+        "place": "top"
+      }
+    },
+    {
+      "id": "sh02",
+      "scene": "s02",
+      "from": "start",
+      "moment": "Week one: a confident plan on the wall.",
+      "kind": "set",
+      "set": "room",
+      "light": "day",
+      "framing": "wide",
+      "camera": "drift",
+      "actors": [
+        {
+          "id": "lea",
+          "at": "wall",
+          "pose": "standing",
+          "mood": "hopeful"
+        }
+      ],
+      "actions": [
+        {
+          "who": "lea",
+          "do": "point",
+          "target": "plan",
+          "at": "word:plans"
+        },
+        {
+          "who": "lea",
+          "do": "nod",
+          "at": "word:maybe"
+        }
+      ],
+      "text": {
+        "lines": [
+          {
+            "t": "Week 1",
+            "weight": "bold",
+            "accent": true
+          }
+        ],
+        "at": "start",
+        "out": "word:month",
+        "place": "top"
+      }
+    },
+    {
+      "id": "sh03",
+      "scene": "s02",
+      "from": "word:she",
+      "moment": "She believes her plan.",
+      "kind": "set",
+      "set": "room",
+      "light": "day",
+      "framing": "close",
+      "subject": "lea",
+      "camera": "push_in",
+      "actors": [
+        {
+          "id": "lea",
+          "at": "wall",
+          "pose": "standing",
+          "mood": "happy"
+        }
+      ],
+      "actions": [
+        {
+          "who": "lea",
+          "do": "look",
+          "target": "plan",
+          "at": "start"
+        },
+        {
+          "who": "lea",
+          "do": "nod",
+          "at": "word:wall"
+        }
+      ]
+    },
+    {
+      "id": "sh04",
+      "scene": "s03",
+      "from": "start",
+      "moment": "Weeks later, at night, still working.",
+      "kind": "set",
+      "set": "room",
+      "light": "night",
+      "framing": "wide",
+      "camera": "drift",
+      "actors": [
+        {
+          "id": "lea",
+          "at": "chair",
+          "pose": "seated",
+          "mood": "tired"
+        }
+      ],
+      "actions": [
+        {
+          "who": "lea",
+          "do": "type",
+          "at": "start",
+          "sec": 2.4
+        },
+        {
+          "who": "lea",
+          "do": "sigh",
+          "at": "word:seven"
+        }
+      ],
+      "text": {
+        "lines": [
+          {
+            "t": "Week 7",
+            "weight": "bold",
+            "accent": true
+          }
+        ],
+        "at": "word:seven",
+        "place": "top"
+      }
+    },
+    {
+      "id": "sh05",
+      "scene": "s03",
+      "from": "word:the",
+      "moment": "The plan is still there; the work is not done.",
+      "kind": "set",
+      "set": "room",
+      "light": "night",
+      "framing": "medium",
+      "subject": "lea",
+      "camera": "push_in",
+      "actors": [
+        {
+          "id": "lea",
+          "at": "chair",
+          "pose": "seated",
+          "mood": "tired"
+        }
+      ],
+      "actions": [
+        {
+          "who": "lea",
+          "do": "glance",
+          "target": "plan",
+          "at": "word:plan",
+          "sec": 1.2
+        },
+        {
+          "who": "lea",
+          "do": "hand_on_face",
+          "at": "word:not",
+          "sec": 1.2
+        }
+      ]
+    },
+    {
+      "id": "sh06",
+      "scene": "s04",
+      "from": "start",
+      "moment": "It has a name.",
+      "kind": "set",
+      "set": "room",
+      "light": "night",
+      "framing": "close",
+      "subject": "lea",
+      "camera": "push_in",
+      "actors": [
+        {
+          "id": "lea",
+          "at": "chair",
+          "pose": "seated",
+          "mood": "sad"
+        }
+      ],
+      "actions": [
+        {
+          "who": "lea",
+          "do": "look",
+          "target": "plan",
+          "at": "word:planning"
+        }
+      ],
+      "text": {
+        "lines": [
+          {
+            "t": "The planning"
+          },
+          {
+            "t": "fallacy",
+            "weight": "bold",
+            "accent": true
+          }
+        ],
+        "at": "word:planning",
+        "place": "top"
+      }
+    },
+    {
+      "id": "sh07",
+      "scene": "s04",
+      "from": "word:we",
+      "moment": "The plan we imagine against how it really went.",
+      "kind": "editorial",
+      "template": "cards",
+      "params": {
+        "left": {
+          "title": "The plan",
+          "lines": ["Wk 1 read", "Wk 2 write", "Wk 4 done"]
+        },
+        "right": {
+          "title": "Last time",
+          "lines": ["Wk 3 still reading", "Wk 6 rewrite", "Wk 8 done"]
+        }
+      }
+    },
+    {
+      "id": "sh08",
+      "scene": "s05",
+      "from": "start",
+      "moment": "The students' guess.",
+      "kind": "editorial",
+      "template": "counter",
+      "params": {
+        "from": 0,
+        "to": 34,
+        "suffix": "",
+        "label": "days, they guessed"
+      },
+      "text": {
+        "lines": [
+          {
+            "t": "One study."
+          },
+          {
+            "t": "Students' thesis",
+            "weight": "bold"
+          }
+        ],
+        "at": "sec:0.2",
+        "place": "top"
+      }
+    },
+    {
+      "id": "sh08b",
+      "scene": "s05",
+      "from": "word:took",
+      "moment": "The guess against the truth.",
+      "kind": "editorial",
+      "template": "bars",
+      "params": {
+        "unit": "days",
+        "bars": [
+          {
+            "label": "The guess",
+            "value": 34
+          },
+          {
+            "label": "Real",
+            "value": 56
+          }
+        ]
+      }
+    },
+    {
+      "id": "sh09",
+      "scene": "s06",
+      "from": "start",
+      "moment": "Plan from the past, not from the hope.",
+      "kind": "set",
+      "set": "room",
+      "light": "day",
+      "framing": "medium",
+      "subject": "lea",
+      "camera": "drift",
+      "actors": [
+        {
+          "id": "lea",
+          "at": "chair",
+          "pose": "seated",
+          "mood": "thinking"
+        }
+      ],
+      "actions": [
+        {
+          "who": "lea",
+          "do": "pick_up",
+          "target": "paper",
+          "at": "start"
+        },
+        {
+          "who": "lea",
+          "do": "walk_to",
+          "target": "wall",
+          "at": "word:last"
+        },
+        {
+          "who": "lea",
+          "do": "mood",
+          "target": "determined",
+          "at": "word:not"
+        }
+      ],
+      "text": {
+        "lines": [
+          {
+            "t": "Plan from"
+          },
+          {
+            "t": "last time.",
+            "weight": "bold",
+            "accent": true
+          }
+        ],
+        "at": "word:last",
+        "place": "top"
+      }
+    }
+  ]
+}

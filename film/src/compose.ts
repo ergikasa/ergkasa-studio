@@ -35,6 +35,8 @@ export interface Composed {
 const LIGHT = { day: 0, golden: 1, dusk: 2, night: 3 } as const;
 /** Editorial templates drawn on a light background: their text is dark. */
 const LIGHT_BG = new Set(["clock", "word_shadow", "window_dream"]);
+/** Templates that already move their own camera. */
+const SELF_MOVING = new Set(["clock", "scale", "window_dream", "statement"]);
 
 /** Visible height (world px) for each shot size around a person. */
 const SIZE = { wide: 0, medium: 1250, close: 640, ots: 1100, insert: 560 } as const;
@@ -123,7 +125,13 @@ export function compose(plan: FilmPlan, timing: Timing, opts: { cast?: CastMembe
         draw: (t) => {
           if (!parsed.success) return { body: typeLayer(t), bg: C.night };
           const d = draw(tctx(t));
-          return { body: d.svg + typeLayer(t), bg: d.bg };
+          // the editorial camera: a slow push (or a held still for templates that move the camera themselves)
+          const z = SELF_MOVING.has(tpl) ? 1 : 1 + 0.07 * (t / Math.max(1, dur));
+          const dy = SELF_MOVING.has(tpl) ? 0 : -24 * (t / Math.max(1, dur));
+          return {
+            body: `<g transform="translate(540 ${fmt(960 + dy)}) scale(${fmt(z)}) translate(-540 -960)">${d.svg}</g>${typeLayer(t)}`,
+            bg: d.bg,
+          };
         },
       };
     }
@@ -187,7 +195,9 @@ export function compose(plan: FilmPlan, timing: Timing, opts: { cast?: CastMembe
               }),
             );
           } else
-            (set.id === "interview" ? restingFront : restingBack).push(drawProp(pr.kind, p[0], p[1], {}));
+            (set.id === "interview" ? restingFront : restingBack).push(
+              drawProp(pr.kind, p[0], p[1], { resting: true }),
+            );
           void id;
         }
         const world =
@@ -246,8 +256,19 @@ function camera(shot: Shot, set: SetDef, subject: Subject, dur: number): (t: num
     const vw = (height * W) / H;
     if (subject.kind === "thing") return { cx: sx, cy: sy + height * 0.05, height };
     const lead = framing === "ots" ? 0 : subject.facing * vw * (framing === "close" ? 0.12 : 0.16);
+    // leave room for the type: with text at the top the person sits lower in the frame, and the other way round
+    const room =
+      shot.text?.place === "top"
+        ? -height * (framing === "close" ? 0.2 : 0.13)
+        : shot.text?.place === "bottom"
+          ? height * 0.08
+          : 0;
     const cy =
-      framing === "close" ? sy + height * 0.12 : framing === "ots" ? sy + height * 0.1 : sy + height * 0.27;
+      (framing === "close"
+        ? sy + height * 0.12
+        : framing === "ots"
+          ? sy + height * 0.1
+          : sy + height * 0.27) + room;
     return { cx: sx + lead, cy, height };
   };
   const clampCam = (c: Cam): Cam => {

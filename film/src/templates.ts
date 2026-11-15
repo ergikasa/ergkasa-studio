@@ -341,19 +341,29 @@ const counter: Draw = ({ t, dur, params }) => {
   const from = Number(params["from"] ?? 0),
     to = Number(params["to"] ?? 100);
   const dec = Number(params["decimals"] ?? 0);
-  const v = from + (to - from) * ramp(t, 0.3, Math.max(1, dur * 0.6), "out");
-  const s = `${v.toFixed(dec)}${String(params["suffix"] ?? "")}`;
-  const size = fit(s, 300, 900);
+  const countEnd = Math.max(1, dur * 0.5);
+  const v = from + (to - from) * ramp(t, 0.3, countEnd, "out");
+  const str = `${v.toFixed(dec)}${String(params["suffix"] ?? "")}`;
+  const size = fit(str, 300, 900);
+  // after the count: the number lands (a small overshoot), the ring keeps opening, the label is underlined
+  const land = K(t, [
+    [countEnd, 1],
+    [countEnd + 0.18, 1.08, "out"],
+    [countEnd + 0.5, 1, "back"],
+  ]);
+  const ring = K(t, [
+    [0, 300],
+    [0.6, 380, "back"],
+    [dur, 470, "lin"],
+  ]);
+  const lbl = params["label"] ? String(params["label"]).toUpperCase() : "";
+  const under = ramp(t, countEnd + 0.2, Math.max(countEnd + 0.4, dur - 0.2), "io");
   return {
     bg: C.night,
-    svg: `<circle cx="540" cy="900" r="${fmt(
-      K(t, [
-        [0, 300],
-        [0.6, 380, "back"],
-      ]),
-    )}" fill="${C.ochre}" opacity=".12"/>
-      ${label(540, 900 + size * 0.35, s, size, C.ochre, 900, "middle", -4)}
-      ${params["label"] ? label(540, 1180, String(params["label"]).toUpperCase(), 40, C.cream, 500, "middle", 6) : ""}`,
+    svg: `<circle cx="540" cy="900" r="${fmt(ring)}" fill="${C.ochre}" opacity=".12"/>
+      <circle cx="540" cy="900" r="${fmt(ring * 1.25)}" fill="none" stroke="${C.ochre}" stroke-width="3" opacity="${fmt(0.25 * (1 - under))}"/>
+      <g transform="translate(540 900) scale(${fmt(land)}) translate(-540 -900)">${label(540, 900 + size * 0.35, str, size, C.ochre, 900, "middle", -4)}</g>
+      ${lbl ? label(540, 1180, lbl, 40, C.cream, 500, "middle", 6) + `<rect x="${fmt(540 - 300 * under)}" y="1210" width="${fmt(600 * under)}" height="6" rx="3" fill="${C.ochre}"/>` : ""}`,
   };
 };
 

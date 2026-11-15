@@ -10,13 +10,17 @@ function must<T>(v: T | undefined | null): T {
 }
 
 const ctx = (shot: unknown, dur = 6) => {
+  const cast = [
+    { id: "dritan", name: "Dritan", build: "man" as const },
+    { id: "maria", name: "Maria", build: "woman" as const },
+  ];
   const s = Shot.parse(shot);
   return perform({
     set: SETS[s.set ?? "office"],
     shot: s,
     path: "shots[0]",
     dur,
-    cast: [{ id: "dritan", name: "Dritan", build: "man" }],
+    cast,
     at: (a) => (a === "start" ? 0 : a.startsWith("sec:") ? Number(a.slice(4)) : undefined),
     words: [],
   });
@@ -159,5 +163,36 @@ describe("performance", () => {
             RIG.foreArm * 0.25,
           );
         }
+  });
+
+  it("a handover: the paper leaves one hand and ends in the other person's hand", () => {
+    const p = ctx({
+      id: "a",
+      scene: "s01",
+      moment: "give",
+      kind: "set",
+      set: "interview",
+      actors: [
+        { id: "dritan", at: "stand_l", pose: "standing", holding: "cv" },
+        { id: "maria", at: "chair_r", pose: "seated" },
+      ],
+      actions: [{ who: "dritan", do: "give", target: "maria", at: "sec:0.5" }],
+    });
+    expect(p.issues).toEqual([]);
+    const cv = must(p.props.get("cv"));
+    const d0 = propAt(cv, 0.2, p.actors);
+    expect(
+      Math.hypot(
+        d0[0] - must(p.actors.get("dritan")).draw(0.2).hand[0],
+        d0[1] - must(p.actors.get("dritan")).draw(0.2).hand[1],
+      ),
+    ).toBeLessThan(1);
+    const m = must(p.actors.get("maria")).draw(3).hand;
+    const d1 = propAt(cv, 3, p.actors);
+    expect(Math.hypot(d1[0] - m[0], d1[1] - m[1])).toBeLessThan(1);
+    // and at the moment of the handover both hands are close to each other
+    const tA = must(p.actors.get("dritan")).draw(1.2).hand;
+    const tB = must(p.actors.get("maria")).draw(1.2).hand;
+    expect(Math.hypot(tA[0] - tB[0], tA[1] - tB[1])).toBeLessThan(90);
   });
 });

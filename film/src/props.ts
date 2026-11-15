@@ -8,8 +8,19 @@ export function drawProp(
   kind: PropKind,
   x: number,
   y: number,
-  opts: { rot?: number; scale?: number; facing?: 1 | -1 } = {},
+  opts: { rot?: number; scale?: number; facing?: 1 | -1; resting?: boolean } = {},
 ): string {
+  // flat things lie on the surface when nobody holds them (seen from the side: a thin sheet)
+  if (opts.resting && (kind === "paper" || kind === "notebook" || kind === "phone")) {
+    const w = kind === "paper" ? 92 : kind === "notebook" ? 96 : 60;
+    const th = kind === "paper" ? 5 : kind === "notebook" ? 12 : 8;
+    const col = kind === "paper" ? "#FBF7F0" : kind === "notebook" ? C.coral : C.ink;
+    const page =
+      kind === "notebook"
+        ? `<rect x="${-w / 2 + 4}" y="${-th - 3}" width="${w - 8}" height="4" fill="#FBF7F0"/>`
+        : "";
+    return `<g transform="translate(${fmt(x)} ${fmt(y + 24)})"><rect x="${-w / 2}" y="${-th}" width="${w}" height="${th}" rx="2" fill="${col}"/>${page}</g>`;
+  }
   const s = opts.scale ?? 1;
   const f = opts.facing ?? 1;
   const tr = `translate(${fmt(x)} ${fmt(y)}) rotate(${fmt(opts.rot ?? 0)}) scale(${fmt(s * f)} ${fmt(s)})`;

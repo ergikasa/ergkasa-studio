@@ -1,0 +1,521 @@
+{
+  "schema": "erkasa.film/1",
+  "title": "Same answers, two verdicts",
+  "voiceId": "mark_natural",
+  "cast": [
+    {
+      "id": "alex",
+      "name": "Alex",
+      "build": "man",
+      "coat": "#E76F51",
+      "hair": "#3A2A20"
+    },
+    {
+      "id": "alex_suit",
+      "name": "Alex",
+      "build": "man",
+      "coat": "#2B2D42",
+      "hair": "#3A2A20"
+    },
+    {
+      "id": "maria",
+      "name": "Maria",
+      "build": "woman",
+      "coat": "#2A9D8F"
+    }
+  ],
+  "shots": [
+    {
+      "id": "sh01",
+      "scene": "s01",
+      "from": "start",
+      "moment": "The same man, about to be judged twice.",
+      "kind": "set",
+      "set": "interview",
+      "light": "day",
+      "framing": "close",
+      "subject": "alex",
+      "camera": "push_in",
+      "actors": [
+        {
+          "id": "alex",
+          "at": "stand_l",
+          "pose": "standing",
+          "mood": "anxious",
+          "holding": "cv"
+        }
+      ],
+      "actions": [
+        {
+          "who": "alex",
+          "do": "glance",
+          "target": "maria_spot",
+          "at": "word:answers"
+        }
+      ],
+      "text": {
+        "lines": [
+          {
+            "t": "Same person."
+          },
+          {
+            "t": "Same answers.",
+            "weight": "bold"
+          }
+        ],
+        "at": "sec:0.2",
+        "place": "top"
+      }
+    },
+    {
+      "id": "sh02",
+      "scene": "s01",
+      "from": "word:two",
+      "moment": "Two interviews, two very different verdicts.",
+      "kind": "editorial",
+      "template": "cards",
+      "params": {
+        "left": {
+          "title": "Interview 1",
+          "lines": ["ok."]
+        },
+        "right": {
+          "title": "Interview 2",
+          "lines": ["Smart", "Reliable", "A leader"]
+        }
+      },
+      "text": {
+        "lines": [
+          {
+            "t": "Two verdicts.",
+            "weight": "bold",
+            "accent": true
+          }
+        ],
+        "at": "word:different",
+        "place": "top"
+      }
+    },
+    {
+      "id": "sh03",
+      "scene": "s02",
+      "from": "start",
+      "moment": "He walks in and hands over his CV; she hardly looks up.",
+      "kind": "set",
+      "set": "interview",
+      "light": "day",
+      "framing": "wide",
+      "camera": "drift",
+      "actors": [
+        {
+          "id": "alex",
+          "at": "door",
+          "pose": "standing",
+          "mood": "anxious",
+          "holding": "cv"
+        },
+        {
+          "id": "maria",
+          "at": "chair_r",
+          "pose": "seated",
+          "mood": "neutral"
+        }
+      ],
+      "actions": [
+        {
+          "who": "maria",
+          "do": "write",
+          "at": "start",
+          "sec": 1.5
+        },
+        {
+          "who": "alex",
+          "do": "walk_to",
+          "target": "stand_l",
+          "at": "sec:0.1"
+        },
+        {
+          "who": "alex",
+          "do": "give",
+          "target": "maria",
+          "at": "word:cv"
+        },
+        {
+          "who": "alex",
+          "do": "sit_down",
+          "at": "word:answers"
+        }
+      ]
+    },
+    {
+      "id": "sh04",
+      "scene": "s02",
+      "from": "word:every",
+      "moment": "He answers well.",
+      "kind": "set",
+      "set": "interview",
+      "light": "day",
+      "framing": "medium",
+      "subject": "alex",
+      "camera": "static",
+      "actors": [
+        {
+          "id": "alex",
+          "at": "chair_l",
+          "pose": "seated",
+          "mood": "hopeful"
+        },
+        {
+          "id": "maria",
+          "at": "chair_r",
+          "pose": "seated",
+          "mood": "neutral"
+        }
+      ],
+      "actions": [
+        {
+          "who": "alex",
+          "do": "talk",
+          "at": "start",
+          "sec": 1.6
+        },
+        {
+          "who": "alex",
+          "do": "look",
+          "target": "maria",
+          "at": "start"
+        }
+      ]
+    },
+    {
+      "id": "sh05",
+      "scene": "s02",
+      "from": "word:the",
+      "moment": "She nods politely and writes almost nothing.",
+      "kind": "set",
+      "set": "interview",
+      "light": "day",
+      "framing": "medium",
+      "subject": "maria",
+      "camera": "push_in",
+      "actors": [
+        {
+          "id": "alex",
+          "at": "chair_l",
+          "pose": "seated",
+          "mood": "hopeful"
+        },
+        {
+          "id": "maria",
+          "at": "chair_r",
+          "pose": "seated",
+          "mood": "neutral",
+          "holding": "cv"
+        }
+      ],
+      "actions": [
+        {
+          "who": "maria",
+          "do": "nod",
+          "at": "word:nods"
+        },
+        {
+          "who": "maria",
+          "do": "put_down",
+          "target": "desk_top",
+          "at": "word:politely"
+        },
+        {
+          "who": "maria",
+          "do": "write",
+          "at": "word:writes",
+          "sec": 0.8
+        },
+        {
+          "who": "maria",
+          "do": "look",
+          "target": "alex",
+          "at": "word:nothing"
+        }
+      ]
+    },
+    {
+      "id": "sh06",
+      "scene": "s03",
+      "from": "start",
+      "moment": "The same Alex, in a suit, hands over the same CV.",
+      "kind": "set",
+      "set": "interview",
+      "light": "day",
+      "framing": "wide",
+      "camera": "drift",
+      "actors": [
+        {
+          "id": "alex_suit",
+          "at": "door",
+          "pose": "standing",
+          "mood": "neutral",
+          "holding": "cv"
+        },
+        {
+          "id": "maria",
+          "at": "chair_r",
+          "pose": "seated",
+          "mood": "neutral"
+        }
+      ],
+      "actions": [
+        {
+          "who": "alex_suit",
+          "do": "walk_to",
+          "target": "stand_l",
+          "at": "sec:0.1"
+        },
+        {
+          "who": "maria",
+          "do": "look",
+          "target": "alex_suit",
+          "at": "word:walks"
+        },
+        {
+          "who": "maria",
+          "do": "mood",
+          "target": "happy",
+          "at": "word:suit"
+        },
+        {
+          "who": "alex_suit",
+          "do": "give",
+          "target": "maria",
+          "at": "word:same#2"
+        }
+      ]
+    },
+    {
+      "id": "sh07",
+      "scene": "s03",
+      "from": "word:this",
+      "moment": "This time she leans in and fills the page.",
+      "kind": "set",
+      "set": "interview",
+      "light": "day",
+      "framing": "medium",
+      "subject": "maria",
+      "camera": "push_in",
+      "actors": [
+        {
+          "id": "alex_suit",
+          "at": "chair_l",
+          "pose": "seated",
+          "mood": "neutral"
+        },
+        {
+          "id": "maria",
+          "at": "chair_r",
+          "pose": "seated",
+          "mood": "happy"
+        }
+      ],
+      "actions": [
+        {
+          "who": "maria",
+          "do": "lean_in",
+          "target": "alex_suit",
+          "at": "start"
+        },
+        {
+          "who": "maria",
+          "do": "write",
+          "at": "word:fills",
+          "sec": 1.4
+        }
+      ]
+    },
+    {
+      "id": "sh08",
+      "scene": "s04",
+      "from": "start",
+      "moment": "She sees a halo around him.",
+      "kind": "set",
+      "set": "interview",
+      "light": "day",
+      "framing": "medium",
+      "subject": "alex_suit",
+      "camera": "push_in",
+      "actors": [
+        {
+          "id": "alex_suit",
+          "at": "chair_l",
+          "pose": "seated",
+          "mood": "neutral"
+        },
+        {
+          "id": "maria",
+          "at": "chair_r",
+          "pose": "seated",
+          "mood": "happy"
+        }
+      ],
+      "actions": [
+        {
+          "who": "alex_suit",
+          "do": "glow",
+          "at": "word:halo"
+        },
+        {
+          "who": "alex_suit",
+          "do": "talk",
+          "at": "start",
+          "sec": 1.2
+        }
+      ],
+      "text": {
+        "lines": [
+          {
+            "t": "The halo effect",
+            "weight": "bold",
+            "accent": true
+          }
+        ],
+        "at": "word:halo",
+        "place": "top"
+      }
+    },
+    {
+      "id": "sh09",
+      "scene": "s04",
+      "from": "word:one",
+      "moment": "Through her eyes: one detail colours everything.",
+      "kind": "set",
+      "set": "interview",
+      "light": "day",
+      "framing": "ots",
+      "subject": "alex_suit",
+      "camera": "push_in",
+      "actors": [
+        {
+          "id": "alex_suit",
+          "at": "chair_l",
+          "pose": "seated",
+          "mood": "happy"
+        },
+        {
+          "id": "maria",
+          "at": "chair_r",
+          "pose": "seated",
+          "mood": "happy"
+        }
+      ],
+      "actions": [
+        {
+          "who": "alex_suit",
+          "do": "glow",
+          "at": "start"
+        },
+        {
+          "who": "alex_suit",
+          "do": "talk",
+          "at": "word:spills",
+          "sec": 1.6
+        }
+      ]
+    },
+    {
+      "id": "sh10",
+      "scene": "s05",
+      "from": "start",
+      "moment": "The suit changed the judge, not the candidate.",
+      "kind": "editorial",
+      "template": "cards",
+      "params": {
+        "left": {
+          "title": "Hoodie",
+          "lines": ["ok."]
+        },
+        "right": {
+          "title": "Suit",
+          "lines": ["Smart", "Reliable", "A leader"]
+        }
+      },
+      "text": {
+        "lines": [
+          {
+            "t": "Same answers."
+          },
+          {
+            "t": "Different eyes.",
+            "weight": "bold",
+            "accent": true
+          }
+        ],
+        "at": "word:changed",
+        "place": "bottom"
+      }
+    },
+    {
+      "id": "sh11",
+      "scene": "s06",
+      "from": "start",
+      "moment": "The question is for the viewer, the judge.",
+      "kind": "set",
+      "set": "interview",
+      "light": "day",
+      "framing": "close",
+      "subject": "maria",
+      "camera": "push_in",
+      "actors": [
+        {
+          "id": "maria",
+          "at": "chair_r",
+          "pose": "seated",
+          "mood": "thinking"
+        },
+        {
+          "id": "alex_suit",
+          "at": "chair_l",
+          "pose": "seated",
+          "mood": "neutral"
+        }
+      ],
+      "actions": [
+        {
+          "who": "maria",
+          "do": "look",
+          "target": "alex_suit",
+          "at": "start"
+        },
+        {
+          "who": "maria",
+          "do": "mood",
+          "target": "thinking",
+          "at": "word:ask"
+        },
+        {
+          "who": "maria",
+          "do": "glance",
+          "target": "notebook",
+          "at": "word:saw"
+        },
+        {
+          "who": "maria",
+          "do": "shake_head",
+          "at": "word:heard"
+        }
+      ],
+      "text": {
+        "lines": [
+          {
+            "t": "What did you see"
+          },
+          {
+            "t": "before you heard?",
+            "weight": "bold",
+            "accent": true
+          }
+        ],
+        "at": "word:ask",
+        "place": "top"
+      }
+    }
+  ]
+}
