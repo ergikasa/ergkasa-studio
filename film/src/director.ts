@@ -132,6 +132,7 @@ export const DIRECTOR_SCHEMA: Record<string, unknown> = obj({
         }),
       ),
       transition: enumOf(["cut", "fade", "whip"]),
+      continuity: nullable(enumOf(["carry", "reset"])),
     }),
   },
 });
@@ -194,6 +195,7 @@ How a good Erkasa film is cut:
 - One shot = one moment the viewer must get or feel. Write that moment in \`moment\`.
 - Shots last 2.5 to 7 seconds of narration. A sentence can hold two shots; a shot can cross a sentence.
 - Mix staged shots (people on a set, acting) and editorial shots (a designed template). Open on the hook image.
+- Continuity: a person is picked up in the next shot on the same set exactly where, how and in the mood the last shot left them (a walk goes on, a sit finishes). Place them where they really are, or make them walk there. Only when time has passed or the story jumps (a flash-forward, "weeks later") set \`continuity: "reset"\`; otherwise leave it null.
   Never two statements in a row; at most two statements per film. Vary framing between consecutive staged shots.
 - Acting is specific and physical: people look, hesitate, pick things up, sit down, sigh, cross arms. Give each
   staged shot 2-6 actions spread over its duration, anchored to the words they illustrate. Nothing stands still.
@@ -299,7 +301,11 @@ export function encode(plan: FilmPlan): unknown {
       hair: c.hair ?? null,
       skin: c.skin ?? null,
     })),
-    shots: plan.shots.map(({ params, ...s }) => ({ ...s, paramsJson: JSON.stringify(params ?? {}) })),
+    shots: plan.shots.map(({ params, ...s }) => ({
+      ...s,
+      continuity: s.continuity ?? null,
+      paramsJson: JSON.stringify(params ?? {}),
+    })),
   };
 }
 
