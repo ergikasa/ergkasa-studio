@@ -17,9 +17,10 @@
     "@erkasa/contracts": "workspace:*",
     "@erkasa/engine": "workspace:*",
     "@expo-google-fonts/montserrat": "0.4.2",
+    "@napi-rs/canvas": "0.1.100",
     "@resvg/resvg-js": "2.6.2",
-    "zod": "4.6.7",
-    "tsx": "4.23.15"
+    "tsx": "4.23.15",
+    "zod": "4.6.7"
   },
   "devDependencies": {
     "vitest": "5.1.0"

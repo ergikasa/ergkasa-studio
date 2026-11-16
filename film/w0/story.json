@@ -1,0 +1,32 @@
+{
+  "schema": "erkasa.story/0",
+  "script": "benchmark/scripts/b1-why-we-stay.script.json",
+  "thesis": "We stay where it hurts because leaving feels more frightening than suffering, and every year we give makes the next year harder to refuse.",
+  "mechanism": {
+    "kind": "accumulation",
+    "chain": [
+      "Each year he stays, the cost of leaving looks bigger (the years would be 'wasted').",
+      "So he stays another year, which adds to the pile.",
+      "The pile is the past; it does not change what the next year is worth."
+    ]
+  },
+  "premise": "The years he has given are physically in his office: one binder per year on his desk, 2019 to 2024, and old boxes on the floor. The door has been there the whole time.",
+  "motif": {
+    "object": "the binder stack and the door",
+    "states": ["six binders, door closed", "a seventh binder lands", "door opens"]
+  },
+  "moments": [
+    { "id": "m1", "scene": "s01", "understand": "The day is over and he is still here, waiting.", "feel": "stillness, fatigue" },
+    { "id": "m2", "scene": "s02", "understand": "Six years are stacked on his desk; he knows he hates it.", "feel": "weight" },
+    { "id": "m3", "scene": "s02", "understand": "The life he wants is literally outside the window.", "feel": "longing" },
+    { "id": "m4", "scene": "s03", "understand": "He goes back; the light goes out of the day.", "feel": "resignation" },
+    { "id": "m5", "scene": "s04", "understand": "The door is right there; leaving is what scares him.", "feel": "fear", "turn": true },
+    { "id": "m6", "scene": "s05", "understand": "Another year lands on the stack: the more he gives, the harder he holds on.", "feel": "pressure" },
+    { "id": "m7", "scene": "s05", "understand": "Time keeps spending his future.", "feel": "urgency" },
+    { "id": "m8", "scene": "s06", "understand": "The question is the next year, not the past ones: he walks to the open door.", "feel": "resolve" }
+  ],
+  "rejected": [
+    "a cage (a ready-made metaphor that replaces the place with a symbol)",
+    "a scale with years (an infographic that interrupts the story)"
+  ]
+}
