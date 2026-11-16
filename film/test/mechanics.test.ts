@@ -7,7 +7,11 @@ import { solveLeg } from "../src/perform.js";
 import { skeleton } from "../src/rig.js";
 import { STANDING } from "../src/rig.js";
 
-const script = Script.parse(JSON.parse(readFileSync(new URL("../../benchmark/scripts/b1-why-we-stay.script.json", import.meta.url), "utf8")));
+const script = Script.parse(
+  JSON.parse(
+    readFileSync(new URL("../../benchmark/scripts/b1-why-we-stay.script.json", import.meta.url), "utf8"),
+  ),
+);
 const plan = parsePlan(JSON.parse(readFileSync(new URL("../w0/plan.json", import.meta.url), "utf8")));
 
 describe("body mechanics (W0 benchmark film)", () => {

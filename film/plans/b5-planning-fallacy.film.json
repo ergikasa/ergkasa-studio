@@ -161,7 +161,8 @@
         ],
         "at": "word:seven",
         "place": "top"
-      }
+      },
+      "continuity": "reset"
     },
     {
       "id": "sh05",

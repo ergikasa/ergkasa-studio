@@ -8,6 +8,7 @@ import type { Script } from "@erkasa/contracts";
 import type { CastMember, FilmPlan, Shot } from "./contract.js";
 import { K, clamp, fmt, ramp, EASES } from "./motion.js";
 import { perform, propAt, type Issue, type Performance } from "./perform.js";
+import { carryFrom, checkFilm, type Carry } from "./continuity.js";
 import { drawProp } from "./props.js";
 import { SETS, type SetDef } from "./sets.js";
 import { FPS, H, PALETTE as C, W, frame, kineticType } from "./style.js";
@@ -24,6 +25,8 @@ export interface ComposedShot {
   draw(t: number): { body: string; bg: string };
   /** Visible events, local seconds. */
   events: number[];
+  /** The people's performance (staged shots): continuity reads it. */
+  perf?: Performance;
 }
 
 export interface Composed {
@@ -45,6 +48,12 @@ export function compose(plan: FilmPlan, timing: Timing, opts: { cast?: CastMembe
   const issues: Issue[] = [];
   const times = shotTimes(timing, plan);
   const cast = opts.cast ?? plan.cast;
+  // continuity: the last staged shot on each set hands its people on to the next one
+  const lastOnSet = new Map<string, { perf: Performance; dur: number; index: number }>();
+  const carryFor = (setId: string, index: number): Carry | undefined => {
+    const l = lastOnSet.get(setId);
+    return l ? carryFrom(l.perf, setId, l.dur, l.index === index - 1) : undefined;
+  };
   const shots: ComposedShot[] = times.map(({ shot, start, end }, index) => {
     const path = `shots[${index}]`;
     if (!Number.isFinite(start)) {
@@ -138,7 +147,9 @@ export function compose(plan: FilmPlan, timing: Timing, opts: { cast?: CastMembe
 
     // ---------------------------------------------------------------- staged shot
     const set = SETS[shot.set ?? "office"];
-    const perf = perform({ set, shot, path, dur, cast, at, words });
+    const carry = carryFor(set.id, index);
+    const perf = perform({ set, shot, path, dur, cast, at, words, ...(carry ? { carry } : {}) });
+    lastOnSet.set(set.id, { perf, dur, index });
     issues.push(...perf.issues);
     events.push(...perf.events);
     const lightKeys: Array<[number, number]> = [[0, LIGHT[shot.light ?? "golden"]]];
@@ -169,6 +180,7 @@ export function compose(plan: FilmPlan, timing: Timing, opts: { cast?: CastMembe
       end,
       dur,
       events,
+      perf,
       draw: (t) => {
         const light = K(
           t,
@@ -217,6 +229,7 @@ export function compose(plan: FilmPlan, timing: Timing, opts: { cast?: CastMembe
     };
   });
   const duration = shots.length ? (shots[shots.length - 1] as ComposedShot).end : 0;
+  issues.push(...checkFilm(shots).issues);
   return { shots, duration, issues };
 }
 

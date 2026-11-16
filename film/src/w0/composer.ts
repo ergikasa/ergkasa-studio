@@ -17,6 +17,7 @@ import { estimateWords } from "@erkasa/compiler";
 import { Shot, type CastMember } from "../contract.js";
 import { EASES, K, clamp, ramp } from "../motion.js";
 import { perform, propAt, type Issue, type Performance } from "../perform.js";
+import { carryFrom, checkFilm, type Carry } from "../continuity.js";
 import { drawProp } from "../props.js";
 import { DEFS, H, W, kineticType } from "../style.js";
 import { anchorTime, layoutTiming, shotTimes, type Timing } from "../timing.js";
@@ -136,6 +137,11 @@ export function prepare(plan: W0Plan, script: Script): Prepared {
     cast: plan.cast,
     shots: plan.shots.map((s) => s.shot),
   });
+  const lastOnSet = new Map<string, { perf: Performance; dur: number; index: number }>();
+  const carryFor = (setId: string, index: number): Carry | undefined => {
+    const l = lastOnSet.get(setId);
+    return l ? carryFrom(l.perf, setId, l.dur, l.index === index - 1) : undefined;
+  };
   const shots: PreparedShot[] = times.map(({ shot, start, end }, index) => {
     const w = plan.shots[index] as W0Shot;
     const dur = Math.max(0.4, end - start);
@@ -144,24 +150,45 @@ export function prepare(plan: W0Plan, script: Script): Prepared {
       const abs = anchorTime(timing, a as Shot["from"], start, shot.scene);
       return abs === undefined ? undefined : abs - start;
     };
-    if (dur < 0.9) issues.push({ level: "error", code: "SHOT_TOO_SHORT", path, message: `${shot.id}: ${dur.toFixed(2)} s` });
+    if (dur < 0.9)
+      issues.push({
+        level: "error",
+        code: "SHOT_TOO_SHORT",
+        path,
+        message: `${shot.id}: ${dur.toFixed(2)} s`,
+      });
     const words = timing.words
       .filter((x) => x.t >= start && x.t < end)
       .map((x) => ({ word: x.word, t: x.t - start, end: x.end - x.start + x.t - start }));
-    const perf = shot.kind === "set" ? perform({ set, shot, path, dur, cast: plan.cast, at, words }) : undefined;
+    const carry = shot.kind === "set" ? carryFor(set.id, index) : undefined;
+    const perf =
+      shot.kind === "set"
+        ? perform({ set, shot, path, dur, cast: plan.cast, at, words, ...(carry ? { carry } : {}) })
+        : undefined;
+    if (perf) lastOnSet.set(set.id, { perf, dur, index });
     if (perf) {
       issues.push(...perf.issues);
       // an action that is still going when the shot cuts is lost (the next shot may contradict it)
       const last = Math.max(0, ...perf.events);
       if (last > dur + 0.05)
-        issues.push({ level: "warning", code: "ACTION_OVERRUNS_SHOT", path, message: `${shot.id}: actions end at ${last.toFixed(2)} s, the shot lasts ${dur.toFixed(2)} s` });
+        issues.push({
+          level: "warning",
+          code: "ACTION_OVERRUNS_SHOT",
+          path,
+          message: `${shot.id}: actions end at ${last.toFixed(2)} s, the shot lasts ${dur.toFixed(2)} s`,
+        });
     }
     const lightKeys: Array<[number, number]> = [[0, LIGHT[shot.light ?? "golden"]]];
     if (shot.lightTo) {
       const t1 = at(shot.lightTo.at);
-      if (t1 !== undefined) lightKeys.push([t1, LIGHT[shot.light ?? "golden"]], [t1 + 2.4, LIGHT[shot.lightTo.to]]);
+      if (t1 !== undefined)
+        lightKeys.push([t1, LIGHT[shot.light ?? "golden"]], [t1 + 2.4, LIGHT[shot.lightTo.to]]);
     }
-    const light = (t: number): number => K(t, lightKeys.map(([a, b]) => [a, b, "io"] as const));
+    const light = (t: number): number =>
+      K(
+        t,
+        lightKeys.map(([a, b]) => [a, b, "io"] as const),
+      );
     const textAt = shot.text ? at(shot.text.at) : undefined;
     const textOut = shot.text?.out ? at(shot.text.out) : undefined;
     return {
@@ -178,6 +205,10 @@ export function prepare(plan: W0Plan, script: Script): Prepared {
     };
   });
   const duration = shots.length ? (shots[shots.length - 1] as PreparedShot).end : 0;
+  issues.push(
+    ...checkFilm(shots.map((s) => ({ shot: s.w.shot, dur: s.dur, ...(s.perf ? { perf: s.perf } : {}) })))
+      .issues,
+  );
 
   // the world register: every change is an event at an absolute time, read by every later shot
   const absEvents = plan.events.flatMap((e) => {
@@ -212,7 +243,8 @@ export function prepare(plan: W0Plan, script: Script): Prepared {
   };
   const state = (T: number, door: number, light: number): PlaceState => {
     let lamp = 0;
-    for (const e of lampKeys) lamp = T < e.t ? lamp : T < e.t + 0.18 ? (e.value > lamp ? (T - e.t) / 0.18 : lamp) : e.value;
+    for (const e of lampKeys)
+      lamp = T < e.t ? lamp : T < e.t + 0.18 ? (e.value > lamp ? (T - e.t) / 0.18 : lamp) : e.value;
     let binders = plan.world.years.length - 1;
     for (const e of binderKeys) if (T >= e.t) binders = Math.min(e.value, binders + (T - e.t) / 0.55);
     return { t: T, light, door, lamp: clamp(lamp), clockMin: clockAt(T), binders };
@@ -224,12 +256,25 @@ export function prepare(plan: W0Plan, script: Script): Prepared {
   for (const x of timing.words) {
     cur.push({ w: x.word, t: x.t, end: x.t + (x.end - x.start) });
     if (cur.length >= 4 || /[.,!?;:]$/.test(x.word)) {
-      captions.push({ words: cur, t0: (cur[0] as { t: number }).t, t1: (cur[cur.length - 1] as { end: number }).end + 0.2 });
+      captions.push({
+        words: cur,
+        t0: (cur[0] as { t: number }).t,
+        t1: (cur[cur.length - 1] as { end: number }).end + 0.2,
+      });
       cur = [];
     }
   }
-  if (cur.length) captions.push({ words: cur, t0: (cur[0] as { t: number }).t, t1: (cur[cur.length - 1] as { end: number }).end + 0.2 });
-  for (let i = 0; i + 1 < captions.length; i++) (captions[i] as { t1: number }).t1 = Math.min((captions[i] as { t1: number }).t1 + 0.3, (captions[i + 1] as { t0: number }).t0);
+  if (cur.length)
+    captions.push({
+      words: cur,
+      t0: (cur[0] as { t: number }).t,
+      t1: (cur[cur.length - 1] as { end: number }).end + 0.2,
+    });
+  for (let i = 0; i + 1 < captions.length; i++)
+    (captions[i] as { t1: number }).t1 = Math.min(
+      (captions[i] as { t1: number }).t1 + 0.3,
+      (captions[i + 1] as { t0: number }).t0,
+    );
 
   return { plan, timing, shots, duration, issues, state, captions, absEvents };
 }
@@ -243,7 +288,10 @@ function cameraFor(w: W0Shot, perf: Performance | undefined, dur: number): (t: n
   const framing = spec.framing ?? "medium";
   const h0 = spec.height ?? HEIGHT[framing];
   const resolve = (subject: string | undefined, t: number, height: number, sx: number, sy: number): Cam => {
-    if (!subject || framing === "wide") return framing === "wide" && !subject ? { ...REF, height } : aimSubject(subject ?? "", t, height, sx, sy);
+    if (!subject || framing === "wide")
+      return framing === "wide" && !subject
+        ? { ...REF, height }
+        : aimSubject(subject ?? "", t, height, sx, sy);
     return aimSubject(subject, t, height, sx, sy);
   };
   const aimSubject = (subject: string, t: number, height: number, sx: number, sy: number): Cam => {
@@ -262,7 +310,8 @@ function cameraFor(w: W0Shot, perf: Performance | undefined, dur: number): (t: n
     const a = spec.subject ? perf?.actors.get(spec.subject) : undefined;
     return a ? a.facingAt(t) : 1;
   };
-  const defSx = (t: number): number => spec.sx ?? (framing === "close" || framing === "medium" ? 0.5 - 0.13 * facing(t) : 0.5);
+  const defSx = (t: number): number =>
+    spec.sx ?? (framing === "close" || framing === "medium" ? 0.5 - 0.13 * facing(t) : 0.5);
   const defSy = spec.sy ?? (framing === "close" ? 0.42 : framing === "medium" ? 0.36 : 0.5);
   const clampCam = (c: Cam): Cam => {
     const height = Math.min(c.height, REF.height * 1.04);
@@ -292,7 +341,13 @@ function cameraFor(w: W0Shot, perf: Performance | undefined, dur: number): (t: n
         break;
       }
       case "travel": {
-        const end = resolve(spec.to ?? spec.subject, dur, spec.toHeight ?? h0, spec.sx ?? 0.5, spec.sy ?? 0.5);
+        const end = resolve(
+          spec.to ?? spec.subject,
+          dur,
+          spec.toHeight ?? h0,
+          spec.sx ?? 0.5,
+          spec.sy ?? 0.5,
+        );
         c = lerpCam(start, end, EASES.io(p));
         break;
       }
@@ -306,7 +361,11 @@ function cameraFor(w: W0Shot, perf: Performance | undefined, dur: number): (t: n
         c = start;
         break;
       default:
-        c = { cx: start.cx + 26 * p * facing(0), cy: start.cy - 10 * p, height: start.height * (1 - 0.05 * p) };
+        c = {
+          cx: start.cx + 26 * p * facing(0),
+          cy: start.cy - 10 * p,
+          height: start.height * (1 - 0.05 * p),
+        };
     }
     return clampCam(c);
   };
@@ -348,7 +407,13 @@ function surf(): Surfaces {
     gc.putImageData(d, 0, 0);
     return g;
   });
-  surfaces = { main: createCanvas(W, H), L: createCanvas(CW, CH), LM: createCanvas(CW, CH), E: createCanvas(CW, CH), grain };
+  surfaces = {
+    main: createCanvas(W, H),
+    L: createCanvas(CW, CH),
+    LM: createCanvas(CW, CH),
+    E: createCanvas(CW, CH),
+    grain,
+  };
   return surfaces;
 }
 
@@ -425,7 +490,13 @@ export async function renderFrame(P: Prepared, i: number, t: number): Promise<Ca
   return S.main;
 }
 
-async function drawShot(ctx: SKRSContext2D, S: Surfaces, P: Prepared, ps: PreparedShot, t: number): Promise<void> {
+async function drawShot(
+  ctx: SKRSContext2D,
+  S: Surfaces,
+  P: Prepared,
+  ps: PreparedShot,
+  t: number,
+): Promise<void> {
   const T = ps.start + t;
   const cam = ps.cam(t);
   const st = P.state(T, ps.perf?.door.at(t) ?? 0, ps.light(t));
@@ -468,7 +539,9 @@ async function drawShot(ctx: SKRSContext2D, S: Surfaces, P: Prepared, ps: Prepar
   ctx.globalCompositeOperation = "source-over";
   ctx.fillStyle = "#0C1529";
   ctx.fillRect(0, 0, W, H);
-  const dofWall = ps.w.dof?.wall ?? (onWall ? 0 : framing === "wide" ? 0 : framing === "medium" ? 2.2 : framing === "close" ? 4.2 : 5.5);
+  const dofWall =
+    ps.w.dof?.wall ??
+    (onWall ? 0 : framing === "wide" ? 0 : framing === "medium" ? 2.2 : framing === "close" ? 4.2 : 5.5);
   ctx.save();
   if (dofWall + 2 > 0.4) ctx.filter = `blur(${(dofWall + 2).toFixed(1)}px)`;
   ctx.drawImage(skyImg, -M, -M);
@@ -549,7 +622,9 @@ async function drawShot(ctx: SKRSContext2D, S: Surfaces, P: Prepared, ps: Prepar
   }
 
   // ---- furniture (same plane as the people)
-  const midImg = await layer(`<g transform="${svgTransform(pa)}">${midLayer(st, P.plan.world)}${restingSvg}</g>`);
+  const midImg = await layer(
+    `<g transform="${svgTransform(pa)}">${midLayer(st, P.plan.world)}${restingSvg}</g>`,
+  );
   lightLayer(midImg, S);
   drawL(ctx, S, ps.w.dof?.mid ?? (onWall ? 4.5 : 0));
 
@@ -586,7 +661,7 @@ async function drawShot(ctx: SKRSContext2D, S: Surfaces, P: Prepared, ps: Prepar
   // ---- near foreground, far out of focus
   if (ps.w.near) {
     const pn = project(cam, DEPTH.near);
-    const nearImg = await layer(`<g transform="${svgTransform(pn)}">${nearLayer(P.plan.world)}</g>`);
+    const nearImg = await layer(`<g transform="${svgTransform(pn)}">${nearLayer()}</g>`);
     lightLayer(nearImg, S, rgba("#B8B4C8", 1));
     drawL(ctx, S, 18);
   }
@@ -628,7 +703,8 @@ export function typeSvg(P: Prepared, ps: PreparedShot, t: number): string {
   const text = ps.w.shot.text;
   if (text && ps.textAt !== undefined) {
     const y = text.place === "bottom" ? 1300 : text.place === "center" ? 860 : 250;
-    const a = clamp((t - ps.textAt + 0.2) / 0.5) * (ps.textOut !== undefined ? 1 - clamp((t - ps.textOut) / 0.4) : 1);
+    const a =
+      clamp((t - ps.textAt + 0.2) / 0.5) * (ps.textOut !== undefined ? 1 - clamp((t - ps.textOut) / 0.4) : 1);
     if (a > 0.01)
       o += `<rect x="0" y="0" width="${W}" height="${text.place === "top" ? 760 : 1920}" fill="url(#scrimW0)" opacity="${a.toFixed(3)}"/>`;
     o += kineticType(t, text.lines, { y, at: ps.textAt, out: ps.textOut ?? null });

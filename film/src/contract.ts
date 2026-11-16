@@ -145,6 +145,12 @@ export const Shot = z
     // both
     text: Text.optional(),
     transition: z.enum(["cut", "fade", "whip"]).default("cut"),
+    /**
+     * How the people of this shot relate to the previous shot on the same set. "carry" (the default) picks
+     * them up exactly where the last shot left them; "reset" declares a deliberate jump (time passes, a new
+     * situation) so the shot starts from its own placements.
+     */
+    continuity: z.enum(["carry", "reset"]).optional(),
   })
   .strict();
 export type Shot = z.infer<typeof Shot>;

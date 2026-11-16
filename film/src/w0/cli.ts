@@ -20,7 +20,9 @@ const ROOT = resolve(HERE, "../../..");
 for (const f of fontFiles()) GlobalFonts.registerFromPath(f, "Montserrat");
 
 function load(): Prepared {
-  const script = Script.parse(JSON.parse(readFileSync(join(ROOT, "benchmark/scripts/b1-why-we-stay.script.json"), "utf8")));
+  const script = Script.parse(
+    JSON.parse(readFileSync(join(ROOT, "benchmark/scripts/b1-why-we-stay.script.json"), "utf8")),
+  );
   const plan = parsePlan(JSON.parse(readFileSync(join(ROOT, "film/w0/plan.json"), "utf8")));
   return prepare(plan, script);
 }
@@ -43,7 +45,11 @@ async function frame(P: Prepared, i: number, t: number): Promise<Buffer> {
   const ctx = c.getContext("2d");
   const ty = typeSvg(P, P.shots[i] as Prepared["shots"][number], t);
   if (ty) {
-    const img = await loadImage(Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}"><defs>${DEFS}${TYPE_DEFS}</defs>${ty}</svg>`));
+    const img = await loadImage(
+      Buffer.from(
+        `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}"><defs>${DEFS}${TYPE_DEFS}</defs>${ty}</svg>`,
+      ),
+    );
     ctx.drawImage(img, 0, 0);
   }
   return Buffer.from(ctx.getImageData(0, 0, W, H).data.buffer);
@@ -54,7 +60,9 @@ const P = load();
 
 if (cmd === "check") {
   for (const s of P.shots)
-    console.info(`${s.w.shot.id.padEnd(5)} ${s.start.toFixed(2).padStart(6)}-${s.end.toFixed(2).padStart(6)} ${s.dur.toFixed(1).padStart(5)} s  ${s.w.shot.moment}`);
+    console.info(
+      `${s.w.shot.id.padEnd(5)} ${s.start.toFixed(2).padStart(6)}-${s.end.toFixed(2).padStart(6)} ${s.dur.toFixed(1).padStart(5)} s  ${s.w.shot.moment}`,
+    );
   console.info(`${P.shots.length} shots, ${P.duration.toFixed(1)} s`);
   for (const i of P.issues) console.info(`${i.level} ${i.code} ${i.path}: ${i.message}`);
 } else if (cmd === "stills") {
@@ -65,7 +73,16 @@ if (cmd === "check") {
     const s = P.shots[i] as Prepared["shots"][number];
     const c = await renderFrame(P, i, s.dur * at);
     const ty = typeSvg(P, s, s.dur * at);
-    if (ty) c.getContext("2d").drawImage(await loadImage(Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}"><defs>${DEFS}${TYPE_DEFS}</defs>${ty}</svg>`)), 0, 0);
+    if (ty)
+      c.getContext("2d").drawImage(
+        await loadImage(
+          Buffer.from(
+            `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}"><defs>${DEFS}${TYPE_DEFS}</defs>${ty}</svg>`,
+          ),
+        ),
+        0,
+        0,
+      );
     writeFileSync(join(dir, `${String(i + 1).padStart(2, "0")}-${s.w.shot.id}.png`), await c.encode("png"));
   }
   console.info(`${P.shots.length} stills in ${dir}`);
@@ -73,8 +90,34 @@ if (cmd === "check") {
   // render a range of frames straight into a lossless-quality segment (no raw files on disk)
   const [from, to, file] = [Number(args[0]), Number(args[1]), args[2] as string];
   const idx = frameIndex(P);
-  const ff = spawn(process.env["ERKASA_FFMPEG"] ?? "ffmpeg", ["-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgba", "-s", `${W}x${H}`, "-r", String(FPS), "-i", "-",
-    "-c:v", "libx264", "-preset", "fast", "-crf", "12", "-pix_fmt", "yuv420p", file], { stdio: ["pipe", "inherit", "inherit"] });
+  const ff = spawn(
+    process.env["ERKASA_FFMPEG"] ?? "ffmpeg",
+    [
+      "-y",
+      "-loglevel",
+      "error",
+      "-f",
+      "rawvideo",
+      "-pix_fmt",
+      "rgba",
+      "-s",
+      `${W}x${H}`,
+      "-r",
+      String(FPS),
+      "-i",
+      "-",
+      "-c:v",
+      "libx264",
+      "-preset",
+      "fast",
+      "-crf",
+      "12",
+      "-pix_fmt",
+      "yuv420p",
+      file,
+    ],
+    { stdio: ["pipe", "inherit", "inherit"] },
+  );
   for (let k = from; k < to; k++) {
     const f = idx[k] as { i: number; t: number };
     const buf = await frame(P, f.i, f.t);
@@ -96,14 +139,31 @@ if (cmd === "check") {
   const chunks: string[] = [];
   const SEG = 24;
   const jobs: Array<[number, number, string]> = [];
-  for (let a = 0, k = 0; a < n; a += SEG, k++) jobs.push([a, Math.min(n, a + SEG), join(work, `seg${String(k).padStart(3, "0")}.mp4`)]);
+  for (let a = 0, k = 0; a < n; a += SEG, k++)
+    jobs.push([a, Math.min(n, a + SEG), join(work, `seg${String(k).padStart(3, "0")}.mp4`)]);
   chunks.push(...jobs.map((j) => j[2]));
   let next = 0;
   let done = 0;
   const runOne = (j: [number, number, string]): Promise<void> =>
     new Promise<void>((ok, bad) => {
-      const p = spawn(process.execPath, ["--expose-gc", "--max-old-space-size=1500", "--import", pathToFileURL(TSX).href, me, "frames", String(j[0]), String(j[1]), j[2]], { stdio: ["ignore", "inherit", "inherit"] });
-      p.on("close", (code, sig) => (code === 0 ? ok() : bad(new Error(`segment ${j[2]} failed: ${code} ${sig}`))));
+      const p = spawn(
+        process.execPath,
+        [
+          "--expose-gc",
+          "--max-old-space-size=1500",
+          "--import",
+          pathToFileURL(TSX).href,
+          me,
+          "frames",
+          String(j[0]),
+          String(j[1]),
+          j[2],
+        ],
+        { stdio: ["ignore", "inherit", "inherit"] },
+      );
+      p.on("close", (code, sig) =>
+        code === 0 ? ok() : bad(new Error(`segment ${j[2]} failed: ${code} ${sig}`)),
+      );
     });
   await Promise.all(
     Array.from({ length: workers }, async () => {
@@ -121,10 +181,41 @@ if (cmd === "check") {
   const list = join(work, "parts.txt");
   writeFileSync(list, chunks.map((c) => `file '${c}'`).join("\n"));
   await new Promise<void>((ok, bad) => {
-    const p = spawn(process.env["ERKASA_FFMPEG"] ?? "ffmpeg",
-      ["-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", list, "-i", wav, "-c:v", "libx264", "-preset", "medium", "-crf", "18", "-pix_fmt", "yuv420p",
-        "-c:a", "aac", "-b:a", "192k", "-af", "loudnorm=I=-16:TP=-1.5", "-movflags", "+faststart", "-shortest", out],
-      { stdio: ["ignore", "inherit", "inherit"] });
+    const p = spawn(
+      process.env["ERKASA_FFMPEG"] ?? "ffmpeg",
+      [
+        "-y",
+        "-loglevel",
+        "error",
+        "-f",
+        "concat",
+        "-safe",
+        "0",
+        "-i",
+        list,
+        "-i",
+        wav,
+        "-c:v",
+        "libx264",
+        "-preset",
+        "medium",
+        "-crf",
+        "18",
+        "-pix_fmt",
+        "yuv420p",
+        "-c:a",
+        "aac",
+        "-b:a",
+        "192k",
+        "-af",
+        "loudnorm=I=-16:TP=-1.5",
+        "-movflags",
+        "+faststart",
+        "-shortest",
+        out,
+      ],
+      { stdio: ["ignore", "inherit", "inherit"] },
+    );
     p.on("close", (code) => (code === 0 ? ok() : bad(new Error("ffmpeg failed"))));
   });
   console.info(`done: ${out} (${P.duration.toFixed(1)} s) in ${((Date.now() - t0) / 1000).toFixed(0)} s`);

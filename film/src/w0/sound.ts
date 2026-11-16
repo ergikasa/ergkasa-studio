@@ -49,7 +49,10 @@ export function writeSoundtrack(file: string, P: Prepared): void {
         const amp = k === 0 ? 0.55 : 0.32 / (1 + k * 0.2);
         const trem = 0.85 + 0.15 * Math.sin(2 * Math.PI * (0.13 + k * 0.05) * t + k);
         l += amp * trem * (Math.sin(2 * Math.PI * f * 0.9985 * t) + 0.18 * Math.sin(2 * Math.PI * 2 * f * t));
-        r += amp * trem * (Math.sin(2 * Math.PI * f * 1.0015 * t + 0.4) + 0.18 * Math.sin(2 * Math.PI * 2 * f * t + 0.7));
+        r +=
+          amp *
+          trem *
+          (Math.sin(2 * Math.PI * f * 1.0015 * t + 0.4) + 0.18 * Math.sin(2 * Math.PI * 2 * f * t + 0.7));
       });
       const g = 0.05 * env * (last ? 1.25 : 1);
       L[i] = (L[i] as number) + l * g;
@@ -63,12 +66,21 @@ export function writeSoundtrack(file: string, P: Prepared): void {
     for (let k = 0; k < SR * 3.2; k++) {
       const t = k / SR;
       const env = Math.min(1, t / 0.006) * Math.exp(-t * 1.6);
-      const v = vel * env * (Math.sin(2 * Math.PI * f * t) + 0.35 * Math.sin(2 * Math.PI * 2 * f * t) * Math.exp(-t * 2) + 0.12 * Math.sin(2 * Math.PI * 3.01 * f * t) * Math.exp(-t * 4));
+      const v =
+        vel *
+        env *
+        (Math.sin(2 * Math.PI * f * t) +
+          0.35 * Math.sin(2 * Math.PI * 2 * f * t) * Math.exp(-t * 2) +
+          0.12 * Math.sin(2 * Math.PI * 3.01 * f * t) * Math.exp(-t * 4));
       add(i0 + k, v, pan);
     }
   };
-  const melody = [523.25, 440, 392, 349.23, 329.63, 293.66, 329.63, 392, 349.23, 293.66, 261.63, 329.63, 392, 523.25];
-  P.shots.forEach((s, k) => note(s.start + 0.02, melody[k % melody.length] as number, 0.09, k % 2 ? 0.3 : -0.3));
+  const melody = [
+    523.25, 440, 392, 349.23, 329.63, 293.66, 329.63, 392, 349.23, 293.66, 261.63, 329.63, 392, 523.25,
+  ];
+  P.shots.forEach((s, k) =>
+    note(s.start + 0.02, melody[k % melody.length] as number, 0.09, k % 2 ? 0.3 : -0.3),
+  );
 
   // room tone
   const rnd = rng(11);
@@ -83,7 +95,11 @@ export function writeSoundtrack(file: string, P: Prepared): void {
     const r2 = rng(Math.floor(t0 * 1000));
     for (let k = 0; k < SR * 0.03; k++) {
       const t = k / SR;
-      add(Math.floor(t0 * SR) + k, vel * Math.exp(-t * 260) * (Math.sin(2 * Math.PI * 3200 * t) * 0.6 + r2() * 0.4), 0.2);
+      add(
+        Math.floor(t0 * SR) + k,
+        vel * Math.exp(-t * 260) * (Math.sin(2 * Math.PI * 3200 * t) * 0.6 + r2() * 0.4),
+        0.2,
+      );
     }
   };
   const thump = (t0: number, f: number, vel: number, decay: number, noise = 0.3): void => {
@@ -92,7 +108,12 @@ export function writeSoundtrack(file: string, P: Prepared): void {
     for (let k = 0; k < SR * 0.6; k++) {
       const t = k / SR;
       nl += 0.15 * (r2() - nl);
-      add(Math.floor(t0 * SR) + k, vel * Math.exp(-t * decay) * (Math.sin(2 * Math.PI * f * t * (1 + 0.6 * Math.exp(-t * 30))) + noise * nl * 4));
+      add(
+        Math.floor(t0 * SR) + k,
+        vel *
+          Math.exp(-t * decay) *
+          (Math.sin(2 * Math.PI * f * t * (1 + 0.6 * Math.exp(-t * 30))) + noise * nl * 4),
+      );
     }
   };
   const creak = (t0: number, len: number, vel: number): void => {
@@ -118,15 +139,22 @@ export function writeSoundtrack(file: string, P: Prepared): void {
     // the clock: ticks once a second, a rush of ticks while time is spent
     if (subj.startsWith("wall:1060")) {
       const fast = id === "sh12";
-      for (let t = 0.1; t < s.dur; t += fast ? Math.max(0.07, 0.45 - t * 0.12) : 1) tick(s.start + t, fast ? 0.18 : 0.3);
+      for (let t = 0.1; t < s.dur; t += fast ? Math.max(0.07, 0.45 - t * 0.12) : 1)
+        tick(s.start + t, fast ? 0.18 : 0.3);
     }
     // footsteps while someone walks
-    for (const a of s.perf?.actors.values() ?? []) for (const w of a.walks) for (let t = w.t0 + 0.3; t < w.t1; t += 0.625) thump(s.start + t, 95, 0.16, 38, 0.6);
+    for (const a of s.perf?.actors.values() ?? [])
+      for (const w of a.walks)
+        for (let t = w.t0 + 0.3; t < w.t1; t += 0.625) thump(s.start + t, 95, 0.16, 38, 0.6);
     // the door
     const dOpen = s.w.shot.actions.find((a) => a.do === "open");
     if (dOpen && s.perf) {
       let t0 = 0;
-      for (let t = 0; t < s.dur; t += 1 / 60) if (s.perf.door.at(t) > 0.02) { t0 = t; break; }
+      for (let t = 0; t < s.dur; t += 1 / 60)
+        if (s.perf.door.at(t) > 0.02) {
+          t0 = t;
+          break;
+        }
       tick(s.start + t0 - 0.05, 0.5);
       creak(s.start + t0, 1.1, 0.5);
       note(s.start + t0 + 0.1, 523.25, 0.12, 0);

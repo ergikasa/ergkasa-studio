@@ -27,7 +27,11 @@ export interface MechReport {
 }
 
 /** Stance windows by gait phase, independent of the engine (so old and new versions are measured the same way). */
-function stanceOf(w: { t0: number; t1: number; cycle?: number }, t: number, near: boolean): { contact: number; weight: number } | undefined {
+function stanceOf(
+  w: { t0: number; t1: number; cycle?: number },
+  t: number,
+  near: boolean,
+): { contact: number; weight: number } | undefined {
   const c = w.cycle ?? 1.25;
   const off = near ? 0 : 0.5 * c;
   const n = Math.floor((t - w.t0 - off) / c);
@@ -57,18 +61,28 @@ export function measure(P: Prepared): MechReport {
           return [toWorld(pl, sk.ankle), toWorld(pl, sk.ankleF)];
         };
         let prevV: number | undefined;
-        for (let t = w.t0; t + 1 / FPS <= Math.min(w.t1, s.dur); t += 1 / FPS) {
+        // a walk carried over from the previous shot began before this shot: measure only what is on screen
+        for (let t = Math.max(0, w.t0); t + 1 / FPS <= Math.min(w.t1, s.dur); t += 1 / FPS) {
           const A = ankles(t);
           const B = ankles(t + 1 / FPS);
           // slide: the foot that carries the weight (per the gait's phase) must not move along the floor
-          for (const [k, near] of [[0, true], [1, false]] as Array<[number, boolean]>) {
+          for (const [k, near] of [
+            [0, true],
+            [1, false],
+          ] as Array<[number, boolean]>) {
             const s0 = stanceOf(w, t, near);
             const s1 = stanceOf(w, t + 1 / FPS, near);
             if (s0?.weight === 1 && s1?.weight === 1 && s0.contact === s1.contact)
               slides.push(Math.abs((B[k] as [number, number])[0] - (A[k] as [number, number])[0]));
             // pop: any foot jumping more than a stride's worth in one frame
-            const jump = Math.hypot((B[k] as [number, number])[0] - (A[k] as [number, number])[0], (B[k] as [number, number])[1] - (A[k] as [number, number])[1]);
-            if (jump > pops) { pops = jump; popAt = `${s.w.shot.id}@${(t - w.t0).toFixed(2)}s/${near ? "near" : "far"}`; }
+            const jump = Math.hypot(
+              (B[k] as [number, number])[0] - (A[k] as [number, number])[0],
+              (B[k] as [number, number])[1] - (A[k] as [number, number])[1],
+            );
+            if (jump > pops) {
+              pops = jump;
+              popAt = `${s.w.shot.id}@${(t - w.t0).toFixed(2)}s/${near ? "near" : "far"}`;
+            }
           }
           const v = a.x.at(t + 1 / FPS) - a.x.at(t);
           if (prevV !== undefined) jerk = Math.max(jerk, Math.abs(v - prevV));
@@ -76,8 +90,9 @@ export function measure(P: Prepared): MechReport {
         }
         // a mood label for the gait: the actor's mood track at the middle of the walk
         const mood = s.w.shot.actors.find((x) => x.id === a.id)?.mood ?? "neutral";
-        const dist = Math.abs(a.x.at(w.t1) - a.x.at(w.t0));
-        (speeds[mood] ??= []).push(dist / Math.max(0.01, w.t1 - w.t0));
+        const t0 = Math.max(0, w.t0);
+        const dist = Math.abs(a.x.at(w.t1) - a.x.at(t0));
+        (speeds[mood] ??= []).push(dist / Math.max(0.01, w.t1 - t0));
       }
       const tdur = s.dur;
       let inTurn = false;
@@ -102,13 +117,17 @@ export function measure(P: Prepared): MechReport {
     footJumpAt: popAt,
     turnMinWidth: r(turnMin),
     turns,
-    speedByMood: Object.fromEntries(Object.entries(speeds).map(([m, v]) => [m, r(v.reduce((p, q) => p + q, 0) / v.length)])),
+    speedByMood: Object.fromEntries(
+      Object.entries(speeds).map(([m, v]) => [m, r(v.reduce((p, q) => p + q, 0) / v.length)]),
+    ),
   };
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
-  const script = Script.parse(JSON.parse(readFileSync(join(ROOT, "benchmark/scripts/b1-why-we-stay.script.json"), "utf8")));
+  const script = Script.parse(
+    JSON.parse(readFileSync(join(ROOT, "benchmark/scripts/b1-why-we-stay.script.json"), "utf8")),
+  );
   const plan = parsePlan(JSON.parse(readFileSync(join(ROOT, "film/w0/plan.json"), "utf8")));
   console.info(JSON.stringify(measure(prepare(plan, script)), null, 1));
 }

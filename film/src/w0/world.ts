@@ -203,7 +203,12 @@ export function wallLayer(s: PlaceState, wp: WorldParams): string {
     const x = -400 + i * 160;
     return `<line x1="${f(x)}" y1="${WALL_BASE}" x2="${f(1450 + (x - 1450) * 2.6)}" y2="2700" stroke="#000" stroke-opacity=".07" stroke-width="3"/>`;
   }).join("");
-  const hLines = [1640, 1720, 1830, 1990, 2220].map((y) => `<line x1="${W0}" y1="${y}" x2="${W1}" y2="${y}" stroke="#000" stroke-opacity=".06" stroke-width="3"/>`).join("");
+  const hLines = [1640, 1720, 1830, 1990, 2220]
+    .map(
+      (y) =>
+        `<line x1="${W0}" y1="${y}" x2="${W1}" y2="${y}" stroke="#000" stroke-opacity=".06" stroke-width="3"/>`,
+    )
+    .join("");
   // door: frame, opening (bright when open), leaf that swings toward the room
   const open = s.door;
   const leafW = (dr.x1 - dr.x0) * (1 - open * 0.82);
@@ -226,7 +231,18 @@ export function wallLayer(s: PlaceState, wp: WorldParams): string {
     <rect x="${win.x0}" y="${f((win.y0 + win.y1) / 2 + 60)}" width="${ww}" height="16" fill="#F7F1E6"/>
     <rect x="${win.x0 - 60}" y="${win.y1}" width="${ww + 120}" height="34" fill="#F7F1E6"/><rect x="${win.x0 - 60}" y="${win.y1 + 34}" width="${ww + 120}" height="12" fill="#000" opacity=".1"/>
     <g transform="translate(${win.x0 + 120} ${win.y1})"><path d="M-36 0 L-28 -64 L28 -64 L36 0Z" fill="${P["coral"]}"/>
-      ${[[-30, -150, -20], [0, -175, 0], [28, -150, 22], [-12, -120, -35], [16, -118, 35]].map(([x, y, r]) => `<ellipse cx="${x}" cy="${y}" rx="18" ry="52" transform="rotate(${r} ${x} ${y})" fill="${P["teal"]}"/>`).join("")}</g>`;
+      ${[
+        [-30, -150, -20],
+        [0, -175, 0],
+        [28, -150, 22],
+        [-12, -120, -35],
+        [16, -118, 35],
+      ]
+        .map(
+          ([x, y, r]) =>
+            `<ellipse cx="${x}" cy="${y}" rx="18" ry="52" transform="rotate(${r} ${x} ${y})" fill="${P["teal"]}"/>`,
+        )
+        .join("")}</g>`;
   // radiator under the window
   const rad = `<g transform="translate(${win.x0 + 90} 1290)"><rect width="${ww - 180}" height="200" rx="12" fill="#ECE5D8"/>${Array.from({ length: 14 }, (_, i) => `<rect x="${18 + i * ((ww - 216) / 14)}" y="16" width="${f((ww - 216) / 14 - 10)}" height="168" rx="8" fill="#000" opacity=".07"/>`).join("")}</g>`;
   // shelves with books above filing cabinets
@@ -254,11 +270,14 @@ export function wallLayer(s: PlaceState, wp: WorldParams): string {
   const wainscot = `<rect x="${W0}" y="1220" width="${W1 - W0}" height="${WALL_BASE - 1220}" fill="${wallLow}"/><rect x="${W0}" y="1212" width="${W1 - W0}" height="14" fill="#F7F1E6"/>
     <rect x="${W0}" y="${WALL_BASE - 34}" width="${W1 - W0}" height="34" fill="#F7F1E6"/>`;
   const outlet = `<rect x="1560" y="1440" width="40" height="56" rx="6" fill="#F7F1E6"/><rect x="590" y="1050" width="34" height="56" rx="5" fill="#F7F1E6"/>`;
-  const plant = `<g transform="translate(2620 ${WALL_BASE})"><path d="M-70 0 L-56 -150 L56 -150 L70 0Z" fill="${P["slate"]}"/>${Array.from({ length: 9 }, (_, i) => {
-    const a = -70 + i * 17;
-    const len = 220 + hash01(wp.seed, i, 21) * 160;
-    return `<ellipse cx="${f(Math.sin((a * Math.PI) / 180) * len * 0.5)}" cy="${f(-150 - Math.cos((a * Math.PI) / 180) * len * 0.5)}" rx="34" ry="${f(len * 0.5)}" transform="rotate(${a} ${f(Math.sin((a * Math.PI) / 180) * len * 0.5)} ${f(-150 - Math.cos((a * Math.PI) / 180) * len * 0.5)})" fill="${i % 2 ? P["teal"] : "#23786E"}"/>`;
-  }).join("")}</g>`;
+  const plant = `<g transform="translate(2620 ${WALL_BASE})"><path d="M-70 0 L-56 -150 L56 -150 L70 0Z" fill="${P["slate"]}"/>${Array.from(
+    { length: 9 },
+    (_, i) => {
+      const a = -70 + i * 17;
+      const len = 220 + hash01(wp.seed, i, 21) * 160;
+      return `<ellipse cx="${f(Math.sin((a * Math.PI) / 180) * len * 0.5)}" cy="${f(-150 - Math.cos((a * Math.PI) / 180) * len * 0.5)}" rx="34" ry="${f(len * 0.5)}" transform="rotate(${a} ${f(Math.sin((a * Math.PI) / 180) * len * 0.5)} ${f(-150 - Math.cos((a * Math.PI) / 180) * len * 0.5)})" fill="${i % 2 ? P["teal"] : "#23786E"}"/>`;
+    },
+  ).join("")}</g>`;
   return `<path d="${wallPath}" fill="${wall}" fill-rule="evenodd"/>
     <rect x="${W0}" y="${WALL_BASE}" width="${W1 - W0}" height="1200" fill="${P["floor"]}"/>${floorLines}${hLines}
     ${ceiling}${wainscot}
@@ -310,7 +329,7 @@ export function midLayer(s: PlaceState, wp: WorldParams): string {
     <rect x="1600" y="1320" width="190" height="${FLOOR - 1320 - 10}" fill="${P["woodDark"]}"/>
     ${[0, 1, 2].map((i) => `<rect x="1612" y="${1334 + i * 118}" width="166" height="104" rx="4" fill="${P["wood"]}"/><rect x="1670" y="${1376 + i * 118}" width="50" height="10" rx="5" fill="${P["ochre"]}"/>`).join("")}</g>`;
   const monitor = `<g transform="translate(1430 1150)"><rect x="-150" y="-110" width="300" height="190" rx="12" fill="${P["ink"]}"/><rect x="-136" y="-96" width="272" height="162" rx="5" fill="#9FC6DE"/>
-    <rect x="-120" y="-80" width="150" height="12" fill="#FFF" opacity=".55"/>${[0, 1, 2, 3, 4].map((i) => `<rect x="-120" y="${-56 + i * 20}" width="${200 - (i * 37) % 90}" height="8" fill="#FFF" opacity=".35"/>`).join("")}
+    <rect x="-120" y="-80" width="150" height="12" fill="#FFF" opacity=".55"/>${[0, 1, 2, 3, 4].map((i) => `<rect x="-120" y="${-56 + i * 20}" width="${200 - ((i * 37) % 90)}" height="8" fill="#FFF" opacity=".35"/>`).join("")}
     <rect x="-14" y="80" width="28" height="44" fill="${P["ink"]}"/><rect x="-70" y="120" width="140" height="18" rx="6" fill="${P["ink"]}"/></g>
     <rect x="1300" y="1272" width="150" height="16" rx="5" fill="#D9D3C8"/><rect x="1470" y="1276" width="34" height="12" rx="6" fill="#D9D3C8"/>`;
   const lampOn = s.lamp;
@@ -323,7 +342,10 @@ export function midLayer(s: PlaceState, wp: WorldParams): string {
     [0, 0, 190, 130, wp.years[0] ?? ""],
     [20, -130, 160, 110, wp.years[1] ?? ""],
   ]
-    .map(([x, y, w, h, label]) => `<rect x="${x}" y="${(y as number) - (h as number)}" width="${w}" height="${h}" fill="#C8A57A"/><rect x="${x}" y="${(y as number) - (h as number)}" width="${w}" height="16" fill="#B08D63"/><rect x="${(x as number) + 40}" y="${(y as number) - (h as number) + 40}" width="${(w as number) - 80}" height="40" fill="#FBF6EC"/><text x="${(x as number) + (w as number) / 2}" y="${(y as number) - (h as number) + 69}" font-family="Montserrat" font-weight="800" font-size="22" text-anchor="middle" fill="${P["ink"]}">${label}</text>`)
+    .map(
+      ([x, y, w, h, label]) =>
+        `<rect x="${x}" y="${(y as number) - (h as number)}" width="${w}" height="${h}" fill="#C8A57A"/><rect x="${x}" y="${(y as number) - (h as number)}" width="${w}" height="16" fill="#B08D63"/><rect x="${(x as number) + 40}" y="${(y as number) - (h as number) + 40}" width="${(w as number) - 80}" height="40" fill="#FBF6EC"/><text x="${(x as number) + (w as number) / 2}" y="${(y as number) - (h as number) + 69}" font-family="Montserrat" font-weight="800" font-size="22" text-anchor="middle" fill="${P["ink"]}">${label}</text>`,
+    )
     .join("")}</g>`;
   const bin = `<g transform="translate(1090 ${FLOOR})"><path d="M-52 0 L-62 -130 L62 -130 L52 0Z" fill="#59677A"/><circle cx="-14" cy="-138" r="20" fill="#FBF6EC"/><circle cx="16" cy="-142" r="17" fill="#EFE6D6"/></g>`;
   const papers = `<g transform="translate(1290 1290)"><rect x="-8" y="-6" width="96" height="6" fill="#FBF6EC" transform="rotate(-3)"/><rect x="0" y="-11" width="92" height="5" fill="#EFE6D6" transform="rotate(2)"/></g>`;
@@ -332,8 +354,7 @@ export function midLayer(s: PlaceState, wp: WorldParams): string {
 }
 
 /** Near foreground: things between the camera and the room (always out of focus). */
-export function nearLayer(wp: WorldParams): string {
-  const P = wp.palette;
+export function nearLayer(): string {
   const leaves = Array.from({ length: 7 }, (_, i) => {
     const a = -60 + i * 22;
     return `<ellipse cx="${f(2560 + Math.sin((a * Math.PI) / 180) * 160)}" cy="${f(1700 - Math.cos((a * Math.PI) / 180) * 200)}" rx="60" ry="230" transform="rotate(${a} ${f(2560 + Math.sin((a * Math.PI) / 180) * 160)} ${f(1700 - Math.cos((a * Math.PI) / 180) * 200)})" fill="${i % 2 ? "#1E4E4A" : "#16403C"}"/>`;

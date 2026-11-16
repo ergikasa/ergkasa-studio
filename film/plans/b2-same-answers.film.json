@@ -145,7 +145,8 @@
           "do": "sit_down",
           "at": "word:answers"
         }
-      ]
+      ],
+      "continuity": "reset"
     },
     {
       "id": "sh04",
@@ -288,6 +289,11 @@
           "do": "give",
           "target": "maria",
           "at": "word:same#2"
+        },
+        {
+          "who": "alex_suit",
+          "do": "sit_down",
+          "at": "word:answers"
         }
       ]
     },

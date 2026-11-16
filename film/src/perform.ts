@@ -22,6 +22,7 @@ import {
   type Pose,
 } from "./rig.js";
 import { type SetDef, standingHipY } from "./sets.js";
+import type { Carry, CharacterState } from "./continuity.js";
 import type { PropKind } from "./props.js";
 
 export interface Issue {
@@ -160,6 +161,12 @@ export class ActorPerf {
   gazeHome: [number, number] | undefined;
   holding: string | undefined;
   seed: number;
+  /** What the person did and when (for continuity: an action still going at a cut). */
+  acts: Array<{ kind: string; t0: number; t1: number; target?: string }> = [];
+  /** A walk that was going on when the previous shot cut: the next walk picks up its stride and speed. */
+  continueWalk: { elapsed: number; speed: number } | undefined;
+  /** Where the eyes were sent and when. */
+  gazes: Array<{ t: number; at: [number, number] }> = [];
   /** The mood the person is in (latest set), for how they move. */
   moods: Array<{ t: number; m: Mood }> = [];
 
@@ -210,7 +217,7 @@ export class ActorPerf {
   }
 
   moodAt(t: number): Mood {
-    let m: Mood = "neutral";
+    let m: Mood = this.moods[0]?.m ?? "neutral";
     for (const e of this.moods) if (e.t <= t) m = e.m;
     return m;
   }
@@ -243,7 +250,7 @@ export class ActorPerf {
       for (const near of [true, false]) {
         const st = this.stance(w, t, near);
         if (!st) continue;
-        const target = toLocal(this.placed(t), this.footWorld(st.contact, near));
+        const target = toLocal(this.placed(t), this.footWorld(Math.max(0, st.contact), near));
         const leg = solveLeg(near ? [6, 0] : [0, 0], target);
         const k = st.weight;
         if (near) {
@@ -356,6 +363,8 @@ export interface PerformContext {
   at(anchor: string): number | undefined;
   /** Words spoken inside the shot, local times (for lip-sync). */
   words: Array<{ word: string; t: number; end: number }>;
+  /** Where the previous shot on this set left people and props (continuity.ts). Absent: start from the plan. */
+  carry?: Carry;
 }
 
 const GESTURE_SEC: Partial<Record<Action["do"], number>> = {
@@ -423,6 +432,123 @@ export function perform(ctx: PerformContext): Performance {
   }
   const door = new Track(0);
 
+  // ---- continuity: pick people and props up where the previous shot on this set left them
+  const injected: Array<{ a: Action; i: number; t: number }> = [];
+  const carried = new Set<string>();
+  if (ctx.carry && shot.continuity !== "reset") {
+    for (const [id, cp] of Object.entries(ctx.carry.props)) {
+      const pr = props.get(id);
+      if (pr)
+        pr.events = [{ t: 0, holder: cp.holder && actors.has(cp.holder) ? cp.holder : null, at: cp.at }];
+    }
+    shot.actors.forEach((placement, i) => {
+      const a = actors.get(placement.id);
+      const cs = ctx.carry?.actors[placement.id];
+      if (!a || !cs) return;
+      carried.add(a.id);
+      carryInto(a, cs, placement, i);
+    });
+  }
+
+  function carryInto(
+    a: ActorPerf,
+    cs: CharacterState,
+    placement: (typeof shot.actors)[number],
+    i: number,
+  ): void {
+    // the plan said where this person is; continuity says where they actually are
+    const m = set.marks[placement.at];
+    const planned = m ? (placement.pose === "seated" ? m.x + 30 * m.facing : m.x) : cs.x;
+    // already on the way there (walking to it, or halfway into the seat) is not a contradiction
+    const goingThere =
+      (cs.action?.kind === "walk_to" && cs.action.target === placement.at) ||
+      (cs.movement === "sitting_down" && placement.pose === "seated" && m?.kind === "seat") ||
+      (cs.movement === "standing_up" && placement.pose !== "seated");
+    if (Math.abs(planned - cs.x) > 40 && !goingThere)
+      issues.push({
+        level: "error",
+        code: "PLACEMENT_CONTRADICTS_CONTINUITY",
+        path: `${ctx.path}.actors[${i}]`,
+        message: `${a.id} is at x=${cs.x.toFixed(0)} when the previous shot cuts, but this shot places them at '${placement.at}' (x=${planned.toFixed(0)}); walk them there, or declare continuity "reset" if time has passed`,
+      });
+    if (
+      (placement.pose === "seated") !== cs.seated &&
+      cs.movement !== "sitting_down" &&
+      cs.movement !== "standing_up" &&
+      !goingThere
+    )
+      issues.push({
+        level: "error",
+        code: "PLACEMENT_CONTRADICTS_CONTINUITY",
+        path: `${ctx.path}.actors[${i}].pose`,
+        message: `${a.id} is ${cs.seated ? "seated" : "standing"} when the previous shot cuts, but this shot has them ${placement.pose}`,
+      });
+    a.x = new Track(cs.x);
+    a.y = new Track(cs.y);
+    a.facings = [{ t: 0, f: cs.facing }];
+    a.seated = [{ t: 0, v: cs.seated }];
+    // the pose continues from the last frame and settles into this shot's starting pose
+    const base = cs.seated ? SEATED : STANDING;
+    for (const c of Object.keys(a.ch) as Ch[]) {
+      const v = cs.channels[c];
+      if (v === undefined) continue;
+      a.ch[c] = new Track(v);
+      if (c !== "thigh" && c !== "shin" && c !== "thighF" && c !== "shinF")
+        a.ch[c].to(0, 0.45, base[c], "io");
+    }
+    // the feeling continues; if the plan wants another one, it arrives on screen, not on the cut
+    a.moods = [];
+    a.setMood(0, cs.mood, 0.01);
+    if (placement.mood !== cs.mood) a.setMood(0.05, placement.mood, 0.7);
+    a.gazeHome = cs.gaze ?? a.gazeHome;
+    if (cs.gaze) a.gazes = [{ t: 0, at: cs.gaze }];
+    if (cs.holding) {
+      a.holding = cs.holding;
+      const pr = props.get(cs.holding);
+      if (pr) pr.events = [{ t: 0, holder: a.id, at: [0, 0] }];
+    }
+    // an action that was still going does not vanish at the cut
+    const own = shot.actions.filter((x) => x.who === a.id).map((x) => ({ x, t: ctx.at(x.at) ?? 99 }));
+    const first = own.sort((p, q) => p.t - q.t)[0];
+    if (cs.action?.kind === "walk_to" && cs.action.progress < 0.98 && cs.walk) {
+      a.continueWalk = { elapsed: cs.walk.elapsed, speed: Math.abs(cs.walk.speed) };
+      if (!(first && first.t < 0.1 && first.x.do === "walk_to"))
+        injected.push({
+          a: { who: a.id, do: "walk_to", target: cs.action.target, at: "start" } as Action,
+          i: -1,
+          t: 0,
+        });
+    } else if (cs.movement === "sitting_down") {
+      const seatMark = Object.values(set.marks).find(
+        (mk) => mk.kind === "seat" && Math.abs(mk.x + 30 * mk.facing - cs.x) < 160,
+      );
+      a.seated = [{ t: 0, v: false }];
+      const done = sitDown(
+        a,
+        0,
+        ctx.path,
+        seatMark ? seatMark.x + 30 * seatMark.facing : undefined,
+        seatMark?.seatY,
+      );
+      a.acts.push({
+        kind: cs.action?.kind ?? "sit_down",
+        t0: 0,
+        t1: done,
+        ...(cs.action?.target ? { target: cs.action.target } : {}),
+      });
+    } else if (cs.movement === "standing_up") {
+      a.y.to(0, 0.5, standingHipY(set), "out");
+      for (const c of ["thigh", "shin", "thighF", "shinF"] as Ch[]) a.ch[c].to(0, 0.5, STANDING[c], "out");
+      a.seated = [{ t: 0.2, v: false }];
+      a.acts.push({
+        kind: cs.action?.kind ?? "stand_up",
+        t0: 0,
+        t1: 0.5,
+        ...(cs.action?.target ? { target: cs.action.target } : {}),
+      });
+    }
+  }
+
   const point = (target: string | undefined, t: number): [number, number] | undefined => {
     if (!target) return undefined;
     const actor = actors.get(target);
@@ -435,7 +561,7 @@ export function perform(ctx: PerformContext): Performance {
   };
 
   // initial gaze: what each person's mark looks at, or straight ahead
-  for (const a of actors.values()) if (a.gazeHome) gazeTo(a, 0, a.gazeHome, 0.01);
+  for (const a of actors.values()) if (a.gazeHome && !carried.has(a.id)) gazeTo(a, 0, a.gazeHome, 0.01);
 
   const sorted = shot.actions
     .map((a, i) => ({ a, i, t: ctx.at(a.at) }))
@@ -449,6 +575,7 @@ export function perform(ctx: PerformContext): Performance {
         });
       return x.t !== undefined;
     })
+    .concat(injected)
     .sort((p, q) => (p.t as number) - (q.t as number));
 
   for (const { a, i, t: t0r } of sorted) {
@@ -491,6 +618,12 @@ export function perform(ctx: PerformContext): Performance {
       });
     const dur = a.sec ?? GESTURE_SEC[a.do] ?? 1.2;
     const end = do_(a, actor, t0, dur, tgt, path);
+    actor.acts.push({
+      kind: a.do,
+      t0,
+      t1: Math.max(end, t0 + 0.05),
+      ...(a.target ? { target: a.target } : {}),
+    });
     events.push(end);
   }
 
@@ -812,6 +945,8 @@ export function perform(ctx: PerformContext): Performance {
 
   // ---------------------------------------------------------------- building blocks
   function gazeTo(a: ActorPerf, t0: number, target: [number, number], speed = 1): void {
+    a.gazes.push({ t: t0, at: target });
+    a.gazes.sort((p, q) => p.t - q.t);
     const h = a.headWorld(t0);
     const f = a.facingAt(t0);
     const dx = (target[0] - h[0]) * f;
@@ -977,16 +1112,34 @@ export function perform(ctx: PerformContext): Performance {
     let t = t0;
     if (a.facingAt(t) !== dir) t = turn(a, t, dir);
     const g = GAIT[a.moodAt(t)];
+    const cont = a.continueWalk && t < 0.1 ? a.continueWalk : undefined;
+    a.continueWalk = undefined;
     // one cycle is two steps; a step spans about the legs' reach at the gait's stride
-    const perCycle = 4 * (RIG.thigh + RIG.shin) * Math.sin(((18 * g.amp) * Math.PI) / 180);
-    const cycles = Math.max(1, Math.round((dist / perCycle) * 2) / 2);
-    const tw = cycles * g.cycle + 0.3;
-    const w: Walk = { t0: t, t1: t + tw, ...g };
-    // speed: ease in over the first step, constant, ease out; the joins have the same velocity
-    const ramp = Math.min(0.5, tw / 3);
-    const rd = (ramp * dist) / (2 * (tw - ramp));
+    const perCycle = 4 * (RIG.thigh + RIG.shin) * Math.sin((18 * g.amp * Math.PI) / 180);
+    let tw: number;
+    let w: Walk;
     a.x.keys = a.x.keys.filter((k) => k[0] < t);
-    a.x.keys.push([t, from], [t + ramp, from + dir * rd, "in"], [t + tw - ramp, toX - dir * rd, "lin"], [t + tw, toX, "out"]);
+    if (cont && cont.speed > 20) {
+      // the walk began in the previous shot: same stride phase, same speed, only the arrival eases out
+      const ramp = Math.min(0.5, dist / cont.speed);
+      const rd = (cont.speed * ramp) / 2;
+      tw = Math.max(ramp, (dist - rd) / cont.speed + ramp);
+      w = { t0: t - cont.elapsed, t1: t + tw, ...g };
+      a.x.keys.push([t, from], [t + tw - ramp, toX - dir * rd, "lin"], [t + tw, toX, "out"]);
+    } else {
+      const cycles = Math.max(1, Math.round((dist / perCycle) * 2) / 2);
+      tw = cycles * g.cycle + 0.3;
+      w = { t0: t, t1: t + tw, ...g };
+      // speed: ease in over the first step, constant, ease out; the joins have the same velocity
+      const ramp = Math.min(0.5, tw / 3);
+      const rd = (ramp * dist) / (2 * (tw - ramp));
+      a.x.keys.push(
+        [t, from],
+        [t + ramp, from + dir * rd, "in"],
+        [t + tw - ramp, toX - dir * rd, "lin"],
+        [t + tw, toX, "out"],
+      );
+    }
     a.walks.push(w);
     events.push(t + tw);
     return t + tw + 0.15;
