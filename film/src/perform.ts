@@ -11,9 +11,11 @@ import {
   lookFor,
   reachArm,
   RIG,
+  skeleton,
   SEATED,
   STANDING,
   toLocal,
+  toWorld,
   type Drawn,
   type Look,
   type Placed,
@@ -59,8 +61,8 @@ const WALK_SHIN: Array<[number, number]> = [
   [0.22, -14],
   [0.48, -8],
   [0.62, -52],
-  [0.8, -38],
-  [0.95, -6],
+  [0.78, -40],
+  [0.9, -16],
   [1, -3],
 ];
 const CYCLE = 1.25; // seconds per two steps
@@ -99,15 +101,46 @@ class Track {
   }
 }
 
-interface Walk {
+export interface Walk {
   t0: number;
   t1: number;
+  /** Seconds per two steps, stride scale and arm swing of this walk (from the walker's mood). */
+  cycle: number;
+  amp: number;
+  arm: number;
+  lean: number;
 }
+
+/** How a mood walks: slower and shorter when low, longer and faster when resolved. */
+export const GAIT: Record<Mood, { cycle: number; amp: number; arm: number; lean: number }> = {
+  neutral: { cycle: 1.2, amp: 1, arm: 0.9, lean: 3 },
+  tired: { cycle: 1.55, amp: 0.78, arm: 0.45, lean: 7 },
+  sad: { cycle: 1.5, amp: 0.8, arm: 0.45, lean: 8 },
+  anxious: { cycle: 1.05, amp: 0.82, arm: 0.55, lean: 5 },
+  hopeful: { cycle: 1.15, amp: 1.05, arm: 1, lean: 1 },
+  determined: { cycle: 1.02, amp: 1.12, arm: 1.15, lean: 5 },
+  happy: { cycle: 1.1, amp: 1.05, arm: 1.1, lean: 0 },
+  thinking: { cycle: 1.4, amp: 0.9, arm: 0.6, lean: 3 },
+};
 
 export interface PropState {
   kind: PropKind;
   /** Attach events: who holds it from t (null = rests at `at`). */
   events: Array<{ t: number; holder: string | null; at: [number, number] }>;
+}
+
+/** Two-bone leg IK, knee forward: thigh angle (0 = down, + forward) and shin angle relative to the thigh. */
+export function solveLeg(hip: [number, number], target: [number, number]): { thigh: number; shin: number } {
+  const L1 = RIG.thigh;
+  const L2 = RIG.shin;
+  const dx = target[0] - hip[0];
+  const dy = target[1] - hip[1];
+  const d = Math.max(20, Math.min(L1 + L2 - 0.5, Math.hypot(dx, dy)));
+  const deg = (r: number): number => (r * 180) / Math.PI;
+  const alpha = deg(Math.atan2(dx, dy));
+  const beta = deg(Math.acos(Math.max(-1, Math.min(1, (L1 * L1 + d * d - L2 * L2) / (2 * L1 * d)))));
+  const gamma = deg(Math.acos(Math.max(-1, Math.min(1, (L1 * L1 + L2 * L2 - d * d) / (2 * L1 * L2)))));
+  return { thigh: alpha + beta, shin: -(180 - gamma) };
 }
 
 export class ActorPerf {
@@ -127,6 +160,8 @@ export class ActorPerf {
   gazeHome: [number, number] | undefined;
   holding: string | undefined;
   seed: number;
+  /** The mood the person is in (latest set), for how they move. */
+  moods: Array<{ t: number; m: Mood }> = [];
 
   constructor(p: ActorPlacement, cast: CastMember | undefined, set: SetDef, idx: number) {
     this.id = p.id;
@@ -174,37 +209,111 @@ export class ActorPerf {
     return [pl.x + pl.facing * 30, pl.y - 345];
   }
 
+  moodAt(t: number): Mood {
+    let m: Mood = "neutral";
+    for (const e of this.moods) if (e.t <= t) m = e.m;
+    return m;
+  }
+
   setMood(t: number, mood: Mood, dur = 0.7): void {
+    this.moods.push({ t, m: mood });
+    this.moods.sort((p, q) => p.t - q.t);
     const m = MOOD[mood];
     for (const c of MOOD_CH) this.moodCh[c].to(t, t + dur, m[c] ?? 0);
   }
 
   bob(t: number): number {
     for (const w of this.walks)
-      if (t >= w.t0 && t <= w.t1) return Math.abs(Math.sin(((t - w.t0) / CYCLE) * 2 * Math.PI)) * -7 + 3;
+      if (t >= w.t0 && t <= w.t1) {
+        const k = Math.min(1, (t - w.t0) / 0.3, (w.t1 - t) / 0.3);
+        return (Math.abs(Math.sin(((t - w.t0) / w.cycle) * 2 * Math.PI)) * -8 + 4) * w.amp * k;
+      }
     return 0;
   }
 
   /** The pose at t: tracks + walk cycle + mood + micro-acting. */
+  /**
+   * The pose at t with planted feet: while walking, the leg that carries the weight is solved (two-bone IK)
+   * so its foot stays where it touched the floor, whatever the body does; the swinging leg follows the cycle.
+   */
   pose(t: number): Pose {
+    const p = this.rawPose(t);
+    for (const w of this.walks) {
+      if (t < w.t0 || t > w.t1) continue;
+      for (const near of [true, false]) {
+        const st = this.stance(w, t, near);
+        if (!st) continue;
+        const target = toLocal(this.placed(t), this.footWorld(st.contact, near));
+        const leg = solveLeg(near ? [6, 0] : [0, 0], target);
+        const k = st.weight;
+        if (near) {
+          p.thigh = p.thigh * (1 - k) + leg.thigh * k;
+          p.shin = p.shin * (1 - k) + leg.shin * k;
+        } else {
+          p.thighF = p.thighF * (1 - k) + leg.thigh * k;
+          p.shinF = p.shinF * (1 - k) + leg.shin * k;
+        }
+      }
+    }
+    return p;
+  }
+
+  /**
+   * Is this leg carrying the weight at t? The near leg lands at the start of each cycle, the far leg half a cycle
+   * later; a leg stays planted for half a cycle, then is released over 0.15 s (no pop into the swing).
+   */
+  stance(w: Walk, t: number, near: boolean): { contact: number; weight: number } | undefined {
+    const off = near ? 0 : 0.5 * w.cycle;
+    const n = Math.floor((t - w.t0 - off) / w.cycle);
+    if (n < 0) return undefined;
+    const contact = w.t0 + off + n * w.cycle;
+    if (contact > w.t1) return undefined;
+    const end = contact + 0.5 * w.cycle;
+    // the last step settles: the weight blends back to both feet as the gait fades out
+    const settle = Math.max(0, Math.min(1, (w.t1 - t) / 0.3));
+    if (t < end) return { contact, weight: settle };
+    if (t < end + 0.15) return { contact, weight: (1 - (t - end) / 0.15) * settle };
+    return undefined;
+  }
+
+  /** World position of a foot (ankle) in the uncorrected pose: where it lands. */
+  footWorld(t: number, near: boolean): [number, number] {
+    const sk = skeleton(this.rawPose(t));
+    return toWorld(this.placed(t), near ? sk.ankle : sk.ankleF);
+  }
+
+  rawPose(t: number): Pose {
     const p = {} as Pose;
     for (const c of Object.keys(this.ch) as Ch[]) p[c] = this.ch[c].at(t) + this.moodCh[c].at(t);
-    for (const w of this.walks)
+    for (const w of this.walks) {
       if (t >= w.t0 && t <= w.t1) {
         const k = Math.min(1, (t - w.t0) / 0.3, (w.t1 - t) / 0.3);
-        const ph = (t - w.t0) / CYCLE;
-        p.thigh = p.thigh * (1 - k) + cyc(WALK_THIGH, ph) * k;
-        p.shin = p.shin * (1 - k) + cyc(WALK_SHIN, ph) * k;
-        p.thighF = p.thighF * (1 - k) + cyc(WALK_THIGH, ph + 0.5) * k;
-        p.shinF = p.shinF * (1 - k) + cyc(WALK_SHIN, ph + 0.5) * k;
+        const ph = (t - w.t0) / w.cycle;
+        p.thigh = p.thigh * (1 - k) + cyc(WALK_THIGH, ph) * w.amp * k;
+        p.shin = p.shin * (1 - k) + cyc(WALK_SHIN, ph) * w.amp * k;
+        p.thighF = p.thighF * (1 - k) + cyc(WALK_THIGH, ph + 0.5) * w.amp * k;
+        p.shinF = p.shinF * (1 - k) + cyc(WALK_SHIN, ph + 0.5) * w.amp * k;
         if (!this.holding) {
-          p.arm = p.arm * (1 - k) + -cyc(WALK_THIGH, ph) * 0.7 * k;
-          p.armF = p.armF * (1 - k) + -cyc(WALK_THIGH, ph + 0.5) * 0.7 * k;
-          p.fore = p.fore * (1 - k) + 16 * k;
-          p.foreF = p.foreF * (1 - k) + 16 * k;
+          // arms swing against the legs, the far arm a touch later (overlap)
+          p.arm = p.arm * (1 - k) + -cyc(WALK_THIGH, ph - 0.03) * w.arm * k;
+          p.armF = p.armF * (1 - k) + -cyc(WALK_THIGH, ph + 0.47) * w.arm * k;
+          p.fore = p.fore * (1 - k) + (14 + 10 * Math.max(0, -Math.sin(ph * 2 * Math.PI))) * k;
+          p.foreF = p.foreF * (1 - k) + (14 + 10 * Math.max(0, Math.sin(ph * 2 * Math.PI))) * k;
         }
-        p.torso += 4 * k;
+        // lean into the walk; a little more on the first steps (taking the weight)
+        const start = Math.max(0, 1 - (t - w.t0) / 0.6);
+        p.torso += (w.lean + 5 * start) * k;
+        // the head stays level: it counters part of the body's lean and bobs a little late
+        p.head -= w.lean * 0.45 * k;
+        p.head += Math.sin(((t - w.t0) / w.cycle) * 4 * Math.PI - 0.6) * 1.2 * k;
       }
+      // follow-through after a stop: the torso rocks back past upright and settles
+      if (t > w.t1 && t < w.t1 + 0.6) {
+        const u = (t - w.t1) / 0.6;
+        p.torso += -4 * Math.sin(u * Math.PI) * (1 - u) * w.amp;
+        p.head += 2.5 * Math.sin(u * Math.PI * 1.4) * (1 - u);
+      }
+    }
     // micro-acting: breath, blinks, weight shifts, small head moves and eye darts (seeded, deterministic)
     p.breath = 0.5 + 0.5 * Math.sin(t * 1.7 + this.seed);
     const blinkEvery = 2.6 + hash01(this.seed) * 1.8;
@@ -730,11 +839,18 @@ export function perform(ctx: PerformContext): Performance {
   }
 
   function turn(a: ActorPerf, t0: number, f: 1 | -1): number {
-    a.turn.to(t0, t0 + 0.14, 0.05, "in");
-    a.facings.push({ t: t0 + 0.14, f });
+    // the eyes go first, the body follows with a small dip of the knees, the flip happens at the narrowest
+    // moment (a body seen nearly from the front), never as a sheet of paper
+    a.ch.gx.to(t0, t0 + 0.1, -1, "out");
+    a.ch.gx.then(t0 + 0.32, 1, "io");
+    a.turn.to(t0 + 0.06, t0 + 0.16, 0.6, "in");
+    a.facings.push({ t: t0 + 0.16, f });
     a.facings.sort((p, q) => p.t - q.t);
-    a.turn.then(t0 + 0.34, 1, "out");
-    return t0 + 0.34;
+    a.turn.then(t0 + 0.3, 1, "out");
+    const y0 = a.y.at(t0);
+    a.y.to(t0 + 0.04, t0 + 0.16, y0 + 7, "io");
+    a.y.then(t0 + 0.3, y0, "out");
+    return t0 + 0.3;
   }
 
   function within(a: ActorPerf, t: number, w: [number, number]): boolean {
@@ -860,16 +976,20 @@ export function perform(ctx: PerformContext): Performance {
     const dir = (toX > from ? 1 : -1) as 1 | -1;
     let t = t0;
     if (a.facingAt(t) !== dir) t = turn(a, t, dir);
-    const tw = dist / WALK_SPEED + 0.3;
-    // the first step takes the weight (ease in), the middle is at the gait's speed, the last step settles
-    const ramp = Math.min(0.3, tw / 3);
-    const rd = Math.min(dist / 3, WALK_SPEED * ramp * 0.5);
-    a.x.to(t, t + ramp, from + dir * rd, "in");
-    a.x.then(t + tw - ramp, toX - dir * rd, "lin");
-    a.x.then(t + tw, toX, "out");
-    a.walks.push({ t0: t, t1: t + tw });
+    const g = GAIT[a.moodAt(t)];
+    // one cycle is two steps; a step spans about the legs' reach at the gait's stride
+    const perCycle = 4 * (RIG.thigh + RIG.shin) * Math.sin(((18 * g.amp) * Math.PI) / 180);
+    const cycles = Math.max(1, Math.round((dist / perCycle) * 2) / 2);
+    const tw = cycles * g.cycle + 0.3;
+    const w: Walk = { t0: t, t1: t + tw, ...g };
+    // speed: ease in over the first step, constant, ease out; the joins have the same velocity
+    const ramp = Math.min(0.5, tw / 3);
+    const rd = (ramp * dist) / (2 * (tw - ramp));
+    a.x.keys = a.x.keys.filter((k) => k[0] < t);
+    a.x.keys.push([t, from], [t + ramp, from + dir * rd, "in"], [t + tw - ramp, toX - dir * rd, "lin"], [t + tw, toX, "out"]);
+    a.walks.push(w);
     events.push(t + tw);
-    return t + tw + 0.1;
+    return t + tw + 0.15;
   }
 
   return {

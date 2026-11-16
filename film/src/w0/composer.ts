@@ -149,7 +149,13 @@ export function prepare(plan: W0Plan, script: Script): Prepared {
       .filter((x) => x.t >= start && x.t < end)
       .map((x) => ({ word: x.word, t: x.t - start, end: x.end - x.start + x.t - start }));
     const perf = shot.kind === "set" ? perform({ set, shot, path, dur, cast: plan.cast, at, words }) : undefined;
-    if (perf) issues.push(...perf.issues);
+    if (perf) {
+      issues.push(...perf.issues);
+      // an action that is still going when the shot cuts is lost (the next shot may contradict it)
+      const last = Math.max(0, ...perf.events);
+      if (last > dur + 0.05)
+        issues.push({ level: "warning", code: "ACTION_OVERRUNS_SHOT", path, message: `${shot.id}: actions end at ${last.toFixed(2)} s, the shot lasts ${dur.toFixed(2)} s` });
+    }
     const lightKeys: Array<[number, number]> = [[0, LIGHT[shot.light ?? "golden"]]];
     if (shot.lightTo) {
       const t1 = at(shot.lightTo.at);
@@ -237,12 +243,12 @@ function cameraFor(w: W0Shot, perf: Performance | undefined, dur: number): (t: n
   const framing = spec.framing ?? "medium";
   const h0 = spec.height ?? HEIGHT[framing];
   const resolve = (subject: string | undefined, t: number, height: number, sx: number, sy: number): Cam => {
-    if (!subject || framing === "wide") return framing === "wide" && !subject ? { ...REF, height } : aimSubject(subject, t, height, sx, sy);
+    if (!subject || framing === "wide") return framing === "wide" && !subject ? { ...REF, height } : aimSubject(subject ?? "", t, height, sx, sy);
     return aimSubject(subject, t, height, sx, sy);
   };
   const aimSubject = (subject: string, t: number, height: number, sx: number, sy: number): Cam => {
     if (subject.startsWith("wall:")) {
-      const [x, y] = subject.slice(5).split(",").map(Number) as [number, number];
+      const [x = 0, y = 0] = subject.slice(5).split(",").map(Number);
       return aimAt(height, DEPTH.wall, x, y, sx * W, sy * H);
     }
     const actor = perf?.actors.get(subject);

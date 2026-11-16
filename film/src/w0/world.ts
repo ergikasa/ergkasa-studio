@@ -55,7 +55,7 @@ export function officeSet(): SetDef {
     wide: { cx: 1450, cy: 1120, height: 2140 },
     marks: {
       chair: { x: 1150, kind: "seat", facing: 1, seatY: 1395, look: [1430, 1150], work: [1370, 1266] },
-      window: { x: 2010, kind: "stand", facing: 1, look: [2240, 640] },
+      window: { x: 1880, kind: "stand", facing: 1, look: [2240, 640] },
       door: { x: 560, kind: "stand", facing: -1, look: [300, 1050] },
       middle: { x: 880, kind: "stand", facing: -1, look: [300, 1050] },
       desk_top: { x: 1330, kind: "stand", facing: 1, surfaceY: 1290 },
