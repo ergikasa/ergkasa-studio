@@ -42,6 +42,7 @@ import {
   shotFrames,
   typeSvg,
   w0TypeSvg,
+  w0ViewOf,
   type ActorPerf,
   type Look,
   type Pose,
@@ -471,65 +472,42 @@ describe("w0-office: every frame's inputs rebuilt from the package equal the eng
     expect(tails.length).toBe(expected);
   });
 
-  it("props: the W0 composer's own assembly (drawShot, run verbatim) equals the package on every frame", () => {
-    const assemble = engineFunction<{ held: string[]; resting: string[]; actorsSvg: string }>(
-      `let actorsSvg = "";\n${engineText("film/src/w0/composer.ts", "    const held: string[] = [];", 'actorsSvg = people.join("") + held.join("");')}\nreturn { held, resting, actorsSvg };`,
-      ["perf", "t", "propAt", "drawProp"],
-    );
+  it("props and people: what the W0 composer hands its compositor (viewOf) equals the package on every frame", () => {
     let checked = 0;
     P.shots.forEach((ps, i) => {
       if (!ps.perf) return;
       const scene = pkg.scenes[i] as Scene;
       const layer = (id: string) => scene.layers.find((l) => l.id === id)?.nodes ?? [];
-      const propsOf = (id: string): string[] =>
-        layer(id)
-          .filter((n): n is AssetNode => n.kind === "asset" && n.asset.startsWith("prop_"))
-          .map((n) => propSvg(at0, n))
-          .filter(Boolean);
-      let at0: At;
       for (const f of frames[i] as SceneFrame[]) {
-        at0 = new At(scene, f.frame);
-        const engine = assemble(ps.perf, f.t, propAt, drawProp);
-        expect(propsOf("held")).toEqual(engine.held);
-        expect(propsOf("mid")).toEqual(engine.resting);
+        const at = new At(scene, f.frame);
+        const propsOf = (id: string): string =>
+          layer(id)
+            .filter((n): n is AssetNode => n.kind === "asset" && n.asset.startsWith("prop_"))
+            .map((n) => propSvg(at, n))
+            .join("");
+        const v = w0ViewOf(P, ps, f.t);
+        expect(propsOf("held")).toBe(v.held);
+        expect(propsOf("mid")).toBe(v.resting);
         const people = scene.layers
           .filter((l) => l.id.startsWith("actor_"))
-          .map((l) => person(at0, ps.perf?.actors.get(l.id.slice(6)) as ActorPerf, f.t))
+          .map((l) => person(at, ps.perf?.actors.get(l.id.slice(6)) as ActorPerf, f.t))
           .join("");
-        if (people + propsOf("held").join("") !== engine.actorsSvg)
-          expect.fail(`${scene.id} frame ${f.frame}: people + held differ`);
+        if (people !== v.people) expect.fail(`${scene.id} frame ${f.frame}: people differ`);
         checked++;
       }
     });
     expect(checked).toBeGreaterThan(1000);
   });
 
-  it("depth of field: the blur of every layer is what the composer's own expressions compute", () => {
-    const src = readFileSync(join(ROOT, "film/src/w0/composer.ts"), "utf8");
-    const pick = (re: RegExp): string => {
-      const m = re.exec(src);
-      if (!m?.[1]) throw new Error(`composer.ts no longer contains ${re}`);
-      return m[1];
-    };
-    const vars = engineText(
-      "film/src/w0/composer.ts",
-      "  const framing = ps.w.cam.framing",
-      "const onWall =",
-    );
-    const dof = engineText("film/src/w0/composer.ts", "  const dofWall =", "5.5);");
-    const far = pick(/if \((dofWall \+ 2 > 0\.4)\) ctx\.filter = `blur/);
-    const farV = pick(/ctx\.filter = `blur\(\$\{\((dofWall \+ 2)\)\.toFixed/);
-    const mid = pick(/drawL\(ctx, S, (ps\.w\.dof\?\.mid \?\? \(onWall \? 4\.5 : 0\))\);/);
-    const people = pick(/lightLayer\(actorImg, S\);\s*drawL\(ctx, S, (onWall \? 4\.5 : 0)\);/);
-    const near = pick(/nearLayer\(\)\}<\/g>`\);[\s\S]*?drawL\(ctx, S, (\d+)\);/);
-    const blur = engineFunction<Record<string, number>>(
-      `${vars}\n${dof}\nreturn { far: (${far}) ? ${farV} : 0, wall: dofWall, mid: ${mid}, people: ${people}, near: ${near} };`,
-      ["ps"],
-    );
+  it("depth of field: the blur of every layer is what the composer hands its compositor", () => {
+    // the compositor blurs sky and city only above 0.4 px (compositor.ts); the package writes 0 below that
+    const src = readFileSync(join(ROOT, "film/src/w0/compositor.ts"), "utf8");
+    expect(src.includes("if (blur.far > 0.4) ctx.filter = `blur(${blur.far.toFixed(1)}px)`;")).toBe(true);
     P.shots.forEach((ps, i) => {
-      const want = blur(ps);
+      const want = w0ViewOf(P, ps, 0).blur;
       const got = Object.fromEntries((pkg.scenes[i] as Scene).layers.map((l) => [l.id, l.blur]));
-      expect([got.sky, got.city, got.city_near], `${i} far`).toEqual([want.far, want.far, want.far]);
+      const far = want.far > 0.4 ? want.far : 0;
+      expect([got.sky, got.city, got.city_near], `${i} far`).toEqual([far, far, far]);
       expect(got.wall, `${i} wall`).toBe(want.wall);
       expect(got.mid, `${i} mid`).toBe(want.mid);
       for (const [id, b] of Object.entries(got))

@@ -6,14 +6,15 @@
  */
 import type { Script } from "@erkasa/contracts";
 import type { CastMember, FilmPlan, Shot } from "./contract.js";
-import { K, clamp, fmt, ramp, EASES } from "./motion.js";
+import { K, clamp, EASES } from "./motion.js";
 import { perform, propAt, type Issue, type Performance } from "./perform.js";
 import { carryFrom, checkFilm, type Carry } from "./continuity.js";
 import { drawProp } from "./props.js";
 import { SETS, type SetDef } from "./sets.js";
-import { FPS, H, PALETTE as C, W, frame, kineticType } from "./style.js";
+import { FPS, H, PALETTE as C, W, kineticType } from "./style.js";
 import { PARAMS, TEMPLATES, templateEvents, type TemplateCtx } from "./templates.js";
 import { anchorTime, shotTimes, type Timing } from "./timing.js";
+import { editorialView, otsShoulder, scrimRect, setView, v2Frame } from "./v2frame.js";
 
 export interface ComposedShot {
   shot: Shot;
@@ -93,12 +94,7 @@ export function compose(plan: FilmPlan, timing: Timing, opts: { cast?: CastMembe
     const typeLayer = (t: number): string => {
       if (!text || textAt === undefined) return "";
       const y = text.place === "bottom" ? 1430 : text.place === "center" ? 860 : 250;
-      const scrim =
-        shot.kind === "set"
-          ? text.place === "bottom"
-            ? `<rect x="0" y="1150" width="${W}" height="770" fill="url(#scrimB)"/>`
-            : `<rect x="0" y="0" width="${W}" height="${text.place === "center" ? 1100 : 620}" fill="url(#scrimT)"/>`
-          : "";
+      const scrim = shot.kind === "set" ? scrimRect(text.place) : "";
       const light = shot.kind === "editorial" && LIGHT_BG.has(shot.template ?? "statement");
       return (
         scrim +
@@ -141,7 +137,7 @@ export function compose(plan: FilmPlan, timing: Timing, opts: { cast?: CastMembe
           const z = SELF_MOVING.has(tpl) ? 1 : 1 + 0.07 * (t / Math.max(1, dur));
           const dy = SELF_MOVING.has(tpl) ? 0 : -24 * (t / Math.max(1, dur));
           return {
-            body: `<g transform="translate(540 ${fmt(960 + dy)}) scale(${fmt(z)}) translate(-540 -960)">${d.svg}</g>${typeLayer(t)}`,
+            body: `${editorialView(z, dy, d.svg)}${typeLayer(t)}`,
             bg: d.bg,
           };
         },
@@ -222,10 +218,9 @@ export function compose(plan: FilmPlan, timing: Timing, opts: { cast?: CastMembe
           held.join("") +
           set.front(state) +
           restingFront.join("");
-        const s = H / cam.height;
         const ots = shot.framing === "ots" ? otsShoulder(t, dur, subject.facing) : "";
         return {
-          body: `<g transform="translate(${W / 2} ${H / 2}) scale(${fmt(s)}) translate(${fmt(-cam.cx)} ${fmt(-cam.cy)})">${world}</g>${ots}${typeLayer(t)}`,
+          body: `${setView(cam, world)}${ots}${typeLayer(t)}`,
           bg: C.night,
         };
       },
@@ -335,17 +330,7 @@ function smoothFollow(base: (t: number) => Cam, t: number): Cam {
   return { cx: cx / n, cy: cy / n, height: c0.height };
 }
 
-/** Over the shoulder: the near shoulder and head of the subject, dark, in the foreground. */
-function otsShoulder(t: number, dur: number, facing: 1 | -1): string {
-  const sh = ramp(t, 0, dur, "lin");
-  const mirror = facing === 1 ? "" : ` transform="translate(${W} 0) scale(-1 1)"`;
-  return `<g${mirror}><g transform="translate(${fmt(-90 * sh)} ${fmt(60 * sh)})"><path d="M-80 1920 Q-40 1500 200 1430 Q420 1380 520 1560 L560 1920Z" fill="#141B2E"/><ellipse cx="300" cy="1270" rx="190" ry="210" fill="#141B2E"/></g></g>`;
-}
-
 // ---------------------------------------------------------------- frames and transitions
-
-const SCRIMS = `<linearGradient id="scrimT" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0C1529" stop-opacity=".78"/><stop offset="1" stop-color="#0C1529" stop-opacity="0"/></linearGradient>
-<linearGradient id="scrimB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0C1529" stop-opacity="0"/><stop offset="1" stop-color="#0C1529" stop-opacity=".8"/></linearGradient>`;
 
 const TRANSITION_SEC = { cut: 0, fade: 0.45, whip: 0.32 } as const;
 
@@ -353,19 +338,19 @@ const TRANSITION_SEC = { cut: 0, fade: 0.45, whip: 0.32 } as const;
 export function frameAt(c: Composed, i: number, n: number): string {
   const s = c.shots[i] as ComposedShot;
   const t = n / FPS;
-  const cur = s.draw(t);
   const prev = c.shots[i - 1];
   const tr = TRANSITION_SEC[s.shot.transition];
-  let body = `<rect width="${W}" height="${H}" fill="${cur.bg}"/>${cur.body}`;
-  if (prev && tr > 0 && t < tr) {
-    const p = EASES.io(t / tr);
-    const pd = prev.draw(prev.dur + t);
-    const pb = `<rect width="${W}" height="${H}" fill="${pd.bg}"/>${pd.body}`;
-    if (s.shot.transition === "fade") body = `${pb}<g opacity="${fmt(p)}">${body}</g>`;
-    else
-      body = `<g transform="translate(${fmt(-W * p)} 0)">${pb}</g><g transform="translate(${fmt(W * (1 - p))} 0)">${body}</g>`;
-  }
-  return frame(`<defs>${SCRIMS}</defs>${body}`, cur.bg);
+  const inTransition = prev && tr > 0 && t < tr;
+  return v2Frame(
+    s.draw(t),
+    inTransition
+      ? {
+          drawn: prev.draw(prev.dur + t),
+          kind: s.shot.transition === "fade" ? "dissolve" : "whip",
+          p: EASES.io(t / tr),
+        }
+      : undefined,
+  );
 }
 
 /** Total frames of a shot. */

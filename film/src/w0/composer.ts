@@ -10,7 +10,7 @@
  * Skia's 2D canvas. The world's state (clock, lamp, binders) is one register for the whole film, so what changes
  * in one shot is still changed in the next.
  */
-import { createCanvas, loadImage, type Canvas, type SKRSContext2D } from "@napi-rs/canvas";
+import type { Canvas } from "@napi-rs/canvas";
 import type { Script } from "@erkasa/contracts";
 import type { TimedWord } from "@erkasa/compiler";
 import { estimateWords } from "@erkasa/compiler";
@@ -19,27 +19,19 @@ import { EASES, K, clamp, ramp } from "../motion.js";
 import { perform, propAt, type Issue, type Performance } from "../perform.js";
 import { carryFrom, checkFilm, type Carry } from "../continuity.js";
 import { drawProp } from "../props.js";
-import { DEFS, H, W, kineticType } from "../style.js";
+import { H, W } from "../style.js";
 import { anchorTime, layoutTiming, shotTimes, type Timing } from "../timing.js";
-import { aimAt, lerpCam, project, REF, svgTransform, toScreen, type Cam } from "./camera.js";
+import { aimAt, lerpCam, REF, type Cam } from "./camera.js";
 import {
-  byLight,
-  cityLayer,
-  DEPTH,
-  midLayer,
-  nearLayer,
-  officeSet,
-  skyLayer,
-  SPOTS,
-  wallLayer,
-  WORLD_W,
-  type PlaceState,
-  type WorldParams,
-} from "./world.js";
+  captionSvg,
+  compositeFrame,
+  typeW0Svg,
+  TYPE_DEFS,
+  type CaptionLook,
+  type W0View,
+} from "./compositor.js";
+import { DEPTH, officeSet, WORLD_W, type PlaceState, type WorldParams } from "./world.js";
 
-const M = 48; // margin around every offscreen layer, so blur has pixels to pull from at the frame edge
-const CW = W + 2 * M;
-const CH = H + 2 * M;
 const LIGHT = { day: 0, golden: 1, dusk: 2, night: 3 } as const;
 
 // ------------------------------------------------------------------------------------ the plan
@@ -373,214 +365,19 @@ function cameraFor(w: W0Shot, perf: Performance | undefined, dur: number): (t: n
 
 // ------------------------------------------------------------------------------------ rendering
 
-const svgDoc = (body: string, defs = ""): Buffer =>
-  Buffer.from(
-    `<svg xmlns="http://www.w3.org/2000/svg" width="${CW}" height="${CH}" viewBox="0 0 ${CW} ${CH}"><defs>${DEFS}${defs}</defs><g transform="translate(${M} ${M})">${body}</g></svg>`,
-  );
-
-async function layer(body: string): Promise<Awaited<ReturnType<typeof loadImage>>> {
-  return loadImage(svgDoc(body));
-}
-
-interface Surfaces {
-  main: Canvas;
-  L: Canvas;
-  LM: Canvas;
-  E: Canvas;
-  grain: Canvas[];
-}
-
-let surfaces: Surfaces | undefined;
-function surf(): Surfaces {
-  if (surfaces) return surfaces;
-  const grain = [0, 1, 2, 3].map((k) => {
-    const g = createCanvas(384, 384);
-    const gc = g.getContext("2d");
-    const d = gc.createImageData(384, 384);
-    let s = 1234567 + k * 7919;
-    for (let i = 0; i < d.data.length; i += 4) {
-      s = (s * 1103515245 + 12345) & 0x7fffffff;
-      const v = (s >> 16) & 255;
-      d.data[i] = d.data[i + 1] = d.data[i + 2] = v;
-      d.data[i + 3] = 255;
-    }
-    gc.putImageData(d, 0, 0);
-    return g;
-  });
-  surfaces = {
-    main: createCanvas(W, H),
-    L: createCanvas(CW, CH),
-    LM: createCanvas(CW, CH),
-    E: createCanvas(CW, CH),
-    grain,
-  };
-  return surfaces;
-}
-
-const rgba = (hex: string, a: number): string =>
-  `rgba(${parseInt(hex.slice(1, 3), 16)},${parseInt(hex.slice(3, 5), 16)},${parseInt(hex.slice(5, 7), 16)},${Math.max(0, Math.min(1, a)).toFixed(3)})`;
-
-/** How much each light source is on. */
-function lights(st: PlaceState) {
-  const golden = byLight(st.light, [0.35, 1, 0.35, 0]);
-  const dark = byLight(st.light, [0, 0.2, 0.75, 1]);
-  return {
-    ambient: byLight(st.light, ["#FFFFFF", "#F6E2C8", "#A7A6C8", "#646FA0"]),
-    golden,
-    dark,
-    lamp: st.lamp * (0.25 + 0.75 * dark),
-    door: st.door,
-  };
-}
-
-function radial(c: SKRSContext2D, x: number, y: number, r: number, col: string, a: number): void {
-  if (a <= 0.003 || r <= 1) return;
-  const g = c.createRadialGradient(x, y, 0, x, y, r);
-  g.addColorStop(0, rgba(col, a));
-  g.addColorStop(0.45, rgba(col, a * 0.45));
-  g.addColorStop(1, rgba(col, 0));
-  c.fillStyle = g;
-  c.fillRect(x - r, y - r, 2 * r, 2 * r);
-}
-
-/** Multiply the layer in L by the light map, keeping L's own alpha. */
-function lightLayer(img: Awaited<ReturnType<typeof loadImage>>, S: Surfaces, tint?: string): void {
-  const l = S.L.getContext("2d");
-  l.globalCompositeOperation = "source-over";
-  l.globalAlpha = 1;
-  l.filter = "none";
-  l.clearRect(0, 0, CW, CH);
-  l.drawImage(img, 0, 0);
-  l.globalCompositeOperation = "multiply";
-  l.drawImage(S.LM, 0, 0);
-  if (tint) {
-    l.fillStyle = tint;
-    l.fillRect(0, 0, CW, CH);
-  }
-  l.globalCompositeOperation = "destination-in";
-  l.drawImage(img, 0, 0);
-  l.globalCompositeOperation = "source-over";
-}
-
-function drawL(ctx: SKRSContext2D, S: Surfaces, blur = 0, alpha = 1): void {
-  ctx.save();
-  ctx.globalAlpha = alpha;
-  if (blur > 0.4) ctx.filter = `blur(${blur.toFixed(1)}px)`;
-  ctx.drawImage(S.L, -M, -M);
-  ctx.restore();
-}
-
-export async function renderFrame(P: Prepared, i: number, t: number): Promise<Canvas> {
-  const S = surf();
-  const ps = P.shots[i] as PreparedShot;
-  await drawShot(S.main.getContext("2d"), S, P, ps, t);
-  // transitions: a short cross-dissolve when the plan asks for one
-  const tr = ps.w.shot.transition;
-  const prev = P.shots[i - 1];
-  if (prev && tr === "fade" && t < 0.5) {
-    const snap = createCanvas(W, H);
-    snap.getContext("2d").drawImage(S.main, 0, 0);
-    await drawShot(S.main.getContext("2d"), S, P, prev, prev.dur + t);
-    const ctx = S.main.getContext("2d");
-    ctx.globalAlpha = EASES.io(t / 0.5);
-    ctx.drawImage(snap, 0, 0);
-    ctx.globalAlpha = 1;
-  }
-  overlays(S.main.getContext("2d"), P, ps, t, i);
-  return S.main;
-}
-
-async function drawShot(
-  ctx: SKRSContext2D,
-  S: Surfaces,
-  P: Prepared,
-  ps: PreparedShot,
-  t: number,
-): Promise<void> {
+/** What the compositor needs to draw shot `ps` at its time `t`. */
+export function viewOf(P: Prepared, ps: PreparedShot, t: number): W0View {
   const T = ps.start + t;
-  const cam = ps.cam(t);
-  const st = P.state(T, ps.perf?.door.at(t) ?? 0, ps.light(t));
-  const lt = lights(st);
-  const pa = project(cam, 0);
-  const pw = project(cam, DEPTH.wall);
-  const sA = pa.s;
-  const scr = (p: [number, number], pr = pa): [number, number] => {
-    const [x, y] = toScreen(pr, p[0], p[1]);
-    return [x + M, y + M];
-  };
   const framing = ps.w.cam.framing ?? "medium";
   const onWall = (ps.w.cam.subject ?? "").startsWith("wall:");
-
-  // ---- light map
-  const lm = S.LM.getContext("2d");
-  lm.globalCompositeOperation = "source-over";
-  lm.fillStyle = lt.ambient;
-  lm.fillRect(0, 0, CW, CH);
-  lm.globalCompositeOperation = "lighter";
-  const win = SPOTS.window;
-  const [wx, wy] = scr([(win.x0 + win.x1) / 2, (win.y0 + win.y1) / 2 + 200], pw);
-  radial(lm, wx, wy, 1500 * pw.s, "#FFB872", 0.34 * lt.golden);
-  const [lx, ly] = scr(SPOTS.lampHead);
-  radial(lm, lx - 60 * sA, ly + 120 * sA, 1050 * sA, "#FFC37A", 0.95 * lt.lamp);
-  const [mx, my] = scr(SPOTS.monitor);
-  radial(lm, mx, my, 420 * sA, "#9CC9FF", 0.3 * lt.dark);
-  const dr = SPOTS.door;
-  const [dx, dy] = scr([(dr.x0 + dr.x1) / 2, 1250], pw);
-  radial(lm, dx + 120 * sA, dy, 1300 * sA, "#FFE6BF", 0.95 * lt.door);
-  lm.globalCompositeOperation = "source-over";
-
-  // ---- sky and city (their colours already carry the time of day)
-  const skyPr = project(cam, DEPTH.sky);
-  const cityPr = project(cam, DEPTH.city);
-  const nearCityPr = project(cam, DEPTH.cityNear);
-  const skyImg = await layer(
-    `<g transform="${svgTransform(skyPr)}">${skyLayer(st)}</g><g transform="${svgTransform(cityPr)}">${cityLayer(st, false, P.plan.world.seed)}</g><g transform="${svgTransform(nearCityPr)}">${cityLayer(st, true, P.plan.world.seed + 5)}</g>`,
-  );
-  ctx.globalCompositeOperation = "source-over";
-  ctx.fillStyle = "#0C1529";
-  ctx.fillRect(0, 0, W, H);
   const dofWall =
     ps.w.dof?.wall ??
     (onWall ? 0 : framing === "wide" ? 0 : framing === "medium" ? 2.2 : framing === "close" ? 4.2 : 5.5);
-  ctx.save();
-  if (dofWall + 2 > 0.4) ctx.filter = `blur(${(dofWall + 2).toFixed(1)}px)`;
-  ctx.drawImage(skyImg, -M, -M);
-  ctx.restore();
-
-  // ---- the wall plane
-  const wallImg = await layer(`<g transform="${svgTransform(pw)}">${wallLayer(st, P.plan.world)}</g>`);
-  lightLayer(wallImg, S, rgba(byLight(st.light, ["#FFFFFF", "#FFF4E6", "#E4E0F2", "#D8DCF0"]), 1));
-  drawL(ctx, S, dofWall);
-
-  // light shafts on the wall and floor from the low sun
-  if (lt.golden > 0.02) {
-    const a = scr([win.x0 + 40, win.y0 + 230], pw);
-    const b = scr([win.x1, win.y0 + 230], pw);
-    const c2 = scr([win.x1 - 900, 2150]);
-    const d2 = scr([win.x0 - 1150, 2150]);
-    ctx.save();
-    ctx.globalCompositeOperation = "screen";
-    const g = ctx.createLinearGradient(a[0], a[1], d2[0], d2[1]);
-    g.addColorStop(0, rgba("#FFC98A", 0.26 * lt.golden));
-    g.addColorStop(1, rgba("#FFC98A", 0));
-    ctx.fillStyle = g;
-    ctx.filter = "blur(18px)";
-    ctx.beginPath();
-    ctx.moveTo(a[0] - M, a[1] - M);
-    ctx.lineTo(b[0] - M, b[1] - M);
-    ctx.lineTo(c2[0] - M, c2[1] - M);
-    ctx.lineTo(d2[0] - M, d2[1] - M);
-    ctx.closePath();
-    ctx.fill();
-    ctx.restore();
-  }
-
-  // ---- people (drawn now, used for shadows first)
   const perf = ps.perf;
-  let actorsSvg = "";
+  let people = "";
+  const held: string[] = [];
+  const resting: string[] = [];
   if (perf) {
-    const held: string[] = [];
-    const resting: string[] = [];
     for (const pr of perf.props.values()) {
       let holder: string | null = null;
       for (const e of pr.events) if (e.t <= t) holder = e.holder;
@@ -590,156 +387,85 @@ async function drawShot(
         held.push(drawProp(pr.kind, p[0], p[1] - 4, { facing: a?.facingAt(t) ?? 1 }));
       } else resting.push(drawProp(pr.kind, p[0], p[1], { resting: true }));
     }
-    const people = [...perf.actors.values()].sort((a, b) => a.x.at(t) - b.x.at(t)).map((a) => a.draw(t).svg);
-    actorsSvg = people.join("") + held.join("");
-    // resting props belong to the furniture layer
-    (ps as PreparedShot & { _resting?: string })._resting = resting.join("");
+    people = [...perf.actors.values()]
+      .sort((a, b) => a.x.at(t) - b.x.at(t))
+      .map((a) => a.draw(t).svg)
+      .join("");
   }
-  const restingSvg = (ps as PreparedShot & { _resting?: string })._resting ?? "";
-  const actorImg = actorsSvg ? await layer(`<g transform="${svgTransform(pa)}">${actorsSvg}</g>`) : undefined;
-
-  // cast shadows of people on the wall: away from the key light, soft
-  if (actorImg) {
-    const key = Math.max(lt.golden * 0.85, lt.lamp);
-    const shA = 0.3 * key + 0.12 * lt.door;
-    if (shA > 0.01) {
-      const dir = lt.door > 0.3 ? 1 : -1;
-      const e = S.E.getContext("2d");
-      e.globalCompositeOperation = "source-over";
-      e.clearRect(0, 0, CW, CH);
-      e.drawImage(actorImg, 0, 0);
-      e.globalCompositeOperation = "source-in";
-      e.fillStyle = "#1B1530";
-      e.fillRect(0, 0, CW, CH);
-      e.globalCompositeOperation = "source-over";
-      ctx.save();
-      ctx.globalAlpha = shA;
-      ctx.filter = `blur(${(10 + dofWall).toFixed(1)}px)`;
-      ctx.globalCompositeOperation = "multiply";
-      ctx.drawImage(S.E, -M + dir * 95 * sA, -M - 30 * sA, CW, CH * 0.985);
-      ctx.restore();
-    }
-  }
-
-  // ---- furniture (same plane as the people)
-  const midImg = await layer(
-    `<g transform="${svgTransform(pa)}">${midLayer(st, P.plan.world)}${restingSvg}</g>`,
-  );
-  lightLayer(midImg, S);
-  drawL(ctx, S, ps.w.dof?.mid ?? (onWall ? 4.5 : 0));
-
-  // ---- people: lit, then a rim of light on the side that faces the key light
-  if (actorImg) {
-    lightLayer(actorImg, S);
-    drawL(ctx, S, onWall ? 4.5 : 0);
-    const rims: Array<{ dir: number; col: string; a: number }> = [
-      { dir: 1, col: "#FFC88A", a: Math.max(lt.golden * 0.9, lt.lamp * 0.85) },
-      { dir: -1, col: "#FFF1D6", a: lt.door },
-    ];
-    for (const r of rims) {
-      if (r.a < 0.03) continue;
-      const e = S.E.getContext("2d");
-      const wpx = Math.max(3, 5 * sA);
-      e.globalCompositeOperation = "source-over";
-      e.clearRect(0, 0, CW, CH);
-      e.drawImage(actorImg, 0, 0);
-      e.globalCompositeOperation = "destination-out";
-      e.drawImage(actorImg, -r.dir * wpx, wpx * 0.35);
-      e.globalCompositeOperation = "source-in";
-      e.fillStyle = r.col;
-      e.fillRect(0, 0, CW, CH);
-      e.globalCompositeOperation = "source-over";
-      ctx.save();
-      ctx.globalCompositeOperation = "screen";
-      ctx.globalAlpha = Math.min(1, r.a);
-      ctx.filter = "blur(1.2px)";
-      ctx.drawImage(S.E, -M, -M);
-      ctx.restore();
-    }
-  }
-
-  // ---- near foreground, far out of focus
-  if (ps.w.near) {
-    const pn = project(cam, DEPTH.near);
-    const nearImg = await layer(`<g transform="${svgTransform(pn)}">${nearLayer()}</g>`);
-    lightLayer(nearImg, S, rgba("#B8B4C8", 1));
-    drawL(ctx, S, 18);
-  }
-
-  // ---- bloom: the lamp bulb, the low sun in the window, the open door
-  ctx.save();
-  ctx.globalCompositeOperation = "screen";
-  radial(ctx, lx - M - 62 * sA, ly - M + 70 * sA, 260 * sA, "#FFD9A0", 0.7 * lt.lamp);
-  radial(ctx, wx - M, wy - M - 160 * pw.s, 900 * pw.s, "#FFC27E", 0.28 * lt.golden);
-  radial(ctx, dx - M, dy - M, 900 * sA, "#FFF1D6", 0.65 * lt.door);
-  ctx.restore();
+  return {
+    T,
+    cam: ps.cam(t),
+    st: P.state(T, ps.perf?.door.at(t) ?? 0, ps.light(t)),
+    world: P.plan.world,
+    city: { seed: P.plan.world.seed, nearSeed: P.plan.world.seed + 5 },
+    depth: DEPTH,
+    blur: {
+      far: dofWall + 2,
+      wall: dofWall,
+      mid: ps.w.dof?.mid ?? (onWall ? 4.5 : 0),
+      people: onWall ? 4.5 : 0,
+      near: 18,
+    },
+    near: !!ps.w.near,
+    people,
+    held: held.join(""),
+    resting: resting.join(""),
+  };
 }
 
-// ------------------------------------------------------------------------------------ type, captions, finish
-
-function overlays(ctx: SKRSContext2D, P: Prepared, ps: PreparedShot, t: number, i: number): void {
-  const S = surf();
-  // vignette
-  const v = ctx.createRadialGradient(W / 2, H * 0.46, H * 0.28, W / 2, H * 0.46, H * 0.78);
-  v.addColorStop(0, "rgba(8,10,24,0)");
-  v.addColorStop(1, "rgba(8,10,24,0.55)");
-  ctx.fillStyle = v;
-  ctx.fillRect(0, 0, W, H);
-  // film grain
-  ctx.save();
-  ctx.globalCompositeOperation = "overlay";
-  ctx.globalAlpha = 0.07;
-  const g = S.grain[Math.floor((ps.start + t) * 24) % 4] as Canvas;
-  const pat = ctx.createPattern(g, "repeat");
-  ctx.fillStyle = pat;
-  ctx.fillRect(0, 0, W, H);
-  ctx.restore();
-  void i;
+export async function renderFrame(P: Prepared, i: number, t: number): Promise<Canvas> {
+  const ps = P.shots[i] as PreparedShot;
+  // transitions: a short cross-dissolve when the plan asks for one
+  const tr = ps.w.shot.transition;
+  const prev = P.shots[i - 1];
+  if (prev && tr === "fade" && t < 0.5) {
+    const under = viewOf(P, prev, prev.dur + t);
+    return compositeFrame(viewOf(P, ps, t), { view: under, p: t / 0.5 });
+  }
+  return compositeFrame(viewOf(P, ps, t));
 }
+
+/** The look W0 gives captions: Montserrat 800, cream, the current word in amber, a dark stroke. */
+const captionLook = (size: number): CaptionLook => ({
+  x: W / 2,
+  y: 1640,
+  family: "Montserrat",
+  weight: 800,
+  size,
+  color: "#FBF6EC",
+  highlight: "#F4A261",
+  stroke: { color: "#0C1529", width: 12 },
+});
 
 /** The type and the captions, as one SVG layer drawn last (Montserrat, like the rest of the show). */
 export function typeSvg(P: Prepared, ps: PreparedShot, t: number): string {
   let o = "";
   const text = ps.w.shot.text;
-  if (text && ps.textAt !== undefined) {
-    const y = text.place === "bottom" ? 1300 : text.place === "center" ? 860 : 250;
-    const a =
-      clamp((t - ps.textAt + 0.2) / 0.5) * (ps.textOut !== undefined ? 1 - clamp((t - ps.textOut) / 0.4) : 1);
-    if (a > 0.01)
-      o += `<rect x="0" y="0" width="${W}" height="${text.place === "top" ? 760 : 1920}" fill="url(#scrimW0)" opacity="${a.toFixed(3)}"/>`;
-    o += kineticType(t, text.lines, {
-      id: `kt-w0-${P.shots.indexOf(ps)}`,
-      y,
+  if (text && ps.textAt !== undefined)
+    o += typeW0Svg(t, {
+      lines: text.lines,
+      place: text.place,
       at: ps.textAt,
       out: ps.textOut ?? null,
+      id: `kt-w0-${P.shots.indexOf(ps)}`,
     });
-  }
   // captions: the phrase being spoken, the current word in the accent colour
   const T = ps.start + t;
   const cap = P.captions.find((c) => T >= c.t0 - 0.05 && T < c.t1);
   if (cap) {
     const inA = clamp((T - cap.t0 + 0.05) / 0.12);
-    const words = cap.words.map((w) => ({ ...w, on: T >= w.t - 0.02 }));
-    const line = words.map((w) => w.w).join(" ");
+    const line = cap.words.map((w) => w.w).join(" ");
     const size = Math.min(58, Math.floor(1700 / Math.max(10, line.length)));
-    const y = 1640;
-    const spans = (stroke: boolean): string =>
-      words
-        .map((w) => {
-          const nx = words[words.indexOf(w) + 1];
-          const cur = T >= w.t - 0.02 && (nx ? T < nx.t - 0.02 : T < w.end + 0.25);
-          const fill = stroke ? "#0C1529" : cur ? "#F4A261" : "#FBF6EC";
-          return `<tspan fill="${fill}" fill-opacity="${stroke ? 0.9 : w.on ? 1 : 0.6}">${escapeXml(w.w)} </tspan>`;
-        })
-        .join("");
-    const attrs = `x="${W / 2}" y="${y}" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="${size}"`;
-    o += `<g opacity="${inA.toFixed(3)}"><text ${attrs} stroke="#0C1529" stroke-width="12" stroke-linejoin="round" stroke-opacity=".9">${spans(true)}</text><text ${attrs}>${spans(false)}</text></g>`;
+    const words = cap.words.map((w, k) => {
+      const nx = cap.words[k + 1];
+      const on = T >= w.t - 0.02;
+      return { text: w.w, reached: on, current: on && (nx ? T < nx.t - 0.02 : T < w.end + 0.25) };
+    });
+    o += captionSvg(captionLook(size), words, inA);
   }
   return o;
 }
 
-const escapeXml = (s: string): string => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-
-export const TYPE_DEFS = `<linearGradient id="scrimW0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0C1529" stop-opacity=".82"/><stop offset=".7" stop-color="#0C1529" stop-opacity=".35"/><stop offset="1" stop-color="#0C1529" stop-opacity="0"/></linearGradient>`;
+export { TYPE_DEFS };
 
 void ramp;

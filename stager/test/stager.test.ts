@@ -48,7 +48,7 @@ describe.each(FILMS)("%s", (film) => {
       prop: "film/src/props.ts",
       template: "film/src/templates.ts",
       type: "film/src/style.ts",
-      overlay: "film/src/compose.ts",
+      overlay: "film/src/v2frame.ts",
       w0: "film/src/w0/world.ts",
     };
     for (const a of manifest.assets) {
@@ -58,7 +58,7 @@ describe.each(FILMS)("%s", (film) => {
       ];
       for (const s of sources) {
         if (s.kind !== "builtin" || s.name.startsWith("font.")) continue;
-        const head = s.name === "type.w0" ? "film/src/w0/composer.ts" : files[s.name.split(".")[0] ?? ""];
+        const head = s.name === "type.w0" ? "film/src/w0/compositor.ts" : files[s.name.split(".")[0] ?? ""];
         expect(head, s.name).toBeDefined();
         expect(s.fingerprint, s.name).toBe(sha(readFileSync(join(ROOT, head ?? ""), "utf8")));
       }

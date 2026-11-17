@@ -30,7 +30,12 @@ export { K, fmt, clamp, ramp } from "../../film/src/motion.js";
 export { FPS, W, H, PALETTE, kineticType, fontFiles, type TypeLine } from "../../film/src/style.js";
 import { W, kineticType, type TypeLine } from "../../film/src/style.js";
 import { clamp, fmt, ramp } from "../../film/src/motion.js";
-export { parsePlan as parseW0Plan, prepare as prepareW0, typeSvg } from "../../film/src/w0/composer.js";
+export {
+  parsePlan as parseW0Plan,
+  prepare as prepareW0,
+  typeSvg,
+  viewOf as w0ViewOf,
+} from "../../film/src/w0/composer.js";
 export type { Prepared as W0Prepared, PreparedShot as W0PreparedShot } from "../../film/src/w0/composer.js";
 export { DEPTH as W0_DEPTH, WORLD_W, WORLD_H } from "../../film/src/w0/world.js";
 export { REF as W0_REF } from "../../film/src/w0/camera.js";
@@ -86,7 +91,7 @@ export const IMPLEMENTATION = {
   props: "film/src/props.ts",
   templates: "film/src/templates.ts",
   type: "film/src/style.ts",
-  compose: "film/src/compose.ts",
+  compose: "film/src/v2frame.ts",
   w0world: "film/src/w0/world.ts",
-  w0composer: "film/src/w0/composer.ts",
+  w0composer: "film/src/w0/compositor.ts",
 } as const;

@@ -15,9 +15,9 @@ const FILE: Array<[RegExp, string]> = [
   [/^prop\./, "film/src/props.ts"],
   [/^template\./, "film/src/templates.ts"],
   [/^type\.kinetic$/, "film/src/style.ts"],
-  [/^overlay\./, "film/src/compose.ts"],
+  [/^overlay\./, "film/src/v2frame.ts"],
   [/^w0\./, "film/src/w0/world.ts"],
-  [/^type\.w0$/, "film/src/w0/composer.ts"],
+  [/^type\.w0$/, "film/src/w0/compositor.ts"],
 ];
 
 describe("engine render capabilities", () => {

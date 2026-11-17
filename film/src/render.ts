@@ -8,34 +8,14 @@ import { existsSync, mkdirSync, renameSync, rmSync, writeFileSync } from "node:f
 import { cpus } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { safeOpacity } from "@erkasa/engine";
-import { Resvg } from "@resvg/resvg-js";
 import type { Composed } from "./compose.js";
 import { frameAt, shotFrames } from "./compose.js";
-import { FPS, H, W, fontFiles } from "./style.js";
+import { png, rasterize } from "./raster.js";
+import { FPS, H, W } from "./style.js";
+
+export { png, rasterize };
 
 const ffmpeg = (): string => process.env["ERKASA_FFMPEG"] ?? "ffmpeg";
-let fonts: string[] | undefined;
-
-export function rasterize(svg: string): Buffer {
-  fonts ??= fontFiles();
-  // resvg 2.6 aborts on an element with opacity that lies entirely outside the frame; the engine's guard fixes it
-  const img = new Resvg(safeOpacity(svg), {
-    fitTo: { mode: "original" },
-    font: { fontFiles: fonts, loadSystemFonts: false, defaultFontFamily: "Montserrat" },
-  }).render();
-  return img.pixels;
-}
-export function png(svg: string): Buffer {
-  fonts ??= fontFiles();
-  return new Resvg(safeOpacity(svg), {
-    fitTo: { mode: "original" },
-    font: { fontFiles: fonts, loadSystemFonts: false, defaultFontFamily: "Montserrat" },
-  })
-    .render()
-    .asPng();
-}
-
 function run(args: string[], input?: (stdin: NodeJS.WritableStream) => Promise<void>): Promise<void> {
   return new Promise((resolve, reject) => {
     const p = spawn(ffmpeg(), args, { stdio: [input ? "pipe" : "ignore", "ignore", "pipe"] });
