@@ -17,6 +17,8 @@ import { describe, expect, it } from "vitest";
 import type { AssetManifest, RenderPackage } from "@erkasa/contracts";
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
+import { join } from "node:path";
+import { ROOT } from "../src/manifest.js";
 import { serialise, stageFilm, BENCH } from "../src/index.js";
 import {
   FPS,
@@ -37,6 +39,7 @@ import {
   prepareW0,
   propAt,
   scrimSvg,
+  shotFrames,
   typeSvg,
   w0TypeSvg,
   type ActorPerf,
@@ -58,6 +61,7 @@ import {
   wordReached,
 } from "../src/evaluate.js";
 import { loadPlan, loadScript } from "./films.js";
+import { engineFunction, engineText } from "./engine-source.js";
 
 type Scene = RenderPackage["scenes"][number];
 type AssetNode = Extract<Scene["layers"][number]["nodes"][number], { kind: "asset" }>;
@@ -198,6 +202,22 @@ describe.each(BENCH)("%s: every frame rebuilt from the package equals the engine
                 `${scene.id} ${tr.channel}: frame ${f.frame} reads ${sampleIndex(tr, frameTime(f.frame, FPS))}, not ${k}`,
               );
           });
+    });
+  });
+
+  it("own frames: the engine's compositor (frameAt, which takes its own time n / FPS) draws each body at the stager's time", () => {
+    let start = 0;
+    composed.shots.forEach((s, i) => {
+      const own = (frames[i] as SceneFrame[]).filter((f) => !f.tail);
+      expect(own.length).toBe(shotFrames(s));
+      expect(own[0]?.frame).toBe(start);
+      own.forEach((f, n) => {
+        if (!ids(frameAtForTest(composed, i, n)).includes(ids(s.draw(f.t).body)))
+          expect.fail(
+            `${pkg.scenes[i]?.id} frame ${f.frame}: the engine's frame ${n} is not drawn at t=${f.t}`,
+          );
+      });
+      start += shotFrames(s);
     });
   });
 
@@ -401,6 +421,108 @@ describe("w0-office: every frame's inputs rebuilt from the package equal the eng
     expect(checked).toBeGreaterThan(1300);
     expect(propFrames).toBeGreaterThan(0);
     expect(captionFrames).toBeGreaterThan(1000);
+  });
+
+  it("frame index: the W0 renderer's own frameIndex (w0/cli.ts, run verbatim) gives the stager's frames", () => {
+    const frameIndex = engineFunction<Array<{ i: number; t: number }>>(
+      `${engineText("film/src/w0/cli.ts", "function frameIndex(P: Prepared)", "  return out;\n}")}\nreturn frameIndex(P);`,
+      ["FPS", "P"],
+    );
+    const engine = frameIndex(FPS, P);
+    const own = new Map<number, { i: number; t: number }>();
+    frames.forEach((fr, i) => fr.filter((f) => !f.tail).forEach((f) => own.set(f.frame, { i, t: f.t })));
+    expect(own.size).toBe(engine.length);
+    engine.forEach((e, k) => {
+      const mine = own.get(k);
+      if (!mine || mine.i !== e.i || !Object.is(mine.t, e.t))
+        expect.fail(`frame ${k}: engine ${e.i}@${e.t}, stager ${mine?.i}@${mine?.t}`);
+    });
+  });
+
+  it("fades: the renderer's rule (composer.ts renderFrame) puts the previous shot exactly on the stager's tail frames", () => {
+    // the rule as the engine writes it; the test fails if the text changes
+    engineText("film/src/w0/composer.ts", 'if (prev && tr === "fade" && t < 0.5) {', "prev, prev.dur + t);");
+    const tails = frames.flatMap((fr, i) => fr.filter((f) => f.tail).map((f) => ({ i, f })));
+    let expected = 0;
+    frames.forEach((fr, i) => {
+      const ps = P.shots[i];
+      const prev = P.shots[i - 1];
+      if (!ps || !prev || ps.w.shot.transition !== "fade") return;
+      for (const f of fr.filter((x) => !x.tail && x.t < 0.5)) {
+        expected++;
+        const tail = tails.find((x) => x.f.frame === f.frame);
+        expect(tail?.i).toBe(i - 1);
+        expect(tail?.f.t).toBe(prev.dur + f.t);
+      }
+    });
+    expect(tails.length).toBe(expected);
+  });
+
+  it("props: the W0 composer's own assembly (drawShot, run verbatim) equals the package on every frame", () => {
+    const assemble = engineFunction<{ held: string[]; resting: string[]; actorsSvg: string }>(
+      `let actorsSvg = "";\n${engineText("film/src/w0/composer.ts", "    const held: string[] = [];", 'actorsSvg = people.join("") + held.join("");')}\nreturn { held, resting, actorsSvg };`,
+      ["perf", "t", "propAt", "drawProp"],
+    );
+    let checked = 0;
+    P.shots.forEach((ps, i) => {
+      if (!ps.perf) return;
+      const scene = pkg.scenes[i] as Scene;
+      const layer = (id: string) => scene.layers.find((l) => l.id === id)?.nodes ?? [];
+      const propsOf = (id: string): string[] =>
+        layer(id)
+          .filter((n): n is AssetNode => n.kind === "asset" && n.asset.startsWith("prop_"))
+          .map((n) => propSvg(at0, n))
+          .filter(Boolean);
+      let at0: At;
+      for (const f of frames[i] as SceneFrame[]) {
+        at0 = new At(scene, f.frame);
+        const engine = assemble(ps.perf, f.t, propAt, drawProp);
+        expect(propsOf("held")).toEqual(engine.held);
+        expect(propsOf("mid")).toEqual(engine.resting);
+        const people = scene.layers
+          .filter((l) => l.id.startsWith("actor_"))
+          .map((l) => person(at0, ps.perf?.actors.get(l.id.slice(6)) as ActorPerf, f.t))
+          .join("");
+        if (people + propsOf("held").join("") !== engine.actorsSvg)
+          expect.fail(`${scene.id} frame ${f.frame}: people + held differ`);
+        checked++;
+      }
+    });
+    expect(checked).toBeGreaterThan(1000);
+  });
+
+  it("depth of field: the blur of every layer is what the composer's own expressions compute", () => {
+    const src = readFileSync(join(ROOT, "film/src/w0/composer.ts"), "utf8");
+    const pick = (re: RegExp): string => {
+      const m = re.exec(src);
+      if (!m?.[1]) throw new Error(`composer.ts no longer contains ${re}`);
+      return m[1];
+    };
+    const vars = engineText(
+      "film/src/w0/composer.ts",
+      "  const framing = ps.w.cam.framing",
+      "const onWall =",
+    );
+    const dof = engineText("film/src/w0/composer.ts", "  const dofWall =", "5.5);");
+    const far = pick(/if \((dofWall \+ 2 > 0\.4)\) ctx\.filter = `blur/);
+    const farV = pick(/ctx\.filter = `blur\(\$\{\((dofWall \+ 2)\)\.toFixed/);
+    const mid = pick(/drawL\(ctx, S, (ps\.w\.dof\?\.mid \?\? \(onWall \? 4\.5 : 0\))\);/);
+    const people = pick(/lightLayer\(actorImg, S\);\s*drawL\(ctx, S, (onWall \? 4\.5 : 0)\);/);
+    const near = pick(/nearLayer\(\)\}<\/g>`\);[\s\S]*?drawL\(ctx, S, (\d+)\);/);
+    const blur = engineFunction<Record<string, number>>(
+      `${vars}\n${dof}\nreturn { far: (${far}) ? ${farV} : 0, wall: dofWall, mid: ${mid}, people: ${people}, near: ${near} };`,
+      ["ps"],
+    );
+    P.shots.forEach((ps, i) => {
+      const want = blur(ps);
+      const got = Object.fromEntries((pkg.scenes[i] as Scene).layers.map((l) => [l.id, l.blur]));
+      expect([got.sky, got.city, got.city_near], `${i} far`).toEqual([want.far, want.far, want.far]);
+      expect(got.wall, `${i} wall`).toBe(want.wall);
+      expect(got.mid, `${i} mid`).toBe(want.mid);
+      for (const [id, b] of Object.entries(got))
+        if (id.startsWith("actor_") || id === "held") expect(b, `${i} ${id}`).toBe(want.people);
+      if (ps.w.near) expect(got.near, `${i} near`).toBe(want.near);
+    });
   });
 });
 
