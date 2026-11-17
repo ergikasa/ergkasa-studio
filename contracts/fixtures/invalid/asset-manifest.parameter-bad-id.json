@@ -1,0 +1,355 @@
+{
+  "schema": "erkasa.assets/1",
+  "id": "office-procedural.assets.1",
+  "assets": [
+    {
+      "id": "set_office",
+      "version": 1,
+      "kind": "vector",
+      "format": "svg",
+      "source": {
+        "kind": "builtin",
+        "name": "set.office.back",
+        "version": 1,
+        "fingerprint": "06204cbf31da7c29653efec6c59172e2d19a9cf9521e265a84a4009b0cfd9c0f"
+      },
+      "geometry": {
+        "viewBox": [0, 0, 2200, 2000],
+        "size": {
+          "w": 2200,
+          "h": 2000
+        },
+        "origin": [0, 0]
+      },
+      "states": [
+        {
+          "name": "back",
+          "source": {
+            "kind": "builtin",
+            "name": "set.office.back",
+            "version": 1,
+            "fingerprint": "06204cbf31da7c29653efec6c59172e2d19a9cf9521e265a84a4009b0cfd9c0f"
+          }
+        },
+        {
+          "name": "front",
+          "source": {
+            "kind": "builtin",
+            "name": "set.office.front",
+            "version": 1,
+            "fingerprint": "06204cbf31da7c29653efec6c59172e2d19a9cf9521e265a84a4009b0cfd9c0f"
+          }
+        }
+      ],
+      "defaultState": "back",
+      "affordances": [],
+      "pivots": [],
+      "parameters": [
+        {
+          "kind": "channel",
+          "id": "light",
+          "range": [0, 3]
+        },
+        {
+          "kind": "channel",
+          "id": "t",
+          "range": [0, 3600]
+        },
+        {
+          "kind": "channel",
+          "id": "door",
+          "range": [0, 1]
+        }
+      ],
+      "style": {
+        "kit": "erkasa_editorial_night_v1"
+      },
+      "provenance": {
+        "origin": "builtin"
+      },
+      "approval": {
+        "status": "approved",
+        "note": "Drawn in code by the engine before E1."
+      },
+      "license": "LicenseRef-Erkasa-Original"
+    },
+    {
+      "id": "tpl_clock",
+      "version": 1,
+      "kind": "vector",
+      "format": "svg",
+      "source": {
+        "kind": "builtin",
+        "name": "template.clock",
+        "version": 1,
+        "fingerprint": "3426a0749a06294f93d4af87691f4dabe5d7b02c702399b8167cd42d4ffbf289"
+      },
+      "geometry": {
+        "viewBox": [0, 0, 1080, 1920],
+        "size": {
+          "w": 1080,
+          "h": 1920
+        },
+        "origin": [0, 0]
+      },
+      "states": [
+        {
+          "name": "default",
+          "source": {
+            "kind": "builtin",
+            "name": "template.clock",
+            "version": 1,
+            "fingerprint": "3426a0749a06294f93d4af87691f4dabe5d7b02c702399b8167cd42d4ffbf289"
+          }
+        }
+      ],
+      "defaultState": "default",
+      "affordances": [],
+      "pivots": [],
+      "parameters": [
+        {
+          "kind": "static",
+          "id": "1time"
+        },
+        {
+          "kind": "channel",
+          "id": "t",
+          "range": [0, 600]
+        },
+        {
+          "kind": "channel",
+          "id": "dur",
+          "range": [0, 600]
+        }
+      ],
+      "style": {
+        "kit": "erkasa_editorial_night_v1"
+      },
+      "provenance": {
+        "origin": "builtin"
+      },
+      "approval": {
+        "status": "approved",
+        "note": "Drawn in code by the engine before E1."
+      },
+      "license": "LicenseRef-Erkasa-Original"
+    },
+    {
+      "id": "type_kinetic",
+      "version": 1,
+      "kind": "vector",
+      "format": "svg",
+      "source": {
+        "kind": "builtin",
+        "name": "type.kinetic",
+        "version": 1,
+        "fingerprint": "ff219f03ee9644ac933be1d7656862fb5ea070027dd54b0dd6940ee2df51e927"
+      },
+      "geometry": {
+        "viewBox": [0, 0, 1080, 1920],
+        "size": {
+          "w": 1080,
+          "h": 1920
+        },
+        "origin": [0, 0]
+      },
+      "states": [
+        {
+          "name": "default",
+          "source": {
+            "kind": "builtin",
+            "name": "type.kinetic",
+            "version": 1,
+            "fingerprint": "ff219f03ee9644ac933be1d7656862fb5ea070027dd54b0dd6940ee2df51e927"
+          }
+        }
+      ],
+      "defaultState": "default",
+      "affordances": [],
+      "pivots": [],
+      "parameters": [
+        {
+          "kind": "static",
+          "id": "lines"
+        },
+        {
+          "kind": "static",
+          "id": "y"
+        },
+        {
+          "kind": "static",
+          "id": "at"
+        },
+        {
+          "kind": "static",
+          "id": "out"
+        },
+        {
+          "kind": "static",
+          "id": "dark"
+        },
+        {
+          "kind": "channel",
+          "id": "t",
+          "range": [0, 600]
+        }
+      ],
+      "style": {
+        "kit": "erkasa_editorial_night_v1"
+      },
+      "provenance": {
+        "origin": "builtin"
+      },
+      "approval": {
+        "status": "approved",
+        "note": "Drawn in code by the engine before E1."
+      },
+      "license": "LicenseRef-Erkasa-Original"
+    },
+    {
+      "id": "rig_cutout_man",
+      "version": 1,
+      "kind": "rig",
+      "format": "erkasa.rig.cutout/1",
+      "source": {
+        "kind": "builtin",
+        "name": "rig.cutout",
+        "version": 1,
+        "fingerprint": "e27fab0f9c8388cd2771a924ac84bf5b5327dc5e9f2c9d6170d696a07ba5bec4"
+      },
+      "height": 180,
+      "bones": [
+        {
+          "id": "torso",
+          "range": [-30, 60]
+        },
+        {
+          "id": "head",
+          "parent": "torso",
+          "range": [-30, 40]
+        },
+        {
+          "id": "arm",
+          "parent": "torso"
+        },
+        {
+          "id": "fore",
+          "parent": "arm",
+          "range": [0, 150]
+        },
+        {
+          "id": "armF",
+          "parent": "torso"
+        },
+        {
+          "id": "foreF",
+          "parent": "armF",
+          "range": [0, 150]
+        },
+        {
+          "id": "thigh",
+          "range": [-60, 110]
+        },
+        {
+          "id": "shin",
+          "parent": "thigh",
+          "range": [-130, 0]
+        },
+        {
+          "id": "thighF",
+          "range": [-60, 110]
+        },
+        {
+          "id": "shinF",
+          "parent": "thighF",
+          "range": [-130, 0]
+        }
+      ],
+      "channels": [
+        {
+          "id": "gx",
+          "range": [-1, 1]
+        },
+        {
+          "id": "gy",
+          "range": [-1, 1]
+        },
+        {
+          "id": "lid",
+          "range": [0, 1]
+        },
+        {
+          "id": "brow",
+          "range": [-1, 1]
+        },
+        {
+          "id": "mouth",
+          "range": [-1, 1]
+        },
+        {
+          "id": "shrug",
+          "range": [0, 1]
+        },
+        {
+          "id": "breath",
+          "range": [0, 1]
+        },
+        {
+          "id": "hand",
+          "range": [0, 1]
+        },
+        {
+          "id": "open",
+          "range": [0, 1]
+        }
+      ],
+      "sockets": [
+        {
+          "id": "hand",
+          "bone": "fore"
+        },
+        {
+          "id": "handF",
+          "bone": "foreF"
+        }
+      ],
+      "slots": ["coat", "coatDark", "hair", "skin", "skinShade"],
+      "style": {
+        "kit": "erkasa_editorial_v2"
+      },
+      "provenance": {
+        "origin": "builtin"
+      },
+      "approval": {
+        "status": "approved",
+        "note": "The engine's procedural rig (film/src/rig.ts)."
+      },
+      "license": "LicenseRef-Erkasa-Original"
+    },
+    {
+      "id": "font_montserrat_bold",
+      "version": 1,
+      "kind": "font",
+      "format": "ttf",
+      "source": {
+        "kind": "builtin",
+        "name": "font.montserrat-700",
+        "version": 1,
+        "fingerprint": "7fa93d7daa5c2f881a6727229c211782de6b76008fbd6346b3d7664e8fc83f43"
+      },
+      "family": "Montserrat",
+      "weight": 700,
+      "style": {
+        "kit": "erkasa_editorial_v2"
+      },
+      "provenance": {
+        "origin": "builtin",
+        "by": "Google Fonts"
+      },
+      "approval": {
+        "status": "approved"
+      },
+      "license": "OFL-1.1"
+    }
+  ]
+}

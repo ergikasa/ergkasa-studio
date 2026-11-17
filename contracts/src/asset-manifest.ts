@@ -113,6 +113,22 @@ export type Affordance = z.infer<typeof Affordance>;
 
 export const Pivot = z.object({ id: PartName, at: AssetPoint }).strict();
 
+/**
+ * An input of a procedural asset (one the engine draws in code, from a builtin source).
+ *
+ *   channel  a number animated over time through a `param.<id>` track on the node (the light level of a set, the
+ *            time a clock shows, how far a door is open); `range` is the valid interval.
+ *   static   a fixed JSON value written once in the node's `params` (the labels of a chart, the lines of type).
+ *
+ * Parameters describe what a drawing depends on, never how a story is told. The engine publishes the same list
+ * for each builtin in its capabilities; the Validation Gate checks that they agree and that every node sets
+ * every static parameter and drives only declared channels.
+ */
+export const AssetParameter = z.discriminatedUnion("kind", [
+  z.object({ kind: z.literal("channel"), id: PartName, range: z.tuple([z.number(), z.number()]) }).strict(),
+  z.object({ kind: z.literal("static"), id: PartName }).strict(),
+]);
+
 /** Kit and Style Gate result. Filled by the asset responsible; the engine only reads `kit`. */
 export const AssetStyle = z
   .object({
@@ -172,6 +188,8 @@ export const VectorAsset = z
     defaultState: PartName,
     affordances: z.array(Affordance).max(16),
     pivots: z.array(Pivot).max(16),
+    /** Inputs of a procedural asset. Absent: the asset takes no inputs (every file-based drawing). */
+    parameters: z.array(AssetParameter).min(1).max(32).optional(),
   })
   .strict();
 

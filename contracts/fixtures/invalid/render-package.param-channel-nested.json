@@ -1,0 +1,493 @@
+{
+  "schema": "erkasa.render/1",
+  "id": "office-procedural.v1",
+  "producer": {
+    "name": "handwritten-example",
+    "version": "1"
+  },
+  "output": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "duration": 5
+  },
+  "assetManifest": {
+    "uri": "contracts/fixtures/valid/asset-manifest.office-procedural.json",
+    "sha256": "8e5dd915f36e2993b7f1dd8c2b968c5b3f0f3a0e0d6ea872722ac62e12a1191d"
+  },
+  "scenes": [
+    {
+      "id": "office_wide",
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "w": 2200,
+        "h": 2000
+      },
+      "background": "#0C1529",
+      "camera": {
+        "projection": "flat",
+        "referenceDistance": 1000,
+        "dolly": 0,
+        "aperture": 0
+      },
+      "layers": [
+        {
+          "id": "back",
+          "depth": 0,
+          "blur": 0,
+          "lit": false,
+          "nodes": [
+            {
+              "kind": "asset",
+              "id": "office_back",
+              "asset": "set_office@1",
+              "x": 0,
+              "y": 0,
+              "scale": 1,
+              "rotation": 0,
+              "opacity": 1,
+              "flip": false,
+              "state": "back",
+              "pivot": null
+            }
+          ]
+        },
+        {
+          "id": "maya",
+          "depth": 0,
+          "blur": 0,
+          "lit": false,
+          "nodes": []
+        },
+        {
+          "id": "front",
+          "depth": 0,
+          "blur": 0,
+          "lit": false,
+          "nodes": [
+            {
+              "kind": "asset",
+              "id": "office_front",
+              "asset": "set_office@1",
+              "x": 0,
+              "y": 0,
+              "scale": 1,
+              "rotation": 0,
+              "opacity": 1,
+              "flip": false,
+              "state": "front",
+              "pivot": null
+            }
+          ]
+        }
+      ],
+      "screen": [
+        {
+          "id": "type",
+          "nodes": [
+            {
+              "kind": "asset",
+              "id": "type_1",
+              "asset": "type_kinetic@1",
+              "x": 0,
+              "y": 0,
+              "scale": 1,
+              "rotation": 0,
+              "opacity": 1,
+              "flip": false,
+              "state": "default",
+              "pivot": null,
+              "params": {
+                "lines": [
+                  {
+                    "text": "Why do we stay?",
+                    "weight": "bold"
+                  }
+                ],
+                "y": 250,
+                "at": 0.4,
+                "out": null,
+                "dark": false
+              }
+            }
+          ]
+        }
+      ],
+      "actors": [
+        {
+          "id": "maya",
+          "rig": "rig_cutout_man@1",
+          "layer": "maya",
+          "appearance": {
+            "coat": "#C8742F",
+            "coatDark": "#8F4E1C",
+            "hair": "#2B2522",
+            "skin": "#E8B48F",
+            "skinShade": "#C98F6B"
+          },
+          "shadow": false,
+          "rim": false
+        }
+      ],
+      "lights": [],
+      "tracks": [
+        {
+          "kind": "keys",
+          "target": {
+            "kind": "camera"
+          },
+          "channel": "x",
+          "keys": [
+            {
+              "t": 0,
+              "v": 1100,
+              "ease": "linear"
+            }
+          ]
+        },
+        {
+          "kind": "keys",
+          "target": {
+            "kind": "camera"
+          },
+          "channel": "y",
+          "keys": [
+            {
+              "t": 0,
+              "v": 1000,
+              "ease": "linear"
+            }
+          ]
+        },
+        {
+          "kind": "keys",
+          "target": {
+            "kind": "camera"
+          },
+          "channel": "height",
+          "keys": [
+            {
+              "t": 0,
+              "v": 2000,
+              "ease": "linear"
+            }
+          ]
+        },
+        {
+          "kind": "keys",
+          "target": {
+            "kind": "node",
+            "id": "office_back"
+          },
+          "channel": "param.light.level",
+          "keys": [
+            {
+              "t": 0,
+              "v": 1,
+              "ease": "linear"
+            },
+            {
+              "t": 1.2,
+              "v": 1,
+              "ease": "linear"
+            },
+            {
+              "t": 3.0,
+              "v": 3,
+              "ease": "easeInOut"
+            }
+          ]
+        },
+        {
+          "kind": "keys",
+          "target": {
+            "kind": "node",
+            "id": "office_back"
+          },
+          "channel": "param.t",
+          "keys": [
+            {
+              "t": 0,
+              "v": 0,
+              "ease": "linear"
+            },
+            {
+              "t": 3,
+              "v": 3,
+              "ease": "linear"
+            }
+          ]
+        },
+        {
+          "kind": "keys",
+          "target": {
+            "kind": "node",
+            "id": "office_back"
+          },
+          "channel": "param.door",
+          "keys": [
+            {
+              "t": 0,
+              "v": 0,
+              "ease": "linear"
+            }
+          ]
+        },
+        {
+          "kind": "keys",
+          "target": {
+            "kind": "node",
+            "id": "office_front"
+          },
+          "channel": "param.light",
+          "keys": [
+            {
+              "t": 0,
+              "v": 1,
+              "ease": "linear"
+            },
+            {
+              "t": 1.2,
+              "v": 1,
+              "ease": "linear"
+            },
+            {
+              "t": 3.0,
+              "v": 3,
+              "ease": "easeInOut"
+            }
+          ]
+        },
+        {
+          "kind": "keys",
+          "target": {
+            "kind": "node",
+            "id": "type_1"
+          },
+          "channel": "param.t",
+          "keys": [
+            {
+              "t": 0,
+              "v": 0,
+              "ease": "linear"
+            },
+            {
+              "t": 3,
+              "v": 3,
+              "ease": "linear"
+            }
+          ]
+        },
+        {
+          "kind": "keys",
+          "target": {
+            "kind": "actor",
+            "id": "maya"
+          },
+          "channel": "root.x",
+          "keys": [
+            {
+              "t": 0,
+              "v": 1300,
+              "ease": "linear"
+            }
+          ]
+        },
+        {
+          "kind": "keys",
+          "target": {
+            "kind": "actor",
+            "id": "maya"
+          },
+          "channel": "root.y",
+          "keys": [
+            {
+              "t": 0,
+              "v": 1420,
+              "ease": "linear"
+            }
+          ]
+        },
+        {
+          "kind": "samples",
+          "target": {
+            "kind": "actor",
+            "id": "maya"
+          },
+          "channel": "channel.breath",
+          "start": 0,
+          "rate": 30,
+          "values": [
+            0.828493, 0.849315, 0.869016, 0.887531, 0.904803, 0.920775, 0.935397, 0.948621, 0.960404, 0.97071,
+            0.979504, 0.986759, 0.992452, 0.996563, 0.999081, 0.999996, 0.999306, 0.997014, 0.993125,
+            0.987654, 0.980617, 0.972038, 0.961942, 0.950364, 0.937341, 0.922913, 0.907127, 0.890035,
+            0.871691, 0.852153, 0.831485, 0.809752, 0.787025, 0.763377, 0.738884, 0.713623, 0.687677,
+            0.661128, 0.634062, 0.606565, 0.578727, 0.550635, 0.522381, 0.494056, 0.465749, 0.437552,
+            0.409556, 0.38185, 0.354524, 0.327664, 0.301358, 0.275689, 0.250741, 0.226593, 0.203322, 0.181004,
+            0.159709, 0.139508, 0.120463, 0.102637, 0.086087, 0.070865, 0.057021, 0.044599, 0.033639,
+            0.024176, 0.016241, 0.009858, 0.00505, 0.00183, 0.000209, 0.000193, 0.001781, 0.004969, 0.009745,
+            0.016096, 0.024, 0.033432, 0.044362, 0.056755, 0.070571, 0.085765, 0.102289, 0.12009, 0.13911,
+            0.159289, 0.180562, 0.20286, 0.226112, 0.250243
+          ]
+        }
+      ],
+      "contacts": [],
+      "events": []
+    },
+    {
+      "id": "clock",
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "w": 1080,
+        "h": 1920
+      },
+      "background": "#F3EBDD",
+      "camera": {
+        "projection": "flat",
+        "referenceDistance": 1000,
+        "dolly": 0,
+        "aperture": 0
+      },
+      "layers": [
+        {
+          "id": "template",
+          "depth": 0,
+          "blur": 0,
+          "lit": false,
+          "nodes": [
+            {
+              "kind": "asset",
+              "id": "clock_tpl",
+              "asset": "tpl_clock@1",
+              "x": 0,
+              "y": 0,
+              "scale": 1,
+              "rotation": 0,
+              "opacity": 1,
+              "flip": false,
+              "state": "default",
+              "pivot": null,
+              "params": {
+                "time": "6:40"
+              }
+            }
+          ]
+        }
+      ],
+      "actors": [],
+      "lights": [],
+      "tracks": [
+        {
+          "kind": "keys",
+          "target": {
+            "kind": "camera"
+          },
+          "channel": "x",
+          "keys": [
+            {
+              "t": 3,
+              "v": 540,
+              "ease": "linear"
+            }
+          ]
+        },
+        {
+          "kind": "keys",
+          "target": {
+            "kind": "camera"
+          },
+          "channel": "y",
+          "keys": [
+            {
+              "t": 3,
+              "v": 960,
+              "ease": "linear"
+            }
+          ]
+        },
+        {
+          "kind": "keys",
+          "target": {
+            "kind": "camera"
+          },
+          "channel": "height",
+          "keys": [
+            {
+              "t": 3,
+              "v": 1920,
+              "ease": "linear"
+            }
+          ]
+        },
+        {
+          "kind": "keys",
+          "target": {
+            "kind": "node",
+            "id": "clock_tpl"
+          },
+          "channel": "param.t",
+          "keys": [
+            {
+              "t": 3,
+              "v": 0,
+              "ease": "linear"
+            },
+            {
+              "t": 5,
+              "v": 2,
+              "ease": "linear"
+            }
+          ]
+        },
+        {
+          "kind": "keys",
+          "target": {
+            "kind": "node",
+            "id": "clock_tpl"
+          },
+          "channel": "param.dur",
+          "keys": [
+            {
+              "t": 3,
+              "v": 2,
+              "ease": "linear"
+            }
+          ]
+        }
+      ],
+      "contacts": [],
+      "events": []
+    }
+  ],
+  "edit": [
+    {
+      "scene": "office_wide",
+      "start": 0,
+      "end": 3,
+      "enter": {
+        "kind": "cut",
+        "duration": 0
+      }
+    },
+    {
+      "scene": "clock",
+      "start": 3,
+      "end": 5,
+      "enter": {
+        "kind": "whip",
+        "duration": 0.32
+      }
+    }
+  ],
+  "overlays": [],
+  "audio": [],
+  "mix": {
+    "duckMusicDb": 0,
+    "loudness": {
+      "integratedLufs": -14,
+      "truePeakDb": -1
+    }
+  }
+}

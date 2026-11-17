@@ -37,6 +37,12 @@
  *             motion (no lossy resampling); for `bone.*` and `channel.*` the Validation Gate requires
  *             rate = output.fps and start * fps to be an integer.
  *   one track per (scene, target, channel): the Validation Gate rejects two.
+ *
+ * Draw order: inside a scene, `layers` are drawn first, in array order, then `screen` layers in array order.
+ * Inside a layer, nodes are drawn in array order. The stager writes the order; the engine never re-sorts layers.
+ *
+ * Procedural assets: a node that draws a procedural asset (declared with `parameters` in the manifest) sets its
+ * static inputs in `params` and drives its numeric inputs with tracks on the channel `param.<id>`.
  */
 import { z } from "zod";
 import { NamedEasing, Sha256 } from "./common.js";
@@ -73,6 +79,8 @@ export const AssetNode = z
     state: PartName,
     /** A declared pivot of the asset to rotate and scale around, or null for the asset's origin. */
     pivot: PartName.nullable(),
+    /** Static inputs of a procedural asset, by parameter id. Absent: the asset takes no static inputs. */
+    params: z.record(PartName, z.json()).optional(),
   })
   .strict();
 
@@ -140,6 +148,18 @@ export const Layer = z
     blur: z.number().min(0),
     /** Whether lights in the scene affect this layer (sky and screens usually not). */
     lit: z.boolean(),
+    nodes: z.array(Node).max(2000),
+  })
+  .strict();
+
+/**
+ * A layer fixed to the frame: coordinates are frame pixels (0..output.width, 0..output.height), the camera does
+ * not move it and lights do not affect it. It belongs to its scene, so a transition carries it with the scene
+ * (type, scrims, a foreground shoulder).
+ */
+export const ScreenLayer = z
+  .object({
+    id: RId,
     nodes: z.array(Node).max(2000),
   })
   .strict();
@@ -227,7 +247,8 @@ export const TrackTarget = z.discriminatedUnion("kind", [
 ]);
 
 /**
- * `x`, `y`, `scale`, `rotation`, `opacity` for nodes and layers; for actors `root.x`, `root.y`, `root.scale`,
+ * `x`, `y`, `scale`, `rotation`, `opacity` and `param.<id>` (inputs of a procedural asset) for nodes; `x`, `y`,
+ * `scale`, `rotation`, `opacity` for layers; for actors `root.x`, `root.y`, `root.scale`,
  * `facing` (-1/1), `turn` (0..1, how much of the body faces the camera while turning), `bone.<id>` (degrees) and
  * `channel.<id>` (the rig's own range); for the camera `x`, `y`, `height` (visible world height at depth 0),
  * `focus` (depth in focus), `shake`; for lights `intensity`, `color`, `radius`, `x`, `y`.
@@ -309,6 +330,8 @@ export const Scene = z
     background: Color,
     camera: Camera,
     layers: z.array(Layer).min(1).max(64),
+    /** Layers fixed to the frame, drawn after `layers`. Absent: the scene has none. */
+    screen: z.array(ScreenLayer).min(1).max(16).optional(),
     actors: z.array(Actor).max(32),
     lights: z.array(Light).max(32),
     tracks: z.array(Track).max(5000),
