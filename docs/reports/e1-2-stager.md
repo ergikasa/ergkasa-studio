@@ -1,11 +1,11 @@
-# E1.2 – Stager (raport i përditësuar, për review)
+# E1.2 – Stager (raport përfundimtar, i pranuar)
 
-|           |                                                                                                                                                                                             |
-| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Branch    | `e1-2-stager`, nga `523e8570c4a39e2b949f8865941083aac7f4417e`                                                                                                                               |
-| Commit-et | `df05e23` zgjerimi aditiv i kontratës (E1.2a) · `96f3abb` raporti E1.2a · `be092a6` Stager-i · `886ffc0` raporti i parë · `bd6ed0dbe4adc3bc765542d0a618dbf9d34c8887` korrigjimet e review-t |
-| Data      | 2026-11-17                                                                                                                                                                                  |
-| Statusi   | Pret review. Pa merge në `main`, pa E1.3, pa ndryshime në Engine apo në kontrata (pas E1.2a)                                                                                                |
+|           |                                                                                                                                                                                                                            |
+| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Branch    | `e1-2-stager`, nga `523e8570c4a39e2b949f8865941083aac7f4417e`                                                                                                                                                              |
+| Commit-et | `df05e23` zgjerimi aditiv i kontratës (E1.2a) · `96f3abb` raporti E1.2a · `be092a6` Stager-i · `886ffc0` raporti i parë · `bd6ed0d` korrigjimet e review-t · `c0572520aae8bab255d14d744f1590b94138cd7f` testet e auditimit |
+| Data      | 2026-11-17                                                                                                                                                                                                                 |
+| Statusi   | **Pranuar nga Product Owner më 2026-11-17.** Pa merge në `main`. Pa ndryshime në Engine, as në kontrata pas E1.2a.                                                                                                         |
 
 ## Scope
 
@@ -46,12 +46,34 @@ Paketa `stager/` (`@erkasa/stager`), plus regjistrimi në `pnpm-workspace.yaml` 
 - **Determinizmi:** në të njëjtin proces, në proces më vete, me çdo renditje të filmave.
 - **Burimi i Stager-it:** pa model, rrjet, orë apo rastësi.
 
+## Auditimi final dhe testet që e mbyllin
+
+Auditimi i 17 nëntorit gjeti logjikë të përbashkët midis Stager-it dhe testeve: dy anët e krahasimit përdornin të njëjtin kod, pra një gabim i përbashkët nuk do të kapej. Commit-i `c057252` shton vetëm teste (+ `typescript` si devDependency për to). `stager/src`, Engine-i dhe kontratat nuk preken.
+
+| Rreziku i gjetur                                                    | Si mbyllet tani                                                                                                                                                                                                                                | Testi                                 |
+| ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------- |
+| Koha e kuadrove të B1–B5 merrej nga `sceneFrames()` në të dyja anët | Çdo trup i vizatuar në kohën e Stager-it gjendet në `frameAt` të Engine-it, që e llogarit vetë kohën `n / FPS`; intervalet e kuadrove ndjekin `shotFrames` të Engine-it                                                                        | `reproduction.test.ts` › "own frames" |
+| Indeksi i kuadrove të W0 ishte kopje e `frameIndex` privat          | `frameIndex` i `w0/cli.ts` ekzekutohet **tekstualisht siç është** dhe jep të njëjtin shot dhe të njëjtën kohë, bit për bit, për çdo kuadër                                                                                                     | › "frame index"                       |
+| Rregulli i fade-it të W0 ishte kopje                                | Rregulli i `renderFrame` (shenjë tekstuale në burim) vendos shot-in e mëparshëm pikërisht në kuadrot e bishtit të Stager-it, në `prev.dur + t`                                                                                                 | › "fades"                             |
+| Mbledhja e props-ve të W0 ishte kopjuar në të dyja anët             | Blloku i `drawShot` ekzekutohet tekstualisht siç është; props në dorë/në pushim dhe "personat + props në dorë" duhet të dalin identikë me paketën në çdo kuadër                                                                                | › "props"                             |
+| Blur-i i W0 ishte kopje e paverifikuar                              | Shprehjet e blur-it nxirren nga `composer.ts` dhe ekzekutohen; çdo shtresë e paketës ka atë vlerë                                                                                                                                              | › "depth of field"                    |
+| `evaluate.ts` nuk kishte teste                                      | Teste unitare: clamp, `linear`, `hold`, refuzimi i easing-ut pa përkufizim dhe i interpolimit të ngjyrave, indeksi i mostrave për 18 000 kuadro nga disa fillime, kërkimi i track-ut, dukshmëria me ngjarje në çfarëdo rendi, kohët e captions | `evaluate.test.ts`                    |
+
+Mekanizmi (`test/engine-source.ts`): kodi privat i Engine-it pritet nga skedari me shenja fillimi/fundi, tipet hiqen me kompajlerin e TypeScript dhe kodi ekzekutohet. Nëse teksti i Engine-it ndryshon, shenjat nuk gjenden më dhe testi dështon, kështu që kopja duhet rishikuar. Engine-i nuk modifikohet.
+
+**Ende e paprovuar pas auditimit:**
+
+- **Pikselët e W0:** kompozimi raster (harta e dritës, hija, rim, rrezja, bloom, vinjeta, grain).
+- **Dega "në dorë" e props në W0:** në W0 filxhani nuk mbahet kurrë në dorë, prandaj ushtrohet vetëm dega "në pushim". Dega "në dorë" provohet te B1–B5.
+- **Kamera e papërpunuar e B1–B5:** vlerat në paketë **nuk janë** ato që llogarit `compose.ts`. Shembull i matur: në shot-in statik, `compose.ts` llogarit lartësinë 1250, paketa mban 1246,753 (3,247 px bote). Kufiri: 0,54 % në lartësi, 0,005 px në x/y.
+- **Interpolimi me shumë çelësa** provohet vetëm me teste unitare, sepse paketat e Stager-it kanë vetëm çelësa të vetëm.
+
 ## Pikat e review-t
 
 1. **OTS dhe scrim (B1–B5):** ✅ Rindërtohen si pjesë e trupit të plotë të çdo kuadri dhe krahasohen bajt për bajt.
-2. **Props të W0:** ✅ Mbajtësi, pozicioni, drejtimi dhe vizatimi vlerësohen në çdo kuadër. Kufizim: kompozuesi i W0 i bashkon props në një imazh raster brenda një funksioni privat, prandaj krahasohet vizatimi SVG i çdo objekti, jo pikselët.
+2. **Props të W0:** ✅ Mbajtësi, pozicioni, drejtimi dhe vizatimi vlerësohen në çdo kuadër, dhe krahasohen me mbledhjen e vetë kompozuesit (`drawShot`), të ekzekutuar tekstualisht siç është. Pikselët nuk krahasohen; dega "në dorë" nuk ushtrohet në W0.
 3. **Captions të W0:** ✅ Teksti, fonti, madhësia, kohët dhe stili, SVG identike me Engine-in në çdo kuadër. Tri pjesë të pamjes nuk janë fusha të kontratës, por rregulla të renderer-it që W0 duhet t'i ndjekë: hyrja me opacitet në 0,12 s, fjalët e pa-arritura me opacitet 0,6 dhe stroke-opacity 0,9.
-4. **Një interpretim i vetëm i kontratës:** ✅ `src/evaluate.ts` është i vetmi lexues; testet e kontrollojnë kundrejt kuadrove të Engine-it. Renderer-i ende nuk ekziston (E1.4). Kusht për E1.4: renderer-i duhet të përdorë këtë modul dhe jo të shkruajë një tjetër. Moduli duhet të zhvendoset pranë kontratës, me autorizimin tënd, që Engine-i ta importojë pa varësi nga Stager-i. Easing-u (përveç `linear` dhe `hold`) hedh gabim derisa të përcaktohet.
+4. **Një interpretim i vetëm i kontratës:** ✅ `src/evaluate.ts` është i vetmi lexues dhe ka tani teste unitare; testet e kontrollojnë edhe kundrejt kuadrove të Engine-it. `recorder.ts` (ana që shkruan) zbaton të njëjtat rregulla në drejtim të kundërt; përputhja provohet nga cikli i plotë shkrim-lexim. Renderer-i ende nuk ekziston (E1.4). Kusht për E1.4: renderer-i duhet të përdorë këtë modul dhe jo të shkruajë një tjetër. Moduli duhet të zhvendoset pranë kontratës, me autorizimin tënd, që Engine-i ta importojë pa varësi nga Stager-i. Easing-u (përveç `linear` dhe `hold`) hedh gabim derisa të përcaktohet.
 5. **Kamera e B1–B5:** ✅ dokumentuar, edhe në kod (`src/v2.ts`).
    - Paketa mban kamerën me të cilën **u vizatua** kuadri, jo kamerën që llogariti `compose.ts`. `fmt()` rrumbullakon në 0,01: x dhe y janë brenda 0,005 px bote nga vlera e llogaritur; shkalla është brenda 0,005, që në B1–B5 (shkalla 0,93–3,36) do të thotë lartësia brenda 0,54 % (maksimumi 11,1 px bote).
    - **Vlerat e papërpunuara të kamerës nuk janë në paketë.**
@@ -75,14 +97,23 @@ Paketa `stager/` (`@erkasa/stager`), plus regjistrimi në `pnpm-workspace.yaml` 
 | Asetet në vend të builtin-eve procedurale                                                                                                                                                                                                                                                         | E2/E3                       |
 | Gjetjet për kontratën (`referenceDistance` për `flat`, `range` për kanale të pakufizuara, projeksioni i W0)                                                                                                                                                                                       | Për review, pa ndryshim     |
 
-## Rezultatet (në `bd6ed0d`)
+## Rezultatet (në `c057252`)
 
 | Komanda                                            | Rezultati                                                                                                      |
 | -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| `pnpm -r test`                                     | 464/464 (contracts 213, engine 23, compiler 28, engine-worker 16, film 82, planner 6, stager 61, ai-worker 35) |
+| `pnpm -r test`                                     | 484/484 (contracts 213, engine 23, compiler 28, engine-worker 16, film 82, planner 6, stager 81, ai-worker 35) |
 | `pnpm contracts:gen --check`                       | exit 0                                                                                                         |
 | `pnpm typecheck`, `pnpm lint`, `pnpm format:check` | kalojnë                                                                                                        |
 | `pnpm --filter @erkasa/film golden`                | 451/451, 0 ndryshime                                                                                           |
+
+**Kufiri i këtyre rezultateve:** janë lokale, me ffmpeg të instaluar.
+
+**CI në GitHub** (`.github/workflows/ci.yml`) është i kuq në çdo commit nga E0 deri në E1.2, për dy shkaqe që ekzistonin para E0:
+
+- `ai-worker/test/film-worker.test.ts` jep `spawn ffmpeg ENOENT`, sepse runner-i nuk ka ffmpeg.
+- Backend-i: `AssetApiTest.listsAndFiltersAssets:49` pret 6 personazhe.
+
+I njëjti dështim duket te run-et `44009034545` (w0-world-first) dhe `43666174750` (studio-v2); edhe `main` është i kuq që nga `43520544941`. Në CI kalojnë: format, lint, typecheck, kontrolli i JSON Schema, stager, contracts, film dhe gjithë paketat e tjera TypeScript. Riparimi i CI-së ndiqet më vete, jashtë E1.2.
 
 ## Madhësia reale (JSON kompakt, bajte; pa kompresim)
 
@@ -100,7 +131,22 @@ Videoja 45-sekondëshe (W0) është 0,69 MB. Te W0, pjesa më e madhe e "nyjeve"
 ## Si riprodhohet
 
 ```
-pnpm --filter @erkasa/stager test                       # 61 teste, përfshirë rindërtimin kuadër për kuadër
+pnpm --filter @erkasa/stager test                       # 81 teste, përfshirë rindërtimin kuadër për kuadër
 pnpm --filter @erkasa/stager stage --out /tmp/staged    # shkruan paketat, printon madhësitë
 pnpm --filter @erkasa/stager stage --hashes             # hash-et (determinizmi)
 ```
+
+## Pranimi
+
+Kushtet e pranimit të E1.2 të plotësuara:
+
+- 6 filma realë → Render Package;
+- golden 451/451 pa ndryshime;
+- riprodhim numerik bit për bit i lëvizjes;
+- asnjë fushë e detyrueshme e anashkaluar;
+- determinizëm;
+- testet, typecheck, lint dhe format kalojnë;
+- dokumentimi;
+- testet që mbyllin gjetjet e auditimit (`c057252`).
+
+**E1.2 u pranua nga Product Owner më 2026-11-17.** Nuk është autorizuar merge në `main`.
