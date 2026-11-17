@@ -16,14 +16,50 @@
     "states": ["six binders, door closed", "a seventh binder lands", "door opens"]
   },
   "moments": [
-    { "id": "m1", "scene": "s01", "understand": "The day is over and he is still here, waiting.", "feel": "stillness, fatigue" },
-    { "id": "m2", "scene": "s02", "understand": "Six years are stacked on his desk; he knows he hates it.", "feel": "weight" },
-    { "id": "m3", "scene": "s02", "understand": "The life he wants is literally outside the window.", "feel": "longing" },
-    { "id": "m4", "scene": "s03", "understand": "He goes back; the light goes out of the day.", "feel": "resignation" },
-    { "id": "m5", "scene": "s04", "understand": "The door is right there; leaving is what scares him.", "feel": "fear", "turn": true },
-    { "id": "m6", "scene": "s05", "understand": "Another year lands on the stack: the more he gives, the harder he holds on.", "feel": "pressure" },
+    {
+      "id": "m1",
+      "scene": "s01",
+      "understand": "The day is over and he is still here, waiting.",
+      "feel": "stillness, fatigue"
+    },
+    {
+      "id": "m2",
+      "scene": "s02",
+      "understand": "Six years are stacked on his desk; he knows he hates it.",
+      "feel": "weight"
+    },
+    {
+      "id": "m3",
+      "scene": "s02",
+      "understand": "The life he wants is literally outside the window.",
+      "feel": "longing"
+    },
+    {
+      "id": "m4",
+      "scene": "s03",
+      "understand": "He goes back; the light goes out of the day.",
+      "feel": "resignation"
+    },
+    {
+      "id": "m5",
+      "scene": "s04",
+      "understand": "The door is right there; leaving is what scares him.",
+      "feel": "fear",
+      "turn": true
+    },
+    {
+      "id": "m6",
+      "scene": "s05",
+      "understand": "Another year lands on the stack: the more he gives, the harder he holds on.",
+      "feel": "pressure"
+    },
     { "id": "m7", "scene": "s05", "understand": "Time keeps spending his future.", "feel": "urgency" },
-    { "id": "m8", "scene": "s06", "understand": "The question is the next year, not the past ones: he walks to the open door.", "feel": "resolve" }
+    {
+      "id": "m8",
+      "scene": "s06",
+      "understand": "The question is the next year, not the past ones: he walks to the open door.",
+      "feel": "resolve"
+    }
   ],
   "rejected": [
     "a cage (a ready-made metaphor that replaces the place with a symbol)",
