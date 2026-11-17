@@ -86,16 +86,16 @@ const PARENT: Record<string, string> = {
   shinF: "thighF",
 };
 
-/** Clamps drawPerson applies; the other channels are not bounded by rig.ts (declared as UNBOUNDED). */
-const CLAMP: Record<string, [number, number]> = {
-  lid: [0, 1],
-  open: [0, 1],
-  gx: [-1, 1],
-  gy: [-1, 1],
-  brow: [-1.2, 1.2],
-  mouth: [-1.2, 1.2],
-};
-/** The contract requires a range on rig channels; rig.ts does not bound these, so the widest finite one is used. */
+/**
+ * A declared range describes the values a channel carries in the package, not where the drawing clips them.
+ *
+ * The staging code layers mood, action and idle motion, so a channel can leave the interval drawPerson clips it
+ * to when it draws (measured in the six films: gx -1.14..1.12, gy -1.47..1.50, brow -2.00..0.80, lid 0..1.08;
+ * drawPerson clips gx and gy to ±1, brow and mouth to ±1.2, lid and open to 0..1, shrug to -0.8..1.2, hand to
+ * 0..1). The package keeps the unclipped values, so the picture and the numbers stay exactly the engine's, and
+ * rig.ts accepts any number on every channel: the range of every channel is the widest finite one. (E1.2
+ * declared the clip intervals here, which the stored values contradicted; E1.3's gate refused them.)
+ */
 export const UNBOUNDED: [number, number] = [-Number.MAX_VALUE, Number.MAX_VALUE];
 
 export function rig(build: "man" | "woman"): Asset {
@@ -109,7 +109,7 @@ export function rig(build: "man" | "woman"): Asset {
     source: builtin(`rig.cutout.${build}`, "rig"),
     height: d.feet - d.top,
     bones: BONES.map((id) => (PARENT[id] ? { id, parent: PARENT[id] } : { id })),
-    channels: RIG_CHANNELS.map((id) => ({ id, range: CLAMP[id] ?? UNBOUNDED })),
+    channels: RIG_CHANNELS.map((id) => ({ id, range: UNBOUNDED })),
     sockets: [
       { id: "hand", bone: "fore" },
       { id: "handF", bone: "foreF" },

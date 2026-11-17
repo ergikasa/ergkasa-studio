@@ -27,7 +27,7 @@ import {
   type W0Prepared,
   type W0PreparedShot,
 } from "./legacy.js";
-import { ManifestBuilder, fontAsset, procedural, rig } from "./manifest.js";
+import { ManifestBuilder, UNBOUNDED, fontAsset, procedural, rig } from "./manifest.js";
 import { SceneRecorder } from "./recorder.js";
 import { node, recordActor, type SceneFrame, type Staged } from "./v2.js";
 
@@ -75,7 +75,8 @@ const STATE = ["t", "light", "door", "lamp", "clockMin", "binders"] as const;
 const RANGE: Record<(typeof STATE)[number], [number, number]> = {
   t: [0, 3600],
   light: [0, 3],
-  door: [0, 1],
+  // the door overshoots to 1.12082 when it opens (EASES.back follow-through, see v2.ts)
+  door: UNBOUNDED,
   lamp: [0, 1],
   clockMin: [0, 1440 * 7],
   binders: [0, 1000],

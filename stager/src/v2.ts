@@ -29,7 +29,7 @@ import {
   type Shot,
   type Timing,
 } from "./legacy.js";
-import { BONES, ManifestBuilder, RIG_CHANNELS, procedural, rig } from "./manifest.js";
+import { BONES, ManifestBuilder, RIG_CHANNELS, UNBOUNDED, procedural, rig } from "./manifest.js";
 import { SceneRecorder } from "./recorder.js";
 import type { Script } from "@erkasa/contracts";
 
@@ -419,7 +419,9 @@ function stagedScene(
       [
         { kind: "channel", id: "light", range: [0, 3] },
         { kind: "channel", id: "t", range: [0, 3600] },
-        { kind: "channel", id: "door", range: [0, 1] },
+        // the door opens with the engine's "back" ease, a follow-through that overshoots to 1.12082 by design
+        // (motion.ts EASES.back, c1 = 1.9: 1 + 4c1³/27c3²); the set drawing takes any value
+        { kind: "channel", id: "door", range: UNBOUNDED },
       ],
     ),
   );
