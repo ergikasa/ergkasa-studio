@@ -8,11 +8,22 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { Light, Mood, SetId, Template, Verb } from "./contract.js";
 import type { PropKind } from "./props.js";
-import { CHANNELS } from "./rig.js";
+import {
+  CAPABILITIES_VERSION as RENDER_CAPABILITIES,
+  type BuiltinCapability,
+  type CapabilityParameter as BuiltinParameter,
+  type RenderCapabilities,
+} from "@erkasa/gate";
+import { FIELDS } from "./capabilities-fields.js";
+import { CHANNELS, drawPerson, lookFor, STANDING } from "./rig.js";
 import { SETS } from "./sets.js";
-import { fontFiles } from "./style.js";
+import { fontFiles, H, W } from "./style.js";
+import { REF } from "./w0/camera.js";
 
-export const CAPABILITIES_VERSION = "erkasa.capabilities/1";
+/** w0/camera.ts GAMMA: the share of a W0 zoom that is the camera moving (a test checks the two agree). */
+const W0_DOLLY = 0.55;
+
+export const CAPABILITIES_VERSION = RENDER_CAPABILITIES;
 
 export interface SetCapability {
   id: string;
@@ -33,40 +44,12 @@ export interface EngineCapabilities {
   render: RenderCapabilities;
 }
 
-/** An input of a builtin drawing: a number animated through `param.<id>`, or a fixed value in the node's params. */
-export type BuiltinParameter =
-  { kind: "channel"; id: string; range: [number, number] } | { kind: "static"; id: string };
-
-/**
- * A drawing the engine implements in code. `fingerprint` is the sha256 of the file that implements it (the same
- * semantics as the fingerprints the stager writes into manifests); when the code changes, the fingerprint changes,
- * so a manifest pinned to an older implementation no longer matches.
- */
-export interface BuiltinCapability {
-  name: string;
-  version: number;
-  fingerprint: string;
-  status: "supported" | "deprecated" | "removed";
-  kind: "vector" | "rig" | "font";
-  /** vector builtins: their inputs (none for a static drawing). */
-  parameters?: BuiltinParameter[];
-  /** rig builtins: what a manifest may declare and a package may drive. */
-  rig?: { format: string; bones: string[]; channels: string[]; sockets: string[]; slots: string[] };
-  /** font builtins. */
-  font?: { family: string; weight: number };
-}
-
-export interface RenderCapabilities {
-  contract: "erkasa.render/1";
-  projections: string[];
-  lightKinds: string[];
-  fx: string[];
-  transitions: string[];
-  nodeKinds: string[];
-  overlayKinds: string[];
-  rigFormats: string[];
-  builtins: BuiltinCapability[];
-}
+/** The render capabilities contract is the gate's (erkasa.capabilities/2); this engine publishes it. */
+export type {
+  BuiltinCapability,
+  CapabilityParameter as BuiltinParameter,
+  RenderCapabilities,
+} from "@erkasa/gate";
 
 export function capabilities(): EngineCapabilities {
   return {
@@ -116,14 +99,54 @@ const statics = (...ids: string[]): BuiltinParameter[] => ids.map((id) => ({ kin
  * of existing code, not new behaviour: the engine does not read packages until E1.4. Lights, fx other than
  * `none`, non-asset nodes and overlays other than captions are not drawn from packages yet, so they are not listed.
  */
+const rigHeight = (build: "man" | "woman"): number => {
+  const d = drawPerson(STANDING, { x: 0, y: 0, facing: 1, turn: 1, scale: 1 }, lookFor({ build }));
+  return d.feet - d.top;
+};
+
+/** W0's place: the roles of its layers (w0/compositor.ts reads each from one layer; see `blur` and `depth`). */
+const W0_ROLES: RenderCapabilities["projections"][string]["roles"] = {
+  sky: { builtin: "w0.sky", required: true, blur: "own", depth: "own", lit: false },
+  city: {
+    builtin: "w0.city",
+    params: { near: false },
+    required: true,
+    blur: "sky",
+    depth: "own",
+    lit: false,
+  },
+  city_near: {
+    builtin: "w0.city",
+    params: { near: true },
+    required: true,
+    blur: "sky",
+    depth: "own",
+    lit: false,
+  },
+  wall: { builtin: "w0.wall", required: true, blur: "own", depth: "own", lit: true },
+  mid: { builtin: "w0.mid", required: true, blur: "own", depth: "own", lit: true },
+  near: { builtin: "w0.near", required: false, blur: "own", depth: "own", lit: true },
+  // people are drawn on the furniture's plane with the first actor layer's blur; held props with the people
+  actors: { builtin: "", required: false, blur: "own", depth: "mid", lit: true },
+  held: { builtin: "prop.*.held", required: false, blur: "actors", depth: "mid", lit: true },
+};
+
 export function renderCapabilities(): RenderCapabilities {
-  const vector = (name: string, file: string, parameters: BuiltinParameter[]): BuiltinCapability => ({
+  // placement: the node fields the drawing applies; props are drawn where the node is (x, y), every other
+  // builtin draws in scene (or screen) coordinates from its parameters
+  const vector = (
+    name: string,
+    file: string,
+    parameters: BuiltinParameter[],
+    placement: BuiltinCapability["placement"] = [],
+  ): BuiltinCapability => ({
     name,
     version: 1,
     fingerprint: source(file),
     status: "supported",
     kind: "vector",
     parameters,
+    placement,
   });
   const rig = (build: "man" | "woman"): BuiltinCapability => ({
     name: `rig.cutout.${build}`,
@@ -137,6 +160,19 @@ export function renderCapabilities(): RenderCapabilities {
       channels: [...CHANNELS.filter((c) => !BONES.includes(c)), "glow"],
       sockets: ["hand", "handF"],
       slots: ["coat", "coatDark", "pants", "skin", "skinShade", "hair"],
+      // a bone or channel without a track: the standing pose (package/draw.ts actorSvg); glow off; placement at
+      // the origin, facing right, unturned, unscaled
+      rest: {
+        ...(STANDING as unknown as Record<string, number>),
+        glow: 0,
+        "root.x": 0,
+        "root.y": 0,
+        "root.scale": 1,
+        facing: 1,
+        turn: 1,
+      },
+      // feet to top of the head standing at rest, as drawPerson draws it (the stager's manifest measure)
+      height: rigHeight(build),
     },
   });
   const weights = [300, 500, 800, 900];
@@ -149,14 +185,72 @@ export function renderCapabilities(): RenderCapabilities {
     font: { family: "Montserrat", weight: weights[i] as number },
   }));
   const setParams: BuiltinParameter[] = [LIGHT_LEVEL, TIME, { kind: "channel", id: "door", range: ANY }];
+  const W0_STATE_IDS = W0_STATE.map((p) => p.id);
   return {
+    version: RENDER_CAPABILITIES,
     contract: "erkasa.render/1",
-    projections: ["flat", "parallax"],
+    // package/render.ts and v2frame.ts draw 1080 × 1920 (style.ts W, H); the frames are silent
+    output: { sizes: [[W, H]], fps: [30], audio: false },
+    projections: {
+      flat: {
+        layers: { builtins: ["set.*", "prop.*", "template.*"], files: true },
+        screen: { builtins: ["type.kinetic", "overlay.scrim", "overlay.ots"], files: false },
+        camera: {
+          channels: ["x", "y", "height"],
+          aperture: [0],
+          referenceDistance: null,
+          dolly: null,
+          editorial: { builtins: "template.", x: W / 2 },
+        },
+        layer: { blur: "zero", lit: "false", depth: "unused" },
+        roles: {},
+        stateFrom: null,
+        actors: { rim: false, shadow: false },
+      },
+      parallax: {
+        layers: { builtins: ["w0.*", "prop.*"], files: false },
+        screen: { builtins: ["type.w0"], files: false },
+        camera: {
+          channels: ["x", "y", "height"],
+          aperture: [0],
+          referenceDistance: [REF.height],
+          dolly: [W0_DOLLY],
+          editorial: null,
+        },
+        layer: { blur: "by-role", lit: "by-role", depth: "by-role" },
+        roles: W0_ROLES,
+        // the compositor reads the place's state from the sky node, and the world from the wall node
+        stateFrom: { role: "sky", channels: W0_STATE_IDS, statics: { world: "wall" } },
+        actors: { rim: true, shadow: true },
+      },
+    },
+    transitions: [
+      ...["flat", "parallax"].flatMap((from) =>
+        ["flat", "parallax"].map((to) => ({ kind: "cut", from, to })),
+      ),
+      { kind: "dissolve", from: "flat", to: "flat" },
+      { kind: "dissolve", from: "parallax", to: "parallax" },
+      { kind: "whip", from: "flat", to: "flat" },
+    ],
     lightKinds: [],
     fx: ["none"],
-    transitions: ["cut", "dissolve", "whip"],
+    events: { state: false, durationWithoutFx: 0 },
+    contacts: false,
     nodeKinds: ["asset"],
     overlayKinds: ["captions"],
+    // package/draw.ts captionsSvg and w0/compositor.ts captionSvg
+    captions: {
+      anchor: ["screen"],
+      align: ["center"],
+      maxWidth: false,
+      semantics: { fadeIn: 0.12, unspokenOpacity: 0.6, strokeOpacity: 0.9, overVignette: true },
+    },
+    assets: {
+      kinds: ["vector", "rig", "font"],
+      stateSources: ["source"],
+      rigSources: ["builtin"],
+      fontSources: ["builtin"],
+    },
     rigFormats: ["erkasa.rig.cutout/1"],
     builtins: [
       rig("man"),
@@ -164,14 +258,19 @@ export function renderCapabilities(): RenderCapabilities {
       ...SetId.options.flatMap((id) =>
         ["back", "front"].map((part) => vector(`set.${id}.${part}`, "./sets.ts", setParams)),
       ),
-      ...PROP_KINDS.flatMap((k) =>
-        ["resting", "held"].map((st) =>
-          vector(`prop.${k}.${st}`, "./props.ts", [
+      // a prop at rest is drawn upright where it stands; one in a hand is turned with the hand (facing, rot)
+      ...PROP_KINDS.flatMap((k) => [
+        vector(`prop.${k}.resting`, "./props.ts", [], ["x", "y"]),
+        vector(
+          `prop.${k}.held`,
+          "./props.ts",
+          [
             { kind: "channel", id: "facing", range: [-1, 1] },
             { kind: "channel", id: "rot", range: ANY },
-          ]),
+          ],
+          ["x", "y"],
         ),
-      ),
+      ]),
       ...Template.options.map((t) =>
         vector(`template.${t}`, "./templates.ts", [...statics("params", "anchors", "dur"), TIME]),
       ),
@@ -186,5 +285,6 @@ export function renderCapabilities(): RenderCapabilities {
       vector("type.w0", "./w0/compositor.ts", [...statics("lines", "place", "at", "out"), TIME]),
       ...fonts,
     ],
+    fields: FIELDS,
   };
 }

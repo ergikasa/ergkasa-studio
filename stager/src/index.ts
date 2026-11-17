@@ -8,7 +8,7 @@ import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { isDeepStrictEqual } from "node:util";
-import { AssetManifest, RenderPackage, Script } from "@erkasa/contracts";
+import { AssetManifest, cameraViews, enclose, RenderPackage, Script } from "@erkasa/contracts";
 import { FilmPlan, parseW0Plan } from "./legacy.js";
 import { ROOT } from "./manifest.js";
 import { stageV2, type Staged } from "./v2.js";
@@ -32,9 +32,26 @@ const script = (name: string): Script => Script.parse(json(`benchmark/scripts/${
 
 /** Stages one of the six reference films from the plans in the repository. */
 export function stageFilm(name: (typeof FILMS)[number]): Staged {
-  if (name === "w0-office")
-    return stageW0(name, parseW0Plan(json("film/w0/plan.json")), script("b1-why-we-stay"));
-  return stageV2(name, FilmPlan.parse(json(`film/plans/${name}.film.json`)), script(name));
+  const s =
+    name === "w0-office"
+      ? stageW0(name, parseW0Plan(json("film/w0/plan.json")), script("b1-why-we-stay"))
+      : stageV2(name, FilmPlan.parse(json(`film/plans/${name}.film.json`)), script(name));
+  return withCameraBounds(s);
+}
+
+/**
+ * E1.4 (V2): a scene's bounds contain every view its camera takes ("the camera is kept inside it"). The camera
+ * is final here; each scene's world extent grows just enough to contain it (`enclose`, the function the gate
+ * checks with). Nothing drawn reads bounds, so no frame changes.
+ */
+export function withCameraBounds(s: Staged): Staged {
+  const { width, height } = s.pkg.output;
+  const scenes = s.pkg.scenes.map((scene) => {
+    const views = cameraViews(scene, width, height);
+    if (!views) throw new Error(`${scene.id}: the camera has no x, y and height tracks`);
+    return { ...scene, bounds: enclose(scene.bounds, views) };
+  });
+  return { ...s, pkg: { ...s.pkg, scenes } };
 }
 
 export interface Written {

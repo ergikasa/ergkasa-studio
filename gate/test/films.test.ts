@@ -81,7 +81,7 @@ describe("contract fixtures (A): schema examples, not claimed executable", () =>
     expect(AssetManifest.safeParse(man).success).toBe(true);
   });
 
-  it("prisoner-cell is refused only for features this engine does not draw (lights, shapes, text and icon overlays, glow, dip to black, eases without a definition) and two builtins it does not carry", () => {
+  it("prisoner-cell is refused only for features this engine does not draw (lights, shapes, text and icon overlays, glow, dip to black, eases without a definition, and since capabilities v2 its parallax scene, contacts and state events) and two builtins it does not carry", () => {
     expect(
       gateFile("contracts/fixtures/valid/render-package.prisoner-cell.json").errors.map(
         (e) => `${e.code} ${e.file}${e.path}`,
@@ -90,8 +90,26 @@ describe("contract fixtures (A): schema examples, not claimed executable", () =>
       "CAPABILITY_MISSING package/edit/0/enter/kind",
       "CAPABILITY_MISSING package/overlays/0/kind",
       "CAPABILITY_MISSING package/overlays/2/kind",
+      "VALUE_UNSUPPORTED package/scenes/0/actors/0/layer",
+      "VALUE_UNSUPPORTED package/scenes/0/camera/aperture",
+      "VALUE_UNSUPPORTED package/scenes/0/camera/dolly",
+      "VALUE_UNSUPPORTED package/scenes/0/camera/referenceDistance",
+      "CAPABILITY_MISSING package/scenes/0/contacts/0",
       "FX_UNSUPPORTED package/scenes/0/events/0/fx",
+      "CAPABILITY_MISSING package/scenes/0/events/0/state",
+      "CAPABILITY_MISSING package/scenes/0/events/1/state",
+      "ROLE_MISSING package/scenes/0/layers",
+      "ROLE_MISSING package/scenes/0/layers",
+      "ROLE_MISSING package/scenes/0/layers",
+      "ROLE_MISSING package/scenes/0/layers",
+      "ROLE_MISSING package/scenes/0/layers",
+      "CAPABILITY_MISSING package/scenes/0/layers/0",
+      "CAPABILITY_MISSING package/scenes/0/layers/0/nodes/0/asset",
+      "CAPABILITY_MISSING package/scenes/0/layers/1/nodes/0/asset",
+      "CAPABILITY_MISSING package/scenes/0/layers/1/nodes/1/asset",
+      "CAPABILITY_MISSING package/scenes/0/layers/1/nodes/2/asset",
       "CAPABILITY_MISSING package/scenes/0/layers/1/nodes/3/kind",
+      "CAPABILITY_MISSING package/scenes/0/layers/2",
       "CAPABILITY_MISSING package/scenes/0/layers/2/nodes/0/kind",
       "CAPABILITY_MISSING package/scenes/0/lights/0/kind",
       "CAPABILITY_MISSING package/scenes/0/lights/1/kind",
@@ -109,14 +127,17 @@ describe("contract fixtures (A): schema examples, not claimed executable", () =>
     ]);
   });
 
-  it("office-procedural is refused for eases without a definition, the clock template's inputs and two builtins this engine does not carry", () => {
+  it("office-procedural is refused for eases without a definition, the clock template's inputs (since capabilities v2 also their missing tracks) and two builtins this engine does not carry", () => {
     expect(
       gateFile("contracts/fixtures/valid/render-package.office-procedural.json").errors.map(
         (e) => `${e.code} ${e.file}${e.path}`,
       ),
     ).toEqual([
+      "TRACK_MISSING package/scenes/0/layers/2/nodes/0",
+      "TRACK_MISSING package/scenes/0/layers/2/nodes/0",
       "EASE_UNDEFINED package/scenes/0/tracks/3/keys/2/ease",
       "EASE_UNDEFINED package/scenes/0/tracks/6/keys/2/ease",
+      "VALUE_UNSUPPORTED package/scenes/1/tracks/4/channel",
       "PARAM_NOT_DECLARED manifest/assets/1/parameters",
       "PARAM_NOT_DECLARED manifest/assets/1/parameters",
       "PARAM_UNSUPPORTED manifest/assets/1/parameters/0",

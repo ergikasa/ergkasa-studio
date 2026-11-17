@@ -231,12 +231,23 @@ export const CASES: Case[] = [
       a.parameters = a.parameters.filter((p) => p.id !== "door");
       for (const s of c.pkg.scenes) s.tracks = s.tracks.filter((t) => t.channel !== "param.door");
     },
-    expect: [`PARAM_NOT_DECLARED manifest/assets/${setAsset}/parameters`],
+    expect: [
+      `PARAM_NOT_DECLARED manifest/assets/${setAsset}/parameters`,
+      "TRACK_MISSING package/scenes/1/layers/0/nodes/0",
+      "TRACK_MISSING package/scenes/1/layers/3/nodes/0",
+      "TRACK_MISSING package/scenes/6/layers/0/nodes/0",
+      "TRACK_MISSING package/scenes/6/layers/3/nodes/0",
+      "TRACK_MISSING package/scenes/7/layers/0/nodes/0",
+      "TRACK_MISSING package/scenes/7/layers/3/nodes/0",
+    ],
   },
   {
     name: "track on a node that does not exist",
     mutate: (c) => ((scene(c).tracks[tCamX] as { target: unknown }).target = { kind: "node", id: "ghost" }),
-    expect: [`TARGET_MISSING package${sp("tracks", tCamX, "target", "id")}`],
+    expect: [
+      `TARGET_MISSING package${sp("tracks", tCamX, "target", "id")}`,
+      "TRACK_MISSING package/scenes/1/camera",
+    ],
   },
   {
     name: "bone the rig does not have",
@@ -324,7 +335,11 @@ export const CASES: Case[] = [
         offset: [0, 0],
       });
     },
-    expect: [`HOLDER_CONFLICT package${sp("contacts", 1)}`],
+    expect: [
+      `HOLDER_CONFLICT package${sp("contacts", 1)}`,
+      "CAPABILITY_MISSING package/scenes/1/contacts/0",
+      "CAPABILITY_MISSING package/scenes/1/contacts/1",
+    ],
   },
   {
     name: "hand the rig does not have",
@@ -332,7 +347,10 @@ export const CASES: Case[] = [
       const from = c.pkg.edit[si]?.start ?? 0;
       scene(c).contacts.push({ node: "set_back", actor, socket: "tail", from, to: from + 1, offset: [0, 0] });
     },
-    expect: [`SOCKET_MISSING package${sp("contacts", 0, "socket")}`],
+    expect: [
+      `SOCKET_MISSING package${sp("contacts", 0, "socket")}`,
+      "CAPABILITY_MISSING package/scenes/1/contacts/0",
+    ],
   },
   {
     name: "actor in a layer that does not exist",
@@ -346,7 +364,13 @@ export const CASES: Case[] = [
   },
   {
     name: "projection the engine does not draw",
-    mutate: (c) => (c.capabilities.projections = ["parallax"]),
+    mutate: (c) => {
+      const { parallax } = c.capabilities.projections;
+      c.capabilities.projections = { parallax: parallax as NonNullable<typeof parallax> };
+      c.capabilities.transitions = c.capabilities.transitions.filter(
+        (t) => t.from === "parallax" && t.to === "parallax",
+      );
+    },
     expect: B.pkg.scenes.map((_, i) => `CAPABILITY_MISSING package/scenes/${i}/camera/projection`),
   },
   {

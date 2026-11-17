@@ -4,7 +4,7 @@
  * Groups (codes in docs/reports/e1-3-validation-gate.md):
  *   G1 schema · G2 manifest pin · G3 files · G4 approval · G5 builtins · G6 references · G7 states and fx ·
  *   G8 procedural parameters · G9 tracks · G10 ids · G11 times · G12 contacts · G13 actors · G14 budgets ·
- *   G15 capabilities
+ *   G15 capabilities · G16 executability (executable.ts)
  *
  * Every check runs and every finding is reported; if the package or the manifest does not match its schema, the
  * checks that rely on its structure are skipped (their findings would be noise).
@@ -15,6 +15,7 @@ import { DEFAULT_BUDGETS, type Budgets } from "./budgets.js";
 import { capabilityProblems, type BuiltinCapability, type RenderCapabilities } from "./capabilities.js";
 import { readContained, type VerifiedFile } from "./files.js";
 import { Findings, pointer as P, type GateReport } from "./report.js";
+import { checkExecutable } from "./executable.js";
 import { checkSvg } from "./svg.js";
 
 type Pkg = RenderPackage;
@@ -265,6 +266,8 @@ export function validate(input: GateInput): GateResult {
 
   // ---- package
   checkPackage(F, pkg, assets, caps, budgets);
+  // ---- G16 executability: what passes is drawn as the package says
+  checkExecutable(F, pkg, manifest, assets, caps);
 
   const report = F.report();
   return report.ok ? { ...report, verified: { package: pkg, manifest, files } } : report;
@@ -281,12 +284,13 @@ function checkParameters(
 ): void {
   const engines = builtins.filter((b) => b.kind === "vector");
   if (!engines.length) return;
-  // one finding per parameter, naming every builtin of the asset that disagrees
+  // one finding per parameter. E1.4: a parameter of the asset is an input of at least one of its drawings (a
+  // prop's facing and rot are read only by its held state); a node's track for a parameter its own drawing does
+  // not read is refused by G16 (executable.ts), so nothing declared here is drawn and then ignored
   params.forEach((p, k) => {
-    const missing = engines.filter((b) => {
-      const e = (b.parameters ?? []).find((x) => x.id === p.id);
-      return !e || e.kind !== p.kind;
-    });
+    const takes = (b: BuiltinCapability): boolean =>
+      (b.parameters ?? []).some((x) => x.id === p.id && x.kind === p.kind);
+    const missing = engines.some(takes) ? [] : engines;
     if (missing.length) {
       F.error(
         "PARAM_UNSUPPORTED",
@@ -430,7 +434,7 @@ function checkPackage(
   pkg.scenes.forEach((scene, si) => {
     const sp = (...x: Array<string | number>): string => P("scenes", si, ...x);
     // G15 projection and lights
-    if (!caps.projections.includes(scene.camera.projection))
+    if (!(scene.camera.projection in caps.projections))
       F.error(
         "CAPABILITY_MISSING",
         "package",
@@ -794,7 +798,7 @@ function checkPackage(
         cp("enter", "duration"),
         `${c.enter.duration} s transition into a ${c.end - c.start} s cut`,
       );
-    if (!caps.transitions.includes(c.enter.kind))
+    if (!caps.transitions.some((t) => t.kind === c.enter.kind))
       F.error(
         "CAPABILITY_MISSING",
         "package",

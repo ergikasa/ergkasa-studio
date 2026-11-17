@@ -16,7 +16,7 @@ import { createHash } from "node:crypto";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import type { AssetManifest, RenderPackage } from "@erkasa/contracts";
+import { cameraViews, enclose, type AssetManifest, type RenderPackage } from "@erkasa/contracts";
 import { renderCapabilities } from "@erkasa/film";
 import { fontFiles } from "../../../stager/src/legacy.js";
 import { fontAsset, rig } from "../../../stager/src/manifest.js";
@@ -404,7 +404,16 @@ export function generate(): Array<{
   const fmt = (text: string, path: string): string =>
     execFileSync(prettier, ["--stdin-filepath", path], { input: text, encoding: "utf8", cwd: ROOT });
   return NAMES.map((name) => {
-    const { manifest, pkg } = name === "prisoner-cell" ? prisonerCell() : officeClock();
+    const { manifest, pkg: drawn } = name === "prisoner-cell" ? prisonerCell() : officeClock();
+    // E1.4 (V2): every scene's bounds contain every view its camera takes, as the stager writes them; nothing
+    // drawn reads bounds, so the frames (and golden-fixtures-b.json) do not change
+    const pkg = {
+      ...drawn,
+      scenes: drawn.scenes.map((sc) => ({
+        ...sc,
+        bounds: enclose(sc.bounds, cameraViews(sc, drawn.output.width, drawn.output.height) ?? []),
+      })),
+    };
     const manifestPath = `${DIR}/${name}.assets.json`;
     const packagePath = `${DIR}/${name}.render.json`;
     const m = fmt(JSON.stringify(manifest), manifestPath);
