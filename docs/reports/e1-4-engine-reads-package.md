@@ -101,7 +101,9 @@
    | B4  | `x`, `y`, `scale`, `rotation`, `opacity`, `flip` të nyjeve builtin | i injoron (dokumentuar në §4)                                                                                  |
    | B5  | `camera.referenceDistance` dhe `dolly` në `parallax`               | kompozitori i W0 përdor konstantet e veta (paketat e W0 i shkruajnë me të njëjtat vlera)                       |
 
-   **C. Gate-i refuzon saktë (6 raste):** pivot i padeklaruar (`PIVOT_UNDECLARED`), gjendje e padeklaruar (`STATE_UNDECLARED`), skenë e munguar në edit (`EDIT_SCENE`), font që nuk është font (`ASSET_KIND`), parametër statik i munguar (`PARAM_MISSING`), skenë W0 me shtresë të hequr pa hequr track-et (`TARGET_MISSING`).
+   **C. Gate-i refuzon saktë (5 raste):** pivot i padeklaruar (`PIVOT_UNDECLARED`), gjendje e padeklaruar (`STATE_UNDECLARED`), skenë e munguar në edit (`EDIT_SCENE`), font që nuk është font (`ASSET_KIND`), parametër statik i munguar (`PARAM_MISSING`).
+
+   **Korrigjim (2026-11-17).** Nga 16 rastet e `gate-audit.ts`, 11 kalojnë Gate-in: 10 dështojnë gjatë renderimit (A1–A10) dhe 1 renderohet gabim (`align: "left"`, B1). 5 refuzohen saktë. Versioni i mëparshëm shkruante "6 refuzohen": i gjashti (`TARGET_MISSING`) ishte një variant i parë i rastit A7 që nuk është në skript. Scope-i `docs/plans/e1-4-gate-executability-scope.md` përdor numërimin e korrigjuar.
 
    **Përfundimi.**
    - K5 kalon, por mat vetëm drejtimin "paketa e refuzuar → asnjë kuadër". Drejtimi tjetër, "paketa e pranuar → vizatohet ashtu si thotë", **nuk plotësohet** për rastet A1–A10 dhe B1–B5.
