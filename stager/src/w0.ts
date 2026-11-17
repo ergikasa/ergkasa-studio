@@ -51,7 +51,7 @@ export function w0SceneFrames(P: W0Prepared): SceneFrame[][] {
     own[i]?.push({ frame: k, t });
     const prev = P.shots[i - 1];
     if (prev && s.w.shot.transition === "fade" && t < W0_FADE_SEC)
-      tail[i - 1]?.push({ frame: k, t: prev.dur + t });
+      tail[i - 1]?.push({ frame: k, t: prev.dur + t, tail: true });
   }
   return own.map((o, i) => [...o, ...(tail[i] ?? [])]);
 }
@@ -149,7 +149,11 @@ export function stageW0(name: string, plan: W0Plan, script: Script): Staged {
         rec.show(`${pid}_rest`, !holder);
         rec.show(`${pid}_held`, !!holder);
       }
-      if (ps.w.shot.text && ps.textAt !== undefined) rec.set({ kind: "node", id: "type" }, "param.t", t);
+      if (ps.w.shot.text && ps.textAt !== undefined) {
+        rec.set({ kind: "node", id: "type" }, "param.t", t);
+        // W0 draws a shot's type only while it is the current shot, never under the next shot's fade
+        rec.show("type", !f.tail);
+      }
     }
 
     const propAsset = (kind: string): string =>

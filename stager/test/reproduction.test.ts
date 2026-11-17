@@ -1,14 +1,22 @@
 /**
  * Proof that a staged package reproduces what the engine draws today, frame by frame.
  *
- * Every staged film is serialised and read back from JSON. For every frame of every scene, the values are
- * decoded with the contract's evaluation rules (keys clamp, samples at floor((t - start) * rate), visibility from
- * events) and fed to the engine's own drawing functions. The result must be identical to what the engine draws
- * for that frame: the person's SVG byte for byte, the camera transform, the set, the props, the template and the
- * type as they appear in the frame. No tolerance anywhere.
+ * Every staged film is serialised and read back from JSON. Every value is read with src/evaluate.ts, the one
+ * implementation of the contract's evaluation rules (the renderer of E1.4 must use the same module). Then:
+ *
+ *   B1–B5   the whole shot body of every frame (camera transform, set, resting props, people, held props, set
+ *           front, OTS shoulder, scrim, type; or template and type) is rebuilt from the package alone with the
+ *           engine's drawing functions and must equal the engine's body byte for byte;
+ *   W0      camera, state of the place, every person, every prop (position, held/resting, facing), type and
+ *           captions are rebuilt from the package and must equal the engine's values and its type+caption SVG;
+ *   people  in both, every channel is also compared as a number with what the engine computed (bit for bit).
+ *
+ * The only normalisation anywhere: kineticType's clip-path ids (see `ids`).
  */
 import { describe, expect, it } from "vitest";
-import type { RenderPackage } from "@erkasa/contracts";
+import type { AssetManifest, RenderPackage } from "@erkasa/contracts";
+import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
 import { serialise, stageFilm, BENCH } from "../src/index.js";
 import {
   FPS,
@@ -16,15 +24,21 @@ import {
   H,
   SETS,
   TEMPLATES,
+  W,
   drawPerson,
   drawProp,
   fmt,
+  fontFiles,
   frameAtForTest,
   kineticType,
+  otsShoulder,
   parseW0Plan,
   prepareV2,
   prepareW0,
+  propAt,
+  scrimSvg,
   typeSvg,
+  w0TypeSvg,
   type ActorPerf,
   type Look,
   type Pose,
@@ -34,55 +48,60 @@ import {
 import { sceneFrames, type SceneFrame } from "../src/v2.js";
 import { w0SceneFrames } from "../src/w0.js";
 import { BONES, RIG_CHANNELS } from "../src/manifest.js";
+import {
+  frameTime,
+  numberAt,
+  phraseAt,
+  sampleIndex,
+  visibleAt,
+  wordCurrent,
+  wordReached,
+} from "../src/evaluate.js";
 import { loadPlan, loadScript } from "./films.js";
 
 type Scene = RenderPackage["scenes"][number];
+type AssetNode = Extract<Scene["layers"][number]["nodes"][number], { kind: "asset" }>;
 
 /**
  * kineticType numbers its clip paths with a module-level counter (`kt1094`), so the same type drawn twice gets
- * different ids: the picture is the same, the text is not. Ids are the only thing normalised in these tests.
+ * different ids: the picture is the same, the text is not. Open before E1.4 (deterministic ids per node).
  */
 const ids = (svg: string): string => svg.replace(/kt\d+/g, "kt#");
 
-/** The contract's evaluation of a scene at an absolute frame. */
-class Decoder {
+/** Reads one scene at one frame, only through src/evaluate.ts. */
+class At {
+  readonly t: number;
   constructor(
-    private readonly scene: Scene,
-    private readonly fps: number,
-  ) {}
-  value(kind: string, id: string | undefined, channel: string, frame: number): number {
-    const tr = this.scene.tracks.find(
-      (t) =>
-        t.target.kind === kind &&
-        ("id" in t.target ? t.target.id : undefined) === id &&
-        t.channel === channel,
-    );
-    if (!tr) throw new Error(`${this.scene.id}: no track ${kind}:${id}:${channel}`);
-    const t = frame / this.fps;
-    if (tr.kind === "samples") {
-      const i = Math.min(tr.values.length - 1, Math.max(0, Math.floor((t - tr.start) * tr.rate + 1e-6)));
-      return tr.values[i] as number;
-    }
-    if (tr.keys.length !== 1) throw new Error("the stager writes constant channels as one key");
-    return tr.keys[0]?.v as number;
+    readonly scene: Scene,
+    readonly frame: number,
+  ) {
+    this.t = frameTime(frame, FPS);
   }
-  visible(node: string, frame: number): boolean {
-    let v = true;
-    for (const e of this.scene.events)
-      if (e.node === node && e.t <= frame / this.fps && e.visible !== undefined) v = e.visible;
-    return v;
+  n(kind: "node" | "actor" | "camera", id: string | undefined, channel: string): number {
+    return numberAt(this.scene, kind, id, channel, this.t);
   }
-  node(id: string) {
+  visible(node: string): boolean {
+    return visibleAt(this.scene, node, this.t);
+  }
+  node(id: string): AssetNode {
     for (const l of [...this.scene.layers, ...(this.scene.screen ?? [])])
       for (const n of l.nodes) if (n.id === id && n.kind === "asset") return n;
-    return undefined;
+    throw new Error(`${this.scene.id}: no node ${id}`);
+  }
+  has(id: string): boolean {
+    return [...this.scene.layers, ...(this.scene.screen ?? [])].some((l) => l.nodes.some((n) => n.id === id));
+  }
+  params<T>(id: string): T {
+    return this.node(id).params as unknown as T;
   }
 }
 
-function checkActor(D: Decoder, scene: Scene, a: ActorPerf, f: SceneFrame): void {
-  const actor = scene.actors.find((x) => x.id === a.id);
-  if (!actor) throw new Error(`${scene.id}: ${a.id} missing`);
-  const v = (c: string): number => D.value("actor", a.id, c, f.frame);
+let personFrames = 0;
+/** A person from the package: the engine's numbers bit for bit, and the engine's SVG. Returns the SVG. */
+function person(at: At, a: ActorPerf, t: number): string {
+  const actor = at.scene.actors.find((x) => x.id === a.id);
+  if (!actor) throw new Error(`${at.scene.id}: ${a.id} missing`);
+  const v = (c: string): number => at.n("actor", a.id, c);
   const pose = {} as Pose;
   for (const b of BONES) pose[b] = v(`bone.${b}`);
   for (const c of RIG_CHANNELS)
@@ -91,244 +110,379 @@ function checkActor(D: Decoder, scene: Scene, a: ActorPerf, f: SceneFrame): void
     build: actor.rig.startsWith("rig_cutout_woman") ? "woman" : "man",
     ...(actor.appearance as Omit<Look, "build">),
   };
-  const got = drawPerson(
-    pose,
-    {
-      x: v("root.x"),
-      y: v("root.y"),
-      facing: v("facing") as 1 | -1,
-      turn: v("turn"),
-      scale: v("root.scale"),
-    },
-    look,
-    { glow: v("channel.glow"), id: a.id },
-  ).svg;
-  const want = a.draw(f.t).svg;
-  if (got !== want) expect.fail(`${scene.id} ${a.id} frame ${f.frame} (t=${f.t}): person differs`);
-  // and the numbers themselves, not only the picture they make (the SVG rounds to 2 decimals)
-  const srcPose = a.pose(f.t) as unknown as Record<string, number>;
-  const srcPlaced = a.placed(f.t);
+  const placed = {
+    x: v("root.x"),
+    y: v("root.y"),
+    facing: v("facing") as 1 | -1,
+    turn: v("turn"),
+    scale: v("root.scale"),
+  };
+  const srcPose = a.pose(t) as unknown as Record<string, number>;
+  const srcPlaced = a.placed(t) as unknown as Record<string, number>;
   const same = (x: number, y: number, what: string): void => {
     if (!Object.is(x, y) && !(x === 0 && y === 0))
-      expect.fail(`${scene.id} ${a.id} frame ${f.frame}: ${what} is ${x}, the engine computed ${y}`);
+      expect.fail(`${at.scene.id} ${a.id} frame ${at.frame}: ${what} is ${x}, the engine computed ${y}`);
   };
   for (const b of BONES) same(pose[b], srcPose[b] as number, `bone.${b}`);
   for (const c of RIG_CHANNELS)
-    same(v(`channel.${c}`), c === "glow" ? a.glow.at(f.t) : (srcPose[c] as number), `channel.${c}`);
-  same(v("root.x"), srcPlaced.x, "root.x");
-  same(v("root.y"), srcPlaced.y, "root.y");
-  same(v("facing"), srcPlaced.facing, "facing");
-  same(v("turn"), srcPlaced.turn, "turn");
-  same(v("root.scale"), srcPlaced.scale, "root.scale");
-  actorFrames++;
+    same(v(`channel.${c}`), c === "glow" ? a.glow.at(t) : (srcPose[c] as number), `channel.${c}`);
+  same(placed.x, srcPlaced.x as number, "root.x");
+  same(placed.y, srcPlaced.y as number, "root.y");
+  same(placed.facing, srcPlaced.facing as number, "facing");
+  same(placed.turn, srcPlaced.turn as number, "turn");
+  same(placed.scale, srcPlaced.scale as number, "root.scale");
+  const svg = drawPerson(pose, placed, look, { glow: v("channel.glow"), id: a.id }).svg;
+  if (svg !== a.draw(t).svg) expect.fail(`${at.scene.id} ${a.id} frame ${at.frame}: person SVG differs`);
+  personFrames++;
+  return svg;
 }
-let actorFrames = 0;
 
-describe.each(BENCH)("%s: the package reproduces every frame", (name) => {
-  const staged = stageFilm(name as (typeof BENCH)[number]);
-  const pkg = JSON.parse(serialise(staged).pkg) as RenderPackage;
+const propKind = (n: AssetNode): PropKind => n.asset.replace(/^prop_/, "").replace(/@\d+$/, "") as PropKind;
+function propSvg(at: At, n: AssetNode): string {
+  if (!at.visible(n.id)) return "";
+  const x = at.n("node", n.id, "x");
+  const y = at.n("node", n.id, "y");
+  return n.state === "held"
+    ? drawProp(propKind(n), x, y, {
+        facing: at.n("node", n.id, "param.facing") as 1 | -1,
+        rot: at.n("node", n.id, "param.rot"),
+      })
+    : drawProp(propKind(n), x, y, { resting: true });
+}
+
+/** Screen layers of a v2 scene: OTS shoulder, then scrim + kinetic type. */
+function v2Screen(at: At): string {
+  let o = "";
+  if (at.has("ots")) {
+    const p = at.params<{ facing: 1 | -1; dur: number }>("ots");
+    o += otsShoulder(at.n("node", "ots", "param.t"), p.dur, p.facing);
+  }
+  if (at.has("scrim")) o += scrimSvg(at.params<{ place: "top" | "center" | "bottom" }>("scrim").place);
+  if (at.has("type")) {
+    const p = at.params<{ lines: TypeLine[]; y: number; at: number; out: number | null; dark: boolean }>(
+      "type",
+    );
+    o += kineticType(at.n("node", "type", "param.t"), p.lines, {
+      y: p.y,
+      at: p.at,
+      out: p.out,
+      dark: p.dark,
+    });
+  }
+  return o;
+}
+
+describe.each(BENCH)("%s: every frame rebuilt from the package equals the engine's", (name) => {
+  const pkg = JSON.parse(serialise(stageFilm(name as (typeof BENCH)[number])).pkg) as RenderPackage;
   const { composed } = prepareV2({ plan: FilmPlan.parse(loadPlan(name)), script: loadScript(name) });
   const frames = sceneFrames(composed.shots);
 
-  it("has one scene per shot, covering every rendered frame once in the edit", () => {
+  it("one scene per shot; the edit covers every rendered frame once, in order", () => {
     expect(pkg.scenes.length).toBe(composed.shots.length);
-    const total = Math.round(pkg.output.duration * FPS);
     let next = 0;
     for (const cut of pkg.edit) {
       expect(Math.round(cut.start * FPS)).toBe(next);
       next = Math.round(cut.end * FPS);
     }
-    expect(next).toBe(total);
+    expect(next).toBe(Math.round(pkg.output.duration * FPS));
   });
 
-  it("transition frames: the engine draws the previous shot exactly where the package keeps it", () => {
-    composed.shots.forEach((s, i) => {
+  it("every sample a frame reads is the one recorded for that frame (no off-by-one in time)", () => {
+    pkg.scenes.forEach((scene, i) => {
       const fr = frames[i] as SceneFrame[];
-      const tail = fr.filter((f) => f.t >= s.dur);
-      const next = composed.shots[i + 1];
+      for (const tr of scene.tracks)
+        if (tr.kind === "samples")
+          fr.forEach((f, k) => {
+            if (sampleIndex(tr, frameTime(f.frame, FPS)) !== k)
+              expect.fail(
+                `${scene.id} ${tr.channel}: frame ${f.frame} reads ${sampleIndex(tr, frameTime(f.frame, FPS))}, not ${k}`,
+              );
+          });
+    });
+  });
+
+  it("transition frames: the engine draws the previous shot where the package keeps it", () => {
+    composed.shots.forEach((s, i) => {
+      const tail = (frames[i] as SceneFrame[]).filter((f) => f.tail);
       tail.forEach((f, n) =>
         expect(frameAtForTest(composed, i + 1, n).includes(s.draw(f.t).body)).toBe(true),
       );
-      if (next && tail.length)
+      if (tail.length)
         expect(
           frameAtForTest(composed, i + 1, tail.length).includes(s.draw(s.dur + tail.length / FPS).body),
         ).toBe(false);
     });
   });
 
-  it("every frame: people, camera, set, props, template and type are identical", () => {
+  it("every frame: the whole shot body, byte for byte", () => {
     let checked = 0;
+    let ots = 0;
+    let scrim = 0;
     composed.shots.forEach((s, i) => {
       const scene = pkg.scenes[i] as Scene;
-      const D = new Decoder(scene, FPS);
       for (const f of frames[i] as SceneFrame[]) {
-        const body = s.draw(f.t).body;
+        const at = new At(scene, f.frame);
         const cam = {
-          x: D.value("camera", undefined, "x", f.frame),
-          y: D.value("camera", undefined, "y", f.frame),
-          h: D.value("camera", undefined, "height", f.frame),
+          x: at.n("camera", undefined, "x"),
+          y: at.n("camera", undefined, "y"),
+          h: at.n("camera", undefined, "height"),
         };
+        let body: string;
         if (s.shot.kind === "editorial") {
           const z = H / cam.h;
           const dy = (960 - cam.y) * z;
-          expect(
-            body.startsWith(
-              `<g transform="translate(540 ${fmt(960 + dy)}) scale(${fmt(z)}) translate(-540 -960)">`,
-            ),
-            `${scene.id} camera @${f.frame}`,
-          ).toBe(true);
-          const n = D.node("template");
-          const p = n?.params as unknown as {
+          const p = at.params<{
             params: Record<string, unknown>;
             anchors: Record<string, number | null>;
             dur: number;
-          };
+          }>("template");
           const tpl = s.shot.template ?? "statement";
           const svg = TEMPLATES[tpl]({
-            t: D.value("node", "template", "param.t", f.frame),
+            t: at.n("node", "template", "param.t"),
             dur: p.dur,
             params: p.params,
             at: (a) => p.anchors[a] ?? undefined,
           }).svg;
-          expect(svg.length).toBeGreaterThan(50);
-          expect(body.includes(svg), `${scene.id} template @${f.frame}`).toBe(true);
+          body = `<g transform="translate(540 ${fmt(960 + dy)}) scale(${fmt(z)}) translate(-540 -960)">${svg}</g>${v2Screen(at)}`;
         } else {
-          expect(
-            body.startsWith(
-              `<g transform="translate(540 960) scale(${fmt(H / cam.h)}) translate(${fmt(-cam.x)} ${fmt(-cam.y)})">`,
-            ),
-            `${scene.id} camera @${f.frame}`,
-          ).toBe(true);
           const set = SETS[s.shot.set ?? "office"];
           const st = {
-            t: D.value("node", "set_back", "param.t", f.frame),
-            light: D.value("node", "set_back", "param.light", f.frame),
-            door: D.value("node", "set_back", "param.door", f.frame),
+            t: at.n("node", "set_back", "param.t"),
+            light: at.n("node", "set_back", "param.light"),
+            door: at.n("node", "set_back", "param.door"),
           };
-          expect(set.back(st).length).toBeGreaterThan(100);
-          expect(body.includes(set.back(st)), `${scene.id} set back @${f.frame}`).toBe(true);
-          expect(body.includes(set.front(st)), `${scene.id} set front @${f.frame}`).toBe(true);
-          for (const a of s.perf?.actors.values() ?? []) checkActor(D, scene, a, f);
-          for (const [pid, pr] of s.perf?.props ?? []) {
-            const held = D.visible(`${pid}_held`, f.frame);
-            expect(held).toBe(!D.visible(`${pid}_rest`, f.frame));
-            const id = held ? `${pid}_held` : `${pid}_rest`;
-            const x = D.value("node", id, "x", f.frame);
-            const y = D.value("node", id, "y", f.frame);
-            const svg = held
-              ? drawProp(pr.kind as PropKind, x, y, {
-                  facing: D.value("node", id, "param.facing", f.frame) as 1 | -1,
-                  rot: D.value("node", id, "param.rot", f.frame),
-                })
-              : drawProp(pr.kind as PropKind, x, y, { resting: true });
-            expect(body.includes(svg), `${scene.id} ${id} @${f.frame}`).toBe(true);
-          }
+          for (const k of ["t", "light", "door"] as const)
+            expect(at.n("node", "set_front", `param.${k}`)).toBe(st[k]);
+          const layer = (id: string) => scene.layers.find((l) => l.id === id)?.nodes ?? [];
+          const props = (id: string) =>
+            layer(id)
+              .filter((n): n is AssetNode => n.kind === "asset" && n.asset.startsWith("prop_"))
+              .map((n) => propSvg(at, n))
+              .join("");
+          const people = scene.layers
+            .filter((l) => l.id.startsWith("actor_"))
+            .map((l) => {
+              const a = s.perf?.actors.get(l.id.slice("actor_".length));
+              if (!a) throw new Error(`${scene.id}: ${l.id}`);
+              return person(at, a, f.t);
+            })
+            .join("");
+          const world =
+            set.back(st) + props("back") + people + props("held") + set.front(st) + props("front");
+          body = `<g transform="translate(${W / 2} ${H / 2}) scale(${fmt(H / cam.h)}) translate(${fmt(-cam.x)} ${fmt(-cam.y)})">${world}</g>${v2Screen(at)}`;
         }
-        const type = D.node("type");
-        if (type) {
-          const p = type.params as unknown as {
-            lines: TypeLine[];
-            y: number;
-            at: number;
-            out: number | null;
-            dark: boolean;
-          };
-          const svg = kineticType(D.value("node", "type", "param.t", f.frame), p.lines, {
-            y: p.y,
-            at: p.at,
-            out: p.out,
-            dark: p.dark,
-          });
-          expect(ids(body).includes(ids(svg)), `${scene.id} type @${f.frame}`).toBe(true);
-        }
+        if (at.has("ots")) ots++;
+        if (at.has("scrim")) scrim++;
+        if (ids(body) !== ids(s.draw(f.t).body))
+          expect.fail(`${scene.id} frame ${f.frame} (t=${f.t}): body differs`);
         checked++;
       }
     });
     expect(checked).toBeGreaterThan(900);
+    // record which overlays this film exercises (B2 is the film with over-the-shoulder shots)
+    expect(scrim + ots).toBeGreaterThan(0);
+    counts.set(name, { ots, scrim, frames: checked });
   });
 });
 
-describe("w0-office: the package reproduces every frame's inputs", () => {
-  const pkg = JSON.parse(serialise(stageFilm("w0-office")).pkg) as RenderPackage;
+const counts = new Map<string, { ots: number; scrim: number; frames: number }>();
+
+describe("w0-office: every frame's inputs rebuilt from the package equal the engine's", () => {
+  const written = serialise(stageFilm("w0-office"));
+  const pkg = JSON.parse(written.pkg) as RenderPackage;
+  const manifest = JSON.parse(written.manifest) as AssetManifest;
   const P = prepareW0(parseW0Plan(loadPlan("w0-office")), loadScript("b1-why-we-stay"));
   const frames = w0SceneFrames(P);
+  const captions = pkg.overlays.filter((o) => o.kind === "captions");
 
-  it("the edit covers every rendered frame once, in order", () => {
+  it("the edit covers every rendered frame once, in order; samples read their own frame", () => {
     let next = 0;
     for (const cut of pkg.edit) {
       expect(Math.round(cut.start * FPS)).toBe(next);
       next = Math.round(cut.end * FPS);
     }
     expect(next).toBe(Math.round(P.duration * FPS));
+    pkg.scenes.forEach((scene, i) =>
+      scene.tracks.forEach((tr) => {
+        if (tr.kind === "samples")
+          (frames[i] as SceneFrame[]).forEach((f, k) =>
+            expect(sampleIndex(tr, frameTime(f.frame, FPS))).toBe(k),
+          );
+      }),
+    );
   });
 
-  it("every frame: camera, the state of the place, people and type are identical", () => {
+  it("captions use the engine's font: Montserrat 800, pinned to the font file", () => {
+    for (const o of captions) {
+      const font = manifest.assets.find((a) => `${a.id}@${a.version}` === o.style.font);
+      expect(font?.kind === "font" && font.family === "Montserrat" && font.weight === 800).toBe(true);
+      const file = fontFiles()[2] as string;
+      expect(file.endsWith("Montserrat_800ExtraBold.ttf")).toBe(true);
+      expect(font?.source.kind === "builtin" && font.source.fingerprint).toBe(
+        createHash("sha256").update(readFileSync(file)).digest("hex"),
+      );
+    }
+  });
+
+  it("captions: every phrase and word of the engine is in the package, with its times", () => {
+    const phrases = captions.flatMap((o) => o.phrases.map((p) => ({ o, p })));
+    expect(phrases.length).toBe(P.captions.length);
+    for (const cap of P.captions) {
+      const line = cap.words.map((w) => w.w).join(" ");
+      const found = phrases.find(
+        ({ p }) => p.out === cap.t1 && p.words.map((w) => w.text).join(" ") === line,
+      );
+      expect(found, line).toBeDefined();
+      expect(found?.o.style.size).toBe(Math.min(58, Math.floor(1700 / Math.max(10, line.length))));
+    }
+  });
+
+  it("every frame: camera, place, people, props, type and captions", () => {
     let checked = 0;
+    let propFrames = 0;
+    let captionFrames = 0;
     P.shots.forEach((ps, i) => {
       const scene = pkg.scenes[i] as Scene;
-      const D = new Decoder(scene, FPS);
       for (const f of frames[i] as SceneFrame[]) {
+        const at = new At(scene, f.frame);
         const c = ps.cam(f.t);
         expect([
-          D.value("camera", undefined, "x", f.frame),
-          D.value("camera", undefined, "y", f.frame),
-          D.value("camera", undefined, "height", f.frame),
+          at.n("camera", undefined, "x"),
+          at.n("camera", undefined, "y"),
+          at.n("camera", undefined, "height"),
         ]).toEqual([c.cx, c.cy, c.height]);
         const st = P.state(ps.start + f.t, ps.perf?.door.at(f.t) ?? 0, ps.light(f.t));
-        for (const k of ["t", "light", "door", "lamp", "clockMin", "binders"] as const)
-          expect(D.value("node", "wall", `param.${k}`, f.frame), `${scene.id} ${k} @${f.frame}`).toBe(st[k]);
-        for (const a of ps.perf?.actors.values() ?? []) checkActor(D, scene, a, f);
-        const type = D.node("type");
-        if (type) {
-          const p = type.params as unknown as {
-            lines: TypeLine[];
-            place: string;
-            at: number;
-            out: number | null;
-          };
-          const y = p.place === "bottom" ? 1300 : p.place === "center" ? 860 : 250;
-          const svg = kineticType(D.value("node", "type", "param.t", f.frame), p.lines, {
-            y,
-            at: p.at,
-            out: p.out,
-          });
-          expect(ids(typeSvg(P, ps, f.t)).includes(ids(svg)), `${scene.id} type @${f.frame}`).toBe(true);
+        for (const n of ["sky", "city", "city_near", "wall", "mid", ...(ps.w.near ? ["near"] : [])])
+          for (const k of ["t", "light", "door", "lamp", "clockMin", "binders"] as const)
+            if (at.n("node", n, `param.${k}`) !== st[k]) expect.fail(`${scene.id} ${n}.${k} @${f.frame}`);
+        for (const a of ps.perf?.actors.values() ?? []) person(at, a, f.t);
+        // props: who holds them, where they are, how they face, and what is drawn
+        for (const [pid, pr] of ps.perf?.props ?? []) {
+          let holder: string | null = null;
+          for (const e of pr.events) if (e.t <= f.t) holder = e.holder;
+          expect(at.visible(`${pid}_held`)).toBe(!!holder);
+          expect(at.visible(`${pid}_rest`)).toBe(!holder);
+          const p = propAt(pr, f.t, ps.perf?.actors ?? new Map());
+          const n = at.node(holder ? `${pid}_held` : `${pid}_rest`);
+          expect([at.n("node", n.id, "x"), at.n("node", n.id, "y")]).toEqual(holder ? [p[0], p[1] - 4] : p);
+          // the drawing the W0 composer makes for this prop (composer.ts drawShot): resting, or held facing the holder
+          const want = holder
+            ? drawProp(pr.kind, p[0], p[1] - 4, { facing: ps.perf?.actors.get(holder)?.facingAt(f.t) ?? 1 })
+            : drawProp(pr.kind, p[0], p[1], { resting: true });
+          expect(propSvg(at, n)).toBe(want);
+          propFrames++;
         }
+        // type (only on the current shot's own frames) and captions, rebuilt and compared with the engine's SVG
+        if (!f.tail) {
+          let o = "";
+          if (at.has("type")) {
+            expect(at.visible("type")).toBe(true);
+            const p = at.params<{
+              lines: TypeLine[];
+              place: "top" | "center" | "bottom";
+              at: number;
+              out: number | null;
+            }>("type");
+            const svg = w0TypeSvg(at.n("node", "type", "param.t"), p.lines, p.place, p.at, p.out);
+            // W0 draws type above the fade (film level); the package keeps it in the scene. No visible
+            // difference in this film only because no type is drawn while a shot fades in: checked here.
+            if (i > 0 && ps.w.shot.transition === "fade" && f.t < 0.5) expect(svg).toBe("");
+            o += svg;
+          }
+          const cap = captionSvg(captions, at.t);
+          if (cap) captionFrames++;
+          o += cap;
+          if (ids(o) !== ids(typeSvg(P, ps, f.t)))
+            expect.fail(`${scene.id} frame ${f.frame}: type/captions differ`);
+        } else if (at.has("type")) expect(at.visible("type")).toBe(false);
         checked++;
       }
     });
-    expect(checked).toBeGreaterThan(900);
+    expect(checked).toBeGreaterThan(1300);
+    expect(propFrames).toBeGreaterThan(0);
+    expect(captionFrames).toBeGreaterThan(1000);
   });
 });
 
-describe("the proof can fail", () => {
+type CaptionsOverlay = Extract<RenderPackage["overlays"][number], { kind: "captions" }>;
+/**
+ * The W0 look of a captions overlay (the markup W0's typeSvg writes), built from the overlay's fields and the
+ * timing rules of src/evaluate.ts. This is the reference a renderer must match for W0 parity.
+ */
+function captionSvg(overlays: CaptionsOverlay[], T: number): string {
+  for (const o of overlays) {
+    const ph = phraseAt(o, T);
+    if (!ph) continue;
+    const inA = Math.max(0, Math.min(1, (T - ph.in) / 0.12));
+    const esc = (s: string): string => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    const spans = (stroke: boolean): string =>
+      ph.words
+        .map((w) => {
+          const fill = stroke
+            ? (o.style.stroke?.color ?? "")
+            : wordCurrent(w, T)
+              ? (o.highlight ?? o.style.color)
+              : o.style.color;
+          return `<tspan fill="${fill}" fill-opacity="${stroke ? 0.9 : wordReached(w, T) ? 1 : 0.6}">${esc(w.text)} </tspan>`;
+        })
+        .join("");
+    const attrs = `x="${o.at.x * W}" y="${Math.round(o.at.y * H)}" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="${o.style.size}"`;
+    return `<g opacity="${inA.toFixed(3)}"><text ${attrs} stroke="${o.style.stroke?.color}" stroke-width="${o.style.stroke?.width}" stroke-linejoin="round" stroke-opacity=".9">${spans(true)}</text><text ${attrs}>${spans(false)}</text></g>`;
+  }
+  return "";
+}
+
+describe("coverage and the proof can fail", () => {
+  it("over-the-shoulder and scrim overlays were rebuilt on real frames", () => {
+    const total = [...counts.values()].reduce((a, c) => ({ ots: a.ots + c.ots, scrim: a.scrim + c.scrim }), {
+      ots: 0,
+      scrim: 0,
+    });
+    expect(total.ots).toBeGreaterThan(0);
+    expect(total.scrim).toBeGreaterThan(0);
+  });
+
+  it("checked every person on every frame", () => {
+    expect(personFrames).toBeGreaterThan(3000);
+  });
+
   it("a sample changed by one part in a billion is caught", () => {
     const pkg = JSON.parse(serialise(stageFilm("b3-every-yes")).pkg) as RenderPackage;
     const tr = pkg.scenes
       .flatMap((s) => s.tracks)
       .find((t) => t.kind === "samples" && t.target.kind === "actor" && t.channel.startsWith("bone."));
     if (!tr || tr.kind !== "samples") throw new Error("no sampled bone in b3");
-    const original = tr.values[10] as number;
-    tr.values[10] = original * (1 + 1e-9) + 1e-12;
-    expect(tr.values[10]).not.toBe(original);
+    tr.values[10] = (tr.values[10] as number) * (1 + 1e-9) + 1e-12;
     const { composed } = prepareV2({
       plan: FilmPlan.parse(loadPlan("b3-every-yes")),
       script: loadScript("b3-every-yes"),
     });
-    const frames = sceneFrames(composed.shots);
     const i = pkg.scenes.findIndex((s) => s.tracks.includes(tr));
-    const scene = pkg.scenes[i] as Scene;
-    const f = (frames[i] as SceneFrame[])[10] as SceneFrame;
+    const f = (sceneFrames(composed.shots)[i] as SceneFrame[])[10] as SceneFrame;
     const actor = [...(composed.shots[i]?.perf?.actors.values() ?? [])].find(
       (a) => "id" in tr.target && a.id === tr.target.id,
     );
     if (!actor) throw new Error("actor not found");
-    expect(() => checkActor(new Decoder(scene, FPS), scene, actor, f)).toThrow(
+    expect(() => person(new At(pkg.scenes[i] as Scene, f.frame), actor, f.t)).toThrow(
       new RegExp(tr.channel.replace(".", "\\.")),
     );
   });
 
-  it("checked every person on every frame", () => {
-    expect(actorFrames).toBeGreaterThan(3000);
+  it("a changed overlay parameter is caught", () => {
+    const pkg = JSON.parse(serialise(stageFilm("b2-same-answers")).pkg) as RenderPackage;
+    const { composed } = prepareV2({
+      plan: FilmPlan.parse(loadPlan("b2-same-answers")),
+      script: loadScript("b2-same-answers"),
+    });
+    const i = pkg.scenes.findIndex((s) => s.screen?.some((l) => l.id === "ots"));
+    expect(i).toBeGreaterThanOrEqual(0);
+    const scene = pkg.scenes[i] as Scene;
+    const ots = scene.screen?.flatMap((l) => l.nodes).find((n) => n.id === "ots") as AssetNode;
+    const p = ots.params as { facing: number };
+    const f = (sceneFrames(composed.shots)[i] as SceneFrame[])[5] as SceneFrame;
+    const engine = ids(composed.shots[i]?.draw(f.t).body ?? "");
+    expect(engine.endsWith(ids(v2Screen(new At(scene, f.frame))))).toBe(true);
+    p.facing = -p.facing;
+    expect(engine.endsWith(ids(v2Screen(new At(scene, f.frame))))).toBe(false);
   });
 });

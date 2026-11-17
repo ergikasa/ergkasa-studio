@@ -48,6 +48,8 @@ export interface Staged {
 export interface SceneFrame {
   frame: number;
   t: number;
+  /** A frame where the next shot is transitioning in over this one. */
+  tail?: boolean;
 }
 
 const PLACE = { identity: { scale: 1, rotation: 0, opacity: 1, flip: false } } as const;
@@ -70,7 +72,16 @@ export const node = (
 const sceneId = (i: number, shot: Shot): string =>
   `s${String(i + 1).padStart(2, "0")}_${shot.id}`.replace(/[^A-Za-z0-9_-]/g, "_");
 
-/** The engine's camera transforms, read back from the frame it draws (the camera code is private to compose.ts). */
+/**
+ * The engine's camera transforms, read back from the frame it draws (the camera code is private to compose.ts).
+ *
+ * PRECISION: compose.ts writes the transform with fmt(), rounded to 0.01. What is recorded is therefore the camera
+ * the frame was drawn with, not the camera compose.ts computed: x and y within 0.005 world px of it, and the scale
+ * within 0.005, which in B1–B5 (scale 0.93–3.36) puts the height within 0.54 % (at most 11.1 world px). The
+ * rebuilt frames are identical because the engine draws the rounded values too. The unrounded camera is NOT in
+ * the package. E1.5 resolves it: the camera code moves into the stager, which records cx, cy, height unrounded,
+ * and the renderer applies the same 0.01 formatting when it writes the transform, so golden stays unchanged.
+ */
 const NUM = "(-?[0-9.e+-]+)";
 const STAGED_CAM = new RegExp(
   `^<g transform="translate\\(540 960\\) scale\\(${NUM}\\) translate\\(${NUM} ${NUM}\\)">`,
@@ -109,7 +120,7 @@ export function sceneFrames(shots: ComposedShot[]): SceneFrame[][] {
     if (next) {
       const tr = TRANSITION_SEC[next.shot.transition];
       for (let k = 0; k / FPS < tr; k++)
-        out.push({ frame: (starts[i + 1] as number) + k, t: s.dur + k / FPS });
+        out.push({ frame: (starts[i + 1] as number) + k, t: s.dur + k / FPS, tail: true });
     }
     return out;
   });
