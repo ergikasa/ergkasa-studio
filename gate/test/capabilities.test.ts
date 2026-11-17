@@ -145,3 +145,102 @@ describe("the gate refuses capabilities it cannot trust", () => {
     expect(broken(f).join("\n")).toMatch(re);
   });
 });
+
+describe("capabilities v2 (E1.4): the declaration matches the engine's code", () => {
+  const c = renderCapabilities();
+  const src = (f: string): string => readFileSync(join(ROOT, f), "utf8");
+
+  it("is erkasa.capabilities/2; a v1 document and broken rules are refused", () => {
+    expect(c.version).toBe("erkasa.capabilities/2");
+    const v1 = clone(caps()) as unknown as Record<string, unknown>;
+    delete v1["version"];
+    v1["projections"] = ["flat", "parallax"];
+    v1["transitions"] = ["cut", "dissolve", "whip"];
+    expect(capabilityProblems(v1)).toEqual(
+      expect.arrayContaining([
+        "version is not erkasa.capabilities/2",
+        "projections is not a map of rules",
+        "transitions is not a list of { kind, from, to }",
+      ]),
+    );
+    const roles = caps();
+    (roles.projections["parallax"]?.roles["city"] as { blur: string }).blur = "fog";
+    expect(capabilityProblems(roles)).toEqual([
+      "projections.parallax.roles.city.blur names a role that does not exist ('fog')",
+    ]);
+    const tr = caps();
+    tr.transitions.push({ kind: "cut", from: "flat", to: "orbit" });
+    expect(capabilityProblems(tr)).toEqual(["transition cut flat->orbit: unknown projection 'orbit'"]);
+    const pl = caps();
+    (pl.builtins.find((b) => b.kind === "vector") as { placement: string[] }).placement = ["skew"];
+    expect(capabilityProblems(pl)).toEqual([
+      `${pl.builtins.find((b) => b.kind === "vector")?.name}: placement is not a list of placement fields`,
+    ]);
+    const fl = caps();
+    fl.fields["package:/id"] = "ignored" as never;
+    expect(capabilityProblems(fl)).toEqual(["fields: 'package:/id' has an unknown class 'ignored'"]);
+  });
+
+  it("output: the size the renderer draws (style.ts W × H), 30 fps, silent", () => {
+    expect(src("film/src/style.ts")).toMatch(/export const W = 1080;/);
+    expect(src("film/src/style.ts")).toMatch(/export const H = 1920;/);
+    expect(c.output).toEqual({ sizes: [[1080, 1920]], fps: [30], audio: false });
+  });
+
+  it("parallax camera: W0's reference height and dolly share (w0/camera.ts REF.height, GAMMA)", () => {
+    const cam = src("film/src/w0/camera.ts");
+    expect(cam).toContain("export const REF: Cam = { cx: 1450, cy: 1120, height: 2140 };");
+    expect(cam).toContain("const GAMMA = 0.55;");
+    expect(c.projections["parallax"]?.camera).toMatchObject({
+      referenceDistance: [2140],
+      dolly: [0.55],
+      aperture: [0],
+    });
+  });
+
+  it("editorial camera: centred at W/2 (v2frame.ts editorialView)", () => {
+    expect(src("film/src/v2frame.ts")).toContain(
+      '`<g transform="translate(540 ${fmt(960 + dy)}) scale(${fmt(z)}) translate(-540 -960)">${svg}</g>`',
+    );
+    expect(c.projections["flat"]?.camera.editorial).toEqual({ builtins: "template.", x: 540 });
+  });
+
+  it("captions: the published semantics are the renderer's constants", () => {
+    expect(src("film/src/package/draw.ts")).toContain("clamp((t - ph.in) / 0.12)");
+    expect(src("film/src/w0/compositor.ts")).toContain(
+      'fill-opacity="${stroke ? 0.9 : w.reached ? 1 : 0.6}"',
+    );
+    expect(c.captions).toEqual({
+      anchor: ["screen"],
+      align: ["center"],
+      maxWidth: false,
+      semantics: { fadeIn: 0.12, unspokenOpacity: 0.6, strokeOpacity: 0.9, overVignette: true },
+    });
+  });
+
+  it("rigs: the rest pose is the standing pose actorSvg falls back to; the height is the stager's", () => {
+    expect(src("film/src/package/draw.ts")).toContain("const pose = { ...STANDING } as Pose;");
+    const { manifest } = film("b3-every-yes");
+    for (const b of c.builtins.filter((x) => x.kind === "rig")) {
+      const m = manifest.assets.find(
+        (a) => a.kind === "rig" && a.source.kind === "builtin" && a.source.name === b.name,
+      );
+      if (m?.kind === "rig") expect(b.rig?.height, b.name).toBe(m.height);
+      expect(b.rig?.rest).toMatchObject({
+        glow: 0,
+        "root.x": 0,
+        "root.y": 0,
+        "root.scale": 1,
+        facing: 1,
+        turn: 1,
+      });
+      for (const bone of b.rig?.bones ?? [])
+        expect(typeof b.rig?.rest[bone], `${b.name} ${bone}`).toBe("number");
+    }
+  });
+
+  it("placement: props are drawn where the node is (x, y); every other builtin applies none", () => {
+    for (const b of c.builtins.filter((x) => x.kind === "vector"))
+      expect(b.placement, b.name).toEqual(b.name.startsWith("prop.") ? ["x", "y"] : []);
+  });
+});

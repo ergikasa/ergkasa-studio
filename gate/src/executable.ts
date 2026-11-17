@@ -391,13 +391,8 @@ export function checkExecutable(
   // ---- captions
   pkg.overlays.forEach((o, k) => {
     if (o.kind !== "captions") return;
-    if (!("x" in o.at))
-      F.error(
-        "CAPABILITY_MISSING",
-        "package",
-        P("overlays", k, "at"),
-        "captions are placed on the screen (x, y); following a node or an actor is not drawn by this engine",
-      );
+    // captions are anchored on the screen by the schema itself (ScreenAnchor: x, y); following a node or an actor
+    // exists only for overlays this engine refuses by kind
     if (!caps.captions.align.includes(o.style.align))
       F.error(
         "VALUE_UNSUPPORTED",
@@ -499,7 +494,7 @@ function checkRoles(
         "VALUE_UNSUPPORTED",
         "package",
         sp("layers", j, "lit"),
-        `the '${role}' layer is drawn ${r.lit ? "lit" : "unlit"}`,
+        `${l.lit}: the engine draws the '${role}' layer ${r.lit ? "lit" : "unlit"}`,
       );
     for (const f of ["blur", "depth"] as const) {
       const readFrom: string | undefined = r[f] === "own" ? (role === "actors" ? "actors" : undefined) : r[f];

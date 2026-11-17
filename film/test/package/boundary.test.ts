@@ -91,6 +91,14 @@ describe("K6: what the renderer is made of", () => {
       expect(/node:fs/.test(readFileSync(join(ROOT, f), "utf8")), f).toBe(false);
   });
 
+  it("reads no field the capabilities classify as refused, validated or metadata (T9)", () => {
+    // the field names of those classes that a drawing could read; the gate reads them, the renderer must not
+    const NOT_DRAWN =
+      /\.(bounds|contacts|audio|mix|lights|aperture|referenceDistance|dolly|lit|rim|shadow|maxWidth|align|provenance|license|approval|affordances|defaultState|durationSec|sampleRate|producer)\b/;
+    for (const f of g.files.filter((x) => x.startsWith("film/src/package/")))
+      expect(readFileSync(join(ROOT, f), "utf8").match(NOT_DRAWN)?.[0], f).toBeUndefined();
+  });
+
   it("no path is reopened: changing the files after the gate verified them changes nothing drawn", () => {
     const root = mkdtempSync(join(tmpdir(), "pkg-verified-"));
     const { text } = fixtureB("prisoner-cell");

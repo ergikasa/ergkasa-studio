@@ -8,6 +8,7 @@ import { rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import type { AssetManifest, RenderPackage } from "@erkasa/contracts";
 import { validate, type GateResult, type RenderCapabilities } from "../src/index.js";
+import { EXEC_CASES } from "./executable-cases.js";
 import { base, caps, clone, write } from "./helpers.js";
 
 type Pkg = RenderPackage;
@@ -69,7 +70,7 @@ export function gate(c: Ctx): GateResult {
 
 /** A case on a fresh base, mutated. */
 export function broken(k: Case): Ctx {
-  const fresh = base();
+  const fresh = k.start ? k.start() : base();
   const c: Ctx = { pkg: fresh.pkg, manifest: fresh.manifest, root: fresh.root, capabilities: caps() };
   k.mutate(c);
   return c;
@@ -79,11 +80,14 @@ const sp = (...x: Array<string | number>): string => `/scenes/${si}/${x.join("/"
 
 export interface Case {
   name: string;
+  /** the package the fault is put into (default: the B3 base) */
+  start?: () => { pkg: Pkg; manifest: AssetManifest; root: string };
   mutate: (c: Ctx) => void;
   expect: string[];
 }
 
-export const CASES: Case[] = [
+/** E1.3's 48 and E1.4's EASE_UNDEFINED and SVG_UNSAFE; then G16 (executable-cases.ts). */
+const BEFORE_G16: Case[] = [
   { name: "not JSON", mutate: (c) => (c.text = "{"), expect: ["PACKAGE_PARSE package"] },
   {
     name: "unknown major version",
@@ -467,3 +471,5 @@ export const CASES: Case[] = [
     expect: ["CAPABILITIES_INVALID capabilities"],
   },
 ];
+
+export const CASES: Case[] = [...BEFORE_G16, ...EXEC_CASES];

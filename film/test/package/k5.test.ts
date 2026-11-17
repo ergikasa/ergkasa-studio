@@ -1,6 +1,6 @@
 /**
- * K5: a refused package produces no frame. For each of the gate's 50 broken packages (the 48 of E1.3, one
- * EASE_UNDEFINED, one SVG_UNSAFE), renderPackage reports exactly validate()'s findings, hands no frame to its
+ * K5: a refused package produces no frame. For each of the gate's 103 broken packages (the 48 of E1.3, one
+ * EASE_UNDEFINED, one SVG_UNSAFE, the 16 of the gate audit and 37 one-fault packages of G16), renderPackage reports exactly validate()'s findings, hands no frame to its
  * sink and never starts it (so no encoder starts).
  */
 import { describe, expect, it } from "vitest";
@@ -20,8 +20,9 @@ const spy = () => {
 };
 
 describe("K5: refused packages", () => {
-  it("there are 50, including EASE_UNDEFINED and SVG_UNSAFE", () => {
-    expect(CASES.length).toBe(50);
+  it("there are 103: E1.3's 48, EASE_UNDEFINED, SVG_UNSAFE, the audit's 16 and G16's 37 (E1.4)", () => {
+    expect(CASES.length).toBe(103);
+    expect(CASES.filter((c) => / audit: /.test(c.name)).length).toBe(16);
     const codes = CASES.flatMap((c) => c.expect.map((e) => e.split(" ")[0]));
     expect(codes).toContain("EASE_UNDEFINED");
     expect(codes).toContain("SVG_UNSAFE");
