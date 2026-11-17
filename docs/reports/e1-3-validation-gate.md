@@ -169,4 +169,4 @@ Arsyet pse refuzohen fixtures A (të fiksuara në `films.test.ts`):
 - E1.4: Engine-i duhet ta thërrasë Gate-in para çdo render-i dhe të përdorë `verified.files` (bajtet), jo rrugët.
 - Fixtures B duhet të rigjenerohen sa herë ndryshon një skedar i Engine-it që ato fiksojnë. Kjo është sjellja e pritur e fingerprint-it të bazuar në skedarin burim; edhe ndryshimet vetëm të formatimit alarmojnë. Fingerprint i bazuar në daljen e vizatimit mbetet për më vonë, si u vendos.
 - Mbrojtja TOCTOU është e plotë në Linux (`/proc/self/fd`). Në sisteme të tjera, kontrolli `dev/ino` mbulon zëvendësimin e skedarit, por jo çdo ndryshim të direktorive ndërmjet.
-- CI mbetet i kuq për dy shkaqe që ekzistonin para E0. Për shkak të tyre, testet e `gate/` nuk arrijnë të ekzekutohen në CI: `pnpm test` ndalet te ai-worker.
+- CI mbetet i kuq vetëm për dy shkaqe që ekzistonin para E0 (ffmpeg mungon te runner-i, ai-worker 1/35; `AssetApiTest` në backend). Në run-in `44042269048` (commit `d73bd3b`), CI ekzekutoi edhe `gate` 104/104 dhe `stager` 81/81, që kaluan; po ashtu format, lint, typecheck dhe skemat.
