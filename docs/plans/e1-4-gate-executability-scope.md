@@ -398,6 +398,62 @@ Rastet shtohen te `gate/test/broken.ts`, kështu që i përdorin edhe testi nega
 
 **V3. Konfirmim:** përfshirja e X10 (lartësia e rig-ut), gjetur gjatë klasifikimit sipas kushtit D. Rrezik zero: Stager-i dhe fixtures B shkruajnë lartësinë që mat `drawPerson`.
 
+### Vendimet e PO-së për V1–V3 (2026-11-17)
+
+- **V1 (a), miratuar.** `mix` pranohet vetëm kur `audio` është bosh; çdo klip audio refuzohet. Skema mbetet e njëjtë.
+- **V2 (a), miratuar me kushte.** Gate-i kontrollon `bounds`; Stager-i shkruan `bounds` të sakta; fixtures B rigjenerohen pa ndryshuar kuadrot. Kushtet dokumentohen më poshtë, para implementimit.
+- **V3, miratuar.** Lartësia e rig-ut hyn në capabilities v2 (`rig.height`). Gate-i e krahason me vlerën e builtin-it.
+
+### V2: përkufizimi i `bounds` dhe prova (para implementimit)
+
+**1. Formula (njësi bote; W = 1080, H = 1920 nga `output.sizes`).** Në çdo çast t, kamera (x, y, h) të skenës sheh drejtkëndëshin:
+
+```
+halfW = h · W / H / 2        halfH = h / 2
+view(t) = [x − halfW, x + halfW] × [y − halfH, y + halfH]
+```
+
+Kushti: `bounds.x ≤ x − halfW`, `x + halfW ≤ bounds.x + bounds.w`, `bounds.y ≤ y − halfH`, `y + halfH ≤ bounds.y + bounds.h`. Krahasimi bëhet me numra float64 si janë, pa tolerancë dhe pa rrumbullakim.
+
+- **flat, kamera e set-it:** `setView` vizaton `translate(W/2 H/2) scale(H/h) translate(−x −y)`. Pikat e botës që bien në kuadrin [0, W] × [0, H] janë pikërisht view(t). Formula është ekzakte.
+- **flat, kamera editoriale** (skenat me `template.*`): `editorialView(z, dy)` me z = H/h dhe dy = (960 − y)·z. Kjo përkthehet në të njëjtin drejtkëndësh në y, por në x qendra është gjithmonë W/2 = 540, sepse renderer-i nuk e lexon `x`. Të pesë filmat kanë x = 540 në çdo skenë editoriale, kështu që formula vlen.
+  - **Gjetje e re, X11:** te skenat editoriale renderer-i injoron `camera.x`. Sipas kushtit D, Gate-i kërkon x = W/2 në to: `VALUE_UNSUPPORTED` · `package:/scenes/i/tracks/t/…`. Asnjë nga tetë paketat nuk preket.
+- **parallax, plani i aktorëve:** sipas kërkesës së PO-së, pamja matet aty ku vizatohen aktorët dhe mobiljet, `project(cam, depth.mid)` me `depth.mid` = 0. Për dz = 0, `project` jep matematikisht s = H/h, cx = x, cy = y, pra pikërisht formulën e mësipërme.
+  - Matur mbi të gjitha 1 373 sample-t e kamerës së W0: 1 312 janë bit për bit të njëjta me formulën.
+  - Te 61 të tjerat, aritmetika float e `project` (përmes konstanteve REF dhe GAMMA) ndryshon nga formula me më pak se 1,2·10⁻¹³ njësi bote. Një piksel është rreth 1 njësi bote.
+  - Gate-i dhe Stager-i përdorin të dyja formulën e kontratës, një funksion i vetëm i pastër pranë evaluatorit (`cameraViews` te `@erkasa/contracts`), pa tolerancë. Ndryshimi float i Engine-it dokumentohet këtu dhe nuk fshihet nga asnjë rrumbullakim.
+
+**2. Të gjitha çastet, jo vetëm kuadrot.** Gate-i e kontrollon kushtin në çdo çast ku kamera mund të jetë, jo vetëm në kuadrot e renderuara:
+
+- **Pikat e thyerjes:**
+  - për çdo track `samples` të `x`, `y`, `height`: çdo kufi sample-i (`start + i/rate`, me të njëjtën zhvendosje 1e-6 si `sampleIndex`);
+  - për çdo track `keys`: çdo kohë çelësi.
+- **Brenda dy pikave të njëpasnjëshme:**
+  - një track `samples` është konstant (një sample);
+  - një track `keys` është linear (`linear`) ose konstant (`hold`); ease-t e tjera i refuzon `EASE_UNDEFINED`.
+
+  Kështu çdo skaj i view(t) është funksion afin i t në interval, dhe ekstremet janë te skajet e intervalit.
+
+- **Kontrolli:** kushti kontrollohet në të dy skajet e çdo intervali, me limitet e vetë intervalit (vlera e sample-it, vlerat lineare te skajet), si dhe në zonat e kapura para çelësit të parë dhe pas të fundit.
+- **Overshoot-i i easing-ut:** është brenda vlerave të ruajtura (p.sh. lëkundja e derës, ease-t e kamerës të pjekura nga Stager-i në sample). Duke kontrolluar çdo sample, kontrollohet edhe ai.
+
+**3. Kodi dhe shtegu.** `VALUE_RANGE` (ekzistues) · `package:/scenes/i/bounds`; mesazhi jep anën, kohën t dhe tejkalimin. Shtegu tregon `bounds`, sepse është fusha që bie ndesh me kamerën; track-u përmendet në mesazh.
+
+**4. Stager-i dhe fixtures B.** Pasi kamera të jetë përcaktuar, Stager-i e zgjeron `bounds` ekzistuese aq sa duhet për të përmbajtur çdo view(t), duke përdorur të njëjtin funksion. Pas llogaritjes verifikon `x + w`, `y + h` me të njëjtin krahasim si Gate-i, dhe kur aritmetika float e cenon kufirin, rrit `w`/`h` me ulp-in e radhës. Kjo zgjerim i kufirit, jo rrumbullakim që fsheh shkelje.
+
+- Kamera dhe çdo gjë tjetër mbeten të njëjta, kështu që kuadrot nuk ndryshojnë (renderer-i nuk e lexon `bounds`, provohet nga T9). P4 e provon me hash.
+- Gjeneratori i fixtures B bën të njëjtën gjë; tekstet e paketave të prisoner-cell dhe office-clock rigjenerohen, `golden-fixtures-b.json` mbetet i pandryshuar.
+
+**5. Testet kufitare (për secilin rast).**
+
+- **flat set:** pamja që prek saktësisht çdo nga katër anët → pranohet; e njëjta e zhvendosur me ulp-in e radhës jashtë → `VALUE_RANGE`.
+- **flat editorial:** e njëjta, plus x ≠ 540 → `VALUE_UNSUPPORTED` (X11).
+- **parallax:** e njëjta mbi një skenë W0.
+- **samples:** një sample i vetëm jashtë, në mes të track-ut, dhe një sample pas kuadrit të fundit të renderuar → refuzohen; overshoot i kamerës në një sample → refuzohet.
+- **keys:** dy çelësa `linear` me skajet brenda → pranohet; `hold` që mban jashtë → refuzohet; pika e kapur pas çelësit të fundit jashtë → refuzohet.
+- **tracks të përziera:** `x` me samples dhe `height` me keys, ku shkelja ndodh vetëm brenda një intervali → refuzohet.
+- **pozitive:** tetë paketat me `bounds` të rishkruara → pranohen; kuadrot janë identikë (P4).
+
 **Rendi i punës pas miratimit (dhe pas V1–V3)** (commit-e të vogla, me ndalesë dhe raport për çdo devijim):
 
 1. Kontrata v2 + P5.
