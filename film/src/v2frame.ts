@@ -40,9 +40,14 @@ export interface Drawn {
 /**
  * One finished v2 frame: the current drawing on its background, and, inside a transition, the previous one
  * (`p` is the eased progress, 0..1). A dissolve fades the current drawing in over the previous one; a whip slides
- * the previous one out to the left as the current one comes in from the right.
+ * the previous one out to the left as the current one comes in from the right. `over` (captions) goes above the
+ * vignette, as W0 draws them.
  */
-export function v2Frame(cur: Drawn, prev?: { drawn: Drawn; kind: "dissolve" | "whip"; p: number }): string {
+export function v2Frame(
+  cur: Drawn,
+  prev?: { drawn: Drawn; kind: "dissolve" | "whip"; p: number },
+  over = "",
+): string {
   let body = `<rect width="${W}" height="${H}" fill="${cur.bg}"/>${cur.body}`;
   if (prev) {
     const { p } = prev;
@@ -51,5 +56,6 @@ export function v2Frame(cur: Drawn, prev?: { drawn: Drawn; kind: "dissolve" | "w
     else
       body = `<g transform="translate(${fmt(-W * p)} 0)">${pb}</g><g transform="translate(${fmt(W * (1 - p))} 0)">${body}</g>`;
   }
-  return frame(`<defs>${SCRIMS}</defs>${body}`, cur.bg);
+  const f = frame(`<defs>${SCRIMS}</defs>${body}`, cur.bg);
+  return over ? `${f.slice(0, -"</svg>".length)}${over}</svg>` : f;
 }

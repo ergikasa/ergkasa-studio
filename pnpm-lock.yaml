@@ -139,6 +139,9 @@ importers:
       '@erkasa/engine':
         specifier: workspace:*
         version: link:../engine
+      '@erkasa/gate':
+        specifier: workspace:*
+        version: link:../gate
       '@expo-google-fonts/montserrat':
         specifier: 0.4.2
         version: 0.4.2
@@ -155,6 +158,9 @@ importers:
         specifier: 4.6.7
         version: 4.6.7
     devDependencies:
+      '@erkasa/stager':
+        specifier: workspace:*
+        version: link:../stager
       vitest:
         specifier: 5.1.0
         version: 5.1.0(@types/node@22.19.1)(vite@8.3.6(@types/node@22.19.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15))

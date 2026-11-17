@@ -12,12 +12,14 @@
     "test": "vitest run",
     "film": "tsx src/cli.ts",
     "golden": "node --expose-gc --import tsx src/golden-evidence.ts --verify",
-    "golden:historical": "node --expose-gc --import tsx src/golden.ts"
+    "golden:historical": "node --expose-gc --import tsx src/golden.ts",
+    "golden:package": "node --expose-gc --import tsx test/package/golden-package.ts --verify"
   },
   "dependencies": {
     "@erkasa/compiler": "workspace:*",
     "@erkasa/contracts": "workspace:*",
     "@erkasa/engine": "workspace:*",
+    "@erkasa/gate": "workspace:*",
     "@expo-google-fonts/montserrat": "0.4.2",
     "@napi-rs/canvas": "0.1.100",
     "@resvg/resvg-js": "2.6.2",
@@ -25,6 +27,7 @@
     "zod": "4.6.7"
   },
   "devDependencies": {
+    "@erkasa/stager": "workspace:*",
     "vitest": "5.1.0"
   }
 }
