@@ -13,7 +13,7 @@
  *     flat scene through the set camera; a parallax scene is W0's place, drawn by the W0 compositor;
  *   - captions fade in over 0.12 s; words not yet spoken at 0.6 opacity, the stroke at 0.9.
  */
-import { phraseAt, wordCurrent, wordReached } from "@erkasa/contracts";
+import { drawn, phraseAt, transformAttr, wordCurrent, wordReached } from "@erkasa/contracts";
 import { safeOpacity } from "@erkasa/engine";
 import type { SetId, Template } from "../contract.js";
 import { clamp } from "../motion.js";
@@ -22,7 +22,7 @@ import { drawPerson, STANDING, type Look, type Pose } from "../rig.js";
 import { SETS } from "../sets.js";
 import { H, W, kineticType, type TypeLine } from "../style.js";
 import { TEMPLATES } from "../templates.js";
-import { editorialView, otsShoulder, scrimRect, setView, type Drawn, type ScrimPlace } from "../v2frame.js";
+import { otsShoulder, scrimRect, type Drawn, type ScrimPlace } from "../v2frame.js";
 import { captionSvg, typeW0Svg, type W0View } from "../w0/compositor.js";
 import type { PlaceState, WorldParams } from "../w0/world.js";
 import { At, type Assets, type AssetNode, type Captions, type Scene, type VectorAsset } from "./scene.js";
@@ -175,11 +175,10 @@ export function flatScene(lib: Library, scene: Scene, t: number): Drawn {
   const x = at.n("camera", undefined, "x");
   const y = at.n("camera", undefined, "y");
   const h = at.n("camera", undefined, "height");
-  let body: string;
-  if (editorial) {
-    const z = H / h;
-    body = editorialView(z, (960 - y) * z, world);
-  } else body = setView({ cx: x, cy: y, height: h }, world);
+  // the view transform from the arithmetic the gate and the stager check bounds with (contracts camera-view.ts);
+  // the same text v2frame.ts setView / editorialView write
+  const view = drawn({ kind: editorial ? "editorial" : "set" }, x, y, h, W, H);
+  let body = `<g transform="${transformAttr(view)}">${world}</g>`;
   for (const l of scene.screen ?? []) for (const n of l.nodes.filter(isAsset)) body += nodeSvg(lib, at, n);
   return { body, bg: scene.background };
 }

@@ -7,8 +7,15 @@
 import { mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { cameraViews, enclose, type AssetManifest, type RenderPackage } from "@erkasa/contracts";
-import { film, sha } from "./helpers.js";
+import {
+  builtinOf,
+  cameraViews,
+  enclose,
+  sceneLens,
+  type AssetManifest,
+  type RenderPackage,
+} from "@erkasa/contracts";
+import { caps, film, sha } from "./helpers.js";
 
 type Pkg = RenderPackage;
 type Scene = Pkg["scenes"][number];
@@ -88,9 +95,8 @@ const track = (s: Scene, kind: string, id: string | undefined, ch: string): Trac
     (t) => t.channel === ch && t.target.kind === kind && ("id" in t.target ? t.target.id : undefined) === id,
   )!;
 /** Re-encloses every scene's bounds (a case that moves the camera keeps bounds out of its fault). */
-const rebound = (p: Pkg): void => {
-  for (const s of p.scenes)
-    s.bounds = enclose(s.bounds, cameraViews(s, p.output.width, p.output.height) ?? []);
+const rebound = (p: Pkg, m: AssetManifest): void => {
+  for (const s of p.scenes) s.bounds = enclose(s.bounds, viewsOf(p, m, s));
 };
 const asset = (m: AssetManifest, id: string) => m.assets.find((a) => a.id === id)!;
 const builtinName = (m: AssetManifest, n: Node): string => {
@@ -107,9 +113,16 @@ const findNode = (p: Pkg, m: AssetManifest, pred: (name: string) => boolean): { 
   throw new Error("no such node");
 };
 
+/** Every view the scene's camera takes, as the engine draws it (the engine's capabilities decide the lens). */
+export function viewsOf(p: Pkg, m: AssetManifest, s: Scene): NonNullable<ReturnType<typeof cameraViews>> {
+  const rule = caps().projections[s.camera.projection]?.camera;
+  const lens = rule ? sceneLens(s, builtinOf(m), rule) : undefined;
+  return (lens ? cameraViews(s, p.output.width, p.output.height, lens) : undefined) ?? [];
+}
+
 /** Bounds exactly around every view of the scene (the near sides at the views' extremes). */
-export const tight = (p: Pkg, s: Scene): void => {
-  const views = cameraViews(s, p.output.width, p.output.height) ?? [];
+export const tight = (p: Pkg, m: AssetManifest, s: Scene): void => {
+  const views = viewsOf(p, m, s);
   const x = Math.min(...views.map((v) => v.x0));
   const y = Math.min(...views.map((v) => v.y0));
   s.bounds = enclose({ x, y, w: Number.MIN_VALUE, h: Number.MIN_VALUE }, views);
@@ -510,7 +523,7 @@ export const EXEC_CASES: ExecCase[] = [
       const t = track(s, "camera", undefined, "x");
       if (t.kind === "samples") t.values[0] = 541;
       else t.keys[0]!.v = 541;
-      rebound(c.pkg);
+      rebound(c.pkg, c.manifest);
     },
     expect: ["VALUE_UNSUPPORTED package/scenes/0/tracks/0/keys/0/v"],
   },
@@ -800,7 +813,7 @@ export const EXEC_CASES: ExecCase[] = [
     name: "V2a a set scene's bounds one step inside its camera's view (left)",
     mutate: (c) => {
       const s = boundsScene.set(c.pkg, c.manifest);
-      tight(c.pkg, s);
+      tight(c.pkg, c.manifest, s);
       s.bounds.x = nextUp(s.bounds.x);
     },
     expect: ["VALUE_RANGE package/scenes/1/bounds"],
@@ -809,7 +822,7 @@ export const EXEC_CASES: ExecCase[] = [
     name: "V2b an editorial scene's bounds one step inside its camera's view (top)",
     mutate: (c) => {
       const s = boundsScene.editorial(c.pkg, c.manifest);
-      tight(c.pkg, s);
+      tight(c.pkg, c.manifest, s);
       s.bounds.y = nextUp(s.bounds.y);
     },
     expect: ["VALUE_RANGE package/scenes/0/bounds"],
@@ -819,10 +832,21 @@ export const EXEC_CASES: ExecCase[] = [
     start: w0,
     mutate: (c) => {
       const s = boundsScene.parallax(c.pkg);
-      tight(c.pkg, s);
+      tight(c.pkg, c.manifest, s);
       s.bounds.x = nextUp(s.bounds.x);
     },
     expect: ["VALUE_RANGE package/scenes/0/bounds"],
+  },
+  {
+    // F4 (decision B): s08 of W0 as the stager wrote it under the exact formula (before the decision); the engine
+    // draws the scale 5-decimal and the centre 3-decimal, so its view reaches 0.0019 past the left side
+    name: "V2d a W0 scene's bounds around the exact formula, not the view the engine draws",
+    start: w0,
+    mutate: (c) => {
+      const s = c.pkg.scenes.find((x) => x.id === "s08_sh08")!;
+      s.bounds = { x: -250, y: 0, w: 3150, h: 2300 };
+    },
+    expect: ["VALUE_RANGE package/scenes/7/bounds"],
   },
 ];
 

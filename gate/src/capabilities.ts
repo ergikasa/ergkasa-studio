@@ -85,6 +85,11 @@ export interface ProjectionRule {
     dolly: number[] | null;
     /** Scenes with a builtin of this prefix are seen through the editorial camera, centred at `x`. */
     editorial: { builtins: string; x: number } | null;
+    /**
+     * Parallax: how the camera is projected (w0/camera.ts REF, GAMMA) and the builtin whose layer's depth is the
+     * plane the view is measured on (`bounds`). Flat: null (set and editorial views; contracts camera-view.ts).
+     */
+    parallax: { reference: { cx: number; cy: number; height: number }; gamma: number; plane: string } | null;
   };
   /** Layer values: `zero` / `false` for all layers, or by role (`roles`). */
   layer: { blur: "zero" | "by-role"; lit: "false" | "by-role"; depth: "unused" | "by-role" };
@@ -166,6 +171,18 @@ export function capabilityProblems(c: unknown): string[] {
         if (cam.referenceDistance !== null && !isNumbers(cam.referenceDistance))
           out.push(`${at}.camera.referenceDistance is not a list or null`);
         if (cam.dolly !== null && !isNumbers(cam.dolly)) out.push(`${at}.camera.dolly is not a list or null`);
+        const px = cam.parallax as unknown;
+        if (
+          px !== null &&
+          !(
+            isObj(px) &&
+            isObj(px.reference) &&
+            isNumbers([px.reference.cx, px.reference.cy, px.reference.height]) &&
+            typeof px.gamma === "number" &&
+            typeof px.plane === "string"
+          )
+        )
+          out.push(`${at}.camera.parallax is not { reference, gamma, plane } or null`);
       }
       if (!isObj(p.layer)) out.push(`${at}.layer is missing`);
       if (!isObj(p.roles)) out.push(`${at}.roles is not a map`);

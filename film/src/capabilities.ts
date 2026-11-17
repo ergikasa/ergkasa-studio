@@ -21,10 +21,7 @@ import { PARAMS } from "./templates.js";
 import { z } from "zod";
 import { SETS } from "./sets.js";
 import { fontFiles, H, W } from "./style.js";
-import { REF } from "./w0/camera.js";
-
-/** w0/camera.ts GAMMA: the share of a W0 zoom that is the camera moving (a test checks the two agree). */
-const W0_DOLLY = 0.55;
+import { GAMMA, REF } from "./w0/camera.js";
 
 export const CAPABILITIES_VERSION = RENDER_CAPABILITIES;
 
@@ -327,6 +324,7 @@ export function renderCapabilities(): RenderCapabilities {
           referenceDistance: null,
           dolly: null,
           editorial: { builtins: "template.", x: W / 2 },
+          parallax: null,
         },
         layer: { blur: "zero", lit: "false", depth: "unused" },
         roles: {},
@@ -340,8 +338,10 @@ export function renderCapabilities(): RenderCapabilities {
           channels: ["x", "y", "height"],
           aperture: [0],
           referenceDistance: [REF.height],
-          dolly: [W0_DOLLY],
+          dolly: [GAMMA],
           editorial: null,
+          // bounds are measured on the actors' plane: the depth of the furniture's layer (w0Scene depth.mid)
+          parallax: { reference: { ...REF }, gamma: GAMMA, plane: "w0.mid" },
         },
         layer: { blur: "by-role", lit: "by-role", depth: "by-role" },
         roles: W0_ROLES,

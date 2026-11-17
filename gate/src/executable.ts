@@ -11,7 +11,14 @@
  * RIG_UNSUPPORTED, ID_DUPLICATE, VALUE_RANGE (bounds). Paths: the field at fault; when the field is missing, the
  * object that should have it.
  */
-import { cameraViews, outside, type AssetManifest, type RenderPackage, type Track } from "@erkasa/contracts";
+import {
+  cameraViews,
+  outside,
+  sceneLens,
+  type AssetManifest,
+  type RenderPackage,
+  type Track,
+} from "@erkasa/contracts";
 import {
   PLACEMENT,
   type BuiltinCapability,
@@ -384,8 +391,9 @@ export function checkExecutable(
         ),
       );
 
-    // bounds (V2): every view the camera takes
-    const views = cameraViews(scene, width, height);
+    // bounds (V2, decision B): every view the camera takes, as the engine draws it
+    const lens = sceneLens(scene, (n) => drawnBy(n)?.name, rule.camera);
+    const views = lens ? cameraViews(scene, width, height, lens) : undefined;
     if (views)
       for (const v of views) {
         const out = outside(scene.bounds, v);

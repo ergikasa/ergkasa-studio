@@ -11,7 +11,7 @@ describe("bounds touching the camera's views exactly", () => {
   it.each(["set", "editorial", "parallax"] as const)("%s scene: accepted", (kind) => {
     const b = kind === "parallax" ? w0() : base();
     const s = kind === "parallax" ? boundsScene.parallax(b.pkg) : boundsScene[kind](b.pkg, b.manifest);
-    tight(b.pkg, s);
+    tight(b.pkg, b.manifest, s);
     const w = write(b.pkg, b.manifest, { root: b.root });
     const r = validate({ package: w.text, root: w.root, capabilities: caps() });
     expect(r.errors).toEqual([]);

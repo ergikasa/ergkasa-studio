@@ -4,6 +4,7 @@
  * pans, far layers slide less. Part of every zoom is lens and part is distance (GAMMA), so close shots keep some
  * of the room behind the subject instead of losing it.
  */
+import { project as projectAt, projected, transformAttr, type Projection } from "@erkasa/contracts";
 import { H, W } from "../style.js";
 
 export interface Cam {
@@ -16,31 +17,20 @@ export interface Cam {
 export const REF: Cam = { cx: 1450, cy: 1120, height: 2140 };
 const DREF = REF.height;
 /** 0 = pure lens zoom (no parallax), 1 = pure dolly. */
-const GAMMA = 0.55;
-
-const dist = (c: Cam): number => DREF * (c.height / REF.height) ** GAMMA;
+export const GAMMA = 0.55;
 
 /** Affine projection of a layer at depth dz: screen = (p - c) * s + (W/2, H/2). */
-export interface Proj {
-  s: number;
-  cx: number;
-  cy: number;
-}
+export type Proj = Projection;
 
-export function project(c: Cam, dz: number): Proj {
-  const D = dist(c);
-  const s = (H / c.height) * ((D * (DREF + dz)) / (DREF * (D + dz)));
-  const k = DREF / (DREF + dz);
-  return { s, cx: REF.cx + (c.cx - REF.cx) * k, cy: REF.cy + (c.cy - REF.cy) * k };
-}
+/** The projection the gate and the stager check bounds with (contracts camera-view.ts), at this camera's REF. */
+export const project = (c: Cam, dz: number): Proj => projectAt(c, dz, REF, GAMMA, H);
 
 export const toScreen = (p: Proj, x: number, y: number): [number, number] => [
   (x - p.cx) * p.s + W / 2,
   (y - p.cy) * p.s + H / 2,
 ];
 
-export const svgTransform = (p: Proj): string =>
-  `translate(${W / 2} ${H / 2}) scale(${p.s.toFixed(5)}) translate(${(-p.cx).toFixed(3)} ${(-p.cy).toFixed(3)})`;
+export const svgTransform = (p: Proj): string => transformAttr(projected(p, W, H));
 
 /** The camera centre that puts a point of a layer at depth dz at screen position (sx, sy). */
 export function aimAt(height: number, dz: number, x: number, y: number, sx = W / 2, sy = H / 2): Cam {

@@ -16,7 +16,14 @@ import { createHash } from "node:crypto";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { cameraViews, enclose, type AssetManifest, type RenderPackage } from "@erkasa/contracts";
+import {
+  builtinOf,
+  cameraViews,
+  enclose,
+  sceneLens,
+  type AssetManifest,
+  type RenderPackage,
+} from "@erkasa/contracts";
 import { renderCapabilities } from "@erkasa/film";
 import { fontFiles } from "../../../stager/src/legacy.js";
 import { fontAsset, rig } from "../../../stager/src/manifest.js";
@@ -416,11 +423,16 @@ export function generate(): Array<{
     const { manifest, pkg: drawn } = name === "prisoner-cell" ? prisonerCell() : officeClock();
     // E1.4 (V2): every scene's bounds contain every view its camera takes, as the stager writes them; nothing
     // drawn reads bounds, so the frames (and golden-fixtures-b.json) do not change
+    const viewsOf = (sc: (typeof drawn.scenes)[number]) => {
+      const rule = renderCapabilities().projections[sc.camera.projection]?.camera;
+      const lens = rule ? sceneLens(sc, builtinOf(manifest), rule) : undefined;
+      return (lens ? cameraViews(sc, drawn.output.width, drawn.output.height, lens) : undefined) ?? [];
+    };
     const pkg = {
       ...drawn,
       scenes: drawn.scenes.map((sc) => ({
         ...sc,
-        bounds: enclose(sc.bounds, cameraViews(sc, drawn.output.width, drawn.output.height) ?? []),
+        bounds: enclose(sc.bounds, viewsOf(sc)),
       })),
     };
     const manifestPath = `${DIR}/${name}.assets.json`;

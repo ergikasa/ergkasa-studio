@@ -191,6 +191,22 @@ interface BuiltinCapability {
 }
 ```
 
+**Shtesat e auditimit final (2026-11-17, F1–F4, të miratuara nga PO-ja):**
+
+- **Parametrat statikë:** çdo parametër statik i një builtin-i ka `schema`. Kjo është një nënbashkësi e vogël e JSON Schema, me këto fjalë kyçe:
+  - `type`, `enum`, `const`;
+  - `properties`, `required`, `additionalProperties`;
+  - `items`, `minItems`, `maxItems`;
+  - `minLength`, `maxLength`, `pattern`;
+  - `minimum`, `maximum`, `exclusiveMinimum`, `exclusiveMaximum`;
+  - `anyOf`.
+
+  Një fjalë kyçe tjetër e bën dokumentin `CAPABILITIES_INVALID`. Për template-t, skema nxirret nga `templates.ts PARAMS`, me `additionalProperties: false`, sepse renderer-i nuk lexon hyrje të tjera. Gate-i kthen `VALUE_UNSUPPORTED` te `…/params/<id>/<shtegu>`.
+
+- **Vlerat diskrete:** një parametër kanali mund të ketë `values`. Prop-et `held` kanë `param.facing: [-1, 1]`, dhe rig-u ka `channelValues: { facing: [-1, 1] }`. Çdo sample dhe çelës duhet të jetë një nga këto vlera. Midis dy çelësave me vlera të ndryshme lejohet vetëm `hold`.
+- **Rolet e W0:** çdo rol deklaron `assign` (`node` ose `actor`), `repeat`, `members` (çfarë vizatohet si pjesë e rolit), si dhe `blur`/`depth`. Këto dy të fundit marrin `own`, `first`, emrin e një roli tjetër, ose vlerën `absent` kur roli burim mungon. `checkRoles` nuk përmend asnjë rol: çdo rregull vjen nga deklarata.
+- **Kamera parallax:** `camera.parallax = { reference, gamma, plane }`, sipas §V2-B.
+
 ### B.2 Kanalet dhe track-et e detyrueshme (nga kodi i renderer-it)
 
 | Tipi                                    | Kanale me track të detyrueshëm                            | Statikë (ekziston `PARAM_MISSING`) |
@@ -406,6 +422,8 @@ Rastet shtohen te `gate/test/broken.ts`, kështu që i përdorin edhe testi nega
 
 ### V2: përkufizimi i `bounds` dhe prova (para implementimit)
 
+> **Shënim (2026-11-17, auditimi final, F4):** pika 1 më poshtë (formula) zëvendësohet nga **§V2-B**, sipas vendimit B të PO-së. Pika 2 (çdo çast) mbetet në fuqi dhe zbatohet mbi numrat e vizatuar.
+
 **1. Formula (njësi bote; W = 1080, H = 1920 nga `output.sizes`).** Në çdo çast t, kamera (x, y, h) të skenës sheh drejtkëndëshin:
 
 ```
@@ -466,6 +484,65 @@ Kushti: `bounds.x ≤ x − halfW`, `x + halfW ≤ bounds.x + bounds.w`, `bounds
 8. Raporti.
 
 Pres miratimin tënd. Deri atëherë nuk implementoj asgjë.
+
+### V2-B: `bounds` mbi pamjen që vizaton Engine-i (vendimi B i PO-së, 2026-11-17)
+
+**Gjetja.** Engine-i nuk vizaton formulën e pikës 1. Ai shkruan në SVG numrat e transformit të pamjes të rrumbullakosur:
+
+- **flat, set:** `motion.ts fmt` me 2 shifra dhjetore (`v2frame.ts setView`);
+- **flat, editorial:** po ashtu, me 2 shifra (`editorialView`);
+- **parallax (W0):** shkalla me 5 shifra dhe qendra me 3 (`w0/camera.ts svgTransform`).
+
+Te tetë paketat pamja e vizatuar ndryshon nga formula me ≤ 0,005 njësi bote. Te W0 ajo dilte nga `bounds` e Stager-it në 10 çaste, deri në 0,0017.
+
+**Vendimet e PO-së:**
+
+- aritmetika janë numrat e vizatuar, me një funksion të përbashkët për renderer-in, Gate-in dhe Stager-in;
+- kontrolli bëhet në çdo çast.
+
+**1. Funksioni i përbashkët (`contracts/src/camera-view.ts`).** Ky funksion jep numrat që Engine-i shkruan në `translate(ox oy) scale(s) translate(tx ty)`:
+
+- **set:** s = r2(H/h), tx = r2(−x), ty = r2(−y), (ox, oy) = (W/2, H/2);
+- **editorial:** s = r2(H/h), oy = r2(H/2 + (H/2 − y)·H/h), ox = W/2, (tx, ty) = (−W/2, −H/2);
+- **parallax:** p = `project(kamera, thellësia e planit)`; s = p.s me 5 shifra, tx = −p.cx dhe ty = −p.cy me 3 shifra.
+
+Pamja është pjesa e botës që këta numra (si tekst, të lexuar me `Number`) e vendosin te kuadri [0, W] × [0, H]:
+
+```
+[(0 − ox)/s − tx, (W − ox)/s − tx] × [(0 − oy)/s − ty, (H − oy)/s − ty]
+```
+
+Krahasimi bëhet pa tolerancë dhe pa rrumbullakim tjetër.
+
+- Renderer-i e shkruan transformin e skenave flat me `drawn` + `transformAttr` (`package/draw.ts`).
+- W0 i shkruan me `w0/camera.ts`, ku `project` dhe `svgTransform` janë tani funksionet e përbashkëta. Teksti është identik bajt për bajt me atë të mëparshëm; testi `camera-arithmetic.test.ts` e provon kundrejt `setView`/`editorialView` dhe kundrejt çdo kuadri të pesë filmave.
+- `v2frame.ts` dhe `w0/compositor.ts` (të fiksuara me gjurmë) nuk preken.
+
+**2. Lente e skenës.** Capabilities v2 publikon, për projeksionin parallax, `camera.parallax = { reference: REF, gamma: GAMMA, plane: "w0.mid" }`. Plani i matjes është thellësia e shtresës së builtin-it `w0.mid`, ku vizatohen aktorët dhe mobiljet (`w0Scene depth.mid`). `sceneLens` (contracts) e zgjedh lenten:
+
+- parallax: me rregullin e mësipërm;
+- editorial: skenat flat me një builtin `template.*` në shtresat e tyre;
+- set: të gjitha të tjerat.
+
+**3. Çdo çast.** Midis dy pikave të thyerjes, çdo numër i shkruar është funksion monoton i t:
+
+- r2 dhe `toFixed` janë monotone;
+- H/h është monoton;
+- (H/2 − y)·H/h është raport i dy funksioneve afine;
+- shkalla e `project` zbret rreptësisht me h: d ln s/dh = (γ·dz/(D + dz) − 1)/h < 0;
+- qendra e `project` është afine në x.
+
+Prandaj numrat ndryshojnë në një numër të fundmë çastesh. Ato gjenden me bisektim mbi t, deri te dy float-e fqinjë. Pamja kontrollohet në të dy anët e çdo ndryshimi dhe në të dy skajet e intervalit. Kështu gjendet edhe ekstremi brenda intervalit, që formula afine nuk e ka (test: `contracts/test/camera-view.test.ts`).
+
+**4. Pasojat.**
+
+- **Pesë filmat B:** asnjë `bounds` nuk ndryshon.
+- **W0:** ndryshojnë tri skena, vetëm si të dhëna; kuadrot nuk ndryshojnë:
+  - s08: x −250 → −250,00189;
+  - s12: y −67,94391 → −67,94337;
+  - s14: x −49,32154 → −49,32012.
+- **Fixtures B:** mbeten bajt për bajt të njëjta.
+- **`golden.json` dhe `golden-fixtures-b.json`:** të pandryshuara.
 
 ---
 

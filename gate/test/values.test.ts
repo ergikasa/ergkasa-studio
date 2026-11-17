@@ -135,3 +135,16 @@ describe("F3 roles: the gate reads them from the capabilities only", () => {
     expect(body).not.toMatch(/prop\.|resting|\.held/);
   });
 });
+
+describe("F4: the parallax projection the bounds are measured with is part of the contract", () => {
+  it("a capabilities document whose parallax projection is not { reference, gamma, plane } is refused", () => {
+    const bad = caps();
+    const cam = bad.projections["parallax"]?.camera;
+    if (cam) cam.parallax = { reference: { cx: 1450, cy: 1120 }, gamma: 0.55, plane: "w0.mid" } as never;
+    const r = validate({
+      ...inputs(broken({ name: "x", mutate: () => undefined, expect: [] })),
+      capabilities: bad,
+    });
+    expect(r.errors.map((e) => e.code)).toEqual(["CAPABILITIES_INVALID"]);
+  });
+});

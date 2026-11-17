@@ -8,7 +8,16 @@ import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { isDeepStrictEqual } from "node:util";
-import { AssetManifest, cameraViews, enclose, RenderPackage, Script } from "@erkasa/contracts";
+import {
+  AssetManifest,
+  builtinOf,
+  cameraViews,
+  enclose,
+  RenderPackage,
+  sceneLens,
+  Script,
+} from "@erkasa/contracts";
+import { renderCapabilities } from "@erkasa/film";
 import { FilmPlan, parseW0Plan } from "./legacy.js";
 import { ROOT } from "./manifest.js";
 import { stageV2, type Staged } from "./v2.js";
@@ -46,8 +55,15 @@ export function stageFilm(name: (typeof FILMS)[number]): Staged {
  */
 export function withCameraBounds(s: Staged): Staged {
   const { width, height } = s.pkg.output;
+  const caps = renderCapabilities();
+  const of = builtinOf(s.manifest);
   const scenes = s.pkg.scenes.map((scene) => {
-    const views = cameraViews(scene, width, height);
+    // the lens the engine draws the scene through (its capabilities), so bounds hold what is drawn (decision B)
+    const rule = caps.projections[scene.camera.projection]?.camera;
+    const lens = rule ? sceneLens(scene, of, rule) : undefined;
+    if (!lens)
+      throw new Error(`${scene.id}: the engine does not draw a ${scene.camera.projection} scene like this`);
+    const views = cameraViews(scene, width, height, lens);
     if (!views) throw new Error(`${scene.id}: the camera has no x, y and height tracks`);
     return { ...scene, bounds: enclose(scene.bounds, views) };
   });
