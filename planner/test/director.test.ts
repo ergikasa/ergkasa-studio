@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { Script } from "@erkasa/contracts";
 import { describe, expect, it } from "vitest";
-import { FilmPlan } from "../src/contract.js";
+import { FilmPlan } from "@erkasa/film";
 import { DIRECTOR_SCHEMA, decode, direct, encode, type DirectorLlm } from "../src/director.js";
 
 const must = <T>(v: T | undefined | null): T => {

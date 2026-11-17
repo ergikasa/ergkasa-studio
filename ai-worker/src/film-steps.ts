@@ -1,7 +1,8 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import type { Script, VoicePreset } from "@erkasa/contracts";
-import { FilmPlan, direct, directorExample, makeFilm, type DirectResult } from "@erkasa/film";
+import { FilmPlan, makeFilm } from "@erkasa/film";
+import { direct, directorExample, type DirectResult } from "@erkasa/planner";
 import { optional } from "./env.js";
 import type { Llm, Usage } from "./llm.js";
 import { alignmentsOf, loadVoiceTrack, writeJson, type Progress } from "./steps.js";

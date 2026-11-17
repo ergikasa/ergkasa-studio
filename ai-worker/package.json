@@ -24,7 +24,8 @@
     "@erkasa/engine": "workspace:*",
     "@erkasa/engine-worker": "workspace:*",
     "amqplib": "0.10.8",
-    "@erkasa/film": "workspace:*"
+    "@erkasa/film": "workspace:*",
+    "@erkasa/planner": "workspace:*"
   },
   "devDependencies": {
     "tsx": "4.23.15",

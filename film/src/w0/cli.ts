@@ -13,6 +13,7 @@ import { GlobalFonts, loadImage } from "@napi-rs/canvas";
 import { Script } from "@erkasa/contracts";
 import { FPS, H, W, fontFiles, DEFS } from "../style.js";
 import { parsePlan, prepare, renderFrame, typeSvg, TYPE_DEFS, type Prepared } from "./composer.js";
+import { finalFrame } from "./frame.js";
 import { writeSoundtrack } from "./sound.js";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -40,20 +41,7 @@ function frameIndex(P: Prepared): Array<{ i: number; t: number }> {
   return out;
 }
 
-async function frame(P: Prepared, i: number, t: number): Promise<Buffer> {
-  const c = await renderFrame(P, i, t);
-  const ctx = c.getContext("2d");
-  const ty = typeSvg(P, P.shots[i] as Prepared["shots"][number], t);
-  if (ty) {
-    const img = await loadImage(
-      Buffer.from(
-        `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}"><defs>${DEFS}${TYPE_DEFS}</defs>${ty}</svg>`,
-      ),
-    );
-    ctx.drawImage(img, 0, 0);
-  }
-  return Buffer.from(ctx.getImageData(0, 0, W, H).data.buffer);
-}
+const frame = finalFrame;
 
 const [cmd, ...args] = process.argv.slice(2);
 const P = load();

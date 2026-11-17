@@ -7,10 +7,8 @@
  */
 import type { TimedWord } from "@erkasa/compiler";
 import type { Script } from "@erkasa/contracts";
-import { FilmPlan, Mood, Template, Verb } from "./contract.js";
-import { prepare } from "./film.js";
-import type { Issue } from "./perform.js";
-import { describeSets } from "./sets.js";
+import { FilmPlan, Mood, Template, Verb, capabilities, prepare, type Issue } from "@erkasa/film";
+import { describeSets } from "./describe.js";
 
 /** The slice of a language model the director needs (structurally the same as the ai-worker's Llm). */
 export interface DirectorLlm {
@@ -209,7 +207,7 @@ The plan's vocabulary (anything else is an error):
   time it occurs). Action and text anchors use the same form, or "sec:<seconds after the shot starts>".
   Every shot must start later than the one before it.
 - Sets, with their marks (where people stand or sit), props (things to pick up) and look targets:
-${describeSets()}
+${describeSets(capabilities())}
 - An actor is placed at a mark: seated only on a seat mark. \`holding\` names a prop already in the hand.
 - Verbs: ${Verb.options.join(", ")}.
   look/glance/point/lean_in/hesitate take a target (a mark, prop, person or look target); walk_to a mark;

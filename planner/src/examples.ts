@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { Script } from "@erkasa/contracts";
-import { FilmPlan } from "./contract.js";
+import { FilmPlan } from "@erkasa/film";
 
 const ROOT = fileURLToPath(new URL("../..", import.meta.url));
 

@@ -228,19 +228,3 @@ export const SETS: Record<SetId, SetDef> = { office, interview, room: roomSet, c
 
 /** Hip height of a person standing on the set's floor. */
 export const standingHipY = (set: SetDef): number => set.floor - STAND_HIP;
-
-/** A one-paragraph description of each set for the director (marks, props, targets). */
-export function describeSets(): string {
-  return Object.values(SETS)
-    .map(
-      (s) =>
-        `- ${s.id}: marks ${Object.entries(s.marks)
-          .map(([k, m]) => `${k} (${m.kind}${m.surfaceY ? ", surface" : ""})`)
-          .join(", ")}; props ${
-          Object.entries(s.props)
-            .map(([k, p]) => `${k} (${p.kind})`)
-            .join(", ") || "none"
-        }; look targets ${Object.keys(s.targets).join(", ")}`,
-    )
-    .join("\n");
-}

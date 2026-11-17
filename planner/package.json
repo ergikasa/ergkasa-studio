@@ -1,0 +1,22 @@
+{
+  "name": "@erkasa/planner",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Planning layer: turns a script into a Film Plan with a language model (the AI director). Reads the film engine's published capabilities and validates plans with the engine; the engine never depends on this package.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@erkasa/compiler": "workspace:*",
+    "@erkasa/contracts": "workspace:*",
+    "@erkasa/film": "workspace:*"
+  },
+  "devDependencies": {
+    "vitest": "5.1.0"
+  }
+}
