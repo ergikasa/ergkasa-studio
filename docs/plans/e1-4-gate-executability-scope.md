@@ -2,7 +2,7 @@
 
 |            |                                                                                                                                                                                                                                                                                                           |
 | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Statusi    | **Propozim. Pret miratimin e PO-së. Asgjë nuk implementohet pa miratim.**                                                                                                                                                                                                                                 |
+| Statusi    | **Miratuar me kushte nga PO-ja (2026-11-17); i përditësuar sipas kushteve A–F. Implementimi nuk është autorizuar ende. Mbeten dy vendime të hapura (§F: V1, V2).**                                                                                                                                        |
 | Zëvendëson | propozimin e parë në këtë skedar (`7a5d8d9`)                                                                                                                                                                                                                                                              |
 | Branch     | `e1-4-engine-reads-package` (pa merge në `main`)                                                                                                                                                                                                                                                          |
 | Burimet    | `film/test/package/gate-audit.ts` (16 rastet); kodi i renderer-it (`film/src/package/`, `v2frame.ts`, `w0/compositor.ts`); skemat JSON `contracts/json-schema/render-package.schema.json` (180 fusha fundore) dhe `asset-manifest.schema.json` (63); matjet e tetë paketave ekzistuese (§C.3), 2026-11-17 |
@@ -22,6 +22,30 @@
 - **5 refuzohen saktë.**
 
 Raporti i E1.4 shkruante "10 pranohen, 6 refuzohen". I gjashti i refuzuar ishte një variant i parë i R7, që nuk është në skript; raporti korrigjohet në të njëjtin commit dokumentimi.
+
+---
+
+## 0. Vendimi i PO-së dhe kushtet (2026-11-17)
+
+**Të miratuara:**
+
+1. Engine capabilities v2.
+2. Kodet `VALUE_UNSUPPORTED`, `TRACK_MISSING`, `ROLE_MISSING`.
+3. Klasifikimi i të gjitha fushave të skemave.
+4. Nëntë gjetjet e reja.
+5. Dalja: 1080×1920, 30 FPS, pa audio.
+6. Kanalet e rig-ut pa track marrin pozën e pushimit të publikuar.
+7. Testet pozitive të tetë paketave.
+8. Korrigjimi 11/16 dhe 5/16.
+
+| Kushti                                                                                                                                                                     | Si zbatohet në këtë dokument                                                                                                                                                                                                                                                                                                                |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **A.** Fushat e paimplementuara që nënkuptojnë sjellje të dukshme ose funksionale nuk pranohen si "pa efekt"; audio, mix, events dhe contacts refuzohen kur nuk mbështeten | Klasa `unused` hiqet. `audio` (paketa) dhe asetet `kind: "audio"` (manifesti) refuzohen. `contacts` refuzohen. Event-et pranohen vetëm në nënbashkësinë që renderer-i zbaton: dukshmëri, `fx: none`, `duration: 0`. Çdo `state` refuzohet. `mix` nuk mund të refuzohet pa refuzuar çdo paketë, sepse skema e kërkon: **vendim i hapur V1**. |
+| **B.** `bounds` metadata/pa efekt vetëm nëse provohet që nuk ndikon dhe nuk bie ndesh me paketën                                                                           | U mat. Renderer-i nuk e lexon `bounds` (provohet në §B.4). Por 7 nga 8 paketat kanë kuadro ku pamja e kamerës del jashtë `bounds`, në kundërshtim me tekstin e kontratës ("the camera is kept inside it"). Kushti B nuk plotësohet, ndaj `bounds` **nuk** klasifikohet si metadata: **vendim i hapur V2**.                                  |
+| **C.** Testi i plotësisë zbulon automatikisht çdo fushë të re                                                                                                              | T7 i lexon fushat në kohën e testit nga `contracts/json-schema/*.schema.json` (pa listë të koduar). Dështon për çdo fushë pa klasë, dhe për çdo klasifikim që nuk përputhet me asnjë fushë.                                                                                                                                                 |
+| **D.** Çdo fushë e pranuar ka semantikë të përcaktuar                                                                                                                      | Pesë klasa: `applied`, `restricted`, `refused`, `validated`, `metadata`. Çdo fushë ka në tabelë semantikën ose rregullin e vet (Shtojca 1). Nuk ka klasë "injorohet". U shtua gjetja X10 (lartësia e rig-ut, e injoruar sot).                                                                                                               |
+| **E.** Tetë paketat kalojnë dhe ruajnë identitetin e kuadrove                                                                                                              | P1 + P4 (§D.2), kriter pranimi i detyrueshëm.                                                                                                                                                                                                                                                                                               |
+| **F.** Çdo paketë e refuzuar: 0 kuadro, encoder i pandezur                                                                                                                 | Çdo rast i D.1 kërkon `frames = 0` dhe asnjë thirrje `begin`, `frame` ose `end` të sink-ut.                                                                                                                                                                                                                                                 |
 
 ---
 
@@ -62,11 +86,11 @@ Në E1.4 çdo rast i pambështetur është **GR mbi KK**: kufizimi deklarohet n�
 
 ### A.2 Gjetje shtesë: matrica e fushave
 
-Pika 5 kërkon garanci që Gate-i nuk pranon semantikë që renderer-i e injoron. 16 rastet janë një mostër, jo garanci. Ndaj i kalova të 243 fushat fundore të dy skemave kundrejt kodit të renderer-it (§B.4). Matrica gjeti **9 boshllëqe të tjera të të njëjtit lloj**. Asnjë nuk përdoret nga tetë paketat ekzistuese.
+Pika 5 kërkon garanci që Gate-i nuk pranon semantikë që renderer-i e injoron. 16 rastet janë një mostër, jo garanci. Ndaj i kalova të 243 fushat fundore të dy skemave kundrejt kodit të renderer-it (§B.4). Matrica gjeti **9 boshllëqe të tjera të të njëjtit lloj**, plus X10, të gjetur gjatë klasifikimit të plotë sipas kushtit D. Asnjë nuk përdoret nga tetë paketat ekzistuese: X10 përputhet, sepse Stager-i shkruan lartësinë që mat vetë `drawPerson`.
 
 | #   | Fusha                                                                          | Çfarë bën renderer-i sot                                                                                                             | Rregulli (GR + KK)                                                                            | Kodi · shtegu                                                                                                               |
 | --- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| X1  | `audio[]` (dhe `mix`)                                                          | e injoron; video del pa zë                                                                                                           | `audio` bosh, sepse `output.audio` = false; `mix` pa efekt kur `audio` është bosh             | `CAPABILITY_MISSING` · `package:/audio/{i}`                                                                                 |
+| X1  | `audio[]`; asetet `kind: "audio"`                                              | i injoron; video del pa zë                                                                                                           | `audio` bosh, sepse `output.audio` = false; asnjë aset audio në manifest                      | `CAPABILITY_MISSING` · `package:/audio/{i}`; `CAPABILITY_MISSING` · `manifest:/assets/{a}/kind`                             |
 | X2  | `scenes[].events[].state` (ndërrim gjendjeje)                                  | e injoron; vizaton gjendjen statike të nyjes                                                                                         | event-et nuk ndërrojnë gjendje: `events.state` = false                                        | `CAPABILITY_MISSING` · `package:/scenes/{i}/events/{k}/state`                                                               |
 | X3  | `scenes[].contacts[]` (aktori mban nyjen në një socket)                        | i injoron                                                                                                                            | `contacts` bosh: `contacts` = false (objektet në dorë vizatohen nga builtin-i `prop.*.held`)  | `CAPABILITY_MISSING` · `package:/scenes/{i}/contacts/{k}`                                                                   |
 | X4  | `events[].duration` kur `fx` = `none`                                          | pa efekt (fx `none` është i menjëhershëm)                                                                                            | `duration` = 0 kur `fx` = `none`                                                              | `VALUE_UNSUPPORTED` · `package:/scenes/{i}/events/{k}/duration`                                                             |
@@ -75,6 +99,7 @@ Pika 5 kërkon garanci që Gate-i nuk pranon semantikë që renderer-i e injoron
 | X7  | `overlays[].style.maxWidth`                                                    | e injoron                                                                                                                            | mungon, sepse `captions.maxWidth` = false                                                     | `VALUE_UNSUPPORTED` · `package:/overlays/{i}/style/maxWidth`                                                                |
 | X8  | `output.width`, `output.height`                                                | vizaton gjithmonë 1080 × 1920 (konstantet `W`, `H`), por i jep sink-ut madhësinë e paketës: video e korruptuar në çdo madhësi tjetër | `width` × `height` ∈ `output.sizes` (`[[1080, 1920]]`)                                        | `VALUE_UNSUPPORTED` · `package:/output/width` (`…/height`)                                                                  |
 | X9  | Fonti i captions: burim skedar, ose `family`/`weight` që nuk janë të Engine-it | vizaton gjithmonë me Montserrat-in e Engine-it                                                                                       | burimi ∈ `assets.fontSources` (`["builtin"]`); `family`/`weight` e asetit = ato të builtin-it | `CAPABILITY_MISSING` · `manifest:/assets/{f}/source/kind`; `VALUE_UNSUPPORTED` · `manifest:/assets/{f}/family` (`…/weight`) |
+| X10 | `assets[].height` i rig-ut (lartësia në këmbë)                                 | e injoron; rig-u builtin vizatohet me lartësinë e vet (780,768…)                                                                     | = `builtins[].rig.height`                                                                     | `VALUE_UNSUPPORTED` · `manifest:/assets/{r}/height`                                                                         |
 
 Boshllëqet nga propozimi i parë që nuk dolën si raste të skriptit mbeten në scope:
 
@@ -137,7 +162,12 @@ interface RenderCapabilities {
   events: { state: boolean; durationWithoutFx: 0 }; // state: false
   contacts: boolean; // false
 
-  assets: { stateSources: ["source"]; rigSources: ["builtin"]; fontSources: ["builtin"] };
+  assets: {
+    kinds: ["vector", "rig", "font"];
+    stateSources: ["source"];
+    rigSources: ["builtin"];
+    fontSources: ["builtin"];
+  };
 
   captions: {
     anchor: ["screen"];
@@ -204,31 +234,36 @@ Përdoren edhe kodet ekzistuese `CAPABILITY_MISSING`, `RIG_UNSUPPORTED` dhe `ID_
 
 **Shtigjet.** Shtegu tregon fushën që shkakton problemin. Kur fusha mungon (track, rol), shtegu tregon objektin që duhej ta kishte, dhe mesazhi e emërton. Renditja totale e gjetjeve mbetet si sot.
 
-### B.4 Garancia sistematike: matrica e fushave (pika 5)
+### B.4 Garancia sistematike: matrica e fushave (pika 5, kushtet C dhe D)
 
-Që Gate-i të mos pranojë semantikë që renderer-i injoron, jo vetëm për rastet e njohura:
+1. `capabilities.fields` klasifikon **çdo fushë fundore** të `erkasa.render/1` (180) dhe `erkasa.assets/1` (63). Klasat:
+   - `applied`: renderer-i e zbaton sipas kontratës.
+   - `restricted`: Gate-i pranon vetëm vlerat e deklaruara; ato zbatohen.
+   - `refused`: Gate-i e refuzon praninë (ose çdo element) të fushës.
+   - `validated`: Gate-i kontrollon integritetin (id, hash, pin, miratim, emra rig-u); semantika e saj është integriteti, pa efekt vizatimi.
+   - `metadata`: kontrata nuk i jep semantikë vizatimi (prodhuesi, licenca, prejardhja; `affordances` dhe `defaultState`, që kontrata ua lë prodhuesit, sepse "nodes always name one").
 
-1. `capabilities.fields` klasifikon **çdo fushë fundore** të `erkasa.render/1` dhe `erkasa.assets/1`:
-   - `applied`: renderer-i e zbaton;
-   - `restricted`: Gate-i lejon vetëm vlerat e deklaruara;
-   - `refused`: duhet të mungojë ose të jetë bosh;
-   - `validated`: Gate-i e kontrollon, por nuk ka efekt vizatimi (p.sh. `assetManifest.sha256`, `approval`);
-   - `metadata`: pa semantikë vizatimi (p.sh. `producer`, `provenance`);
-   - `unused`: pa efekt me përkufizim (p.sh. `depth` dhe `referenceDistance` në flat).
-2. **Testi i plotësisë (T7):** lexon fushat fundore nga `contracts/json-schema/*.schema.json` dhe dështon nëse ndonjë fushë nuk ka klasifikim. Kështu një fushë e re në skemë nuk mund të kalojë në heshtje.
-3. **Testi i zbatimit (T8):** për çdo fushë `restricted` ose `refused` ekziston të paktën një rast negativ me kodin dhe shtegun e saj.
-4. Klasifikimi i propozuar, sipas grupeve (lista e plotë hyn në deklaratë):
+   Nuk ka klasë "pa efekt" për fusha që nënkuptojnë sjellje (kushti A). Kur kontrata vetë thotë që një fushë nuk ka efekt në një kontekst, kjo shkruhet si semantikë te fusha (p.sh. `depth` dhe `referenceDistance`/`dolly` në flat: "every layer moves with the camera (no parallax)").
 
-| Klasa        | Fushat e paketës dhe të manifestit                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `applied`    | `output.duration`, `edit/*` (përveç `enter.kind`: `restricted`), `scenes/*/background`, `camera.projection`, `layers/*/depth` (parallax), `nodes/*/asset`, `state`, `params`, vendosja e skedarëve (`x`, `y`, `scale`, `rotation`, `opacity`, `flip`, `pivot`), `actors/*/rig`, `appearance`, `events/*/t`, `node`, `visible`, `tracks/*` (gjithçka), `overlays/*` captions: `id`, `at.x`, `at.y`, `style.size`, `color`, `stroke`, `highlight`, `phrases`; manifesti: `source` (file/builtin), `states/*/name`, `states/*/source`, `geometry`, `pivots` |
-| `restricted` | `output.width`, `height`, `fps`; `edit/*/enter/kind`; `camera.aperture`, `referenceDistance`, `dolly`; `layers/*/blur`, `lit`; `actors/*/layer`, `rim`, `shadow`; vendosja e builtin-eve; `events/*/fx`, `duration`; `overlays/*/kind`, `style.font`, `style.align`; manifesti: `source/kind` (rig, font), `family`, `weight`                                                                                                                                                                                                                            |
-| `refused`    | `audio/*`; `scenes/*/lights/*`; `contacts/*`; `events/*/state`; nyjet `text`/`shape` (fushat e tyre); `overlays/*` jo-captions (`appear`, `asset`, `lines`, `panel`, `in`, `out`, `state`, `size`); `overlays/*/at/node`, `at/actor`, `at/offset`; `style.maxWidth`; manifesti: `states/*/element`                                                                                                                                                                                                                                                       |
-| `validated`  | `schema`, `id`, `assetManifest/*`, `scenes/*/id`, `layers/*/id`, `screen/*/id`, `nodes/*/id`, `actors/*/id`, `nodes/*/kind`; manifesti: `id`, `version`, `kind`, `source/sha256`, `fingerprint`, `approval/*`, `bones/*`, `channels/*`, `sockets/*`, `slots`, `parameters/*`, `format`, `height`                                                                                                                                                                                                                                                         |
-| `metadata`   | `producer/*`; manifesti: `license`, `provenance/*`, `style/*`, `affordances/*` (për Stager-in), `defaultState` (Engine-i përdor `node.state`)                                                                                                                                                                                                                                                                                                                                                                                                            |
-| `unused`     | `mix/*` (pa efekt kur `audio` është bosh); `layers/*/depth` dhe `camera.referenceDistance`/`dolly` në flat; `scenes/*/bounds/*` (shih §F.5); manifesti: `durationSec`, `sampleRate` (asete audio, kur `audio` është bosh)                                                                                                                                                                                                                                                                                                                                |
+2. **Plotësia (T7, kushti C).** Testi lexon në kohën e ekzekutimit fushat fundore nga `contracts/json-schema/render-package.schema.json` dhe `asset-manifest.schema.json` (duke ndjekur `$ref`, `anyOf`/`oneOf`, `items`). Dështon nëse:
+   - një fushë nuk ka klasë;
+   - një hyrje e `fields` nuk përputhet me asnjë fushë;
+   - një fushë ka dy klasa.
 
----
+   Një fushë e re në skemë pa klasifikim e prish testin automatikisht.
+
+3. **Zbatimi (T8).** Çdo fushë `restricted` ose `refused` ka të paktën një rast negativ në D.1, me kodin dhe shtegun e saj.
+4. **Renderer-i nuk lexon fusha jashtë `applied`/`restricted` (T9).** Testi i kufirit (K6) zgjerohet: modulet e renderer-it nuk lexojnë asnjë fushë të klasifikuar `refused`, `validated` ose `metadata`, përveç atyre që lexon Gate-i. Kontrolli bëhet me emrat e fushave në burimin e `film/src/package/`. Kjo provon, p.sh., që `bounds` nuk ndikon në vizatim.
+5. **Gjendja e klasifikimit (2026-11-17):** 243/243 fusha kanë klasë. 236 janë mbyllur; 7 presin V1 dhe V2:
+   - `mix` (3 fusha);
+   - `bounds` (4 fusha).
+
+   | Skema                  | applied | restricted | refused | validated | metadata | e hapur |
+   | ---------------------- | ------- | ---------- | ------- | --------- | -------- | ------- |
+   | `render-package` (180) | 40      | 33         | 86      | 12        | 2        | 7       |
+   | `asset-manifest` (63)  | 18      | 6          | 3       | 22        | 14       | 0       |
+
+   Lista e plotë, fushë për fushë, me semantikën ose rregullin: **Shtojca 1**.
 
 ## C. Ndikimi në kontrata dhe kompatibilitet
 
@@ -258,7 +293,7 @@ Që Gate-i të mos pranojë semantikë që renderer-i injoron, jo vetëm për ra
 | prisoner-cell | flat        | —             | skedarë                                                                                   | 0     | none/0                 | 0 / 0              | false/false          | `{x,y}`, center, —                   | 0; 1920/0                        | 0 / false                 | —                                   | 1080×1920@30 |
 | office-clock  | flat        | whip          | `set.*`, `template.*` / `type.kinetic`                                                    | 0     | —                      | 0 / 0              | false/false          | —                                    | 0; 1920/0                        | 0 / false                 | identitet                           | 1080×1920@30 |
 
-Asnjë nga tetë paketat nuk prek asnjë rregull të ri. Rrezik të ulët, jo zero, kanë vetëm rregullat që mbështeten në vlera që Stager-i i shkruan sot të barabarta (Y2, Y3, Y7). T2 i provon ato në kod.
+Asnjë nga tetë paketat nuk prek asnjë rregull të ri, me një përjashtim: rregulli i `bounds` sipas V2 (a), që kërkon `bounds` të rishkruara te shtatë paketa (vetëm të dhëna, pa ndryshim kuadrosh). Rrezik të ulët, jo zero, kanë vetëm rregullat që mbështeten në vlera që Stager-i i shkruan sot të barabarta (Y2, Y3, Y7). T2 i provon ato në kod.
 
 ---
 
@@ -273,12 +308,12 @@ Asnjë nga tetë paketat nuk prek asnjë rregull të ri. Rrezik të ulët, jo ze
 
 Rastet shtohen te `gate/test/broken.ts`, kështu që i përdorin edhe testi negativ i Gate-it, edhe K5.
 
-| Grupi                  | Raste                                                                                                   | Burimi                    |
-| ---------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------- |
-| Ekzistuesit            | 50 (48 të E1.3, `EASE_UNDEFINED`, `SVG_UNSAFE`)                                                         | `broken.ts`               |
-| Auditimi               | 16: N1, N2a, N3a, N4, N5a, N6, N7, N8, N9, N10–N13, N14, N15, N16 (R1–R16, siç janë në `gate-audit.ts`) | skripti bëhet raste testi |
-| Një defekt për rregull | N2b, N3b, N5b, N7b; X1–X9; Y1–Y7, secili me një defekt mbi bazën e B3 ose të W0                         | të reja                   |
-| **Gjithsej**           | **50 + 16 + 4 + 9 + 7 = 86**                                                                            |                           |
+| Grupi                  | Raste                                                                                                                       | Burimi                    |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
+| Ekzistuesit            | 50 (48 të E1.3, `EASE_UNDEFINED`, `SVG_UNSAFE`)                                                                             | `broken.ts`               |
+| Auditimi               | 16: N1, N2a, N3a, N4, N5a, N6, N7, N8, N9, N10–N13, N14, N15, N16 (R1–R16, siç janë në `gate-audit.ts`)                     | skripti bëhet raste testi |
+| Një defekt për rregull | N2b, N3b, N5b, N7b; X1 (paketa), X1b (aset audio në manifest), X2–X10; Y1–Y7: secili me një defekt mbi bazën e B3 ose të W0 | të reja                   |
+| **Gjithsej**           | **50 + 16 + 4 + 11 + 7 = 88**                                                                                               |                           |
 
 ### D.2 Pozitive
 
@@ -298,7 +333,7 @@ Rastet shtohen te `gate/test/broken.ts`, kështu që i përdorin edhe testi nega
 
 | Kriteri           | Kalon kur                                                                                                                                                                                                                                                                                                      |
 | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **K5 (i ri)**     | 86/86 paketa të refuzuara (50 ekzistuese + 16 të auditimit + 20 me një defekt). Për secilën: kodi dhe shtegu i saktë (lista e plotë, barazi e saktë); gjetjet e `renderPackage` = `validate()`; **0 kuadro**; sink-u dhe encoder-i nuk nisen. Asnjë nga 11 rastet e auditimit që pranohen sot nuk pranohet më. |
+| **K5 (i ri)**     | 88/88 paketa të refuzuara (50 ekzistuese + 16 të auditimit + 22 me një defekt). Për secilën: kodi dhe shtegu i saktë (lista e plotë, barazi e saktë); gjetjet e `renderPackage` = `validate()`; **0 kuadro**; sink-u dhe encoder-i nuk nisen. Asnjë nga 11 rastet e auditimit që pranohen sot nuk pranohet më. |
 | **K5-inv (i ri)** | Gate PASS ⟹ renderim pa gabim (P3), dhe matrica e fushave është e plotë dhe e zbatuar (P6, P7).                                                                                                                                                                                                                |
 | K1–K4, K7         | Të pandryshuara, rishtuara (P4): 6 043/6 043; 451/451; 136/136; 390/390; 931/931.                                                                                                                                                                                                                              |
 | K6                | I pandryshuar: grafi i renderer-it dhe testi i mosrihapjes kalojnë.                                                                                                                                                                                                                                            |
@@ -308,21 +343,62 @@ Rastet shtohen te `gate/test/broken.ts`, kështu që i përdorin edhe testi nega
 
 ---
 
-## F. Rreziqet dhe vendimet që kërkojnë miratimin tënd
+## F. Vendimet: të mbyllura dhe të hapura
 
-| #   | Vendimi                                                                                                                                  | Rekomandimi                                                                                | Alternativa · pasoja                                                                                                                       |
-| --- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| F1  | Forma v2 e `RenderCapabilities` (§B.1): `projections` si objekt, `transitions` si kombinime                                              | Po                                                                                         | Rregulla të shkruara në Gate pa deklaratë: më e shpejtë, por Engine-i nuk e publikon atë që vizaton, dhe Gate-i mbart njohuri të Engine-it |
-| F2  | Tre kodet e reja                                                                                                                         | Po                                                                                         | Vetëm `CAPABILITY_MISSING` me mesazhe të ndryshme: më pak e qartë për Planner-in dhe Stager-in                                             |
-| F3  | Matrica e fushave në `capabilities.fields`, me testet e plotësisë dhe të zbatimit (§B.4)                                                 | Po: është garancia e pikës 5                                                               | Pa matricë: garancia mbetet te rastet e njohura, dhe gjetjet X1–X9 tregojnë që ka të tjera                                                 |
-| F4  | Gjetjet X1–X9 brenda këtij scope-i                                                                                                       | Po: i njëjti mekanizëm, rrezik zero për tetë paketat                                       | T'i lëmë për më vonë: Gate PASS nuk do ta garantonte parimin                                                                               |
-| F5  | `scenes[].bounds`: renderer-i nuk e lexon; kontrata thotë "kamera mbahet brenda". Kjo është kufizim i prodhuesit, jo semantikë vizatimi. | `unused` në E1.4 (Gate-i nuk e verifikon); verifikimi i kamerës brenda kufijve hyn në E1.5 | Ta verifikojë Gate-i tani: kërkon llogaritjen e pamjes së kamerës për projeksionin, dhe nuk e kam matur ende për tetë paketat              |
-| F6  | `output`: vetëm 1080×1920@30 dhe pa audio                                                                                                | Po: vetëm kjo është provuar                                                                | Të lejohen fps të tjera: renderer-i duket i aftë, por nuk është provuar me asnjë test                                                      |
-| F7  | Kanalet e rig-ut pa track marrin `rig.rest` të publikuar                                                                                 | Po: mban prisoner-cell                                                                     | Track i detyrueshëm për çdo kanal: refuzon prisoner-cell, kërkon fixtures B të reja dhe miratim të ri të K4                                |
-| F8  | Rreziku Y2/Y3/Y7: refuzim i rremë nëse Stager-i shkruan diçka ndryshe nga ç'kam matur                                                    | I mbuluar nga P1                                                                           | —                                                                                                                                          |
-| F9  | Korrigjimi i numërimit të auditimit (11 + 5, jo 10 + 6) në raportin E1.4                                                                 | Po, në commit dokumentimi                                                                  | —                                                                                                                                          |
+### Të mbyllura nga PO-ja (2026-11-17)
 
-**Rendi i punës pas miratimit** (commit-e të vogla, me ndalesë dhe raport për çdo devijim):
+| #   | Vendimi                                                                          |
+| --- | -------------------------------------------------------------------------------- |
+| F1  | `RenderCapabilities` v2 me kombinime (§B.1)                                      |
+| F2  | `VALUE_UNSUPPORTED`, `TRACK_MISSING`, `ROLE_MISSING`                             |
+| F3  | Matrica e fushave me testin automatik të plotësisë (§B.4)                        |
+| F4  | Gjetjet X1–X9 brenda scope-it (X10 i shtuar sipas kushtit D, i njëjti mekanizëm) |
+| F6  | Dalja 1080×1920, 30 FPS, pa audio                                                |
+| F7  | Kanalet e rig-ut pa track → pozë pushimi e publikuar (`rig.rest`)                |
+| F9  | Korrigjimi 11/16 dhe 5/16 (i bërë te raporti)                                    |
+
+### Të hapura: duhen vendimet e tua para implementimit
+
+**V1. `mix` (kushti A kundrejt kushtit E).**
+
+- Skema e kërkon `mix` në çdo paketë, dhe të tetë paketat e kanë (`duckMusicDb` 0; `integratedLufs` −14 ose −16; `truePeakDb` −1,5).
+- Renderer-i nuk bën asnjë miksim.
+- Nëse `mix` refuzohet kur nuk mbështetet, refuzohet çdo paketë, edhe të tetat (kundër E).
+
+| Opsioni                                                                                                                                                                                                                                                                                          | Pasoja                                                                                          |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
+| **(a) Rekomanduar:** `mix` pranohet vetëm kur `audio` është bosh, me semantikë të përcaktuar: "rregulli i miksimit mbi klipet e `audio`; mbi zero klipe rezultati është heshtja". Synimi i zhurmës (`loudness`) nuk ka objekt mbi heshtjen. Gate-i e garanton duke refuzuar çdo klip audio (X1). | `restricted`; 0 ndryshime për tetë paketat; fusha nuk injorohet, se nuk ka mbi çfarë të veprojë |
+| (b) Kontrata e bën `mix` opsional ose të ndaluar pa audio                                                                                                                                                                                                                                        | ndryshim skeme: nuk lejohet në E1.4; paketat duhen rigjeneruar                                  |
+| (c) Refuzim i plotë                                                                                                                                                                                                                                                                              | refuzon tetë paketat; shkel E                                                                   |
+
+**V2. `bounds` (kushti B).** Matjet (2026-11-17):
+
+- Pamja e kamerës në flat: (x ± h·W/H/2, y ± h/2).
+- Pamja e kamerës në parallax: në planin e aktorëve (thellësia 0), sipas `w0/camera.ts`.
+
+| Paketa        | Kuadro | Jashtë `bounds` | Më e madhja (njësi bote) |
+| ------------- | ------ | --------------- | ------------------------ |
+| B1            | 1 686  | 23              | 5,3                      |
+| B2            | 1 408  | 17              | 1,7                      |
+| B3            | 1 156  | 32              | 1,7                      |
+| B4            | 1 136  | 40              | 1,7                      |
+| B5            | 1 347  | 34              | 1,7                      |
+| W0            | 1 546  | 234             | 250                      |
+| prisoner-cell | 240    | 240             | 50                       |
+| office-clock  | 165    | 0               | 0                        |
+
+- Renderer-i nuk e lexon `bounds` (T9 do ta provojë), pra fusha nuk ndikon në kuadro.
+- Por paketat bien ndesh me tekstin e kontratës ("the camera is kept inside it"). Kushti B nuk plotësohet.
+
+| Opsioni                                                                                                                                                                                                                                                                                                      | Pasoja                                                                                                                                                                                                                                                                                                                                                                                        |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **(a) Rekomanduar:** `bounds` → `validated`. Gate-i kontrollon që pamja e kamerës është brenda `bounds` në çdo kuadër, me kodin ekzistues `VALUE_RANGE` te `package:/scenes/i/tracks/t` (track-u i kamerës, kuadri në mesazh). Stager-i dhe gjeneratori i fixtures B shkruajnë `bounds` që përmbajnë pamjen. | Ndryshojnë të dhëna, jo kuadro: `bounds` te B1–B5, W0 dhe prisoner-cell (teksti i paketës). Hash-et e kuadrove (golden, `golden-fixtures-b.json`) mbeten të njëjta, sepse renderer-i nuk e lexon `bounds`; P4 e provon. Kërkon dy leje: ndryshim i kufizuar i Stager-it, dhe rigjenerim i teksteve të fixtures B. Duhet edhe përkufizimi i "pamjes" në parallax: plani i aktorëve (propozim). |
+| (b) Ndryshim i tekstit të kontratës: `bounds` = shtrirje këshilluese e prodhuesit                                                                                                                                                                                                                            | ndryshim kontrate: nuk lejohet në E1.4                                                                                                                                                                                                                                                                                                                                                        |
+| (c) Gate-i zbaton rregullin pa ndryshuar të dhënat                                                                                                                                                                                                                                                           | refuzon 7 nga 8 paketat; shkel E                                                                                                                                                                                                                                                                                                                                                              |
+
+**V3. Konfirmim:** përfshirja e X10 (lartësia e rig-ut), gjetur gjatë klasifikimit sipas kushtit D. Rrezik zero: Stager-i dhe fixtures B shkruajnë lartësinë që mat `drawPerson`.
+
+**Rendi i punës pas miratimit (dhe pas V1–V3)** (commit-e të vogla, me ndalesë dhe raport për çdo devijim):
 
 1. Kontrata v2 + P5.
 2. Deklarata në `film/src/capabilities.ts` + matrica + P6.
@@ -334,3 +410,262 @@ Rastet shtohen te `gate/test/broken.ts`, kështu që i përdorin edhe testi nega
 8. Raporti.
 
 Pres miratimin tënd. Deri atëherë nuk implementoj asgjë.
+
+---
+
+## Shtojca 1. Klasifikimi i plotë i fushave (243)
+
+Gjeneruar nga skemat JSON të commit-it aktual; "OPEN" = pret V1 ose V2.
+
+#### `package` (180 fusha)
+
+| Fusha                                           | Klasa      | Semantika / rregulli                                                                                                                       |
+| ----------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `/assetManifest/sha256`                         | validated  | manifesti i fiksuar (`MANIFEST_HASH`)                                                                                                      |
+| `/assetManifest/uri`                            | validated  | manifesti i fiksuar (`MANIFEST_HASH`)                                                                                                      |
+| `/audio/*/asset`                                | refused    | `audio` bosh (`output.audio` = false) → `CAPABILITY_MISSING` `/audio/i`                                                                    |
+| `/audio/*/duration`                             | refused    | `audio` bosh (`output.audio` = false) → `CAPABILITY_MISSING` `/audio/i`                                                                    |
+| `/audio/*/fadeIn`                               | refused    | `audio` bosh (`output.audio` = false) → `CAPABILITY_MISSING` `/audio/i`                                                                    |
+| `/audio/*/fadeOut`                              | refused    | `audio` bosh (`output.audio` = false) → `CAPABILITY_MISSING` `/audio/i`                                                                    |
+| `/audio/*/gainDb`                               | refused    | `audio` bosh (`output.audio` = false) → `CAPABILITY_MISSING` `/audio/i`                                                                    |
+| `/audio/*/id`                                   | refused    | `audio` bosh (`output.audio` = false) → `CAPABILITY_MISSING` `/audio/i`                                                                    |
+| `/audio/*/pan`                                  | refused    | `audio` bosh (`output.audio` = false) → `CAPABILITY_MISSING` `/audio/i`                                                                    |
+| `/audio/*/role`                                 | refused    | `audio` bosh (`output.audio` = false) → `CAPABILITY_MISSING` `/audio/i`                                                                    |
+| `/audio/*/start`                                | refused    | `audio` bosh (`output.audio` = false) → `CAPABILITY_MISSING` `/audio/i`                                                                    |
+| `/audio/*/trim`                                 | refused    | `audio` bosh (`output.audio` = false) → `CAPABILITY_MISSING` `/audio/i`                                                                    |
+| `/edit/*/end`                                   | applied    | renditja dhe kohët e skenave; `enter.duration` = gjatësia e tranzicionit                                                                   |
+| `/edit/*/enter/duration`                        | applied    | renditja dhe kohët e skenave; `enter.duration` = gjatësia e tranzicionit                                                                   |
+| `/edit/*/enter/kind`                            | restricted | (kind, from, to) ∈ `transitions` → `CAPABILITY_MISSING`                                                                                    |
+| `/edit/*/scene`                                 | applied    | renditja dhe kohët e skenave; `enter.duration` = gjatësia e tranzicionit                                                                   |
+| `/edit/*/start`                                 | applied    | renditja dhe kohët e skenave; `enter.duration` = gjatësia e tranzicionit                                                                   |
+| `/id`                                           | validated  | id i paketës                                                                                                                               |
+| `/mix/duckMusicDb`                              | OPEN       | i detyrueshëm nga skema; shih §F (V1)                                                                                                      |
+| `/mix/loudness/integratedLufs`                  | OPEN       | i detyrueshëm nga skema; shih §F (V1)                                                                                                      |
+| `/mix/loudness/truePeakDb`                      | OPEN       | i detyrueshëm nga skema; shih §F (V1)                                                                                                      |
+| `/output/duration`                              | applied    | numri i kuadrove = round(duration·fps)                                                                                                     |
+| `/output/fps`                                   | restricted | ∈ `output.fps` = [30] → `VALUE_UNSUPPORTED`                                                                                                |
+| `/output/height`                                | restricted | ∈ `output.sizes` = [[1080,1920]] → `VALUE_UNSUPPORTED`                                                                                     |
+| `/output/width`                                 | restricted | ∈ `output.sizes` = [[1080,1920]] → `VALUE_UNSUPPORTED`                                                                                     |
+| `/overlays/*/appear`                            | refused    | vetëm për overlay jo-captions, të refuzuara nga `overlayKinds`                                                                             |
+| `/overlays/*/asset`                             | refused    | vetëm për overlay jo-captions, të refuzuara nga `overlayKinds`                                                                             |
+| `/overlays/*/at/actor`                          | refused    | `captions.anchor` = [screen] → `CAPABILITY_MISSING` `/overlays/i/at`                                                                       |
+| `/overlays/*/at/node`                           | refused    | `captions.anchor` = [screen] → `CAPABILITY_MISSING` `/overlays/i/at`                                                                       |
+| `/overlays/*/at/offset`                         | refused    | `captions.anchor` = [screen] → `CAPABILITY_MISSING` `/overlays/i/at`                                                                       |
+| `/overlays/*/at/x`                              | applied    | pozicioni në ekran: (x·W, y·H)                                                                                                             |
+| `/overlays/*/at/y`                              | applied    | pozicioni në ekran: (x·W, y·H)                                                                                                             |
+| `/overlays/*/highlight`                         | applied    | ngjyra e fjalës që flitet (mungon → `style.color`)                                                                                         |
+| `/overlays/*/id`                                | applied    | frazat dhe fjalët e captions (evaluatori)                                                                                                  |
+| `/overlays/*/in`                                | refused    | vetëm për overlay jo-captions, të refuzuara nga `overlayKinds`                                                                             |
+| `/overlays/*/kind`                              | restricted | ∈ `overlayKinds` = [captions] (ekziston)                                                                                                   |
+| `/overlays/*/lines/*/color`                     | refused    | vetëm për overlay jo-captions, të refuzuara nga `overlayKinds`                                                                             |
+| `/overlays/*/lines/*/size`                      | refused    | vetëm për overlay jo-captions, të refuzuara nga `overlayKinds`                                                                             |
+| `/overlays/*/lines/*/text`                      | refused    | vetëm për overlay jo-captions, të refuzuara nga `overlayKinds`                                                                             |
+| `/overlays/*/out`                               | refused    | vetëm për overlay jo-captions, të refuzuara nga `overlayKinds`                                                                             |
+| `/overlays/*/panel/color`                       | refused    | vetëm për overlay jo-captions, të refuzuara nga `overlayKinds`                                                                             |
+| `/overlays/*/panel/padding`                     | refused    | vetëm për overlay jo-captions, të refuzuara nga `overlayKinds`                                                                             |
+| `/overlays/*/panel/radius`                      | refused    | vetëm për overlay jo-captions, të refuzuara nga `overlayKinds`                                                                             |
+| `/overlays/*/phrases/*/in`                      | applied    | frazat dhe fjalët e captions (evaluatori)                                                                                                  |
+| `/overlays/*/phrases/*/out`                     | applied    | frazat dhe fjalët e captions (evaluatori)                                                                                                  |
+| `/overlays/*/phrases/*/words/*/end`             | applied    | frazat dhe fjalët e captions (evaluatori)                                                                                                  |
+| `/overlays/*/phrases/*/words/*/t`               | applied    | frazat dhe fjalët e captions (evaluatori)                                                                                                  |
+| `/overlays/*/phrases/*/words/*/text`            | applied    | frazat dhe fjalët e captions (evaluatori)                                                                                                  |
+| `/overlays/*/size`                              | refused    | vetëm për overlay jo-captions, të refuzuara nga `overlayKinds`                                                                             |
+| `/overlays/*/state`                             | refused    | vetëm për overlay jo-captions, të refuzuara nga `overlayKinds`                                                                             |
+| `/overlays/*/style/align`                       | restricted | ∈ `captions.align` = [center] → `VALUE_UNSUPPORTED`                                                                                        |
+| `/overlays/*/style/color`                       | applied    | stili i captions                                                                                                                           |
+| `/overlays/*/style/font`                        | restricted | aset font me burim builtin, family/weight = të builtin-it                                                                                  |
+| `/overlays/*/style/maxWidth`                    | refused    | `captions.maxWidth` = false → `VALUE_UNSUPPORTED`                                                                                          |
+| `/overlays/*/style/size`                        | applied    | stili i captions                                                                                                                           |
+| `/overlays/*/style/stroke/color`                | applied    | stili i captions                                                                                                                           |
+| `/overlays/*/style/stroke/width`                | applied    | stili i captions                                                                                                                           |
+| `/producer/name`                                | metadata   | kush e prodhoi paketën; pa semantikë vizatimi                                                                                              |
+| `/producer/version`                             | metadata   | kush e prodhoi paketën; pa semantikë vizatimi                                                                                              |
+| `/scenes/*/actors/*/appearance`                 | applied    | rig-u builtin dhe pamja (`APPEARANCE_SLOTS`); burimi i rig-ut i kufizuar (G-A)                                                             |
+| `/scenes/*/actors/*/id`                         | validated  | id i aktorit                                                                                                                               |
+| `/scenes/*/actors/*/layer`                      | restricted | shtresë e vetën: vetëm ky aktor, asnjë nyje → `VALUE_UNSUPPORTED`                                                                          |
+| `/scenes/*/actors/*/rig`                        | applied    | rig-u builtin dhe pamja (`APPEARANCE_SLOTS`); burimi i rig-ut i kufizuar (G-A)                                                             |
+| `/scenes/*/actors/*/rim`                        | restricted | flat: false; parallax: true → `VALUE_UNSUPPORTED`                                                                                          |
+| `/scenes/*/actors/*/shadow`                     | restricted | flat: false; parallax: true → `VALUE_UNSUPPORTED`                                                                                          |
+| `/scenes/*/background`                          | applied    | ngjyra e sfondit                                                                                                                           |
+| `/scenes/*/bounds/h`                            | OPEN       | kontrata: "kamera mbahet brenda"; shih §F (V2)                                                                                             |
+| `/scenes/*/bounds/w`                            | OPEN       | kontrata: "kamera mbahet brenda"; shih §F (V2)                                                                                             |
+| `/scenes/*/bounds/x`                            | OPEN       | kontrata: "kamera mbahet brenda"; shih §F (V2)                                                                                             |
+| `/scenes/*/bounds/y`                            | OPEN       | kontrata: "kamera mbahet brenda"; shih §F (V2)                                                                                             |
+| `/scenes/*/camera/aperture`                     | restricted | ∈ `camera.aperture` = [0] → `VALUE_UNSUPPORTED`                                                                                            |
+| `/scenes/*/camera/dolly`                        | restricted | parallax ∈ [2140] / [0.55] → `VALUE_UNSUPPORTED`; flat: pa efekt sipas kontratës ("flat: every layer moves with the camera (no parallax)") |
+| `/scenes/*/camera/projection`                   | restricted | ∈ `projections` (ekziston) + rregullat e projeksionit                                                                                      |
+| `/scenes/*/camera/referenceDistance`            | restricted | parallax ∈ [2140] / [0.55] → `VALUE_UNSUPPORTED`; flat: pa efekt sipas kontratës ("flat: every layer moves with the camera (no parallax)") |
+| `/scenes/*/contacts/*/actor`                    | refused    | `contacts` bosh → `CAPABILITY_MISSING` `/scenes/i/contacts/k`                                                                              |
+| `/scenes/*/contacts/*/from`                     | refused    | `contacts` bosh → `CAPABILITY_MISSING` `/scenes/i/contacts/k`                                                                              |
+| `/scenes/*/contacts/*/node`                     | refused    | `contacts` bosh → `CAPABILITY_MISSING` `/scenes/i/contacts/k`                                                                              |
+| `/scenes/*/contacts/*/offset`                   | refused    | `contacts` bosh → `CAPABILITY_MISSING` `/scenes/i/contacts/k`                                                                              |
+| `/scenes/*/contacts/*/socket`                   | refused    | `contacts` bosh → `CAPABILITY_MISSING` `/scenes/i/contacts/k`                                                                              |
+| `/scenes/*/contacts/*/to`                       | refused    | `contacts` bosh → `CAPABILITY_MISSING` `/scenes/i/contacts/k`                                                                              |
+| `/scenes/*/events/*/duration`                   | restricted | 0 kur `fx` = none → `VALUE_UNSUPPORTED`                                                                                                    |
+| `/scenes/*/events/*/fx`                         | restricted | ∈ `fx` = [none] (ekziston `FX_UNSUPPORTED`)                                                                                                |
+| `/scenes/*/events/*/node`                       | applied    | dukshmëria e nyjes nga koha t                                                                                                              |
+| `/scenes/*/events/*/state`                      | refused    | `events.state` = false → `CAPABILITY_MISSING` `/scenes/i/events/k/state`                                                                   |
+| `/scenes/*/events/*/t`                          | applied    | dukshmëria e nyjes nga koha t                                                                                                              |
+| `/scenes/*/events/*/visible`                    | applied    | dukshmëria e nyjes nga koha t                                                                                                              |
+| `/scenes/*/id`                                  | validated  | id i skenës                                                                                                                                |
+| `/scenes/*/layers/*/blur`                       | restricted | flat: 0; parallax: sipas rolit (`same-as`) → `VALUE_UNSUPPORTED`                                                                           |
+| `/scenes/*/layers/*/depth`                      | applied    | parallax: thellësia e shtresës; flat: pa efekt sipas kontratës (pa paralaksë)                                                              |
+| `/scenes/*/layers/*/id`                         | validated  | id i shtresës                                                                                                                              |
+| `/scenes/*/layers/*/lit`                        | restricted | flat: false; parallax: sipas rolit → `VALUE_UNSUPPORTED`                                                                                   |
+| `/scenes/*/layers/*/nodes/*/align`              | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/layers/*/nodes/*/asset`              | applied    | vizatimi (builtin ose skedar), gjendja, parametrat (`PARAM_*` ekzistojnë) + G-P, G-K                                                       |
+| `/scenes/*/layers/*/nodes/*/color`              | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/layers/*/nodes/*/fill/from`          | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/layers/*/nodes/*/fill/kind`          | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/layers/*/nodes/*/fill/stops/*/at`    | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/layers/*/nodes/*/fill/stops/*/color` | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/layers/*/nodes/*/fill/to`            | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/layers/*/nodes/*/flip`               | restricted | skedar: zbatohet; builtin: vetëm fushat në `placement`, të tjerat identitet dhe pa track → `VALUE_UNSUPPORTED`                             |
+| `/scenes/*/layers/*/nodes/*/font`               | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/layers/*/nodes/*/id`                 | validated  | id; `kind` ∈ `nodeKinds` = [asset] (ekziston)                                                                                              |
+| `/scenes/*/layers/*/nodes/*/kind`               | validated  | id; `kind` ∈ `nodeKinds` = [asset] (ekziston)                                                                                              |
+| `/scenes/*/layers/*/nodes/*/lineHeight`         | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/layers/*/nodes/*/maxWidth`           | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/layers/*/nodes/*/opacity`            | restricted | skedar: zbatohet; builtin: vetëm fushat në `placement`, të tjerat identitet dhe pa track → `VALUE_UNSUPPORTED`                             |
+| `/scenes/*/layers/*/nodes/*/params`             | applied    | vizatimi (builtin ose skedar), gjendja, parametrat (`PARAM_*` ekzistojnë) + G-P, G-K                                                       |
+| `/scenes/*/layers/*/nodes/*/pivot`              | restricted | skedar: zbatohet; builtin: vetëm fushat në `placement`, të tjerat identitet dhe pa track → `VALUE_UNSUPPORTED`                             |
+| `/scenes/*/layers/*/nodes/*/rotation`           | restricted | skedar: zbatohet; builtin: vetëm fushat në `placement`, të tjerat identitet dhe pa track → `VALUE_UNSUPPORTED`                             |
+| `/scenes/*/layers/*/nodes/*/scale`              | restricted | skedar: zbatohet; builtin: vetëm fushat në `placement`, të tjerat identitet dhe pa track → `VALUE_UNSUPPORTED`                             |
+| `/scenes/*/layers/*/nodes/*/shape/d`            | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/layers/*/nodes/*/shape/h`            | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/layers/*/nodes/*/shape/radius`       | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/layers/*/nodes/*/shape/rx`           | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/layers/*/nodes/*/shape/ry`           | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/layers/*/nodes/*/shape/type`         | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/layers/*/nodes/*/shape/w`            | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/layers/*/nodes/*/size`               | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/layers/*/nodes/*/state`              | applied    | vizatimi (builtin ose skedar), gjendja, parametrat (`PARAM_*` ekzistojnë) + G-P, G-K                                                       |
+| `/scenes/*/layers/*/nodes/*/stroke/color`       | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/layers/*/nodes/*/stroke/width`       | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/layers/*/nodes/*/text`               | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/layers/*/nodes/*/x`                  | restricted | skedar: zbatohet; builtin: vetëm fushat në `placement`, të tjerat identitet dhe pa track → `VALUE_UNSUPPORTED`                             |
+| `/scenes/*/layers/*/nodes/*/y`                  | restricted | skedar: zbatohet; builtin: vetëm fushat në `placement`, të tjerat identitet dhe pa track → `VALUE_UNSUPPORTED`                             |
+| `/scenes/*/lights/*/castsShadows`               | refused    | `lightKinds` = [] (ekziston)                                                                                                               |
+| `/scenes/*/lights/*/color`                      | refused    | `lightKinds` = [] (ekziston)                                                                                                               |
+| `/scenes/*/lights/*/depth`                      | refused    | `lightKinds` = [] (ekziston)                                                                                                               |
+| `/scenes/*/lights/*/id`                         | refused    | `lightKinds` = [] (ekziston)                                                                                                               |
+| `/scenes/*/lights/*/intensity`                  | refused    | `lightKinds` = [] (ekziston)                                                                                                               |
+| `/scenes/*/lights/*/kind`                       | refused    | `lightKinds` = [] (ekziston)                                                                                                               |
+| `/scenes/*/lights/*/polygon`                    | refused    | `lightKinds` = [] (ekziston)                                                                                                               |
+| `/scenes/*/lights/*/radius`                     | refused    | `lightKinds` = [] (ekziston)                                                                                                               |
+| `/scenes/*/lights/*/softness`                   | refused    | `lightKinds` = [] (ekziston)                                                                                                               |
+| `/scenes/*/lights/*/x`                          | refused    | `lightKinds` = [] (ekziston)                                                                                                               |
+| `/scenes/*/lights/*/y`                          | refused    | `lightKinds` = [] (ekziston)                                                                                                               |
+| `/scenes/*/screen/*/id`                         | validated  | id i shtresës së ekranit                                                                                                                   |
+| `/scenes/*/screen/*/nodes/*/align`              | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/screen/*/nodes/*/asset`              | applied    | vizatimi (builtin ose skedar), gjendja, parametrat (`PARAM_*` ekzistojnë) + G-P, G-K                                                       |
+| `/scenes/*/screen/*/nodes/*/color`              | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/screen/*/nodes/*/fill/from`          | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/screen/*/nodes/*/fill/kind`          | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/screen/*/nodes/*/fill/stops/*/at`    | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/screen/*/nodes/*/fill/stops/*/color` | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/screen/*/nodes/*/fill/to`            | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/screen/*/nodes/*/flip`               | restricted | skedar: zbatohet; builtin: vetëm fushat në `placement`, të tjerat identitet dhe pa track → `VALUE_UNSUPPORTED`                             |
+| `/scenes/*/screen/*/nodes/*/font`               | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/screen/*/nodes/*/id`                 | validated  | id; `kind` ∈ `nodeKinds` = [asset] (ekziston)                                                                                              |
+| `/scenes/*/screen/*/nodes/*/kind`               | validated  | id; `kind` ∈ `nodeKinds` = [asset] (ekziston)                                                                                              |
+| `/scenes/*/screen/*/nodes/*/lineHeight`         | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/screen/*/nodes/*/maxWidth`           | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/screen/*/nodes/*/opacity`            | restricted | skedar: zbatohet; builtin: vetëm fushat në `placement`, të tjerat identitet dhe pa track → `VALUE_UNSUPPORTED`                             |
+| `/scenes/*/screen/*/nodes/*/params`             | applied    | vizatimi (builtin ose skedar), gjendja, parametrat (`PARAM_*` ekzistojnë) + G-P, G-K                                                       |
+| `/scenes/*/screen/*/nodes/*/pivot`              | restricted | skedar: zbatohet; builtin: vetëm fushat në `placement`, të tjerat identitet dhe pa track → `VALUE_UNSUPPORTED`                             |
+| `/scenes/*/screen/*/nodes/*/rotation`           | restricted | skedar: zbatohet; builtin: vetëm fushat në `placement`, të tjerat identitet dhe pa track → `VALUE_UNSUPPORTED`                             |
+| `/scenes/*/screen/*/nodes/*/scale`              | restricted | skedar: zbatohet; builtin: vetëm fushat në `placement`, të tjerat identitet dhe pa track → `VALUE_UNSUPPORTED`                             |
+| `/scenes/*/screen/*/nodes/*/shape/d`            | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/screen/*/nodes/*/shape/h`            | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/screen/*/nodes/*/shape/radius`       | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/screen/*/nodes/*/shape/rx`           | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/screen/*/nodes/*/shape/ry`           | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/screen/*/nodes/*/shape/type`         | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/screen/*/nodes/*/shape/w`            | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/screen/*/nodes/*/size`               | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/screen/*/nodes/*/state`              | applied    | vizatimi (builtin ose skedar), gjendja, parametrat (`PARAM_*` ekzistojnë) + G-P, G-K                                                       |
+| `/scenes/*/screen/*/nodes/*/stroke/color`       | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/screen/*/nodes/*/stroke/width`       | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/screen/*/nodes/*/text`               | refused    | vetëm për nyjet text/shape, të refuzuara nga `nodeKinds`                                                                                   |
+| `/scenes/*/screen/*/nodes/*/x`                  | restricted | skedar: zbatohet; builtin: vetëm fushat në `placement`, të tjerat identitet dhe pa track → `VALUE_UNSUPPORTED`                             |
+| `/scenes/*/screen/*/nodes/*/y`                  | restricted | skedar: zbatohet; builtin: vetëm fushat në `placement`, të tjerat identitet dhe pa track → `VALUE_UNSUPPORTED`                             |
+| `/scenes/*/tracks/*/channel`                    | applied    | vlerat e kanaleve (evaluatori); kanalet e detyrueshme (`TRACK_MISSING`)                                                                    |
+| `/scenes/*/tracks/*/keys/*/ease`                | restricted | ∈ linear, hold (ekziston `EASE_UNDEFINED`)                                                                                                 |
+| `/scenes/*/tracks/*/keys/*/t`                   | applied    | vlerat e kanaleve (evaluatori); kanalet e detyrueshme (`TRACK_MISSING`)                                                                    |
+| `/scenes/*/tracks/*/keys/*/v`                   | applied    | vlerat e kanaleve (evaluatori); kanalet e detyrueshme (`TRACK_MISSING`)                                                                    |
+| `/scenes/*/tracks/*/kind`                       | applied    | vlerat e kanaleve (evaluatori); kanalet e detyrueshme (`TRACK_MISSING`)                                                                    |
+| `/scenes/*/tracks/*/rate`                       | applied    | vlerat e kanaleve (evaluatori); kanalet e detyrueshme (`TRACK_MISSING`)                                                                    |
+| `/scenes/*/tracks/*/start`                      | applied    | vlerat e kanaleve (evaluatori); kanalet e detyrueshme (`TRACK_MISSING`)                                                                    |
+| `/scenes/*/tracks/*/target/id`                  | applied    | vlerat e kanaleve (evaluatori); kanalet e detyrueshme (`TRACK_MISSING`)                                                                    |
+| `/scenes/*/tracks/*/target/kind`                | applied    | vlerat e kanaleve (evaluatori); kanalet e detyrueshme (`TRACK_MISSING`)                                                                    |
+| `/scenes/*/tracks/*/values`                     | applied    | vlerat e kanaleve (evaluatori); kanalet e detyrueshme (`TRACK_MISSING`)                                                                    |
+| `/schema`                                       | validated  | `erkasa.render/1` (`UNKNOWN_VERSION`)                                                                                                      |
+
+#### `manifest` (63 fusha)
+
+| Fusha                                   | Klasa      | Semantika / rregulli                                                                                |
+| --------------------------------------- | ---------- | --------------------------------------------------------------------------------------------------- |
+| `/assets/*/affordances/*/closed`        | metadata   | për Stager-in (ku kapet, ulet, hapet); Engine-i nuk e lexon                                         |
+| `/assets/*/affordances/*/from`          | metadata   | për Stager-in (ku kapet, ulet, hapet); Engine-i nuk e lexon                                         |
+| `/assets/*/affordances/*/kind`          | metadata   | për Stager-in (ku kapet, ulet, hapet); Engine-i nuk e lexon                                         |
+| `/assets/*/affordances/*/open`          | metadata   | për Stager-in (ku kapet, ulet, hapet); Engine-i nuk e lexon                                         |
+| `/assets/*/affordances/*/point`         | metadata   | për Stager-in (ku kapet, ulet, hapet); Engine-i nuk e lexon                                         |
+| `/assets/*/affordances/*/state`         | metadata   | për Stager-in (ku kapet, ulet, hapet); Engine-i nuk e lexon                                         |
+| `/assets/*/affordances/*/to`            | metadata   | për Stager-in (ku kapet, ulet, hapet); Engine-i nuk e lexon                                         |
+| `/assets/*/approval/at`                 | validated  | `NOT_APPROVED` (ekziston)                                                                           |
+| `/assets/*/approval/by`                 | validated  | `NOT_APPROVED` (ekziston)                                                                           |
+| `/assets/*/approval/note`               | validated  | `NOT_APPROVED` (ekziston)                                                                           |
+| `/assets/*/approval/status`             | validated  | `NOT_APPROVED` (ekziston)                                                                           |
+| `/assets/*/bones/*/id`                  | validated  | emrat e kockave/kanaleve/socket-ave kundrejt rig-ut builtin (`RIG_UNSUPPORTED`, `CHANNEL_INVALID`)  |
+| `/assets/*/bones/*/parent`              | validated  | emrat e kockave/kanaleve/socket-ave kundrejt rig-ut builtin (`RIG_UNSUPPORTED`, `CHANNEL_INVALID`)  |
+| `/assets/*/bones/*/range`               | validated  | emrat e kockave/kanaleve/socket-ave kundrejt rig-ut builtin (`RIG_UNSUPPORTED`, `CHANNEL_INVALID`)  |
+| `/assets/*/channels/*/id`               | validated  | emrat e kockave/kanaleve/socket-ave kundrejt rig-ut builtin (`RIG_UNSUPPORTED`, `CHANNEL_INVALID`)  |
+| `/assets/*/channels/*/range`            | validated  | emrat e kockave/kanaleve/socket-ave kundrejt rig-ut builtin (`RIG_UNSUPPORTED`, `CHANNEL_INVALID`)  |
+| `/assets/*/defaultState`                | metadata   | kontrata: "Nodes always name one", pra nuk zbatohet kurrë në vizatim                                |
+| `/assets/*/durationSec`                 | refused    | vetëm për asete audio, të refuzuara nga `kind`                                                      |
+| `/assets/*/family`                      | restricted | = family/weight e builtin-it të fontit → `VALUE_UNSUPPORTED`                                        |
+| `/assets/*/format`                      | restricted | ∈ `rigFormats` (ekziston)                                                                           |
+| `/assets/*/geometry/origin`             | applied    | vendosja e skedarit: origin, size, viewBox                                                          |
+| `/assets/*/geometry/size/h`             | applied    | vendosja e skedarit: origin, size, viewBox                                                          |
+| `/assets/*/geometry/size/w`             | applied    | vendosja e skedarit: origin, size, viewBox                                                          |
+| `/assets/*/geometry/viewBox`            | applied    | vendosja e skedarit: origin, size, viewBox                                                          |
+| `/assets/*/height`                      | restricted | = lartësia e rig-ut builtin (`rig.height`, 780.768…) → `VALUE_UNSUPPORTED`                          |
+| `/assets/*/id`                          | validated  | referenca `id@version`                                                                              |
+| `/assets/*/kind`                        | restricted | vector, rig, font; audio refuzohet (`output.audio` = false) → `CAPABILITY_MISSING` `/assets/i/kind` |
+| `/assets/*/license`                     | metadata   | prejardhja dhe licenca; pa semantikë vizatimi                                                       |
+| `/assets/*/parameters/*/id`             | validated  | parametrat e builtin-it kundrejt capabilities (`BUILTIN_MISMATCH`)                                  |
+| `/assets/*/parameters/*/kind`           | validated  | parametrat e builtin-it kundrejt capabilities (`BUILTIN_MISMATCH`)                                  |
+| `/assets/*/parameters/*/range`          | validated  | parametrat e builtin-it kundrejt capabilities (`BUILTIN_MISMATCH`)                                  |
+| `/assets/*/pivots/*/at`                 | applied    | pivot-i i skedarit (`PIVOT_UNDECLARED`)                                                             |
+| `/assets/*/pivots/*/id`                 | applied    | pivot-i i skedarit (`PIVOT_UNDECLARED`)                                                             |
+| `/assets/*/provenance/by`               | metadata   | prejardhja dhe licenca; pa semantikë vizatimi                                                       |
+| `/assets/*/provenance/costUsd`          | metadata   | prejardhja dhe licenca; pa semantikë vizatimi                                                       |
+| `/assets/*/provenance/origin`           | metadata   | prejardhja dhe licenca; pa semantikë vizatimi                                                       |
+| `/assets/*/provenance/promptSha256`     | metadata   | prejardhja dhe licenca; pa semantikë vizatimi                                                       |
+| `/assets/*/sampleRate`                  | refused    | vetëm për asete audio, të refuzuara nga `kind`                                                      |
+| `/assets/*/slots`                       | validated  | slot-et e pamjes (`APPEARANCE_SLOTS`)                                                               |
+| `/assets/*/sockets/*/bone`              | validated  | emrat e kockave/kanaleve/socket-ave kundrejt rig-ut builtin (`RIG_UNSUPPORTED`, `CHANNEL_INVALID`)  |
+| `/assets/*/sockets/*/id`                | validated  | emrat e kockave/kanaleve/socket-ave kundrejt rig-ut builtin (`RIG_UNSUPPORTED`, `CHANNEL_INVALID`)  |
+| `/assets/*/source/fingerprint`          | applied    | builtin-i i fiksuar (`BUILTIN_*`)                                                                   |
+| `/assets/*/source/kind`                 | restricted | rig dhe font: vetëm builtin (`RIG_UNSUPPORTED`, `CAPABILITY_MISSING`)                               |
+| `/assets/*/source/name`                 | applied    | builtin-i i fiksuar (`BUILTIN_*`)                                                                   |
+| `/assets/*/source/sha256`               | applied    | bajtet e verifikuara të skedarit (`FILE_HASH`, `SVG_UNSAFE`)                                        |
+| `/assets/*/source/uri`                  | applied    | bajtet e verifikuara të skedarit (`FILE_HASH`, `SVG_UNSAFE`)                                        |
+| `/assets/*/source/version`              | applied    | builtin-i i fiksuar (`BUILTIN_*`)                                                                   |
+| `/assets/*/states/*/element`            | refused    | `assets.stateSources` = [source] → `CAPABILITY_MISSING`                                             |
+| `/assets/*/states/*/name`               | applied    | gjendja që emërton nyja                                                                             |
+| `/assets/*/states/*/source/fingerprint` | applied    | burimi i gjendjes (si `source`)                                                                     |
+| `/assets/*/states/*/source/kind`        | applied    | burimi i gjendjes (si `source`)                                                                     |
+| `/assets/*/states/*/source/name`        | applied    | burimi i gjendjes (si `source`)                                                                     |
+| `/assets/*/states/*/source/sha256`      | applied    | burimi i gjendjes (si `source`)                                                                     |
+| `/assets/*/states/*/source/uri`         | applied    | burimi i gjendjes (si `source`)                                                                     |
+| `/assets/*/states/*/source/version`     | applied    | burimi i gjendjes (si `source`)                                                                     |
+| `/assets/*/style/gate/passed`           | validated  | rezultati i style gate (ekziston)                                                                   |
+| `/assets/*/style/gate/reportId`         | validated  | rezultati i style gate (ekziston)                                                                   |
+| `/assets/*/style/gate/score`            | validated  | rezultati i style gate (ekziston)                                                                   |
+| `/assets/*/style/kit`                   | metadata   | prejardhja dhe licenca; pa semantikë vizatimi                                                       |
+| `/assets/*/version`                     | validated  | referenca `id@version`                                                                              |
+| `/assets/*/weight`                      | restricted | = family/weight e builtin-it të fontit → `VALUE_UNSUPPORTED`                                        |
+| `/id`                                   | validated  | id i manifestit                                                                                     |
+| `/schema`                               | validated  | `erkasa.assets/1`                                                                                   |
