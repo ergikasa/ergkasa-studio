@@ -10,7 +10,8 @@
   "scripts": {
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest run",
-    "film": "tsx src/cli.ts"
+    "film": "tsx src/cli.ts",
+    "golden": "node --expose-gc --import tsx src/golden.ts"
   },
   "dependencies": {
     "@erkasa/compiler": "workspace:*",
