@@ -19,6 +19,7 @@ export * from "./script.js";
 export * from "./voice.js";
 export * from "./asset-manifest.js";
 export * from "./render-package.js";
+export * from "./evaluate.js";
 
 /**
  * Every top-level contract, keyed by the file name of its exported JSON Schema

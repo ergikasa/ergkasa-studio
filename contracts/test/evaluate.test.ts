@@ -3,7 +3,7 @@
  * use single keys and samples, so the key interpolation paths are exercised here directly.
  */
 import { describe, expect, it } from "vitest";
-import type { RenderPackage } from "@erkasa/contracts";
+import type { RenderPackage, Track } from "../src/index.js";
 import {
   evaluate,
   frameTime,
@@ -14,7 +14,6 @@ import {
   visibleAt,
   wordCurrent,
   wordReached,
-  type Track,
 } from "../src/evaluate.js";
 
 type Scene = RenderPackage["scenes"][number];

@@ -1,8 +1,10 @@
 /**
  * The evaluation of an erkasa.render/1 package at a frame: the one implementation of the "Evaluation" section of
- * contracts/src/render-package.ts that this repository uses. The stager's tests decode packages with it, and the
- * renderer of E1.4 must use this same module (moved next to the contract once that is authorised), so producer
- * and consumer never hold two readings of the contract.
+ * render-package.ts. The stager's tests, the Validation Gate and the engine's renderer all read packages through
+ * this module, so producer and consumer never hold two readings of the contract.
+ *
+ * Pure: functions of their arguments only. No I/O, no clock, no randomness, no import other than the contract's
+ * own types (checked by test/evaluate-boundary.test.ts).
  *
  *   keys      before the first key: its value; after the last: the last value; between two keys the value
  *             travels with the second key's ease. Only `linear` and `hold` are defined numerically so far; any
@@ -12,10 +14,9 @@
  *
  * Time is always the frame's own time, frame / fps.
  */
-import type { RenderPackage } from "@erkasa/contracts";
+import type { RenderPackage, Track } from "./render-package.js";
 
 type Scene = RenderPackage["scenes"][number];
-export type Track = Scene["tracks"][number];
 type Target = Track["target"];
 
 export const frameTime = (frame: number, fps: number): number => frame / fps;

@@ -59,7 +59,7 @@ import {
   visibleAt,
   wordCurrent,
   wordReached,
-} from "../src/evaluate.js";
+} from "@erkasa/contracts";
 import { loadPlan, loadScript } from "./films.js";
 import { engineFunction, engineText } from "./engine-source.js";
 
