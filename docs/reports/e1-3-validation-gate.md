@@ -1,11 +1,11 @@
-# E1.3 – Validation Gate (raport, për review)
+# E1.3 – Validation Gate (raport i përditësuar, për review)
 
-|           |                                                                                           |
-| --------- | ----------------------------------------------------------------------------------------- |
-| Branch    | `e1-3-validation-gate`, nga `e2f61f0` (E1.2 e pranuar)                                    |
-| Commit-et | `33e4680` scope · `3478322` capabilities të Engine-it (vetëm të dhëna) · `f2890d1` Gate-i |
-| Data      | 2026-11-17                                                                                |
-| Statusi   | Pret review. Pa merge, pa E1.4. Kontratat dhe Stager-i të pandryshuar.                    |
+|           |                                                                                                                                                                                                       |
+| --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Branch    | `e1-3-validation-gate`, nga `e2f61f0` (E1.2 e pranuar)                                                                                                                                                |
+| Commit-et | `33e4680` scope · `3478322` capabilities të Engine-it (vetëm të dhëna) · `f2890d1` Gate-i · `16e4754` raporti i parë · `f219793` korrigjimi i intervaleve në Stager · `78651f3` ndarja e fixtures A/B |
+| Data      | 2026-11-17                                                                                                                                                                                            |
+| Statusi   | Pret review. Pa merge, pa E1.4. Kontratat të pandryshuara; Stager-i vetëm me korrigjimin e autorizuar të intervaleve.                                                                                 |
 
 ## Çfarë u ndërtua
 
@@ -89,77 +89,84 @@ Intervalet deklarohen vetëm aty ku i përcakton kodi: drita 0..3, `facing` ±1,
 
 Rregulli i derivimit: 10 × vlera maksimale e matur për sekondë në gjashtë filmat, për 100 s, e rrumbullakuar lart në dy shifra domethënëse. Paketa më e madhe reale (W0) zë 688 KB dhe 45,3 s.
 
-## Testet (103 në `gate/`)
+## Testet (104 në `gate/`)
 
 | Skedari                | Çfarë provon                                                                                                                                                                                                                                                                                                     |
 | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `films.test.ts`        | Gjashtë filmat dhe dy shembujt e kontratës, me aftësitë reale të Engine-it (pranimi, më poshtë)                                                                                                                                                                                                                  |
+| `films.test.ts`        | Gjashtë filmat kalojnë pa asnjë gjetje; fixtures e pranimit (B) kalojnë pa asnjë gjetje dhe janë identike me daljen e gjeneratorit; fixtures e kontratës (A) kalojnë skemën dhe refuzohen nga Gate-i pikërisht për veçoritë që Engine-i nuk vizaton                                                              |
 | `negative.test.ts`     | **48 paketa të prishura**, secila me një defekt, refuzohen me **saktësisht** kodet dhe shtigjet e pritura dhe asgjë tjetër (**45 kode të ndryshme**). Baza e pastër kalon. Builtin-i deprecated jep warning, jo error.                                                                                           |
 | `files.test.ts`        | Lexuesi i mbyllur: 17 raste refuzimi (traversal, rrugë absolute, i fshehur, backslash, escape, S3, symlink që del nga rrënja si skedar dhe si direktori, symlink i prishur, cikël, mungesë, direktori), symlink-e të lejuara brenda rrënjës, buxheti i madhësisë, bajtet e mbajtura pas zëvendësimit të skedarit |
 | `capabilities.test.ts` | Aftësitë: të plota, deterministe, të fiksuara te skedarët; 6 raste të aftësive të pabesueshme                                                                                                                                                                                                                    |
 | `determinism.test.ts`  | I njëjti raport bajt për bajt; renditja totale (`/scenes/2` para `/scenes/10`)                                                                                                                                                                                                                                   |
 | `boundary.test.ts`     | Varësitë dhe importet e `gate/`                                                                                                                                                                                                                                                                                  |
 
-## Rezultatet (lokale, në `f2890d1`)
+## Rezultatet (lokale, në `78651f3`)
 
 | Komanda                                            | Rezultati                                                                                                                |
 | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| `pnpm -r test`                                     | 587/587 (contracts 213, engine 23, compiler 28, engine-worker 16, film 82, planner 6, stager 81, gate 103, ai-worker 35) |
+| `pnpm -r test`                                     | 588/588 (contracts 213, engine 23, compiler 28, engine-worker 16, film 82, planner 6, stager 81, gate 104, ai-worker 35) |
 | `pnpm contracts:gen --check`                       | exit 0                                                                                                                   |
 | `pnpm typecheck`, `pnpm lint`, `pnpm format:check` | kalojnë                                                                                                                  |
 | `pnpm --filter @erkasa/film golden`                | 451/451, 0 ndryshime                                                                                                     |
 
 CI në GitHub mbetet i kuq për dy shkaqe që ekzistonin para E0 (ffmpeg mungon te runner-i; `AssetApiTest`), siç u dokumentua në E1.2.
 
-## Pranimi: ku plotësohet dhe ku jo
+## Pranimi
 
-| Kriteri                                                     | Statusi                                                |
-| ----------------------------------------------------------- | ------------------------------------------------------ |
-| Gjashtë filmat kalojnë Gate-in                              | ❌ **Jo, siç i shkruan Stager-i sot.** Shih më poshtë. |
-| Të dy shembujt e kontratës kalojnë                          | ❌ **Jo.** Shih më poshtë.                             |
-| ≥ 20 raste negative me kod dhe shteg të saktë               | ✅ 48 raste, 45 kode                                   |
-| Filesystem, symlink-e, fingerprint-e, capabilities, buxhete | ✅                                                     |
-| Determinizmi dhe renditja                                   | ✅                                                     |
-| Teste, golden, typecheck, lint, format                      | ✅ lokalisht                                           |
+| Kriteri                                                     | Statusi                                                 |
+| ----------------------------------------------------------- | ------------------------------------------------------- |
+| Gjashtë filmat kalojnë Gate-in                              | ✅ zero gabime, zero warning, siç i shkruan Stager-i    |
+| Fixtures e kontratës kalojnë skemën                         | ✅ Zod + Ajv (testet e `contracts` dhe `films.test.ts`) |
+| Fixtures e pranimit kalojnë validimin e plotë               | ✅ zero gjetje                                          |
+| ≥ 48 raste negative me kod dhe shteg të saktë               | ✅ 48 raste, 45 kode                                    |
+| Filesystem, symlink-e, fingerprint-e, capabilities, buxhete | ✅                                                      |
+| Determinizmi dhe renditja                                   | ✅                                                      |
+| Teste, golden 451/451, typecheck, lint, format              | ✅ lokalisht                                            |
 
-**Gjashtë filmat.** Gate-i gjen **vetëm** `VALUE_RANGE`; çdo kontroll tjetër kalon. Manifestet e Stager-it deklarojnë intervale që vlerat e vetë Stager-it i kalojnë:
+## Vendimi 1: korrigjimi i Stager-it (`f219793`)
 
-| Film | Track-e jashtë intervalit                                         |
-| ---- | ----------------------------------------------------------------- |
-| B1   | `channel.gx` 9, `param.door` 2, `channel.brow` 2                  |
-| B2   | `channel.gx` 12                                                   |
-| B3   | `channel.gx` 3, `channel.gy` 1                                    |
-| B4   | `channel.gx` 1, `channel.gy` 1                                    |
-| B5   | `channel.gx` 6, `channel.lid` 2, `channel.gy` 1                   |
-| W0   | `channel.gx` 13, `channel.gy` 2, `channel.brow` 2, `param.door` 5 |
+Gate-i i refuzoi gjashtë filmat vetëm me `VALUE_RANGE`: manifestet deklaronin intervale që vlerat e ruajtura i kalonin.
 
-Shkaqet:
+**`gx`, `gy`, `brow`, `lid`: intervali përshkruan vlerat e ruajtura, jo kufijtë e vizatimit.**
 
-- **`gx/gy/brow/lid`:** Stager-i deklaroi si interval kufijtë ku `drawPerson` i ngjesh vlerat gjatë vizatimit, por shkruan vlerat e papërpunuara të `pose(t)` (për riprodhimin bit për bit). `rig.ts` i ngjesh edhe `shrug` dhe `hand`, të cilat Stager-i i deklaroi të pakufizuara.
-- **`param.door`:** dera kalon pak përtej 1 kur hapet (deri në 1,10), por Stager-i deklaroi [0, 1].
+- Kodi i staging-ut mbivendos gjendjen emocionale, veprimin dhe lëvizjen e lehtë kur personi rri në vend. Për shembull, `perform.ts:338` i shton shikimit të plotë ±1 një lëkundje deri në 0,15.
+- Vlerat e matura në gjashtë filmat: `gx` −1,14..1,12, `gy` −1,47..1,50, `brow` −2,00..0,80, `lid` 0..1,08.
+- `drawPerson` i ngjesh vetëm kur vizaton: `gx`/`gy` ±1, `brow`/`mouth` ±1,2, `lid`/`open` 0..1, `shrug` −0,8..1,2, `hand` 0..1.
+- Paketa ruan vlerat e plota, kështu që numrat dhe pamja mbeten saktësisht ato të Engine-it. Prandaj intervali i deklaruar duhet t'i përmbajë.
+- `rig.ts` pranon çdo numër në çdo kanal, ndaj çdo kanal i rig-ut deklaron intervalin më të gjerë të fundëm.
+- Kufijtë e vizatimit janë dokumentuar në `stager/src/manifest.ts`. Asnjë vlerë nuk u shkurtua.
 
-Testi `films.test.ts` provon dy gjëra:
+**`param.door`: 1,12 është overshoot i qëllimshëm.**
 
-- me paketat e sotme, gjetjet janë vetëm këto;
-- me intervalet që deklaron Engine-i, **pa ndryshuar asnjë vlerë**, të gjashtë filmat kalojnë me zero gjetje.
+- Dera hapet me ease-in `back` të Engine-it (`motion.ts`: "Overshoots the target and settles back: follow-through"). Maksimumi analitik i tij, 1 + 4c1³/(27c3²) me c1 = 1,9, është **1,12082**; i njëjti me maksimumin e matur në filma (1,120818).
+- Vizatimi i set-it pranon çdo vlerë, dhe Engine-i e deklaron derën pa kufi. Stager-i deklaron tani të njëjtën gjë.
 
-Zgjidhja është në Stager (deklarimi i intervaleve në `src/manifest.ts`, `src/v2.ts`, `src/w0.ts`) dhe kërkon autorizimin tënd, sepse E1.3 ndalon ndryshimin e Stager-it. Gate-in nuk e zbuta: kontrata thotë që vlerat duhet të jenë brenda intervalit të deklaruar.
+**Prova se asgjë tjetër nuk ndryshoi:** për të gjashtë filmat, paketa është identike përveç hash-it të manifestit, dhe manifesti është identik përveç intervaleve. Testet e Stager-it (81, përfshirë riprodhimin kuadër për kuadër) dhe golden 451/451 kalojnë pa ndryshim.
 
-**Dy shembujt e kontratës.** Skedarët, hash-et, skema dhe aprovimet janë në rregull. Refuzohen për gjëra që Engine-i nuk i vizaton ende, ose për builtin-e që nuk i ka:
+## Vendimi 2: ndarja e fixtures (`78651f3`)
 
-- **`prisoner-cell`:** drita `ambient/shaft/point`, nyje `shape`, overlays `text` dhe `icon`, `fx: glow`, `dip_to_black`, `rig.cutout`, `font.montserrat-700` (11 gjetje).
-- **`office-procedural`:** hyrjet e `template.clock` (shembulli: `time` statik + kanal `dur`; Engine-i: `params`, `anchors`, `dur` statike + kanal `t`), `rig.cutout`, `font.montserrat-700` (6 gjetje).
+|                                     | Contract fixtures (A)                                    | Gate acceptance fixtures (B)                                               |
+| ----------------------------------- | -------------------------------------------------------- | -------------------------------------------------------------------------- |
+| Ku                                  | `contracts/fixtures/valid/` (të pandryshuara)            | `gate/fixtures/acceptance/` (të reja)                                      |
+| Provojnë                            | strukturën dhe shprehshmërinë e kontratës                | që një paketë e ndërtuar vetëm nga aftësitë e Engine-it kalon çdo kontroll |
+| Veçori që Engine-i nuk vizaton      | lejohen                                                  | jo                                                                         |
+| E ekzekutueshme nga Engine-i aktual | nuk pretendohet                                          | po                                                                         |
+| Kontrollohen nga                    | skema (Zod + Ajv); Gate-i i refuzon dhe testi fiksoi pse | Gate-i i plotë, pa asnjë gjetje                                            |
 
-Shembujt u shkruan në E1.1/E1.2a para se Engine-i të publikonte aftësitë. Opsionet (kërkojnë vendimin tënd):
+- **`prisoner-cell` (B):** dy SVG reale nga biblioteka (qelia, karrigia) si skedarë të verifikuar, një person (`rig.cutout.man`) me lëvizje kamere dhe ecje (mostra në 30/s), një ngjarje dukshmërie, captions me fontin e Engine-it (Montserrat 800).
+- **`office-clock` (B):** set-i procedural i zyrës (`light`/`t`/`door`), një person, tekst kinetik në shtresë `screen`, pastaj `whip` te shablloni `clock` me hyrjet siç i merr Engine-i (`params`, `anchors`, `dur`, kanali `t`).
+- Gjenerohen nga `capabilities().render` dhe nga skedarët realë (`gate/test/acceptance/generate.ts`; `pnpm --filter @erkasa/gate fixtures:acceptance`). Testi kërkon që skedarët në disk të jenë identikë me daljen e gjeneratorit.
+- Builtin-et janë të fiksuara me fingerprint, ndaj një ndryshim në kodin e Engine-it i rrëzon qëllimisht. Rigjenerohen vetëm pas rishikimit.
+- Nuk u krijua asnjë profil aftësish fiktiv. Gate-i nuk u ndryshua. Ndarja është e dokumentuar në `gate/fixtures/README.md`.
 
-- **(a)** përditësim i shembujve te builtin-et reale; prek `contracts/fixtures/`;
-- **(b)** mbeten shembuj të skemës, të validuar kundrejt një profili aftësish "të synuara";
-- **(c)** do të kalojnë kur E1.4+ t'i implementojë këto veçori.
+Arsyet pse refuzohen fixtures A (të fiksuara në `films.test.ts`):
+
+- **`prisoner-cell`:** drita `ambient/shaft/point`, nyje `shape`, overlays `text` dhe `icon`, `fx: glow`, `dip_to_black`, builtin-et `rig.cutout` dhe `font.montserrat-700`.
+- **`office-procedural`:** hyrjet e `template.clock` dhe të njëjtat dy builtin.
 
 ## Çështje të hapura
 
-- Intervalet në manifestet e Stager-it (kriteri 1): kërkon autorizim për Stager-in.
-- Shembujt e kontratës (kriteri 2): vendim (a), (b) apo (c).
 - E1.4: Engine-i duhet ta thërrasë Gate-in para çdo render-i dhe të përdorë `verified.files` (bajtet), jo rrugët.
-- Fingerprint-i i bazuar në skedarin burim: ndryshimet vetëm të formatimit alarmojnë. Fingerprint i bazuar në daljen e vizatimit mbetet për më vonë, si u vendos.
+- Fixtures B duhet të rigjenerohen sa herë ndryshon një skedar i Engine-it që ato fiksojnë. Kjo është sjellja e pritur e fingerprint-it të bazuar në skedarin burim; edhe ndryshimet vetëm të formatimit alarmojnë. Fingerprint i bazuar në daljen e vizatimit mbetet për më vonë, si u vendos.
 - Mbrojtja TOCTOU është e plotë në Linux (`/proc/self/fd`). Në sisteme të tjera, kontrolli `dev/ino` mbulon zëvendësimin e skedarit, por jo çdo ndryshim të direktorive ndërmjet.
+- CI mbetet i kuq për dy shkaqe që ekzistonin para E0. Për shkak të tyre, testet e `gate/` nuk arrijnë të ekzekutohen në CI: `pnpm test` ndalet te ai-worker.
