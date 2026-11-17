@@ -27,6 +27,8 @@ const SCRIPT_READERS = [
   "continuity-report.ts",
   "film.ts",
   "golden.ts",
+  // E1.4: captures the pre-change evidence by staging the films the old way, exactly like golden.ts
+  "golden-evidence.ts",
   "qa.ts",
   "sound.ts",
   "timing.ts",
@@ -64,10 +66,19 @@ describe("engine boundary", () => {
   });
 
   it("reads the script only in the files frozen for E1", () => {
+    // a file reads the script when it imports the Script contract (E1.4: the package renderer imports the render
+    // contract and the evaluator from @erkasa/contracts, which is not reading the script)
+    const readsScript = (text: string): boolean =>
+      [...text.matchAll(/import\s+(?:type\s+)?\{([^}]*)\}\s*from\s+"@erkasa\/contracts"/g)].some((m) =>
+        /\bScript\b/.test(m[1] ?? ""),
+      );
     const readers = sources
-      .filter((s) => imports(s.text).includes("@erkasa/contracts"))
+      .filter((s) => readsScript(s.text))
       .map((s) => s.path)
       .sort();
+    // every file that imports the contracts and is not a script reader must not name the Script contract at all
+    for (const s of sources)
+      if (!SCRIPT_READERS.includes(s.path)) expect(/\bScript\b/.test(s.text), s.path).toBe(false);
     expect(readers.filter((r) => !SCRIPT_READERS.includes(r))).toEqual([]);
   });
 
