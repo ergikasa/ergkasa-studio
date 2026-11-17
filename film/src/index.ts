@@ -6,7 +6,11 @@ export { SETS } from "./sets.js";
 export {
   capabilities,
   CAPABILITIES_VERSION,
+  renderCapabilities,
+  type BuiltinCapability,
+  type BuiltinParameter,
   type EngineCapabilities,
+  type RenderCapabilities,
   type SetCapability,
 } from "./capabilities.js";
 export { PARAMS, TEMPLATES } from "./templates.js";
