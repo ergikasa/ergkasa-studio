@@ -469,9 +469,9 @@ Pres miratimin tënd. Deri atëherë nuk implementoj asgjë.
 
 ---
 
-## Shtojca 1. Klasifikimi i plotë i fushave (243)
+## Shtojca 1. Klasifikimi i plotë i fushave (243), siç u implementua
 
-Gjeneruar nga skemat JSON të commit-it aktual; "OPEN" = pret V1 ose V2.
+Burimi: `film/src/capabilities-fields.ts` (të dhënat e Engine-it), kontrolluar nga `gate/test/fields.test.ts` kundrejt skemave JSON. V1 e bën `mix` `restricted`; V2 e bën `bounds` `validated`.
 
 #### `package` (180 fusha)
 
@@ -495,9 +495,9 @@ Gjeneruar nga skemat JSON të commit-it aktual; "OPEN" = pret V1 ose V2.
 | `/edit/*/scene`                                 | applied    | renditja dhe kohët e skenave; `enter.duration` = gjatësia e tranzicionit                                                                   |
 | `/edit/*/start`                                 | applied    | renditja dhe kohët e skenave; `enter.duration` = gjatësia e tranzicionit                                                                   |
 | `/id`                                           | validated  | id i paketës                                                                                                                               |
-| `/mix/duckMusicDb`                              | OPEN       | i detyrueshëm nga skema; shih §F (V1)                                                                                                      |
-| `/mix/loudness/integratedLufs`                  | OPEN       | i detyrueshëm nga skema; shih §F (V1)                                                                                                      |
-| `/mix/loudness/truePeakDb`                      | OPEN       | i detyrueshëm nga skema; shih §F (V1)                                                                                                      |
+| `/mix/duckMusicDb`                              | restricted | rregulli i miksimit mbi `audio`; pranohet vetëm kur `audio` është bosh (V1): mbi zero klipe rezultati është heshtja                        |
+| `/mix/loudness/integratedLufs`                  | restricted | rregulli i miksimit mbi `audio`; pranohet vetëm kur `audio` është bosh (V1): mbi zero klipe rezultati është heshtja                        |
+| `/mix/loudness/truePeakDb`                      | restricted | rregulli i miksimit mbi `audio`; pranohet vetëm kur `audio` është bosh (V1): mbi zero klipe rezultati është heshtja                        |
 | `/output/duration`                              | applied    | numri i kuadrove = round(duration·fps)                                                                                                     |
 | `/output/fps`                                   | restricted | ∈ `output.fps` = [30] → `VALUE_UNSUPPORTED`                                                                                                |
 | `/output/height`                                | restricted | ∈ `output.sizes` = [[1080,1920]] → `VALUE_UNSUPPORTED`                                                                                     |
@@ -543,10 +543,10 @@ Gjeneruar nga skemat JSON të commit-it aktual; "OPEN" = pret V1 ose V2.
 | `/scenes/*/actors/*/rim`                        | restricted | flat: false; parallax: true → `VALUE_UNSUPPORTED`                                                                                          |
 | `/scenes/*/actors/*/shadow`                     | restricted | flat: false; parallax: true → `VALUE_UNSUPPORTED`                                                                                          |
 | `/scenes/*/background`                          | applied    | ngjyra e sfondit                                                                                                                           |
-| `/scenes/*/bounds/h`                            | OPEN       | kontrata: "kamera mbahet brenda"; shih §F (V2)                                                                                             |
-| `/scenes/*/bounds/w`                            | OPEN       | kontrata: "kamera mbahet brenda"; shih §F (V2)                                                                                             |
-| `/scenes/*/bounds/x`                            | OPEN       | kontrata: "kamera mbahet brenda"; shih §F (V2)                                                                                             |
-| `/scenes/*/bounds/y`                            | OPEN       | kontrata: "kamera mbahet brenda"; shih §F (V2)                                                                                             |
+| `/scenes/*/bounds/h`                            | validated  | shtrirja e botës; Gate-i kontrollon që çdo pamje e kamerës është brenda (`VALUE_RANGE`, V2); renderer-i nuk e lexon                        |
+| `/scenes/*/bounds/w`                            | validated  | shtrirja e botës; Gate-i kontrollon që çdo pamje e kamerës është brenda (`VALUE_RANGE`, V2); renderer-i nuk e lexon                        |
+| `/scenes/*/bounds/x`                            | validated  | shtrirja e botës; Gate-i kontrollon që çdo pamje e kamerës është brenda (`VALUE_RANGE`, V2); renderer-i nuk e lexon                        |
+| `/scenes/*/bounds/y`                            | validated  | shtrirja e botës; Gate-i kontrollon që çdo pamje e kamerës është brenda (`VALUE_RANGE`, V2); renderer-i nuk e lexon                        |
 | `/scenes/*/camera/aperture`                     | restricted | ∈ `camera.aperture` = [0] → `VALUE_UNSUPPORTED`                                                                                            |
 | `/scenes/*/camera/dolly`                        | restricted | parallax ∈ [2140] / [0.55] → `VALUE_UNSUPPORTED`; flat: pa efekt sipas kontratës ("flat: every layer moves with the camera (no parallax)") |
 | `/scenes/*/camera/projection`                   | restricted | ∈ `projections` (ekziston) + rregullat e projeksionit                                                                                      |

@@ -1,11 +1,11 @@
 # E1.4: Engine-i lexon Render Package-in (raporti përfundimtar)
 
-|         |                                                                                                                                                                                                                                                                                        |
-| ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Branch  | `e1-4-engine-reads-package` (nuk është bërë merge në `main`; `main` mbetet `7f8ffca`)                                                                                                                                                                                                  |
-| Scope   | `docs/plans/e1-4-engine-reads-package-scope.md` @ `eda5ab5`, me vendimet e PO-së gjatë implementimit (§3 më poshtë)                                                                                                                                                                    |
-| Statusi | K1–K9 kalojnë. K4 (iii) u miratua nga PO-ja më 2026-11-17. **E1.4 nuk është pranuar ende përfundimisht:** auditimi i Gate-it (§5.2) gjeti paketa që Gate-i i pranon, por renderer-i nuk i vizaton ose i vizaton ndryshe nga ç’thotë paketa. Pipeline-i i ri nuk është vënë si default. |
-| Data    | 2026-11-17                                                                                                                                                                                                                                                                             |
+|         |                                                                                                                                                                                                           |
+| ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Branch  | `e1-4-engine-reads-package` (nuk është bërë merge në `main`; `main` mbetet `7f8ffca`)                                                                                                                     |
+| Scope   | `docs/plans/e1-4-engine-reads-package-scope.md` @ `eda5ab5`, me vendimet e PO-së gjatë implementimit (§3 më poshtë)                                                                                       |
+| Statusi | K1–K9 kalojnë. K4 (iii) u miratua nga PO-ja më 2026-11-17. Boshllëku i auditimit (§5.2) u mbyll me capabilities v2 dhe G16 (§5b). Pret review-n përfundimtare. Pipeline-i i ri nuk është vënë si default. |
+| Data    | 2026-11-17                                                                                                                                                                                                |
 
 ## 1. Çfarë u ndërtua
 
@@ -128,6 +128,112 @@
 3. Kamera e papërpunuar e B1–B5 dhe heqja e `legacy.ts` (me kopjet e Stager-it): E1.5, siç ishte planifikuar.
 4. Pipeline-i i ri nuk është default. Audio mbetet në rrugën e vjetër.
 
+## 5b. Gate PASS ⟹ renderer-i ekzekuton (capabilities v2, G16)
+
+Implementuar sipas scope-it `docs/plans/e1-4-gate-executability-scope.md`, të miratuar me kushtet A–F dhe me vendimet V1 (a), V2 (a) dhe V3. Skemat e paketës dhe të manifestit, renderer-i, golden-at dhe baseline-t nuk u ndryshuan.
+
+### Capabilities v2 (`erkasa.capabilities/2`)
+
+| Pjesa              | Vlera që publikon Engine-i                                                                                                                                                                                                                                                                                                                                   |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Dalja              | 1080×1920, 30 FPS, pa audio                                                                                                                                                                                                                                                                                                                                  |
+| `flat`             | bota: `set.*`, `prop.*`, `template.*`, skedarë; ekrani: `type.kinetic`, `overlay.scrim`, `overlay.ots`. Kamera: track-e `x`, `y`, `height`; aperture 0; `referenceDistance`/`dolly` pa efekt sipas kontratës; skenat me `template.*` me qendër x = 540. Shtresat: blur 0, `lit` false. Aktorët: rim/shadow false.                                            |
+| `parallax`         | bota: `w0.*`, `prop.*`; ekrani: `type.w0`. Kamera: aperture 0, `referenceDistance` 2140, `dolly` 0,55. Rolet: `sky`, `city`, `city_near`, `wall`, `mid` (të detyrueshme), `near`, `actors`, `held`, me blur, depth dhe `lit` sipas rolit. Gjendja e vendit lexohet nga `sky`, bota nga `wall`; nyjet e tjera duhet t'i përsërisin. Aktorët: rim/shadow true. |
+| Tranzicionet       | `cut` midis çdo projeksioni; `dissolve` flat→flat dhe parallax→parallax; `whip` flat→flat                                                                                                                                                                                                                                                                    |
+| Event-et, contacts | vetëm dukshmëri (`fx: none`, `duration: 0`); asnjë ndërrim gjendjeje; asnjë contact                                                                                                                                                                                                                                                                          |
+| Captions           | pozicion në ekran (skema), `center`, pa `maxWidth`; semantika e publikuar: hyrje 0,12 s, opacitetet 0,6 dhe 0,9, mbi vinjetë                                                                                                                                                                                                                                 |
+| Asetet             | llojet vector, rig, font; gjendjet me burim të vetin; rig-e dhe fonte vetëm builtin                                                                                                                                                                                                                                                                          |
+| Builtin-et         | vendosja që zbatojnë (props: `x`, `y`; të tjerët: asnjë); rig: poza e pushimit (`STANDING`, glow 0, root 0/0/1, facing 1, turn 1) dhe lartësia (780,768…)                                                                                                                                                                                                    |
+| Fushat             | klasa e secilës nga 243 fushat e skemave                                                                                                                                                                                                                                                                                                                     |
+
+### Klasifikimi i 243 fushave
+
+| Skema                  | applied | restricted | refused | validated | metadata |
+| ---------------------- | ------- | ---------- | ------- | --------- | -------- |
+| `render-package` (180) | 40      | 36         | 86      | 16        | 2        |
+| `asset-manifest` (63)  | 18      | 6          | 3       | 22        | 14       |
+
+- Lista e plotë, me semantikën ose rregullin e secilës fushë, është te Shtojca 1 e scope-it.
+- Nuk ka klasë "injorohet".
+- `gate/test/fields.test.ts` i lexon fushat nga skemat JSON në kohën e testit. Dështon për:
+  - çdo fushë pa klasë;
+  - çdo klasë pa fushë;
+  - çdo fushë `restricted`/`refused` pa rastin e vet negativ.
+
+### Testet negative (K5 i ri)
+
+**103 paketa të refuzuara:**
+
+- 48 të E1.3;
+- `EASE_UNDEFINED` dhe `SVG_UNSAFE`;
+- 16 të auditimit (R1–R16, siç ishin);
+- 37 me një defekt (G16).
+
+Për secilën:
+
+- lista e plotë e gjetjeve (kod + shteg) është e barabartë me pritjen;
+- `renderPackage` = `validate()`;
+- **0 kuadro**;
+- `begin`, `frame` dhe `end` të sink-ut nuk thirren, pra encoder-i nuk niset.
+
+Të 11 paketat e auditimit që kalonin më parë tani refuzohen.
+
+### Testet pozitive
+
+- **P1/P3:** tetë paketat kalojnë Gate-in pa asnjë gjetje dhe renderohen.
+  - Flat: çdo kuadër.
+  - Parallax: kuadri i parë i çdo prerjeje dhe çdo kuadër tranzicioni.
+- **P2:** një `cut` midis një skene flat dhe një skene W0, në të dy drejtimet, kalon dhe renderohet.
+- **P5:** vlerat e capabilities provohen kundrejt kodit:
+  - madhësia e daljes;
+  - `REF.height` dhe `GAMMA`;
+  - qendra editoriale;
+  - konstantet e captions;
+  - poza e pushimit dhe lartësia e rig-ut;
+  - vendosja.
+
+  Dokumentet v1 dhe ato të prishura refuzohen.
+
+- **T9:** renderer-i nuk lexon asnjë fushë `refused`, `validated` ose `metadata`.
+- **V2 (`bounds`):**
+  - 12 teste të pastra mbi `cameraViews`:
+    - sample i vetëm jashtë;
+    - sample-i i fundit;
+    - overshoot i ruajtur;
+    - `linear` brenda;
+    - `hold` jashtë;
+    - fundi i kapur;
+    - track-e të përziera;
+    - prekje e saktë kundrejt një hapi brenda;
+    - `enclose`.
+  - Në Gate:
+    - kufijtë që prekin saktësisht pamjen pranohen për skenë set, editoriale dhe W0;
+    - një hap float brenda refuzohet (V2a–V2c).
+
+### Provat e identitetit vizual (pas të gjitha ndryshimeve)
+
+| Prova                                                         | Rezultati                                                                                               |
+| ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| K1: B1–B5 nga paketa kundrejt `frameAt`                       | 6 043/6 043                                                                                             |
+| K2/K3: renderer-i kundrejt `golden.json` dhe provave          | 0 dështime (405 v2, nga të cilët 140 ndryshojnë vetëm te id-të; 136 W0)                                 |
+| K7: kundrejt `golden-package.json` + `golden-fixtures-b.json` | **931/931** hash identikë                                                                               |
+| Rruga e vjetër kundrejt provave (`pnpm golden`)               | 405 + 136, 0 dështime                                                                                   |
+| Golden-at                                                     | `golden.json`, `golden-evidence.json`, `golden-package.json`, `golden-fixtures-b.json`: 0 bajt ndryshim |
+
+`bounds` e rishkruara te B1–B5, W0 dhe prisoner-cell (prisoner-cell: `h` 1920 → 1970) nuk ndryshojnë asnjë kuadër, sepse renderer-i nuk e lexon `bounds`.
+
+### Devijime dhe gjetje gjatë implementimit
+
+1. **X6 hiqet.** Skema e captions e kufizon tashmë `at` në `{x, y}` (`ScreenAnchor`), kështu që captions që ndjekin një nyje nuk mund të shkruhen fare. Fushat `at.node`, `at.actor` dhe `at.offset` u përkasin overlay-ve jo-captions, që refuzohen nga lloji. Analiza ime e scope-it ishte e gabuar.
+2. **Tri gjetje të reja të të njëjtit lloj, të mbyllura me të njëjtin mekanizëm, pa efekt në tetë paketat:**
+   - **X11:** te skenat editoriale renderer-i injoron `camera.x`, ndaj kërkohet x = 540.
+   - **X12:** kompozitori i W0 lexon gjendjen e vendit vetëm nga `sky` dhe botën vetëm nga `wall`; nyjet e tjera duhet t'i përsërisin.
+   - **Y8:** props në pushim në W0 vizatohen në planin e mobiljeve, ndaj duhet të jenë te shtresa `mid`.
+3. **Parametrat e aseteve.** Një parametër i asetit tani mjafton t'i përkasë njërës nga vizatimet e tij (`facing`/`rot` lexohen vetëm nga gjendja `held`). Kjo zbut rregullin e E1.3. Në vend të tij, Gate-i refuzon çdo track parametri që vizatimi i nyjes nuk e lexon (`VALUE_UNSUPPORTED` te `tracks/t/channel`). `prop.*.resting` nuk deklaron më `facing`/`rot`.
+4. **Rregullat e reja shtojnë gjetje legjitime në raste ekzistuese.** E1.3: `contacts` në dy raste, track-e që mungojnë në dy raste. Fixtures A: rregullat v2. Të gjitha janë shkruar saktë te testet.
+5. **K5 ka 103 raste, jo 88 të scope-it.** Gjashtë raste u shtuan që çdo fushë `restricted`/`refused` të ketë provën e vet (fps, overlay text, nyje text, dritë, format rig-u, familje fonti); tri të tjera janë rastet kufitare V2.
+6. **Rasti me 24 FPS sjell edhe gjetjet `SAMPLE_RATE`,** sepse track-et janë të mostruara në 30/s. Nuk ka paketë me një defekt të vetëm për këtë rast.
+
 ## 6. Commit-et
 
 | Commit                          | Përmbajtja                                                                                       |
@@ -144,13 +250,17 @@
 | `d8f225a`                       | (9) Renderer-i nga paketa + testet K1, K4, K5, K6                                                |
 | `ea5cc3c`                       | (10) `golden-package.json`, hash-et pending të fixtures B, contact sheet-i                       |
 | `32246a1`                       | (12) Gjetjet e para të auditimit të Gate-it; korrigjimi i numërimit te K3/K7                     |
-| (ky commit)                     | (13) Miratimi i K4 (iii): `golden-fixtures-b.json`; auditimi i plotë i Gate-it (`gate-audit.ts`) |
+| `d06d7bc`                       | (13) Miratimi i K4 (iii): `golden-fixtures-b.json`; auditimi i plotë i Gate-it (`gate-audit.ts`) |
+| `0858fa9`, `c01981e`, `0863f46` | Scope-i i ekzekutueshmërisë (v2), kushtet A–F, V1–V3                                             |
+| `e5ccb4f`                       | (14) Capabilities v2, G16, `bounds` (Stager + fixtures B)                                        |
+| `91c5185`                       | (15) Testet e G16: 103 paketa të refuzuara, matrica e fushave, `bounds`                          |
+| (ky commit)                     | (16) Raporti                                                                                     |
 
 ## 7. Si riprodhohet
 
 ```
 pnpm test && pnpm typecheck && pnpm lint && pnpm format:check && pnpm contracts:gen --check
 pnpm --filter @erkasa/film golden            # K2: rruga e vjetër kundrejt provave
-pnpm --filter @erkasa/film golden:package    # K2, K3 dhe K7 për renderer-in
+pnpm --filter @erkasa/film golden:package    # K2, K3 dhe K7 për renderer-in (refuzon --write pas miratimit)
 node --expose-gc --import tsx film/test/package/contact-sheet.ts out.png   # K4 (iii)
 ```
