@@ -7,7 +7,7 @@
 | Commit-et | `399eae0` (F1–F3), `14ebbd2` (F4), raporti                                                             |
 | Baza      | auditimi final `e0f0efa` (NOT READY: F1–F3 dështojnë, F4 e hapur)                                      |
 | Vendimet  | PO-ja, 2026-11-17: miratimi i punës për F1–F4; F4 = vendimi B; numrat e vizatuar; kontroll në çdo çast |
-| Verdikti  | **READY FOR E1.4 ACCEPTANCE**                                                                          |
+| Verdikti  | **READY FOR E1.4 ACCEPTANCE**; **E1.4 u pranua nga PO-ja më 2026-11-17, 16:07**                        |
 
 ## 1. Përmbledhje
 
@@ -179,3 +179,27 @@ Asnjë problem nuk bllokon pranimin. Për transparencë, mbeten këto:
 F1–F4 janë mbyllur me teste të commit-uara. Çdo paketë që kalon Gate-in plotëson kontratën dhe renderohet. Çdo paketë e refuzuar jep 0 kuadro dhe encoder-i nuk niset. K1–K9 kalojnë, ashtu si kontrollet e plota. Golden-ët historikë dhe pipeline-i default janë të pandryshuar.
 
 Ndalem këtu dhe pres miratimin tënd. Nuk bëj merge dhe nuk filloj E1.5.
+
+## 8. Pranimi (2026-11-17)
+
+**E1.4 u pranua nga PO-ja më 2026-11-17, ora 16:07 (Europe/Tirane).**
+
+Kushtet e pranimit:
+
+- pa merge në `main`;
+- pipeline-i default i pandryshuar;
+- golden baselines të paprekura;
+- pa implementim të E1.5;
+- branch-i `e1-4-engine-reads-package` dhe commit-et `399eae0`, `14ebbd2`, `ac7fa9f` ruhen.
+
+Gjendja në momentin e pranimit:
+
+| Pika                     | Vlera                                                                                |
+| ------------------------ | ------------------------------------------------------------------------------------ |
+| Branch                   | `e1-4-engine-reads-package`                                                          |
+| HEAD i pranuar           | `ac7fa9f`; pas tij vetëm commit-et e regjistrimit të pranimit (dokumentim dhe prova) |
+| `origin/main`            | `7f8ffca` (i paprekur)                                                               |
+| `golden.json`            | sha256 `e18b5e8d9b446307…`, identik me E0 (`eda5ab5`)                                |
+| `golden-fixtures-b.json` | sha256 `6bf6927a8e16cc9a…`, identik me auditimin final (`e0f0efa`)                   |
+
+**Provat e auditimit** ruhen në `docs/reports/e1-4/evidence/` (indeksi: `README.md`).
