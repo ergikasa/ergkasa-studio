@@ -17,7 +17,7 @@ Vetëm `contracts/`. Asnjë ndryshim në `film/`, `engine/`, `compiler/`, `plann
 | `contracts/src/render-package.ts`                                             | `erkasa.render/1` (Zod)                                                                       |
 | `contracts/json-schema/{asset-manifest,render-package}.schema.json`           | JSON Schema draft 2020-12, të gjeneruara (`pnpm contracts:gen`)                               |
 | `contracts/fixtures/valid/{asset-manifest,render-package}.prisoner-cell.json` | Shembuj realë (9,6 KB dhe 14,4 KB)                                                            |
-| `contracts/fixtures/invalid/`                                                 | 49 raste refuzimi (25 manifest, 24 paketë), secili një mutacion i vetëm i një shembulli valid |
+| `contracts/fixtures/invalid/`                                                 | 49 raste refuzimi (27 manifest, 22 paketë), secili një mutacion i vetëm i një shembulli valid |
 | `contracts/test/render-package.test.ts`                                       | Realizmi i shembujve dhe rregulli i plotësisë                                                 |
 
 ## Parimet
