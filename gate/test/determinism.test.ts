@@ -5,11 +5,16 @@ import { base, film, run } from "./helpers.js";
 
 describe("determinism and order", () => {
   it("validating the same package twice gives the same report, byte for byte", () => {
+    // a clean film, and the same film over tight budgets so the report carries many findings
     const { pkg, manifest } = film("b2-same-answers");
-    const a = run(pkg, manifest);
-    const b = run(pkg, manifest);
-    expect(JSON.stringify({ ...a, verified: undefined })).toBe(JSON.stringify({ ...b, verified: undefined }));
-    expect(a.errors.length).toBeGreaterThan(0);
+    for (const budgets of [undefined, { nodesPerScene: 1, tracks: 5 }]) {
+      const a = run(pkg, manifest, budgets ? { budgets } : {});
+      const b = run(pkg, manifest, budgets ? { budgets } : {});
+      expect(JSON.stringify({ ...a, verified: undefined })).toBe(
+        JSON.stringify({ ...b, verified: undefined }),
+      );
+      expect(a.errors.length > 0).toBe(budgets !== undefined);
+    }
   });
 
   it("a package with many faults: findings are sorted by document, pointer (numbers as numbers), code, message", () => {

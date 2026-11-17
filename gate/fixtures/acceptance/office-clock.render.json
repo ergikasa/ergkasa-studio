@@ -1,0 +1,308 @@
+{
+  "schema": "erkasa.render/1",
+  "id": "office-clock.acceptance",
+  "producer": { "name": "gate-acceptance-fixture", "version": "1" },
+  "output": { "width": 1080, "height": 1920, "fps": 30, "duration": 5 },
+  "assetManifest": {
+    "uri": "gate/fixtures/acceptance/office-clock.assets.json",
+    "sha256": "b9abccb2ad5acbd9e2d1dc193b249f0f413a38ef12d4bc2e6baddc7deddf6486"
+  },
+  "scenes": [
+    {
+      "id": "office_wide",
+      "bounds": { "x": 0, "y": 0, "w": 2200, "h": 2000 },
+      "background": "#0C1529",
+      "camera": { "projection": "flat", "referenceDistance": 1920, "dolly": 0, "aperture": 0 },
+      "layers": [
+        {
+          "id": "back",
+          "depth": 0,
+          "blur": 0,
+          "lit": false,
+          "nodes": [
+            {
+              "kind": "asset",
+              "id": "set_back",
+              "asset": "set_office@1",
+              "x": 0,
+              "y": 0,
+              "scale": 1,
+              "rotation": 0,
+              "opacity": 1,
+              "flip": false,
+              "state": "back",
+              "pivot": null
+            }
+          ]
+        },
+        { "id": "actor_maya", "depth": 0, "blur": 0, "lit": false, "nodes": [] },
+        {
+          "id": "front",
+          "depth": 0,
+          "blur": 0,
+          "lit": false,
+          "nodes": [
+            {
+              "kind": "asset",
+              "id": "set_front",
+              "asset": "set_office@1",
+              "x": 0,
+              "y": 0,
+              "scale": 1,
+              "rotation": 0,
+              "opacity": 1,
+              "flip": false,
+              "state": "front",
+              "pivot": null
+            }
+          ]
+        }
+      ],
+      "screen": [
+        {
+          "id": "type",
+          "nodes": [
+            {
+              "kind": "asset",
+              "id": "type",
+              "asset": "type_kinetic@1",
+              "x": 0,
+              "y": 0,
+              "scale": 1,
+              "rotation": 0,
+              "opacity": 1,
+              "flip": false,
+              "state": "default",
+              "pivot": null,
+              "params": {
+                "lines": [{ "t": "Why do we stay?", "weight": "bold" }],
+                "y": 250,
+                "at": 0.4,
+                "out": null,
+                "dark": false
+              }
+            }
+          ]
+        }
+      ],
+      "actors": [
+        {
+          "id": "maya",
+          "rig": "rig_cutout_woman@1",
+          "layer": "actor_maya",
+          "appearance": {
+            "coat": "#C8742F",
+            "coatDark": "#8F4E1C",
+            "pants": "#2E3440",
+            "skin": "#E8B48F",
+            "skinShade": "#C98F6B",
+            "hair": "#2B2522"
+          },
+          "shadow": false,
+          "rim": false
+        }
+      ],
+      "lights": [],
+      "tracks": [
+        {
+          "kind": "keys",
+          "target": { "kind": "camera" },
+          "channel": "x",
+          "keys": [{ "t": 0, "v": 1100, "ease": "linear" }]
+        },
+        {
+          "kind": "keys",
+          "target": { "kind": "camera" },
+          "channel": "y",
+          "keys": [{ "t": 0, "v": 1000, "ease": "linear" }]
+        },
+        {
+          "kind": "keys",
+          "target": { "kind": "camera" },
+          "channel": "height",
+          "keys": [{ "t": 0, "v": 2000, "ease": "linear" }]
+        },
+        {
+          "kind": "keys",
+          "target": { "kind": "node", "id": "set_back" },
+          "channel": "param.light",
+          "keys": [
+            { "t": 0, "v": 1, "ease": "linear" },
+            { "t": 1.2, "v": 1, "ease": "linear" },
+            { "t": 3, "v": 3, "ease": "linear" }
+          ]
+        },
+        {
+          "kind": "keys",
+          "target": { "kind": "node", "id": "set_back" },
+          "channel": "param.t",
+          "keys": [
+            { "t": 0, "v": 0, "ease": "linear" },
+            { "t": 3, "v": 3, "ease": "linear" }
+          ]
+        },
+        {
+          "kind": "keys",
+          "target": { "kind": "node", "id": "set_back" },
+          "channel": "param.door",
+          "keys": [{ "t": 0, "v": 0, "ease": "linear" }]
+        },
+        {
+          "kind": "keys",
+          "target": { "kind": "node", "id": "set_front" },
+          "channel": "param.light",
+          "keys": [
+            { "t": 0, "v": 1, "ease": "linear" },
+            { "t": 1.2, "v": 1, "ease": "linear" },
+            { "t": 3, "v": 3, "ease": "linear" }
+          ]
+        },
+        {
+          "kind": "keys",
+          "target": { "kind": "node", "id": "set_front" },
+          "channel": "param.t",
+          "keys": [
+            { "t": 0, "v": 0, "ease": "linear" },
+            { "t": 3, "v": 3, "ease": "linear" }
+          ]
+        },
+        {
+          "kind": "keys",
+          "target": { "kind": "node", "id": "set_front" },
+          "channel": "param.door",
+          "keys": [{ "t": 0, "v": 0, "ease": "linear" }]
+        },
+        {
+          "kind": "keys",
+          "target": { "kind": "node", "id": "type" },
+          "channel": "param.t",
+          "keys": [
+            { "t": 0, "v": 0, "ease": "linear" },
+            { "t": 3, "v": 3, "ease": "linear" }
+          ]
+        },
+        {
+          "kind": "keys",
+          "target": { "kind": "actor", "id": "maya" },
+          "channel": "root.x",
+          "keys": [{ "t": 0, "v": 1300, "ease": "linear" }]
+        },
+        {
+          "kind": "keys",
+          "target": { "kind": "actor", "id": "maya" },
+          "channel": "root.y",
+          "keys": [{ "t": 0, "v": 1420, "ease": "linear" }]
+        },
+        {
+          "kind": "keys",
+          "target": { "kind": "actor", "id": "maya" },
+          "channel": "root.scale",
+          "keys": [{ "t": 0, "v": 1, "ease": "linear" }]
+        },
+        {
+          "kind": "keys",
+          "target": { "kind": "actor", "id": "maya" },
+          "channel": "facing",
+          "keys": [{ "t": 0, "v": -1, "ease": "linear" }]
+        },
+        {
+          "kind": "keys",
+          "target": { "kind": "actor", "id": "maya" },
+          "channel": "turn",
+          "keys": [{ "t": 0, "v": 1, "ease": "linear" }]
+        },
+        {
+          "kind": "samples",
+          "target": { "kind": "actor", "id": "maya" },
+          "channel": "channel.breath",
+          "start": 0,
+          "rate": 30,
+          "values": [
+            0.5, 0.528318, 0.556545, 0.584591, 0.612365, 0.639779, 0.666744, 0.693173, 0.718982, 0.744089,
+            0.768411, 0.791872, 0.814397, 0.835911, 0.856348, 0.87564, 0.893727, 0.910549, 0.926054, 0.940191,
+            0.952915, 0.964184, 0.973964, 0.982222, 0.988932, 0.994073, 0.997627, 0.999584, 0.999937,
+            0.998685, 0.995832, 0.991388, 0.985366, 0.977786, 0.968672, 0.958053, 0.945964, 0.932444,
+            0.917535, 0.901286, 0.883748, 0.864979, 0.845037, 0.823989, 0.8019, 0.778842, 0.754889, 0.730117,
+            0.704607, 0.67844, 0.6517, 0.624473, 0.596847, 0.56891, 0.540751, 0.512462, 0.484132, 0.455854,
+            0.427717, 0.399812, 0.372229, 0.345057, 0.318381, 0.292289, 0.266863, 0.242186, 0.218336,
+            0.195391, 0.173424, 0.152505, 0.132701, 0.114077, 0.096691, 0.0806, 0.065856, 0.052505, 0.040591,
+            0.030152, 0.021221, 0.013827, 0.007994, 0.00374, 0.001079, 0.000021, 0.000567, 0.002716, 0.006462,
+            0.011792, 0.018689, 0.027132
+          ]
+        }
+      ],
+      "contacts": [],
+      "events": []
+    },
+    {
+      "id": "clock",
+      "bounds": { "x": 0, "y": 0, "w": 1080, "h": 1920 },
+      "background": "#F3EBDD",
+      "camera": { "projection": "flat", "referenceDistance": 1920, "dolly": 0, "aperture": 0 },
+      "layers": [
+        {
+          "id": "template",
+          "depth": 0,
+          "blur": 0,
+          "lit": false,
+          "nodes": [
+            {
+              "kind": "asset",
+              "id": "template",
+              "asset": "tpl_clock@1",
+              "x": 0,
+              "y": 0,
+              "scale": 1,
+              "rotation": 0,
+              "opacity": 1,
+              "flip": false,
+              "state": "default",
+              "pivot": null,
+              "params": { "params": { "time": "6:40" }, "anchors": {}, "dur": 2 }
+            }
+          ]
+        }
+      ],
+      "actors": [],
+      "lights": [],
+      "tracks": [
+        {
+          "kind": "keys",
+          "target": { "kind": "camera" },
+          "channel": "x",
+          "keys": [{ "t": 3, "v": 540, "ease": "linear" }]
+        },
+        {
+          "kind": "keys",
+          "target": { "kind": "camera" },
+          "channel": "y",
+          "keys": [{ "t": 3, "v": 960, "ease": "linear" }]
+        },
+        {
+          "kind": "keys",
+          "target": { "kind": "camera" },
+          "channel": "height",
+          "keys": [{ "t": 3, "v": 1920, "ease": "linear" }]
+        },
+        {
+          "kind": "keys",
+          "target": { "kind": "node", "id": "template" },
+          "channel": "param.t",
+          "keys": [
+            { "t": 3, "v": 0, "ease": "linear" },
+            { "t": 5, "v": 2, "ease": "linear" }
+          ]
+        }
+      ],
+      "contacts": [],
+      "events": []
+    }
+  ],
+  "edit": [
+    { "scene": "office_wide", "start": 0, "end": 3, "enter": { "kind": "cut", "duration": 0 } },
+    { "scene": "clock", "start": 3, "end": 5, "enter": { "kind": "whip", "duration": 0.32 } }
+  ],
+  "overlays": [],
+  "audio": [],
+  "mix": { "duckMusicDb": 0, "loudness": { "integratedLufs": -14, "truePeakDb": -1.5 } }
+}

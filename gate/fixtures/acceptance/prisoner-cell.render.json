@@ -1,0 +1,204 @@
+{
+  "schema": "erkasa.render/1",
+  "id": "prisoner-cell.acceptance",
+  "producer": { "name": "gate-acceptance-fixture", "version": "1" },
+  "output": { "width": 1080, "height": 1920, "fps": 30, "duration": 8 },
+  "assetManifest": {
+    "uri": "gate/fixtures/acceptance/prisoner-cell.assets.json",
+    "sha256": "f2a4ead757f6e21556a5e5eeb6d24c9c8bf6d6bb0074edb652afc9d7e9448847"
+  },
+  "scenes": [
+    {
+      "id": "cell",
+      "bounds": { "x": 0, "y": -1920, "w": 2560, "h": 1920 },
+      "background": "#1B1F2A",
+      "camera": { "projection": "flat", "referenceDistance": 1920, "dolly": 0, "aperture": 0 },
+      "layers": [
+        {
+          "id": "room",
+          "depth": 0,
+          "blur": 0,
+          "lit": false,
+          "nodes": [
+            {
+              "kind": "asset",
+              "id": "cell_set",
+              "asset": "set_prison_cell@1",
+              "x": 1280,
+              "y": 0,
+              "scale": 1,
+              "rotation": 0,
+              "opacity": 1,
+              "flip": false,
+              "state": "default",
+              "pivot": null
+            }
+          ]
+        },
+        {
+          "id": "floor",
+          "depth": 0,
+          "blur": 0,
+          "lit": false,
+          "nodes": [
+            {
+              "kind": "asset",
+              "id": "chair",
+              "asset": "prop_chair@1",
+              "x": 760,
+              "y": 0,
+              "scale": 1,
+              "rotation": 0,
+              "opacity": 1,
+              "flip": false,
+              "state": "default",
+              "pivot": null
+            }
+          ]
+        },
+        { "id": "actor_man", "depth": 0, "blur": 0, "lit": false, "nodes": [] }
+      ],
+      "actors": [
+        {
+          "id": "man",
+          "rig": "rig_cutout_man@1",
+          "layer": "actor_man",
+          "appearance": {
+            "coat": "#C8742F",
+            "coatDark": "#8F4E1C",
+            "pants": "#2E3440",
+            "skin": "#E8B48F",
+            "skinShade": "#C98F6B",
+            "hair": "#2B2522"
+          },
+          "shadow": false,
+          "rim": false
+        }
+      ],
+      "lights": [],
+      "tracks": [
+        {
+          "kind": "keys",
+          "target": { "kind": "camera" },
+          "channel": "x",
+          "keys": [
+            { "t": 0, "v": 1000, "ease": "linear" },
+            { "t": 8, "v": 1500, "ease": "linear" }
+          ]
+        },
+        {
+          "kind": "keys",
+          "target": { "kind": "camera" },
+          "channel": "y",
+          "keys": [{ "t": 0, "v": -700, "ease": "linear" }]
+        },
+        {
+          "kind": "keys",
+          "target": { "kind": "camera" },
+          "channel": "height",
+          "keys": [{ "t": 0, "v": 1500, "ease": "linear" }]
+        },
+        {
+          "kind": "keys",
+          "target": { "kind": "actor", "id": "man" },
+          "channel": "root.x",
+          "keys": [
+            { "t": 0, "v": 700, "ease": "linear" },
+            { "t": 1, "v": 700, "ease": "linear" },
+            { "t": 4, "v": 1650, "ease": "linear" }
+          ]
+        },
+        {
+          "kind": "keys",
+          "target": { "kind": "actor", "id": "man" },
+          "channel": "root.y",
+          "keys": [{ "t": 0, "v": 0, "ease": "linear" }]
+        },
+        {
+          "kind": "keys",
+          "target": { "kind": "actor", "id": "man" },
+          "channel": "root.scale",
+          "keys": [{ "t": 0, "v": 1, "ease": "linear" }]
+        },
+        {
+          "kind": "keys",
+          "target": { "kind": "actor", "id": "man" },
+          "channel": "facing",
+          "keys": [{ "t": 0, "v": 1, "ease": "linear" }]
+        },
+        {
+          "kind": "keys",
+          "target": { "kind": "actor", "id": "man" },
+          "channel": "turn",
+          "keys": [{ "t": 0, "v": 1, "ease": "linear" }]
+        },
+        {
+          "kind": "samples",
+          "target": { "kind": "actor", "id": "man" },
+          "channel": "bone.thigh",
+          "start": 1,
+          "rate": 30,
+          "values": [
+            0, 7.235, 13.665, 18.575, 21.419, 21.879, 19.906, 15.718, 9.782, 2.757, -4.574, -11.397, -16.951,
+            -20.62, -21.995, -20.923, -17.524, -12.175, -5.471, 1.841, 8.948, 15.06, 19.496, 21.764, 21.61,
+            19.053, 14.375, 8.099, 0.921, -6.359, -12.931, -18.065, -21.19, -21.957, -20.281, -16.349,
+            -10.599, -3.669, 3.669, 10.599, 16.349, 20.281, 21.957, 21.19, 18.065, 12.931, 6.359, -0.921,
+            -8.099, -14.375, -19.053, -21.61, -21.764, -19.496, -15.06, -8.948, -1.841, 5.471, 12.175, 17.524,
+            20.923, 21.995, 20.62, 16.951, 11.397, 4.574, -2.757, -9.782, -15.718, -19.906, -21.879, -21.419,
+            -18.575, -13.665, -7.235, 0, 7.235, 13.665, 18.575, 21.419, 21.879, 19.906, 15.718, 9.782, 2.757,
+            -4.574, -11.397, -16.951, -20.62, -21.995, -20.923
+          ]
+        },
+        {
+          "kind": "samples",
+          "target": { "kind": "actor", "id": "man" },
+          "channel": "bone.thighF",
+          "start": 1,
+          "rate": 30,
+          "values": [
+            0, -7.235, -13.665, -18.575, -21.419, -21.879, -19.906, -15.718, -9.782, -2.757, 4.574, 11.397,
+            16.951, 20.62, 21.995, 20.923, 17.524, 12.175, 5.471, -1.841, -8.948, -15.06, -19.496, -21.764,
+            -21.61, -19.053, -14.375, -8.099, -0.921, 6.359, 12.931, 18.065, 21.19, 21.957, 20.281, 16.349,
+            10.599, 3.669, -3.669, -10.599, -16.349, -20.281, -21.957, -21.19, -18.065, -12.931, -6.359,
+            0.921, 8.099, 14.375, 19.053, 21.61, 21.764, 19.496, 15.06, 8.948, 1.841, -5.471, -12.175,
+            -17.524, -20.923, -21.995, -20.62, -16.951, -11.397, -4.574, 2.757, 9.782, 15.718, 19.906, 21.879,
+            21.419, 18.575, 13.665, 7.235, 0, -7.235, -13.665, -18.575, -21.419, -21.879, -19.906, -15.718,
+            -9.782, -2.757, 4.574, 11.397, 16.951, 20.62, 21.995, 20.923
+          ]
+        }
+      ],
+      "contacts": [],
+      "events": [{ "t": 6, "node": "chair", "visible": false, "fx": "none", "duration": 0 }]
+    }
+  ],
+  "edit": [{ "scene": "cell", "start": 0, "end": 8, "enter": { "kind": "cut", "duration": 0 } }],
+  "overlays": [
+    {
+      "kind": "captions",
+      "id": "captions",
+      "style": {
+        "font": "font_montserrat_extrabold@1",
+        "size": 58,
+        "color": "#FBF6EC",
+        "stroke": { "color": "#0C1529", "width": 12 },
+        "align": "center"
+      },
+      "at": { "x": 0.5, "y": 0.8541666666666666 },
+      "highlight": "#F4A261",
+      "phrases": [
+        {
+          "in": 5.35,
+          "out": 7.8,
+          "words": [
+            { "text": "The", "t": 5.38, "end": 5.58 },
+            { "text": "door", "t": 5.58, "end": 5.98 },
+            { "text": "was", "t": 5.98, "end": 6.18 },
+            { "text": "open.", "t": 6.18, "end": 7.05 }
+          ]
+        }
+      ]
+    }
+  ],
+  "audio": [],
+  "mix": { "duckMusicDb": 0, "loudness": { "integratedLufs": -14, "truePeakDb": -1.5 } }
+}

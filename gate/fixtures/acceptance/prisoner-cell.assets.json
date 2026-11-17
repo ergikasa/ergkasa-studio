@@ -1,0 +1,128 @@
+{
+  "schema": "erkasa.assets/1",
+  "id": "prisoner-cell.acceptance.1",
+  "assets": [
+    {
+      "id": "set_prison_cell",
+      "version": 1,
+      "kind": "vector",
+      "format": "svg",
+      "source": {
+        "kind": "file",
+        "uri": "assets/backgrounds/bg_prison_cell_01/asset.svg",
+        "sha256": "981662c55cb7c1d6958b0b5205ba16a7f87f0612ed1d682acee2cac92501515a"
+      },
+      "geometry": { "viewBox": [0, 0, 2560, 1920], "size": { "w": 2560, "h": 1920 }, "origin": [1280, 1920] },
+      "states": [
+        {
+          "name": "default",
+          "source": {
+            "kind": "file",
+            "uri": "assets/backgrounds/bg_prison_cell_01/asset.svg",
+            "sha256": "981662c55cb7c1d6958b0b5205ba16a7f87f0612ed1d682acee2cac92501515a"
+          }
+        }
+      ],
+      "defaultState": "default",
+      "affordances": [],
+      "pivots": [],
+      "provenance": { "origin": "generator" },
+      "style": { "kit": "erkasa_editorial_v2" },
+      "approval": { "status": "approved", "note": "Gate acceptance fixture." },
+      "license": "LicenseRef-Erkasa-Original"
+    },
+    {
+      "id": "prop_chair",
+      "version": 1,
+      "kind": "vector",
+      "format": "svg",
+      "source": {
+        "kind": "file",
+        "uri": "assets/objects/obj_chair/asset.svg",
+        "sha256": "d663cb4185a061d8ee0772abee8f14a0bc08aef5798347e995eac0496fcc916f"
+      },
+      "geometry": { "viewBox": [0, 0, 32, 32], "size": { "w": 96, "h": 96 }, "origin": [16, 32] },
+      "states": [
+        {
+          "name": "default",
+          "source": {
+            "kind": "file",
+            "uri": "assets/objects/obj_chair/asset.svg",
+            "sha256": "d663cb4185a061d8ee0772abee8f14a0bc08aef5798347e995eac0496fcc916f"
+          }
+        }
+      ],
+      "defaultState": "default",
+      "affordances": [],
+      "pivots": [],
+      "provenance": { "origin": "generator" },
+      "style": { "kit": "erkasa_editorial_v2" },
+      "approval": { "status": "approved", "note": "Gate acceptance fixture." },
+      "license": "LicenseRef-Erkasa-Original"
+    },
+    {
+      "id": "rig_cutout_man",
+      "version": 1,
+      "kind": "rig",
+      "format": "erkasa.rig.cutout/1",
+      "source": {
+        "kind": "builtin",
+        "name": "rig.cutout.man",
+        "version": 1,
+        "fingerprint": "e27fab0f9c8388cd2771a924ac84bf5b5327dc5e9f2c9d6170d696a07ba5bec4"
+      },
+      "height": 780.7684717136092,
+      "bones": [
+        { "id": "torso" },
+        { "id": "head", "parent": "torso" },
+        { "id": "arm", "parent": "torso" },
+        { "id": "fore", "parent": "arm" },
+        { "id": "armF", "parent": "torso" },
+        { "id": "foreF", "parent": "armF" },
+        { "id": "thigh" },
+        { "id": "shin", "parent": "thigh" },
+        { "id": "thighF" },
+        { "id": "shinF", "parent": "thighF" }
+      ],
+      "channels": [
+        { "id": "gx", "range": [-1.7976931348623157e308, 1.7976931348623157e308] },
+        { "id": "gy", "range": [-1.7976931348623157e308, 1.7976931348623157e308] },
+        { "id": "lid", "range": [-1.7976931348623157e308, 1.7976931348623157e308] },
+        { "id": "brow", "range": [-1.7976931348623157e308, 1.7976931348623157e308] },
+        { "id": "mouth", "range": [-1.7976931348623157e308, 1.7976931348623157e308] },
+        { "id": "shrug", "range": [-1.7976931348623157e308, 1.7976931348623157e308] },
+        { "id": "breath", "range": [-1.7976931348623157e308, 1.7976931348623157e308] },
+        { "id": "hand", "range": [-1.7976931348623157e308, 1.7976931348623157e308] },
+        { "id": "open", "range": [-1.7976931348623157e308, 1.7976931348623157e308] },
+        { "id": "glow", "range": [-1.7976931348623157e308, 1.7976931348623157e308] }
+      ],
+      "sockets": [
+        { "id": "hand", "bone": "fore" },
+        { "id": "handF", "bone": "foreF" }
+      ],
+      "slots": ["coat", "coatDark", "pants", "skin", "skinShade", "hair"],
+      "style": { "kit": "erkasa_editorial_night_v1" },
+      "provenance": { "origin": "builtin" },
+      "approval": { "status": "approved", "note": "Drawn in code by the engine before E1." },
+      "license": "LicenseRef-Erkasa-Original"
+    },
+    {
+      "id": "font_montserrat_extrabold",
+      "version": 1,
+      "kind": "font",
+      "format": "ttf",
+      "source": {
+        "kind": "builtin",
+        "name": "font.montserrat-800",
+        "version": 1,
+        "fingerprint": "5cf0a23133ccce35f9e115b8dbbf90434201827bc2465d12f9d91bbf02cf9466"
+      },
+      "family": "Montserrat",
+      "weight": 800,
+      "style": { "kit": "erkasa_editorial_night_v1" },
+      "provenance": { "origin": "builtin", "by": "Google Fonts (@expo-google-fonts/montserrat)" },
+      "approval": { "status": "approved", "note": "Drawn in code by the engine before E1." },
+      "license": "OFL-1.1"
+    }
+  ]
+}

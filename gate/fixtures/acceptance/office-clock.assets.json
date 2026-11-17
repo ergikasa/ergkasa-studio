@@ -1,0 +1,173 @@
+{
+  "schema": "erkasa.assets/1",
+  "id": "office-clock.acceptance.1",
+  "assets": [
+    {
+      "id": "set_office",
+      "version": 1,
+      "kind": "vector",
+      "format": "svg",
+      "source": {
+        "kind": "builtin",
+        "name": "set.office.back",
+        "version": 1,
+        "fingerprint": "06204cbf31da7c29653efec6c59172e2d19a9cf9521e265a84a4009b0cfd9c0f"
+      },
+      "geometry": { "viewBox": [0, 0, 2200, 2000], "size": { "w": 2200, "h": 2000 }, "origin": [0, 0] },
+      "states": [
+        {
+          "name": "back",
+          "source": {
+            "kind": "builtin",
+            "name": "set.office.back",
+            "version": 1,
+            "fingerprint": "06204cbf31da7c29653efec6c59172e2d19a9cf9521e265a84a4009b0cfd9c0f"
+          }
+        },
+        {
+          "name": "front",
+          "source": {
+            "kind": "builtin",
+            "name": "set.office.front",
+            "version": 1,
+            "fingerprint": "06204cbf31da7c29653efec6c59172e2d19a9cf9521e265a84a4009b0cfd9c0f"
+          }
+        }
+      ],
+      "defaultState": "back",
+      "affordances": [],
+      "pivots": [],
+      "parameters": [
+        { "kind": "channel", "id": "light", "range": [0, 3] },
+        { "kind": "channel", "id": "t", "range": [0, 1.7976931348623157e308] },
+        { "kind": "channel", "id": "door", "range": [-1.7976931348623157e308, 1.7976931348623157e308] }
+      ],
+      "provenance": { "origin": "builtin" },
+      "style": { "kit": "erkasa_editorial_v2" },
+      "approval": { "status": "approved", "note": "Gate acceptance fixture." },
+      "license": "LicenseRef-Erkasa-Original"
+    },
+    {
+      "id": "type_kinetic",
+      "version": 1,
+      "kind": "vector",
+      "format": "svg",
+      "source": {
+        "kind": "builtin",
+        "name": "type.kinetic",
+        "version": 1,
+        "fingerprint": "ff219f03ee9644ac933be1d7656862fb5ea070027dd54b0dd6940ee2df51e927"
+      },
+      "geometry": { "viewBox": [0, 0, 1080, 1920], "size": { "w": 1080, "h": 1920 }, "origin": [0, 0] },
+      "states": [
+        {
+          "name": "default",
+          "source": {
+            "kind": "builtin",
+            "name": "type.kinetic",
+            "version": 1,
+            "fingerprint": "ff219f03ee9644ac933be1d7656862fb5ea070027dd54b0dd6940ee2df51e927"
+          }
+        }
+      ],
+      "defaultState": "default",
+      "affordances": [],
+      "pivots": [],
+      "parameters": [
+        { "kind": "static", "id": "lines" },
+        { "kind": "static", "id": "y" },
+        { "kind": "static", "id": "at" },
+        { "kind": "static", "id": "out" },
+        { "kind": "static", "id": "dark" },
+        { "kind": "channel", "id": "t", "range": [0, 1.7976931348623157e308] }
+      ],
+      "provenance": { "origin": "builtin" },
+      "style": { "kit": "erkasa_editorial_v2" },
+      "approval": { "status": "approved", "note": "Gate acceptance fixture." },
+      "license": "LicenseRef-Erkasa-Original"
+    },
+    {
+      "id": "tpl_clock",
+      "version": 1,
+      "kind": "vector",
+      "format": "svg",
+      "source": {
+        "kind": "builtin",
+        "name": "template.clock",
+        "version": 1,
+        "fingerprint": "3426a0749a06294f93d4af87691f4dabe5d7b02c702399b8167cd42d4ffbf289"
+      },
+      "geometry": { "viewBox": [0, 0, 1080, 1920], "size": { "w": 1080, "h": 1920 }, "origin": [0, 0] },
+      "states": [
+        {
+          "name": "default",
+          "source": {
+            "kind": "builtin",
+            "name": "template.clock",
+            "version": 1,
+            "fingerprint": "3426a0749a06294f93d4af87691f4dabe5d7b02c702399b8167cd42d4ffbf289"
+          }
+        }
+      ],
+      "defaultState": "default",
+      "affordances": [],
+      "pivots": [],
+      "parameters": [
+        { "kind": "static", "id": "params" },
+        { "kind": "static", "id": "anchors" },
+        { "kind": "static", "id": "dur" },
+        { "kind": "channel", "id": "t", "range": [0, 1.7976931348623157e308] }
+      ],
+      "provenance": { "origin": "builtin" },
+      "style": { "kit": "erkasa_editorial_v2" },
+      "approval": { "status": "approved", "note": "Gate acceptance fixture." },
+      "license": "LicenseRef-Erkasa-Original"
+    },
+    {
+      "id": "rig_cutout_woman",
+      "version": 1,
+      "kind": "rig",
+      "format": "erkasa.rig.cutout/1",
+      "source": {
+        "kind": "builtin",
+        "name": "rig.cutout.woman",
+        "version": 1,
+        "fingerprint": "e27fab0f9c8388cd2771a924ac84bf5b5327dc5e9f2c9d6170d696a07ba5bec4"
+      },
+      "height": 780.7684717136092,
+      "bones": [
+        { "id": "torso" },
+        { "id": "head", "parent": "torso" },
+        { "id": "arm", "parent": "torso" },
+        { "id": "fore", "parent": "arm" },
+        { "id": "armF", "parent": "torso" },
+        { "id": "foreF", "parent": "armF" },
+        { "id": "thigh" },
+        { "id": "shin", "parent": "thigh" },
+        { "id": "thighF" },
+        { "id": "shinF", "parent": "thighF" }
+      ],
+      "channels": [
+        { "id": "gx", "range": [-1.7976931348623157e308, 1.7976931348623157e308] },
+        { "id": "gy", "range": [-1.7976931348623157e308, 1.7976931348623157e308] },
+        { "id": "lid", "range": [-1.7976931348623157e308, 1.7976931348623157e308] },
+        { "id": "brow", "range": [-1.7976931348623157e308, 1.7976931348623157e308] },
+        { "id": "mouth", "range": [-1.7976931348623157e308, 1.7976931348623157e308] },
+        { "id": "shrug", "range": [-1.7976931348623157e308, 1.7976931348623157e308] },
+        { "id": "breath", "range": [-1.7976931348623157e308, 1.7976931348623157e308] },
+        { "id": "hand", "range": [-1.7976931348623157e308, 1.7976931348623157e308] },
+        { "id": "open", "range": [-1.7976931348623157e308, 1.7976931348623157e308] },
+        { "id": "glow", "range": [-1.7976931348623157e308, 1.7976931348623157e308] }
+      ],
+      "sockets": [
+        { "id": "hand", "bone": "fore" },
+        { "id": "handF", "bone": "foreF" }
+      ],
+      "slots": ["coat", "coatDark", "pants", "skin", "skinShade", "hair"],
+      "style": { "kit": "erkasa_editorial_night_v1" },
+      "provenance": { "origin": "builtin" },
+      "approval": { "status": "approved", "note": "Drawn in code by the engine before E1." },
+      "license": "LicenseRef-Erkasa-Original"
+    }
+  ]
+}

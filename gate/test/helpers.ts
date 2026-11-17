@@ -59,32 +59,11 @@ export function run(
 }
 
 /**
- * The stager's manifests declare ranges its own values leave (open E1.2 finding, see the report). This writes the
- * ranges the engine declares instead, without touching the values: what the stager fix would produce.
- */
-export function honestRanges(m: AssetManifest): AssetManifest {
-  const c = caps();
-  const byName = new Map(c.builtins.map((b) => [b.name, b]));
-  for (const a of m.assets) {
-    if (a.kind === "rig") for (const ch of a.channels) ch.range = [-Number.MAX_VALUE, Number.MAX_VALUE];
-    if (a.kind === "vector" && a.parameters && a.source.kind === "builtin") {
-      const eng = byName.get(a.source.name);
-      for (const p of a.parameters) {
-        const e = eng?.parameters?.find((x) => x.id === p.id);
-        if (p.kind === "channel" && e?.kind === "channel") p.range = e.range;
-      }
-    }
-  }
-  return m;
-}
-
-/**
- * A clean base to break on purpose: B3 with honest ranges, plus one real file asset (the chair SVG of the asset
+ * A clean base to break on purpose: B3 as the stager writes it, plus one real file asset (the chair SVG of the asset
  * library, copied into the package root) drawn by one node, so file checks have a target.
  */
 export function base(): { pkg: RenderPackage; manifest: AssetManifest; root: string } {
   const { pkg, manifest } = film("b3-every-yes");
-  honestRanges(manifest);
   const root = mkdtempSync(join(tmpdir(), "gate-base-"));
   mkdirSync(join(root, "assets"), { recursive: true });
   copyFileSync(join(ROOT, "assets/objects/obj_chair/asset.svg"), join(root, "assets/chair.svg"));
