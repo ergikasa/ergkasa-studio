@@ -41,7 +41,8 @@
                       },
                       "uri": {
                         "type": "string",
-                        "pattern": "^(file:\\/\\/|s3:\\/\\/)?[A-Za-z0-9_./-]+$"
+                        "maxLength": 1024,
+                        "pattern": "^(s3:\\/\\/[a-z0-9][a-z0-9.-]{1,62}\\/)?[A-Za-z0-9_][A-Za-z0-9_.-]{0,127}(\\/[A-Za-z0-9_][A-Za-z0-9_.-]{0,127})*$"
                       },
                       "sha256": {
                         "type": "string",
@@ -65,11 +66,22 @@
                       "name": {
                         "type": "string",
                         "pattern": "^[a-z][a-z0-9_.-]{0,63}$"
+                      },
+                      "version": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 9007199254740991
+                      },
+                      "fingerprint": {
+                        "type": "string",
+                        "pattern": "^[a-f0-9]{64}$"
                       }
                     },
                     "required": [
                       "kind",
-                      "name"
+                      "name",
+                      "version",
+                      "fingerprint"
                     ],
                     "additionalProperties": false
                   }
@@ -174,6 +186,7 @@
               },
               "license": {
                 "type": "string",
+                "minLength": 1,
                 "maxLength": 200
               },
               "kind": {
@@ -254,66 +267,97 @@
                 "maxItems": 32,
                 "type": "array",
                 "items": {
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "type": "string",
-                      "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
-                    },
-                    "source": {
-                      "oneOf": [
-                        {
-                          "type": "object",
-                          "properties": {
-                            "kind": {
-                              "type": "string",
-                              "const": "file"
-                            },
-                            "uri": {
-                              "type": "string",
-                              "pattern": "^(file:\\/\\/|s3:\\/\\/)?[A-Za-z0-9_./-]+$"
-                            },
-                            "sha256": {
-                              "type": "string",
-                              "pattern": "^[a-f0-9]{64}$"
-                            }
-                          },
-                          "required": [
-                            "kind",
-                            "uri",
-                            "sha256"
-                          ],
-                          "additionalProperties": false
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
                         },
-                        {
-                          "type": "object",
-                          "properties": {
-                            "kind": {
-                              "type": "string",
-                              "const": "builtin"
+                        "source": {
+                          "oneOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "kind": {
+                                  "type": "string",
+                                  "const": "file"
+                                },
+                                "uri": {
+                                  "type": "string",
+                                  "maxLength": 1024,
+                                  "pattern": "^(s3:\\/\\/[a-z0-9][a-z0-9.-]{1,62}\\/)?[A-Za-z0-9_][A-Za-z0-9_.-]{0,127}(\\/[A-Za-z0-9_][A-Za-z0-9_.-]{0,127})*$"
+                                },
+                                "sha256": {
+                                  "type": "string",
+                                  "pattern": "^[a-f0-9]{64}$"
+                                }
+                              },
+                              "required": [
+                                "kind",
+                                "uri",
+                                "sha256"
+                              ],
+                              "additionalProperties": false
                             },
-                            "name": {
-                              "type": "string",
-                              "pattern": "^[a-z][a-z0-9_.-]{0,63}$"
+                            {
+                              "type": "object",
+                              "properties": {
+                                "kind": {
+                                  "type": "string",
+                                  "const": "builtin"
+                                },
+                                "name": {
+                                  "type": "string",
+                                  "pattern": "^[a-z][a-z0-9_.-]{0,63}$"
+                                },
+                                "version": {
+                                  "type": "integer",
+                                  "minimum": 1,
+                                  "maximum": 9007199254740991
+                                },
+                                "fingerprint": {
+                                  "type": "string",
+                                  "pattern": "^[a-f0-9]{64}$"
+                                }
+                              },
+                              "required": [
+                                "kind",
+                                "name",
+                                "version",
+                                "fingerprint"
+                              ],
+                              "additionalProperties": false
                             }
-                          },
-                          "required": [
-                            "kind",
-                            "name"
-                          ],
-                          "additionalProperties": false
+                          ]
                         }
-                      ]
+                      },
+                      "required": [
+                        "name",
+                        "source"
+                      ],
+                      "additionalProperties": false
                     },
-                    "element": {
-                      "type": "string",
-                      "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                    {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                        },
+                        "element": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "element"
+                      ],
+                      "additionalProperties": false
                     }
-                  },
-                  "required": [
-                    "name"
-                  ],
-                  "additionalProperties": false
+                  ]
                 }
               },
               "defaultState": {
@@ -564,9 +608,14 @@
               "style",
               "provenance",
               "approval",
+              "license",
               "kind",
               "format",
-              "geometry"
+              "geometry",
+              "states",
+              "defaultState",
+              "affordances",
+              "pivots"
             ],
             "additionalProperties": false
           },
@@ -593,7 +642,8 @@
                       },
                       "uri": {
                         "type": "string",
-                        "pattern": "^(file:\\/\\/|s3:\\/\\/)?[A-Za-z0-9_./-]+$"
+                        "maxLength": 1024,
+                        "pattern": "^(s3:\\/\\/[a-z0-9][a-z0-9.-]{1,62}\\/)?[A-Za-z0-9_][A-Za-z0-9_.-]{0,127}(\\/[A-Za-z0-9_][A-Za-z0-9_.-]{0,127})*$"
                       },
                       "sha256": {
                         "type": "string",
@@ -617,11 +667,22 @@
                       "name": {
                         "type": "string",
                         "pattern": "^[a-z][a-z0-9_.-]{0,63}$"
+                      },
+                      "version": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 9007199254740991
+                      },
+                      "fingerprint": {
+                        "type": "string",
+                        "pattern": "^[a-f0-9]{64}$"
                       }
                     },
                     "required": [
                       "kind",
-                      "name"
+                      "name",
+                      "version",
+                      "fingerprint"
                     ],
                     "additionalProperties": false
                   }
@@ -726,6 +787,7 @@
               },
               "license": {
                 "type": "string",
+                "minLength": 1,
                 "maxLength": 200
               },
               "kind": {
@@ -777,7 +839,6 @@
                 }
               },
               "channels": {
-                "default": [],
                 "maxItems": 64,
                 "type": "array",
                 "items": {
@@ -810,7 +871,6 @@
                 }
               },
               "sockets": {
-                "default": [],
                 "maxItems": 16,
                 "type": "array",
                 "items": {
@@ -833,7 +893,6 @@
                 }
               },
               "slots": {
-                "default": [],
                 "maxItems": 16,
                 "type": "array",
                 "items": {
@@ -849,10 +908,14 @@
               "style",
               "provenance",
               "approval",
+              "license",
               "kind",
               "format",
               "height",
-              "bones"
+              "bones",
+              "channels",
+              "sockets",
+              "slots"
             ],
             "additionalProperties": false
           },
@@ -879,7 +942,8 @@
                       },
                       "uri": {
                         "type": "string",
-                        "pattern": "^(file:\\/\\/|s3:\\/\\/)?[A-Za-z0-9_./-]+$"
+                        "maxLength": 1024,
+                        "pattern": "^(s3:\\/\\/[a-z0-9][a-z0-9.-]{1,62}\\/)?[A-Za-z0-9_][A-Za-z0-9_.-]{0,127}(\\/[A-Za-z0-9_][A-Za-z0-9_.-]{0,127})*$"
                       },
                       "sha256": {
                         "type": "string",
@@ -903,11 +967,22 @@
                       "name": {
                         "type": "string",
                         "pattern": "^[a-z][a-z0-9_.-]{0,63}$"
+                      },
+                      "version": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 9007199254740991
+                      },
+                      "fingerprint": {
+                        "type": "string",
+                        "pattern": "^[a-f0-9]{64}$"
                       }
                     },
                     "required": [
                       "kind",
-                      "name"
+                      "name",
+                      "version",
+                      "fingerprint"
                     ],
                     "additionalProperties": false
                   }
@@ -1012,6 +1087,7 @@
               },
               "license": {
                 "type": "string",
+                "minLength": 1,
                 "maxLength": 200
               },
               "kind": {
@@ -1044,6 +1120,7 @@
               "style",
               "provenance",
               "approval",
+              "license",
               "kind",
               "format",
               "family",
@@ -1074,7 +1151,8 @@
                       },
                       "uri": {
                         "type": "string",
-                        "pattern": "^(file:\\/\\/|s3:\\/\\/)?[A-Za-z0-9_./-]+$"
+                        "maxLength": 1024,
+                        "pattern": "^(s3:\\/\\/[a-z0-9][a-z0-9.-]{1,62}\\/)?[A-Za-z0-9_][A-Za-z0-9_.-]{0,127}(\\/[A-Za-z0-9_][A-Za-z0-9_.-]{0,127})*$"
                       },
                       "sha256": {
                         "type": "string",
@@ -1098,11 +1176,22 @@
                       "name": {
                         "type": "string",
                         "pattern": "^[a-z][a-z0-9_.-]{0,63}$"
+                      },
+                      "version": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 9007199254740991
+                      },
+                      "fingerprint": {
+                        "type": "string",
+                        "pattern": "^[a-f0-9]{64}$"
                       }
                     },
                     "required": [
                       "kind",
-                      "name"
+                      "name",
+                      "version",
+                      "fingerprint"
                     ],
                     "additionalProperties": false
                   }
@@ -1207,6 +1296,7 @@
               },
               "license": {
                 "type": "string",
+                "minLength": 1,
                 "maxLength": 200
               },
               "kind": {
@@ -1239,6 +1329,7 @@
               "style",
               "provenance",
               "approval",
+              "license",
               "kind",
               "format",
               "durationSec"

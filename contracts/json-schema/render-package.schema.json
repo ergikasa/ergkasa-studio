@@ -69,7 +69,8 @@
       "properties": {
         "uri": {
           "type": "string",
-          "pattern": "^(file:\\/\\/|s3:\\/\\/)?[A-Za-z0-9_./-]+$"
+          "maxLength": 1024,
+          "pattern": "^(s3:\\/\\/[a-z0-9][a-z0-9.-]{1,62}\\/)?[A-Za-z0-9_][A-Za-z0-9_.-]{0,127}(\\/[A-Za-z0-9_][A-Za-z0-9_.-]{0,127})*$"
         },
         "sha256": {
           "type": "string",
@@ -120,7 +121,6 @@
             "additionalProperties": false
           },
           "background": {
-            "default": "#000000",
             "type": "string",
             "pattern": "^#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?$"
           },
@@ -139,20 +139,20 @@
                 "exclusiveMinimum": 0
               },
               "dolly": {
-                "default": 0.5,
                 "type": "number",
                 "minimum": 0,
                 "maximum": 1
               },
               "aperture": {
-                "default": 0,
                 "type": "number",
                 "minimum": 0
               }
             },
             "required": [
               "projection",
-              "referenceDistance"
+              "referenceDistance",
+              "dolly",
+              "aperture"
             ],
             "additionalProperties": false
           },
@@ -171,12 +171,10 @@
                   "type": "number"
                 },
                 "blur": {
-                  "default": 0,
                   "type": "number",
                   "minimum": 0
                 },
                 "lit": {
-                  "default": true,
                   "type": "boolean"
                 },
                 "nodes": {
@@ -198,22 +196,18 @@
                             "type": "number"
                           },
                           "scale": {
-                            "default": 1,
                             "type": "number",
                             "exclusiveMinimum": 0
                           },
                           "rotation": {
-                            "default": 0,
                             "type": "number"
                           },
                           "opacity": {
-                            "default": 1,
                             "type": "number",
                             "minimum": 0,
                             "maximum": 1
                           },
                           "flip": {
-                            "default": false,
                             "type": "boolean"
                           },
                           "kind": {
@@ -229,16 +223,29 @@
                             "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
                           },
                           "pivot": {
-                            "type": "string",
-                            "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
                           }
                         },
                         "required": [
                           "id",
                           "x",
                           "y",
+                          "scale",
+                          "rotation",
+                          "opacity",
+                          "flip",
                           "kind",
-                          "asset"
+                          "asset",
+                          "state",
+                          "pivot"
                         ],
                         "additionalProperties": false
                       },
@@ -256,22 +263,18 @@
                             "type": "number"
                           },
                           "scale": {
-                            "default": 1,
                             "type": "number",
                             "exclusiveMinimum": 0
                           },
                           "rotation": {
-                            "default": 0,
                             "type": "number"
                           },
                           "opacity": {
-                            "default": 1,
                             "type": "number",
                             "minimum": 0,
                             "maximum": 1
                           },
                           "flip": {
-                            "default": false,
                             "type": "boolean"
                           },
                           "kind": {
@@ -296,7 +299,6 @@
                             "pattern": "^#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?$"
                           },
                           "align": {
-                            "default": "left",
                             "type": "string",
                             "enum": [
                               "left",
@@ -309,7 +311,6 @@
                             "exclusiveMinimum": 0
                           },
                           "lineHeight": {
-                            "default": 1.2,
                             "type": "number",
                             "exclusiveMinimum": 0
                           },
@@ -336,11 +337,17 @@
                           "id",
                           "x",
                           "y",
+                          "scale",
+                          "rotation",
+                          "opacity",
+                          "flip",
                           "kind",
                           "text",
                           "font",
                           "size",
-                          "color"
+                          "color",
+                          "align",
+                          "lineHeight"
                         ],
                         "additionalProperties": false
                       },
@@ -358,22 +365,18 @@
                             "type": "number"
                           },
                           "scale": {
-                            "default": 1,
                             "type": "number",
                             "exclusiveMinimum": 0
                           },
                           "rotation": {
-                            "default": 0,
                             "type": "number"
                           },
                           "opacity": {
-                            "default": 1,
                             "type": "number",
                             "minimum": 0,
                             "maximum": 1
                           },
                           "flip": {
-                            "default": false,
                             "type": "boolean"
                           },
                           "kind": {
@@ -398,7 +401,6 @@
                                     "exclusiveMinimum": 0
                                   },
                                   "radius": {
-                                    "default": 0,
                                     "type": "number",
                                     "minimum": 0
                                   }
@@ -406,7 +408,8 @@
                                 "required": [
                                   "type",
                                   "w",
-                                  "h"
+                                  "h",
+                                  "radius"
                                 ],
                                 "additionalProperties": false
                               },
@@ -556,6 +559,10 @@
                           "id",
                           "x",
                           "y",
+                          "scale",
+                          "rotation",
+                          "opacity",
+                          "flip",
                           "kind",
                           "shape"
                         ],
@@ -568,13 +575,14 @@
               "required": [
                 "id",
                 "depth",
+                "blur",
+                "lit",
                 "nodes"
               ],
               "additionalProperties": false
             }
           },
           "actors": {
-            "default": [],
             "maxItems": 32,
             "type": "array",
             "items": {
@@ -593,7 +601,6 @@
                   "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
                 },
                 "appearance": {
-                  "default": {},
                   "type": "object",
                   "propertyNames": {
                     "type": "string",
@@ -605,24 +612,24 @@
                   }
                 },
                 "shadow": {
-                  "default": true,
                   "type": "boolean"
                 },
                 "rim": {
-                  "default": true,
                   "type": "boolean"
                 }
               },
               "required": [
                 "id",
                 "rig",
-                "layer"
+                "layer",
+                "appearance",
+                "shadow",
+                "rim"
               ],
               "additionalProperties": false
             }
           },
           "lights": {
-            "default": [],
             "maxItems": 32,
             "type": "array",
             "items": {
@@ -668,7 +675,6 @@
                       "type": "number"
                     },
                     "depth": {
-                      "default": 0,
                       "type": "number"
                     },
                     "radius": {
@@ -680,12 +686,10 @@
                       "pattern": "^#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?$"
                     },
                     "intensity": {
-                      "default": 1,
                       "type": "number",
                       "minimum": 0
                     },
                     "castsShadows": {
-                      "default": false,
                       "type": "boolean"
                     }
                   },
@@ -694,8 +698,11 @@
                     "id",
                     "x",
                     "y",
+                    "depth",
                     "radius",
-                    "color"
+                    "color",
+                    "intensity",
+                    "castsShadows"
                   ],
                   "additionalProperties": false
                 },
@@ -734,12 +741,10 @@
                       "pattern": "^#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?$"
                     },
                     "intensity": {
-                      "default": 1,
                       "type": "number",
                       "minimum": 0
                     },
                     "softness": {
-                      "default": 16,
                       "type": "number",
                       "minimum": 0
                     }
@@ -748,7 +753,9 @@
                     "kind",
                     "id",
                     "polygon",
-                    "color"
+                    "color",
+                    "intensity",
+                    "softness"
                   ],
                   "additionalProperties": false
                 }
@@ -756,7 +763,6 @@
             }
           },
           "tracks": {
-            "default": [],
             "maxItems": 5000,
             "type": "array",
             "items": {
@@ -884,7 +890,6 @@
                             ]
                           },
                           "ease": {
-                            "default": "linear",
                             "type": "string",
                             "enum": [
                               "linear",
@@ -902,7 +907,8 @@
                         },
                         "required": [
                           "t",
-                          "v"
+                          "v",
+                          "ease"
                         ],
                         "additionalProperties": false
                       }
@@ -1021,8 +1027,8 @@
                       "minimum": 0
                     },
                     "rate": {
-                      "type": "number",
-                      "exclusiveMinimum": 0,
+                      "type": "integer",
+                      "minimum": 1,
                       "maximum": 240
                     },
                     "values": {
@@ -1048,7 +1054,6 @@
             }
           },
           "contacts": {
-            "default": [],
             "maxItems": 500,
             "type": "array",
             "items": {
@@ -1075,10 +1080,6 @@
                   "minimum": 0
                 },
                 "offset": {
-                  "default": [
-                    0,
-                    0
-                  ],
                   "type": "array",
                   "prefixItems": [
                     {
@@ -1098,65 +1099,116 @@
                 "actor",
                 "socket",
                 "from",
-                "to"
+                "to",
+                "offset"
               ],
               "additionalProperties": false
             }
           },
           "events": {
-            "default": [],
             "maxItems": 2000,
             "type": "array",
             "items": {
-              "type": "object",
-              "properties": {
-                "t": {
-                  "type": "number",
-                  "minimum": 0
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "t": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "node": {
+                      "type": "string",
+                      "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                    },
+                    "state": {
+                      "type": "string",
+                      "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                    },
+                    "visible": {
+                      "type": "boolean"
+                    },
+                    "fx": {
+                      "type": "string",
+                      "enum": [
+                        "none",
+                        "fade",
+                        "puff",
+                        "pop",
+                        "glow",
+                        "flash"
+                      ]
+                    },
+                    "duration": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 5
+                    }
+                  },
+                  "required": [
+                    "t",
+                    "node",
+                    "state",
+                    "fx",
+                    "duration"
+                  ],
+                  "additionalProperties": false
                 },
-                "node": {
-                  "type": "string",
-                  "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
-                },
-                "state": {
-                  "type": "string",
-                  "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
-                },
-                "visible": {
-                  "type": "boolean"
-                },
-                "fx": {
-                  "default": "none",
-                  "type": "string",
-                  "enum": [
-                    "none",
-                    "fade",
-                    "puff",
-                    "pop",
-                    "glow",
-                    "flash"
-                  ]
-                },
-                "duration": {
-                  "default": 0.3,
-                  "type": "number",
-                  "minimum": 0,
-                  "maximum": 5
+                {
+                  "type": "object",
+                  "properties": {
+                    "t": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "node": {
+                      "type": "string",
+                      "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                    },
+                    "visible": {
+                      "type": "boolean"
+                    },
+                    "fx": {
+                      "type": "string",
+                      "enum": [
+                        "none",
+                        "fade",
+                        "puff",
+                        "pop",
+                        "glow",
+                        "flash"
+                      ]
+                    },
+                    "duration": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 5
+                    }
+                  },
+                  "required": [
+                    "t",
+                    "node",
+                    "visible",
+                    "fx",
+                    "duration"
+                  ],
+                  "additionalProperties": false
                 }
-              },
-              "required": [
-                "t",
-                "node"
-              ],
-              "additionalProperties": false
+              ]
             }
           }
         },
         "required": [
           "id",
           "bounds",
+          "background",
           "camera",
-          "layers"
+          "layers",
+          "actors",
+          "lights",
+          "tracks",
+          "contacts",
+          "events"
         ],
         "additionalProperties": false
       }
@@ -1181,10 +1233,6 @@
             "minimum": 0
           },
           "enter": {
-            "default": {
-              "kind": "cut",
-              "duration": 0
-            },
             "type": "object",
             "properties": {
               "kind": {
@@ -1197,14 +1245,14 @@
                 ]
               },
               "duration": {
-                "default": 0,
                 "type": "number",
                 "minimum": 0,
                 "maximum": 3
               }
             },
             "required": [
-              "kind"
+              "kind",
+              "duration"
             ],
             "additionalProperties": false
           }
@@ -1212,13 +1260,13 @@
         "required": [
           "scene",
           "start",
-          "end"
+          "end",
+          "enter"
         ],
         "additionalProperties": false
       }
     },
     "overlays": {
-      "default": [],
       "maxItems": 2000,
       "type": "array",
       "items": {
@@ -1256,7 +1304,9 @@
                     }
                   },
                   "required": [
-                    "text"
+                    "text",
+                    "color",
+                    "size"
                   ],
                   "additionalProperties": false
                 }
@@ -1295,7 +1345,6 @@
                     "additionalProperties": false
                   },
                   "align": {
-                    "default": "center",
                     "type": "string",
                     "enum": [
                       "left",
@@ -1311,7 +1360,8 @@
                 "required": [
                   "font",
                   "size",
-                  "color"
+                  "color",
+                  "align"
                 ],
                 "additionalProperties": false
               },
@@ -1347,10 +1397,6 @@
                             "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
                           },
                           "offset": {
-                            "default": [
-                              0,
-                              0
-                            ],
                             "type": "array",
                             "prefixItems": [
                               {
@@ -1366,7 +1412,8 @@
                           }
                         },
                         "required": [
-                          "node"
+                          "node",
+                          "offset"
                         ],
                         "additionalProperties": false
                       },
@@ -1378,10 +1425,6 @@
                             "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
                           },
                           "offset": {
-                            "default": [
-                              0,
-                              0
-                            ],
                             "type": "array",
                             "prefixItems": [
                               {
@@ -1397,7 +1440,8 @@
                           }
                         },
                         "required": [
-                          "actor"
+                          "actor",
+                          "offset"
                         ],
                         "additionalProperties": false
                       }
@@ -1414,7 +1458,6 @@
                 "minimum": 0
               },
               "appear": {
-                "default": "fade",
                 "type": "string",
                 "enum": [
                   "none",
@@ -1431,18 +1474,18 @@
                     "pattern": "^#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?$"
                   },
                   "padding": {
-                    "default": 16,
                     "type": "number",
                     "minimum": 0
                   },
                   "radius": {
-                    "default": 0,
                     "type": "number",
                     "minimum": 0
                   }
                 },
                 "required": [
-                  "color"
+                  "color",
+                  "padding",
+                  "radius"
                 ],
                 "additionalProperties": false
               }
@@ -1454,7 +1497,8 @@
               "style",
               "at",
               "in",
-              "out"
+              "out",
+              "appear"
             ],
             "additionalProperties": false
           },
@@ -1503,7 +1547,6 @@
                     "additionalProperties": false
                   },
                   "align": {
-                    "default": "center",
                     "type": "string",
                     "enum": [
                       "left",
@@ -1519,7 +1562,8 @@
                 "required": [
                   "font",
                   "size",
-                  "color"
+                  "color",
+                  "align"
                 ],
                 "additionalProperties": false
               },
@@ -1664,10 +1708,6 @@
                             "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
                           },
                           "offset": {
-                            "default": [
-                              0,
-                              0
-                            ],
                             "type": "array",
                             "prefixItems": [
                               {
@@ -1683,7 +1723,8 @@
                           }
                         },
                         "required": [
-                          "node"
+                          "node",
+                          "offset"
                         ],
                         "additionalProperties": false
                       },
@@ -1695,10 +1736,6 @@
                             "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
                           },
                           "offset": {
-                            "default": [
-                              0,
-                              0
-                            ],
                             "type": "array",
                             "prefixItems": [
                               {
@@ -1714,7 +1751,8 @@
                           }
                         },
                         "required": [
-                          "actor"
+                          "actor",
+                          "offset"
                         ],
                         "additionalProperties": false
                       }
@@ -1731,7 +1769,6 @@
                 "minimum": 0
               },
               "appear": {
-                "default": "pop",
                 "type": "string",
                 "enum": [
                   "none",
@@ -1745,10 +1782,12 @@
               "kind",
               "id",
               "asset",
+              "state",
               "size",
               "at",
               "in",
-              "out"
+              "out",
+              "appear"
             ],
             "additionalProperties": false
           }
@@ -1756,7 +1795,6 @@
       }
     },
     "audio": {
-      "default": [],
       "maxItems": 2000,
       "type": "array",
       "items": {
@@ -1784,7 +1822,6 @@
             "minimum": 0
           },
           "trim": {
-            "default": 0,
             "type": "number",
             "minimum": 0
           },
@@ -1793,23 +1830,19 @@
             "exclusiveMinimum": 0
           },
           "gainDb": {
-            "default": 0,
             "type": "number",
             "minimum": -60,
             "maximum": 12
           },
           "fadeIn": {
-            "default": 0,
             "type": "number",
             "minimum": 0
           },
           "fadeOut": {
-            "default": 0,
             "type": "number",
             "minimum": 0
           },
           "pan": {
-            "default": 0,
             "type": "number",
             "minimum": -1,
             "maximum": 1
@@ -1819,32 +1852,26 @@
           "id",
           "asset",
           "role",
-          "start"
+          "start",
+          "trim",
+          "duration",
+          "gainDb",
+          "fadeIn",
+          "fadeOut",
+          "pan"
         ],
         "additionalProperties": false
       }
     },
     "mix": {
-      "default": {
-        "duckMusicDb": 0,
-        "loudness": {
-          "integratedLufs": -14,
-          "truePeakDb": -1
-        }
-      },
       "type": "object",
       "properties": {
         "duckMusicDb": {
-          "default": 0,
           "type": "number",
           "minimum": 0,
           "maximum": 30
         },
         "loudness": {
-          "default": {
-            "integratedLufs": -14,
-            "truePeakDb": -1
-          },
           "type": "object",
           "properties": {
             "integratedLufs": {
@@ -1865,6 +1892,10 @@
           "additionalProperties": false
         }
       },
+      "required": [
+        "duckMusicDb",
+        "loudness"
+      ],
       "additionalProperties": false
     }
   },
@@ -1875,7 +1906,10 @@
     "output",
     "assetManifest",
     "scenes",
-    "edit"
+    "edit",
+    "overlays",
+    "audio",
+    "mix"
   ],
   "additionalProperties": false
 }

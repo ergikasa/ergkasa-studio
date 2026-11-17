@@ -1,0 +1,622 @@
+{
+  "schema": "erkasa.render/1",
+  "id": "prisoner-cell.v1",
+  "producer": {
+    "name": "handwritten-example",
+    "version": "1"
+  },
+  "output": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "duration": 8
+  },
+  "assetManifest": {
+    "uri": "contracts/fixtures/valid/asset-manifest.prisoner-cell.json",
+    "sha256": "4c627b49e9a082cc4e1c1949ac379e3ede59352451f528945645e22360af39fc"
+  },
+  "scenes": [
+    {
+      "id": "cell",
+      "bounds": {
+        "x": -240,
+        "y": -2000,
+        "w": 3040,
+        "h": 2200
+      },
+      "background": "#1B1F2A",
+      "camera": {
+        "projection": "parallax",
+        "referenceDistance": 1400,
+        "dolly": 0.6,
+        "aperture": 2
+      },
+      "layers": [
+        {
+          "id": "room",
+          "depth": 120,
+          "blur": 0,
+          "lit": true,
+          "nodes": [
+            {
+              "kind": "asset",
+              "id": "cell_set",
+              "asset": "set_prison_cell@1",
+              "x": 1280,
+              "y": 0,
+              "scale": 1,
+              "rotation": 0,
+              "opacity": 1,
+              "flip": false,
+              "state": "default",
+              "pivot": null
+            }
+          ]
+        },
+        {
+          "id": "floor",
+          "depth": 0,
+          "blur": 0,
+          "lit": true,
+          "nodes": [
+            {
+              "kind": "asset",
+              "id": "door",
+              "asset": "prop_door_light@1",
+              "x": 1900,
+              "y": 0,
+              "scale": 1,
+              "rotation": 0,
+              "opacity": 1,
+              "flip": false,
+              "state": "locked",
+              "pivot": "hinge"
+            },
+            {
+              "kind": "asset",
+              "id": "chair",
+              "asset": "prop_chair@1",
+              "x": 760,
+              "y": 0,
+              "scale": 1,
+              "rotation": 0,
+              "flip": false,
+              "state": "default",
+              "pivot": null
+            },
+            {
+              "kind": "asset",
+              "id": "book",
+              "asset": "prop_book@1",
+              "x": 790,
+              "y": -50,
+              "scale": 1,
+              "rotation": 0,
+              "opacity": 1,
+              "flip": false,
+              "state": "closed",
+              "pivot": null
+            },
+            {
+              "kind": "shape",
+              "id": "floor_shadow",
+              "x": 1280,
+              "y": 4,
+              "scale": 1,
+              "rotation": 0,
+              "opacity": 0.35,
+              "flip": false,
+              "shape": {
+                "type": "ellipse",
+                "rx": 900,
+                "ry": 40
+              },
+              "fill": "#000000"
+            }
+          ]
+        },
+        {
+          "id": "dust",
+          "depth": -200,
+          "blur": 6,
+          "lit": false,
+          "nodes": [
+            {
+              "kind": "shape",
+              "id": "mote",
+              "x": 1500,
+              "y": -700,
+              "scale": 1,
+              "rotation": 0,
+              "opacity": 1,
+              "flip": false,
+              "shape": {
+                "type": "ellipse",
+                "rx": 3,
+                "ry": 3
+              },
+              "fill": "#FFF3D6AA"
+            }
+          ]
+        }
+      ],
+      "actors": [
+        {
+          "id": "man",
+          "rig": "rig_cutout_man@1",
+          "layer": "floor",
+          "appearance": {
+            "coat": "#C8742F",
+            "coatDark": "#8F4E1C",
+            "hair": "#2B2522",
+            "skin": "#E8B48F",
+            "skinShade": "#C98F6B"
+          },
+          "shadow": true,
+          "rim": true
+        }
+      ],
+      "lights": [
+        {
+          "kind": "ambient",
+          "id": "amb",
+          "color": "#2A3348"
+        },
+        {
+          "kind": "shaft",
+          "id": "window_beam",
+          "polygon": [
+            [1540, -1620],
+            [1680, -1620],
+            [1400, 0],
+            [1000, 0]
+          ],
+          "color": "#FFE2A8",
+          "intensity": 0.8,
+          "softness": 24
+        },
+        {
+          "kind": "point",
+          "id": "door_glow",
+          "x": 1900,
+          "y": -270,
+          "depth": 0,
+          "radius": 500,
+          "color": "#FFD27A",
+          "intensity": 0,
+          "castsShadows": false
+        }
+      ],
+      "tracks": [
+        {
+          "kind": "keys",
+          "target": {
+            "kind": "camera"
+          },
+          "channel": "x",
+          "keys": [
+            {
+              "t": 0,
+              "v": 1000,
+              "ease": "linear"
+            },
+            {
+              "t": 4,
+              "v": 1500,
+              "ease": "easeInOut"
+            },
+            {
+              "t": 8,
+              "v": 1700,
+              "ease": "easeInOut"
+            }
+          ]
+        },
+        {
+          "kind": "keys",
+          "target": {
+            "kind": "camera"
+          },
+          "channel": "y",
+          "keys": [
+            {
+              "t": 0,
+              "v": -600,
+              "ease": "linear"
+            }
+          ]
+        },
+        {
+          "kind": "keys",
+          "target": {
+            "kind": "camera"
+          },
+          "channel": "height",
+          "keys": [
+            {
+              "t": 0,
+              "v": 1500,
+              "ease": "linear"
+            },
+            {
+              "t": 6,
+              "v": 1100,
+              "ease": "easeInOut"
+            }
+          ]
+        },
+        {
+          "kind": "keys",
+          "target": {
+            "kind": "camera"
+          },
+          "channel": "focus",
+          "keys": [
+            {
+              "t": 0,
+              "v": 0,
+              "ease": "linear"
+            }
+          ]
+        },
+        {
+          "kind": "keys",
+          "target": {
+            "kind": "actor",
+            "id": "man"
+          },
+          "channel": "root.x",
+          "keys": [
+            {
+              "t": 0,
+              "v": 700,
+              "ease": "linear"
+            },
+            {
+              "t": 1,
+              "v": 700,
+              "ease": "linear"
+            },
+            {
+              "t": 4,
+              "v": 1650,
+              "ease": "easeInOut"
+            }
+          ]
+        },
+        {
+          "kind": "keys",
+          "target": {
+            "kind": "actor",
+            "id": "man"
+          },
+          "channel": "root.y",
+          "keys": [
+            {
+              "t": 0,
+              "v": 0,
+              "ease": "linear"
+            }
+          ]
+        },
+        {
+          "kind": "keys",
+          "target": {
+            "kind": "actor",
+            "id": "man"
+          },
+          "channel": "facing",
+          "keys": [
+            {
+              "t": 0,
+              "v": 1,
+              "ease": "linear"
+            }
+          ]
+        },
+        {
+          "kind": "samples",
+          "target": {
+            "kind": "actor",
+            "id": "man"
+          },
+          "channel": "bone.thigh",
+          "start": 1,
+          "rate": 30,
+          "values": [
+            0.0, 7.235, 13.665, 18.575, 21.419, 21.879, 19.906, 15.718, 9.782, 2.757, -4.574, -11.397,
+            -16.951, -20.62, -21.995, -20.923, -17.524, -12.175, -5.471, 1.841, 8.948, 15.06, 19.496, 21.764,
+            21.61, 19.053, 14.375, 8.099, 0.921, -6.359, -12.931, -18.065, -21.19, -21.957, -20.281, -16.349,
+            -10.599, -3.669, 3.669, 10.599, 16.349, 20.281, 21.957, 21.19, 18.065, 12.931, 6.359, -0.921,
+            -8.099, -14.375, -19.053, -21.61, -21.764, -19.496, -15.06, -8.948, -1.841, 5.471, 12.175, 17.524,
+            20.923, 21.995, 20.62, 16.951, 11.397, 4.574, -2.757, -9.782, -15.718, -19.906, -21.879, -21.419,
+            -18.575, -13.665, -7.235, -0.0, 7.235, 13.665, 18.575, 21.419, 21.879, 19.906, 15.718, 9.782,
+            2.757, -4.574, -11.397, -16.951, -20.62, -21.995, -20.923
+          ]
+        },
+        {
+          "kind": "samples",
+          "target": {
+            "kind": "actor",
+            "id": "man"
+          },
+          "channel": "bone.thighF",
+          "start": 1,
+          "rate": 30,
+          "values": [
+            0.0, -7.235, -13.665, -18.575, -21.419, -21.879, -19.906, -15.718, -9.782, -2.757, 4.574, 11.397,
+            16.951, 20.62, 21.995, 20.923, 17.524, 12.175, 5.471, -1.841, -8.948, -15.06, -19.496, -21.764,
+            -21.61, -19.053, -14.375, -8.099, -0.921, 6.359, 12.931, 18.065, 21.19, 21.957, 20.281, 16.349,
+            10.599, 3.669, -3.669, -10.599, -16.349, -20.281, -21.957, -21.19, -18.065, -12.931, -6.359,
+            0.921, 8.099, 14.375, 19.053, 21.61, 21.764, 19.496, 15.06, 8.948, 1.841, -5.471, -12.175,
+            -17.524, -20.923, -21.995, -20.62, -16.951, -11.397, -4.574, 2.757, 9.782, 15.718, 19.906, 21.879,
+            21.419, 18.575, 13.665, 7.235, 0.0, -7.235, -13.665, -18.575, -21.419, -21.879, -19.906, -15.718,
+            -9.782, -2.757, 4.574, 11.397, 16.951, 20.62, 21.995, 20.923
+          ]
+        },
+        {
+          "kind": "keys",
+          "target": {
+            "kind": "actor",
+            "id": "man"
+          },
+          "channel": "bone.arm",
+          "keys": [
+            {
+              "t": 0,
+              "v": 4,
+              "ease": "linear"
+            },
+            {
+              "t": 4.2,
+              "v": 4,
+              "ease": "linear"
+            },
+            {
+              "t": 4.6,
+              "v": -40,
+              "ease": "easeOut"
+            },
+            {
+              "t": 8,
+              "v": -40,
+              "ease": "linear"
+            }
+          ]
+        },
+        {
+          "kind": "keys",
+          "target": {
+            "kind": "actor",
+            "id": "man"
+          },
+          "channel": "channel.gx",
+          "keys": [
+            {
+              "t": 0,
+              "v": 1,
+              "ease": "linear"
+            },
+            {
+              "t": 5.2,
+              "v": 1,
+              "ease": "linear"
+            },
+            {
+              "t": 5.4,
+              "v": 0.4,
+              "ease": "easeOut"
+            }
+          ]
+        },
+        {
+          "kind": "keys",
+          "target": {
+            "kind": "actor",
+            "id": "man"
+          },
+          "channel": "channel.mouth",
+          "keys": [
+            {
+              "t": 0,
+              "v": -0.3,
+              "ease": "linear"
+            },
+            {
+              "t": 5.5,
+              "v": -0.3,
+              "ease": "linear"
+            },
+            {
+              "t": 6.2,
+              "v": 0.5,
+              "ease": "easeInOut"
+            }
+          ]
+        },
+        {
+          "kind": "keys",
+          "target": {
+            "kind": "light",
+            "id": "door_glow"
+          },
+          "channel": "intensity",
+          "keys": [
+            {
+              "t": 0,
+              "v": 0,
+              "ease": "linear"
+            },
+            {
+              "t": 5.5,
+              "v": 0,
+              "ease": "linear"
+            },
+            {
+              "t": 6.3,
+              "v": 1.2,
+              "ease": "easeOut"
+            }
+          ]
+        },
+        {
+          "kind": "keys",
+          "target": {
+            "kind": "node",
+            "id": "mote"
+          },
+          "channel": "y",
+          "keys": [
+            {
+              "t": 0,
+              "v": -700,
+              "ease": "linear"
+            },
+            {
+              "t": 8,
+              "v": -560,
+              "ease": "linear"
+            }
+          ]
+        }
+      ],
+      "contacts": [
+        {
+          "node": "book",
+          "actor": "man",
+          "socket": "hand",
+          "from": 4.5,
+          "to": 8,
+          "offset": [0, 0]
+        }
+      ],
+      "events": [
+        {
+          "t": 5.5,
+          "node": "door",
+          "state": "open",
+          "fx": "glow",
+          "duration": 0.6
+        },
+        {
+          "t": 6.4,
+          "node": "book",
+          "state": "open",
+          "fx": "none",
+          "duration": 0
+        }
+      ]
+    }
+  ],
+  "edit": [
+    {
+      "scene": "cell",
+      "start": 0,
+      "end": 8,
+      "enter": {
+        "kind": "dip_to_black",
+        "duration": 0.4
+      }
+    }
+  ],
+  "overlays": [
+    {
+      "kind": "text",
+      "id": "title",
+      "lines": [
+        {
+          "text": "THE CELL",
+          "color": "#FFFFFF",
+          "size": 72
+        },
+        {
+          "text": "was never locked",
+          "color": "#FFD27A",
+          "size": 72
+        }
+      ],
+      "style": {
+        "font": "font_montserrat_bold@1",
+        "size": 72,
+        "color": "#FFFFFF",
+        "stroke": {
+          "color": "#000000",
+          "width": 6
+        },
+        "align": "center"
+      },
+      "at": {
+        "x": 0.5,
+        "y": 0.16
+      },
+      "in": 0.5,
+      "out": 3.5,
+      "appear": "rise"
+    },
+    {
+      "kind": "captions",
+      "id": "subs",
+      "style": {
+        "font": "font_montserrat_bold@1",
+        "size": 54,
+        "color": "#FFFFFF",
+        "align": "center"
+      },
+      "at": {
+        "x": 0.5,
+        "y": 0.78
+      },
+      "highlight": "#FFD27A",
+      "phrases": [
+        {
+          "in": 5.4,
+          "out": 7.8,
+          "words": [
+            {
+              "text": "The",
+              "t": 5.4,
+              "end": 5.6
+            },
+            {
+              "text": "door",
+              "t": 5.6,
+              "end": 6.0
+            },
+            {
+              "text": "was",
+              "t": 6.0,
+              "end": 6.2
+            },
+            {
+              "text": "open.",
+              "t": 6.2,
+              "end": 6.8
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "icon",
+      "id": "book_badge",
+      "asset": "prop_book@1",
+      "state": "open",
+      "size": 90,
+      "at": {
+        "node": "book",
+        "offset": [0, -80]
+      },
+      "in": 6.4,
+      "out": 7.8,
+      "appear": "pop"
+    }
+  ],
+  "audio": [],
+  "mix": {
+    "duckMusicDb": 8,
+    "loudness": {
+      "integratedLufs": -14,
+      "truePeakDb": -1
+    }
+  }
+}

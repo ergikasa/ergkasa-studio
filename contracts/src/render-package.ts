@@ -20,10 +20,27 @@
  *
  * Versioning: `schema` is a literal. Adding an optional field keeps `/1`; anything else is `/2`. Objects are
  * strict: an engine rejects fields it does not know.
+ *
+ * Completeness: a render package is fully materialised. The contract has no default values; whoever writes a
+ * package (the stager) writes every value, and the engine never fills one in. A field is optional only when its
+ * absence means "this does not exist" (no stroke, no panel, no wrapping width, no highlight).
+ *
+ * Evaluation (identical for every engine)
+ *   frames    frame f is shown at t = f / output.fps, f = 0 .. round(duration * fps) - 1
+ *   keys      before the first key: the first value; after the last: the last value; between keys k-1 and k:
+ *             the value travels with keys[k].ease (`hold` keeps keys[k-1] until keys[k].t). Key times strictly
+ *             increase (Validation Gate).
+ *   samples   values[i] is the value at exactly start + i / rate. At time t the engine uses values[i] with
+ *             i = floor((t - start) * rate + 1e-6), clamped to 0 .. n-1. There is no interpolation in /1: when
+ *             rate equals output.fps and start lies on a frame, every frame reads exactly one stored value, so
+ *             the motion is reproduced number for number. The stager writes samples at the rate it evaluated the
+ *             motion (no lossy resampling); for `bone.*` and `channel.*` the Validation Gate requires
+ *             rate = output.fps and start * fps to be an integer.
+ *   one track per (scene, target, channel): the Validation Gate rejects two.
  */
 import { z } from "zod";
 import { NamedEasing, Sha256 } from "./common.js";
-import { ManifestAssetRef, PartName } from "./asset-manifest.js";
+import { ContainedUri, ManifestAssetRef, PartName } from "./asset-manifest.js";
 
 export const RENDER_PACKAGE_SCHEMA = "erkasa.render/1";
 
@@ -40,11 +57,11 @@ const placement = {
   id: RId,
   x: Num,
   y: Num,
-  scale: z.number().positive().default(1),
-  rotation: Num.default(0),
-  opacity: z.number().min(0).max(1).default(1),
+  scale: z.number().positive(),
+  rotation: Num,
+  opacity: z.number().min(0).max(1),
   /** Mirror horizontally. */
-  flip: z.boolean().default(false),
+  flip: z.boolean(),
 };
 
 export const AssetNode = z
@@ -52,10 +69,10 @@ export const AssetNode = z
     ...placement,
     kind: z.literal("asset"),
     asset: ManifestAssetRef,
-    /** One of the asset's declared states; absent = its default. */
-    state: PartName.optional(),
-    /** A declared pivot of the asset to rotate and scale around; absent = its origin. */
-    pivot: PartName.optional(),
+    /** One of the asset's declared states (always written, also when it is the default state). */
+    state: PartName,
+    /** A declared pivot of the asset to rotate and scale around, or null for the asset's origin. */
+    pivot: PartName.nullable(),
   })
   .strict();
 
@@ -67,9 +84,9 @@ export const TextNode = z
     font: ManifestAssetRef,
     size: z.number().positive(),
     color: Color,
-    align: z.enum(["left", "center", "right"]).default("left"),
+    align: z.enum(["left", "center", "right"]),
     maxWidth: z.number().positive().optional(),
-    lineHeight: z.number().positive().default(1.2),
+    lineHeight: z.number().positive(),
     stroke: z.object({ color: Color, width: z.number().positive() }).strict().optional(),
   })
   .strict();
@@ -100,7 +117,7 @@ export const ShapeNode = z
           type: z.literal("rect"),
           w: z.number().positive(),
           h: z.number().positive(),
-          radius: z.number().min(0).default(0),
+          radius: z.number().min(0),
         })
         .strict(),
       z.object({ type: z.literal("ellipse"), rx: z.number().positive(), ry: z.number().positive() }).strict(),
@@ -120,9 +137,9 @@ export const Layer = z
     /** Distance behind the actors' plane (world units); negative = in front of it. */
     depth: Num,
     /** Extra blur in pixels regardless of focus (atmosphere); depth-of-field blur comes from the camera. */
-    blur: z.number().min(0).default(0),
+    blur: z.number().min(0),
     /** Whether lights in the scene affect this layer (sky and screens usually not). */
-    lit: z.boolean().default(true),
+    lit: z.boolean(),
     nodes: z.array(Node).max(2000),
   })
   .strict();
@@ -136,11 +153,11 @@ export const Actor = z
     /** The layer the actor is drawn in; actors are sorted among that layer's nodes by y. */
     layer: RId,
     /** Colours for the rig's slots (coat, hair, skin...). */
-    appearance: z.record(PartName, Color).default({}),
+    appearance: z.record(PartName, Color),
     /** A soft shadow cast away from the strongest light. */
-    shadow: z.boolean().default(true),
+    shadow: z.boolean(),
     /** A rim of light on the side facing the key light. */
-    rim: z.boolean().default(true),
+    rim: z.boolean(),
   })
   .strict();
 
@@ -155,9 +172,9 @@ export const Camera = z
     projection: z.enum(["flat", "parallax"]),
     /** Distance from the camera to the actors' plane at the reference framing, world units. */
     referenceDistance: z.number().positive(),
-    dolly: z.number().min(0).max(1).default(0.5),
+    dolly: z.number().min(0).max(1),
     /** Depth-of-field strength: blur in px per 1000 world units away from focus. 0 = everything sharp. */
-    aperture: z.number().min(0).default(0),
+    aperture: z.number().min(0),
   })
   .strict();
 
@@ -175,11 +192,11 @@ export const Light = z.discriminatedUnion("kind", [
       id: RId,
       x: Num,
       y: Num,
-      depth: Num.default(0),
+      depth: Num,
       radius: z.number().positive(),
       color: Color,
-      intensity: z.number().min(0).default(1),
-      castsShadows: z.boolean().default(false),
+      intensity: z.number().min(0),
+      castsShadows: z.boolean(),
     })
     .strict(),
   z
@@ -192,8 +209,8 @@ export const Light = z.discriminatedUnion("kind", [
         .min(3)
         .max(16),
       color: Color,
-      intensity: z.number().min(0).default(1),
-      softness: z.number().min(0).default(16),
+      intensity: z.number().min(0),
+      softness: z.number().min(0),
     })
     .strict(),
 ]);
@@ -221,8 +238,8 @@ export const RenderKeyframe = z
   .object({
     t: Seconds,
     v: z.union([Num, Color]),
-    /** How the value travels from the previous key to this one. */
-    ease: NamedEasing.default("linear"),
+    /** How the value travels from the previous key to this one (ignored on the first key, still written). */
+    ease: NamedEasing,
   })
   .strict();
 
@@ -235,14 +252,15 @@ export const KeyframeTrack = z
   })
   .strict();
 
-/** A dense track: one value per sample from `start`, `rate` samples per second (motion computed upstream). */
+/** A dense track: values[i] at start + i / rate, held until the next sample (see "Evaluation" above). */
 export const SampledTrack = z
   .object({
     kind: z.literal("samples"),
     target: TrackTarget,
     channel: ChannelName,
     start: Seconds,
-    rate: z.number().positive().max(240),
+    /** Samples per second, an integer (30 for a 30 fps film). */
+    rate: z.number().int().min(1).max(240),
     values: z.array(Num).min(1).max(200000),
   })
   .strict();
@@ -258,36 +276,44 @@ export const Contact = z
     socket: PartName,
     from: Seconds,
     to: Seconds,
-    offset: z.tuple([Num, Num]).default([0, 0]),
+    offset: z.tuple([Num, Num]),
   })
   .strict();
 
-/** A visible change at an instant: a node switches state, appears, disappears; `fx` is how the change looks. */
-export const StateEvent = z
-  .object({
-    t: Seconds,
-    node: RId,
-    state: PartName.optional(),
-    visible: z.boolean().optional(),
-    fx: z.enum(["none", "fade", "puff", "pop", "glow", "flash"]).default("none"),
-    /** How long the fx lasts. */
-    duration: z.number().min(0).max(5).default(0.3),
-  })
-  .strict();
+const Fx = z.enum(["none", "fade", "puff", "pop", "glow", "flash"]);
+/**
+ * A visible change at an instant: a node switches state, and/or appears or disappears; `fx` is how the change
+ * looks for `duration` seconds. An event that changes nothing is rejected.
+ */
+export const StateEvent = z.union([
+  z
+    .object({
+      t: Seconds,
+      node: RId,
+      state: PartName,
+      visible: z.boolean().optional(),
+      fx: Fx,
+      duration: z.number().min(0).max(5),
+    })
+    .strict(),
+  z
+    .object({ t: Seconds, node: RId, visible: z.boolean(), fx: Fx, duration: z.number().min(0).max(5) })
+    .strict(),
+]);
 
 export const Scene = z
   .object({
     id: RId,
     /** The world's extent; the camera is kept inside it. */
     bounds: z.object({ x: Num, y: Num, w: z.number().positive(), h: z.number().positive() }).strict(),
-    background: Color.default("#000000"),
+    background: Color,
     camera: Camera,
     layers: z.array(Layer).min(1).max(64),
-    actors: z.array(Actor).max(32).default([]),
-    lights: z.array(Light).max(32).default([]),
-    tracks: z.array(Track).max(5000).default([]),
-    contacts: z.array(Contact).max(500).default([]),
-    events: z.array(StateEvent).max(2000).default([]),
+    actors: z.array(Actor).max(32),
+    lights: z.array(Light).max(32),
+    tracks: z.array(Track).max(5000),
+    contacts: z.array(Contact).max(500),
+    events: z.array(StateEvent).max(2000),
   })
   .strict();
 export type Scene = z.infer<typeof Scene>;
@@ -304,10 +330,9 @@ export const Cut = z
     enter: z
       .object({
         kind: z.enum(["cut", "dissolve", "dip_to_black", "whip"]),
-        duration: z.number().min(0).max(3).default(0),
+        duration: z.number().min(0).max(3),
       })
-      .strict()
-      .default({ kind: "cut", duration: 0 }),
+      .strict(),
   })
   .strict();
 
@@ -320,8 +345,8 @@ const ScreenAnchor = z
   .strict();
 /** Follows a node or an actor on screen; offset in px. */
 const NodeAnchor = z.union([
-  z.object({ node: RId, offset: z.tuple([Num, Num]).default([0, 0]) }).strict(),
-  z.object({ actor: RId, offset: z.tuple([Num, Num]).default([0, 0]) }).strict(),
+  z.object({ node: RId, offset: z.tuple([Num, Num]) }).strict(),
+  z.object({ actor: RId, offset: z.tuple([Num, Num]) }).strict(),
 ]);
 
 const TextStyle = z
@@ -330,7 +355,7 @@ const TextStyle = z
     size: z.number().positive(),
     color: Color,
     stroke: z.object({ color: Color, width: z.number().positive() }).strict().optional(),
-    align: z.enum(["left", "center", "right"]).default("center"),
+    align: z.enum(["left", "center", "right"]),
     maxWidth: z.number().positive().optional(),
   })
   .strict();
@@ -347,8 +372,8 @@ export const Overlay = z.discriminatedUnion("kind", [
           z
             .object({
               text: z.string().min(1).max(200),
-              color: Color.optional(),
-              size: z.number().positive().optional(),
+              color: Color,
+              size: z.number().positive(),
             })
             .strict(),
         )
@@ -358,13 +383,13 @@ export const Overlay = z.discriminatedUnion("kind", [
       at: z.union([ScreenAnchor, NodeAnchor]),
       in: Seconds,
       out: Seconds,
-      appear: Appear.default("fade"),
+      appear: Appear,
       /** A backing panel behind the text. */
       panel: z
         .object({
           color: Color,
-          padding: z.number().min(0).default(16),
-          radius: z.number().min(0).default(0),
+          padding: z.number().min(0),
+          radius: z.number().min(0),
         })
         .strict()
         .optional(),
@@ -399,12 +424,12 @@ export const Overlay = z.discriminatedUnion("kind", [
       kind: z.literal("icon"),
       id: RId,
       asset: ManifestAssetRef,
-      state: PartName.optional(),
+      state: PartName,
       size: z.number().positive(),
       at: z.union([ScreenAnchor, NodeAnchor]),
       in: Seconds,
       out: Seconds,
-      appear: Appear.default("pop"),
+      appear: Appear,
     })
     .strict(),
 ]);
@@ -416,25 +441,24 @@ export const AudioClip = z
     role: z.enum(["voice", "music", "sfx", "ambience"]),
     start: Seconds,
     /** Skip this much of the file. */
-    trim: Seconds.default(0),
-    /** Stop after this long (absent: to the end of the file). */
-    duration: z.number().positive().optional(),
-    gainDb: z.number().min(-60).max(12).default(0),
-    fadeIn: Seconds.default(0),
-    fadeOut: Seconds.default(0),
+    trim: Seconds,
+    /** How long it plays (the stager computes it from the file's length when it plays to the end). */
+    duration: z.number().positive(),
+    gainDb: z.number().min(-60).max(12),
+    fadeIn: Seconds,
+    fadeOut: Seconds,
     /** Stereo position, -1 left .. 1 right. */
-    pan: z.number().min(-1).max(1).default(0),
+    pan: z.number().min(-1).max(1),
   })
   .strict();
 
 export const Mix = z
   .object({
     /** Lower music by this much while a voice clip plays. */
-    duckMusicDb: z.number().min(0).max(30).default(0),
+    duckMusicDb: z.number().min(0).max(30),
     loudness: z
       .object({ integratedLufs: z.number().min(-40).max(-5), truePeakDb: z.number().min(-12).max(0) })
-      .strict()
-      .default({ integratedLufs: -14, truePeakDb: -1 }),
+      .strict(),
   })
   .strict();
 
@@ -457,15 +481,15 @@ export const RenderPackage = z
     /** The frozen manifest every asset reference resolves in, checked by hash. */
     assetManifest: z
       .object({
-        uri: z.string().regex(/^(file:\/\/|s3:\/\/)?[A-Za-z0-9_./-]+$/),
+        uri: ContainedUri,
         sha256: Sha256,
       })
       .strict(),
     scenes: z.array(Scene).min(1).max(200),
     edit: z.array(Cut).min(1).max(2000),
-    overlays: z.array(Overlay).max(2000).default([]),
-    audio: z.array(AudioClip).max(2000).default([]),
-    mix: Mix.default({ duckMusicDb: 0, loudness: { integratedLufs: -14, truePeakDb: -1 } }),
+    overlays: z.array(Overlay).max(2000),
+    audio: z.array(AudioClip).max(2000),
+    mix: Mix,
   })
   .strict();
 export type RenderPackage = z.infer<typeof RenderPackage>;

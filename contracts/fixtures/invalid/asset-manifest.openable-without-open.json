@@ -20,6 +20,18 @@
         },
         "origin": [1280, 1920]
       },
+      "states": [
+        {
+          "name": "default",
+          "source": {
+            "kind": "file",
+            "uri": "assets/backgrounds/bg_prison_cell_01/asset.svg",
+            "sha256": "981662c55cb7c1d6958b0b5205ba16a7f87f0612ed1d682acee2cac92501515a"
+          }
+        }
+      ],
+      "defaultState": "default",
+      "affordances": [],
       "pivots": [
         {
           "id": "window",
@@ -61,6 +73,17 @@
         },
         "origin": [16, 32]
       },
+      "states": [
+        {
+          "name": "default",
+          "source": {
+            "kind": "file",
+            "uri": "assets/objects/obj_chair/asset.svg",
+            "sha256": "d663cb4185a061d8ee0772abee8f14a0bc08aef5798347e995eac0496fcc916f"
+          }
+        }
+      ],
+      "defaultState": "default",
       "affordances": [
         {
           "kind": "seat",
@@ -71,6 +94,7 @@
           "point": [16, 12]
         }
       ],
+      "pivots": [],
       "style": {
         "kit": "fluent_flat"
       },
@@ -135,6 +159,7 @@
           "state": "open"
         }
       ],
+      "pivots": [],
       "style": {
         "kit": "fluent_flat"
       },
@@ -234,7 +259,9 @@
       "format": "erkasa.rig.cutout/1",
       "source": {
         "kind": "builtin",
-        "name": "rig.cutout"
+        "name": "rig.cutout",
+        "version": 1,
+        "fingerprint": "e27fab0f9c8388cd2771a924ac84bf5b5327dc5e9f2c9d6170d696a07ba5bec4"
       },
       "height": 180,
       "bones": [
@@ -352,7 +379,9 @@
       "format": "ttf",
       "source": {
         "kind": "builtin",
-        "name": "font.montserrat-700"
+        "name": "font.montserrat-700",
+        "version": 1,
+        "fingerprint": "7fa93d7daa5c2f881a6727229c211782de6b76008fbd6346b3d7664e8fc83f43"
       },
       "family": "Montserrat",
       "weight": 700,

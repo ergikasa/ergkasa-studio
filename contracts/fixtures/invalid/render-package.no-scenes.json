@@ -13,7 +13,7 @@
   },
   "assetManifest": {
     "uri": "contracts/fixtures/valid/asset-manifest.prisoner-cell.json",
-    "sha256": "abc22b48d852e4f1cf9d6f88517465cbf5ad2bd30d94edd9f28f548df07a7568"
+    "sha256": "4c627b49e9a082cc4e1c1949ac379e3ede59352451f528945645e22360af39fc"
   },
   "scenes": [],
   "edit": [
@@ -33,11 +33,14 @@
       "id": "title",
       "lines": [
         {
-          "text": "THE CELL"
+          "text": "THE CELL",
+          "color": "#FFFFFF",
+          "size": 72
         },
         {
           "text": "was never locked",
-          "color": "#FFD27A"
+          "color": "#FFD27A",
+          "size": 72
         }
       ],
       "style": {
@@ -47,7 +50,8 @@
         "stroke": {
           "color": "#000000",
           "width": 6
-        }
+        },
+        "align": "center"
       },
       "at": {
         "x": 0.5,
@@ -63,7 +67,8 @@
       "style": {
         "font": "font_montserrat_bold@1",
         "size": 54,
-        "color": "#FFFFFF"
+        "color": "#FFFFFF",
+        "align": "center"
       },
       "at": {
         "x": 0.5,
@@ -110,7 +115,8 @@
         "offset": [0, -80]
       },
       "in": 6.4,
-      "out": 7.8
+      "out": 7.8,
+      "appear": "pop"
     }
   ],
   "audio": [],
