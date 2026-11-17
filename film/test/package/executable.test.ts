@@ -10,6 +10,7 @@ import { openPackage } from "../../src/package/render.js";
 import { BENCH } from "../../src/golden.js";
 import { mixed } from "../../../gate/test/executable-cases.js";
 import { write } from "../../../gate/test/helpers.js";
+import { VALUE_POSITIVE } from "../../../gate/test/value-cases.js";
 import { fixtureB, staged, type Film } from "./helpers.js";
 
 const caps = capabilities().render as RenderCapabilities;
@@ -63,6 +64,28 @@ describe("allowed edge packages (P2)", () => {
       const g = validate({ package: w.text, root: w.root, capabilities: caps });
       expect(g.errors).toEqual([]);
       expect(await renders(w)).toBeGreaterThan(0);
+    },
+    900_000,
+  );
+});
+
+describe("allowed values (final audit F2/F3): pass the gate and are drawn", () => {
+  it.each(VALUE_POSITIVE.map((p) => [p.name, p] as const))(
+    "%s: passes and its scene renders",
+    async (_, p) => {
+      const s = p.start();
+      p.mutate(s);
+      const w = write(s.pkg, s.manifest, { root: s.root });
+      const g = validate({ package: w.text, root: w.root, capabilities: caps });
+      expect(g.errors).toEqual([]);
+      const o = openPackage({ package: w.text, root: w.root });
+      if (!o.ok) throw new Error(JSON.stringify(o.errors.slice(0, 3)));
+      const r = o.renderer;
+      const cut = r.pkg.edit.find((c) => c.scene === r.pkg.scenes[p.scene]?.id);
+      expect(cut).toBeDefined();
+      const k = Math.ceil(((cut?.start ?? 0) + p.t) * r.fps - 1e-9);
+      expect(r.at(k).cur.id).toBe(r.pkg.scenes[p.scene]?.id);
+      expect((await r.pixels(k)).length).toBe(r.width * r.height * 4);
     },
     900_000,
   );

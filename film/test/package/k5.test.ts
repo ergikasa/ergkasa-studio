@@ -20,8 +20,11 @@ const spy = () => {
 };
 
 describe("K5: refused packages", () => {
-  it("there are 103: E1.3's 48, EASE_UNDEFINED, SVG_UNSAFE, the audit's 16 and G16's 37 (E1.4)", () => {
-    expect(CASES.length).toBe(103);
+  it("there are 163: E1.3's 48, EASE_UNDEFINED, SVG_UNSAFE, the audit's 16, G16's 37 (E1.4) and the final audit's 60 (F1 46, F2 9, F3 5)", () => {
+    expect(CASES.length).toBe(163);
+    expect(CASES.filter((c) => /^F1 /.test(c.name)).length).toBe(46);
+    expect(CASES.filter((c) => /^F2 /.test(c.name)).length).toBe(9);
+    expect(CASES.filter((c) => /^F3 /.test(c.name)).length).toBe(5);
     expect(CASES.filter((c) => / audit: /.test(c.name)).length).toBe(16);
     const codes = CASES.flatMap((c) => c.expect.map((e) => e.split(" ")[0]));
     expect(codes).toContain("EASE_UNDEFINED");

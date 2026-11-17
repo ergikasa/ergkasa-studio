@@ -534,7 +534,8 @@ export const EXEC_CASES: ExecCase[] = [
         n.id.includes("mid"),
       )!;
       const p = (mid as { params: Record<string, unknown> }).params;
-      p["world"] = { ...(p["world"] as object), extra: 1 };
+      const w = p["world"] as { seed: number };
+      p["world"] = { ...w, seed: w.seed + 1 };
     },
     expect: ["VALUE_UNSUPPORTED package/scenes/0/layers/4/nodes/0/params/world"],
   },

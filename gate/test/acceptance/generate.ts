@@ -81,7 +81,16 @@ const procedural = (id: string, states: Array<[string, string]>, size: { w: numb
     defaultState: (states[0] as [string, string])[0],
     affordances: [],
     pivots: [],
-    ...(params.length ? { parameters: structuredClone(params) } : {}),
+    // the manifest's parameter contract (kind, id, range); the allowed values stay in the engine's capabilities
+    ...(params.length
+      ? {
+          parameters: params.map((p) =>
+            p.kind === "channel"
+              ? { kind: p.kind, id: p.id, range: [...p.range] }
+              : { kind: p.kind, id: p.id },
+          ),
+        }
+      : {}),
     provenance: { origin: "builtin" },
     ...meta,
   };

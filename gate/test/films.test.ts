@@ -127,7 +127,7 @@ describe("contract fixtures (A): schema examples, not claimed executable", () =>
     ]);
   });
 
-  it("office-procedural is refused for eases without a definition, the clock template's inputs (since capabilities v2 also their missing tracks) and two builtins this engine does not carry", () => {
+  it("office-procedural is refused for eases without a definition, the clock template's inputs (since capabilities v2 also their missing tracks), type lines written as {text} instead of {t}, and two builtins this engine does not carry", () => {
     expect(
       gateFile("contracts/fixtures/valid/render-package.office-procedural.json").errors.map(
         (e) => `${e.code} ${e.file}${e.path}`,
@@ -135,6 +135,8 @@ describe("contract fixtures (A): schema examples, not claimed executable", () =>
     ).toEqual([
       "TRACK_MISSING package/scenes/0/layers/2/nodes/0",
       "TRACK_MISSING package/scenes/0/layers/2/nodes/0",
+      "VALUE_UNSUPPORTED package/scenes/0/screen/0/nodes/0/params/lines/0/t",
+      "VALUE_UNSUPPORTED package/scenes/0/screen/0/nodes/0/params/lines/0/text",
       "EASE_UNDEFINED package/scenes/0/tracks/3/keys/2/ease",
       "EASE_UNDEFINED package/scenes/0/tracks/6/keys/2/ease",
       "VALUE_UNSUPPORTED package/scenes/1/tracks/4/channel",

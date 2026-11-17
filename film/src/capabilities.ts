@@ -12,10 +12,13 @@ import {
   CAPABILITIES_VERSION as RENDER_CAPABILITIES,
   type BuiltinCapability,
   type CapabilityParameter as BuiltinParameter,
+  type ParamSchema,
   type RenderCapabilities,
 } from "@erkasa/gate";
 import { FIELDS } from "./capabilities-fields.js";
 import { CHANNELS, drawPerson, lookFor, STANDING } from "./rig.js";
+import { PARAMS } from "./templates.js";
+import { z } from "zod";
 import { SETS } from "./sets.js";
 import { fontFiles, H, W } from "./style.js";
 import { REF } from "./w0/camera.js";
@@ -92,7 +95,84 @@ const W0_STATE: BuiltinParameter[] = [
   { kind: "channel", id: "clockMin", range: ANY },
   { kind: "channel", id: "binders", range: ANY },
 ];
-const statics = (...ids: string[]): BuiltinParameter[] => ids.map((id) => ({ kind: "static", id }));
+const statics = (schemas: Record<string, ParamSchema>): BuiltinParameter[] =>
+  Object.entries(schemas).map(([id, schema]) => ({ kind: "static", id, schema }));
+
+// ---- the values the static parameters take (what the drawing code reads; style.ts TypeLine, w0/world.ts
+// WorldParams, templates.ts PARAMS, v2frame.ts places)
+const NUM: ParamSchema = { type: "number" };
+const NUM_OR_NULL: ParamSchema = { type: ["number", "null"] };
+const DUR: ParamSchema = { type: "number", exclusiveMinimum: 0 };
+/** Facing: the drawing mirrors by the sign only (left −1, right 1); no other value is a direction. */
+const FACING: ParamSchema = { type: "number", enum: [-1, 1] };
+const ANCHORS: ParamSchema = { type: "object", additionalProperties: NUM_OR_NULL };
+const PLACE: ParamSchema = { type: "string", enum: ["top", "center", "bottom"] };
+const LINES: ParamSchema = {
+  type: "array",
+  minItems: 1,
+  items: {
+    type: "object",
+    properties: {
+      t: { type: "string" },
+      weight: { type: "string", enum: ["light", "bold"] },
+      accent: { type: "boolean" },
+      size: { type: "number", exclusiveMinimum: 0 },
+    },
+    required: ["t"],
+    additionalProperties: false,
+  },
+};
+const W0_PALETTE = [
+  "coral",
+  "cream",
+  "floor",
+  "ink",
+  "ochre",
+  "slate",
+  "teal",
+  "wall",
+  "wallLow",
+  "wood",
+  "woodDark",
+];
+const WORLD: ParamSchema = {
+  type: "object",
+  properties: {
+    seed: { type: "number" },
+    years: { type: "array", items: { type: "number" } },
+    palette: {
+      type: "object",
+      properties: Object.fromEntries(
+        W0_PALETTE.map((k) => [k, { type: "string", pattern: "^#[0-9A-Fa-f]{6}$" }]),
+      ),
+      required: W0_PALETTE,
+      additionalProperties: false,
+    },
+  },
+  required: ["seed", "years", "palette"],
+  additionalProperties: false,
+};
+/** A template's own inputs (templates.ts PARAMS), with no input the template does not read. */
+const templateParams = (t: (typeof Template.options)[number]): ParamSchema => {
+  const strict = (n: unknown): unknown => {
+    if (Array.isArray(n)) return n.map(strict);
+    if (!n || typeof n !== "object") return n;
+    const o = Object.fromEntries(
+      Object.entries(n)
+        .filter(([k]) => k !== "$schema")
+        .map(([k, v]) => [k, strict(v)]),
+    );
+    if (
+      o["type"] === "object" &&
+      (o["additionalProperties"] === undefined ||
+        (typeof o["additionalProperties"] === "object" &&
+          !Object.keys(o["additionalProperties"] as object).length))
+    )
+      o["additionalProperties"] = false;
+    return o;
+  };
+  return strict(z.toJSONSchema(PARAMS[t])) as ParamSchema;
+};
 
 /**
  * The drawings the current engine implements in code and the package features it draws. These are declarations
@@ -104,31 +184,76 @@ const rigHeight = (build: "man" | "woman"): number => {
   return d.feet - d.top;
 };
 
-/** W0's place: the roles of its layers (w0/compositor.ts reads each from one layer; see `blur` and `depth`). */
+/**
+ * W0's place: the roles of its layers, as package/draw.ts w0Scene and w0/compositor.ts draw them.
+ *   - a layer has the role of its defining node (`assign: node`) or of the actor drawn in it (`assign: actor`);
+ *   - `members`: what the compositor draws as part of the role, wherever the node is; so it must be in that layer;
+ *   - `blur`/`depth`: the compositor reads one value per role: the role's own layer, the first layer of a role
+ *     that repeats (`first`: the people share the first actor layer's blur), or another role's (held props are
+ *     drawn with the people, on the furniture's plane; the city with the sky's blur).
+ */
+const role = (
+  r: Omit<RenderCapabilities["projections"][string]["roles"][string], "assign" | "repeat" | "members"> &
+    Partial<
+      Pick<RenderCapabilities["projections"][string]["roles"][string], "assign" | "repeat" | "members">
+    >,
+): RenderCapabilities["projections"][string]["roles"][string] => ({
+  assign: "node",
+  repeat: false,
+  members: r.builtin ? [r.builtin] : [],
+  ...r,
+});
 const W0_ROLES: RenderCapabilities["projections"][string]["roles"] = {
-  sky: { builtin: "w0.sky", required: true, blur: "own", depth: "own", lit: false },
-  city: {
+  sky: role({ builtin: "w0.sky", required: true, blur: "own", depth: "own", lit: false }),
+  city: role({
     builtin: "w0.city",
     params: { near: false },
     required: true,
     blur: "sky",
     depth: "own",
     lit: false,
-  },
-  city_near: {
+  }),
+  city_near: role({
     builtin: "w0.city",
     params: { near: true },
     required: true,
     blur: "sky",
     depth: "own",
     lit: false,
-  },
-  wall: { builtin: "w0.wall", required: true, blur: "own", depth: "own", lit: true },
-  mid: { builtin: "w0.mid", required: true, blur: "own", depth: "own", lit: true },
-  near: { builtin: "w0.near", required: false, blur: "own", depth: "own", lit: true },
-  // people are drawn on the furniture's plane with the first actor layer's blur; held props with the people
-  actors: { builtin: "", required: false, blur: "own", depth: "mid", lit: true },
-  held: { builtin: "prop.*.held", required: false, blur: "actors", depth: "mid", lit: true },
+  }),
+  wall: role({ builtin: "w0.wall", required: true, blur: "own", depth: "own", lit: true }),
+  // props at rest are drawn on the furniture's plane (w0Scene: resting, wherever the node is)
+  mid: role({
+    builtin: "w0.mid",
+    members: ["w0.mid", "prop.*.resting"],
+    required: true,
+    blur: "own",
+    depth: "own",
+    lit: true,
+  }),
+  near: role({ builtin: "w0.near", required: false, blur: "own", depth: "own", lit: true }),
+  // people: one per layer, as many layers as actors; drawn on the furniture's plane with the first one's blur
+  actors: role({
+    assign: "actor",
+    builtin: "",
+    members: [],
+    repeat: true,
+    required: false,
+    blur: "first",
+    depth: "mid",
+    lit: true,
+    // with no person, the held props are drawn unblurred (w0Scene: people blur 0)
+    absent: { blur: 0 },
+  }),
+  // props in a hand: drawn with the people (their blur, the furniture's plane)
+  held: role({
+    builtin: "prop.*.held",
+    repeat: true,
+    required: false,
+    blur: "actors",
+    depth: "mid",
+    lit: true,
+  }),
 };
 
 export function renderCapabilities(): RenderCapabilities {
@@ -162,6 +287,7 @@ export function renderCapabilities(): RenderCapabilities {
       slots: ["coat", "coatDark", "pants", "skin", "skinShade", "hair"],
       // a bone or channel without a track: the standing pose (package/draw.ts actorSvg); glow off; placement at
       // the origin, facing right, unturned, unscaled
+      channelValues: { facing: [-1, 1] },
       rest: {
         ...(STANDING as unknown as Record<string, number>),
         glow: 0,
@@ -265,24 +391,33 @@ export function renderCapabilities(): RenderCapabilities {
           `prop.${k}.held`,
           "./props.ts",
           [
-            { kind: "channel", id: "facing", range: [-1, 1] },
+            { kind: "channel", id: "facing", range: [-1, 1], values: [-1, 1] },
             { kind: "channel", id: "rot", range: ANY },
           ],
           ["x", "y"],
         ),
       ]),
       ...Template.options.map((t) =>
-        vector(`template.${t}`, "./templates.ts", [...statics("params", "anchors", "dur"), TIME]),
+        vector(`template.${t}`, "./templates.ts", [
+          ...statics({ params: templateParams(t), anchors: ANCHORS, dur: DUR }),
+          TIME,
+        ]),
       ),
-      vector("type.kinetic", "./style.ts", [...statics("lines", "y", "at", "out", "dark"), TIME]),
-      vector("overlay.scrim", "./v2frame.ts", statics("place")),
-      vector("overlay.ots", "./v2frame.ts", [...statics("facing", "dur"), TIME]),
+      vector("type.kinetic", "./style.ts", [
+        ...statics({ lines: LINES, y: NUM, at: NUM, out: NUM_OR_NULL, dark: { type: "boolean" } }),
+        TIME,
+      ]),
+      vector("overlay.scrim", "./v2frame.ts", statics({ place: PLACE })),
+      vector("overlay.ots", "./v2frame.ts", [...statics({ facing: FACING, dur: DUR }), TIME]),
       vector("w0.sky", "./w0/world.ts", W0_STATE),
-      vector("w0.city", "./w0/world.ts", [...statics("seed", "near"), ...W0_STATE]),
-      vector("w0.wall", "./w0/world.ts", [...statics("world"), ...W0_STATE]),
-      vector("w0.mid", "./w0/world.ts", [...statics("world"), ...W0_STATE]),
+      vector("w0.city", "./w0/world.ts", [...statics({ seed: NUM, near: { type: "boolean" } }), ...W0_STATE]),
+      vector("w0.wall", "./w0/world.ts", [...statics({ world: WORLD }), ...W0_STATE]),
+      vector("w0.mid", "./w0/world.ts", [...statics({ world: WORLD }), ...W0_STATE]),
       vector("w0.near", "./w0/world.ts", W0_STATE),
-      vector("type.w0", "./w0/compositor.ts", [...statics("lines", "place", "at", "out"), TIME]),
+      vector("type.w0", "./w0/compositor.ts", [
+        ...statics({ lines: LINES, place: PLACE, at: NUM, out: NUM_OR_NULL }),
+        TIME,
+      ]),
       ...fonts,
     ],
     fields: FIELDS,

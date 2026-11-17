@@ -9,8 +9,15 @@
  */
 export const CAPABILITIES_VERSION = "erkasa.capabilities/2";
 
+import { schemaProblems, type ParamSchema } from "./json-schema.js";
+
+/**
+ * A channel parameter takes any number in `range`, or, with `values`, only those values (and then a keys track
+ * may change between two of them only with `hold`). A static parameter takes the values `schema` allows.
+ */
 export type CapabilityParameter =
-  { kind: "channel"; id: string; range: [number, number] } | { kind: "static"; id: string };
+  | { kind: "channel"; id: string; range: [number, number]; values?: number[] }
+  | { kind: "static"; id: string; schema: ParamSchema };
 
 /** The placement fields of a node; a builtin applies only those it lists (the others must be the identity). */
 export const PLACEMENT = ["x", "y", "scale", "rotation", "opacity", "flip", "pivot"] as const;
@@ -36,20 +43,33 @@ export interface BuiltinCapability {
     rest: Record<string, number>;
     /** Height of the rig standing at rest, in world units, as the engine draws it. */
     height: number;
+    /** Actor channels (`facing`, `turn`, `root.*`, `channel.*`, `bone.*`) that take only these values. */
+    channelValues: Record<string, number[]>;
   };
   font?: { family: string; weight: number };
 }
 
 export interface LayerRole {
-  /** The builtin whose node gives a layer this role, with the static parameters that select it. */
+  /**
+   * How a layer gets the role: `node`, a node of `builtin` (with `params`) in it; `actor`, an actor drawn in it.
+   */
+  assign: "node" | "actor";
   builtin: string;
   params?: Record<string, unknown>;
-  /** Exactly one such layer in every scene of the projection, or at most one. */
+  /** Exactly one layer with the role in every scene of the projection (`required`), and whether more may exist. */
   required: boolean;
-  /** `own`, or the role whose value this layer must repeat (the engine reads that one). */
+  repeat: boolean;
+  /** The builtins (patterns) the engine draws as part of this role; a node anywhere else is refused. */
+  members: string[];
+  /**
+   * Where the engine reads the value from: `own` (this layer), `first` (the first layer of this role, the others
+   * must repeat it) or the name of another role (this layer must repeat that role's value).
+   */
   blur: string;
   depth: string;
   lit: boolean;
+  /** The value the engine uses for a role that reads this one when no layer has this role. */
+  absent?: { blur?: number; depth?: number };
 }
 
 export interface ProjectionRule {
@@ -151,11 +171,18 @@ export function capabilityProblems(c: unknown): string[] {
       if (!isObj(p.roles)) out.push(`${at}.roles is not a map`);
       else
         for (const [role, x] of Object.entries(p.roles)) {
-          const ok = isObj(x) && typeof x.builtin === "string" && typeof x.required === "boolean";
+          const ok =
+            isObj(x) &&
+            typeof x.builtin === "string" &&
+            (x.assign === "node" || x.assign === "actor") &&
+            typeof x.required === "boolean" &&
+            typeof x.repeat === "boolean" &&
+            isStrings(x.members) &&
+            typeof x.lit === "boolean";
           if (!ok) out.push(`${at}.roles.${role} is not a role`);
           else
             for (const k of ["blur", "depth"] as const)
-              if (x[k] !== "own" && !(x[k] in p.roles))
+              if (x[k] !== "own" && x[k] !== "first" && !(x[k] in p.roles))
                 out.push(`${at}.roles.${role}.${k} names a role that does not exist ('${x[k]}')`);
         }
       if (!isObj(p.actors) || typeof p.actors.rim !== "boolean" || typeof p.actors.shadow !== "boolean")
@@ -203,6 +230,13 @@ export function capabilityProblems(c: unknown): string[] {
     if (b.kind === "vector" && !(isStrings(b.placement) && b.placement.every((f) => PLACEMENT.includes(f))))
       out.push(`${b.name}: placement is not a list of placement fields`);
     if (b.kind === "rig" && !b.rig) out.push(`${b.name}: a rig builtin without its rig description`);
+    for (const p of b.parameters ?? []) {
+      if (p.kind === "static") out.push(...schemaProblems(p.schema, `${b.name}.${p.id}`));
+      if (p.kind === "channel" && p.values !== undefined && !isNumbers(p.values))
+        out.push(`${b.name}.${p.id}: values is not a list of numbers`);
+    }
+    if (b.kind === "rig" && b.rig && !isObj(b.rig.channelValues))
+      out.push(`${b.name}: a rig without its channelValues`);
     if (
       b.kind === "rig" &&
       b.rig &&

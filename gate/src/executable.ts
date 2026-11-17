@@ -18,6 +18,7 @@ import {
   type ProjectionRule,
   type RenderCapabilities,
 } from "./capabilities.js";
+import { schemaViolations } from "./json-schema.js";
 import { pointer as P, type Findings } from "./report.js";
 
 type Pkg = RenderPackage;
@@ -243,6 +244,29 @@ export function checkExecutable(
               `'${d.name}' (state '${n.state}') does not read ${t.channel}`,
             );
         });
+        // static parameters: the values the drawing reads (the manifest says which are set, the engine which values)
+        for (const p of d.b.parameters ?? []) {
+          if (p.kind !== "static" || !(p.id in (n.params ?? {}))) continue;
+          for (const v of schemaViolations(n.params?.[p.id], p.schema))
+            F.error(
+              "VALUE_UNSUPPORTED",
+              "package",
+              np("params", p.id) + v.path,
+              `'${d.name}' ${p.id}: ${v.message}`,
+            );
+        }
+        // channel parameters with discrete values
+        for (const p of d.b.parameters ?? [])
+          if (p.kind === "channel" && p.values) {
+            const ti = trackIndex("node", n.id, `param.${p.id}`);
+            discrete(
+              F,
+              scene.tracks[ti],
+              p.values,
+              (...x) => sp("tracks", ti, ...x),
+              `'${d.name}' param.${p.id}`,
+            );
+          }
         // every channel parameter the builtin takes is read on every frame: it needs a track
         for (const p of d.b.parameters ?? [])
           if (p.kind === "channel" && trackIndex("node", n.id, `param.${p.id}`) < 0)
@@ -315,6 +339,14 @@ export function checkExecutable(
           sp("actors", k, "layer"),
           `'${a.layer}' holds ${l.nodes.length} node(s) and ${others} actor(s): an actor is drawn in a layer of its own (it is not sorted among nodes)`,
         );
+      // rig channels with discrete values (facing: the drawing mirrors by its sign)
+      const ra = assets.get(a.rig)?.a;
+      const rb =
+        ra?.kind === "rig" && ra.source.kind === "builtin" ? builtins.get(ra.source.name) : undefined;
+      for (const [c, values] of Object.entries(rb?.rig?.channelValues ?? {})) {
+        const ti = trackIndex("actor", a.id, c);
+        discrete(F, scene.tracks[ti], values, (...x) => sp("tracks", ti, ...x), `actor '${a.id}' ${c}`);
+      }
       for (const f of ["rim", "shadow"] as const)
         if (a[f] !== rule.actors[f])
           F.error(
@@ -410,7 +442,54 @@ export function checkExecutable(
   });
 }
 
-/** Parallax: every layer has a role; required roles once; values the engine reads from one layer are repeated. */
+/**
+ * A track of a channel that takes only `values`: every value is one of them, and between two keys of different
+ * values the change is a `hold` (a linear key would pass through values in between).
+ */
+function discrete(
+  F: Findings,
+  t: Track | undefined,
+  values: number[],
+  at: (...x: Array<string | number>) => string,
+  what: string,
+): void {
+  if (!t) return;
+  const ok = (v: unknown): boolean => typeof v === "number" && values.includes(v);
+  if (t.kind === "samples")
+    t.values.forEach((v, k) => {
+      if (!ok(v))
+        F.error(
+          "VALUE_UNSUPPORTED",
+          "package",
+          at("values", k),
+          `${String(v)}: ${what} takes only ${values.join(", ")}`,
+        );
+    });
+  else
+    t.keys.forEach((key, k) => {
+      if (!ok(key.v))
+        F.error(
+          "VALUE_UNSUPPORTED",
+          "package",
+          at("keys", k, "v"),
+          `${String(key.v)}: ${what} takes only ${values.join(", ")}`,
+        );
+      else if (k > 0 && key.ease !== "hold" && key.v !== t.keys[k - 1]?.v)
+        F.error(
+          "VALUE_UNSUPPORTED",
+          "package",
+          at("keys", k, "ease"),
+          `'${key.ease}' from ${String(t.keys[k - 1]?.v)} to ${String(key.v)}: ${what} changes only by 'hold'`,
+        );
+    });
+}
+
+/**
+ * Parallax: every layer has a role, given as the projection declares it (`assign`); a role that does not repeat
+ * is given once, required roles in every scene; every builtin is in a layer whose role draws it (`members`); the
+ * values the engine reads from one layer (`blur`, `depth`: own, the role's first layer, or another role's) are
+ * repeated. Nothing here names a role: what each role is comes from the capabilities.
+ */
 function checkRoles(
   F: Findings,
   scene: Scene,
@@ -418,15 +497,17 @@ function checkRoles(
   rule: ProjectionRule,
   drawnBy: (n: Node) => { name: string; b?: BuiltinCapability } | undefined,
 ): void {
+  const roles = Object.entries(rule.roles);
+  const actorRole = roles.find(([, r]) => r.assign === "actor")?.[0];
   const roleOf = new Map<number, string>();
   const nodeOfRole = new Map<string, { j: number; k: number; n: Node }>();
   scene.layers.forEach((l, j) => {
-    if (scene.actors.some((a) => a.layer === l.id)) return void roleOf.set(j, "actors");
+    if (actorRole && scene.actors.some((a) => a.layer === l.id)) roleOf.set(j, actorRole);
     l.nodes.forEach((n, k) => {
       const d = drawnBy(n);
       if (!d) return;
-      for (const [role, r] of Object.entries(rule.roles)) {
-        if (!r.builtin || !matches(r.builtin, d.name)) continue;
+      for (const [role, r] of roles) {
+        if (r.assign !== "node" || !matches(r.builtin, d.name)) continue;
         const params = (n.kind === "asset" ? n.params : undefined) ?? {};
         if (
           r.params &&
@@ -442,7 +523,7 @@ function checkRoles(
           );
         else roleOf.set(j, role);
         const prev = nodeOfRole.get(role);
-        if (prev && role !== "held" && role !== "actors")
+        if (prev && !r.repeat)
           F.error(
             "ID_DUPLICATE",
             "package",
@@ -453,15 +534,20 @@ function checkRoles(
       }
     });
   });
-  for (const [role, r] of Object.entries(rule.roles))
-    if (r.required && !nodeOfRole.has(role))
+  const firstLayer = (role: string): number | undefined =>
+    [...roleOf.entries()]
+      .filter(([, r]) => r === role)
+      .map(([j]) => j)
+      .sort((a, b) => a - b)[0];
+  for (const [role, r] of roles)
+    if (r.required && firstLayer(role) === undefined)
       F.error(
         "ROLE_MISSING",
         "package",
         sp("layers"),
-        `a parallax scene needs its '${role}' layer (${r.builtin})`,
+        `a ${scene.camera.projection} scene needs its '${role}' layer (${r.builtin || r.assign})`,
       );
-  // nodes in the right role's layer: resting props on the furniture's plane, held props with the people
+  // every node in a layer whose role draws it
   scene.layers.forEach((l, j) => {
     const role = roleOf.get(j);
     if (!role && l.nodes.length)
@@ -469,22 +555,22 @@ function checkRoles(
         "CAPABILITY_MISSING",
         "package",
         sp("layers", j),
-        `layer '${l.id}' has no role in a parallax scene; the engine draws only the roles ${Object.keys(rule.roles).join(", ")}`,
+        `layer '${l.id}' has no role in a ${scene.camera.projection} scene; the engine draws only the roles ${roles.map(([x]) => x).join(", ")}`,
       );
     l.nodes.forEach((n, k) => {
       const d = drawnBy(n);
-      if (d?.name.match(/^prop\..*\.resting$/) && role !== "mid")
+      if (!d) return;
+      const drawers = roles.filter(([, r]) => r.members.some((m) => matches(m, d.name))).map(([x]) => x);
+      if (drawers.length && !(role && drawers.includes(role)))
         F.error(
           "CAPABILITY_MISSING",
           "package",
           sp("layers", j, "nodes", k, "asset"),
-          `a prop at rest is drawn on the furniture's plane: it belongs to the 'mid' layer, not '${role ?? l.id}'`,
+          `'${d.name}' is drawn as part of the ${drawers.map((x) => `'${x}'`).join(" or ")} layer, not ${role ? `'${role}'` : `layer '${l.id}', which has no role`}`,
         );
     });
   });
-  // values the compositor reads from one layer only
-  const layerOf = (role: string): number | undefined =>
-    role === "actors" ? [...roleOf].find(([, r]) => r === "actors")?.[0] : nodeOfRole.get(role)?.j;
+  // values the engine reads from one layer only
   scene.layers.forEach((l, j) => {
     const role = roleOf.get(j);
     const r = role ? rule.roles[role] : undefined;
@@ -497,16 +583,22 @@ function checkRoles(
         `${l.lit}: the engine draws the '${role}' layer ${r.lit ? "lit" : "unlit"}`,
       );
     for (const f of ["blur", "depth"] as const) {
-      const readFrom: string | undefined = r[f] === "own" ? (role === "actors" ? "actors" : undefined) : r[f];
-      const srcLayer: number | undefined = readFrom !== undefined ? layerOf(readFrom) : undefined;
-      if (srcLayer === undefined || srcLayer === j) continue;
-      const want = scene.layers[srcLayer]?.[f];
+      if (r[f] === "own") continue;
+      const from = r[f] === "first" ? role : r[f];
+      const src = firstLayer(from);
+      if (src === j) continue;
+      const absent = rule.roles[from]?.absent?.[f];
+      const want = src !== undefined ? scene.layers[src]?.[f] : absent;
+      const whose =
+        src !== undefined
+          ? `the ${f} of '${scene.layers[src]?.id}'`
+          : `the ${f} it uses when there is no '${from}' layer`;
       if (want !== undefined && l[f] !== want)
         F.error(
           "VALUE_UNSUPPORTED",
           "package",
           sp("layers", j, f),
-          `${l[f]}: the engine draws the '${role}' layer with the ${f} of '${scene.layers[srcLayer]?.id}' (${want})`,
+          `${l[f]}: the engine draws the '${role}' layer with ${whose} (${want})`,
         );
     }
   });
@@ -515,7 +607,7 @@ function checkRoles(
   const src = sf ? nodeOfRole.get(sf.role) : undefined;
   if (sf && src)
     for (const [role, { j, k, n }] of nodeOfRole) {
-      if (role === sf.role || role === "held" || role === "actors") continue;
+      if (role === sf.role) continue;
       const d = drawnBy(n);
       for (const c of sf.channels) {
         if (!d?.b?.parameters?.some((p) => p.kind === "channel" && p.id === c)) continue;
