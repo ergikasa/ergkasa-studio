@@ -1,6 +1,7 @@
 /**
- * K4 (iii): contact sheet of fixtures B, drawn by the package renderer, for the PO's approval. Once approved,
- * golden-fixtures-b.pending.json (written by golden-package.ts --write) becomes golden-fixtures-b.json.
+ * K4 (iii): contact sheet of fixtures B, drawn by the package renderer, for the PO's approval. Approved by the PO
+ * on 2026-11-17 (docs/reports/e1-4/fixtures-b-contact-sheet.png): golden-fixtures-b.pending.json became
+ * golden-fixtures-b.json unchanged.
  *
  *   node --expose-gc --import tsx test/package/contact-sheet.ts <out.png>
  */

@@ -5,7 +5,8 @@
  *   node --expose-gc --import tsx test/package/golden-package.ts --verify   K2 + K3 against golden.json and
  *        golden-evidence.json; K7: a second, separate run must give golden-package.json's hashes exactly
  *   node --expose-gc --import tsx test/package/golden-package.ts --write    records golden-package.json, only after
- *        --verify's K2 and K3 pass (the renderer's own baseline: SVG text and pixels)
+ *        --verify's K2 and K3 pass (the renderer's own baseline: SVG text and pixels); refused once
+ *        golden-fixtures-b.json exists (approved by the PO on 2026-11-17: the baselines are E1.4 evidence)
  *
  * Frames: the 405 v2 golden frames of B1–B5 (renderer frame of each golden time), the 136 W0 evidence frames
  * (46 golden among them) and every frame of fixtures B (prisoner-cell 240, office-clock 150).
@@ -175,6 +176,12 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     const pick = (sets: string[]): All => Object.fromEntries(sets.map((x) => [x, all[x] ?? {}]));
     const main = SETS.filter((x) => !B_SETS.includes(x));
     if (process.argv.includes("--write")) {
+      // E1.4: the fixtures B baseline was approved by the PO (2026-11-17); from then on both baselines are
+      // evidence and are never rewritten by this tool
+      if (existsSync(FIXTURES_B)) {
+        console.error(`${FIXTURES_B} is approved: the baselines are not rewritten`);
+        process.exit(1);
+      }
       writeFileSync(GOLDEN_PACKAGE, `${JSON.stringify({ idsOnly, frames: pick(main) }, null, 1)}\n`);
       writeFileSync(FIXTURES_B_PENDING, `${JSON.stringify({ frames: pick(B_SETS) }, null, 1)}\n`);
       console.info(`written ${GOLDEN_PACKAGE} and ${FIXTURES_B_PENDING}`);
