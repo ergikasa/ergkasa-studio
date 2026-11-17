@@ -100,7 +100,10 @@ export function compose(plan: FilmPlan, timing: Timing, opts: { cast?: CastMembe
             : `<rect x="0" y="0" width="${W}" height="${text.place === "center" ? 1100 : 620}" fill="url(#scrimT)"/>`
           : "";
       const light = shot.kind === "editorial" && LIGHT_BG.has(shot.template ?? "statement");
-      return scrim + kineticType(t, text.lines, { y, at: textAt, out: textOut ?? null, dark: light });
+      return (
+        scrim +
+        kineticType(t, text.lines, { id: `kt-${index}`, y, at: textAt, out: textOut ?? null, dark: light })
+      );
     };
     const events = [...(textAt !== undefined ? [textAt] : [])];
 

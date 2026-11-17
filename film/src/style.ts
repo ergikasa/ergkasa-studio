@@ -61,7 +61,6 @@ export interface TypeLine {
   size?: number;
 }
 
-let clipSeq = 0;
 const esc = (s: string): string => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
 /** Rough width of a Montserrat line, for wrapping and fitting. */
@@ -72,11 +71,15 @@ export function textWidth(t: string, size: number, weight: "light" | "bold"): nu
 /**
  * Kinetic editorial type: each line rises out of its own mask with a small overshoot, staggered; leaves by
  * fading up. Lines are fitted to the safe width (they shrink rather than overflow).
+ *
+ * `id` names the clip paths (`<id>-<line>`): the caller derives it from what is drawn (a shot, a package node),
+ * so the same type always gets the same ids, whatever was drawn before it (E1.4; it was a global counter).
  */
 export function kineticType(
   t: number,
   lines: TypeLine[],
   opts: {
+    id: string;
     x?: number;
     y?: number;
     at?: number;
@@ -84,7 +87,7 @@ export function kineticType(
     out?: number | null;
     dark?: boolean;
     align?: "left" | "center";
-  } = {},
+  },
 ): string {
   const x = opts.x ?? 90;
   const at = opts.at ?? 0;
@@ -117,7 +120,7 @@ export function kineticType(
     const tx = opts.align === "center" ? W / 2 : x;
     const op = Math.min(1, p * 1.4) * fade;
     if (op > 0.002) {
-      const id = `kt${clipSeq++}`;
+      const id = `${opts.id}-${i}`;
       o += `<defs><clipPath id="${id}"><rect x="0" y="${fmt(yy - sz)}" width="${W}" height="${fmt(sz * 1.28)}"/></clipPath></defs><g clip-path="url(#${id})"><text x="${tx}" y="${fmt(yy + dy)}" text-anchor="${anchor}" font-family="Montserrat" font-weight="${weight === "bold" ? 900 : 300}" font-size="${sz}" letter-spacing="${weight === "bold" ? -1 : 0}" fill="${fill}" fill-opacity="${fmt(op)}">${esc(ln.t)}</text></g>`;
     }
     yy += sz * 0.16;

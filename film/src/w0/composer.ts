@@ -707,7 +707,12 @@ export function typeSvg(P: Prepared, ps: PreparedShot, t: number): string {
       clamp((t - ps.textAt + 0.2) / 0.5) * (ps.textOut !== undefined ? 1 - clamp((t - ps.textOut) / 0.4) : 1);
     if (a > 0.01)
       o += `<rect x="0" y="0" width="${W}" height="${text.place === "top" ? 760 : 1920}" fill="url(#scrimW0)" opacity="${a.toFixed(3)}"/>`;
-    o += kineticType(t, text.lines, { y, at: ps.textAt, out: ps.textOut ?? null });
+    o += kineticType(t, text.lines, {
+      id: `kt-w0-${P.shots.indexOf(ps)}`,
+      y,
+      at: ps.textAt,
+      out: ps.textOut ?? null,
+    });
   }
   // captions: the phrase being spoken, the current word in the accent colour
   const T = ps.start + t;

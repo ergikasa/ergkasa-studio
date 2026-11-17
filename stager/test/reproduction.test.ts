@@ -70,7 +70,7 @@ type AssetNode = Extract<Scene["layers"][number]["nodes"][number], { kind: "asse
  * kineticType numbers its clip paths with a module-level counter (`kt1094`), so the same type drawn twice gets
  * different ids: the picture is the same, the text is not. Open before E1.4 (deterministic ids per node).
  */
-const ids = (svg: string): string => svg.replace(/kt\d+/g, "kt#");
+const ids = (svg: string): string => svg.replace(/(id="|url\(#)kt[A-Za-z0-9_-]*/g, "$1kt#");
 
 /** Reads one scene at one frame, only through src/evaluate.ts. */
 class At {
@@ -167,6 +167,7 @@ function v2Screen(at: At): string {
       "type",
     );
     o += kineticType(at.n("node", "type", "param.t"), p.lines, {
+      id: "kt-stager",
       y: p.y,
       at: p.at,
       out: p.out,

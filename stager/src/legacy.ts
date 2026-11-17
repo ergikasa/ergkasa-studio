@@ -75,7 +75,8 @@ export function w0TypeSvg(
   let o = "";
   if (a > 0.01)
     o += `<rect x="0" y="0" width="${W}" height="${place === "top" ? 760 : 1920}" fill="url(#scrimW0)" opacity="${a.toFixed(3)}"/>`;
-  return o + kineticType(t, lines, { y, at, out });
+  // the clip-path ids are the caller's; the tests compare with ids normalised
+  return o + kineticType(t, lines, { id: "kt-stager", y, at, out });
 }
 
 /** The engine source files whose hashes pin each builtin (until the engine publishes fingerprints, E1.3). */

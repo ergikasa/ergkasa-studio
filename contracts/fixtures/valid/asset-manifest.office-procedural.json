@@ -143,7 +143,7 @@
         "kind": "builtin",
         "name": "type.kinetic",
         "version": 1,
-        "fingerprint": "ff219f03ee9644ac933be1d7656862fb5ea070027dd54b0dd6940ee2df51e927"
+        "fingerprint": "73c0e7bc2ae8bbb346684b22a5533a17f4a32d19744207a9e4df0abfa31c863e"
       },
       "geometry": {
         "viewBox": [0, 0, 1080, 1920],
@@ -160,7 +160,7 @@
             "kind": "builtin",
             "name": "type.kinetic",
             "version": 1,
-            "fingerprint": "ff219f03ee9644ac933be1d7656862fb5ea070027dd54b0dd6940ee2df51e927"
+            "fingerprint": "73c0e7bc2ae8bbb346684b22a5533a17f4a32d19744207a9e4df0abfa31c863e"
           }
         }
       ],

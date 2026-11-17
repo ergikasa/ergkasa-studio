@@ -13,7 +13,7 @@
   },
   "assetManifest": {
     "uri": "contracts/fixtures/valid/asset-manifest.office-procedural.json",
-    "sha256": "8e5dd915f36e2993b7f1dd8c2b968c5b3f0f3a0e0d6ea872722ac62e12a1191d"
+    "sha256": "1afe4d288a55174c8c2700e0a4a866b2cbdca2836e5a6105868dae64db6c8201"
   },
   "scenes": [
     {
