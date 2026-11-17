@@ -317,12 +317,24 @@ describe("w0-office: every frame's inputs rebuilt from the package equal the eng
   const captions = pkg.overlays.filter((o) => o.kind === "captions");
 
   it("the edit covers every rendered frame once, in order; samples read their own frame", () => {
-    let next = 0;
+    // E1.4: cuts start at the shot's exact start, so a frame's cut (start <= T < end) is the shot W0 draws, and
+    // T - cut.start is the time W0 measures a fade from, bit for bit
+    let at = 0;
     for (const cut of pkg.edit) {
-      expect(Math.round(cut.start * FPS)).toBe(next);
-      next = Math.round(cut.end * FPS);
+      expect(cut.start).toBe(at);
+      at = cut.end;
     }
-    expect(next).toBe(Math.round(P.duration * FPS));
+    expect(at).toBe(pkg.output.duration);
+    frames.forEach((fr, i) =>
+      fr
+        .filter((f) => !f.tail)
+        .forEach((f) => {
+          const T = frameTime(f.frame, FPS);
+          const cut = pkg.edit.find((c) => T >= c.start && T < c.end);
+          expect(cut?.scene).toBe(pkg.scenes[i]?.id);
+          if (!Object.is(T - (cut?.start ?? NaN), f.t)) expect.fail(`frame ${f.frame}: local time differs`);
+        }),
+    );
     pkg.scenes.forEach((scene, i) =>
       scene.tracks.forEach((tr) => {
         if (tr.kind === "samples")

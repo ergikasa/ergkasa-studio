@@ -278,15 +278,17 @@ export function stageW0(name: string, plan: W0Plan, script: Script): Staged {
     });
   });
 
-  // edit: each scene from its first own frame to the next scene's first own frame
-  const firsts = frames.map((fr) => (fr[0] as SceneFrame).frame);
+  // edit: each scene from its shot's exact start to the next shot's (E1.4, PO decision): the frames are assigned as
+  // W0 assigns them (start <= T < next start) and a dissolve's progress is measured from the shot's start, as the
+  // W0 compositor measures it (renderFrame: EASES.io(t / 0.5) with t = T - start)
   const total = Math.round(P.duration * FPS);
   P.shots.forEach((ps, i) => {
     const fade = i > 0 && ps.w.shot.transition === "fade";
+    const next = P.shots[i + 1];
     edit.push({
       scene: (scenes[i] as Scene).id,
-      start: (firsts[i] as number) / FPS,
-      end: (i + 1 < firsts.length ? (firsts[i + 1] as number) : total) / FPS,
+      start: i === 0 ? 0 : ps.start,
+      end: next ? next.start : total / FPS,
       enter: { kind: fade ? "dissolve" : "cut", duration: fade ? W0_FADE_SEC : 0 },
     });
   });
