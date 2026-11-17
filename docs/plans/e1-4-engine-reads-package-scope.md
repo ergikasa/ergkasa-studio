@@ -128,9 +128,17 @@ Nuk e zgjedh vetë, sepse prek një vendim të pranuar të E1.3.
 
 **K3. W0 ruan pamjen**
 
-- **Baseline:** 46 kuadrot golden të W0, plus çdo i 10-ti kuadër i W0 (136), të renderuar nga rruga e sotme para kodit dhe të ruajtur në `golden-evidence.json`.
+- **Baseline:** bashkimi i 46 kuadrove golden të W0 me çdo të 10-in kuadër të W0: **136 kuadro të ndryshëm**. Ata u renderuan nga rruga e sotme para kodit dhe u ruajtën në `golden-evidence.json`.
 - **Metrika:** hash-i i pikselëve RGBA të renderer-it.
-- **Kalon kur:** 182/182 identikë.
+- **Kalon kur:** 136/136 identikë.
+
+> **Korrigjim (2026-11-17, pas implementimit).** Versioni i miratuar (`eda5ab5`) shkruante "182/182". Ai numër i mblidhte dy bashkësitë sikur të ishin të ndara (46 + 136). Në fakt:
+>
+> - Kuadrot golden të W0 janë në çdo sekondë të plotë, nga 0 deri në 45 s, pra kuadrot 0, 30, …, 1350.
+> - Çdo shumëfish i 30-ës është edhe shumëfish i 10-ës, kështu që të 46 kuadrot golden janë tashmë brenda 136 kuadrove çdo të 10-të (0, 10, …, 1350).
+> - Bashkimi ka pra 136 kuadro, jo 182. Asnjë kuadër nuk mungon dhe nuk u hoq nga kontrolli.
+>
+> Vërtetuar nga skedarët: `golden-evidence.json` ka 136 kuadro W0, të gjithë shumëfisha të 10-ës; 46/46 kuadrot e `golden.json` janë brenda tyre. I njëjti numërim i dyfishtë ishte edhe te K7 (shih atje).
 
 **K4. Fixtures B renderohen nga paketa**
 
@@ -151,7 +159,10 @@ Nuk e zgjedh vetë, sepse prek një vendim të pranuar të E1.3.
 
 **K7. Determinizmi**
 
-- **Metrika:** hash-et e kuadrove nga dy procese të ndara: 451 kuadrot golden, 136 kuadrot shtesë të W0, të gjithë kuadrot e fixtures B.
+- **Metrika:** hash-et e kuadrove nga dy procese të ndara: 405 kuadrot golden v2, 136 kuadrot W0 të K3 (përfshijnë 46 kuadrot golden të W0) dhe të gjithë kuadrot e fixtures B (240 + 150). Gjithsej **931 kuadro të ndryshëm**.
+
+> **Korrigjim (2026-11-17):** versioni `eda5ab5` shkruante "451 golden + 136 shtesë të W0". Kjo i numëronte dy herë 46 kuadrot golden të W0, të cilët janë brenda të 136-ve (shih K3). Bashkësia e matur nuk ndryshon.
+
 - **Kalon kur:** identikë.
 
 **K8. Evaluatori i pastër dhe siguria e SVG-ve**

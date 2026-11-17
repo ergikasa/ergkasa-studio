@@ -1,11 +1,11 @@
 # E1.4: Engine-i lexon Render Package-in (raporti përfundimtar)
 
-|         |                                                                                                                                       |
-| ------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| Branch  | `e1-4-engine-reads-package` (nuk është bërë merge në `main`; `main` mbetet `7f8ffca`)                                                 |
-| Scope   | `docs/plans/e1-4-engine-reads-package-scope.md` @ `eda5ab5`, me vendimet e PO-së gjatë implementimit (§3 më poshtë)                   |
-| Statusi | K1, K2, K3, K5, K6, K7, K8 dhe K9 kalojnë. **K4 (iii) pret miratimin e contact sheet-it.** Pipeline-i i ri nuk është vënë si default. |
-| Data    | 2026-11-17                                                                                                                            |
+|         |                                                                                                                                                                                                                         |
+| ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Branch  | `e1-4-engine-reads-package` (nuk është bërë merge në `main`; `main` mbetet `7f8ffca`)                                                                                                                                   |
+| Scope   | `docs/plans/e1-4-engine-reads-package-scope.md` @ `eda5ab5`, me vendimet e PO-së gjatë implementimit (§3 më poshtë)                                                                                                     |
+| Statusi | K1, K2, K3, K5, K6, K7, K8 dhe K9 kalojnë. **K4 (iii) pret miratimin e contact sheet-it.** **Hapur:** Gate-i pranon katër lloje paketash që renderer-i nuk i vizaton (§5.2). Pipeline-i i ri nuk është vënë si default. |
+| Data    | 2026-11-17                                                                                                                                                                                                              |
 
 ## 1. Çfarë u ndërtua
 
@@ -30,11 +30,11 @@
 | ------ | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
 | **K1** | B1–B5 kuadër për kuadër              | **6 043/6 043**: SVG e renderer-it = `frameAt` pas normalizimit të id-ve `kt`; asgjë mbi vinjetë (pa captions)                                                                                                                                                                                                                                                                                                                              | `film/test/package/k1.test.ts`                                                                |
 | **K2** | Golden                               | Rruga e vjetër, pas heqjes së `clipSeq`: **451/451** (`pnpm --filter @erkasa/film golden`). Renderer-i: **451/451** (`golden:package`). Në të dyja: 265 kuadro v2 me tekst SVG identik me historikun; **140** ndryshojnë vetëm te id-të, me SVG të normalizuar dhe piksele identike me provat; 46 W0 me piksele = `golden.json`. `golden.json` ka 0 bajt të ndryshuar. Lista e 140 kuadrove: `film/golden/golden-package.json` → `idsOnly`. | `golden-evidence.ts --verify`, `test/package/golden-package.ts`                               |
-| **K3** | W0 ruan pamjen                       | **136/136** piksele identike te renderer-i (46 golden + çdo i 10-ti kuadër). Scope-i shkruante 182; numri i saktë është 136, sepse të 46 golden janë brenda kuadrove çdo të 10-të (raportuar më parë).                                                                                                                                                                                                                                      | `golden-package.ts`                                                                           |
+| **K3** | W0 ruan pamjen                       | **136/136** kuadro me piksele identike te renderer-i (bashkimi i 46 kuadrove golden me çdo të 10-in kuadër; shih §3.11 për pse jo 182)                                                                                                                                                                                                                                                                                                      | `golden-package.ts`                                                                           |
 | **K4** | Fixtures B                           | (i) **0 gabime**: 240 + 150 kuadro të renderuara dhe të rasterizuara. (ii) **390/390**: çdo nyje e dukshme dhe çdo person janë në SVG; çdo nyje vizaton diçka në ndonjë kuadër; captions vetëm në kuadrot 161–233 të `prisoner-cell` (fraza 5,35–7,8 s). (iii) **Pret miratimin:** `docs/reports/e1-4/fixtures-b-contact-sheet.png`; hash-et janë te `golden-fixtures-b.pending.json`.                                                      | `k4.test.ts`, `contact-sheet.ts`                                                              |
 | **K5** | Paketa e refuzuar nuk prodhon kuadro | **50/50**: gjetjet e `renderPackage` = `validate()` (gabime dhe paralajmërime); 0 kuadro; `begin` i sink-ut nuk thirret, pra encoder-i nuk niset                                                                                                                                                                                                                                                                                            | `k5.test.ts` (të njëjtat 50 raste si `gate/test/negative.test.ts`, nga `gate/test/broken.ts`) |
 | **K6** | Pa planner, script apo Stager        | Grafi tranzitiv (vetëm importet në ekzekutim) arrin vetëm `contracts`, `engine`, `film` dhe `gate`. Asnjë `planner`, `stager`, `ai-worker`, `timing.ts`, `perform.ts`, `continuity.ts`, `compose.ts`, `w0/composer.ts` apo director. Modulet e renderer-it nuk importojnë `node:fs`. Pas verifikimit, skedarët në disk zëvendësohen me vizatim tjetër dhe kuadrot nuk ndryshojnë.                                                           | `test/package/boundary.test.ts`                                                               |
-| **K7** | Determinizmi                         | **931/931** hash identikë në dy ekzekutime të ndara, çdo pjesë në procesin e vet: 405 v2 + 136 W0 + 390 fixtures B                                                                                                                                                                                                                                                                                                                          | `golden:package` kundrejt `golden-package.json`                                               |
+| **K7** | Determinizmi                         | **931/931** hash identikë në dy ekzekutime të ndara, çdo pjesë në procesin e vet: 405 v2 + 136 W0 + 390 fixtures B (kuadro të ndryshëm; 46 kuadrot golden të W0 janë brenda të 136-ve)                                                                                                                                                                                                                                                      | `golden:package` kundrejt `golden-package.json`                                               |
 | **K8** | Evaluatori dhe siguria e SVG-ve      | Testi i kufirit të evaluatorit + testet e zhvendosura kalojnë. `SVG_UNSAFE`: **677/677** SVG të bibliotekës pranohen pa ndryshim; 6 raste pozitive; 20 raste negative refuzohen me shtegun e saktë; ndalim te problemi i parë                                                                                                                                                                                                               | `contracts/test/evaluate*.test.ts`, `gate/test/svg.test.ts`, `negative.test.ts`               |
 | **K9** | Pa regresion                         | **688 teste kalojnë** (588 para E1.4): contracts 226, gate 134, film 150, stager 70, ai-worker 35, compiler 28, engine 23, engine-worker 16, planner 6. Typecheck, lint dhe format pa gabime. `contracts:gen --check` pa diff. `golden.json` pa ndryshim.                                                                                                                                                                                   | `pnpm test`, `pnpm typecheck`, `pnpm lint`, `pnpm format:check`                               |
 
@@ -51,6 +51,12 @@
 9. **Fontet për Skia.** Renderer-i i regjistron vetë fontet e Engine-it, siç bën CLI-ja e W0, sepse tipi dhe captions e W0 vizatohen si SVG nga Skia.
 10. **Captions në skenat flat vizatohen mbi vinjetë**, si te W0, nëpërmjet `v2Frame(…, over)`. `style.ts` nuk preket.
 
+11. **K3 ka 136 kuadro, jo 182.**
+    - Kuadrot golden të W0 janë në çdo sekondë të plotë (kuadrot 0, 30, …, 1350). Të gjithë janë shumëfisha të 10-ës, pra janë tashmë brenda 136 kuadrove çdo të 10-të (0, 10, …, 1350).
+    - "182" në scope-in `eda5ab5` i numëronte dy herë (46 + 136); bashkimi ka 136 kuadro të ndryshëm.
+    - Asnjë kuadër nuk u hoq. E njëjta korrigjim vlen edhe për metrikën e K7 (931 kuadro të ndryshëm).
+    - Vërtetuar nga `golden-evidence.json`: 136 kuadro W0, të gjithë shumëfisha të 10-ës, 46/46 golden brenda tyre. Scope-i u korrigjua me shënim të datuar.
+
 ## 4. Sjellje e Engine-it që paketa nuk e mbart (e dokumentuar te `package/draw.ts`)
 
 - Builtin-et vektoriale vizatojnë në koordinatat e skenës; vendosja e nyjes (x, y, scale) nuk u aplikohet atyre, sepse Stager-i i shkruan neutrale.
@@ -61,12 +67,34 @@
 ## 5. Kriteret dhe kufijtë e pambyllur
 
 1. **K4 (iii):** contact sheet-i pret miratimin. Pas miratimit, `golden-fixtures-b.pending.json` bëhet `golden-fixtures-b.json`; kontrolli K7 e përdor automatikisht.
-2. **Gjëra që renderer-i refuzon me gabim të qartë (për E1.5):**
-   - gjendjet e aseteve që janë element brenda skedarit kryesor;
-   - nyjet jo-W0 në skena `parallax`;
-   - tranzicionet midis skenave flat dhe `parallax`;
-   - `whip` në skena `parallax`.
-     Gate-i nuk i kap këto, sepse `capabilities` nuk i përshkruajnë ende.
+2. **Katër kufizimet e renderer-it: Gate-i i pranon (problem kontrate, i hapur).** I verifikova më 2026-11-17 me katër paketa, secila me një ndryshim mbi bazën e testeve negative të Gate-it (B3 + karrigia nga skedar) ose mbi W0. Gate-i u ekzekutua me `capabilities()` e Engine-it:
+
+   | Paketa                                                                                  | Gate-i           | Renderer-i                                                                                     |
+   | --------------------------------------------------------------------------------------- | ---------------- | ---------------------------------------------------------------------------------------------- |
+   | Gjendje e asetit si element i skedarit kryesor (`{ name: "default", element: "seat" }`) | **ok, 0 gabime** | gabim: `chairfile: state 'default' is an element of prop_chairfile@1's file…`                  |
+   | Nyje jo-W0 në skenë `parallax` (B3, `s02_sh02` me `projection: "parallax"`)             | **ok, 0 gabime** | gabim: `s02_sh02/set_back: 'set.room.back' is not drawn in a parallax scene`                   |
+   | Tranzicion flat → `parallax` (B3, `edit/1` dissolve 0,45 s, skena e dytë `parallax`)    | **ok, 0 gabime** | gabim: `s02_sh02: a parallax scene enters only by cut or dissolve from another parallax scene` |
+   | `whip` në `parallax` (W0, dissolve-i i `s12_sh12` → whip 0,32 s)                        | **ok, 0 gabime** | gabim: e njëjta si më sipër                                                                    |
+   - **Shkaku.** `RenderCapabilities` (`gate/src/capabilities.ts`) i përshkruan aftësitë si lista të pavarura: `projections`, `transitions`, `builtins`… Ato nuk mund të thonë:
+     - që gjendjet-element nuk vizatohen;
+     - që `parallax` vizaton vetëm botën e W0 dhe objektet e saj;
+     - që një tranzicion varet nga projeksionet e dy skenave.
+
+     Kështu Gate-i i lë të kalojnë, dhe dështimi ndodh vetëm gjatë renderimit, pas kalimit të Gate-it. Kjo bie ndesh me parimin "çfarë kalon Gate-in, vizatohet". K5 nuk e kap, sepse mat vetëm paketat që Gate-i i refuzon.
+
+   - **Gjetje shtesë.** Për një gjendje-element, Gate-i nuk kontrollon që id-ja e elementit ekziston në skedarin kryesor ("seat" nuk ekziston te karrigia).
+   - **Ndryshimi minimal që propozoj (pa e implementuar; kërkon vendimin e PO-së, sepse zgjeron kontratën `RenderCapabilities`):** Gate-i i refuzon para renderimit, me kode dhe shtigje të sakta.
+     - `capabilities` fiton dy fusha:
+       - `stateSources` (Engine-i sot: `["source"]`);
+       - `projectionRules.parallax = { builtins: ["w0.*", "prop.*"], screenBuiltins: ["type.w0"], enter: ["cut", "dissolve"], enterFrom: ["parallax"] }`.
+     - Gate-i nxjerr:
+       - `CAPABILITY_MISSING` te `manifest:/assets/i/states/j/element`;
+       - `CAPABILITY_MISSING` te `package:/scenes/i/layers/j/nodes/k/asset` për nyjen jo-W0 në `parallax`;
+       - `CAPABILITY_MISSING` te `package:/edit/i/enter/kind` për whip në `parallax` ose për tranzicion midis projeksioneve të ndryshme;
+       - `REF_MISSING` te `manifest:/assets/i/states/j/element` kur elementi nuk ekziston në skedar.
+     - Katër paketat më sipër shtohen te rastet negative (50 → 54+) dhe te K5.
+     - Mbështetja e tyre nga renderer-i (alternativa) është punë e E1.5 dhe nuk e kam nisur.
+
 3. Kamera e papërpunuar e B1–B5 dhe heqja e `legacy.ts` (me kopjet e Stager-it): E1.5, siç ishte planifikuar.
 4. Pipeline-i i ri nuk është default. Audio mbetet në rrugën e vjetër.
 
