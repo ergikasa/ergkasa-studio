@@ -1,0 +1,574 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 51,
+  "numPassedTests": 3,
+  "numFailedTests": 7,
+  "numPendingTests": 41,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1794896124687,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path the base itself passes",
+          "status": "skipped",
+          "title": "the base itself passes",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path not JSON",
+          "status": "skipped",
+          "title": "not JSON",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path unknown major version",
+          "status": "skipped",
+          "title": "unknown major version",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path schema: fps missing",
+          "status": "skipped",
+          "title": "schema: fps missing",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path manifest changed after pinning",
+          "status": "skipped",
+          "title": "manifest changed after pinning",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path manifest missing",
+          "status": "skipped",
+          "title": "manifest missing",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path asset file changed after approval",
+          "status": "skipped",
+          "title": "asset file changed after approval",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path asset file is a symlink out of the root",
+          "status": "skipped",
+          "title": "asset file is a symlink out of the root",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path asset pending approval",
+          "status": "skipped",
+          "title": "asset pending approval",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path builtin the engine does not carry",
+          "status": "skipped",
+          "title": "builtin the engine does not carry",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path builtin fingerprint of another implementation",
+          "status": "skipped",
+          "title": "builtin fingerprint of another implementation",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path builtin version the engine does not have",
+          "status": "skipped",
+          "title": "builtin version the engine does not have",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path builtin removed from the engine",
+          "status": "skipped",
+          "title": "builtin removed from the engine",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path a vector drawn by a rig builtin",
+          "status": "failed",
+          "title": "a vector drawn by a rig builtin",
+          "duration": 24.08968900000002,
+          "failureMessages": [
+            "AssertionError: expected [ …(4) ] to deeply equal [ Array(1) ]\n    at /home/claude/ergkasa-studio/gate/test/negative.test.ts:405:72\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:2885:79\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:1632:35\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:2801:26\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:3338:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:3333:10)\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:3318:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:3276:10)"
+          ],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path node draws an asset not in the manifest",
+          "status": "failed",
+          "title": "node draws an asset not in the manifest",
+          "duration": 12.019409999999993,
+          "failureMessages": [
+            "AssertionError: expected [ …(4) ] to deeply equal [ Array(1) ]\n    at /home/claude/ergkasa-studio/gate/test/negative.test.ts:405:72\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:2885:79\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:1632:35\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:2801:26\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:3338:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:3333:10)\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:3318:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:3276:10)"
+          ],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path actor's rig is not a rig",
+          "status": "skipped",
+          "title": "actor's rig is not a rig",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path node in an undeclared state",
+          "status": "skipped",
+          "title": "node in an undeclared state",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path state change with an fx the engine does not draw",
+          "status": "passed",
+          "title": "state change with an fx the engine does not draw",
+          "duration": 11.05612199999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path static input of a procedural asset missing",
+          "status": "skipped",
+          "title": "static input of a procedural asset missing",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path unknown static input",
+          "status": "skipped",
+          "title": "unknown static input",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path manifest declares an input the engine does not take",
+          "status": "failed",
+          "title": "manifest declares an input the engine does not take",
+          "duration": 13.562679000000003,
+          "failureMessages": [
+            "AssertionError: expected [ …(8) ] to deeply equal [ Array(1) ]\n    at /home/claude/ergkasa-studio/gate/test/negative.test.ts:405:72\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:2885:79\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:1632:35\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:2801:26\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:3338:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:3333:10)\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:3318:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:3276:10)"
+          ],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path manifest omits an input the engine needs",
+          "status": "failed",
+          "title": "manifest omits an input the engine needs",
+          "duration": 9.640581999999995,
+          "failureMessages": [
+            "AssertionError: expected [ …(2) ] to deeply equal [ Array(1) ]\n    at /home/claude/ergkasa-studio/gate/test/negative.test.ts:405:72\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:2885:79\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:1632:35\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:2801:26\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:3338:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:3333:10)\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:3318:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:3276:10)"
+          ],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path track on a node that does not exist",
+          "status": "skipped",
+          "title": "track on a node that does not exist",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path bone the rig does not have",
+          "status": "skipped",
+          "title": "bone the rig does not have",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path two tracks for one channel",
+          "status": "skipped",
+          "title": "two tracks for one channel",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path light level outside its range",
+          "status": "skipped",
+          "title": "light level outside its range",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path keys out of order",
+          "status": "skipped",
+          "title": "keys out of order",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path key after the end of the film",
+          "status": "skipped",
+          "title": "key after the end of the film",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path bone samples not at the film's frame rate",
+          "status": "skipped",
+          "title": "bone samples not at the film's frame rate",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path a gap in the edit",
+          "status": "skipped",
+          "title": "a gap in the edit",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path the edit shows a scene that does not exist",
+          "status": "skipped",
+          "title": "the edit shows a scene that does not exist",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path transition longer than its cut",
+          "status": "skipped",
+          "title": "transition longer than its cut",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path two scenes with one id",
+          "status": "failed",
+          "title": "two scenes with one id",
+          "duration": 9.67303800000002,
+          "failureMessages": [
+            "AssertionError: expected [ …(2) ] to deeply equal [ 'ID_DUPLICATE package/scenes/1/id' ]\n    at /home/claude/ergkasa-studio/gate/test/negative.test.ts:405:72\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:2885:79\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:1632:35\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:2801:26\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:3338:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:3333:10)\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:3318:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:3276:10)"
+          ],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path one object held by two people at once",
+          "status": "skipped",
+          "title": "one object held by two people at once",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path hand the rig does not have",
+          "status": "skipped",
+          "title": "hand the rig does not have",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path actor in a layer that does not exist",
+          "status": "skipped",
+          "title": "actor in a layer that does not exist",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path appearance misses a slot",
+          "status": "skipped",
+          "title": "appearance misses a slot",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path projection the engine does not draw",
+          "status": "failed",
+          "title": "projection the engine does not draw",
+          "duration": 12.501510999999937,
+          "failureMessages": [
+            "AssertionError: expected [ …(8) ] to deeply equal [ Array(1) ]\n    at /home/claude/ergkasa-studio/gate/test/negative.test.ts:405:72\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:2885:79\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:1632:35\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:2801:26\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:3338:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:3333:10)\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:3318:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:3276:10)"
+          ],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path transition the engine does not draw",
+          "status": "passed",
+          "title": "transition the engine does not draw",
+          "duration": 9.572404000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path film longer than the budget",
+          "status": "skipped",
+          "title": "film longer than the budget",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path package larger than the budget",
+          "status": "failed",
+          "title": "package larger than the budget",
+          "duration": 8.647885999999971,
+          "failureMessages": [
+            "AssertionError: expected [ …(2) ] to deeply equal [ 'BUDGET_PACKAGE_BYTES package' ]\n    at /home/claude/ergkasa-studio/gate/test/negative.test.ts:405:72\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:2885:79\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:1632:35\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:2801:26\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:3338:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:3333:10)\n    at file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:3318:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///home/claude/ergkasa-studio/node_modules/.pnpm/vitest@5.1.0_@types+node@22.19.1_vite@8.3.6_@types+node@22.19.1_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.15_/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:3276:10)"
+          ],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path too many scenes",
+          "status": "skipped",
+          "title": "too many scenes",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path too many nodes in a scene",
+          "status": "skipped",
+          "title": "too many nodes in a scene",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path too many nodes in the film",
+          "status": "skipped",
+          "title": "too many nodes in the film",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path too many tracks",
+          "status": "skipped",
+          "title": "too many tracks",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path too many sample values",
+          "status": "skipped",
+          "title": "too many sample values",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path too many assets",
+          "status": "skipped",
+          "title": "too many assets",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path asset file larger than the budget",
+          "status": "passed",
+          "title": "asset file larger than the budget",
+          "duration": 15.125141000000099,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path capabilities that cannot be trusted",
+          "status": "skipped",
+          "title": "capabilities that cannot be trusted",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path covers at least 20 distinct error codes",
+          "status": "skipped",
+          "title": "covers at least 20 distinct error codes",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["broken packages are refused with the exact code and path"],
+          "fullName": "broken packages are refused with the exact code and path a deprecated builtin is a warning, not an error",
+          "status": "skipped",
+          "title": "a deprecated builtin is a warning, not an error",
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1794896125213,
+      "endTime": 1794896125339.1252,
+      "status": "failed",
+      "message": "",
+      "name": "/home/claude/ergkasa-studio/gate/test/negative.test.ts"
+    }
+  ]
+}

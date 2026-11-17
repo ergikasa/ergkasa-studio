@@ -8,6 +8,7 @@ packages:
   - film
   - planner
   - stager
+  - gate
 
 onlyBuiltDependencies:
   - esbuild

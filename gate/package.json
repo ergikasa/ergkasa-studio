@@ -1,0 +1,22 @@
+{
+  "name": "@erkasa/gate",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Validation Gate (E1.3): decides whether an erkasa.render/1 package may be rendered. Checks everything the JSON Schema cannot: the pinned manifest, files inside the asset root, approvals, builtins against the engine's published capabilities, references, states, parameters, tracks, times, holders and budgets. Depends only on @erkasa/contracts; the engine's capabilities come in as data.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@erkasa/contracts": "workspace:*"
+  },
+  "devDependencies": {
+    "@erkasa/film": "workspace:*",
+    "@erkasa/stager": "workspace:*",
+    "vitest": "5.1.0"
+  }
+}
