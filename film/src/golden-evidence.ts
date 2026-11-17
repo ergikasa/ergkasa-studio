@@ -11,11 +11,18 @@
  *   node --expose-gc --import tsx src/golden-evidence.ts --raster-v2 --film <b>          (pixels, one film per process)
  *   node --expose-gc --import tsx src/golden-evidence.ts --capture-w0 --from a --to b   (W0 slices, same)
  *   node --expose-gc --import tsx src/golden-evidence.ts --check                    (complete and consistent)
+ *   node --expose-gc --import tsx src/golden-evidence.ts --verify                   (today's engine against it)
+ *
+ * --verify (E1.4, after the kinetic-type ids became deterministic): a v2 frame passes if its SVG text is the
+ * historical one; otherwise its SVG must contain kinetic-type ids, its normalised SVG must equal the evidence
+ * AND its pixels must equal the evidence. W0 frames must have the evidence pixels. No tolerance, no PSNR.
+ * Each film and each W0 slice runs in its own process (resvg and the W0 compositor keep native memory).
  */
 import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
+import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { FilmPlan } from "./contract.js";
 import { frameAt } from "./compose.js";
@@ -127,6 +134,69 @@ export function checkAgainstGolden(e: Evidence): void {
           throw new Error(`${film} @ ${T}: missing or different`);
 }
 
+export interface V2Verdict {
+  frames: number;
+  /** frames whose SVG text changed, each proven by normalised SVG and pixels */
+  changed: string[];
+  failures: string[];
+}
+
+/** One film of today's engine against the evidence (see --verify). */
+export function verifyV2(
+  e: Evidence,
+  film: string,
+  svgOf: (T: string) => string,
+  opts: { pixels: boolean } = { pixels: true },
+): V2Verdict {
+  const g = e.v2[`v2/${film}`];
+  if (!g) throw new Error(`${film}: no evidence`);
+  const out: V2Verdict = { frames: 0, changed: [], failures: [] };
+  for (const [T, ev] of Object.entries(g)) {
+    out.frames++;
+    const svg = svgOf(T);
+    if (sha(svg) === ev.text) continue;
+    out.changed.push(T);
+    const norm = normaliseKtIds(svg);
+    if (norm === svg) out.failures.push(`${film} @ ${T}: the SVG changed and it has no kinetic-type ids`);
+    else if (sha(norm) !== ev.norm) out.failures.push(`${film} @ ${T}: the normalised SVG differs`);
+    else if (opts.pixels && sha(rasterize(svg)) !== ev.px)
+      out.failures.push(`${film} @ ${T}: the pixels differ`);
+  }
+  return out;
+}
+
+/** Today's SVG of a v2 film at the golden times (the old path: script + film plan). */
+export function v2Svgs(film: string): (T: string) => string {
+  const plan = FilmPlan.parse(JSON.parse(readFileSync(join(ROOT, `film/plans/${film}.film.json`), "utf8")));
+  const s0 = Script.parse(
+    JSON.parse(readFileSync(join(ROOT, `benchmark/scripts/${film}.script.json`), "utf8")),
+  );
+  const { composed } = prepare({ script: s0, plan });
+  return (T) => {
+    const t = Number(T);
+    const i = Math.max(
+      0,
+      composed.shots.findIndex((s) => t >= s.start && t < s.end),
+    );
+    const s = composed.shots[i];
+    if (!s) throw new Error(`${film} @ ${T}: no shot`);
+    return frameAt(composed, i, Math.round((t - s.start) * FPS));
+  };
+}
+
+/** Runs this file in a fresh process and returns the JSON it prints last. */
+const child = <R>(args: string[]): R => {
+  const out = execFileSync(
+    process.execPath,
+    ["--expose-gc", "--import", "tsx", fileURLToPath(import.meta.url), ...args],
+    {
+      encoding: "utf8",
+      maxBuffer: 64 << 20,
+    },
+  );
+  return JSON.parse(out.trim().split("\n").at(-1) as string) as R;
+};
+
 export const readEvidence = (): Evidence => JSON.parse(readFileSync(EVIDENCE, "utf8")) as Evidence;
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
@@ -153,6 +223,44 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     Object.assign(e.w0, await captureW0(Number(arg("--from")), Number(arg("--to"))));
     writeFileSync(EVIDENCE, `${JSON.stringify(e, null, 1)}\n`);
     console.info(`evidence: ${Object.keys(e.w0).length} W0 frames so far`);
+  } else if (process.argv.includes("--verify-v2")) {
+    const film = arg("--film") as string;
+    console.info(JSON.stringify(verifyV2(readEvidence(), film, v2Svgs(film))));
+  } else if (process.argv.includes("--verify-w0")) {
+    const got = await captureW0(Number(arg("--from")), Number(arg("--to")));
+    console.info(JSON.stringify(got));
+  } else if (process.argv.includes("--verify")) {
+    const e = readEvidence();
+    let failures: string[] = [];
+    let frames = 0;
+    let changed = 0;
+    for (const film of BENCH) {
+      const v = child<V2Verdict>(["--verify-v2", "--film", film]);
+      frames += v.frames;
+      changed += v.changed.length;
+      failures = failures.concat(v.failures);
+      console.info(
+        `  v2/${film}: ${v.frames} frames, ${v.changed.length} changed (ids), ${v.failures.length} failures`,
+      );
+    }
+    const all = W0_FRAMES(loadW0().duration);
+    for (let from = 0; from < all.length; from += 30) {
+      const got = child<Record<string, string>>([
+        "--verify-w0",
+        "--from",
+        String(from),
+        "--to",
+        String(from + 30),
+      ]);
+      for (const k of all.slice(from, from + 30))
+        if (got[String(k)] !== e.w0[String(k)]) failures.push(`W0 frame ${k}: the pixels differ`);
+    }
+    console.info(`  w0/b1-why-we-stay: ${all.length} frames`);
+    console.info(
+      `evidence: ${frames} v2 frames (${changed} changed only in ids) + ${all.length} W0, ${failures.length} failures`,
+    );
+    for (const f of failures.slice(0, 40)) console.info(`  ${f}`);
+    if (failures.length) process.exit(1);
   } else if (process.argv.includes("--check")) {
     const e = readEvidence();
     checkAgainstGolden(e);

@@ -11,7 +11,8 @@
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest run",
     "film": "tsx src/cli.ts",
-    "golden": "node --expose-gc --import tsx src/golden.ts"
+    "golden": "node --expose-gc --import tsx src/golden-evidence.ts --verify",
+    "golden:historical": "node --expose-gc --import tsx src/golden.ts"
   },
   "dependencies": {
     "@erkasa/compiler": "workspace:*",

@@ -8,7 +8,8 @@ import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import { describe, expect, it } from "vitest";
 import { capabilities, CAPABILITIES_VERSION, FilmPlan } from "../src/index.js";
-import { BENCH, diffGolden, readGolden, v2Golden, w0Golden } from "../src/golden.js";
+import { BENCH, diffGolden, readGolden, w0Golden } from "../src/golden.js";
+import { readEvidence, v2Svgs, verifyV2 } from "../src/golden-evidence.js";
 
 const SRC = join(import.meta.dirname, "..", "src");
 const files = (dir: string): string[] =>
@@ -113,9 +114,16 @@ describe("engine boundary", () => {
 
 describe("no visual regression against the recorded baseline", () => {
   const want = readGolden();
-  it("B1–B5 render the same frames", () => {
-    const v2 = Object.fromEntries(Object.entries(want).filter(([k]) => k.startsWith("v2/")));
-    expect(diffGolden(v2, v2Golden(0.5, BENCH))).toEqual([]);
+  // E1.4: kinetic-type clip ids are per shot, so the SVG text of type frames is no longer golden.json's; a frame
+  // passes if its text is the historical one or it differs only in those ids. The pixels of the changed frames
+  // are proven by `pnpm --filter @erkasa/film golden` (one process per film: resvg keeps native memory).
+  it("B1–B5 render the same frames (text, or the same SVG up to kinetic-type ids)", () => {
+    const e = readEvidence();
+    for (const film of BENCH) {
+      const v = verifyV2(e, film, v2Svgs(film), { pixels: false });
+      expect(v.failures, film).toEqual([]);
+      expect(v.frames, film).toBe(Object.keys(want[`v2/${film}`] ?? {}).length);
+    }
   });
   it("W0 renders the same pixels (sample)", async () => {
     const got = await w0Golden(1, [0, 9, 18, 27, 36, 44]);
