@@ -81,7 +81,7 @@ describe("contract fixtures (A): schema examples, not claimed executable", () =>
     expect(AssetManifest.safeParse(man).success).toBe(true);
   });
 
-  it("prisoner-cell is refused only for features this engine does not draw (lights, shapes, text and icon overlays, glow, dip to black) and two builtins it does not carry", () => {
+  it("prisoner-cell is refused only for features this engine does not draw (lights, shapes, text and icon overlays, glow, dip to black, eases without a definition) and two builtins it does not carry", () => {
     expect(
       gateFile("contracts/fixtures/valid/render-package.prisoner-cell.json").errors.map(
         (e) => `${e.code} ${e.file}${e.path}`,
@@ -96,17 +96,27 @@ describe("contract fixtures (A): schema examples, not claimed executable", () =>
       "CAPABILITY_MISSING package/scenes/0/lights/0/kind",
       "CAPABILITY_MISSING package/scenes/0/lights/1/kind",
       "CAPABILITY_MISSING package/scenes/0/lights/2/kind",
+      "EASE_UNDEFINED package/scenes/0/tracks/0/keys/1/ease",
+      "EASE_UNDEFINED package/scenes/0/tracks/0/keys/2/ease",
+      "EASE_UNDEFINED package/scenes/0/tracks/2/keys/1/ease",
+      "EASE_UNDEFINED package/scenes/0/tracks/4/keys/2/ease",
+      "EASE_UNDEFINED package/scenes/0/tracks/9/keys/2/ease",
+      "EASE_UNDEFINED package/scenes/0/tracks/10/keys/2/ease",
+      "EASE_UNDEFINED package/scenes/0/tracks/11/keys/2/ease",
+      "EASE_UNDEFINED package/scenes/0/tracks/12/keys/2/ease",
       "BUILTIN_UNKNOWN manifest/assets/4/source/name",
       "BUILTIN_UNKNOWN manifest/assets/5/source/name",
     ]);
   });
 
-  it("office-procedural is refused for the clock template's inputs and two builtins this engine does not carry", () => {
+  it("office-procedural is refused for eases without a definition, the clock template's inputs and two builtins this engine does not carry", () => {
     expect(
       gateFile("contracts/fixtures/valid/render-package.office-procedural.json").errors.map(
         (e) => `${e.code} ${e.file}${e.path}`,
       ),
     ).toEqual([
+      "EASE_UNDEFINED package/scenes/0/tracks/3/keys/2/ease",
+      "EASE_UNDEFINED package/scenes/0/tracks/6/keys/2/ease",
       "PARAM_NOT_DECLARED manifest/assets/1/parameters",
       "PARAM_NOT_DECLARED manifest/assets/1/parameters",
       "PARAM_UNSUPPORTED manifest/assets/1/parameters/0",

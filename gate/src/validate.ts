@@ -10,11 +10,12 @@
  * checks that rely on its structure are skipped (their findings would be noise).
  */
 import { realpathSync, statSync } from "node:fs";
-import { AssetManifest, RenderPackage } from "@erkasa/contracts";
+import { AssetManifest, DEFINED_EASES, RenderPackage } from "@erkasa/contracts";
 import { DEFAULT_BUDGETS, type Budgets } from "./budgets.js";
 import { capabilityProblems, type BuiltinCapability, type RenderCapabilities } from "./capabilities.js";
 import { readContained, type VerifiedFile } from "./files.js";
 import { Findings, pointer as P, type GateReport } from "./report.js";
+import { checkSvg } from "./svg.js";
 
 type Pkg = RenderPackage;
 type Manifest = AssetManifest;
@@ -206,7 +207,12 @@ export function validate(input: GateInput): GateResult {
             P(...path.split("/").slice(1), "sha256"),
             `${s.uri}: sha256 is ${out.file.sha256}`,
           );
-        else files.set(key, out.file);
+        else if (a.kind === "vector" && a.format === "svg") {
+          const v = checkSvg(out.file.bytes);
+          if (!v.ok)
+            F.error("SVG_UNSAFE", "manifest", P(...path.split("/").slice(1), "uri"), `${s.uri}: ${v.reason}`);
+          else files.set(key, out.file);
+        } else files.set(key, out.file);
         continue;
       }
       const b = builtins.get(s.name);
@@ -668,6 +674,13 @@ function checkPackage(
       }
       if (tr.kind === "keys") {
         tr.keys.forEach((kk, ki) => {
+          if (!DEFINED_EASES.includes(kk.ease))
+            F.error(
+              "EASE_UNDEFINED",
+              "package",
+              tp("keys", ki, "ease"),
+              `ease '${kk.ease}' has no numeric definition; keys use ${DEFINED_EASES.join(" or ")}`,
+            );
           if (!within(kk.t))
             F.error(
               "TIME_RANGE",

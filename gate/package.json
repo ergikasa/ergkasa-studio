@@ -13,7 +13,8 @@
     "fixtures:acceptance": "tsx test/acceptance/generate.ts --write"
   },
   "dependencies": {
-    "@erkasa/contracts": "workspace:*"
+    "@erkasa/contracts": "workspace:*",
+    "saxes": "6.0.0"
   },
   "devDependencies": {
     "@erkasa/film": "workspace:*",

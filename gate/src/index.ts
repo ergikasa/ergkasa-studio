@@ -7,5 +7,6 @@ export {
   type BuiltinCapability,
   type CapabilityParameter,
 } from "./capabilities.js";
+export { checkSvg, type SvgVerdict } from "./svg.js";
 export { readContained, lexicalProblem, type VerifiedFile, type ReadOutcome } from "./files.js";
 export { compareFindings, pointer, type Finding, type GateFile, type GateReport } from "./report.js";

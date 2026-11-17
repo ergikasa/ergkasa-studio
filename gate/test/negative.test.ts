@@ -2,6 +2,7 @@
  * Packages broken on purpose, one fault each, on a clean base (B3 + one real file asset). Every case must be
  * refused with exactly the expected code(s) at exactly the expected path(s), and nothing else.
  */
+import { createHash } from "node:crypto";
 import { rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
@@ -387,6 +388,34 @@ const CASES: Array<{ name: string; mutate: (c: Ctx) => void; expect: string[] }>
     expect: [
       `BUDGET_ASSET_BYTES manifest/assets/${chairAsset}/source/uri`,
       `BUDGET_ASSET_BYTES manifest/assets/${chairAsset}/states/0/source/uri`,
+    ],
+  },
+  {
+    name: "a key with an ease that has no numeric definition",
+    mutate: (c) =>
+      ((
+        (scene(c).tracks[tKeys] as Extract<Scene["tracks"][number], { kind: "keys" }>).keys[0] as {
+          ease: string;
+        }
+      ).ease = "easeInOut"),
+    expect: [`EASE_UNDEFINED package${sp("tracks", tKeys, "keys", 0, "ease")}`],
+  },
+  {
+    name: "an asset SVG that would run a script",
+    mutate: (c) => {
+      const bad = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg"><script>alert(1)</script></svg>`);
+      writeFileSync(join(c.root, "assets/chair.svg"), bad);
+      const sha = createHash("sha256").update(bad).digest("hex");
+      const a = c.manifest.assets[chairAsset] as {
+        source: { sha256: string };
+        states: Array<{ source: { sha256: string } }>;
+      };
+      a.source.sha256 = sha;
+      (a.states[0] as { source: { sha256: string } }).source.sha256 = sha;
+    },
+    expect: [
+      `SVG_UNSAFE manifest/assets/${chairAsset}/source/uri`,
+      `SVG_UNSAFE manifest/assets/${chairAsset}/states/0/source/uri`,
     ],
   },
   {

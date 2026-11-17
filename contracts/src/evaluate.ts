@@ -19,6 +19,9 @@ import type { RenderPackage, Track } from "./render-package.js";
 type Scene = RenderPackage["scenes"][number];
 type Target = Track["target"];
 
+/** The only eases a key may use: the others have no numeric definition yet (refused by the gate as EASE_UNDEFINED). */
+export const DEFINED_EASES: readonly string[] = ["linear", "hold"];
+
 export const frameTime = (frame: number, fps: number): number => frame / fps;
 
 /** Index of the sample a frame reads. */
