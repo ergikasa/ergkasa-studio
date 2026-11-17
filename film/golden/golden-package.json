@@ -1,0 +1,3132 @@
+{
+ "idsOnly": [
+  "b1-why-we-stay @ 0.50",
+  "b1-why-we-stay @ 1.00",
+  "b1-why-we-stay @ 1.50",
+  "b1-why-we-stay @ 8.00",
+  "b1-why-we-stay @ 8.50",
+  "b1-why-we-stay @ 9.00",
+  "b1-why-we-stay @ 9.50",
+  "b1-why-we-stay @ 10.00",
+  "b1-why-we-stay @ 10.50",
+  "b1-why-we-stay @ 11.00",
+  "b1-why-we-stay @ 15.00",
+  "b1-why-we-stay @ 15.50",
+  "b1-why-we-stay @ 16.00",
+  "b1-why-we-stay @ 16.50",
+  "b1-why-we-stay @ 27.50",
+  "b1-why-we-stay @ 28.00",
+  "b1-why-we-stay @ 28.50",
+  "b1-why-we-stay @ 29.00",
+  "b1-why-we-stay @ 32.00",
+  "b1-why-we-stay @ 32.50",
+  "b1-why-we-stay @ 33.00",
+  "b1-why-we-stay @ 33.50",
+  "b1-why-we-stay @ 38.50",
+  "b1-why-we-stay @ 39.00",
+  "b1-why-we-stay @ 39.50",
+  "b1-why-we-stay @ 40.00",
+  "b1-why-we-stay @ 40.50",
+  "b1-why-we-stay @ 41.00",
+  "b1-why-we-stay @ 41.50",
+  "b1-why-we-stay @ 43.50",
+  "b1-why-we-stay @ 44.00",
+  "b1-why-we-stay @ 44.50",
+  "b1-why-we-stay @ 45.00",
+  "b1-why-we-stay @ 45.50",
+  "b1-why-we-stay @ 48.00",
+  "b1-why-we-stay @ 48.50",
+  "b1-why-we-stay @ 49.00",
+  "b1-why-we-stay @ 49.50",
+  "b1-why-we-stay @ 50.00",
+  "b2-same-answers @ 0.50",
+  "b2-same-answers @ 1.00",
+  "b2-same-answers @ 1.50",
+  "b2-same-answers @ 2.00",
+  "b2-same-answers @ 3.50",
+  "b2-same-answers @ 4.00",
+  "b2-same-answers @ 4.50",
+  "b2-same-answers @ 24.50",
+  "b2-same-answers @ 25.00",
+  "b2-same-answers @ 32.50",
+  "b2-same-answers @ 33.00",
+  "b2-same-answers @ 33.50",
+  "b2-same-answers @ 34.00",
+  "b2-same-answers @ 34.50",
+  "b2-same-answers @ 38.00",
+  "b2-same-answers @ 38.50",
+  "b2-same-answers @ 39.00",
+  "b2-same-answers @ 39.50",
+  "b2-same-answers @ 40.00",
+  "b2-same-answers @ 40.50",
+  "b2-same-answers @ 41.00",
+  "b2-same-answers @ 41.50",
+  "b3-every-yes @ 5.00",
+  "b3-every-yes @ 5.50",
+  "b3-every-yes @ 10.00",
+  "b3-every-yes @ 10.50",
+  "b3-every-yes @ 11.00",
+  "b3-every-yes @ 11.50",
+  "b3-every-yes @ 12.00",
+  "b3-every-yes @ 14.00",
+  "b3-every-yes @ 14.50",
+  "b3-every-yes @ 20.50",
+  "b3-every-yes @ 21.00",
+  "b3-every-yes @ 21.50",
+  "b3-every-yes @ 22.00",
+  "b3-every-yes @ 22.50",
+  "b3-every-yes @ 32.00",
+  "b3-every-yes @ 32.50",
+  "b3-every-yes @ 33.00",
+  "b3-every-yes @ 33.50",
+  "b3-every-yes @ 34.00",
+  "b3-every-yes @ 34.50",
+  "b3-every-yes @ 35.00",
+  "b4-one-percent @ 9.50",
+  "b4-one-percent @ 10.00",
+  "b4-one-percent @ 10.50",
+  "b4-one-percent @ 11.00",
+  "b4-one-percent @ 11.50",
+  "b4-one-percent @ 12.00",
+  "b4-one-percent @ 12.50",
+  "b4-one-percent @ 24.00",
+  "b4-one-percent @ 24.50",
+  "b4-one-percent @ 25.00",
+  "b4-one-percent @ 25.50",
+  "b4-one-percent @ 26.00",
+  "b4-one-percent @ 29.50",
+  "b4-one-percent @ 30.00",
+  "b4-one-percent @ 30.50",
+  "b4-one-percent @ 31.00",
+  "b4-one-percent @ 31.50",
+  "b4-one-percent @ 32.00",
+  "b4-one-percent @ 32.50",
+  "b4-one-percent @ 33.00",
+  "b4-one-percent @ 33.50",
+  "b5-planning-fallacy @ 0.50",
+  "b5-planning-fallacy @ 1.00",
+  "b5-planning-fallacy @ 1.50",
+  "b5-planning-fallacy @ 2.00",
+  "b5-planning-fallacy @ 2.50",
+  "b5-planning-fallacy @ 3.00",
+  "b5-planning-fallacy @ 3.50",
+  "b5-planning-fallacy @ 4.00",
+  "b5-planning-fallacy @ 4.50",
+  "b5-planning-fallacy @ 5.00",
+  "b5-planning-fallacy @ 5.50",
+  "b5-planning-fallacy @ 6.00",
+  "b5-planning-fallacy @ 6.50",
+  "b5-planning-fallacy @ 7.00",
+  "b5-planning-fallacy @ 13.00",
+  "b5-planning-fallacy @ 20.00",
+  "b5-planning-fallacy @ 20.50",
+  "b5-planning-fallacy @ 26.00",
+  "b5-planning-fallacy @ 26.50",
+  "b5-planning-fallacy @ 27.00",
+  "b5-planning-fallacy @ 27.50",
+  "b5-planning-fallacy @ 28.00",
+  "b5-planning-fallacy @ 28.50",
+  "b5-planning-fallacy @ 29.00",
+  "b5-planning-fallacy @ 29.50",
+  "b5-planning-fallacy @ 30.00",
+  "b5-planning-fallacy @ 30.50",
+  "b5-planning-fallacy @ 31.00",
+  "b5-planning-fallacy @ 36.00",
+  "b5-planning-fallacy @ 36.50",
+  "b5-planning-fallacy @ 37.00",
+  "b5-planning-fallacy @ 37.50",
+  "b5-planning-fallacy @ 38.00",
+  "b5-planning-fallacy @ 38.50",
+  "b5-planning-fallacy @ 39.00",
+  "b5-planning-fallacy @ 39.50",
+  "b5-planning-fallacy @ 40.00"
+ ],
+ "frames": {
+  "b1-why-we-stay": {
+   "0.00": {
+    "k": 0,
+    "svg": "682612304775e0f9",
+    "norm": "682612304775e0f9",
+    "px": "573c64b64df9c25b"
+   },
+   "0.50": {
+    "k": 15,
+    "svg": "d8689b3be613fa6f",
+    "norm": "3c1b462040130826",
+    "px": "c600033a431b9319"
+   },
+   "1.00": {
+    "k": 30,
+    "svg": "b41c7050751259ef",
+    "norm": "265ba3cbb4a5fc46",
+    "px": "71a198e92592906f"
+   },
+   "1.50": {
+    "k": 45,
+    "svg": "0ef0957f7dfff867",
+    "norm": "01ced9b6423d83d2",
+    "px": "da289feefce0131f"
+   },
+   "2.00": {
+    "k": 60,
+    "svg": "ccb4c7cd1d4e5e34",
+    "norm": "ccb4c7cd1d4e5e34",
+    "px": "5935e1f29ede585c"
+   },
+   "2.50": {
+    "k": 75,
+    "svg": "7097078159e24e2d",
+    "norm": "7097078159e24e2d",
+    "px": "f2d9683650950718"
+   },
+   "3.00": {
+    "k": 90,
+    "svg": "af012e839699aea1",
+    "norm": "af012e839699aea1",
+    "px": "6ea990f0aef85fd7"
+   },
+   "3.50": {
+    "k": 105,
+    "svg": "57758f540cd10b0c",
+    "norm": "57758f540cd10b0c",
+    "px": "16396bef5e20b45b"
+   },
+   "4.00": {
+    "k": 120,
+    "svg": "cac04e2b92b208f4",
+    "norm": "cac04e2b92b208f4",
+    "px": "804a597e759e3736"
+   },
+   "4.50": {
+    "k": 135,
+    "svg": "5a8271d85e9e97b1",
+    "norm": "5a8271d85e9e97b1",
+    "px": "873000b0cc61b5e8"
+   },
+   "5.00": {
+    "k": 150,
+    "svg": "c37692883d45ba8e",
+    "norm": "c37692883d45ba8e",
+    "px": "95efb7c3529cb61e"
+   },
+   "5.50": {
+    "k": 165,
+    "svg": "7356ef9c31db504e",
+    "norm": "7356ef9c31db504e",
+    "px": "3d15279389e08329"
+   },
+   "6.00": {
+    "k": 180,
+    "svg": "fcc4fd52f308a527",
+    "norm": "fcc4fd52f308a527",
+    "px": "3d34e8825cd32005"
+   },
+   "6.50": {
+    "k": 195,
+    "svg": "d2a82d7ceceb8fdb",
+    "norm": "d2a82d7ceceb8fdb",
+    "px": "a978263c7f4317f8"
+   },
+   "7.00": {
+    "k": 210,
+    "svg": "668e436fd11a92df",
+    "norm": "668e436fd11a92df",
+    "px": "c39b53ac2415b5b9"
+   },
+   "7.50": {
+    "k": 225,
+    "svg": "1fe97f91e5cecd6d",
+    "norm": "1fe97f91e5cecd6d",
+    "px": "ee0b3ee3c96644e0"
+   },
+   "8.00": {
+    "k": 240,
+    "svg": "eef17f2093d9709b",
+    "norm": "17b171bdbfeb9643",
+    "px": "3da9bf347c77708a"
+   },
+   "8.50": {
+    "k": 255,
+    "svg": "d653a570f587bfc3",
+    "norm": "17eed18c8684c12e",
+    "px": "d0e0a6ebc505ac85"
+   },
+   "9.00": {
+    "k": 270,
+    "svg": "8949f6524bdff923",
+    "norm": "59ff05c003dd8227",
+    "px": "a7c34e73e44c96d2"
+   },
+   "9.50": {
+    "k": 285,
+    "svg": "9fd7a42fc10f9e42",
+    "norm": "7a45d2bfe7c629d6",
+    "px": "5a78d21310fcf984"
+   },
+   "10.00": {
+    "k": 300,
+    "svg": "cc48a9a0a35e21a4",
+    "norm": "56dce70862b312fc",
+    "px": "a1c7cb5d4935ee33"
+   },
+   "10.50": {
+    "k": 315,
+    "svg": "94e0428f22121faa",
+    "norm": "d0815756f4905739",
+    "px": "85503dc77caf907d"
+   },
+   "11.00": {
+    "k": 330,
+    "svg": "53d62eb98f75b9e6",
+    "norm": "dc861131c029f344",
+    "px": "2fd173071d167c39"
+   },
+   "11.50": {
+    "k": 345,
+    "svg": "d44541867330ec7c",
+    "norm": "d44541867330ec7c",
+    "px": "906585e391efd4f9"
+   },
+   "12.00": {
+    "k": 360,
+    "svg": "263cc839e5924643",
+    "norm": "263cc839e5924643",
+    "px": "d6db2c88e96c65e4"
+   },
+   "12.50": {
+    "k": 375,
+    "svg": "b99f282a9deba7e0",
+    "norm": "b99f282a9deba7e0",
+    "px": "fc6ed098ef0090ca"
+   },
+   "13.00": {
+    "k": 390,
+    "svg": "09c978273827ffe0",
+    "norm": "09c978273827ffe0",
+    "px": "f3045f74adebaca7"
+   },
+   "13.50": {
+    "k": 405,
+    "svg": "33941691284bbfcc",
+    "norm": "33941691284bbfcc",
+    "px": "94826b9a3876a727"
+   },
+   "14.00": {
+    "k": 420,
+    "svg": "21cc741332c3e977",
+    "norm": "21cc741332c3e977",
+    "px": "591e5d0a00dfb3cb"
+   },
+   "14.50": {
+    "k": 435,
+    "svg": "6c506d84cf3465d1",
+    "norm": "6c506d84cf3465d1",
+    "px": "2d0cc4cf4f3daeb2"
+   },
+   "15.00": {
+    "k": 450,
+    "svg": "572b3d07b87d4a5f",
+    "norm": "7fa531ae129be885",
+    "px": "893e5a1f226e60b1"
+   },
+   "15.50": {
+    "k": 465,
+    "svg": "ca1765bca62cc295",
+    "norm": "0d308d69c757614a",
+    "px": "bcfd5a3e2fd7b461"
+   },
+   "16.00": {
+    "k": 480,
+    "svg": "48166d8c70c5c22a",
+    "norm": "52c7e15f05573a4f",
+    "px": "a18f61dcd67f0309"
+   },
+   "16.50": {
+    "k": 495,
+    "svg": "d70a3b92561ac31f",
+    "norm": "e7c36200277b18d5",
+    "px": "bde75007684e20e9"
+   },
+   "17.00": {
+    "k": 510,
+    "svg": "fefc819c549ed814",
+    "norm": "fefc819c549ed814",
+    "px": "3fdf7b464b425e31"
+   },
+   "17.50": {
+    "k": 525,
+    "svg": "c3339c9b543681a2",
+    "norm": "c3339c9b543681a2",
+    "px": "0f9ab8af8bf28e1c"
+   },
+   "18.00": {
+    "k": 540,
+    "svg": "b697c89dca1856fc",
+    "norm": "b697c89dca1856fc",
+    "px": "fbcbb06c5daa5885"
+   },
+   "18.50": {
+    "k": 555,
+    "svg": "8b28bfc1b703a221",
+    "norm": "8b28bfc1b703a221",
+    "px": "9e0b06758f13e1f3"
+   },
+   "19.00": {
+    "k": 570,
+    "svg": "b61bbe95126ca5d3",
+    "norm": "b61bbe95126ca5d3",
+    "px": "5d08f2cb0c0df3a4"
+   },
+   "19.50": {
+    "k": 585,
+    "svg": "a4ca383a3c295940",
+    "norm": "a4ca383a3c295940",
+    "px": "7ad4c85faae1a838"
+   },
+   "20.00": {
+    "k": 600,
+    "svg": "65ed1e546332654b",
+    "norm": "65ed1e546332654b",
+    "px": "d52d5dc449fcd320"
+   },
+   "20.50": {
+    "k": 615,
+    "svg": "4bdde8e04fdb6f79",
+    "norm": "4bdde8e04fdb6f79",
+    "px": "08b3b7b61dc3e465"
+   },
+   "21.00": {
+    "k": 630,
+    "svg": "7eadb4889817ddaf",
+    "norm": "7eadb4889817ddaf",
+    "px": "6cd731128478bbcf"
+   },
+   "21.50": {
+    "k": 645,
+    "svg": "7045e4e0e005774a",
+    "norm": "7045e4e0e005774a",
+    "px": "3bb30a8d455dab17"
+   },
+   "22.00": {
+    "k": 660,
+    "svg": "41165566e13d9190",
+    "norm": "41165566e13d9190",
+    "px": "bba6fd04b0d8e901"
+   },
+   "22.50": {
+    "k": 675,
+    "svg": "923bd9a8d5c90b14",
+    "norm": "923bd9a8d5c90b14",
+    "px": "67c804cc95f4c518"
+   },
+   "23.00": {
+    "k": 690,
+    "svg": "2d65359bf9b06ee3",
+    "norm": "2d65359bf9b06ee3",
+    "px": "065eff6f8e6a4bc0"
+   },
+   "23.50": {
+    "k": 705,
+    "svg": "388b12d4f105afe8",
+    "norm": "388b12d4f105afe8",
+    "px": "c9e35a12c0356b50"
+   },
+   "24.00": {
+    "k": 720,
+    "svg": "2a1fdf2963a0687d",
+    "norm": "2a1fdf2963a0687d",
+    "px": "7d458ae720467432"
+   },
+   "24.50": {
+    "k": 735,
+    "svg": "caa59c749a3d3bad",
+    "norm": "caa59c749a3d3bad",
+    "px": "9a44b0a8f16f1992"
+   },
+   "25.00": {
+    "k": 750,
+    "svg": "44ffb06863c9ab43",
+    "norm": "44ffb06863c9ab43",
+    "px": "0edbc1f14795b493"
+   },
+   "25.50": {
+    "k": 765,
+    "svg": "746bc3b6273cbe08",
+    "norm": "746bc3b6273cbe08",
+    "px": "92f6efe427d87fb9"
+   },
+   "26.00": {
+    "k": 780,
+    "svg": "2b9a5d2419f66aac",
+    "norm": "2b9a5d2419f66aac",
+    "px": "5aea687f64cec674"
+   },
+   "26.50": {
+    "k": 795,
+    "svg": "9dcf7a7a04e2b8ea",
+    "norm": "9dcf7a7a04e2b8ea",
+    "px": "67ae8283b095b34b"
+   },
+   "27.00": {
+    "k": 810,
+    "svg": "02459c29ffc875e3",
+    "norm": "02459c29ffc875e3",
+    "px": "a8cf322f39fc6d7f"
+   },
+   "27.50": {
+    "k": 825,
+    "svg": "2b9b1cbf7c6886be",
+    "norm": "8b082c7fbb061afc",
+    "px": "817a4d238035636e"
+   },
+   "28.00": {
+    "k": 840,
+    "svg": "87c88caae6182fc8",
+    "norm": "48485786eb67dcb8",
+    "px": "8ad537d6cdb2a58a"
+   },
+   "28.50": {
+    "k": 855,
+    "svg": "b9985c2e36fe51a4",
+    "norm": "e3403991646b9039",
+    "px": "7c48c103f6851493"
+   },
+   "29.00": {
+    "k": 870,
+    "svg": "4d8348b28f975b94",
+    "norm": "90d550b021761f7f",
+    "px": "e7cdf402ac99f20c"
+   },
+   "29.50": {
+    "k": 885,
+    "svg": "5ad8c4854dbdf4d4",
+    "norm": "5ad8c4854dbdf4d4",
+    "px": "ad439e00706c715c"
+   },
+   "30.00": {
+    "k": 900,
+    "svg": "9c8c52a55d8ecfa4",
+    "norm": "9c8c52a55d8ecfa4",
+    "px": "62733aa6b29270bb"
+   },
+   "30.50": {
+    "k": 915,
+    "svg": "7a31270e32a5248d",
+    "norm": "7a31270e32a5248d",
+    "px": "b0dda792394a6f6e"
+   },
+   "31.00": {
+    "k": 930,
+    "svg": "7bfb455b76648cad",
+    "norm": "7bfb455b76648cad",
+    "px": "3798e0d0dba2bbf0"
+   },
+   "31.50": {
+    "k": 945,
+    "svg": "7ef0d8adabdaae77",
+    "norm": "7ef0d8adabdaae77",
+    "px": "de0e93238810ceb9"
+   },
+   "32.00": {
+    "k": 960,
+    "svg": "e60dd618ea3e5817",
+    "norm": "ec935d7546c4300c",
+    "px": "d9b75877beb2e780"
+   },
+   "32.50": {
+    "k": 975,
+    "svg": "fc4eabdb7bdda947",
+    "norm": "7a37dce1975b7fe0",
+    "px": "26099c706f1aa8a8"
+   },
+   "33.00": {
+    "k": 990,
+    "svg": "7784fc9bfb0c44e7",
+    "norm": "94311caf74618ecb",
+    "px": "3851094bc72a031a"
+   },
+   "33.50": {
+    "k": 1005,
+    "svg": "84f0301bbe09552f",
+    "norm": "c6fccdb67fc9f57b",
+    "px": "32f091f1b37024db"
+   },
+   "34.00": {
+    "k": 1020,
+    "svg": "921850f4983910da",
+    "norm": "921850f4983910da",
+    "px": "52e26b1e4fff7844"
+   },
+   "34.50": {
+    "k": 1035,
+    "svg": "d4581cf9dda3757c",
+    "norm": "d4581cf9dda3757c",
+    "px": "24a97759dc72ef02"
+   },
+   "35.00": {
+    "k": 1050,
+    "svg": "8d68d44fe6918f8d",
+    "norm": "8d68d44fe6918f8d",
+    "px": "929b70959ccb3610"
+   },
+   "35.50": {
+    "k": 1065,
+    "svg": "35401b153065606c",
+    "norm": "35401b153065606c",
+    "px": "f99f84c0a0747eec"
+   },
+   "36.00": {
+    "k": 1080,
+    "svg": "3247f2fed7f05576",
+    "norm": "3247f2fed7f05576",
+    "px": "fdd77cb907dc5dad"
+   },
+   "36.50": {
+    "k": 1095,
+    "svg": "259d6e26f1603e6c",
+    "norm": "259d6e26f1603e6c",
+    "px": "fd59b6955cd4ea87"
+   },
+   "37.00": {
+    "k": 1110,
+    "svg": "74145ba4bbe0f9c1",
+    "norm": "74145ba4bbe0f9c1",
+    "px": "2c2e02e8c5083635"
+   },
+   "37.50": {
+    "k": 1125,
+    "svg": "d4abd276531833bb",
+    "norm": "d4abd276531833bb",
+    "px": "d5a2ef999eeb3cd0"
+   },
+   "38.00": {
+    "k": 1140,
+    "svg": "a04a07a75e14e70c",
+    "norm": "a04a07a75e14e70c",
+    "px": "0a6cb5761d2c52a8"
+   },
+   "38.50": {
+    "k": 1155,
+    "svg": "85f3bc4664e84e13",
+    "norm": "68e4011d3e4f7c34",
+    "px": "ddc3494b96e09c42"
+   },
+   "39.00": {
+    "k": 1170,
+    "svg": "bfd763ff1d67a998",
+    "norm": "42180da36a0262ad",
+    "px": "b71ae6c8f6eb3251"
+   },
+   "39.50": {
+    "k": 1185,
+    "svg": "dbc5755787fea290",
+    "norm": "781278e18e7a91ab",
+    "px": "cd1d1fc31750b6e4"
+   },
+   "40.00": {
+    "k": 1200,
+    "svg": "15cd1fc37f49750a",
+    "norm": "dbcbd0fec2b77319",
+    "px": "2397816e730f357b"
+   },
+   "40.50": {
+    "k": 1215,
+    "svg": "473f9c61169291e6",
+    "norm": "dda7b094175726be",
+    "px": "8d1b57564eb2ef86"
+   },
+   "41.00": {
+    "k": 1230,
+    "svg": "9bbe02bc65ad8f99",
+    "norm": "83917609dedd7c09",
+    "px": "98dc20f6bdc2a991"
+   },
+   "41.50": {
+    "k": 1245,
+    "svg": "082f0eb63b2c38b5",
+    "norm": "281594539c5437ca",
+    "px": "6f7dcab4720e17d6"
+   },
+   "42.00": {
+    "k": 1260,
+    "svg": "f4cff6f4e0cff05a",
+    "norm": "f4cff6f4e0cff05a",
+    "px": "b3f60d703133c2a1"
+   },
+   "42.50": {
+    "k": 1275,
+    "svg": "7d59f30dfb46864f",
+    "norm": "7d59f30dfb46864f",
+    "px": "094b258b56d90ed5"
+   },
+   "43.00": {
+    "k": 1290,
+    "svg": "ff527c159edd877b",
+    "norm": "ff527c159edd877b",
+    "px": "0f08feee8a7e139b"
+   },
+   "43.50": {
+    "k": 1305,
+    "svg": "ae25d02042cfa7b7",
+    "norm": "ec2b5c15e9b22620",
+    "px": "0e0b0738e232b029"
+   },
+   "44.00": {
+    "k": 1320,
+    "svg": "dd66d4f477ea6fdd",
+    "norm": "668b43ad4951865a",
+    "px": "85670e2788ba1d5f"
+   },
+   "44.50": {
+    "k": 1335,
+    "svg": "c4521a97e65d3d5b",
+    "norm": "6fd0490d8eeb8d5f",
+    "px": "a428b9236478d79a"
+   },
+   "45.00": {
+    "k": 1350,
+    "svg": "f86d7b091fdbc842",
+    "norm": "2c9c66ff8a3d730a",
+    "px": "a918d4b51a728f5e"
+   },
+   "45.50": {
+    "k": 1365,
+    "svg": "bace456b790a7011",
+    "norm": "7a93850efcb3d159",
+    "px": "4235e843a6161b2c"
+   },
+   "46.00": {
+    "k": 1380,
+    "svg": "96110554318e11ec",
+    "norm": "96110554318e11ec",
+    "px": "9abfcebb7b808eac"
+   },
+   "46.50": {
+    "k": 1395,
+    "svg": "70f821b8f33c82da",
+    "norm": "70f821b8f33c82da",
+    "px": "e4dc8b40ad8650da"
+   },
+   "47.00": {
+    "k": 1410,
+    "svg": "02f7336bd5107a26",
+    "norm": "02f7336bd5107a26",
+    "px": "4f2b1d55d75bee2e"
+   },
+   "47.50": {
+    "k": 1425,
+    "svg": "1e23b224e1214c10",
+    "norm": "1e23b224e1214c10",
+    "px": "979575d457ae89fc"
+   },
+   "48.00": {
+    "k": 1440,
+    "svg": "8e0cb962e42d1e8b",
+    "norm": "ac8213297fcbe064",
+    "px": "3ee0c078c4483a6a"
+   },
+   "48.50": {
+    "k": 1455,
+    "svg": "72ff480d5749beb7",
+    "norm": "5237d6daa9807bc3",
+    "px": "e7071959f4dccbf1"
+   },
+   "49.00": {
+    "k": 1470,
+    "svg": "05be1254c6d6ecdf",
+    "norm": "90b6812ac43f1a56",
+    "px": "e3e0b0ac7503d726"
+   },
+   "49.50": {
+    "k": 1485,
+    "svg": "eb94df9e64db04a1",
+    "norm": "dc894f11da3ed077",
+    "px": "716ad775c3ec27ac"
+   },
+   "50.00": {
+    "k": 1500,
+    "svg": "3dff919785344b0e",
+    "norm": "a4d723790efa466a",
+    "px": "1f5f4bdbab34874f"
+   }
+  },
+  "b2-same-answers": {
+   "0.00": {
+    "k": 0,
+    "svg": "7ae2dee18caf4439",
+    "norm": "7ae2dee18caf4439",
+    "px": "132eb9b66e89edab"
+   },
+   "0.50": {
+    "k": 15,
+    "svg": "eba60cbfe86e0a99",
+    "norm": "2f0da1f7abdc1780",
+    "px": "d0d3f8318eba0776"
+   },
+   "1.00": {
+    "k": 30,
+    "svg": "68a8078cab40c1bf",
+    "norm": "29bb22aa0000a42a",
+    "px": "c22154318b6f728b"
+   },
+   "1.50": {
+    "k": 45,
+    "svg": "52a1dbdb45744e34",
+    "norm": "e27ff94d1b2da31a",
+    "px": "bffbcd7711b0f0c4"
+   },
+   "2.00": {
+    "k": 60,
+    "svg": "257868d9747d1b4b",
+    "norm": "77542e1377f3bf63",
+    "px": "c98ba99bb5d28b53"
+   },
+   "2.50": {
+    "k": 75,
+    "svg": "681d6cd8527d75a8",
+    "norm": "681d6cd8527d75a8",
+    "px": "f9fbe61febfd0262"
+   },
+   "3.00": {
+    "k": 90,
+    "svg": "70f5953f902035c8",
+    "norm": "70f5953f902035c8",
+    "px": "1193779cd6a929ff"
+   },
+   "3.50": {
+    "k": 105,
+    "svg": "7aa02c717fc07ebb",
+    "norm": "c0a450bec1aa3221",
+    "px": "082df88130a65b88"
+   },
+   "4.00": {
+    "k": 120,
+    "svg": "591dc41988968605",
+    "norm": "81e740bbcb039b41",
+    "px": "1388623dc4572512"
+   },
+   "4.50": {
+    "k": 135,
+    "svg": "b45707ccf506dd98",
+    "norm": "82690c0403bdc77d",
+    "px": "fa24d22a7c635338"
+   },
+   "5.00": {
+    "k": 150,
+    "svg": "cc163f2f2de10f02",
+    "norm": "cc163f2f2de10f02",
+    "px": "f8b5951d8b250861"
+   },
+   "5.50": {
+    "k": 165,
+    "svg": "b416f68ba41db112",
+    "norm": "b416f68ba41db112",
+    "px": "b6fe843287240da9"
+   },
+   "6.00": {
+    "k": 180,
+    "svg": "c5361a410c88fbd3",
+    "norm": "c5361a410c88fbd3",
+    "px": "9ce70897b604dc3b"
+   },
+   "6.50": {
+    "k": 195,
+    "svg": "39b06bbb5b786902",
+    "norm": "39b06bbb5b786902",
+    "px": "b559f021cdeeee88"
+   },
+   "7.00": {
+    "k": 210,
+    "svg": "878d12fc5b4129a2",
+    "norm": "878d12fc5b4129a2",
+    "px": "160e394ec0358443"
+   },
+   "7.50": {
+    "k": 225,
+    "svg": "03ed6bc86c10b817",
+    "norm": "03ed6bc86c10b817",
+    "px": "cf1b6f81c93ae13e"
+   },
+   "8.00": {
+    "k": 240,
+    "svg": "db39c7be486aae9d",
+    "norm": "db39c7be486aae9d",
+    "px": "4db01640a4de1600"
+   },
+   "8.50": {
+    "k": 255,
+    "svg": "bcc6416c6e02f9f6",
+    "norm": "bcc6416c6e02f9f6",
+    "px": "2374b6c0e4036ae9"
+   },
+   "9.00": {
+    "k": 270,
+    "svg": "ac13c60968898394",
+    "norm": "ac13c60968898394",
+    "px": "5196065d94bd5ab7"
+   },
+   "9.50": {
+    "k": 285,
+    "svg": "1d79c168c9c90e0e",
+    "norm": "1d79c168c9c90e0e",
+    "px": "7e276975c9f878aa"
+   },
+   "10.00": {
+    "k": 300,
+    "svg": "f6cfe311375ef0e7",
+    "norm": "f6cfe311375ef0e7",
+    "px": "61736a3d19dfb33e"
+   },
+   "10.50": {
+    "k": 315,
+    "svg": "f3e9ad32daa5aee6",
+    "norm": "f3e9ad32daa5aee6",
+    "px": "6de871f78aa2c8d7"
+   },
+   "11.00": {
+    "k": 330,
+    "svg": "4cb8a49a925688ed",
+    "norm": "4cb8a49a925688ed",
+    "px": "6f047874f75757d9"
+   },
+   "11.50": {
+    "k": 345,
+    "svg": "795e281bb601ae2f",
+    "norm": "795e281bb601ae2f",
+    "px": "54fc5a690ddcaec6"
+   },
+   "12.00": {
+    "k": 360,
+    "svg": "90dc1a61c8a18d95",
+    "norm": "90dc1a61c8a18d95",
+    "px": "d156ac2d8a317ab6"
+   },
+   "12.50": {
+    "k": 375,
+    "svg": "e3659e063fd4daa9",
+    "norm": "e3659e063fd4daa9",
+    "px": "3a213acbc8779b48"
+   },
+   "13.00": {
+    "k": 390,
+    "svg": "882c3629f8cffe1a",
+    "norm": "882c3629f8cffe1a",
+    "px": "1bcdee92202f6d49"
+   },
+   "13.50": {
+    "k": 405,
+    "svg": "af71c40ea2e44ae9",
+    "norm": "af71c40ea2e44ae9",
+    "px": "755dde6f51dfc29b"
+   },
+   "14.00": {
+    "k": 420,
+    "svg": "55c551cedc8600b4",
+    "norm": "55c551cedc8600b4",
+    "px": "ec0fa3703e58a832"
+   },
+   "14.50": {
+    "k": 435,
+    "svg": "06ec34ded16ea78c",
+    "norm": "06ec34ded16ea78c",
+    "px": "3e745d1f678c020a"
+   },
+   "15.00": {
+    "k": 450,
+    "svg": "2adaa7530d812214",
+    "norm": "2adaa7530d812214",
+    "px": "7f565db27562904c"
+   },
+   "15.50": {
+    "k": 465,
+    "svg": "b4477285ad6c1734",
+    "norm": "b4477285ad6c1734",
+    "px": "3efcf584088739f3"
+   },
+   "16.00": {
+    "k": 480,
+    "svg": "f1327efc29eeda03",
+    "norm": "f1327efc29eeda03",
+    "px": "10fefac555aa4916"
+   },
+   "16.50": {
+    "k": 495,
+    "svg": "8017a9c9110c0855",
+    "norm": "8017a9c9110c0855",
+    "px": "11039ec96d038fcd"
+   },
+   "17.00": {
+    "k": 510,
+    "svg": "00e28f75a0d8de14",
+    "norm": "00e28f75a0d8de14",
+    "px": "0a124a3f1a13aeb4"
+   },
+   "17.50": {
+    "k": 525,
+    "svg": "a5df4bcc30bcc6f1",
+    "norm": "a5df4bcc30bcc6f1",
+    "px": "046ef845b4e7909d"
+   },
+   "18.00": {
+    "k": 540,
+    "svg": "7c3281d6f9916621",
+    "norm": "7c3281d6f9916621",
+    "px": "a7f5664a95a89baa"
+   },
+   "18.50": {
+    "k": 555,
+    "svg": "5c41465fa42283b6",
+    "norm": "5c41465fa42283b6",
+    "px": "efe8fae3dd4fb3f9"
+   },
+   "19.00": {
+    "k": 570,
+    "svg": "c00d46ab1412b82b",
+    "norm": "c00d46ab1412b82b",
+    "px": "39a720e48a21ecd7"
+   },
+   "19.50": {
+    "k": 585,
+    "svg": "cf53aad1c0514fb4",
+    "norm": "cf53aad1c0514fb4",
+    "px": "f86a88ede1c03482"
+   },
+   "20.00": {
+    "k": 600,
+    "svg": "502a8093b747dfa6",
+    "norm": "502a8093b747dfa6",
+    "px": "ecb322f181cb69c9"
+   },
+   "20.50": {
+    "k": 615,
+    "svg": "10786d11315edf9b",
+    "norm": "10786d11315edf9b",
+    "px": "dd895b9b90d29634"
+   },
+   "21.00": {
+    "k": 630,
+    "svg": "6090b5ee1943c7f1",
+    "norm": "6090b5ee1943c7f1",
+    "px": "80ffadfbaa85d247"
+   },
+   "21.50": {
+    "k": 645,
+    "svg": "80916683dcd202a1",
+    "norm": "80916683dcd202a1",
+    "px": "acc0e31346376930"
+   },
+   "22.00": {
+    "k": 660,
+    "svg": "127371a1a17290b0",
+    "norm": "127371a1a17290b0",
+    "px": "01379731e31bb0d5"
+   },
+   "22.50": {
+    "k": 675,
+    "svg": "14d8704a41d9a631",
+    "norm": "14d8704a41d9a631",
+    "px": "ef06f2cc816200b4"
+   },
+   "23.00": {
+    "k": 690,
+    "svg": "4a0a6dd3304218ec",
+    "norm": "4a0a6dd3304218ec",
+    "px": "a6ea5a3b3727523b"
+   },
+   "23.50": {
+    "k": 705,
+    "svg": "36ae64260f1644b5",
+    "norm": "36ae64260f1644b5",
+    "px": "557c55fc0ab6cb3b"
+   },
+   "24.00": {
+    "k": 720,
+    "svg": "b53cb7da4328f47d",
+    "norm": "b53cb7da4328f47d",
+    "px": "62193011999ea816"
+   },
+   "24.50": {
+    "k": 735,
+    "svg": "8c573cf7e79d1c92",
+    "norm": "16924416e717e31d",
+    "px": "ca18a8b2a1214c1e"
+   },
+   "25.00": {
+    "k": 750,
+    "svg": "3625845b1ff2da52",
+    "norm": "ba0f9eeff13ac9ef",
+    "px": "f9ec7d1975c206bb"
+   },
+   "25.50": {
+    "k": 765,
+    "svg": "098f210559b5f8c6",
+    "norm": "098f210559b5f8c6",
+    "px": "3c10d60bd6b0a77b"
+   },
+   "26.00": {
+    "k": 780,
+    "svg": "0cc4021c5a319d6b",
+    "norm": "0cc4021c5a319d6b",
+    "px": "59a8a0421b61809f"
+   },
+   "26.50": {
+    "k": 795,
+    "svg": "d5f536ce49e3fb36",
+    "norm": "d5f536ce49e3fb36",
+    "px": "2dd9b3dd7d934c65"
+   },
+   "27.00": {
+    "k": 810,
+    "svg": "c67a8e3a4ff457ed",
+    "norm": "c67a8e3a4ff457ed",
+    "px": "a764130bd7ed9666"
+   },
+   "27.50": {
+    "k": 825,
+    "svg": "9c3d245c4bf712e4",
+    "norm": "9c3d245c4bf712e4",
+    "px": "c166d0389098f860"
+   },
+   "28.00": {
+    "k": 840,
+    "svg": "836b481bb7a7a48d",
+    "norm": "836b481bb7a7a48d",
+    "px": "2b63473eb35c7730"
+   },
+   "28.50": {
+    "k": 855,
+    "svg": "d0e1bad5249c648a",
+    "norm": "d0e1bad5249c648a",
+    "px": "04d1a38aa6c4809e"
+   },
+   "29.00": {
+    "k": 870,
+    "svg": "cfac1bc74b1d8065",
+    "norm": "cfac1bc74b1d8065",
+    "px": "0b16265672172ae4"
+   },
+   "29.50": {
+    "k": 885,
+    "svg": "06b8d67065d947a7",
+    "norm": "06b8d67065d947a7",
+    "px": "f9fbe61febfd0262"
+   },
+   "30.00": {
+    "k": 900,
+    "svg": "dff1e2cf99fd537a",
+    "norm": "dff1e2cf99fd537a",
+    "px": "aa049fb9a3b67b9f"
+   },
+   "30.50": {
+    "k": 915,
+    "svg": "3a280910c64cb022",
+    "norm": "3a280910c64cb022",
+    "px": "c0a0c2c5cee86f67"
+   },
+   "31.00": {
+    "k": 930,
+    "svg": "678287d84546e8be",
+    "norm": "678287d84546e8be",
+    "px": "ba3c7400e8d8c828"
+   },
+   "31.50": {
+    "k": 945,
+    "svg": "97201b5f673d23db",
+    "norm": "97201b5f673d23db",
+    "px": "65e0060ab3d5898a"
+   },
+   "32.00": {
+    "k": 960,
+    "svg": "f9c8223b868892b3",
+    "norm": "f9c8223b868892b3",
+    "px": "ff96e41063a664e9"
+   },
+   "32.50": {
+    "k": 975,
+    "svg": "fd19086585b39225",
+    "norm": "09c6ee38596ccc21",
+    "px": "e2ded2dcecf923ce"
+   },
+   "33.00": {
+    "k": 990,
+    "svg": "fd06c12ce1cd2b4d",
+    "norm": "94a688dbb4c3fd4b",
+    "px": "877fbd115e71c848"
+   },
+   "33.50": {
+    "k": 1005,
+    "svg": "6ab9d7c38fe897d7",
+    "norm": "1804c8dcab3353b4",
+    "px": "314de26ab0206819"
+   },
+   "34.00": {
+    "k": 1020,
+    "svg": "8d20e836a1f312d5",
+    "norm": "c7f8e2efec261d94",
+    "px": "f2324a60eeaecbb5"
+   },
+   "34.50": {
+    "k": 1035,
+    "svg": "176268e24840e2f5",
+    "norm": "d9512ca4fd6aad3d",
+    "px": "539707ec0ed81a63"
+   },
+   "35.00": {
+    "k": 1050,
+    "svg": "15fbf6c7e6b57733",
+    "norm": "15fbf6c7e6b57733",
+    "px": "0239c70fb6c621c2"
+   },
+   "35.50": {
+    "k": 1065,
+    "svg": "1d856bed5de50d3f",
+    "norm": "1d856bed5de50d3f",
+    "px": "a79cbbf868ab1b41"
+   },
+   "36.00": {
+    "k": 1080,
+    "svg": "b9ab53c7ef99ee21",
+    "norm": "b9ab53c7ef99ee21",
+    "px": "ef8b70af65c9bc27"
+   },
+   "36.50": {
+    "k": 1095,
+    "svg": "20a27d0889fe765b",
+    "norm": "20a27d0889fe765b",
+    "px": "72bfb6a0582d286a"
+   },
+   "37.00": {
+    "k": 1110,
+    "svg": "5fa7554e9842484f",
+    "norm": "5fa7554e9842484f",
+    "px": "5fdd4054c116f781"
+   },
+   "37.50": {
+    "k": 1125,
+    "svg": "2d57ef7be708fe69",
+    "norm": "2d57ef7be708fe69",
+    "px": "31bb93b13d2a104f"
+   },
+   "38.00": {
+    "k": 1140,
+    "svg": "11c5c461c033c236",
+    "norm": "529dfc715d76a5b0",
+    "px": "6948a217c39eac83"
+   },
+   "38.50": {
+    "k": 1155,
+    "svg": "c8197358b63980c0",
+    "norm": "47c5620de10b097e",
+    "px": "40f7910d3f0fc35a"
+   },
+   "39.00": {
+    "k": 1170,
+    "svg": "61b4bdc9c8f73e5f",
+    "norm": "ece2c41a41845014",
+    "px": "c6e55a5a6c9722d9"
+   },
+   "39.50": {
+    "k": 1185,
+    "svg": "93a8bef9debc6ebd",
+    "norm": "f94f8a58bd9cc702",
+    "px": "cc19484f550efe45"
+   },
+   "40.00": {
+    "k": 1200,
+    "svg": "365255411c18f8fa",
+    "norm": "0bd7cf3bc8dbba38",
+    "px": "8d06df59c4e59500"
+   },
+   "40.50": {
+    "k": 1215,
+    "svg": "44e6e8233850e48d",
+    "norm": "9e0c72bcfe53da88",
+    "px": "52eadfb26919c84b"
+   },
+   "41.00": {
+    "k": 1230,
+    "svg": "c7babb124486fcb0",
+    "norm": "55fd4b8b859721a6",
+    "px": "17890710fb3532d2"
+   },
+   "41.50": {
+    "k": 1245,
+    "svg": "4f4082c596de3b9f",
+    "norm": "61f628a4ef2d6f5d",
+    "px": "a8711eef7391f19c"
+   }
+  },
+  "b3-every-yes": {
+   "0.00": {
+    "k": 0,
+    "svg": "9131a34c7f0977df",
+    "norm": "9131a34c7f0977df",
+    "px": "1fd9de1458337af1"
+   },
+   "0.50": {
+    "k": 15,
+    "svg": "887114da782ad22e",
+    "norm": "887114da782ad22e",
+    "px": "380231931b2a7442"
+   },
+   "1.00": {
+    "k": 30,
+    "svg": "a3af0732e7190eea",
+    "norm": "a3af0732e7190eea",
+    "px": "7f80e2c85e037839"
+   },
+   "1.50": {
+    "k": 45,
+    "svg": "8f0a2708722f400d",
+    "norm": "8f0a2708722f400d",
+    "px": "1de157f8024d3021"
+   },
+   "2.00": {
+    "k": 60,
+    "svg": "fbd19e7741f16e02",
+    "norm": "fbd19e7741f16e02",
+    "px": "abe30e1560e3ab42"
+   },
+   "2.50": {
+    "k": 75,
+    "svg": "4cbd7ab124ce97b2",
+    "norm": "4cbd7ab124ce97b2",
+    "px": "514f85761a4ddc4b"
+   },
+   "3.00": {
+    "k": 90,
+    "svg": "21ec3215504a8d0a",
+    "norm": "21ec3215504a8d0a",
+    "px": "196975a00d6e4675"
+   },
+   "3.50": {
+    "k": 105,
+    "svg": "9453792629bfc1cc",
+    "norm": "9453792629bfc1cc",
+    "px": "3c15287591e16d87"
+   },
+   "4.00": {
+    "k": 120,
+    "svg": "93e19fd6d05e55ff",
+    "norm": "93e19fd6d05e55ff",
+    "px": "817682c2f53a62b0"
+   },
+   "4.50": {
+    "k": 135,
+    "svg": "36cb21b3b4f29d4f",
+    "norm": "36cb21b3b4f29d4f",
+    "px": "4a7cc51b50e3e7cb"
+   },
+   "5.00": {
+    "k": 150,
+    "svg": "5193d002a9accc31",
+    "norm": "97b71db88b5d48a7",
+    "px": "eabaf382dfd0b96c"
+   },
+   "5.50": {
+    "k": 165,
+    "svg": "fa92411b55f234f4",
+    "norm": "01768d5dd1a7774a",
+    "px": "4593434934fe7e65"
+   },
+   "6.00": {
+    "k": 180,
+    "svg": "313e889b7945f06f",
+    "norm": "313e889b7945f06f",
+    "px": "d5fd4c7623429d4c"
+   },
+   "6.50": {
+    "k": 195,
+    "svg": "9481022dd1ae6c93",
+    "norm": "9481022dd1ae6c93",
+    "px": "f14bd6efc8cd3c57"
+   },
+   "7.00": {
+    "k": 210,
+    "svg": "4a454fcac3e7bc9d",
+    "norm": "4a454fcac3e7bc9d",
+    "px": "1059df87d2253869"
+   },
+   "7.50": {
+    "k": 225,
+    "svg": "6d1528b52fb452ae",
+    "norm": "6d1528b52fb452ae",
+    "px": "11d4122b2b553fcf"
+   },
+   "8.00": {
+    "k": 240,
+    "svg": "f1f2cdba1b597bf6",
+    "norm": "f1f2cdba1b597bf6",
+    "px": "b6f3314f85cc0771"
+   },
+   "8.50": {
+    "k": 255,
+    "svg": "f515dbe0b73ac8cc",
+    "norm": "f515dbe0b73ac8cc",
+    "px": "610619c718a4526e"
+   },
+   "9.00": {
+    "k": 270,
+    "svg": "1f31435f5afa24e1",
+    "norm": "1f31435f5afa24e1",
+    "px": "696a959960fd4e04"
+   },
+   "9.50": {
+    "k": 285,
+    "svg": "1bee761fda68fb09",
+    "norm": "1bee761fda68fb09",
+    "px": "f17ba054348d952b"
+   },
+   "10.00": {
+    "k": 300,
+    "svg": "7b1bf2c53925ec8f",
+    "norm": "139648f1fb434666",
+    "px": "7b77977bd06aee67"
+   },
+   "10.50": {
+    "k": 315,
+    "svg": "2a24e88bf93ad568",
+    "norm": "86ce2e2bd2cb933b",
+    "px": "8a825ae02737fa8f"
+   },
+   "11.00": {
+    "k": 330,
+    "svg": "6232bd0b01e95ab4",
+    "norm": "6d583eff05e2d990",
+    "px": "4ab365e513c74980"
+   },
+   "11.50": {
+    "k": 345,
+    "svg": "e5005c6810cc8a31",
+    "norm": "fa0049ef6a05957b",
+    "px": "11543d2fd0cdf5f6"
+   },
+   "12.00": {
+    "k": 360,
+    "svg": "298104ff69d49d9f",
+    "norm": "4befd98dca4f5f52",
+    "px": "e15cc5ed418828c0"
+   },
+   "12.50": {
+    "k": 375,
+    "svg": "51e57c6f1c45cc6a",
+    "norm": "51e57c6f1c45cc6a",
+    "px": "24f4f67e735c4da4"
+   },
+   "13.00": {
+    "k": 390,
+    "svg": "58a291c90d56e7c0",
+    "norm": "58a291c90d56e7c0",
+    "px": "d729447e51ecb0c3"
+   },
+   "13.50": {
+    "k": 405,
+    "svg": "00a95f0f567f6d13",
+    "norm": "00a95f0f567f6d13",
+    "px": "2b85eafb8701e800"
+   },
+   "14.00": {
+    "k": 420,
+    "svg": "a43e8517537f8315",
+    "norm": "171bf41a583610a5",
+    "px": "c0e17f39572162c8"
+   },
+   "14.50": {
+    "k": 435,
+    "svg": "08fcd0c42d3f83b3",
+    "norm": "6f924660e89c30e8",
+    "px": "33be1458717f8da3"
+   },
+   "15.00": {
+    "k": 450,
+    "svg": "9381748e5b6c6459",
+    "norm": "9381748e5b6c6459",
+    "px": "ce35906d3c05d5cd"
+   },
+   "15.50": {
+    "k": 465,
+    "svg": "dd63518cf7bc410c",
+    "norm": "dd63518cf7bc410c",
+    "px": "f5ce6b5daf8a2ac0"
+   },
+   "16.00": {
+    "k": 480,
+    "svg": "1ae8dfb5d77c76eb",
+    "norm": "1ae8dfb5d77c76eb",
+    "px": "53e3a17a9f1439f3"
+   },
+   "16.50": {
+    "k": 495,
+    "svg": "816e4fea474c8e72",
+    "norm": "816e4fea474c8e72",
+    "px": "f87ce213dfd69ebc"
+   },
+   "17.00": {
+    "k": 510,
+    "svg": "94bd52b71532d4c5",
+    "norm": "94bd52b71532d4c5",
+    "px": "b118231daa66bc0c"
+   },
+   "17.50": {
+    "k": 525,
+    "svg": "acbcf90504da8d25",
+    "norm": "acbcf90504da8d25",
+    "px": "82f52efda0193228"
+   },
+   "18.00": {
+    "k": 540,
+    "svg": "4d101d3d0a9e57a2",
+    "norm": "4d101d3d0a9e57a2",
+    "px": "49950a013312b65e"
+   },
+   "18.50": {
+    "k": 555,
+    "svg": "04acb016bc0ffb07",
+    "norm": "04acb016bc0ffb07",
+    "px": "d096e0cd6b5d3d34"
+   },
+   "19.00": {
+    "k": 570,
+    "svg": "b81f6d1553f7b73e",
+    "norm": "b81f6d1553f7b73e",
+    "px": "4d3c99940684f323"
+   },
+   "19.50": {
+    "k": 585,
+    "svg": "81f381cd91f39710",
+    "norm": "81f381cd91f39710",
+    "px": "3a0cf59c69180927"
+   },
+   "20.00": {
+    "k": 600,
+    "svg": "d8766f6ec40deeb4",
+    "norm": "d8766f6ec40deeb4",
+    "px": "eea8a2bb6af94a5e"
+   },
+   "20.50": {
+    "k": 615,
+    "svg": "20ea05e9dca2091b",
+    "norm": "4e66dd23eb0b23cd",
+    "px": "a4b5a4becf9e803d"
+   },
+   "21.00": {
+    "k": 630,
+    "svg": "c049add98becf7f4",
+    "norm": "304957dd2479bcf2",
+    "px": "6be2c3a7bb7cfcbc"
+   },
+   "21.50": {
+    "k": 645,
+    "svg": "6675c0fbad222a7c",
+    "norm": "682003a69aa47738",
+    "px": "8c76196f62bdfa16"
+   },
+   "22.00": {
+    "k": 660,
+    "svg": "6d5becb15b486c47",
+    "norm": "8790fd640c7ae1e7",
+    "px": "482382802da84eaf"
+   },
+   "22.50": {
+    "k": 675,
+    "svg": "a3bce18e1a5ed75d",
+    "norm": "9320acdf4efa9eaf",
+    "px": "e8a6e45e1f978ead"
+   },
+   "23.00": {
+    "k": 690,
+    "svg": "4a2f3c6dd1a18ef3",
+    "norm": "4a2f3c6dd1a18ef3",
+    "px": "edde66b6c0703e29"
+   },
+   "23.50": {
+    "k": 705,
+    "svg": "c1944594fcea89e8",
+    "norm": "c1944594fcea89e8",
+    "px": "25005cf7fa1767c0"
+   },
+   "24.00": {
+    "k": 720,
+    "svg": "639fea41bef74b0f",
+    "norm": "639fea41bef74b0f",
+    "px": "ab78b4394cb0b2f9"
+   },
+   "24.50": {
+    "k": 735,
+    "svg": "f0ca5cf07266852f",
+    "norm": "f0ca5cf07266852f",
+    "px": "81199ec949e878b6"
+   },
+   "25.00": {
+    "k": 750,
+    "svg": "2bcef2144c95574f",
+    "norm": "2bcef2144c95574f",
+    "px": "6659aad568b77363"
+   },
+   "25.50": {
+    "k": 765,
+    "svg": "f454d6e961164d95",
+    "norm": "f454d6e961164d95",
+    "px": "fdbcfc204447b49a"
+   },
+   "26.00": {
+    "k": 780,
+    "svg": "d0aa4558e987eaac",
+    "norm": "d0aa4558e987eaac",
+    "px": "8cf2fd2335b20630"
+   },
+   "26.50": {
+    "k": 795,
+    "svg": "66ffb9b36887e566",
+    "norm": "66ffb9b36887e566",
+    "px": "b17d3af13212d9c4"
+   },
+   "27.00": {
+    "k": 810,
+    "svg": "47da245a4a588f9e",
+    "norm": "47da245a4a588f9e",
+    "px": "b910997388f0c41c"
+   },
+   "27.50": {
+    "k": 825,
+    "svg": "3d6b02ebf544fe98",
+    "norm": "3d6b02ebf544fe98",
+    "px": "fd7477a4e3918f19"
+   },
+   "28.00": {
+    "k": 840,
+    "svg": "f9aa325fe359e8f1",
+    "norm": "f9aa325fe359e8f1",
+    "px": "c4491305b7047647"
+   },
+   "28.50": {
+    "k": 855,
+    "svg": "338f5112b45fc1c1",
+    "norm": "338f5112b45fc1c1",
+    "px": "74a6cdd474be3581"
+   },
+   "29.00": {
+    "k": 870,
+    "svg": "4abe82fa9eea618d",
+    "norm": "4abe82fa9eea618d",
+    "px": "7487f077e1691b7a"
+   },
+   "29.50": {
+    "k": 885,
+    "svg": "8ffbb20c22aacdb7",
+    "norm": "8ffbb20c22aacdb7",
+    "px": "c66016daca5f0422"
+   },
+   "30.00": {
+    "k": 900,
+    "svg": "f72cd5066b812e03",
+    "norm": "f72cd5066b812e03",
+    "px": "1663b67cdcd6a9a0"
+   },
+   "30.50": {
+    "k": 915,
+    "svg": "0d277fbca0addb8d",
+    "norm": "0d277fbca0addb8d",
+    "px": "cfff4b6c8d83e3d7"
+   },
+   "31.00": {
+    "k": 930,
+    "svg": "59aefb9b390ba8a4",
+    "norm": "59aefb9b390ba8a4",
+    "px": "07c618efa214b33d"
+   },
+   "31.50": {
+    "k": 945,
+    "svg": "7f7be2dbbe7b3011",
+    "norm": "7f7be2dbbe7b3011",
+    "px": "177da9b1ca1eaa6d"
+   },
+   "32.00": {
+    "k": 960,
+    "svg": "fc7e8ab7f1ae45ee",
+    "norm": "3f2fa9c820df468a",
+    "px": "3aadc29cfe86b805"
+   },
+   "32.50": {
+    "k": 975,
+    "svg": "d1e1fc0796ab4fbc",
+    "norm": "6fd9b78dc8148b92",
+    "px": "d52ec1a17a9412d4"
+   },
+   "33.00": {
+    "k": 990,
+    "svg": "47e07a4d3e20c6bb",
+    "norm": "d54270c21298ad0f",
+    "px": "1a06b40a2d1384d8"
+   },
+   "33.50": {
+    "k": 1005,
+    "svg": "edd707181f2628c1",
+    "norm": "4f5f86dc1b0c01ab",
+    "px": "f73d5c3fe07d7e8d"
+   },
+   "34.00": {
+    "k": 1020,
+    "svg": "aa581a7d5e4f3ba6",
+    "norm": "8ff12925b9555a2d",
+    "px": "eec7e8107f1cbecb"
+   },
+   "34.50": {
+    "k": 1035,
+    "svg": "0b3b1560912ed318",
+    "norm": "a18b84c46a154676",
+    "px": "d34269fa6b9c66a8"
+   },
+   "35.00": {
+    "k": 1050,
+    "svg": "40141e0fea10d217",
+    "norm": "cd43e1f92b46b8fa",
+    "px": "b15b4609b5fb95d7"
+   }
+  },
+  "b4-one-percent": {
+   "0.00": {
+    "k": 0,
+    "svg": "e2b00bb931086999",
+    "norm": "e2b00bb931086999",
+    "px": "6ce8dd4a30b624c1"
+   },
+   "0.50": {
+    "k": 15,
+    "svg": "b27fe8efb94c8110",
+    "norm": "b27fe8efb94c8110",
+    "px": "49b70aba2927191f"
+   },
+   "1.00": {
+    "k": 30,
+    "svg": "a34e6f0493011f41",
+    "norm": "a34e6f0493011f41",
+    "px": "f236f8270bf4f4cd"
+   },
+   "1.50": {
+    "k": 45,
+    "svg": "cd2758be4adfcd3e",
+    "norm": "cd2758be4adfcd3e",
+    "px": "6c0d166e49930bcb"
+   },
+   "2.00": {
+    "k": 60,
+    "svg": "a8519ec9cf309807",
+    "norm": "a8519ec9cf309807",
+    "px": "81bc3cbf9af5111f"
+   },
+   "2.50": {
+    "k": 75,
+    "svg": "7f0032d6722648b6",
+    "norm": "7f0032d6722648b6",
+    "px": "042b2a18e26c40de"
+   },
+   "3.00": {
+    "k": 90,
+    "svg": "266846ac0cacdee2",
+    "norm": "266846ac0cacdee2",
+    "px": "d08b9d2fe4d447ce"
+   },
+   "3.50": {
+    "k": 105,
+    "svg": "ddadc575d86dd6e8",
+    "norm": "ddadc575d86dd6e8",
+    "px": "70261b69f8c4735c"
+   },
+   "4.00": {
+    "k": 120,
+    "svg": "1ea0a016fd5434ec",
+    "norm": "1ea0a016fd5434ec",
+    "px": "1686177e1b4e312a"
+   },
+   "4.50": {
+    "k": 135,
+    "svg": "d839a7da9e1fac80",
+    "norm": "d839a7da9e1fac80",
+    "px": "dc0bca73d05bdb50"
+   },
+   "5.00": {
+    "k": 150,
+    "svg": "83e2ff8d38ac4975",
+    "norm": "83e2ff8d38ac4975",
+    "px": "e4c8c9bc1d7af45f"
+   },
+   "5.50": {
+    "k": 165,
+    "svg": "0b6f560e113e5048",
+    "norm": "0b6f560e113e5048",
+    "px": "0e7045f78b4b9e60"
+   },
+   "6.00": {
+    "k": 180,
+    "svg": "9f8c1e3ab1bb1cad",
+    "norm": "9f8c1e3ab1bb1cad",
+    "px": "fca73214118c99d4"
+   },
+   "6.50": {
+    "k": 195,
+    "svg": "909f9026237ce8b2",
+    "norm": "909f9026237ce8b2",
+    "px": "e0bbe9e2bc7b7deb"
+   },
+   "7.00": {
+    "k": 210,
+    "svg": "59e45787b56097b1",
+    "norm": "59e45787b56097b1",
+    "px": "ad78ca2db8b83694"
+   },
+   "7.50": {
+    "k": 225,
+    "svg": "531821e5c3868be9",
+    "norm": "531821e5c3868be9",
+    "px": "e51ae44f3ab5de2d"
+   },
+   "8.00": {
+    "k": 240,
+    "svg": "5b1d8863ad704621",
+    "norm": "5b1d8863ad704621",
+    "px": "e5f28d63db8a5bb8"
+   },
+   "8.50": {
+    "k": 255,
+    "svg": "3f7ceb9e7fabb58c",
+    "norm": "3f7ceb9e7fabb58c",
+    "px": "b308d4cb9d52446c"
+   },
+   "9.00": {
+    "k": 270,
+    "svg": "507b12fe284c768c",
+    "norm": "507b12fe284c768c",
+    "px": "a39807bb47adaf92"
+   },
+   "9.50": {
+    "k": 285,
+    "svg": "fee2f1c6094b50ab",
+    "norm": "c06e5852b1f532ce",
+    "px": "89c6bed811bf9893"
+   },
+   "10.00": {
+    "k": 300,
+    "svg": "49a44fc37e497935",
+    "norm": "98af838f25d355de",
+    "px": "bc640a22d6651e12"
+   },
+   "10.50": {
+    "k": 315,
+    "svg": "78b37b668d5b9dfa",
+    "norm": "8e01fef50a45f945",
+    "px": "177dc42c17888236"
+   },
+   "11.00": {
+    "k": 330,
+    "svg": "4351a49ce4acd960",
+    "norm": "72d1fc125b7e5d36",
+    "px": "d3dde06fb350843b"
+   },
+   "11.50": {
+    "k": 345,
+    "svg": "83aa815dd5e7ecdc",
+    "norm": "1e067d0780396b72",
+    "px": "35d3be39e0f91cdd"
+   },
+   "12.00": {
+    "k": 360,
+    "svg": "51f9fe883ade6be0",
+    "norm": "5c9ed7731d486680",
+    "px": "8f0131f41a298b39"
+   },
+   "12.50": {
+    "k": 375,
+    "svg": "ea49af7005ef847e",
+    "norm": "2ff4fc5429ced3a5",
+    "px": "17c77b9354dc51d8"
+   },
+   "13.00": {
+    "k": 390,
+    "svg": "2993a60f30ef1087",
+    "norm": "2993a60f30ef1087",
+    "px": "109cf4404d1dee81"
+   },
+   "13.50": {
+    "k": 405,
+    "svg": "4ee072491e6c00e9",
+    "norm": "4ee072491e6c00e9",
+    "px": "d2325e96f3326cfc"
+   },
+   "14.00": {
+    "k": 420,
+    "svg": "b8af1625e511a509",
+    "norm": "b8af1625e511a509",
+    "px": "e47e3afef25090b3"
+   },
+   "14.50": {
+    "k": 435,
+    "svg": "92743cee4b047d3a",
+    "norm": "92743cee4b047d3a",
+    "px": "978d3bcea7356f83"
+   },
+   "15.00": {
+    "k": 450,
+    "svg": "f33b5f93db9c0099",
+    "norm": "f33b5f93db9c0099",
+    "px": "d425aca0fe1ee745"
+   },
+   "15.50": {
+    "k": 465,
+    "svg": "57a600e688eecab3",
+    "norm": "57a600e688eecab3",
+    "px": "9cbf94a0638e7c73"
+   },
+   "16.00": {
+    "k": 480,
+    "svg": "b372f786e3f2afde",
+    "norm": "b372f786e3f2afde",
+    "px": "a8eb87a098b12076"
+   },
+   "16.50": {
+    "k": 495,
+    "svg": "a129069e20d2c0f6",
+    "norm": "a129069e20d2c0f6",
+    "px": "6ab44470c96f8e5d"
+   },
+   "17.00": {
+    "k": 510,
+    "svg": "27f28c968855b10e",
+    "norm": "27f28c968855b10e",
+    "px": "eb1aefb05712eb7d"
+   },
+   "17.50": {
+    "k": 525,
+    "svg": "5d5b356014828da5",
+    "norm": "5d5b356014828da5",
+    "px": "3c42c25711b2ae4c"
+   },
+   "18.00": {
+    "k": 540,
+    "svg": "4b308e24155cb71b",
+    "norm": "4b308e24155cb71b",
+    "px": "5868e43fe72ff78a"
+   },
+   "18.50": {
+    "k": 555,
+    "svg": "528559b6e1808a78",
+    "norm": "528559b6e1808a78",
+    "px": "51039156ab57c29d"
+   },
+   "19.00": {
+    "k": 570,
+    "svg": "b18282d5ee7e8f2e",
+    "norm": "b18282d5ee7e8f2e",
+    "px": "9a0eae6bef62ed14"
+   },
+   "19.50": {
+    "k": 585,
+    "svg": "307a35450a520c11",
+    "norm": "307a35450a520c11",
+    "px": "a4ed988860e4c374"
+   },
+   "20.00": {
+    "k": 600,
+    "svg": "22b800192a5944ee",
+    "norm": "22b800192a5944ee",
+    "px": "fbe2c6bf8572d0a0"
+   },
+   "20.50": {
+    "k": 615,
+    "svg": "7fd41b5175da53a0",
+    "norm": "7fd41b5175da53a0",
+    "px": "d5efa2df4c4e8eff"
+   },
+   "21.00": {
+    "k": 630,
+    "svg": "4aeb1c0c8d3c8a53",
+    "norm": "4aeb1c0c8d3c8a53",
+    "px": "d2fcc8f025700c9e"
+   },
+   "21.50": {
+    "k": 645,
+    "svg": "5ac0ab35bcc7bf1f",
+    "norm": "5ac0ab35bcc7bf1f",
+    "px": "1b250c84ddb83dc4"
+   },
+   "22.00": {
+    "k": 660,
+    "svg": "dd6d69ce90bcaac8",
+    "norm": "dd6d69ce90bcaac8",
+    "px": "8041bd33994032ce"
+   },
+   "22.50": {
+    "k": 675,
+    "svg": "dcdbbcaa07d0e468",
+    "norm": "dcdbbcaa07d0e468",
+    "px": "702f01afb8b58b4a"
+   },
+   "23.00": {
+    "k": 690,
+    "svg": "059f249da6a804fc",
+    "norm": "059f249da6a804fc",
+    "px": "d8c0156d7a9fe4c4"
+   },
+   "23.50": {
+    "k": 705,
+    "svg": "21b74919ac9168eb",
+    "norm": "21b74919ac9168eb",
+    "px": "1150ca2260adcc07"
+   },
+   "24.00": {
+    "k": 720,
+    "svg": "f09c57182406ff39",
+    "norm": "ec9ba3bcf5e8073c",
+    "px": "e1d051213cf627a5"
+   },
+   "24.50": {
+    "k": 735,
+    "svg": "3994a9cc71dbf34c",
+    "norm": "c4f1382e5d4a7183",
+    "px": "cc8251ca5bf1a410"
+   },
+   "25.00": {
+    "k": 750,
+    "svg": "ed2340c556e5b681",
+    "norm": "0fe8a161fc0501ad",
+    "px": "a210f4ea5e08315c"
+   },
+   "25.50": {
+    "k": 765,
+    "svg": "d067d2eb7f345fc2",
+    "norm": "a4099d1d0e11b2dc",
+    "px": "81689a112fb57a97"
+   },
+   "26.00": {
+    "k": 780,
+    "svg": "cf6b471103efa10f",
+    "norm": "47c90d837fc86e48",
+    "px": "758819bb65602012"
+   },
+   "26.50": {
+    "k": 795,
+    "svg": "4e6adddb14e94a8e",
+    "norm": "4e6adddb14e94a8e",
+    "px": "c3af5f20ec4c6492"
+   },
+   "27.00": {
+    "k": 810,
+    "svg": "f95f50eba9b37119",
+    "norm": "f95f50eba9b37119",
+    "px": "ed0ccb5e0f566e38"
+   },
+   "27.50": {
+    "k": 825,
+    "svg": "0fd3e580cdb6f2f4",
+    "norm": "0fd3e580cdb6f2f4",
+    "px": "702988d846c63a04"
+   },
+   "28.00": {
+    "k": 840,
+    "svg": "0cd066c90b224cfc",
+    "norm": "0cd066c90b224cfc",
+    "px": "9fc083f16afdfdc0"
+   },
+   "28.50": {
+    "k": 855,
+    "svg": "b53b0d753c2beba4",
+    "norm": "b53b0d753c2beba4",
+    "px": "03b6c5a768e2e472"
+   },
+   "29.00": {
+    "k": 870,
+    "svg": "4959323c68e24477",
+    "norm": "4959323c68e24477",
+    "px": "3767233eaa194ed6"
+   },
+   "29.50": {
+    "k": 885,
+    "svg": "80f89294d9ddb439",
+    "norm": "987578dfca048ebf",
+    "px": "ca0779c94e840f81"
+   },
+   "30.00": {
+    "k": 900,
+    "svg": "a70f55a05555871a",
+    "norm": "f2d634dc8162f4bc",
+    "px": "dcd394809e0c5615"
+   },
+   "30.50": {
+    "k": 915,
+    "svg": "ede79535e520f7df",
+    "norm": "d0796c24c10f9648",
+    "px": "61f0c2e0e54a0c79"
+   },
+   "31.00": {
+    "k": 930,
+    "svg": "746a743f962f91fd",
+    "norm": "4ead264755f4c22a",
+    "px": "8b6d342c0eb4b611"
+   },
+   "31.50": {
+    "k": 945,
+    "svg": "3855ca07d00191c7",
+    "norm": "5d4e7e3794be7010",
+    "px": "23f88f39bdf7a087"
+   },
+   "32.00": {
+    "k": 960,
+    "svg": "6dcddc2302cad6f5",
+    "norm": "8aca35e6e79b8143",
+    "px": "826b9199eb1f28f4"
+   },
+   "32.50": {
+    "k": 975,
+    "svg": "383f4b7a8c5ee0c7",
+    "norm": "9ac6c8bd09d697e8",
+    "px": "c40393b86c2f106a"
+   },
+   "33.00": {
+    "k": 990,
+    "svg": "74f4ae82ae849728",
+    "norm": "f0f62dc2cc03d99d",
+    "px": "017d4648c60f7d64"
+   },
+   "33.50": {
+    "k": 1005,
+    "svg": "d1fb821d0a4a237e",
+    "norm": "954dad270250b139",
+    "px": "8375558ebf6fb646"
+   }
+  },
+  "b5-planning-fallacy": {
+   "0.00": {
+    "k": 0,
+    "svg": "b01853c973205930",
+    "norm": "b01853c973205930",
+    "px": "190fe393a722e1b4"
+   },
+   "0.50": {
+    "k": 15,
+    "svg": "0ea5418986a365ad",
+    "norm": "4fdc09b08524d739",
+    "px": "b7e2f0f83b726844"
+   },
+   "1.00": {
+    "k": 30,
+    "svg": "0eae52cce2fd9c59",
+    "norm": "65a71a3e988e38ca",
+    "px": "30cc05fcec0f9f51"
+   },
+   "1.50": {
+    "k": 45,
+    "svg": "2f4b2edd4ccca49a",
+    "norm": "fca1362b59b0a3b3",
+    "px": "c609ef42247c9c78"
+   },
+   "2.00": {
+    "k": 60,
+    "svg": "ab2df9dd15ec9280",
+    "norm": "13bf314f22079c41",
+    "px": "e1b30c00df88dc70"
+   },
+   "2.50": {
+    "k": 75,
+    "svg": "d1b33728b1171eaa",
+    "norm": "55d9bb058c67c5c4",
+    "px": "548c750bf7212065"
+   },
+   "3.00": {
+    "k": 90,
+    "svg": "f9be3d123923dac4",
+    "norm": "55f031298ac6a657",
+    "px": "c1b6b4dc0611bde5"
+   },
+   "3.50": {
+    "k": 105,
+    "svg": "4c42fc30b5a5c6f3",
+    "norm": "325d869128611a4c",
+    "px": "4e6ef092425ff1d7"
+   },
+   "4.00": {
+    "k": 120,
+    "svg": "cf063da4d5e2fbe8",
+    "norm": "b3e32a9c1d2362e7",
+    "px": "f09635ed6ee65076"
+   },
+   "4.50": {
+    "k": 135,
+    "svg": "1b2dbfa258192667",
+    "norm": "a746e02ef7b5c49e",
+    "px": "a9dc634e00bb6cac"
+   },
+   "5.00": {
+    "k": 150,
+    "svg": "b8ccde89d861ad70",
+    "norm": "04320774684bbe49",
+    "px": "fcf1d62c185775cc"
+   },
+   "5.50": {
+    "k": 165,
+    "svg": "7acc4ead4aefa5fc",
+    "norm": "66091788ae925c5e",
+    "px": "9260e9ef22f3bdfa"
+   },
+   "6.00": {
+    "k": 180,
+    "svg": "b9481c2ec045b0e3",
+    "norm": "b2407ec7e4e11308",
+    "px": "629ecb77f05030ec"
+   },
+   "6.50": {
+    "k": 195,
+    "svg": "1f98311d7275d25a",
+    "norm": "c637408a663bb914",
+    "px": "03cf08719b9e6ec2"
+   },
+   "7.00": {
+    "k": 210,
+    "svg": "a6a1ea1d0064392b",
+    "norm": "b65a38d18be25757",
+    "px": "c75eb8d4ec52ab03"
+   },
+   "7.50": {
+    "k": 225,
+    "svg": "83d566dc0cbfff74",
+    "norm": "83d566dc0cbfff74",
+    "px": "c9b95647093f74ad"
+   },
+   "8.00": {
+    "k": 240,
+    "svg": "4731b40cb739ec8a",
+    "norm": "4731b40cb739ec8a",
+    "px": "b050b6777b50b236"
+   },
+   "8.50": {
+    "k": 255,
+    "svg": "8d8a8516abc624c3",
+    "norm": "8d8a8516abc624c3",
+    "px": "1c5fcc7d54edaa5d"
+   },
+   "9.00": {
+    "k": 270,
+    "svg": "9fd3a8db7aa04440",
+    "norm": "9fd3a8db7aa04440",
+    "px": "f82a5e118de7dc81"
+   },
+   "9.50": {
+    "k": 285,
+    "svg": "45a978daaea927b3",
+    "norm": "45a978daaea927b3",
+    "px": "3f3067ab0793f80e"
+   },
+   "10.00": {
+    "k": 300,
+    "svg": "eaeac268165e20c2",
+    "norm": "eaeac268165e20c2",
+    "px": "731b30cef6ab6a66"
+   },
+   "10.50": {
+    "k": 315,
+    "svg": "3c72cd4c2bb29a46",
+    "norm": "3c72cd4c2bb29a46",
+    "px": "991754f6d889779e"
+   },
+   "11.00": {
+    "k": 330,
+    "svg": "5831c148a231426d",
+    "norm": "5831c148a231426d",
+    "px": "d890895a48fa2f44"
+   },
+   "11.50": {
+    "k": 345,
+    "svg": "1301319563a35ec8",
+    "norm": "1301319563a35ec8",
+    "px": "9f999aa08047326d"
+   },
+   "12.00": {
+    "k": 360,
+    "svg": "9921e7af369193ea",
+    "norm": "9921e7af369193ea",
+    "px": "7a30bb3fc6d6c8ff"
+   },
+   "12.50": {
+    "k": 375,
+    "svg": "e085e0b21554613d",
+    "norm": "e085e0b21554613d",
+    "px": "b7e726ef606b12f8"
+   },
+   "13.00": {
+    "k": 390,
+    "svg": "2966a64da28b0cd1",
+    "norm": "004b91c614253463",
+    "px": "b99e849a238c4436"
+   },
+   "13.50": {
+    "k": 405,
+    "svg": "4f3b07abf4fa2133",
+    "norm": "4f3b07abf4fa2133",
+    "px": "0e10f23e111b5dcc"
+   },
+   "14.00": {
+    "k": 420,
+    "svg": "fb390f4c689aa20e",
+    "norm": "fb390f4c689aa20e",
+    "px": "7b01102cbcd9e5f1"
+   },
+   "14.50": {
+    "k": 435,
+    "svg": "a8f65bdf578475db",
+    "norm": "a8f65bdf578475db",
+    "px": "314d8c855207f25d"
+   },
+   "15.00": {
+    "k": 450,
+    "svg": "3953ae90cd9f2542",
+    "norm": "3953ae90cd9f2542",
+    "px": "52519f65a3a2d418"
+   },
+   "15.50": {
+    "k": 465,
+    "svg": "9457bf214d401e43",
+    "norm": "9457bf214d401e43",
+    "px": "59676fdd42f4f2c1"
+   },
+   "16.00": {
+    "k": 480,
+    "svg": "4a27871d5778c10e",
+    "norm": "4a27871d5778c10e",
+    "px": "7c4b9322df5b3bd4"
+   },
+   "16.50": {
+    "k": 495,
+    "svg": "db85cc6363b075a6",
+    "norm": "db85cc6363b075a6",
+    "px": "138edcb8513bcd98"
+   },
+   "17.00": {
+    "k": 510,
+    "svg": "bd293004629731e8",
+    "norm": "bd293004629731e8",
+    "px": "b1603daa729cc182"
+   },
+   "17.50": {
+    "k": 525,
+    "svg": "49e5a505f117f8af",
+    "norm": "49e5a505f117f8af",
+    "px": "547e5d3b29479aa7"
+   },
+   "18.00": {
+    "k": 540,
+    "svg": "54d075ec2b7e5b78",
+    "norm": "54d075ec2b7e5b78",
+    "px": "1625f5afd0012d78"
+   },
+   "18.50": {
+    "k": 555,
+    "svg": "32cd94d566b161ba",
+    "norm": "32cd94d566b161ba",
+    "px": "ada40b1324ffd5d4"
+   },
+   "19.00": {
+    "k": 570,
+    "svg": "e728cabfba4faaab",
+    "norm": "e728cabfba4faaab",
+    "px": "141fb5f3c16ab8d2"
+   },
+   "19.50": {
+    "k": 585,
+    "svg": "6de4e1a27601c92d",
+    "norm": "6de4e1a27601c92d",
+    "px": "f0c0ef8a4a00b3fd"
+   },
+   "20.00": {
+    "k": 600,
+    "svg": "0a5e808b12c5ac96",
+    "norm": "de464400bf23983d",
+    "px": "72329adac3fac052"
+   },
+   "20.50": {
+    "k": 615,
+    "svg": "d01bb1fcbda09095",
+    "norm": "d6e9926d667bfa8f",
+    "px": "960b9d51efcc7f01"
+   },
+   "21.00": {
+    "k": 630,
+    "svg": "18d52302a57b9ee1",
+    "norm": "18d52302a57b9ee1",
+    "px": "f9fbe61febfd0262"
+   },
+   "21.50": {
+    "k": 645,
+    "svg": "cdd016bdef80802e",
+    "norm": "cdd016bdef80802e",
+    "px": "b29622f300512f81"
+   },
+   "22.00": {
+    "k": 660,
+    "svg": "02e8f42cbdc24fca",
+    "norm": "02e8f42cbdc24fca",
+    "px": "b78c0609432bd2ac"
+   },
+   "22.50": {
+    "k": 675,
+    "svg": "1e17b38a329b6e9e",
+    "norm": "1e17b38a329b6e9e",
+    "px": "3e895560a7ed4f8e"
+   },
+   "23.00": {
+    "k": 690,
+    "svg": "eb3f2ae79e683466",
+    "norm": "eb3f2ae79e683466",
+    "px": "5b71a989b528c9bb"
+   },
+   "23.50": {
+    "k": 705,
+    "svg": "b98f8dc63bb4e009",
+    "norm": "b98f8dc63bb4e009",
+    "px": "808337372199d22a"
+   },
+   "24.00": {
+    "k": 720,
+    "svg": "02f9369fe9a164cf",
+    "norm": "02f9369fe9a164cf",
+    "px": "d0e3d3b487d11426"
+   },
+   "24.50": {
+    "k": 735,
+    "svg": "a132b531bb224543",
+    "norm": "a132b531bb224543",
+    "px": "1a569579cc0a88ed"
+   },
+   "25.00": {
+    "k": 750,
+    "svg": "e9986df6b7c75cb8",
+    "norm": "e9986df6b7c75cb8",
+    "px": "e42be494ca40caa8"
+   },
+   "25.50": {
+    "k": 765,
+    "svg": "04bb5bbc27859522",
+    "norm": "04bb5bbc27859522",
+    "px": "c2256949546d96fb"
+   },
+   "26.00": {
+    "k": 780,
+    "svg": "98a81d4b466cc041",
+    "norm": "d2aa50b49183d03f",
+    "px": "7a6e71785ab184e3"
+   },
+   "26.50": {
+    "k": 795,
+    "svg": "4007ec97be033804",
+    "norm": "303bf1efe19508c7",
+    "px": "ae15e7f4102ee362"
+   },
+   "27.00": {
+    "k": 810,
+    "svg": "6aeb1155de5a82cc",
+    "norm": "6dc89327ab53ca9a",
+    "px": "5a54ef8e045c48e5"
+   },
+   "27.50": {
+    "k": 825,
+    "svg": "30810f0ba85bc9fe",
+    "norm": "4c4f37b69857ecc0",
+    "px": "c3d4fd8c2826252b"
+   },
+   "28.00": {
+    "k": 840,
+    "svg": "925ec1b14b465f6c",
+    "norm": "4b62868e75272bf1",
+    "px": "c30689a740d87fd9"
+   },
+   "28.50": {
+    "k": 855,
+    "svg": "41e650dd7d21ab05",
+    "norm": "22214f2cdae1017c",
+    "px": "1e07c3418ca57391"
+   },
+   "29.00": {
+    "k": 870,
+    "svg": "79486d1354b9e4f3",
+    "norm": "115127d3f04ba485",
+    "px": "0b9731367bf4737e"
+   },
+   "29.50": {
+    "k": 885,
+    "svg": "2091587b362f4322",
+    "norm": "f6015e4bacac9e72",
+    "px": "dfbe8848ef0c8aee"
+   },
+   "30.00": {
+    "k": 900,
+    "svg": "9fdffa4d7b32064d",
+    "norm": "8ca23c95386cfc17",
+    "px": "ff5d2d1adbced14d"
+   },
+   "30.50": {
+    "k": 915,
+    "svg": "8abd3fa3510ae70f",
+    "norm": "1640b54a2f72a386",
+    "px": "3b8692e9f9ffe91a"
+   },
+   "31.00": {
+    "k": 930,
+    "svg": "ccd7b2089f5ecb94",
+    "norm": "5fcbb32bb8722c42",
+    "px": "55c36e9434074665"
+   },
+   "31.50": {
+    "k": 945,
+    "svg": "7dbf8a783ee796c1",
+    "norm": "7dbf8a783ee796c1",
+    "px": "4e7ba400108e241b"
+   },
+   "32.00": {
+    "k": 960,
+    "svg": "e9ade2ec81e4c603",
+    "norm": "e9ade2ec81e4c603",
+    "px": "a14ee251e7549af4"
+   },
+   "32.50": {
+    "k": 975,
+    "svg": "22dfcb131eb264a1",
+    "norm": "22dfcb131eb264a1",
+    "px": "0068945df631ad11"
+   },
+   "33.00": {
+    "k": 990,
+    "svg": "0dcbf57998355a78",
+    "norm": "0dcbf57998355a78",
+    "px": "c3f4c1e103b4a285"
+   },
+   "33.50": {
+    "k": 1005,
+    "svg": "81c09376e88d47fc",
+    "norm": "81c09376e88d47fc",
+    "px": "496569ff8008463e"
+   },
+   "34.00": {
+    "k": 1020,
+    "svg": "273f8b4b9814a732",
+    "norm": "273f8b4b9814a732",
+    "px": "a26b7cdd44058c45"
+   },
+   "34.50": {
+    "k": 1035,
+    "svg": "6498f7e246e84dac",
+    "norm": "6498f7e246e84dac",
+    "px": "56dde562d431b849"
+   },
+   "35.00": {
+    "k": 1050,
+    "svg": "bb612950f831572d",
+    "norm": "bb612950f831572d",
+    "px": "30752b319d8033c1"
+   },
+   "35.50": {
+    "k": 1065,
+    "svg": "c22de4a8bc928a96",
+    "norm": "c22de4a8bc928a96",
+    "px": "eeb0c8710a360513"
+   },
+   "36.00": {
+    "k": 1080,
+    "svg": "0d73ed992f76e77a",
+    "norm": "57f877898360b1e6",
+    "px": "41111bc121922f2f"
+   },
+   "36.50": {
+    "k": 1095,
+    "svg": "2c2ad07554181c95",
+    "norm": "614f274c428b0bfd",
+    "px": "8e7efcfee759b93d"
+   },
+   "37.00": {
+    "k": 1110,
+    "svg": "bba4b4c4886344a2",
+    "norm": "4c3bc963c1083f1a",
+    "px": "b61ec5c83c5adf5c"
+   },
+   "37.50": {
+    "k": 1125,
+    "svg": "52d4a2532902aa0c",
+    "norm": "521fdf381eaf6611",
+    "px": "06dc57f148c77375"
+   },
+   "38.00": {
+    "k": 1140,
+    "svg": "e05e472a899f13b5",
+    "norm": "ef9e6497cf804b72",
+    "px": "8d612faf7eee071b"
+   },
+   "38.50": {
+    "k": 1155,
+    "svg": "e48dabd26aa01a90",
+    "norm": "20f6f88ca7547149",
+    "px": "e9e9a4d38cf89e61"
+   },
+   "39.00": {
+    "k": 1170,
+    "svg": "9d9ba8364d0beecf",
+    "norm": "c16d361cab73ff20",
+    "px": "0b68e80115b79168"
+   },
+   "39.50": {
+    "k": 1185,
+    "svg": "40eeb4f5aa812069",
+    "norm": "930a243c67e807e4",
+    "px": "06352908e9c7d069"
+   },
+   "40.00": {
+    "k": 1200,
+    "svg": "dddcfc19d08e5443",
+    "norm": "425830fe7d5d5792",
+    "px": "c70f86411b3c44c7"
+   }
+  },
+  "w0-office": {
+   "0": {
+    "k": 0,
+    "px": "ec489434fac9d4c0"
+   },
+   "10": {
+    "k": 10,
+    "px": "1af0ece083039802"
+   },
+   "20": {
+    "k": 20,
+    "px": "9365faa11fa4eb62"
+   },
+   "30": {
+    "k": 30,
+    "px": "7662e5af13cc2a72"
+   },
+   "40": {
+    "k": 40,
+    "px": "f0eaad26971e7bea"
+   },
+   "50": {
+    "k": 50,
+    "px": "4f65dcc279408d9f"
+   },
+   "60": {
+    "k": 60,
+    "px": "3671eba80f51d4e6"
+   },
+   "70": {
+    "k": 70,
+    "px": "312662683f064416"
+   },
+   "80": {
+    "k": 80,
+    "px": "0b704e254c4789a6"
+   },
+   "90": {
+    "k": 90,
+    "px": "64bb105993bf18a5"
+   },
+   "100": {
+    "k": 100,
+    "px": "d2c8844cf67a2507"
+   },
+   "110": {
+    "k": 110,
+    "px": "77429f5019abadb9"
+   },
+   "120": {
+    "k": 120,
+    "px": "480b989d1e71eefb"
+   },
+   "130": {
+    "k": 130,
+    "px": "dbe8eadaafe86a80"
+   },
+   "140": {
+    "k": 140,
+    "px": "a58631ac32474766"
+   },
+   "150": {
+    "k": 150,
+    "px": "1489ea3ab5d33f43"
+   },
+   "160": {
+    "k": 160,
+    "px": "901b4904667a512c"
+   },
+   "170": {
+    "k": 170,
+    "px": "eda941c0c9ca915b"
+   },
+   "180": {
+    "k": 180,
+    "px": "d46c7016eb703d86"
+   },
+   "190": {
+    "k": 190,
+    "px": "ae77c5f5094f69c2"
+   },
+   "200": {
+    "k": 200,
+    "px": "34e8a526ee13ecdb"
+   },
+   "210": {
+    "k": 210,
+    "px": "3907a3c4a6d96ca0"
+   },
+   "220": {
+    "k": 220,
+    "px": "d476758fdba7c8df"
+   },
+   "230": {
+    "k": 230,
+    "px": "f7ed83e374c9e74a"
+   },
+   "240": {
+    "k": 240,
+    "px": "39fdc1aac5fa7493"
+   },
+   "250": {
+    "k": 250,
+    "px": "8d7a205e3e778a32"
+   },
+   "260": {
+    "k": 260,
+    "px": "a7e981bdfa27849c"
+   },
+   "270": {
+    "k": 270,
+    "px": "7adf36b538d2086d"
+   },
+   "280": {
+    "k": 280,
+    "px": "6a651242b8668624"
+   },
+   "290": {
+    "k": 290,
+    "px": "0ecf27e2c351d859"
+   },
+   "300": {
+    "k": 300,
+    "px": "88f3caa18fd85050"
+   },
+   "310": {
+    "k": 310,
+    "px": "045d420ec2ec2ea5"
+   },
+   "320": {
+    "k": 320,
+    "px": "3b23648d0546717b"
+   },
+   "330": {
+    "k": 330,
+    "px": "0671145de4bd0253"
+   },
+   "340": {
+    "k": 340,
+    "px": "81287c86c56c35ec"
+   },
+   "350": {
+    "k": 350,
+    "px": "f3ef198e82508869"
+   },
+   "360": {
+    "k": 360,
+    "px": "412cca33e19ac9ff"
+   },
+   "370": {
+    "k": 370,
+    "px": "b98e8c42f44586c1"
+   },
+   "380": {
+    "k": 380,
+    "px": "ca9edb423f64728e"
+   },
+   "390": {
+    "k": 390,
+    "px": "0616d4ac29b06a5e"
+   },
+   "400": {
+    "k": 400,
+    "px": "1bd583e5cc600f43"
+   },
+   "410": {
+    "k": 410,
+    "px": "11418a6988c76bc4"
+   },
+   "420": {
+    "k": 420,
+    "px": "039704580a5a3051"
+   },
+   "430": {
+    "k": 430,
+    "px": "697614a63c7791cf"
+   },
+   "440": {
+    "k": 440,
+    "px": "c4796074d6c6d971"
+   },
+   "450": {
+    "k": 450,
+    "px": "e90eb48dfcc39460"
+   },
+   "460": {
+    "k": 460,
+    "px": "35b4cc747474b4a8"
+   },
+   "470": {
+    "k": 470,
+    "px": "7f5ef9013049fbce"
+   },
+   "480": {
+    "k": 480,
+    "px": "da17ca16fcd0152b"
+   },
+   "490": {
+    "k": 490,
+    "px": "6c1a7d35bd6ea00f"
+   },
+   "500": {
+    "k": 500,
+    "px": "0ea599d83b93f324"
+   },
+   "510": {
+    "k": 510,
+    "px": "4bbd10ad6e7cba2f"
+   },
+   "520": {
+    "k": 520,
+    "px": "0ecddacfd7cb2c99"
+   },
+   "530": {
+    "k": 530,
+    "px": "bdb44a823d1e4dd3"
+   },
+   "540": {
+    "k": 540,
+    "px": "28ab4e257b13278e"
+   },
+   "550": {
+    "k": 550,
+    "px": "9922defee6d9282a"
+   },
+   "560": {
+    "k": 560,
+    "px": "e49b5e851c0e010e"
+   },
+   "570": {
+    "k": 570,
+    "px": "db0a36431cf2005b"
+   },
+   "580": {
+    "k": 580,
+    "px": "67b95477de56f439"
+   },
+   "590": {
+    "k": 590,
+    "px": "6e98529d890dfe21"
+   },
+   "600": {
+    "k": 600,
+    "px": "ceaaf64ebd66140c"
+   },
+   "610": {
+    "k": 610,
+    "px": "ebdd910b106b9655"
+   },
+   "620": {
+    "k": 620,
+    "px": "263228f2f2f8e519"
+   },
+   "630": {
+    "k": 630,
+    "px": "9d8398363c322b4b"
+   },
+   "640": {
+    "k": 640,
+    "px": "d6ca97fecfc33c3a"
+   },
+   "650": {
+    "k": 650,
+    "px": "33bc7b11006cedc6"
+   },
+   "660": {
+    "k": 660,
+    "px": "246a0ed90d7f7e99"
+   },
+   "670": {
+    "k": 670,
+    "px": "ff23735a01d92ac1"
+   },
+   "680": {
+    "k": 680,
+    "px": "ea77bffc63c06ada"
+   },
+   "690": {
+    "k": 690,
+    "px": "033a5432981be9ed"
+   },
+   "700": {
+    "k": 700,
+    "px": "4ebb12ca6f8596af"
+   },
+   "710": {
+    "k": 710,
+    "px": "b44cb58057fcf823"
+   },
+   "720": {
+    "k": 720,
+    "px": "6a8c830bebd7ef1b"
+   },
+   "730": {
+    "k": 730,
+    "px": "53bbb97a8c82593c"
+   },
+   "740": {
+    "k": 740,
+    "px": "ac98b4b893fcae5d"
+   },
+   "750": {
+    "k": 750,
+    "px": "97bde7051405e94f"
+   },
+   "760": {
+    "k": 760,
+    "px": "c20c4a43abeebc9f"
+   },
+   "770": {
+    "k": 770,
+    "px": "c533f94a4fb71c80"
+   },
+   "780": {
+    "k": 780,
+    "px": "7d114b726a66195c"
+   },
+   "790": {
+    "k": 790,
+    "px": "8c9ef18de4db6443"
+   },
+   "800": {
+    "k": 800,
+    "px": "f09979ea5c7740cb"
+   },
+   "810": {
+    "k": 810,
+    "px": "1a82f218d50b0f3e"
+   },
+   "820": {
+    "k": 820,
+    "px": "be4729d866f974ca"
+   },
+   "830": {
+    "k": 830,
+    "px": "09b64fe2ba126f43"
+   },
+   "840": {
+    "k": 840,
+    "px": "adae09209a56db76"
+   },
+   "850": {
+    "k": 850,
+    "px": "7f5957ea030bd0ee"
+   },
+   "860": {
+    "k": 860,
+    "px": "e607b9574569bfa5"
+   },
+   "870": {
+    "k": 870,
+    "px": "2096e649aa7b94ce"
+   },
+   "880": {
+    "k": 880,
+    "px": "cdb1c33c3efc6bf7"
+   },
+   "890": {
+    "k": 890,
+    "px": "69dca759a17cae72"
+   },
+   "900": {
+    "k": 900,
+    "px": "37888d61b4a3b330"
+   },
+   "910": {
+    "k": 910,
+    "px": "77f176d987c9cb9e"
+   },
+   "920": {
+    "k": 920,
+    "px": "f96926d4ab139aab"
+   },
+   "930": {
+    "k": 930,
+    "px": "5d66540b178145fb"
+   },
+   "940": {
+    "k": 940,
+    "px": "59741969b5c6315a"
+   },
+   "950": {
+    "k": 950,
+    "px": "8cc37652eda482b4"
+   },
+   "960": {
+    "k": 960,
+    "px": "319fce49e9336291"
+   },
+   "970": {
+    "k": 970,
+    "px": "5b2d2b975868e4a7"
+   },
+   "980": {
+    "k": 980,
+    "px": "d119199a6f0161f3"
+   },
+   "990": {
+    "k": 990,
+    "px": "ff9d279201a56c34"
+   },
+   "1000": {
+    "k": 1000,
+    "px": "7e75708a26532d72"
+   },
+   "1010": {
+    "k": 1010,
+    "px": "24c70b84678ac596"
+   },
+   "1020": {
+    "k": 1020,
+    "px": "a8c43e3f5f41c632"
+   },
+   "1030": {
+    "k": 1030,
+    "px": "307500b9058cd9d5"
+   },
+   "1040": {
+    "k": 1040,
+    "px": "4ca0299851d1cf54"
+   },
+   "1050": {
+    "k": 1050,
+    "px": "c0634fc1b6bb17f6"
+   },
+   "1060": {
+    "k": 1060,
+    "px": "3b67f805024ff326"
+   },
+   "1070": {
+    "k": 1070,
+    "px": "7c11e4e5bdd7cf30"
+   },
+   "1080": {
+    "k": 1080,
+    "px": "5507ae498d589f0e"
+   },
+   "1090": {
+    "k": 1090,
+    "px": "4b20b9083336aa15"
+   },
+   "1100": {
+    "k": 1100,
+    "px": "633e4dd12df6a690"
+   },
+   "1110": {
+    "k": 1110,
+    "px": "80ee821ba7cc8f11"
+   },
+   "1120": {
+    "k": 1120,
+    "px": "b8d1da61292d4223"
+   },
+   "1130": {
+    "k": 1130,
+    "px": "77f78b5a10a3401b"
+   },
+   "1140": {
+    "k": 1140,
+    "px": "f4b2f12c3fad6623"
+   },
+   "1150": {
+    "k": 1150,
+    "px": "a27278f1a28c06b0"
+   },
+   "1160": {
+    "k": 1160,
+    "px": "55620b448bfcb684"
+   },
+   "1170": {
+    "k": 1170,
+    "px": "06c048c1afdfe6de"
+   },
+   "1180": {
+    "k": 1180,
+    "px": "5d61b6fe34a03e9f"
+   },
+   "1190": {
+    "k": 1190,
+    "px": "9c705e2b5e27a16f"
+   },
+   "1200": {
+    "k": 1200,
+    "px": "00802c5c161a3551"
+   },
+   "1210": {
+    "k": 1210,
+    "px": "7ad66bf2d3d7f4cc"
+   },
+   "1220": {
+    "k": 1220,
+    "px": "02bf39e6a989744e"
+   },
+   "1230": {
+    "k": 1230,
+    "px": "c411cb204c580ac3"
+   },
+   "1240": {
+    "k": 1240,
+    "px": "b65c311542c7e241"
+   },
+   "1250": {
+    "k": 1250,
+    "px": "701f895fa1151f10"
+   },
+   "1260": {
+    "k": 1260,
+    "px": "fa6d008a0eeed80d"
+   },
+   "1270": {
+    "k": 1270,
+    "px": "5044ed6a24c380de"
+   },
+   "1280": {
+    "k": 1280,
+    "px": "fc111d0f4d651601"
+   },
+   "1290": {
+    "k": 1290,
+    "px": "76c9a69ea8dc390a"
+   },
+   "1300": {
+    "k": 1300,
+    "px": "8a1b1c05f27f3865"
+   },
+   "1310": {
+    "k": 1310,
+    "px": "6998603440c0bdb6"
+   },
+   "1320": {
+    "k": 1320,
+    "px": "785d3a5a2d83b68d"
+   },
+   "1330": {
+    "k": 1330,
+    "px": "58b26944470b1d1e"
+   },
+   "1340": {
+    "k": 1340,
+    "px": "257d9bb13149d520"
+   },
+   "1350": {
+    "k": 1350,
+    "px": "8873b6eb1d5153ce"
+   }
+  }
+ }
+}
