@@ -1,0 +1,25 @@
+{
+  "name": "@erkasa/stager",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Stager (E1.2): turns a film plan into an erkasa.render/1 Render Package and an erkasa.assets/1 Asset Manifest, deterministically. No model, no network, no creative decisions: it records what the existing staging code computes.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "stage": "tsx src/cli.ts"
+  },
+  "dependencies": {
+    "@erkasa/contracts": "workspace:*",
+    "@erkasa/film": "workspace:*",
+    "tsx": "4.23.15"
+  },
+  "devDependencies": {
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "vitest": "5.1.0"
+  }
+}

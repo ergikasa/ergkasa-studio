@@ -7,6 +7,7 @@ packages:
   - ai-worker
   - film
   - planner
+  - stager
 
 onlyBuiltDependencies:
   - esbuild
