@@ -1,11 +1,11 @@
 # E1.4: Engine-i lexon Render Package-in (raporti përfundimtar)
 
-|         |                                                                                                                                                                                                           |
-| ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Branch  | `e1-4-engine-reads-package` (nuk është bërë merge në `main`; `main` mbetet `7f8ffca`)                                                                                                                     |
-| Scope   | `docs/plans/e1-4-engine-reads-package-scope.md` @ `eda5ab5`, me vendimet e PO-së gjatë implementimit (§3 më poshtë)                                                                                       |
-| Statusi | K1–K9 kalojnë. K4 (iii) u miratua nga PO-ja më 2026-11-17. Boshllëku i auditimit (§5.2) u mbyll me capabilities v2 dhe G16 (§5b). Pret review-n përfundimtare. Pipeline-i i ri nuk është vënë si default. |
-| Data    | 2026-11-17                                                                                                                                                                                                |
+|         |                                                                                                                                                                                                                          |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Branch  | `e1-4-engine-reads-package` (nuk është bërë merge në `main`; `main` mbetet `7f8ffca`)                                                                                                                                    |
+| Scope   | `docs/plans/e1-4-engine-reads-package-scope.md` @ `eda5ab5`, me vendimet e PO-së gjatë implementimit (§3 më poshtë)                                                                                                      |
+| Statusi | **E1.4 u pranua nga PO-ja më 2026-11-17** pas mbylljes së auditimit final (F1–F4, `docs/reports/e1-4-final-audit-closure.md`). K1–K9 kalojnë. Pipeline-i i ri nuk është vënë si default; merge në `main` nuk është bërë. |
+| Data    | 2026-11-17                                                                                                                                                                                                               |
 
 ## 1. Çfarë u ndërtua
 

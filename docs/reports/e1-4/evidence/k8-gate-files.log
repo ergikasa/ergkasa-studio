@@ -1,0 +1,9 @@
+
+ RUN  v5.1.0 /home/claude/ergkasa-studio/gate
+
+
+ Test Files  5 passed (5)
+      Tests  319 passed (319)
+   Start at  16:09:45
+   Duration  8.35s (tests 63%, import 35%, transform 2%)
+
