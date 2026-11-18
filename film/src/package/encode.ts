@@ -51,14 +51,27 @@ export function cutSegments(r: PackageRenderer): Array<{ from: number; to: numbe
 
 const ffmpegOf = (o: { ffmpeg?: string }): string => o.ffmpeg ?? process.env["ERKASA_FFMPEG"] ?? "ffmpeg";
 
-class Procs {
-  private readonly live = new Set<ChildProcess>();
-  constructor(private readonly signal?: AbortSignal) {}
+/**
+ * The processes the encoder started. Each runs in its own process group, so stopping one stops what it started
+ * too (a child's FFmpeg); `killAll` resolves once every one has exited.
+ */
+export class Procs {
+  private readonly live = new Map<ChildProcess, Promise<void>>();
+  private stopped = false;
+  /** `group`: each process leads a group of its own (the encoder's); false in a child, whose group it shares. */
+  constructor(
+    private readonly signal?: AbortSignal,
+    private readonly group = true,
+  ) {}
   run(cmd: string, args: string[], feed?: (stdin: NodeJS.WritableStream) => Promise<void>): Promise<void> {
     this.signal?.throwIfAborted();
+    if (this.stopped) return Promise.reject(new Error("the encoder is stopping"));
     return new Promise((resolve, reject) => {
-      const p = spawn(cmd, args, { stdio: [feed ? "pipe" : "ignore", "ignore", "pipe"] });
-      this.live.add(p);
+      const p = spawn(cmd, args, {
+        stdio: [feed ? "pipe" : "ignore", "ignore", "pipe"],
+        detached: this.group,
+      });
+      this.live.set(p, new Promise<void>((r) => p.once("close", () => r())));
       let err = "";
       p.stderr?.on("data", (d: Buffer) => (err = (err + d.toString()).slice(-3000)));
       p.on("error", reject);
@@ -73,15 +86,26 @@ class Procs {
         feed(p.stdin).then(
           () => p.stdin?.end(),
           (e: unknown) => {
-            p.kill("SIGKILL");
+            this.kill(p);
             reject(e instanceof Error ? e : new Error(String(e)));
           },
         );
       }
     });
   }
-  killAll(): void {
-    for (const p of this.live) p.kill("SIGKILL");
+  private kill(p: ChildProcess): void {
+    try {
+      if (this.group && p.pid) process.kill(-p.pid, "SIGKILL");
+      else p.kill("SIGKILL");
+    } catch {
+      p.kill("SIGKILL");
+    }
+  }
+  killAll(): Promise<void> {
+    this.stopped = true;
+    const waiting = [...this.live.values()];
+    for (const p of this.live.keys()) this.kill(p);
+    return Promise.all(waiting).then(() => undefined);
   }
 }
 
@@ -91,10 +115,11 @@ export async function encodeSegment(
   from: number,
   to: number,
   out: string,
-  opts: { ffmpeg?: string; signal?: AbortSignal; onFrame?: () => void } = {},
+  opts: { ffmpeg?: string; signal?: AbortSignal; onFrame?: () => void; procs?: Procs } = {},
 ): Promise<void> {
-  const procs = new Procs(opts.signal);
-  const abort = (): void => procs.killAll();
+  // in a child process the encoder shares the child's group: stopping the child stops it
+  const procs = opts.procs ?? new Procs(opts.signal, false);
+  const abort = (): void => void procs.killAll();
   opts.signal?.addEventListener("abort", abort, { once: true });
   const tmp = out.replace(/\.mp4$/, ".part.mp4");
   try {
@@ -107,6 +132,9 @@ export async function encodeSegment(
       }
     });
     renameSync(tmp, out);
+  } catch (e) {
+    await procs.killAll();
+    throw e;
   } finally {
     opts.signal?.removeEventListener("abort", abort);
     rmSync(tmp, { force: true });
@@ -134,7 +162,7 @@ export async function encodePackage(
   const files = segs.map((_, i) => join(work, "cuts", `cut-${String(i + 1).padStart(3, "0")}.mp4`));
   const tmpOut = opts.out.replace(/\.mp4$/, ".part.mp4");
   const procs = new Procs(opts.signal);
-  const abort = (): void => procs.killAll();
+  const abort = (): void => void procs.killAll();
   opts.signal?.addEventListener("abort", abort, { once: true });
   let done = 0;
   try {
@@ -158,6 +186,7 @@ export async function encodePackage(
           opts.progress?.(done, r.frames);
         } else
           await encodeSegment(r, s.from, s.to, files[i] as string, {
+            procs,
             ffmpeg: ffmpegOf(opts),
             ...(opts.signal ? { signal: opts.signal } : {}),
             onFrame: () => {
@@ -205,7 +234,8 @@ export async function encodePackage(
     opts.progress?.(r.frames, r.frames);
     return { ok: true, errors: [], warnings: o.warnings, frames: r.frames, file: opts.out };
   } catch (e) {
-    procs.killAll();
+    // every process this encoder started has exited before the failure is reported
+    await procs.killAll();
     rmSync(tmpOut, { force: true });
     throw e;
   } finally {
