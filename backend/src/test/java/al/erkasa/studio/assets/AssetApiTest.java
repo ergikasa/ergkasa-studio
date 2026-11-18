@@ -34,8 +34,9 @@ class AssetApiTest {
     @Value("${local.server.port}")
     private int port;
 
+    /** As configured (relative to the working directory, like the indexer resolves it). */
     @Value("${erkasa.assets.dir}")
-    private Path assetsDir;
+    private String assetsDir;
 
     private final ObjectMapper mapper = new ObjectMapper();
 
@@ -95,7 +96,7 @@ class AssetApiTest {
     @Test
     void inventoryMatchesTheLibraryOnDisk() throws Exception {
         Map<String, Set<String>> onDisk = new TreeMap<>();
-        try (Stream<Path> files = Files.walk(assetsDir)) {
+        try (Stream<Path> files = Files.walk(Path.of(assetsDir))) {
             for (Path file : files.filter(f -> f.getFileName().toString().equals("asset.json")).toList()) {
                 JsonNode meta = mapper.readTree(file.toFile());
                 onDisk.computeIfAbsent(meta.path("category").asText(), k -> new TreeSet<>()).add(meta.path("assetId").asText());
