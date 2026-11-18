@@ -167,6 +167,7 @@ describe("the mixdown graph", () => {
   });
   const pkg = (audio: RenderPackage["audio"], ducking = true): RenderPackage =>
     ({
+      output: { width: 1080, height: 1920, fps: 30, duration: 8.5 },
       audio,
       mix: {
         duckMusicDb: 0,
@@ -177,12 +178,15 @@ describe("the mixdown graph", () => {
       },
     }) as unknown as RenderPackage;
   const graph = (p: RenderPackage): string[] => {
-    const a = mixdownArgs(p, "v.mp4", (c) => `${c.id}.wav`, "out.mp4") as string[];
+    const a = mixdownArgs(p, "v.mp4", (c) => `${c.id}.wav`, "out.mp4", fileSec) as string[];
     return (a[a.indexOf("-filter_complex") + 1] as string).split(";");
   };
-  const tail = "loudnorm=I=-14:TP=-1.5:LRA=11,aresample=48000,apad[a]";
+  // the music file (9 s) outlasts the 8.5 s film: no padding; voice files (1 s) alone: padded to the film
+  const fileSec = (c: RenderPackage["audio"][number]): number => (c.role === "music" ? 9 : 1);
+  const tail = "loudnorm=I=-14:TP=-1.5:LRA=11,aresample=48000[a]";
+  const padded = "loudnorm=I=-14:TP=-1.5:LRA=11,aresample=48000,apad=whole_dur=8.5[a]";
 
-  it("voice and music, ducked: the v2 engine's graph, with the key and the end padded", () => {
+  it("voice and music, ducked: the v2 engine's graph, with the ducking key padded", () => {
     const p = pkg([
       clip("music", "music", 0, 20 * Math.log10(0.55)),
       clip("voice_1", "voice", 0),
@@ -199,7 +203,7 @@ describe("the mixdown graph", () => {
       "[vo][ducked]amix=inputs=2:normalize=0[mix]",
       `[mix]${tail}`,
     ]);
-    const a = mixdownArgs(p, "v.mp4", (c) => `${c.id}.wav`, "out.mp4") as string[];
+    const a = mixdownArgs(p, "v.mp4", (c) => `${c.id}.wav`, "out.mp4", fileSec) as string[];
     expect(a.slice(0, 11)).toEqual([
       "-y",
       "-loglevel",
@@ -228,17 +232,17 @@ describe("the mixdown graph", () => {
       "out.mp4",
     ]);
   });
-  it("voice only; music only (no gain: no stage); voice gain; no clip: no mixdown", () => {
+  it("voice only (padded to the film); music only (no gain: no stage); voice gain; no clip: no mixdown", () => {
     expect(graph(pkg([clip("voice_1", "voice", 1.25)], false))).toEqual([
       "[1:a]aresample=48000,aformat=channel_layouts=stereo,adelay=delays=1250:all=1[v0]",
       "[v0]amix=inputs=1:normalize=0:dropout_transition=0[voice]",
-      `[voice]${tail}`,
+      `[voice]${padded}`,
     ]);
     expect(graph(pkg([clip("music", "music", 0)], false))).toEqual([`[1:a]${tail}`]);
     expect(graph(pkg([clip("voice_1", "voice", 0, -6)], false))[0]).toBe(
       `[1:a]aresample=48000,aformat=channel_layouts=stereo,adelay=delays=0:all=1,volume=${10 ** (-6 / 20)}[v0]`,
     );
-    expect(mixdownArgs(pkg([], false), "v.mp4", () => "", "out.mp4")).toBeUndefined();
+    expect(mixdownArgs(pkg([], false), "v.mp4", () => "", "out.mp4", fileSec)).toBeUndefined();
   });
 });
 
