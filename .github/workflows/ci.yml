@@ -21,17 +21,32 @@ jobs:
       FFMPEG_VERSION_LINE: "ffmpeg version 6.1.1-3ubuntu5 "
     steps:
       - uses: actions/checkout@v4
+      # the exact .deb files of the pinned version, kept between runs (the runner's own mirror can be very slow)
+      - uses: actions/cache@v4
+        with:
+          path: ~/ffmpeg-debs
+          key: ffmpeg-debs-ubuntu-24.04-${{ env.FFMPEG_DEB_VERSION }}-v1
       - name: FFmpeg (pinned version)
-        timeout-minutes: 10
+        timeout-minutes: 15
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
+          # same archive everywhere: some runner images point at a slow regional mirror
+          for f in /etc/apt/sources.list /etc/apt/sources.list.d/*; do
+            if [ -f "$f" ]; then
+              sudo sed -i -E 's#https?://[a-z0-9.-]+\.archive\.ubuntu\.com/ubuntu#http://azure.archive.ubuntu.com/ubuntu#g' "$f"
+            fi
+          done
           sudo apt-get update -o Acquire::Retries=3 -o DPkg::Lock::Timeout=120
           pkgs=""
           for p in ffmpeg libavcodec60 libavdevice60 libavfilter9 libavformat60 libavutil58 libpostproc57 libswresample4 libswscale7; do
             pkgs="$pkgs $p=$FFMPEG_DEB_VERSION"
           done
-          sudo -E apt-get install -y --no-install-recommends -o DPkg::Lock::Timeout=120 $pkgs
+          mkdir -p ~/ffmpeg-debs/partial
+          # apt checks every cached .deb against the archive's hashes and downloads only what is missing
+          sudo -E apt-get install -y --no-install-recommends -o DPkg::Lock::Timeout=120 \
+            -o Dir::Cache::archives="$HOME/ffmpeg-debs" -o APT::Keep-Downloaded-Packages=true $pkgs
+          sudo chown -R "$(id -u):$(id -g)" ~/ffmpeg-debs
           ffmpeg -version | tee "$RUNNER_TEMP/ffmpeg-version.txt"
           ffprobe -version | head -1
           head -1 "$RUNNER_TEMP/ffmpeg-version.txt" | grep -F "$FFMPEG_VERSION_LINE" \
