@@ -174,6 +174,13 @@ export interface RenderCapabilities {
     maxWidth: boolean;
     /** Published behaviour that has no field: fade in (s), opacity of unspoken words and of the stroke. */
     semantics: { fadeIn: number; unspokenOpacity: number; strokeOpacity: number; overVignette: boolean };
+    /**
+     * E1.6 (E-D2): the band of the frame (px from the top) reserved for captions, and the widest line drawn in it.
+     * A caption's glyphs (baseline − size .. baseline + 0.3 × size, with its stroke) lie inside the band; every
+     * phrase (contracts captionPhraseWidth) is at most `maxWidth`; no type.kinetic node reaches into the band
+     * while a phrase is on screen. Absent: the engine reserves no band.
+     */
+    zone?: { top: number; bottom: number; maxWidth: number };
   };
   assets: {
     kinds: string[];
@@ -277,6 +284,19 @@ export function capabilityProblems(c: unknown): string[] {
       if (!isStrings(au.semantics)) out.push("audio.semantics is not a list of steps");
     }
   } else if (au !== null) out.push("audio must be null for an engine that renders silent video");
+  const zone = (r.captions as { zone?: unknown } | undefined)?.zone;
+  if (
+    zone !== undefined &&
+    !(
+      isObj(zone) &&
+      typeof zone.top === "number" &&
+      typeof zone.bottom === "number" &&
+      typeof zone.maxWidth === "number" &&
+      zone.top < zone.bottom &&
+      zone.maxWidth > 0
+    )
+  )
+    out.push("captions.zone is not { top < bottom, maxWidth > 0 }");
   if (!isObj(r.projections) || !Object.keys(r.projections).length)
     out.push("projections is not a map of rules");
   else

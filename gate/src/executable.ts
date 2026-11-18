@@ -8,12 +8,17 @@
  *
  * Codes: CAPABILITY_MISSING (the engine does not draw this), VALUE_UNSUPPORTED (it does not apply this value),
  * TRACK_MISSING (a channel it reads has no track), ROLE_MISSING (a required part of the projection is missing),
- * RIG_UNSUPPORTED, ID_DUPLICATE, VALUE_RANGE (bounds). Paths: the field at fault; when the field is missing, the
+ * RIG_UNSUPPORTED, ID_DUPLICATE, VALUE_RANGE (bounds), CAPTION_CONFLICT (E1.6: kinetic type in the caption band
+ * while a phrase is on screen). Paths: the field at fault; when the field is missing, the
  * object that should have it.
  */
 import {
   audibleDuration,
   cameraViews,
+  captionPhraseWidth,
+  kineticTypeExtent,
+  MONTSERRAT_ADVANCE,
+  type KineticLine,
   clipStartMs,
   outside,
   sceneLens,
@@ -451,6 +456,60 @@ export function checkExecutable(
         P("overlays", k, "style", "maxWidth"),
         "captions are not wrapped to a width by this engine",
       );
+    const zone = caps.captions.zone;
+    if (!zone) return;
+    // E1.6 (E-D2): captions live in their own band at the bottom of the frame
+    const stroke = o.style.stroke?.width ?? 0;
+    const base = o.at.y * height;
+    if (base - o.style.size - stroke / 2 < zone.top || base + 0.3 * o.style.size + stroke / 2 > zone.bottom)
+      F.error(
+        "VALUE_RANGE",
+        "package",
+        P("overlays", k, "at", "y"),
+        `captions at ${Math.round(base)} px (size ${o.style.size}) leave the caption band ${zone.top}..${zone.bottom} px`,
+      );
+    const font = assets.get(o.style.font)?.a;
+    // a font that is not one of the engine's Montserrat weights is refused elsewhere (it has no builtin to draw it)
+    if (font?.kind !== "font" || !MONTSERRAT_ADVANCE[font.weight]) return;
+    o.phrases.forEach((ph, p) => {
+      const w = captionPhraseWidth(
+        ph.words.map((x) => x.text),
+        o.style.size,
+        font.weight,
+        stroke,
+      );
+      if (w > zone.maxWidth)
+        F.error(
+          "VALUE_RANGE",
+          "package",
+          P("overlays", k, "phrases", p),
+          `'${ph.words.map((x) => x.text).join(" ")}' is ${Math.round(w)} px wide; the caption band holds ${zone.maxWidth} px`,
+        );
+      // kinetic type on screen while the phrase is: never inside the band
+      pkg.edit.forEach((cut) => {
+        if (!(cut.start < ph.out && ph.in < cut.end)) return;
+        const scene = pkg.scenes.find((s) => s.id === cut.scene);
+        for (const layer of [...(scene?.layers ?? []), ...(scene?.screen ?? [])])
+          for (const n of layer.nodes) {
+            if (n.kind !== "asset" || !n.params || !Array.isArray(n.params["lines"])) continue;
+            const a = assets.get(n.asset)?.a;
+            const named =
+              a?.kind === "vector" ? a.states.flatMap((st) => ("source" in st ? [st.source] : [])) : [];
+            if (!named.some((src) => src.kind === "builtin" && src.name === "type.kinetic")) continue;
+            const e = kineticTypeExtent(
+              n.params["lines"] as unknown as KineticLine[],
+              typeof n.params["y"] === "number" ? n.params["y"] : undefined,
+            );
+            if (e.bottom > zone.top && e.top < zone.bottom)
+              F.error(
+                "CAPTION_CONFLICT",
+                "package",
+                P("overlays", k, "phrases", p),
+                `kinetic type ${cut.scene}/${n.id} (${Math.round(e.top)}..${Math.round(e.bottom)} px) reaches into the caption band ${zone.top}..${zone.bottom} px while '${ph.words[0]?.text ?? ""}…' is on screen (${cut.start}..${cut.end} s)`,
+              );
+          }
+      });
+    });
   });
 }
 

@@ -373,6 +373,8 @@ export function renderCapabilities(): RenderCapabilities {
       align: ["center"],
       maxWidth: false,
       semantics: { fadeIn: 0.12, unspokenOpacity: 0.6, strokeOpacity: 0.9, overVignette: true },
+      // E1.6 (E-D2): the caption band at the bottom of the 1920 px frame; one line of at most 900 px (90 px margins)
+      zone: { top: 1450, bottom: 1720, maxWidth: 900 },
     },
     assets: {
       kinds: ["vector", "rig", "font", "audio"],
