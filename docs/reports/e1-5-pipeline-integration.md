@@ -184,3 +184,14 @@ Gjendja në momentin e pranimit:
 | HEAD i pranuar | `2bad31a` (raporti); pas tij vetëm commit-i i regjistrimit të pranimit |
 | `origin/main`  | `7f8ffca`                                                              |
 | Provat         | `docs/reports/e1-5/evidence/`                                          |
+
+## 12. Gjetje pas pranimit (2026-11-18): CI në GitHub është e kuqe
+
+Gjatë përgatitjes së planit të E1.6 kontrollova CI-në e GitHub-it. Në auditimet e E1.4 dhe E1.5 këtë nuk e kisha bërë: provat ishin vetëm ekzekutimet lokale.
+
+| Puna (job) | Gjendja                                                                    | Shkaku                                                                                                                                                                                  |
+| ---------- | -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| TypeScript | e kuqe në `e1-5-pipeline-integration`; edhe në `e1-4-engine-reads-package` | Runner-i i GitHub nuk ka FFmpeg (`spawn ffmpeg ENOENT`). Ky test dështonte që në E1.4 (`ai-worker/test/film-worker.test.ts`); në E1.5 dështojnë edhe testet e reja të `encode.test.ts`. |
+| Backend    | e kuqe që në `main` (2026-11-13, para E0)                                  | `AssetApiTest.listsAndFiltersAssets` pret 6 personazhe; biblioteka ka 15.                                                                                                               |
+
+Kodi i pranuar nuk ndryshon. Ekzekutimet lokale (`docs/reports/e1-5/evidence/`) mbeten të vlefshme, por **nuk janë verifikuar në CI**. Mbyllja propozohet si pika K1 e planit të E1.6 (`docs/plans/e1-6-production-readiness-plan.md`).
