@@ -238,6 +238,9 @@ class RunFlowTest {
         p.put("runId", cmd.path("runId").asText());
         p.put("stepId", cmd.path("stepId").asText());
         p.put("attempt", cmd.path("attempt").asInt());
+        if (cmd.has("fence")) {
+            p.put("fence", cmd.path("fence").asLong()); // echoed like the result (E1.6)
+        }
         p.put("pct", pct);
         p.put("message", message);
         publish(MqNames.PROGRESS_KEY, p.toString());

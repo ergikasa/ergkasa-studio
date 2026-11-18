@@ -75,7 +75,7 @@ class AttemptIsolationTest {
         admin.purgeQueue(mq.aiQueue(), false);
         admin.purgeQueue(mq.renderQueue(), false);
         controlQueue = "erkasa-test.control.it-" + UUID.randomUUID().toString().substring(0, 8);
-        admin.declareQueue(new Queue(controlQueue, false, false, false));
+        admin.declareQueue(new Queue(controlQueue, true, false, false));
         admin.declareBinding(BindingBuilder.bind(new Queue(controlQueue)).to(new FanoutExchange(mq.controlExchange())));
     }
 
