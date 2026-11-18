@@ -4,7 +4,7 @@ import { AudioCatalog, AudioPlan, VoiceAlignment } from "./audio.js";
 import { ScenePlan, VideoPlan } from "./scene-plan.js";
 import { Script } from "./script.js";
 import { VoiceCatalog } from "./voice.js";
-import { TaskCommand, TaskProgress, TaskResult } from "./task.js";
+import { TaskCancel, TaskCommand, TaskProgress, TaskResult } from "./task.js";
 import { RenderTimeline } from "./timeline.js";
 import { AssetManifest } from "./asset-manifest.js";
 import { RenderPackage } from "./render-package.js";
@@ -37,6 +37,7 @@ export const CONTRACTS = {
   "task-command": TaskCommand,
   "task-result": TaskResult,
   "task-progress": TaskProgress,
+  "task-cancel": TaskCancel,
   alignment: VoiceAlignment,
   "audio-plan": AudioPlan,
   "audio-catalog": AudioCatalog,

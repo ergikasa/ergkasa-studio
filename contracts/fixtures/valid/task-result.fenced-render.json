@@ -1,0 +1,19 @@
+{
+  "schema": "erkasa.task-result/1",
+  "messageId": "01JD0A1B2C3D",
+  "runId": "20261118-120000-why-we-stay-ab12",
+  "stepId": "render",
+  "attempt": 2,
+  "fence": 43,
+  "status": "SUCCEEDED",
+  "outputs": [
+    {
+      "role": "video",
+      "ref": "file://20261118-120000-why-we-stay-ab12/attempts/render-43/video.mp4",
+      "sha256": "9f2c4b1e8a7d6c5b4a3f2e1d0c9b8a7f6e5d4c3b2a1f0e9d8c7b6a5f4e3d2c1b",
+      "mediaType": "video/mp4"
+    }
+  ],
+  "metrics": { "seconds": 61.2 },
+  "workerVersion": "ai-worker/0.2.0"
+}

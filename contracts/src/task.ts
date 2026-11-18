@@ -35,6 +35,13 @@ export const TaskCommand = z
     runId: z.string().min(1),
     stepId: z.string().min(1),
     attempt: z.number().int().positive(),
+    /**
+     * Fencing token (E1.6): a number the orchestrator draws from a sequence on every dispatch and never reuses,
+     * not even after a run retry resets `attempt`. When present, the worker writes only under
+     * `attempts/<stepId>-<fence>/` and echoes it in progress and results; the orchestrator publishes a result's
+     * files only while this fence is the step's current one.
+     */
+    fence: z.number().int().positive().optional(),
     /** Hash of taskType + inputs + params + worker version. Same key, same result. */
     idempotencyKey: z.string().min(16),
     inputs: z.array(ArtifactPointer),
@@ -61,6 +68,8 @@ export const TaskResult = z
     runId: z.string().min(1),
     stepId: z.string().min(1),
     attempt: z.number().int().positive(),
+    /** The command's fence, echoed (see TaskCommand.fence). */
+    fence: z.number().int().positive().optional(),
     status: z.enum(["SUCCEEDED", "FAILED"]),
     outputs: z.array(ArtifactPointer).default([]),
     metrics: z.record(z.string(), z.number()).default({}),
@@ -83,8 +92,29 @@ export const TaskProgress = z
     runId: z.string().min(1),
     stepId: z.string().min(1),
     attempt: z.number().int().positive(),
+    /** The command's fence, echoed (see TaskCommand.fence). */
+    fence: z.number().int().positive().optional(),
     pct: z.number().min(0).max(100),
     message: z.string().max(200).default(""),
   })
   .strict();
 export type TaskProgress = z.infer<typeof TaskProgress>;
+
+/**
+ * Orchestrator -> every worker (fanout, E1.6): stop this attempt if you are running it. Sent when a run is
+ * cancelled and when an attempt passes its deadline. A worker that is not running exactly this
+ * (runId, stepId, fence) ignores it. Best effort: correctness never depends on it, because a stopped or
+ * late attempt can no longer publish anything (its fence is not current).
+ */
+export const TaskCancel = z
+  .object({
+    schema: z.literal("erkasa.task-cancel/1"),
+    messageId: z.string().min(8),
+    runId: z.string().min(1),
+    stepId: z.string().min(1),
+    attempt: z.number().int().positive(),
+    fence: z.number().int().positive(),
+    reason: z.enum(["CANCELLED", "TIMEOUT"]),
+  })
+  .strict();
+export type TaskCancel = z.infer<typeof TaskCancel>;

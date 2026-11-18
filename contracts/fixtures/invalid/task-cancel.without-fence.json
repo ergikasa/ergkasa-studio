@@ -1,0 +1,8 @@
+{
+  "schema": "erkasa.task-cancel/1",
+  "messageId": "7c1d2e3f-cancel",
+  "runId": "20261118-120000-why-we-stay-ab12",
+  "stepId": "render",
+  "attempt": 1,
+  "reason": "CANCELLED"
+}
