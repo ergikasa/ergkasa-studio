@@ -1,0 +1,4 @@
+package renderer: b1-why-we-stay 101, b2-same-answers 84, b3-every-yes 71, b4-one-percent 68, b5-planning-fallacy 81, w0-office 136, prisoner-cell 240, office-clock 150
+K2/K3: 0 failures; 140 v2 frames differ from golden.json only in kinetic-type ids
+K7: 931/931 frames identical to golden-package.json
+EXIT 0

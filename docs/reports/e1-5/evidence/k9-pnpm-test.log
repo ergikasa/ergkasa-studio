@@ -1,0 +1,122 @@
+Scope: 10 of 11 workspace projects
+
+> @erkasa/contracts@0.1.0 test /home/claude/ergkasa-studio/contracts
+> vitest run
+
+
+ RUN  v5.1.0 /home/claude/ergkasa-studio/contracts
+
+
+ Test Files  9 passed (9)
+      Tests  256 passed (256)
+   Start at  19:27:18
+   Duration  2.33s (tests 53%, import 39%, transform 5%, worker 2%)
+
+    Isolate  9 workers spawned · ~74ms startup each (spawn + environment, per file)
+             at least ~589ms faster with isolate: false — reuses workers across files instead of one per file
+
+
+> @erkasa/engine@0.1.0 test /home/claude/ergkasa-studio/engine
+> vitest run
+
+
+ RUN  v5.1.0 /home/claude/ergkasa-studio/engine
+
+
+ Test Files  1 passed (1)
+      Tests  23 passed (23)
+   Start at  19:27:20
+   Duration  523ms (transform 58%, import 26%, tests 15%, worker 1%)
+
+
+> @erkasa/compiler@0.1.0 test /home/claude/ergkasa-studio/compiler
+> vitest run
+
+
+ RUN  v5.1.0 /home/claude/ergkasa-studio/compiler
+
+
+ Test Files  2 passed (2)
+      Tests  28 passed (28)
+   Start at  19:27:21
+   Duration  935ms (transform 42%, import 35%, tests 23%, worker 1%)
+
+
+> @erkasa/engine-worker@0.1.0 test /home/claude/ergkasa-studio/engine-worker
+> vitest run
+
+
+ RUN  v5.1.0 /home/claude/ergkasa-studio/engine-worker
+
+
+ Test Files  2 passed (2)
+      Tests  16 passed (16)
+   Start at  19:27:22
+   Duration  1.72s (tests 56%, transform 25%, import 19%)
+
+
+> @erkasa/film@0.1.0 test /home/claude/ergkasa-studio/film
+> vitest run
+
+
+ RUN  v5.1.0 /home/claude/ergkasa-studio/film
+
+
+ Test Files  14 passed (14)
+      Tests  336 passed (336)
+   Start at  19:27:24
+   Duration  101.78s (tests 95%, import 5%)
+
+
+> @erkasa/stager@0.1.0 test /home/claude/ergkasa-studio/stager
+> vitest run
+
+
+ RUN  v5.1.0 /home/claude/ergkasa-studio/stager
+
+
+ Test Files  3 passed (3)
+      Tests  77 passed (77)
+   Start at  19:29:06
+   Duration  7.23s (tests 55%, import 41%, transform 3%)
+
+
+> @erkasa/gate@0.1.0 test /home/claude/ergkasa-studio/gate
+> vitest run
+
+
+ RUN  v5.1.0 /home/claude/ergkasa-studio/gate
+
+
+ Test Files  10 passed (10)
+      Tests  400 passed (400)
+   Start at  19:29:14
+   Duration  14.30s (tests 61%, import 37%, transform 2%)
+
+
+> @erkasa/planner@0.1.0 test /home/claude/ergkasa-studio/planner
+> vitest run
+
+
+ RUN  v5.1.0 /home/claude/ergkasa-studio/planner
+
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  19:29:28
+   Duration  1.18s (transform 58%, import 27%, tests 15%)
+
+
+> @erkasa/ai-worker@0.1.0 test /home/claude/ergkasa-studio/ai-worker
+> vitest run
+
+
+ RUN  v5.1.0 /home/claude/ergkasa-studio/ai-worker
+
+
+ Test Files  9 passed (9)
+      Tests  50 passed (50)
+   Start at  19:29:30
+   Duration  168.33s (tests 99%, import 1%)
+
+EXIT 0

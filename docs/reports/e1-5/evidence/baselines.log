@@ -1,0 +1,7 @@
+golden.json: e18b5e8d9b446307d1091d56954cd11b04e5a146aa2a3fefda57c9ade279e32e  film/golden/golden.json
+golden-package.json: 6605ccf433f76a2244382db03cffa0f40e0d6b03f4f476456907755b64003583  film/golden/golden-package.json
+golden-fixtures-b.json: 6bf6927a8e16cc9ab95634a891b974e433cc767f34625e088fb285631a068f7d  film/golden/golden-fixtures-b.json
+golden.json identical to eda5ab5 (E0)
+film/golden and gate/fixtures identical to 757464a (E1.4 accepted)
+legacy render code identical to 757464a
+origin/main: 7f8ffca

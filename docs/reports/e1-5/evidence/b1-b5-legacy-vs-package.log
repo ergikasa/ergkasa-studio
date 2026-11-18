@@ -1,0 +1,7 @@
+b1-why-we-stay: frames legacy 1506 package 1506 identical yes; PCM identical over the shorter stream (legacy 50.2187 s, package 50.1973 s); legacy 171.2 s, package 123.8 s
+b2-same-answers: frames legacy 1258 package 1258 identical yes; PCM identical; legacy 134.8 s, package 107.4 s
+b3-every-yes: frames legacy 1051 package 1051 identical yes; PCM identical; legacy 84.5 s, package 91.3 s
+b4-one-percent: frames legacy 1016 package 1016 identical yes; PCM identical; legacy 52.5 s, package 52.3 s
+b5-planning-fallacy: frames legacy 1212 package 1212 identical yes; PCM identical over the shorter stream (legacy 40.4053 s, package 40.3840 s); legacy 116.6 s, package 110.4 s
+all films: frames and PCM identical
+EXIT 0
