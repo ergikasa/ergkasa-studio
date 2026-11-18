@@ -188,6 +188,9 @@ class RunFlowTest {
         r.put("runId", cmd.path("runId").asText());
         r.put("stepId", cmd.path("stepId").asText());
         r.put("attempt", cmd.path("attempt").asInt());
+        if (cmd.has("fence")) {
+            r.put("fence", cmd.path("fence").asLong()); // a worker echoes the fence (E1.6)
+        }
         r.put("status", status);
         r.set("outputs", outputs);
         r.putObject("metrics").put("seconds", 1.5);
@@ -198,8 +201,30 @@ class RunFlowTest {
         return r.toString();
     }
 
-    private void succeed(JsonNode cmd, ArrayNode outputs) {
-        publish(MqNames.RESULT_KEY, result(cmd, "SUCCEEDED", outputs, null));
+    /**
+     * Like a worker with attempt isolation (E1.6): each output named by its public ref is written (or moved, if the
+     * test already wrote it) into the attempt folder and reported there with its sha256; the orchestrator publishes it.
+     */
+    private void succeed(JsonNode cmd, ArrayNode outputs) throws Exception {
+        String runId = cmd.path("runId").asText();
+        ArrayNode reported = mapper.createArrayNode();
+        Path run = storage.dir(runId).orElseThrow();
+        String attemptDir = ArtifactPublisher.attemptDir(cmd.path("stepId").asText(), cmd.path("fence").asLong());
+        for (JsonNode o : outputs) {
+            String rel = o.path("ref").asText().substring(("file://" + runId + "/").length());
+            Path pub = run.resolve(rel);
+            Path file = run.resolve(attemptDir).resolve(rel);
+            Files.createDirectories(file.getParent());
+            if (Files.exists(pub)) {
+                Files.move(pub, file);
+            } else {
+                Files.writeString(file, "test output " + rel);
+            }
+            reported.addObject().put("role", o.path("role").asText())
+                    .put("ref", "file://" + runId + "/" + attemptDir + "/" + rel)
+                    .put("sha256", ArtifactPublisher.sha256(file));
+        }
+        publish(MqNames.RESULT_KEY, result(cmd, "SUCCEEDED", reported, null));
     }
 
     private void failTask(JsonNode cmd, String code, boolean retryable) {
