@@ -47,6 +47,10 @@ erkasa:
     # E1.6: workers write under <run>/attempts/<step>-<fence>/; only the accepted attempt's files are published.
     # false = rollback to the pre-E1.6 behaviour (workers write straight into the run folder).
     isolation: ${ERKASA_ATTEMPT_ISOLATION:true}
+  render:
+    # E1.6: how new runs render their film. package (default) or legacy (the rollback, until the final E1.6
+    # acceptance). Recorded on each run and passed to the worker as the render step's `pipeline` param.
+    pipeline: ${ERKASA_PIPELINE:package}
   orchestrator:
     tick-ms: 1000
     outbox-ms: 300

@@ -19,7 +19,7 @@ public class RunQueries {
     private static final TypeReference<List<Object>> LIST = new TypeReference<>() {};
     private static final TypeReference<Map<String, Object>> MAP = new TypeReference<>() {};
     private static final String SUMMARY_SQL = """
-            select r.id, r.title, r.topic, r.theme, r.voice, r.seconds, r.silent, r.status, r.error,
+            select r.id, r.title, r.topic, r.theme, r.voice, r.seconds, r.silent, r.pipeline, r.status, r.error,
                    r.created_at, r.updated_at, r.finished_at,
                    (select coalesce(round(avg(case when s.status = 'SUCCEEDED' then 100 else s.progress end)), 0)
                       from step s where s.run_id = r.id) as progress,
@@ -45,6 +45,8 @@ public class RunQueries {
             String voice,
             int seconds,
             boolean silent,
+            /** legacy | package, recorded at creation (null for runs created before E1.6). */
+            String pipeline,
             String status,
             String error,
             int progress,
@@ -117,6 +119,7 @@ public class RunQueries {
                 rs.getString("voice"),
                 rs.getInt("seconds"),
                 rs.getBoolean("silent"),
+                rs.getString("pipeline"),
                 rs.getString("status"),
                 rs.getString("error"),
                 rs.getInt("progress"),

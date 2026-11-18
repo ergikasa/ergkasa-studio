@@ -185,6 +185,13 @@ function RunPanel({ id }: { id: string }) {
             <div className="mt-1 text-xs text-ink-300">
               {run.theme} · voice {run.voice}
               {run.silent ? " (silent test)" : ""} · ~{run.seconds} s · started {ago(run.createdAt)}
+              {run.pipeline && (
+                <span className={run.pipeline === "legacy" ? "text-amber-300" : ""}>
+                  {" "}
+                  · render: {run.pipeline}
+                  {run.pipeline === "legacy" ? " (rollback)" : ""}
+                </span>
+              )}
             </div>
           </div>
           <Badge status={run.status} />

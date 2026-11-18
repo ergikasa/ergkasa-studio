@@ -12,6 +12,8 @@ export interface RunSummary {
   voice: string;
   seconds: number;
   silent: boolean;
+  /** How the film is rendered (E1.6): package (default) or legacy (the rollback); null before E1.6. */
+  pipeline: "legacy" | "package" | null;
   status: RunStatus;
   error: string | null;
   progress: number;

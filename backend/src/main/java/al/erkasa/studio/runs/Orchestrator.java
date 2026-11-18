@@ -57,6 +57,7 @@ public class Orchestrator {
     private final RunStorage storage;
     private final ArtifactPublisher publisher;
     private final boolean isolation;
+    private final String pipeline;
     private final long retryBaseMs;
     private final ObjectMapper mapper = new ObjectMapper();
 
@@ -68,6 +69,7 @@ public class Orchestrator {
             RunStorage storage,
             ArtifactPublisher publisher,
             @Value("${erkasa.artifacts.isolation:true}") boolean isolation,
+            @Value("${erkasa.render.pipeline:package}") String pipeline,
             @Value("${erkasa.orchestrator.retry-base-ms:5000}") long retryBaseMs) {
         this.jdbc = jdbc;
         this.contracts = contracts;
@@ -76,6 +78,11 @@ public class Orchestrator {
         this.storage = storage;
         this.publisher = publisher;
         this.isolation = isolation;
+        if (!Set.of("legacy", "package").contains(pipeline)) {
+            throw new IllegalStateException("erkasa.render.pipeline (ERKASA_PIPELINE) must be legacy or package, not '" + pipeline + "'");
+        }
+        this.pipeline = pipeline;
+        log.info("Render pipeline for new runs: {}{}", pipeline, "legacy".equals(pipeline) ? " (rollback)" : "");
         this.retryBaseMs = retryBaseMs;
         log.info("Attempt isolation {}", isolation ? "on: workers write under attempts/, accepted results are published"
                 : "OFF (rollback mode): workers write straight into the run folder");
@@ -124,9 +131,10 @@ public class Orchestrator {
         String id = newRunId(topic);
 
         jdbc.sql("""
-                insert into run (id, topic, theme, voice, seconds, notes, silent)
-                values (:id, :topic, :theme, :voice, :seconds, :notes, :silent)
+                insert into run (id, topic, theme, voice, seconds, notes, silent, pipeline)
+                values (:id, :topic, :theme, :voice, :seconds, :notes, :silent, :pipeline)
                 """)
+                .param("pipeline", pipeline)
                 .param("id", id)
                 .param("topic", topic)
                 .param("theme", theme)
@@ -154,7 +162,7 @@ public class Orchestrator {
                         params.put("host", host);
                     }
                 }
-                case "render.finalize" -> params.put("music", true);
+                case "render.finalize" -> params.put("music", true).put("pipeline", pipeline);
                 default -> throw new IllegalStateException("no params for " + s.taskType());
             }
             jdbc.sql("""

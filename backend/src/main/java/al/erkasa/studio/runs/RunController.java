@@ -78,6 +78,12 @@ public class RunController {
         return serve(id, "voice/" + name);
     }
 
+    /** The render package's gate report and package document (E1.6: shown with the run, read only). */
+    @GetMapping("/{id}/files/package/{name:.+}")
+    public ResponseEntity<Resource> packageFile(@PathVariable String id, @PathVariable String name) {
+        return serve(id, "package/" + name);
+    }
+
     @ExceptionHandler(Orchestrator.BadRunRequest.class)
     public ResponseEntity<Map<String, String>> badRequest(Orchestrator.BadRunRequest e) {
         return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
