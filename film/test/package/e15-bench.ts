@@ -83,11 +83,11 @@ for (const name of names) {
   const pcmSame = d === -1;
   const pcmPrefix = d === Math.min(pa.length, pb.length) / 4;
   if (!same || !(pcmSame || pcmPrefix)) failed++;
-  console.log(
+  console.info(
     `${name}: frames legacy ${a.length} package ${b.length} identical ${same ? "yes" : `no (first ${a.findIndex((h, i) => h !== b[i])})`}; ` +
       `PCM ${pcmSame ? "identical" : pcmPrefix ? `identical over the shorter stream (legacy ${sec(pa.length)} s, package ${sec(pb.length)} s)` : `DIFFERENT from ${sec(d * 4)} s`}; ` +
       `legacy ${((t1 - t0) / 1000).toFixed(1)} s, package ${((t2 - t1) / 1000).toFixed(1)} s`,
   );
 }
-console.log(failed ? `${failed} film(s) differ` : "all films: frames and PCM identical");
+console.info(failed ? `${failed} film(s) differ` : "all films: frames and PCM identical");
 process.exit(failed ? 1 : 0);
