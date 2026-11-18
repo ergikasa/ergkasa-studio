@@ -1,0 +1,2 @@
+44378639947 e1-6-ci-probe-ffmpeg 4f4bb83 failure https://github.com/ergikasa/ergkasa-studio/actions/runs/44378639947
+44379369500 e1-6-ci-probe-inventory dddb754 failure https://github.com/ergikasa/ergkasa-studio/actions/runs/44379369500
