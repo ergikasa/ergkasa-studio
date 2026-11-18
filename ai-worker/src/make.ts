@@ -40,7 +40,7 @@ export interface MakeOptions {
   outDir?: string;
   /** "film" (v2, default) or "v1"; default from ERKASA_ENGINE. A resumed --from-plan is always v1. */
   engine?: string;
-  /** Film render: "legacy" (default) or "package" (E1.5: stager → Render Package → gate → engine); default from ERKASA_PIPELINE. */
+  /** Film render: "package" (default since E1.6: stager → Render Package → gate → engine) or "legacy" (the rollback); default from ERKASA_PIPELINE. */
   pipeline?: string;
   /** Stops the render; nothing is left at video.mp4 (package pipeline). */
   signal?: AbortSignal;

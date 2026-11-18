@@ -25,9 +25,12 @@ import type { Progress } from "./steps.js";
 export const PIPELINES = ["legacy", "package"] as const;
 export type Pipeline = (typeof PIPELINES)[number];
 
-/** The film render pipeline: the explicit choice, else ERKASA_PIPELINE, else `legacy`. */
+/**
+ * The film render pipeline: the explicit choice, else ERKASA_PIPELINE, else `package` (the default since E1.6;
+ * `legacy` stays selectable as the rollback until the final E1.6 acceptance).
+ */
 export function pipelineOf(explicit?: string): Pipeline {
-  const v = explicit ?? optional("ERKASA_PIPELINE", "legacy");
+  const v = explicit ?? optional("ERKASA_PIPELINE", "package");
   if (!(PIPELINES as readonly string[]).includes(v))
     throw new Error(`unknown pipeline '${v}': use ${PIPELINES.join(" or ")}`);
   return v as Pipeline;
