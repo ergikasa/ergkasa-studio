@@ -41,14 +41,20 @@ export const segmentArgs = (width: number, height: number, fps: number, out: str
 
 export const AUDIO: AudioCapability = {
   formats: ["wav"],
-  roles: { voice: { max: 1000, start: "whole-ms" }, music: { max: 1, start: "zero" } },
-  fixed: { trim: 0, fadeIn: 0, fadeOut: 0, pan: 0 },
-  duration: "audible",
-  duckMusicDb: [0],
+  // E1.6: several music clips (the designed score, one per segment) and sound effects, each placed in whole ms
+  roles: {
+    voice: { max: 1000, start: "whole-ms" },
+    music: { max: 64, start: "whole-ms" },
+    sfx: { max: 256, start: "whole-ms" },
+  },
+  fixed: { pan: 0 },
+  duration: "at-most-audible",
+  fades: { curve: "qsin" },
+  duckMusicDb: [0, 30],
   ducking: {
     kinds: ["sidechain"],
     filter: "sidechaincompress",
-    // FFmpeg 6.1 sidechaincompress parameters the package does not set, at their defaults
+    // FFmpeg 6.1 sidechaincompress parameters the package does not set, at their defaults (mix: see semantics)
     defaults: {
       level_in: 1,
       level_sc: 1,
@@ -63,13 +69,14 @@ export const AUDIO: AudioCapability = {
   loudness: { filter: "loudnorm", rangeLu: "required", integratedLufs: [-40, -5], truePeakDb: [-9, 0] },
   encode: { codec: "aac", bitrateKbps: 192, sampleRate: 48000 },
   semantics: [
-    "inputs: the video, then the music clip (if any), then the voice clips in package order",
-    "voice clip: resampled to 48000 Hz, made stereo, delayed by its start in whole milliseconds, then its gain (a gain of 0 dB adds no stage); the voice clips are summed without normalisation",
-    "music clip: its gain (0 dB: no stage); it starts at 0",
-    "voice and music with ducking: the music is compressed by sidechaincompress keyed by the summed voice padded with silence to the end (threshold, ratio, attack ms, release ms from the package; the other parameters at their defaults), so the music goes on after the last voice clip; then voice and music are summed without normalisation; without ducking they are summed as they are",
-    "voice only or music only: that signal",
-    "loudness: loudnorm (single pass) to integratedLufs, truePeakDb and rangeLu, then resampled to 48000 Hz; a mix whose files all end before the film's end is padded with silence to the film's duration (apad whole_dur)",
-    "the whole of every file is mixed (audio after the film's end takes part in the loudness normalisation); the output ends with the video, which always has the package's full duration",
+    "inputs: the video, then the music clips, then the voice clips, then the sfx clips, each group in package order",
+    "every clip: a clip with a trim, or one that stops before both the end of its file and the end of the film, is cut first (atrim from trim for duration, timestamps reset); a fade in over fadeIn s from its start and a fade out over its last fadeOut s, both with the qsin curve; no stage for a value of 0",
+    "voice clip: then resampled to 48000 Hz, made stereo, delayed by its start in whole milliseconds, then its gain (0 dB: no stage); the voice clips are summed without normalisation",
+    "music and sfx clip: then resampled to 48000 Hz, made stereo, delayed by its start in whole milliseconds when it starts after 0, then its gain (0 dB: no stage); the clips of each role are summed without normalisation; a lone music clip at 0 that is not cut or faded, with no sfx (the E1.5 bed), is taken as it is with only its gain",
+    "voice and music with ducking: the music is compressed by sidechaincompress keyed by the summed voice padded with silence to the end (threshold, ratio, attack ms, release ms from the package; mix = 1 - 10^(-duckMusicDb/20) when duckMusicDb > 0, so the music never drops more than duckMusicDb dB; the other parameters at their defaults); the sfx are never ducked",
+    "the voice, the (ducked) music and the sfx that exist are summed without normalisation",
+    "loudness: loudnorm (single pass) to integratedLufs, truePeakDb and rangeLu, then resampled to 48000 Hz; a mix whose clips all end before the film's end is padded with silence to the film's duration (apad whole_dur)",
+    "a clip that plays its whole file is mixed whole (audio after the film's end takes part in the loudness normalisation); the output ends with the video, which always has the package's full duration",
     "encoded as AAC at 192 kb/s; no audio clip: the video has no audio stream",
   ],
 };
