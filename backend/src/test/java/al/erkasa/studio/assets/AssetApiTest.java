@@ -3,11 +3,21 @@ package al.erkasa.studio.assets;
 import al.erkasa.studio.StudioIntegrationTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +33,11 @@ class AssetApiTest {
 
     @Value("${local.server.port}")
     private int port;
+
+    @Value("${erkasa.assets.dir}")
+    private Path assetsDir;
+
+    private final ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
     private AssetIndexer indexer;
@@ -42,18 +57,62 @@ class AssetApiTest {
         assertThat(again.deactivated()).isZero();
     }
 
+    /**
+     * The API lists exactly the assets of the independent inventory (test resource {@code assets/inventory.json}),
+     * by identity and by count, per category. The inventory is a reviewed list kept next to the tests, not derived
+     * from the manifest the indexer reads: adding, removing or re-categorising an asset without updating it fails.
+     */
     @Test
-    void listsAndFiltersAssets() throws Exception {
+    void listsExactlyTheInventoryPerCategory() throws Exception {
+        Map<String, Set<String>> expected = inventory();
+        assertThat(expected).isNotEmpty();
+        for (Map.Entry<String, Set<String>> category : expected.entrySet()) {
+            Set<String> listed = new TreeSet<>();
+            long total = -1;
+            for (int offset = 0; ; offset += AssetQuery.MAX_LIMIT) {
+                JsonNode page = json(get("/api/assets?category=" + category.getKey() + "&limit=" + AssetQuery.MAX_LIMIT + "&offset=" + offset));
+                total = page.path("total").asLong();
+                page.path("items").forEach(item -> listed.add(item.path("assetId").asText()));
+                if (page.path("items").size() < AssetQuery.MAX_LIMIT) {
+                    break;
+                }
+            }
+            assertThat(listed).as("asset ids of category %s", category.getKey()).isEqualTo(category.getValue());
+            assertThat(total).as("total of category %s", category.getKey()).isEqualTo(category.getValue().size());
+        }
+
+        JsonNode all = json(get("/api/assets?limit=1"));
+        assertThat(all.path("total").asLong()).isEqualTo(expected.values().stream().mapToLong(Set::size).sum());
+
+        Map<String, Long> stats = new TreeMap<>();
+        json(get("/api/assets/stats")).properties().forEach(e -> stats.put(e.getKey(), e.getValue().asLong()));
+        Map<String, Long> expectedStats = new TreeMap<>();
+        expected.forEach((k, v) -> expectedStats.put(k, (long) v.size()));
+        assertThat(stats).isEqualTo(expectedStats);
+    }
+
+    /** The inventory and the library on disk (every asset.json under the root) agree, id by id. */
+    @Test
+    void inventoryMatchesTheLibraryOnDisk() throws Exception {
+        Map<String, Set<String>> onDisk = new TreeMap<>();
+        try (Stream<Path> files = Files.walk(assetsDir)) {
+            for (Path file : files.filter(f -> f.getFileName().toString().equals("asset.json")).toList()) {
+                JsonNode meta = mapper.readTree(file.toFile());
+                onDisk.computeIfAbsent(meta.path("category").asText(), k -> new TreeSet<>()).add(meta.path("assetId").asText());
+            }
+        }
+        assertThat(onDisk).isEqualTo(inventory());
+    }
+
+    @Test
+    void filtersAssets() throws Exception {
         HttpResponse<String> characters = get("/api/assets?category=character");
         assertThat(characters.statusCode()).isEqualTo(200);
-        assertThat(characters.body()).contains("\"total\":6").contains("char_drini_01").contains("char_host_01");
+        assertThat(characters.body()).contains("char_drini_01").contains("char_host_01").doesNotContain("\"category\":\"icon\"");
 
         HttpResponse<String> money = get("/api/assets?category=metaphor&theme=money&limit=50");
         assertThat(money.statusCode()).isEqualTo(200);
         assertThat(money.body()).contains("met_snowball_01").doesNotContain("\"category\":\"icon\"");
-
-        HttpResponse<String> stats = get("/api/assets/stats");
-        assertThat(stats.body()).contains("\"background\":11").contains("\"character\":6");
     }
 
     @Test
@@ -89,6 +148,32 @@ class AssetApiTest {
         HttpResponse<String> api = get("/api/assets/candidates?category=object&text=coin%20money&limit=3");
         assertThat(api.statusCode()).isEqualTo(200);
         assertThat(api.body()).contains("\"score\"").contains("\"matched\"");
+    }
+
+    private Map<String, Set<String>> inventory() throws Exception {
+        try (InputStream in = getClass().getResourceAsStream("/assets/inventory.json")) {
+            assertThat(in).as("test resource assets/inventory.json").isNotNull();
+            JsonNode root = mapper.readTree(in);
+            assertThat(root.path("schema").asText()).isEqualTo("erkasa.asset-inventory/1");
+            Map<String, Set<String>> categories = new TreeMap<>();
+            root.path("categories").properties().forEach(e -> {
+                Set<String> ids = new TreeSet<>();
+                e.getValue().forEach(id -> ids.add(id.asText()));
+                assertThat(ids).as("duplicates in inventory category %s", e.getKey()).hasSize(e.getValue().size());
+                categories.put(e.getKey(), ids);
+            });
+            Map<String, Long> counts = new TreeMap<>();
+            root.path("counts").properties().forEach(e -> counts.put(e.getKey(), e.getValue().asLong()));
+            Map<String, Long> listed = new TreeMap<>();
+            categories.forEach((k, v) -> listed.put(k, (long) v.size()));
+            assertThat(counts).as("inventory counts agree with its lists").isEqualTo(listed);
+            return categories;
+        }
+    }
+
+    private JsonNode json(HttpResponse<String> response) throws Exception {
+        assertThat(response.statusCode()).isEqualTo(200);
+        return mapper.readTree(response.body());
     }
 
     private HttpResponse<String> get(String path) throws Exception {
