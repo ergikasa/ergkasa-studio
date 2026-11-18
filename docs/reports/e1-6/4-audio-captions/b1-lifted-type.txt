@@ -1,0 +1,2 @@
+captions: kinetic type lifted above the caption band, s01_sh01/type: y 1430 → 1336
+captions: kinetic type lifted above the caption band, s13_sh13/type: y 1430 → 1286
