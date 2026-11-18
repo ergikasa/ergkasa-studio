@@ -17,7 +17,7 @@ jobs:
     env:
       # exact Debian version of Ubuntu 24.04's ffmpeg (= the local 6.1.1-3ubuntu5); a different build fails the job
       FFMPEG_DEB_VERSION: "7:6.1.1-3ubuntu5"
-      FFMPEG_VERSION_LINE: "ffmpeg version 6.1.1-3ubuntu5 "
+      FFMPEG_VERSION_LINE: "ffmpeg version 7.0.0 "
     steps:
       - uses: actions/checkout@v4
       - name: FFmpeg (pinned version)
