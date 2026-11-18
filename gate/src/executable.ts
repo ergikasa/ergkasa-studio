@@ -458,6 +458,9 @@ export function checkExecutable(
  * Audio (E1.5): every clip is mixed as the capabilities say, so a field the engine does not apply holds the only
  * value it may; a clip is heard for exactly its audible duration; the mix's fields are the ones the engine uses.
  */
+/** Seconds of slack for sums of clip times (floating point): far below one sample at 48 kHz. */
+const AUDIO_EPS = 1e-6;
+
 function checkAudio(F: Findings, pkg: Pkg, manifest: AssetManifest, A: AudioCapability): void {
   const named = new Map(manifest.assets.map((a, i) => [`${a.id}@${a.version}`, { a, i }]));
   manifest.assets.forEach((a, i) => {
@@ -499,35 +502,79 @@ function checkAudio(F: Findings, pkg: Pkg, manifest: AssetManifest, A: AudioCapa
         at("start"),
         `${c.start}: the engine places clips in whole milliseconds`,
       );
-    for (const f of ["trim", "fadeIn", "fadeOut", "pan"] as const)
-      if (c[f] !== A.fixed[f])
+    for (const f of ["trim", "fadeIn", "fadeOut", "pan"] as const) {
+      const only = A.fixed[f];
+      if (only !== undefined && c[f] !== only)
         F.error(
           "VALUE_UNSUPPORTED",
           "package",
           at(f),
-          `${c[f]}: the engine does not apply ${f}; it must be ${A.fixed[f]}`,
-        );
-    const a = named.get(c.asset)?.a;
-    if (a?.kind === "audio") {
-      const want = audibleDuration(c.start, a.durationSec, pkg.output.duration);
-      if (c.duration !== want)
-        F.error(
-          "VALUE_UNSUPPORTED",
-          "package",
-          at("duration"),
-          `${c.duration}: the engine mixes the whole file (${a.durationSec} s) from ${c.start} s, heard for ${want} s in a ${pkg.output.duration} s film`,
+          `${c[f]}: the engine does not apply ${f}; it must be ${only}`,
         );
     }
+    const a = named.get(c.asset)?.a;
+    if (a?.kind === "audio") {
+      if (A.duration === "audible") {
+        const want = audibleDuration(c.start, a.durationSec, pkg.output.duration);
+        if (c.duration !== want)
+          F.error(
+            "VALUE_UNSUPPORTED",
+            "package",
+            at("duration"),
+            `${c.duration}: the engine mixes the whole file (${a.durationSec} s) from ${c.start} s, heard for ${want} s in a ${pkg.output.duration} s film`,
+          );
+      } else {
+        // at-most-audible (E1.6): the clip plays `duration` s of the file from `trim`, inside the film
+        if (c.trim >= a.durationSec)
+          F.error(
+            "VALUE_RANGE",
+            "package",
+            at("trim"),
+            `${c.trim}: the file lasts ${a.durationSec} s; nothing is left to play after the trim`,
+          );
+        else if (c.trim + c.duration > a.durationSec + AUDIO_EPS)
+          F.error(
+            "VALUE_RANGE",
+            "package",
+            at("duration"),
+            `${c.duration}: only ${a.durationSec - c.trim} s of the file are left after a trim of ${c.trim} s`,
+          );
+        if (c.start + c.duration > pkg.output.duration + AUDIO_EPS)
+          F.error(
+            "VALUE_RANGE",
+            "package",
+            at("duration"),
+            `${c.duration}: from ${c.start} s it would play past the end of the ${pkg.output.duration} s film`,
+          );
+      }
+    }
+    if (c.fadeIn > c.duration + AUDIO_EPS)
+      F.error("VALUE_RANGE", "package", at("fadeIn"), `${c.fadeIn}: longer than the clip's ${c.duration} s`);
+    else if (c.fadeIn + c.fadeOut > c.duration + AUDIO_EPS)
+      F.error(
+        "VALUE_RANGE",
+        "package",
+        at("fadeOut"),
+        `fadeIn ${c.fadeIn} s + fadeOut ${c.fadeOut} s exceed the clip's ${c.duration} s`,
+      );
   });
   // the mix (V1, E1.4): it has an effect only with audio clips; a package without any is silent, its mix unused
   if (!pkg.audio.length) return;
   const mix = pkg.mix;
-  if (!A.duckMusicDb.includes(mix.duckMusicDb))
+  const [d0, d1] = A.duckMusicDb;
+  if (mix.duckMusicDb < d0 || mix.duckMusicDb > d1)
     F.error(
       "VALUE_UNSUPPORTED",
       "package",
       P("mix", "duckMusicDb"),
-      `${mix.duckMusicDb}: this engine applies ${A.duckMusicDb.join(", ")} (it ducks with mix.ducking)`,
+      `${mix.duckMusicDb}: this engine applies ${d0}..${d1} dB (the depth of mix.ducking)`,
+    );
+  else if (mix.duckMusicDb > 0 && !mix.ducking)
+    F.error(
+      "VALUE_UNSUPPORTED",
+      "package",
+      P("mix", "duckMusicDb"),
+      `${mix.duckMusicDb}: the engine applies duckMusicDb as the depth of mix.ducking, and the mix has no ducking`,
     );
   const has = (r: string): boolean => pkg.audio.some((c) => c.role === r);
   if (mix.ducking) {

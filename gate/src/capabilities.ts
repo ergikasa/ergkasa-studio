@@ -117,12 +117,21 @@ export interface AudioCapability {
   formats: string[];
   /** Clip roles mixed: how many clips of the role, and where one may start. */
   roles: Record<string, { max: number; start: "whole-ms" | "zero" }>;
-  /** Clip fields the engine does not apply, and the only value each may hold. */
-  fixed: { trim: number; fadeIn: number; fadeOut: number; pan: number };
-  /** `audible`: a clip's duration is how long it is heard (contracts audibleDuration); the whole file is mixed. */
-  duration: "audible";
-  /** Values of mix.duckMusicDb (a fixed duck) the engine applies. */
-  duckMusicDb: number[];
+  /** Clip fields the engine does not apply, and the only value each may hold (E1.6: only the listed ones). */
+  fixed: Partial<Record<"trim" | "fadeIn" | "fadeOut" | "pan", number>>;
+  /**
+   * `audible` (E1.5): a clip's duration is how long it is heard (contracts audibleDuration); the whole file is mixed.
+   * `at-most-audible` (E1.6): a clip plays `duration` seconds of its file from `trim`; the duration is positive and
+   * at most what is left of the file after `trim` and of the film after `start`.
+   */
+  duration: "audible" | "at-most-audible";
+  /** Fades (E1.6): the curve of fadeIn and fadeOut; fadeIn + fadeOut never exceed the clip's duration. */
+  fades?: { curve: string };
+  /**
+   * mix.duckMusicDb the engine applies, [min, max] in dB (E1.6). Above 0 it is the maximum depth of mix.ducking
+   * (which it then requires): the compressed music is blended so it never drops more than this many dB.
+   */
+  duckMusicDb: [number, number];
   /** Ducking kinds, the FFmpeg filter that does it and its parameters the package does not set. */
   ducking: { kinds: string[]; filter: string; defaults: Record<string, number | string> };
   loudness: {
@@ -222,10 +231,27 @@ export function capabilityProblems(c: unknown): string[] {
         )
       )
         out.push("audio.roles is not a map of { max, start }");
-      if (!isObj(fixed) || !["trim", "fadeIn", "fadeOut", "pan"].every((k) => typeof fixed[k] === "number"))
-        out.push("audio.fixed is not { trim, fadeIn, fadeOut, pan }");
-      if (au.duration !== "audible") out.push("audio.duration is not 'audible'");
-      if (!isNumbers(au.duckMusicDb)) out.push("audio.duckMusicDb is not a list of numbers");
+      if (
+        !isObj(fixed) ||
+        !Object.entries(fixed).every(
+          ([k, v]) => ["trim", "fadeIn", "fadeOut", "pan"].includes(k) && typeof v === "number",
+        )
+      )
+        out.push("audio.fixed is not a map of trim, fadeIn, fadeOut, pan to their only value");
+      if (au.duration !== "audible" && au.duration !== "at-most-audible")
+        out.push("audio.duration is not 'audible' or 'at-most-audible'");
+      if (
+        isObj(fixed) &&
+        au.duration === "audible" &&
+        !["trim", "fadeIn", "fadeOut"].every((k) => typeof fixed[k] === "number")
+      )
+        out.push("audio.duration 'audible' needs trim, fadeIn and fadeOut fixed");
+      const fades = au.fades as unknown;
+      if (fades !== undefined && !(isObj(fades) && typeof fades.curve === "string"))
+        out.push("audio.fades is not { curve }");
+      const dm = au.duckMusicDb as unknown;
+      if (!(isNumbers(dm) && dm.length === 2 && (dm[0] as number) <= (dm[1] as number)))
+        out.push("audio.duckMusicDb is not a range [min, max]");
       if (
         !isObj(ducking) ||
         !isStrings(ducking.kinds) ||
