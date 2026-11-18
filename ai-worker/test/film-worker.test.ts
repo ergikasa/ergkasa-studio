@@ -1,15 +1,23 @@
+import { useTestLibrary } from "./test-library.js";
 import { existsSync, mkdtempSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { TaskCommand } from "@erkasa/contracts";
 import { FilmPlan } from "@erkasa/film";
 import { encode } from "@erkasa/planner";
-import { describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { Catalog } from "../src/catalog.js";
 import { MissingConfigError, repoRoot } from "../src/env.js";
 import { probeDuration } from "../src/steps.js";
 import type { JsonRequest, JsonResponse, Llm } from "../src/llm.js";
 import { handleCommand, type WorkerDeps } from "../src/worker.js";
+
+// E1.6: the package's music is the licensed score by default; tests use the catalog over generated tones
+let restoreLibrary: () => void = () => undefined;
+beforeAll(() => {
+  restoreLibrary = useTestLibrary();
+}, 600_000);
+afterAll(() => restoreLibrary());
 
 /** The worker path of a silent run on the v2 engine, end to end, with a scripted model. */
 

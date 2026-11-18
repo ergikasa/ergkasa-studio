@@ -4,6 +4,7 @@
  * deadline, two attempts at once, a duplicated attempt, and a whole run (script → voice → plan → render)
  * through attempt folders giving the same MP4 as without them.
  */
+import { useTestLibrary } from "./test-library.js";
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import {
@@ -19,13 +20,20 @@ import {
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { TaskCommand, TaskResult } from "@erkasa/contracts";
-import { describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { attemptDirName, prepareAttempt } from "../src/attempt.js";
 import { FILM_FILES } from "../src/film-steps.js";
 import type { JsonRequest, JsonResponse, Llm } from "../src/llm.js";
 import { PACKAGE_FILES } from "../src/package-steps.js";
 import { AttemptStopped, handleCommand } from "../src/worker.js";
 import { RUN, cmd, deps, makeRun } from "./e2e-fixture.js";
+
+// E1.6: the package's music is the licensed score by default; tests use the catalog over generated tones
+let restoreLibrary: () => void = () => undefined;
+beforeAll(() => {
+  restoreLibrary = useTestLibrary();
+}, 600_000);
+afterAll(() => restoreLibrary());
 
 const noop = (): void => undefined;
 const sha = (b: Buffer | string): string => createHash("sha256").update(b).digest("hex");
