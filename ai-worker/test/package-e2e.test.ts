@@ -12,8 +12,9 @@
  *   P7 an invalid package: refused, no frame, no encoder, no fallback
  *   P8 failure, retry and cancellation
  *
- * E1.6: the package's music here is the synthetic bed, named (musicSource "synthetic"), because legacy mixes that bed
- * and these runs are compared with legacy; the licensed score has its own tests (score.test.ts).
+ * E1.6: the package's music here is the synthetic bed, named (musicSource "synthetic"), and captions are off, because
+ * legacy mixes that bed and draws no captions, and these runs are compared with legacy; the licensed score and the
+ * captions have their own tests (score.test.ts, captions.test.ts).
  *
  * The legacy pipeline cuts a voiced video at the end of the last voice clip (its ducking ends with the voice and
  * -shortest ends the video there): the package engine renders the package's full duration (PO decision
@@ -108,15 +109,30 @@ beforeAll(async () => {
   // legacy is the rollback since E1.6 (package is the default): the legacy references name it explicitly
   R["L"] = await render(voiced, { music: true, pipeline: "legacy" });
   process.env["ERKASA_RENDER_WORKERS"] = "1";
-  R["P1"] = await render(voiced, { music: true, pipeline: "package", musicSource: "synthetic" });
+  R["P1"] = await render(voiced, {
+    music: true,
+    pipeline: "package",
+    musicSource: "synthetic",
+    captions: false,
+  });
   process.env["ERKASA_RENDER_WORKERS"] = "2";
-  R["P2"] = await render(voiced, { music: true, pipeline: "package", musicSource: "synthetic" });
+  R["P2"] = await render(voiced, {
+    music: true,
+    pipeline: "package",
+    musicSource: "synthetic",
+    captions: false,
+  });
   R["LV"] = await render(voiced, { music: false, pipeline: "legacy" });
-  R["PV"] = await render(voiced, { music: false, pipeline: "package" });
+  R["PV"] = await render(voiced, { music: false, pipeline: "package", captions: false });
   R["LB"] = await render(silentRun, { music: true, pipeline: "legacy" });
-  R["PB"] = await render(silentRun, { music: true, pipeline: "package", musicSource: "synthetic" });
+  R["PB"] = await render(silentRun, {
+    music: true,
+    pipeline: "package",
+    musicSource: "synthetic",
+    captions: false,
+  });
   R["LS"] = await render(silentRun, { music: false, pipeline: "legacy" });
-  R["PS"] = await render(silentRun, { music: false, pipeline: "package" });
+  R["PS"] = await render(silentRun, { music: false, pipeline: "package", captions: false });
 }, 1_800_000);
 
 const pkgOf = (r: Rendered): RenderPackage =>
@@ -140,7 +156,7 @@ describe("the default is package (E1.6); legacy is the explicit rollback", () =>
   });
 
   it("without a pipeline the worker renders through the package: the same MP4 as pipeline=package", async () => {
-    const d = await render(voiced, { music: true, musicSource: "synthetic" });
+    const d = await render(voiced, { music: true, musicSource: "synthetic", captions: false });
     expect(existsSync(join(d.dir, PACKAGE_FILES.render))).toBe(true);
     expect(existsSync(join(d.dir, PACKAGE_FILES.gate))).toBe(true);
     expect(sha(readFileSync(d.video))).toBe(sha(readFileSync(g("P2").video)));
@@ -303,7 +319,7 @@ describe("P7 an invalid package", () => {
   it("is refused by the gate step and by the engine: zero frames, the encoder never starts, no video, no fallback", async () => {
     const storage = copyRun(voiced);
     const dir = join(storage, RUN);
-    await stepStage(dir, loadScript(dir), { music: true, musicSource: "synthetic" });
+    await stepStage(dir, loadScript(dir), { music: true, musicSource: "synthetic", captions: false });
     const file = join(dir, PACKAGE_FILES.render);
     const pkg = JSON.parse(readFileSync(file, "utf8")) as RenderPackage;
     const node = pkg.scenes
@@ -341,7 +357,12 @@ describe("P8 failure, retry and cancellation", () => {
     const dir = join(storage, RUN);
     process.env["ERKASA_FFMPEG"] = "/bin/false";
     const first = await handleCommand(
-      cmd("render.finalize", "render", { music: true, pipeline: "package", musicSource: "synthetic" }),
+      cmd("render.finalize", "render", {
+        music: true,
+        pipeline: "package",
+        musicSource: "synthetic",
+        captions: false,
+      }),
       deps(storage),
       noop,
     );
@@ -353,7 +374,12 @@ describe("P8 failure, retry and cancellation", () => {
     if (saved.ffmpeg) process.env["ERKASA_FFMPEG"] = saved.ffmpeg;
     process.env["ERKASA_RENDER_WORKERS"] = "2";
     const second = await handleCommand(
-      cmd("render.finalize", "render", { music: true, pipeline: "package", musicSource: "synthetic" }, 2),
+      cmd(
+        "render.finalize",
+        "render",
+        { music: true, pipeline: "package", musicSource: "synthetic", captions: false },
+        2,
+      ),
       deps(storage),
       noop,
     );
@@ -368,6 +394,7 @@ describe("P8 failure, retry and cancellation", () => {
     const p = stepFilmPackage(dir, loadScript(dir), {
       music: true,
       musicSource: "synthetic",
+      captions: false,
       workers: 2,
       signal: ac.signal,
       progress: (pct) => {

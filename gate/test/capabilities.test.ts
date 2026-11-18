@@ -279,7 +279,20 @@ describe("capabilities v2 (E1.4): the declaration matches the engine's code", ()
       align: ["center"],
       maxWidth: false,
       semantics: { fadeIn: 0.12, unspokenOpacity: 0.6, strokeOpacity: 0.9, overVignette: true },
+      zone: { top: 1450, bottom: 1720, maxWidth: 900 },
     });
+    // the band's width check measures the text as the renderer writes it: each word followed by a space
+    expect(src("film/src/w0/compositor.ts")).toContain("${escapeXml(w.text)} </tspan>");
+    // kinetic type's layout, as kineticTypeExtent (contracts) bounds it
+    const style = src("film/src/style.ts");
+    for (const k of [
+      '(weight === "bold" ? 112 : 66)',
+      "yy += sz * 0.98",
+      'y="${fmt(yy - sz)}"',
+      'height="${fmt(sz * 1.28)}"',
+      "yy += sz * 0.16",
+    ])
+      expect(style).toContain(k);
   });
 
   it("rigs: the rest pose is the standing pose actorSvg falls back to; the height is the stager's", () => {

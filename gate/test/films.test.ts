@@ -89,6 +89,8 @@ describe("contract fixtures (A): schema examples, not claimed executable", () =>
     ).toEqual([
       "CAPABILITY_MISSING package/edit/0/enter/kind",
       "CAPABILITY_MISSING package/overlays/0/kind",
+      // E1.6 (E-D2): its caption sits at 0.78 of the frame, 6 px above the caption band
+      "VALUE_RANGE package/overlays/1/at/y",
       "CAPABILITY_MISSING package/overlays/2/kind",
       "VALUE_UNSUPPORTED package/scenes/0/actors/0/layer",
       "VALUE_UNSUPPORTED package/scenes/0/camera/aperture",
