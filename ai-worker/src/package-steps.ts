@@ -115,7 +115,14 @@ export function musicSourceOf(v: unknown): MusicSource {
 export async function stepStage(
   dir: string,
   script: Script,
-  opts: { music: boolean; signal?: AbortSignal; synthetic?: boolean; musicSource?: MusicSource },
+  opts: {
+    music: boolean;
+    signal?: AbortSignal;
+    synthetic?: boolean;
+    musicSource?: MusicSource;
+    /** E1.6 (D3): captions synced to the narration (default on; off for comparisons with legacy). */
+    captions?: boolean;
+  },
 ): Promise<StageResult> {
   const plan = loadFilmPlan(dir);
   const { alignments, clipDurations, voiceFiles } = voiceTimings(dir);
@@ -186,6 +193,7 @@ export async function stepStage(
     stageV2("film", plan, script, {
       voice: { ...(alignments ? { alignments } : {}), ...(clipDurations ? { clipDurations } : {}) },
       audio: { voice, ...(music ? { music } : {}), ...(score ? { score } : {}) },
+      ...(opts.captions !== false ? { captions: { zone: captionZone() } } : {}),
     }),
   );
   const w = serialise(staged);
@@ -198,6 +206,13 @@ export async function stepStage(
     sha256: createHash("sha256").update(w.pkg).digest("hex"),
     clips: staged.pkg.audio.length,
   };
+}
+
+/** The caption band the engine reserves (its capabilities, E-D2). */
+function captionZone(): { top: number; bottom: number; maxWidth: number } {
+  const z = renderCapabilities().captions.zone;
+  if (!z) throw new Error("the engine reserves no caption band: it cannot draw captions here");
+  return z;
 }
 
 /** Runs the Validation Gate on the run's package and writes its report; throws PackageRefused when refused. */
@@ -256,6 +271,7 @@ export async function stepFilmPackage(
     progress?: Progress;
     synthetic?: boolean;
     musicSource?: MusicSource;
+    captions?: boolean;
   },
 ): Promise<{
   video: string;

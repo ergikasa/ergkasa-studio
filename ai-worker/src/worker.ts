@@ -226,6 +226,7 @@ export async function executeTask(
             ? await stepFilmPackage(dir, loadScript(dir), {
                 music: p["music"] !== false,
                 musicSource: musicSourceOf(p["musicSource"]),
+                captions: p["captions"] !== false,
                 progress,
                 ...(signal ? { signal } : {}),
               })
