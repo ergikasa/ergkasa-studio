@@ -102,16 +102,17 @@ beforeAll(async () => {
   voiced = await makeRun();
   silentRun = await makeRun({ voice: false });
   // voice + music (ducked), voice only, music only, nothing; legacy and package; package with 1 and 2 workers
-  R["L"] = await render(voiced, { music: true });
+  // legacy is the rollback since E1.6 (package is the default): the legacy references name it explicitly
+  R["L"] = await render(voiced, { music: true, pipeline: "legacy" });
   process.env["ERKASA_RENDER_WORKERS"] = "1";
   R["P1"] = await render(voiced, { music: true, pipeline: "package" });
   process.env["ERKASA_RENDER_WORKERS"] = "2";
   R["P2"] = await render(voiced, { music: true, pipeline: "package" });
-  R["LV"] = await render(voiced, { music: false });
+  R["LV"] = await render(voiced, { music: false, pipeline: "legacy" });
   R["PV"] = await render(voiced, { music: false, pipeline: "package" });
-  R["LB"] = await render(silentRun, { music: true });
+  R["LB"] = await render(silentRun, { music: true, pipeline: "legacy" });
   R["PB"] = await render(silentRun, { music: true, pipeline: "package" });
-  R["LS"] = await render(silentRun, { music: false });
+  R["LS"] = await render(silentRun, { music: false, pipeline: "legacy" });
   R["PS"] = await render(silentRun, { music: false, pipeline: "package" });
 }, 1_800_000);
 
@@ -119,14 +120,36 @@ const pkgOf = (r: Rendered): RenderPackage =>
   JSON.parse(readFileSync(join(r.dir, PACKAGE_FILES.render), "utf8")) as RenderPackage;
 const g = (k: string): Rendered => R[k] as Rendered;
 
-describe("the default stays legacy", () => {
-  it("without a pipeline the worker renders the legacy way and stages no package", () => {
+describe("the default is package (E1.6); legacy is the explicit rollback", () => {
+  it("pipelineOf: package by default, ERKASA_PIPELINE=legacy selects legacy, anything else is refused", () => {
+    expect(pipelineOf()).toBe("package");
+    process.env["ERKASA_PIPELINE"] = "legacy";
     expect(pipelineOf()).toBe("legacy");
+    expect(pipelineOf("package")).toBe("package");
+    delete process.env["ERKASA_PIPELINE"];
+    expect(() => pipelineOf("fast")).toThrow(/unknown pipeline 'fast'/);
+  });
+
+  it("legacy renders the legacy way and stages no package", () => {
     expect(existsSync(join(g("L").dir, PACKAGE_FILES.root))).toBe(false);
     expect(existsSync(join(g("L").dir, FILM_FILES.work))).toBe(true);
     expect(existsSync(join(g("P1").dir, FILM_FILES.work))).toBe(false);
-    expect(() => pipelineOf("fast")).toThrow(/unknown pipeline 'fast'/);
   });
+
+  it("without a pipeline the worker renders through the package: the same MP4 as pipeline=package", async () => {
+    const d = await render(voiced, { music: true });
+    expect(existsSync(join(d.dir, PACKAGE_FILES.render))).toBe(true);
+    expect(existsSync(join(d.dir, PACKAGE_FILES.gate))).toBe(true);
+    expect(sha(readFileSync(d.video))).toBe(sha(readFileSync(g("P2").video)));
+  }, 600_000);
+
+  it("ERKASA_PIPELINE=legacy (the rollback, no param) renders the same MP4 as pipeline=legacy", async () => {
+    process.env["ERKASA_PIPELINE"] = "legacy";
+    const d = await render(voiced, { music: true });
+    delete process.env["ERKASA_PIPELINE"];
+    expect(existsSync(join(d.dir, PACKAGE_FILES.root))).toBe(false);
+    expect(sha(readFileSync(d.video))).toBe(sha(readFileSync(g("L").video)));
+  }, 600_000);
 });
 
 describe("P1 the MP4", () => {
