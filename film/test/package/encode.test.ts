@@ -22,6 +22,7 @@ import { BENCH } from "../../src/golden.js";
 import { cutSegments, encodePackage } from "../../src/package/encode.js";
 import { mixdownArgs } from "../../src/package/mixdown.js";
 import { fixtureB, planPath, renderer, ROOT, staged, type Film } from "./helpers.js";
+import { processesWith } from "../processes.js";
 
 const sha = (f: string): string => createHash("sha256").update(readFileSync(f)).digest("hex");
 const tmp = (p: string): string => mkdtempSync(join(tmpdir(), p));
@@ -142,7 +143,7 @@ describe("encoding a silent package (office-clock, 150 frames)", () => {
     expect(seen).toBeGreaterThanOrEqual(30);
     expect(existsSync(out)).toBe(false);
     expect(existsSync(out.replace(/\.mp4$/, ".part.mp4"))).toBe(false);
-    const live = spawnSync("pgrep", ["-f", work], { encoding: "utf8" }).stdout.trim();
+    const live = processesWith(work);
     expect(live).toBe("");
   }, 600_000);
 });

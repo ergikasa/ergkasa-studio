@@ -20,7 +20,6 @@
  * -shortest ends the video there): the package engine renders the package's full duration (PO decision
  * 2026-11-18). The comparisons below say exactly where the two agree and why they differ.
  */
-import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { chmodSync, existsSync, mkdtempSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -41,6 +40,7 @@ import {
 import { classify, handleCommand } from "../src/worker.js";
 import { RUN, cmd, copyRun, deps, frameHashes, makeRun, pcm, probe } from "./e2e-fixture.js";
 import { LEAD_SEC } from "./synthetic-voice.js";
+import { processesWith } from "./processes.js";
 
 const sha = (b: Buffer | string): string => createHash("sha256").update(b).digest("hex");
 const noop = (): void => undefined;
@@ -409,9 +409,7 @@ describe("P8 failure, retry and cancellation", () => {
     expect(classify(e)).toMatchObject({ code: "CANCELLED", retryable: false });
     expect(existsSync(join(dir, FILM_FILES.video))).toBe(false);
     expect(existsSync(join(dir, "video.part.mp4"))).toBe(false);
-    const live = spawnSync("pgrep", ["-af", join(dir, PACKAGE_FILES.work)], {
-      encoding: "utf8",
-    }).stdout.trim();
+    const live = processesWith(join(dir, PACKAGE_FILES.work));
     expect(live).toBe("");
   }, 600_000);
 });

@@ -6,7 +6,7 @@
  * over them (mixdown.ts) from the bytes the gate verified. The MP4 is written under a temporary name and
  * renamed only when everything succeeded; on failure or cancellation nothing is left at `out`.
  */
-import { spawn, type ChildProcess } from "node:child_process";
+import { spawn, spawnSync, type ChildProcess } from "node:child_process";
 import { createRequire } from "node:module";
 import { mkdirSync, renameSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
@@ -56,6 +56,8 @@ const ffmpegOf = (o: { ffmpeg?: string }): string => o.ffmpeg ?? process.env["ER
  * The processes the encoder started. Each runs in its own process group, so stopping one stops what it started
  * too (a child's FFmpeg); `killAll` resolves once every one has exited.
  */
+const WINDOWS = process.platform === "win32";
+
 export class Procs {
   private readonly live = new Map<ChildProcess, Promise<void>>();
   private stopped = false;
@@ -70,7 +72,9 @@ export class Procs {
     return new Promise((resolve, reject) => {
       const p = spawn(cmd, args, {
         stdio: [feed ? "pipe" : "ignore", "ignore", "pipe"],
-        detached: this.group,
+        // Windows has no process groups (a detached process gets its own console): its tree is killed with taskkill
+        detached: this.group && !WINDOWS,
+        windowsHide: true,
       });
       this.live.set(p, new Promise<void>((r) => p.once("close", () => r())));
       let err = "";
@@ -95,6 +99,11 @@ export class Procs {
     });
   }
   private kill(p: ChildProcess): void {
+    if (WINDOWS && p.pid) {
+      // the process and everything it started (a child's FFmpeg)
+      spawnSync("taskkill", ["/pid", String(p.pid), "/T", "/F"], { stdio: "ignore", windowsHide: true });
+      return;
+    }
     try {
       if (this.group && p.pid) process.kill(-p.pid, "SIGKILL");
       else p.kill("SIGKILL");

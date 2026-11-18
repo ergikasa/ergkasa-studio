@@ -5,7 +5,6 @@
  * through attempt folders giving the same MP4 as without them.
  */
 import { useTestLibrary } from "./test-library.js";
-import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import {
   existsSync,
@@ -27,6 +26,7 @@ import type { JsonRequest, JsonResponse, Llm } from "../src/llm.js";
 import { PACKAGE_FILES } from "../src/package-steps.js";
 import { AttemptStopped, handleCommand } from "../src/worker.js";
 import { RUN, cmd, deps, makeRun } from "./e2e-fixture.js";
+import { processesWith } from "./processes.js";
 
 // E1.6: the package's music is the licensed score by default; tests use the catalog over generated tones
 let restoreLibrary: () => void = () => undefined;
@@ -263,7 +263,7 @@ describe("a whole run through attempt folders", () => {
     expect(existsSync(join(run, FILM_FILES.video))).toBe(false);
     // give the killed process group a moment to be reaped
     await new Promise((res) => setTimeout(res, 300));
-    const live = spawnSync("pgrep", ["-af", join(run, "attempts")], { encoding: "utf8" }).stdout.trim();
+    const live = processesWith(join(run, "attempts"));
     expect(live).toBe("");
   }, 600_000);
 });
