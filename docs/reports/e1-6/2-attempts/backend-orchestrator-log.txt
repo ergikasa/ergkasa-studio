@@ -1,0 +1,61 @@
+Migrating schema "public" to version "5 - step fence"
+Attempt isolation on: workers write under attempts/, accepted results are published
+Run 20261118-200138-why-we-procrastinate-72ac step script queued (attempt 1, fence 1)
+Run 20261118-200138-why-we-procrastinate-72ac step script attempt 1 (fence 1): cancel sent (CANCELLED)
+Run 20261118-200139-why-saving-alone-keeps-you-bro-c7ee step script queued (attempt 1, fence 2)
+Run 20261118-200139-why-saving-alone-keeps-you-bro-c7ee step script published 1 file(s) from attempts/script-2
+Run 20261118-200139-why-saving-alone-keeps-you-bro-c7ee step plan queued (attempt 1, fence 3)
+Run 20261118-200139-why-saving-alone-keeps-you-bro-c7ee step plan queued (attempt 2, fence 4)
+Run 20261118-200139-why-saving-alone-keeps-you-bro-c7ee step plan published 1 file(s) from attempts/plan-4
+Run 20261118-200139-why-saving-alone-keeps-you-bro-c7ee step render queued (attempt 1, fence 5)
+Run 20261118-200139-why-saving-alone-keeps-you-bro-c7ee step render published 1 file(s) from attempts/render-5
+Ignoring stale or unknown result for 20261118-200139-why-saving-alone-keeps-you-bro-c7ee/plan attempt 1 fence 3
+Run 20261118-200139-the-sunk-cost-fallacy-f0f5 step script queued (attempt 1, fence 6)
+Run 20261118-200139-the-sunk-cost-fallacy-f0f5 step script queued (attempt 1, fence 7)
+Run 20261118-200139-the-sunk-cost-fallacy-f0f5 step script attempt 1 (fence 7): cancel sent (CANCELLED)
+Run 20261118-200140-isolation-cancel-names-167f step script queued (attempt 1, fence 8)
+Run 20261118-200140-isolation-cancel-names-167f step script attempt 1 (fence 8): cancel sent (TIMEOUT)
+Run 20261118-200140-isolation-cancel-names-167f step script queued (attempt 2, fence 9)
+Run 20261118-200140-isolation-cancel-names-167f step script attempt 2 (fence 9): cancel sent (CANCELLED)
+Run 20261118-200140-isolation-outside-refs-376c step script queued (attempt 1, fence 10)
+Run 20261118-200140-isolation-outside-refs-376c step script attempt 1 failed (PUBLISH_REFUSED), retrying: the attempt folder attempts/script-10 does not exist
+Run 20261118-200140-isolation-outside-refs-376c step script queued (attempt 2, fence 11)
+Run 20261118-200140-isolation-outside-refs-376c step script attempt 2 (fence 11): cancel sent (CANCELLED)
+Run 20261118-200141-isolation-retry-7064 step script queued (attempt 1, fence 12)
+Run 20261118-200141-isolation-retry-7064 step script queued (attempt 2, fence 13)
+Run 20261118-200141-isolation-retry-7064 step script published 1 file(s) from attempts/script-13
+Run 20261118-200141-isolation-cancel-ee2f step script queued (attempt 1, fence 14)
+Run 20261118-200141-isolation-cancel-ee2f step script attempt 1 (fence 14): cancel sent (CANCELLED)
+Ignoring stale or unknown result for 20261118-200141-isolation-cancel-ee2f/script attempt 1 fence 14
+Run 20261118-200141-isolation-reverse-order-0afd step script queued (attempt 1, fence 15)
+Run 20261118-200141-isolation-reverse-order-0afd step script attempt 1 (fence 15): cancel sent (TIMEOUT)
+Run 20261118-200141-isolation-reverse-order-0afd step script queued (attempt 2, fence 16)
+Run 20261118-200141-isolation-reverse-order-0afd step script published 1 file(s) from attempts/script-16
+Ignoring stale or unknown result for 20261118-200141-isolation-reverse-order-0afd/script attempt 1 fence 15
+Ignoring stale or unknown result for 20261118-200141-isolation-reverse-order-0afd/script attempt 2 fence 15
+Ignoring stale or unknown result for 20261118-200141-isolation-reverse-order-0afd/script attempt 2 fence null
+Run 20261118-200142-isolation-run-retry-9a37 step script queued (attempt 1, fence 17)
+Run 20261118-200142-isolation-run-retry-9a37 step script attempt 1 (fence 17): cancel sent (CANCELLED)
+Run 20261118-200142-isolation-run-retry-9a37 step script queued (attempt 1, fence 18)
+Ignoring stale or unknown result for 20261118-200142-isolation-run-retry-9a37/script attempt 1 fence 17
+Run 20261118-200142-isolation-run-retry-9a37 step script published 1 file(s) from attempts/script-18
+Run 20261118-200142-isolation-wrong-hash-1d13 step script queued (attempt 1, fence 19)
+Run 20261118-200142-isolation-wrong-hash-1d13 step script attempt 1 failed (PUBLISH_REFUSED), retrying: output script.json has sha256 23de19b549b7e5e556bf6f35ff607b3bb8cca5d07f9ce5f4c2abe7b821ff2083, the result says 81d6197e16ff33ce7224306897eee90d00b7d552b0d7c05007ab5ca9d34e4403
+Run 20261118-200142-isolation-redelivery-32ca step script queued (attempt 1, fence 20)
+Run 20261118-200142-isolation-redelivery-32ca step script published 1 file(s) from attempts/script-20
+Ignoring stale or unknown result for 20261118-200142-isolation-redelivery-32ca/script attempt 1 fence 20
+Run 20261118-200142-isolation-progress-a92d step script queued (attempt 1, fence 21)
+Run 20261118-200142-isolation-progress-a92d step script attempt 1 (fence 21): cancel sent (TIMEOUT)
+Run 20261118-200142-isolation-progress-a92d step script queued (attempt 2, fence 22)
+Run 20261118-200142-isolation-progress-a92d step script attempt 2 (fence 22): cancel sent (CANCELLED)
+Run 20261118-200142-isolation-normal-run-5361 step script queued (attempt 1, fence 23)
+Run 20261118-200142-isolation-normal-run-5361 step script published 1 file(s) from attempts/script-23
+Run 20261118-200142-isolation-normal-run-5361 step plan queued (attempt 1, fence 24)
+Run 20261118-200142-isolation-normal-run-5361 step plan attempt 1 (fence 24): cancel sent (CANCELLED)
+Run 20261118-200142-isolation-two-workers-8b2f step script queued (attempt 1, fence 25)
+Run 20261118-200142-isolation-two-workers-8b2f step script attempt 1 (fence 25): cancel sent (TIMEOUT)
+Run 20261118-200142-isolation-two-workers-8b2f step script queued (attempt 2, fence 26)
+Run 20261118-200142-isolation-two-workers-8b2f step script published 1 file(s) from attempts/script-26
+Ignoring stale or unknown result for 20261118-200142-isolation-two-workers-8b2f/script attempt 1 fence 25
+Run 20261118-200142-isolation-two-workers-8b2f step plan queued (attempt 1, fence 27)
+Run 20261118-200142-isolation-two-workers-8b2f step plan attempt 1 (fence 27): cancel sent (CANCELLED)

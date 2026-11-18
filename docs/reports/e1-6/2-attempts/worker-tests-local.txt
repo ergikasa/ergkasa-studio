@@ -1,0 +1,12 @@
+ ✓ test/attempt.test.ts > an attempt with a fence > works only in attempts/<step>-<fence>/ and reports its files with sha256; the run folder is untouched 87ms
+ ✓ test/attempt.test.ts > an attempt with a fence > starts from a copy of the published files and reports only what it created or changed 47ms
+ ✓ test/attempt.test.ts > an attempt with a fence > refuses an attempt whose folder already exists (a duplicate): FAILED, retryable, nothing reported 20ms
+ ✓ test/attempt.test.ts > an attempt with a fence > two attempts of one step at the same time write into separate folders 27ms
+ ✓ test/attempt.test.ts > an attempt with a fence > stops at the deadline even when the step does not listen (an LLM call): DEADLINE_EXCEEDED, retryable 426ms
+ ✓ test/attempt.test.ts > an attempt with a fence > stops when cancelled (the signal a cancel message aborts): CANCELLED, not retryable, nothing reported 19ms
+ ✓ test/attempt.test.ts > an attempt with a fence > without a fence (isolation off: the rollback) writes straight into the run folder as before 21ms
+ ✓ test/attempt.test.ts > a whole run through attempt folders > script → voice → plan → render (package) published step by step gives the same MP4 as without isolation 24584ms
+ ✓ test/attempt.test.ts > a whole run through attempt folders > a render cancelled mid-way through its attempt: CANCELLED, no process left, nothing public 9751ms
+ ↓ test/worker-mq.test.ts > two workers on RabbitMQ > a cancel stops only the attempt it names; the other worker finishes; an unknown fence is ignored
+ Test Files  1 passed | 1 skipped (2)
+      Tests  9 passed | 1 skipped (10)

@@ -1,0 +1,8 @@
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.265 s -- in al.erkasa.studio.ApplicationSmokeTest
+[INFO] Tests run: 98, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.503 s -- in al.erkasa.studio.contracts.ContractSchemasTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.115 s -- in al.erkasa.studio.voices.VoiceApiTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.054 s -- in al.erkasa.studio.runs.ArtifactPublisherTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.398 s -- in al.erkasa.studio.runs.RunFlowTest
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.301 s -- in al.erkasa.studio.runs.AttemptIsolationTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.071 s -- in al.erkasa.studio.assets.AssetApiTest
+[INFO] Tests run: 132, Failures: 0, Errors: 0, Skipped: 0
