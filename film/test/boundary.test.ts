@@ -5,7 +5,7 @@
  * are frozen here so that dependency cannot spread.
  */
 import { readdirSync, readFileSync, statSync } from "node:fs";
-import { join, relative } from "node:path";
+import { join, relative, sep } from "node:path";
 import { describe, expect, it } from "vitest";
 import { capabilities, CAPABILITIES_VERSION, FilmPlan } from "../src/index.js";
 import { BENCH, diffGolden, readGolden, w0Golden } from "../src/golden.js";
@@ -17,7 +17,10 @@ const files = (dir: string): string[] =>
     const p = join(dir, f);
     return statSync(p).isDirectory() ? files(p) : p.endsWith(".ts") ? [p] : [];
   });
-const sources = files(SRC).map((p) => ({ path: relative(SRC, p), text: readFileSync(p, "utf8") }));
+const sources = files(SRC).map((p) => ({
+  path: relative(SRC, p).split(sep).join("/"),
+  text: readFileSync(p, "utf8"),
+}));
 const imports = (text: string): string[] =>
   [...text.matchAll(/from\s+"([^"]+)"/g)].map((m) => m[1] as string);
 

@@ -4,7 +4,7 @@
  */
 import { cpSync, existsSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { dirname, join, relative, resolve } from "node:path";
+import { dirname, join, relative, resolve, sep } from "node:path";
 import { describe, expect, it } from "vitest";
 import { normaliseKtIds } from "../../src/golden-ids.js";
 import { openPackage } from "../../src/package/render.js";
@@ -36,7 +36,10 @@ function graph(entry: string): { files: string[]; external: string[] } {
     }
   };
   walk(entry);
-  return { files: [...seen].map((f) => relative(ROOT, f)).sort(), external: [...external].sort() };
+  return {
+    files: [...seen].map((f) => relative(ROOT, f).split(sep).join("/")).sort(),
+    external: [...external].sort(),
+  };
 }
 
 describe("K6: what the renderer is made of", () => {

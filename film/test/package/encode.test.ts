@@ -12,7 +12,7 @@ import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { chmodSync, existsSync, mkdtempSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { join, relative, resolve, dirname } from "node:path";
+import { join, relative, resolve, dirname, sep } from "node:path";
 import { describe, expect, it } from "vitest";
 import { validate } from "@erkasa/gate";
 import type { RenderPackage } from "@erkasa/contracts";
@@ -264,7 +264,7 @@ describe("the encoder's modules", () => {
       }
     };
     walk(entry);
-    return [...seen].map((f) => relative(ROOT, f)).sort();
+    return [...seen].map((f) => relative(ROOT, f).split(sep).join("/")).sort();
   }
   const files = [
     ...graphOf(join(ROOT, "film/src/package/encode.ts")),
