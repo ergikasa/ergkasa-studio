@@ -1,0 +1,21 @@
+ ✓ test/package-e2e.test.ts > the default is package (E1.6); legacy is the explicit rollback > pipelineOf: package by default, ERKASA_PIPELINE=legacy selects legacy, anything else is refused 2ms
+ ✓ test/package-e2e.test.ts > the default is package (E1.6); legacy is the explicit rollback > legacy renders the legacy way and stages no package 0ms
+ ✓ test/package-e2e.test.ts > the default is package (E1.6); legacy is the explicit rollback > without a pipeline the worker renders through the package: the same MP4 as pipeline=package 12951ms
+ ✓ test/package-e2e.test.ts > the default is package (E1.6); legacy is the explicit rollback > ERKASA_PIPELINE=legacy (the rollback, no param) renders the same MP4 as pipeline=legacy 12954ms
+ ✓ test/package-e2e.test.ts > P1 the MP4 > H.264 1080×1920 at 30 fps, yuv420p, every frame of the package; AAC 48 kHz stereo 685ms
+ ✓ test/package-e2e.test.ts > P2 the run's package > package, manifest, gate report and audio files; the gate passes them again from disk 18ms
+ ✓ test/package-e2e.test.ts > P3 decoded frames, frame by frame > nothing and music only: every frame identical to legacy 1ms
+ ✓ test/package-e2e.test.ts > P3 decoded frames, frame by frame > with a voice: every frame legacy has is identical; legacy stops at the last voice clip, the package goes on 1ms
+ ✓ test/package-e2e.test.ts > P4 decoded PCM > nothing: no audio stream in either 850ms
+ ✓ test/package-e2e.test.ts > P4 decoded PCM > music only: identical to legacy, sample for sample 8ms
+ ✓ test/package-e2e.test.ts > P4 decoded PCM > voice only: identical while legacy's stream lasts, but for its last two AAC frames (where legacy's stream ends); then silence 360ms
+ ✓ test/package-e2e.test.ts > P4 decoded PCM > voice and music, ducked: identical until the loudness normaliser's window reaches legacy's cut (3 s before it) 5ms
+ ✓ test/package-e2e.test.ts > P5 audio/video synchronisation > both streams start at 0; the audio ends within one frame of the video 2321ms
+ ✓ test/package-e2e.test.ts > P5 audio/video synchronisation > each voice is heard where the package places it (its start + the synthetic lead), within one frame 2ms
+ ✓ test/package-e2e.test.ts > P6 determinism > 1 and 2 workers: the same MP4, byte for byte; the same package and audio files 9ms
+ ✓ test/package-e2e.test.ts > P7 an invalid package > is refused by the gate step and by the engine: zero frames, the encoder never starts, no video, no fallback 283ms
+ ✓ test/package-e2e.test.ts > P8 failure, retry and cancellation > a failing FFmpeg fails the task (retryable), leaves no video and does not fall back; the retry renders the same MP4 11786ms
+ ✓ test/package-e2e.test.ts > P8 failure, retry and cancellation > cancellation stops the render: no video, no partial file, no process left; the failure is CANCELLED 8985ms
+ ✓ test/film-worker.test.ts > worker on the film engine (silent run) > writes the script, directs the film (repairing it once) and renders video.mp4 12106ms
+ Test Files  2 passed (2)
+      Tests  19 passed (19)
