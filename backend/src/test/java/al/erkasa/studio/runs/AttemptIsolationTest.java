@@ -216,7 +216,7 @@ class AttemptIsolationTest {
     void s6RefsOutsideTheAttemptFolderAreRefusedAndTheStepRetries() throws Exception {
         String id = silentRun("isolation outside refs");
         JsonNode script = nextTask(mq.aiQueue(), id);
-        Files.createDirectories(run(id));
+        Files.createDirectories(run(id).resolve(attemptDir(script)));
         Files.writeString(run(id).resolve("script.json"), "{\"title\": \"planted\"}");
         ArrayNode out = mapper.createArrayNode();
         out.addObject().put("role", "script").put("ref", "file://" + id + "/" + attemptDir(script) + "/../../script.json")
@@ -225,6 +225,7 @@ class AttemptIsolationTest {
 
         JsonNode detail = stepRow(id, "script");
         assertThat(detail.path("error_code").asText()).isEqualTo("PUBLISH_REFUSED");
+        assertThat(detail.path("error").asText()).contains("invalid output path ../../script.json");
         assertThat(detail.path("status").asText()).isIn("PENDING", "QUEUED"); // retried after the backoff
         JsonNode retry = nextTask(mq.aiQueue(), id);
         assertThat(retry.path("fence").asLong()).isGreaterThan(script.path("fence").asLong());
