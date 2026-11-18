@@ -3,7 +3,7 @@
  "note": "Expected asset library, reviewed by hand. Update in the same commit that adds or removes an asset; AssetApiTest compares the API and the disk with this list.",
  "counts": {
   "background": 62,
-  "character": 15,
+  "character": 14,
   "effect": 18,
   "icon": 189,
   "metaphor": 26,
@@ -80,7 +80,6 @@
    "char_crowd_01",
    "char_drini_01",
    "char_dritan_01",
-   "char_era_01",
    "char_genti_01",
    "char_host_01",
    "char_king_01",
