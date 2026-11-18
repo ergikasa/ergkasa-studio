@@ -441,7 +441,8 @@ export const EXEC_CASES: ExecCase[] = [
         pan: 0,
       });
     },
-    expect: ["CAPABILITY_MISSING manifest/assets/12/kind", "CAPABILITY_MISSING package/audio/0"],
+    // E1.5: the engine mixes audio; this clip is refused for its file (not a WAV) and its mix (no loudness range)
+    expect: ["AUDIO_INVALID manifest/assets/12/source/uri", "VALUE_UNSUPPORTED package/mix/loudness/rangeLu"],
   },
   {
     name: "X2 an event that changes a node's state",

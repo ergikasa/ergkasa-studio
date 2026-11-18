@@ -181,10 +181,69 @@ describe("capabilities v2 (E1.4): the declaration matches the engine's code", ()
     expect(capabilityProblems(fl)).toEqual(["fields: 'package:/id' has an unknown class 'ignored'"]);
   });
 
-  it("output: the size the renderer draws (style.ts W × H), 30 fps, silent", () => {
+  it("output: the size the renderer draws (style.ts W × H), 30 fps; E1.5: with audio, encoded as the v2 engine encodes", () => {
     expect(src("film/src/style.ts")).toMatch(/export const W = 1080;/);
     expect(src("film/src/style.ts")).toMatch(/export const H = 1920;/);
-    expect(c.output).toEqual({ sizes: [[1080, 1920]], fps: [30], audio: false });
+    expect(c.output).toEqual({
+      sizes: [[1080, 1920]],
+      fps: [30],
+      audio: true,
+      video: {
+        encoder: "libx264",
+        preset: "veryfast",
+        crf: 20,
+        pixelFormat: "yuv420p",
+        grain: "noise=alls=4:allf=t",
+        segments: "cut",
+      },
+    });
+    // the v2 engine's shot encoder (render.ts renderShot), which the package engine reproduces per cut
+    const v2 = src("film/src/render.ts");
+    for (const x of [
+      '"noise=alls=4:allf=t,format=yuv420p"',
+      '"libx264"',
+      '"veryfast"',
+      '"-crf",\n      "20"',
+    ])
+      expect(v2.replace(/\s+/g, " ")).toContain(x.replace(/\\n\s*/g, " ").replace(/\s+/g, " "));
+  });
+
+  it("audio (E1.5): what the engine mixes, published; the v2 engine's mix constants", () => {
+    expect(c.audio).toMatchObject({
+      formats: ["wav"],
+      roles: { voice: { max: 1000, start: "whole-ms" }, music: { max: 1, start: "zero" } },
+      fixed: { trim: 0, fadeIn: 0, fadeOut: 0, pan: 0 },
+      duration: "audible",
+      duckMusicDb: [0],
+      ducking: { kinds: ["sidechain"], filter: "sidechaincompress" },
+      loudness: { filter: "loudnorm", rangeLu: "required", integratedLufs: [-40, -5], truePeakDb: [-9, 0] },
+      encode: { codec: "aac", bitrateKbps: 192, sampleRate: 48000 },
+    });
+    const v2 = src("film/src/render.ts").replace(/\s+/g, " ");
+    expect(v2).toContain("sidechaincompress=threshold=0.03:ratio=6:attack=80:release=500");
+    expect(v2).toContain("loudnorm=I=-14:TP=-1.5:LRA=11,aresample=48000");
+    expect(v2).toContain('"-b:a", "192k"');
+    expect(v2).toContain("volume=0.55");
+  });
+
+  it("a silent engine publishes no audio; a mixing one must say how", () => {
+    const silent = structuredClone(c);
+    silent.output.audio = false;
+    expect(capabilityProblems(silent)).toEqual([
+      "audio must be null for an engine that renders silent video",
+    ]);
+    silent.audio = null;
+    expect(capabilityProblems(silent)).toEqual([]);
+    const mixing = structuredClone(c);
+    mixing.audio = null;
+    expect(capabilityProblems(mixing)).toEqual(["audio is missing for an engine that mixes audio"]);
+    const broken = structuredClone(c);
+    (broken.audio as unknown as Record<string, unknown>)["duration"] = "file";
+    (broken.output.video as unknown as Record<string, unknown>)["segments"] = "film";
+    expect(capabilityProblems(broken)).toEqual([
+      "output.video is not { encoder, preset, crf, pixelFormat, grain, segments }",
+      "audio.duration is not 'audible'",
+    ]);
   });
 
   it("parallax camera: W0's reference height and dolly share (w0/camera.ts REF.height, GAMMA)", () => {

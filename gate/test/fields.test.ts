@@ -48,8 +48,8 @@ const SCHEMA_FIELDS = [
 describe("the field matrix", () => {
   const fields = caps().fields;
 
-  it("classifies every leaf field of both schemas, and nothing else (243 today)", () => {
-    expect(SCHEMA_FIELDS.length).toBe(243);
+  it("classifies every leaf field of both schemas, and nothing else (249 since E1.5: mix.ducking × 5, loudness.rangeLu)", () => {
+    expect(SCHEMA_FIELDS.length).toBe(249);
     expect(SCHEMA_FIELDS.filter((f) => !(f in fields))).toEqual([]); // a new schema field without a class
     expect(Object.keys(fields).filter((f) => !SCHEMA_FIELDS.includes(f))).toEqual([]); // a class for no field
   });
@@ -72,8 +72,17 @@ describe("the field matrix", () => {
   const ENFORCED: Array<[RegExp, string]> = [
     [/^package:\/output\/(width|height)$/, "VALUE_UNSUPPORTED package/output/width"],
     [/^package:\/output\/fps$/, "VALUE_UNSUPPORTED package/output/fps"],
-    [/^package:\/audio\//, "CAPABILITY_MISSING package/audio/#"],
-    [/^package:\/mix\//, "CAPABILITY_MISSING package/audio/#"],
+    // E1.5: audio is mixed; the fields the engine does not apply hold the only value each may (audio-cases.ts)
+    [/^package:\/audio\/\*\/role$/, "VALUE_UNSUPPORTED package/audio/#/role"],
+    [/^package:\/audio\/\*\/start$/, "VALUE_UNSUPPORTED package/audio/#/start"],
+    [/^package:\/audio\/\*\/trim$/, "VALUE_UNSUPPORTED package/audio/#/trim"],
+    [/^package:\/audio\/\*\/fadeIn$/, "VALUE_UNSUPPORTED package/audio/#/fadeIn"],
+    [/^package:\/audio\/\*\/fadeOut$/, "VALUE_UNSUPPORTED package/audio/#/fadeOut"],
+    [/^package:\/audio\/\*\/pan$/, "VALUE_UNSUPPORTED package/audio/#/pan"],
+    [/^package:\/audio\/\*\/duration$/, "VALUE_UNSUPPORTED package/audio/#/duration"],
+    [/^package:\/mix\/duckMusicDb$/, "VALUE_UNSUPPORTED package/mix/duckMusicDb"],
+    [/^package:\/mix\/loudness\/rangeLu$/, "VALUE_UNSUPPORTED package/mix/loudness/rangeLu"],
+    [/^package:\/mix\/loudness\/truePeakDb$/, "VALUE_UNSUPPORTED package/mix/loudness/truePeakDb"],
     [/^package:\/edit\/\*\/enter\/kind$/, "CAPABILITY_MISSING package/edit/#/enter/kind"],
     [/^package:\/overlays\/\*\/kind$/, "CAPABILITY_MISSING package/overlays/#/kind"],
     [
@@ -111,8 +120,6 @@ describe("the field matrix", () => {
       /^package:\/scenes\/\*\/tracks\/\*\/keys\/\*\/ease$/,
       "EASE_UNDEFINED package/scenes/#/tracks/#/keys/#/ease",
     ],
-    [/^manifest:\/assets\/\*\/kind$/, "CAPABILITY_MISSING manifest/assets/#/kind"],
-    [/^manifest:\/assets\/\*\/(durationSec|sampleRate)$/, "CAPABILITY_MISSING manifest/assets/#/kind"],
     [/^manifest:\/assets\/\*\/states\/\*\/element$/, "CAPABILITY_MISSING manifest/assets/#/states/#/element"],
     [/^manifest:\/assets\/\*\/source\/kind$/, "RIG_UNSUPPORTED manifest/assets/#/source/kind"],
     [/^manifest:\/assets\/\*\/format$/, "CAPABILITY_MISSING manifest/assets/#/format"],
