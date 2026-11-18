@@ -6,7 +6,7 @@
 | Branch   | `e1-5-pipeline-integration` @ `35a4e8f` (+ commit-i i këtij raporti); baza: E1.4 e pranuar (`757464a`); `main` = `7f8ffca`, i paprekur       |
 | Plani    | `docs/plans/e1-5-pipeline-integration-plan.md`, me vendimet D1–D6 të PO-së (2026-11-18) dhe vendimin për defektin legacy (2026-11-18, §4)    |
 | Default  | **legacy**, i pandryshuar. Rruga e re aktivizohet vetëm me `ERKASA_PIPELINE=package`, `--pipeline package` ose `params.pipeline` te worker-i |
-| Verdikti | **READY** (me kufizimet e §8)                                                                                                                |
+| Verdikti | **READY** (me kufizimet e §8); **E1.5 u pranua nga PO-ja më 2026-11-18, ora 19:47**                                                          |
 
 ## 1. Përmbledhje
 
@@ -162,3 +162,25 @@ Kohët e matura (B1–B5, 4 workers, i njëjti kompjuter): legacy 52–171 s, pa
 Të gjitha testet e detyrueshme kalojnë dhe provat janë ruajtur. Default-i mbetet legacy, golden baselines janë të paprekura dhe `main` nuk është prekur.
 
 Pres miratimin tënd. Nuk bëj merge, nuk ndërroj default-in dhe nuk filloj E1.6.
+
+## 11. Pranimi (2026-11-18)
+
+**E1.5 u pranua nga PO-ja më 2026-11-18, ora 19:47 (Europe/Tirane).**
+
+Kushtet e pranimit:
+
+- pa merge në `main`;
+- pipeline-i default mbetet `legacy`;
+- golden baselines të paprekura;
+- E1.6 vetëm si plan, deri në miratimin e veçantë.
+
+**Integrimi real me ElevenLabs mbetet i paverifikuar.** Testet e E1.5 përdorin një zë sintetik. Smoke test-i me TTS real (`docs/plans/e1-5-tts-smoke-test.md`) do ta kryejë PO-ja manualisht, në një moment të mëvonshëm. Sipas vendimit të PO-së, ai **nuk është bllokues** për fazat e ardhshme, dhe nuk kërkohet asnjë API key për to.
+
+Gjendja në momentin e pranimit:
+
+| Pika           | Vlera                                                                  |
+| -------------- | ---------------------------------------------------------------------- |
+| Branch         | `e1-5-pipeline-integration`                                            |
+| HEAD i pranuar | `2bad31a` (raporti); pas tij vetëm commit-i i regjistrimit të pranimit |
+| `origin/main`  | `7f8ffca`                                                              |
+| Provat         | `docs/reports/e1-5/evidence/`                                          |

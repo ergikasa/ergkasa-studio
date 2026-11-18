@@ -1,9 +1,9 @@
 # E1.5 · Smoke test me TTS real (propozim, i paekzekutuar)
 
-| Fusha   | Vlera                                                                                                                                                           |
-| ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Statusi | **Propozim.** Nuk është ekzekutuar. Kërkon çelësin e ElevenLabs dhe miratimin e PO-së për koston.                                                               |
-| Pse     | Testet e E1.5 përdorin një zë sintetik deterministik (`ai-worker/test/synthetic-voice.ts`). Ai provon tubacionin, por nuk provon integrimin real me ElevenLabs. |
+| Fusha   | Vlera                                                                                                                                                                                    |
+| ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Statusi | **I paekzekutuar; do ta kryejë PO-ja manualisht më vonë (vendim 2026-11-18). Nuk është bllokues për fazat e ardhshme.** Integrimi real me ElevenLabs mbetet i paverifikuar deri atëherë. |
+| Pse     | Testet e E1.5 përdorin një zë sintetik deterministik (`ai-worker/test/synthetic-voice.ts`). Ai provon tubacionin, por nuk provon integrimin real me ElevenLabs.                          |
 
 ## Çfarë provon
 
