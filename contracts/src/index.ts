@@ -14,6 +14,8 @@ export * from "./asset.js";
 export * from "./scene-plan.js";
 export * from "./timeline.js";
 export * from "./task.js";
+export * from "./captions.js";
+export { MONTSERRAT_ADVANCE } from "./font-metrics.js";
 export * from "./audio.js";
 export * from "./script.js";
 export * from "./voice.js";
