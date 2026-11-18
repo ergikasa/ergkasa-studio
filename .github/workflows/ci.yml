@@ -14,6 +14,7 @@ jobs:
     name: TypeScript (lint, types, contracts)
     # pinned (not ubuntu-latest): the FFmpeg build below is the noble package, the same as on the dev machine
     runs-on: ubuntu-24.04
+    timeout-minutes: 45
     env:
       # exact Debian version of Ubuntu 24.04's ffmpeg (= the local 6.1.1-3ubuntu5); a different build fails the job
       FFMPEG_DEB_VERSION: "7:6.1.1-3ubuntu5"
@@ -21,13 +22,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: FFmpeg (pinned version)
+        timeout-minutes: 10
+        env:
+          DEBIAN_FRONTEND: noninteractive
         run: |
-          sudo apt-get update -o Acquire::Retries=3
+          sudo apt-get update -o Acquire::Retries=3 -o DPkg::Lock::Timeout=120
           pkgs=""
           for p in ffmpeg libavcodec60 libavdevice60 libavfilter9 libavformat60 libavutil58 libpostproc57 libswresample4 libswscale7; do
             pkgs="$pkgs $p=$FFMPEG_DEB_VERSION"
           done
-          sudo apt-get install -y --no-install-recommends $pkgs
+          sudo -E apt-get install -y --no-install-recommends -o DPkg::Lock::Timeout=120 $pkgs
           ffmpeg -version | tee "$RUNNER_TEMP/ffmpeg-version.txt"
           ffprobe -version | head -1
           head -1 "$RUNNER_TEMP/ffmpeg-version.txt" | grep -F "$FFMPEG_VERSION_LINE" \
