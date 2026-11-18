@@ -26,7 +26,7 @@ export function engineFor(param?: unknown): EngineName {
   return v === "v1" ? "v1" : "film";
 }
 
-function voiceTimings(dir: string): {
+export function voiceTimings(dir: string): {
   alignments?: ReturnType<typeof alignmentsOf>;
   clipDurations?: Record<string, number>;
   voiceFiles?: Record<string, string>;

@@ -16,6 +16,8 @@ import { runWorkerForever } from "./worker.js";
 const USAGE = `Usage:
   pnpm video "<topic>" --theme <theme> [--voice <id>] [--seconds 45] [--notes "..."] [--no-voice] [--no-music] [--engine film|v1]
                               engine: film (v2, default; ERKASA_ENGINE) or v1 (the old scene engine)
+                              --pipeline legacy|package: how the film is rendered (default legacy; ERKASA_PIPELINE);
+                              package: stager → Render Package → Validation Gate → engine (E1.5)
   pnpm video --from-script <run>/script.json [--voice <id>] [--no-voice]
   pnpm video --from-plan <run>/video-plan.json [--voice <id>] [--no-voice]
   pnpm video:rerender <run> [--name video-h1.mp4] [--no-music]
@@ -49,6 +51,7 @@ async function make(argv: string[]): Promise<void> {
       "no-music": { type: "boolean", default: false },
       out: { type: "string" },
       engine: { type: "string" },
+      pipeline: { type: "string" },
     },
   });
   const topic = positionals.join(" ").trim();
@@ -67,6 +70,9 @@ async function make(argv: string[]): Promise<void> {
     throw new UsageError("--seconds must be 20..120");
 
   const noVoice = values["no-voice"] === true;
+  // Ctrl-C stops the render (package pipeline: every process it started, no video.mp4 left)
+  const stop = new AbortController();
+  process.once("SIGINT", () => stop.abort(new DOMException("stopped by the user", "AbortError")));
   const report = await makeVideo(
     {
       ...(topic ? { topic } : {}),
@@ -80,6 +86,8 @@ async function make(argv: string[]): Promise<void> {
       ...(values.voice ? { voice: values.voice } : {}),
       ...(values.host ? { host: values.host } : {}),
       ...(values.engine ? { engine: values.engine } : {}),
+      ...(values.pipeline ? { pipeline: values.pipeline } : {}),
+      signal: stop.signal,
       music: values["no-music"] !== true,
     },
     {

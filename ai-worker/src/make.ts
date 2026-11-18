@@ -15,6 +15,7 @@ import {
   type Narration,
 } from "./steps.js";
 import { FILM_FILES, engineFor, stepFilmPlan, stepFilmRender } from "./film-steps.js";
+import { pipelineOf, stepFilmPackage } from "./package-steps.js";
 import type { Voice } from "./voice.js";
 import { loadVoiceCatalog, resolvePreset } from "./voice-catalog.js";
 
@@ -39,6 +40,10 @@ export interface MakeOptions {
   outDir?: string;
   /** "film" (v2, default) or "v1"; default from ERKASA_ENGINE. A resumed --from-plan is always v1. */
   engine?: string;
+  /** Film render: "legacy" (default) or "package" (E1.5: stager → Render Package → gate → engine); default from ERKASA_PIPELINE. */
+  pipeline?: string;
+  /** Stops the render; nothing is left at video.mp4 (package pipeline). */
+  signal?: AbortSignal;
   log?: (line: string) => void;
 }
 
@@ -183,16 +188,22 @@ export async function makeVideo(opts: MakeOptions, deps: MakeDeps = {}): Promise
       log(`  ${line}`);
     }
     let lastLogged = -1;
+    const progress = (pct: number): void => {
+      if (pct % 10 === 0 && pct !== lastLogged) {
+        lastLogged = pct;
+        log(`render ${pct}%`);
+      }
+    };
+    const pipeline = pipelineOf(opts.pipeline);
+    log(`render pipeline: ${pipeline}`);
     const film = await time("render", () =>
-      stepFilmRender(outDir, s, {
-        music: opts.music ?? true,
-        progress: (pct) => {
-          if (pct % 10 === 0 && pct !== lastLogged) {
-            lastLogged = pct;
-            log(`render ${pct}%`);
-          }
-        },
-      }),
+      pipeline === "package"
+        ? stepFilmPackage(outDir, s, {
+            music: opts.music ?? true,
+            progress,
+            ...(opts.signal ? { signal: opts.signal } : {}),
+          })
+        : stepFilmRender(outDir, s, { music: opts.music ?? true, progress }),
     );
     return finish({ video: film.video, durationSec: film.durationSec });
   }

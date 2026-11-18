@@ -44,9 +44,15 @@ importers:
       '@erkasa/film':
         specifier: workspace:*
         version: link:../film
+      '@erkasa/gate':
+        specifier: workspace:*
+        version: link:../gate
       '@erkasa/planner':
         specifier: workspace:*
         version: link:../planner
+      '@erkasa/stager':
+        specifier: workspace:*
+        version: link:../stager
       amqplib:
         specifier: 0.10.8
         version: 0.10.8

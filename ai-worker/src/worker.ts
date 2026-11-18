@@ -17,6 +17,7 @@ import {
   type Progress,
 } from "./steps.js";
 import { FILM_FILES, engineFor, hasFilmPlan, stepFilmPlan, stepFilmRender } from "./film-steps.js";
+import { PACKAGE_FILES, PackageRefused, pipelineOf, stepFilmPackage } from "./package-steps.js";
 import { ElevenLabsVoice, type Voice } from "./voice.js";
 import { loadVoiceCatalog, resolvePreset } from "./voice-catalog.js";
 
@@ -185,13 +186,20 @@ export async function executeTask(
     case "render.finalize": {
       const started = Date.now();
       if (hasFilmPlan(dir)) {
-        progress(0, "composing the shots");
-        const res = await stepFilmRender(dir, loadScript(dir), { music: p["music"] !== false, progress });
+        const pipeline = pipelineOf(typeof p["pipeline"] === "string" ? p["pipeline"] : undefined);
+        progress(0, pipeline === "package" ? "staging the render package" : "composing the shots");
+        const res =
+          pipeline === "package"
+            ? await stepFilmPackage(dir, loadScript(dir), { music: p["music"] !== false, progress })
+            : await stepFilmRender(dir, loadScript(dir), { music: p["music"] !== false, progress });
         progress(100, "film rendered");
         return {
           outputs: [
             ref(cmd.runId, RUN_FILES.video, "video", "video/mp4"),
             ref(cmd.runId, FILM_FILES.plan, "plan", "application/json"),
+            ...(pipeline === "package"
+              ? [ref(cmd.runId, PACKAGE_FILES.render, "render_package", "application/json")]
+              : []),
           ],
           metrics: {
             durationSec: Math.round(res.durationSec * 100) / 100,
@@ -252,6 +260,8 @@ export async function executeTask(
 export function classify(e: unknown): { code: string; message: string; retryable: boolean } {
   const message = (e instanceof Error ? e.message : String(e)).slice(0, 1500);
   if (e instanceof TaskFailure) return { code: e.code, message, retryable: e.retryable };
+  if (e instanceof PackageRefused) return { code: "PACKAGE_REFUSED", message, retryable: false };
+  if (e instanceof Error && e.name === "AbortError") return { code: "CANCELLED", message, retryable: false };
   if (e instanceof MissingConfigError) return { code: "MISSING_CONFIG", message, retryable: false };
   if (e instanceof LlmError) return { code: "LLM_ERROR", message, retryable: e.retryable };
   const eleven = /^ElevenLabs (\d{3})/.exec(message);
