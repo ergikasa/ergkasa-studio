@@ -4,7 +4,6 @@
  * the decoded MP4s: every frame (framemd5) and the PCM. Usage: node --import tsx film/test/package/e15-bench.ts [film…]
  */
 import { spawnSync } from "node:child_process";
-import { createHash } from "node:crypto";
 import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
