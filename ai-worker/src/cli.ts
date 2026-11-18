@@ -18,6 +18,8 @@ const USAGE = `Usage:
                               engine: film (v2, default; ERKASA_ENGINE) or v1 (the old scene engine)
                               --pipeline legacy|package: how the film is rendered (default package; ERKASA_PIPELINE);
                               package: stager → Render Package → Validation Gate → engine (E1.5)
+                              --music-source library|synthetic: package music (default library: the licensed
+                              catalog in ERKASA_AUDIO_DIR; synthetic: the test bed, never for clients)
   pnpm video --from-script <run>/script.json [--voice <id>] [--no-voice]
   pnpm video --from-plan <run>/video-plan.json [--voice <id>] [--no-voice]
   pnpm video:rerender <run> [--name video-h1.mp4] [--no-music]
@@ -52,6 +54,7 @@ async function make(argv: string[]): Promise<void> {
       out: { type: "string" },
       engine: { type: "string" },
       pipeline: { type: "string" },
+      "music-source": { type: "string" },
     },
   });
   const topic = positionals.join(" ").trim();
@@ -87,6 +90,7 @@ async function make(argv: string[]): Promise<void> {
       ...(values.host ? { host: values.host } : {}),
       ...(values.engine ? { engine: values.engine } : {}),
       ...(values.pipeline ? { pipeline: values.pipeline } : {}),
+      ...(values["music-source"] ? { musicSource: values["music-source"] } : {}),
       signal: stop.signal,
       music: values["no-music"] !== true,
     },

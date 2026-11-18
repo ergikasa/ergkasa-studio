@@ -15,7 +15,7 @@ import {
   type Narration,
 } from "./steps.js";
 import { FILM_FILES, engineFor, stepFilmPlan, stepFilmRender } from "./film-steps.js";
-import { pipelineOf, stepFilmPackage } from "./package-steps.js";
+import { musicSourceOf, pipelineOf, stepFilmPackage } from "./package-steps.js";
 import type { Voice } from "./voice.js";
 import { loadVoiceCatalog, resolvePreset } from "./voice-catalog.js";
 
@@ -42,6 +42,8 @@ export interface MakeOptions {
   engine?: string;
   /** Film render: "package" (default since E1.6: stager → Render Package → gate → engine) or "legacy" (the rollback); default from ERKASA_PIPELINE. */
   pipeline?: string;
+  /** Package pipeline music: "library" (default: the licensed catalog) or "synthetic" (tests only). */
+  musicSource?: string;
   /** Stops the render; nothing is left at video.mp4 (package pipeline). */
   signal?: AbortSignal;
   log?: (line: string) => void;
@@ -200,6 +202,7 @@ export async function makeVideo(opts: MakeOptions, deps: MakeDeps = {}): Promise
       pipeline === "package"
         ? stepFilmPackage(outDir, s, {
             music: opts.music ?? true,
+            musicSource: musicSourceOf(opts.musicSource),
             progress,
             ...(opts.signal ? { signal: opts.signal } : {}),
           })

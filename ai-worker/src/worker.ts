@@ -24,7 +24,13 @@ import {
   type Progress,
 } from "./steps.js";
 import { FILM_FILES, engineFor, hasFilmPlan, stepFilmPlan, stepFilmRender } from "./film-steps.js";
-import { PACKAGE_FILES, PackageRefused, pipelineOf, stepFilmPackage } from "./package-steps.js";
+import {
+  PACKAGE_FILES,
+  PackageRefused,
+  musicSourceOf,
+  pipelineOf,
+  stepFilmPackage,
+} from "./package-steps.js";
 import { ElevenLabsVoice, type Voice } from "./voice.js";
 import { attemptOutputs, prepareAttempt, type Attempt } from "./attempt.js";
 import { TaskFailure } from "./failure.js";
@@ -219,6 +225,7 @@ export async function executeTask(
           pipeline === "package"
             ? await stepFilmPackage(dir, loadScript(dir), {
                 music: p["music"] !== false,
+                musicSource: musicSourceOf(p["musicSource"]),
                 progress,
                 ...(signal ? { signal } : {}),
               })

@@ -13,14 +13,23 @@
 import { spawn } from "node:child_process";
 import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { basename, join } from "node:path";
 import { validate, type Finding } from "@erkasa/gate";
 import { encodePackage, renderCapabilities } from "@erkasa/film";
-import { serialise, stageV2, withCameraBounds, writeBedV2, type AudioFile } from "@erkasa/stager";
+import {
+  libraryAssetId,
+  serialise,
+  stageV2,
+  withCameraBounds,
+  writeBedV2,
+  type AudioFile,
+  type Score,
+} from "@erkasa/stager";
 import type { Script } from "@erkasa/contracts";
 import { optional } from "./env.js";
 import { FILM_FILES, loadFilmPlan, voiceTimings } from "./film-steps.js";
 import type { Progress } from "./steps.js";
+import { designScore, scoreFile } from "./score.js";
 
 export const PIPELINES = ["legacy", "package"] as const;
 export type Pipeline = (typeof PIPELINES)[number];
@@ -86,13 +95,27 @@ export interface StageResult {
 }
 
 /**
+ * Where the music comes from (E1.6): `library`, the score designed from the licensed catalog (the default, the
+ * only one for commercial output); `synthetic`, the E1.5 v2 bed, for tests and comparisons with legacy only.
+ */
+export const MUSIC_SOURCES = ["library", "synthetic"] as const;
+export type MusicSource = (typeof MUSIC_SOURCES)[number];
+
+export function musicSourceOf(v: unknown): MusicSource {
+  if (v === undefined) return "library";
+  if (typeof v === "string" && (MUSIC_SOURCES as readonly string[]).includes(v)) return v as MusicSource;
+  throw new Error(`unknown music source '${String(v)}': use ${MUSIC_SOURCES.join(" or ")}`);
+}
+
+/**
  * Stages the run's film into <run>/package. The voice MP3s become 32-bit float WAVs (the decoded samples, which
- * the v2 engine mixed from the MP3s as they are); the bed is the v2 engine's (music and effects).
+ * the v2 engine mixed from the MP3s as they are). The music: the score designed from the licensed catalog
+ * (E1.6, its files as 16-bit 48 kHz stereo WAVs), or, for tests only, the v2 engine's synthetic bed.
  */
 export async function stepStage(
   dir: string,
   script: Script,
-  opts: { music: boolean; signal?: AbortSignal; synthetic?: boolean },
+  opts: { music: boolean; signal?: AbortSignal; synthetic?: boolean; musicSource?: MusicSource },
 ): Promise<StageResult> {
   const plan = loadFilmPlan(dir);
   const { alignments, clipDurations, voiceFiles } = voiceTimings(dir);
@@ -114,7 +137,38 @@ export async function stepStage(
     });
   }
   let music: AudioFile | undefined;
-  if (opts.music) {
+  let score: Score | undefined;
+  const source = opts.musicSource ?? "library";
+  if (opts.music && source === "library") {
+    const d = designScore(dir, basename(dir), plan, script, {
+      ...(alignments ? { alignments } : {}),
+      ...(clipDurations ? { clipDurations } : {}),
+      ...(voiceFiles ? { voiceFiles } : {}),
+    });
+    const files: Score["files"] = {};
+    for (const [id, entry] of d.used) {
+      const uri = `audio/${libraryAssetId(id)}.wav`;
+      await run(
+        [
+          "-y",
+          "-loglevel",
+          "error",
+          "-i",
+          entry.path,
+          "-ac",
+          "2",
+          "-ar",
+          "48000",
+          "-c:a",
+          "pcm_s16le",
+          join(root, uri),
+        ],
+        opts.signal,
+      );
+      files[id] = scoreFile(entry, uri, readFileSync(join(root, uri)));
+    }
+    score = { plan: d.plan, files };
+  } else if (opts.music) {
     const uri = "audio/bed.wav";
     writeBedV2(join(root, uri), plan, script, {
       ...(alignments ? { alignments } : {}),
@@ -131,7 +185,7 @@ export async function stepStage(
   const staged = withCameraBounds(
     stageV2("film", plan, script, {
       voice: { ...(alignments ? { alignments } : {}), ...(clipDurations ? { clipDurations } : {}) },
-      audio: { voice, ...(music ? { music } : {}) },
+      audio: { voice, ...(music ? { music } : {}), ...(score ? { score } : {}) },
     }),
   );
   const w = serialise(staged);
@@ -195,7 +249,14 @@ export async function stepPackageRender(
 export async function stepFilmPackage(
   dir: string,
   script: Script,
-  opts: { music: boolean; workers?: number; signal?: AbortSignal; progress?: Progress; synthetic?: boolean },
+  opts: {
+    music: boolean;
+    workers?: number;
+    signal?: AbortSignal;
+    progress?: Progress;
+    synthetic?: boolean;
+    musicSource?: MusicSource;
+  },
 ): Promise<{
   video: string;
   durationSec: number;
