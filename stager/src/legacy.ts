@@ -10,6 +10,8 @@
  * reproduction tests fail if a copy and the engine disagree on what is drawn.
  */
 export { prepare as prepareV2 } from "../../film/src/film.js";
+// E1.5: the v2 sound bed (music and effects) the package carries as its music clip; moves with this file in E1.6
+export { sfxFor, writeBed } from "../../film/src/sound.js";
 export { FilmPlan, type Shot } from "../../film/src/contract.js";
 export { shotFrames, type Composed, type ComposedShot } from "../../film/src/compose.js";
 export { propAt, type ActorPerf, type Performance, type PropState } from "../../film/src/perform.js";

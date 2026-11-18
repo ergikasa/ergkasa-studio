@@ -16,3 +16,5 @@ export {
 export { PARAMS, TEMPLATES } from "./templates.js";
 export { layoutTiming, shotTimes, type Timing } from "./timing.js";
 export type { Issue } from "./perform.js";
+export { encodePackage, cutSegments, type EncodeOptions, type EncodeOutcome } from "./package/encode.js";
+export { openPackage, renderPackage, type PackageInput } from "./package/render.js";

@@ -23,7 +23,16 @@ import { ROOT } from "./manifest.js";
 import { stageV2, type Staged } from "./v2.js";
 import { stageW0 } from "./w0.js";
 
-export { stageV2, type Staged } from "./v2.js";
+export { stageV2, type Staged, type V2Options } from "./v2.js";
+export {
+  stageAudio,
+  writeBedV2,
+  V2_DUCKING,
+  V2_LOUDNESS,
+  V2_MUSIC_UNDER_VOICE_DB,
+  type AudioFile,
+  type V2Audio,
+} from "./audio.js";
 export { stageW0 } from "./w0.js";
 export { SceneRecorder } from "./recorder.js";
 

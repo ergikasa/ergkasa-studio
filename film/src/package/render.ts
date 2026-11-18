@@ -94,6 +94,18 @@ export class PackageRenderer {
     this.captions = pkg.overlays.filter((o): o is Captions => o.kind === "captions");
   }
 
+  /** The index in the edit of the cut that frame k belongs to (the encoder encodes each cut on its own). */
+  cutIndex(k: number): number {
+    const t = k / this.fps;
+    const i = this.pkg.edit.findIndex((c) => t >= c.start && t < c.end);
+    return i < 0 ? this.pkg.edit.length - 1 : i;
+  }
+
+  /** The verified bytes of an asset (`id@version`), as the gate hashed them. */
+  assetBytes(ref: string): Buffer {
+    return this.lib.bytes(ref);
+  }
+
   /** The time of frame k, its cut, and, inside a transition, the cut before it and the progress (0..1). */
   at(k: number): { t: number; cur: Scene; prev?: { scene: Scene; kind: "dissolve" | "whip"; p: number } } {
     const t = k / this.fps;

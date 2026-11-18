@@ -31,6 +31,7 @@ import {
 } from "./legacy.js";
 import { BONES, ManifestBuilder, RIG_CHANNELS, UNBOUNDED, procedural, rig } from "./manifest.js";
 import { SceneRecorder } from "./recorder.js";
+import { stageAudio, type V2Audio } from "./audio.js";
 import type { Script } from "@erkasa/contracts";
 
 type Scene = RenderPackage["scenes"][number];
@@ -126,8 +127,22 @@ export function sceneFrames(shots: ComposedShot[]): SceneFrame[][] {
   });
 }
 
-export function stageV2(name: string, plan: FilmPlan, script: Script): Staged {
-  const { timing, composed } = prepareV2({ plan, script });
+/** E1.5: the run's real voice (word timings and clip lengths) and the audio files it made. */
+export interface V2Options {
+  voice?: {
+    alignments?: Parameters<typeof prepareV2>[0]["alignments"];
+    clipDurations?: Record<string, number>;
+  };
+  audio?: V2Audio;
+}
+
+export function stageV2(name: string, plan: FilmPlan, script: Script, opts: V2Options = {}): Staged {
+  const { timing, composed } = prepareV2({
+    plan,
+    script,
+    ...(opts.voice?.alignments ? { alignments: opts.voice.alignments } : {}),
+    ...(opts.voice?.clipDurations ? { clipDurations: opts.voice.clipDurations } : {}),
+  });
   const errors = composed.issues.filter((x) => x.level === "error");
   if (errors.length) throw new Error(`${name}: plan has errors: ${errors.map((e) => e.code).join(", ")}`);
   const M = new ManifestBuilder();
@@ -161,6 +176,7 @@ export function stageV2(name: string, plan: FilmPlan, script: Script): Staged {
     });
   });
   const total = composed.shots.reduce((n, s) => n + shotFrames(s), 0);
+  const sound = opts.audio ? stageAudio(M, timing, total / FPS, opts.audio) : undefined;
   const manifest = M.build(`${name}.assets.1`);
   const pkg: RenderPackage = {
     schema: "erkasa.render/1",
@@ -171,9 +187,10 @@ export function stageV2(name: string, plan: FilmPlan, script: Script): Staged {
     scenes,
     edit,
     overlays: [],
-    audio: [],
-    // the loudness the v2 engine normalises to (render.ts loudnorm I=-14, TP=-1.5); audio is not staged in E1.2
-    mix: { duckMusicDb: 0, loudness: { integratedLufs: -14, truePeakDb: -1.5 } },
+    // E1.5: the run's audio when it is given (stageAudio); without it, silent as in E1.2–E1.4
+    audio: sound?.clips ?? [],
+    // the loudness the v2 engine normalises to (render.ts loudnorm I=-14, TP=-1.5)
+    mix: sound?.mix ?? { duckMusicDb: 0, loudness: { integratedLufs: -14, truePeakDb: -1.5 } },
   };
   return { pkg, manifest };
 }
