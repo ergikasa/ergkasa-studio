@@ -10,7 +10,7 @@
  * checks that rely on its structure are skipped (their findings would be noise).
  */
 import { realpathSync, statSync } from "node:fs";
-import { AssetManifest, DEFINED_EASES, RenderPackage } from "@erkasa/contracts";
+import { AssetManifest, DEFINED_EASES, RenderPackage, wavInfo } from "@erkasa/contracts";
 import { DEFAULT_BUDGETS, type Budgets } from "./budgets.js";
 import { capabilityProblems, type BuiltinCapability, type RenderCapabilities } from "./capabilities.js";
 import { readContained, type VerifiedFile } from "./files.js";
@@ -208,7 +208,40 @@ export function validate(input: GateInput): GateResult {
             P(...path.split("/").slice(1), "sha256"),
             `${s.uri}: sha256 is ${out.file.sha256}`,
           );
-        else if (a.kind === "vector" && a.format === "svg") {
+        else if (a.kind === "audio" && a.format === "wav") {
+          // G3 audio (E1.5): a WAV the engine reads, holding what the manifest says
+          const w = wavInfo(out.file.bytes);
+          const ap = (...x: string[]): string => P(...path.split("/").slice(1, -1), ...x);
+          if ("error" in w)
+            F.error(
+              "AUDIO_INVALID",
+              "manifest",
+              P(...path.split("/").slice(1), "uri"),
+              `${s.uri}: ${w.error}`,
+            );
+          else {
+            let ok = true;
+            if (a.durationSec !== w.durationSec) {
+              ok = false;
+              F.error(
+                "AUDIO_MISMATCH",
+                "manifest",
+                ap("durationSec"),
+                `${a.durationSec} s; the file holds ${w.frames} frames at ${w.sampleRate} Hz = ${w.durationSec} s`,
+              );
+            }
+            if (a.sampleRate !== w.sampleRate) {
+              ok = false;
+              F.error(
+                "AUDIO_MISMATCH",
+                "manifest",
+                ap("sampleRate"),
+                `${String(a.sampleRate)}; the file is ${w.sampleRate} Hz`,
+              );
+            }
+            if (ok) files.set(key, out.file);
+          }
+        } else if (a.kind === "vector" && a.format === "svg") {
           const v = checkSvg(out.file.bytes);
           if (!v.ok)
             F.error("SVG_UNSAFE", "manifest", P(...path.split("/").slice(1), "uri"), `${s.uri}: ${v.reason}`);

@@ -100,12 +100,57 @@ export interface ProjectionRule {
   actors: { rim: boolean; shadow: boolean };
 }
 
+export interface VideoEncoding {
+  encoder: string;
+  preset: string;
+  crf: number;
+  pixelFormat: string;
+  /** The FFmpeg filter that adds the film grain, applied per cut (its noise restarts with every cut). */
+  grain: string;
+  /** `cut`: every cut of the edit is encoded on its own; the cuts are joined without re-encoding. */
+  segments: "cut";
+}
+
+/** The mix the engine makes from a package's audio clips (E1.5). */
+export interface AudioCapability {
+  /** Audio asset formats read (WAV: integer PCM 16/24/32-bit or IEEE float 32/64-bit). */
+  formats: string[];
+  /** Clip roles mixed: how many clips of the role, and where one may start. */
+  roles: Record<string, { max: number; start: "whole-ms" | "zero" }>;
+  /** Clip fields the engine does not apply, and the only value each may hold. */
+  fixed: { trim: number; fadeIn: number; fadeOut: number; pan: number };
+  /** `audible`: a clip's duration is how long it is heard (contracts audibleDuration); the whole file is mixed. */
+  duration: "audible";
+  /** Values of mix.duckMusicDb (a fixed duck) the engine applies. */
+  duckMusicDb: number[];
+  /** Ducking kinds, the FFmpeg filter that does it and its parameters the package does not set. */
+  ducking: { kinds: string[]; filter: string; defaults: Record<string, number | string> };
+  loudness: {
+    filter: string;
+    rangeLu: "required";
+    integratedLufs: [number, number];
+    truePeakDb: [number, number];
+  };
+  /** The encoded audio. */
+  encode: { codec: string; bitrateKbps: number; sampleRate: number };
+  /** The mixdown, step by step. */
+  semantics: string[];
+}
+
 export type FieldClass = "applied" | "restricted" | "refused" | "validated" | "metadata";
 
 export interface RenderCapabilities {
   version: typeof CAPABILITIES_VERSION;
   contract: string;
-  output: { sizes: Array<[number, number]>; fps: number[]; audio: boolean };
+  output: {
+    sizes: Array<[number, number]>;
+    fps: number[];
+    audio: boolean;
+    /** How the frames are encoded (E1.5): encoder settings, film grain, one stream per cut joined unchanged. */
+    video: VideoEncoding;
+  };
+  /** What the engine mixes and how (E1.5); null for an engine that renders silent video. */
+  audio: AudioCapability | null;
   projections: Record<string, ProjectionRule>;
   transitions: Array<{ kind: string; from: string; to: string }>;
   lightKinds: string[];
@@ -152,6 +197,60 @@ export function capabilityProblems(c: unknown): string[] {
     out.push("output.sizes is not a list of [width, height]");
   if (!isObj(o) || !isNumbers(o.fps)) out.push("output.fps is not a list of numbers");
   if (!isObj(o) || typeof o.audio !== "boolean") out.push("output.audio is not a boolean");
+  const v = isObj(o) ? (o.video as unknown) : undefined;
+  if (
+    !isObj(v) ||
+    !["encoder", "preset", "pixelFormat", "grain"].every((k) => typeof v[k] === "string") ||
+    typeof v.crf !== "number" ||
+    v.segments !== "cut"
+  )
+    out.push("output.video is not { encoder, preset, crf, pixelFormat, grain, segments }");
+  const au = r.audio as unknown;
+  if (isObj(o) && o.audio === true) {
+    if (!isObj(au)) out.push("audio is missing for an engine that mixes audio");
+    else {
+      const roles = au.roles as unknown;
+      const fixed = au.fixed as unknown;
+      const ducking = au.ducking as unknown;
+      const loud = au.loudness as unknown;
+      const enc = au.encode as unknown;
+      if (!isStrings(au.formats)) out.push("audio.formats is not a list");
+      if (
+        !isObj(roles) ||
+        !Object.values(roles).every(
+          (x) => isObj(x) && typeof x.max === "number" && (x.start === "whole-ms" || x.start === "zero"),
+        )
+      )
+        out.push("audio.roles is not a map of { max, start }");
+      if (!isObj(fixed) || !["trim", "fadeIn", "fadeOut", "pan"].every((k) => typeof fixed[k] === "number"))
+        out.push("audio.fixed is not { trim, fadeIn, fadeOut, pan }");
+      if (au.duration !== "audible") out.push("audio.duration is not 'audible'");
+      if (!isNumbers(au.duckMusicDb)) out.push("audio.duckMusicDb is not a list of numbers");
+      if (
+        !isObj(ducking) ||
+        !isStrings(ducking.kinds) ||
+        typeof ducking.filter !== "string" ||
+        !isObj(ducking.defaults)
+      )
+        out.push("audio.ducking is not { kinds, filter, defaults }");
+      if (
+        !isObj(loud) ||
+        typeof loud.filter !== "string" ||
+        loud.rangeLu !== "required" ||
+        !(isNumbers(loud.integratedLufs) && loud.integratedLufs.length === 2) ||
+        !(isNumbers(loud.truePeakDb) && loud.truePeakDb.length === 2)
+      )
+        out.push("audio.loudness is not { filter, rangeLu, integratedLufs, truePeakDb }");
+      if (
+        !isObj(enc) ||
+        typeof enc.codec !== "string" ||
+        typeof enc.bitrateKbps !== "number" ||
+        typeof enc.sampleRate !== "number"
+      )
+        out.push("audio.encode is not { codec, bitrateKbps, sampleRate }");
+      if (!isStrings(au.semantics)) out.push("audio.semantics is not a list of steps");
+    }
+  } else if (au !== null) out.push("audio must be null for an engine that renders silent video");
   if (!isObj(r.projections) || !Object.keys(r.projections).length)
     out.push("projections is not a map of rules");
   else

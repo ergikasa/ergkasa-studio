@@ -475,12 +475,34 @@ export const AudioClip = z
   })
   .strict();
 
+/**
+ * Music lowered under the voice by a compressor keyed by the voice (E1.5): the music's level is reduced while the
+ * voice is above `threshold` (linear amplitude, 0..1), by `ratio`, reacting in `attackMs` and recovering in
+ * `releaseMs`. Applies only when the mix has both a voice and a music clip.
+ */
+export const Ducking = z
+  .object({
+    kind: z.literal("sidechain"),
+    threshold: z.number().min(0.000976563).max(1),
+    ratio: z.number().min(1).max(20),
+    attackMs: z.number().min(0.01).max(2000),
+    releaseMs: z.number().min(0.01).max(9000),
+  })
+  .strict();
+
 export const Mix = z
   .object({
-    /** Lower music by this much while a voice clip plays. */
+    /** Lower music by this fixed amount while a voice clip plays. */
     duckMusicDb: z.number().min(0).max(30),
+    /** Ducking by a compressor keyed by the voice (E1.5; optional, absent in earlier packages). */
+    ducking: Ducking.optional(),
     loudness: z
-      .object({ integratedLufs: z.number().min(-40).max(-5), truePeakDb: z.number().min(-12).max(0) })
+      .object({
+        integratedLufs: z.number().min(-40).max(-5),
+        truePeakDb: z.number().min(-12).max(0),
+        /** Target loudness range in LU (E1.5; optional, absent in earlier packages). */
+        rangeLu: z.number().min(1).max(50).optional(),
+      })
       .strict(),
   })
   .strict();

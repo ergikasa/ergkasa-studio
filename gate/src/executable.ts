@@ -12,7 +12,9 @@
  * object that should have it.
  */
 import {
+  audibleDuration,
   cameraViews,
+  clipStartMs,
   outside,
   sceneLens,
   type AssetManifest,
@@ -21,6 +23,7 @@ import {
 } from "@erkasa/contracts";
 import {
   PLACEMENT,
+  type AudioCapability,
   type BuiltinCapability,
   type ProjectionRule,
   type RenderCapabilities,
@@ -88,7 +91,7 @@ export function checkExecutable(
       P("output", "fps"),
       `${fps} fps: this engine draws ${caps.output.fps.join(", ")} fps`,
     );
-  if (!caps.output.audio)
+  if (!caps.output.audio || !caps.audio)
     pkg.audio.forEach((_, k) =>
       F.error(
         "CAPABILITY_MISSING",
@@ -97,6 +100,7 @@ export function checkExecutable(
         "this engine renders silent frames: no audio clip is played (the mix has nothing to mix)",
       ),
     );
+  else checkAudio(F, pkg, manifest, caps.audio);
 
   // ---- manifest: asset kinds and sources, rig height
   manifest.assets.forEach((a, i) => {
@@ -448,6 +452,124 @@ export function checkExecutable(
         "captions are not wrapped to a width by this engine",
       );
   });
+}
+
+/**
+ * Audio (E1.5): every clip is mixed as the capabilities say, so a field the engine does not apply holds the only
+ * value it may; a clip is heard for exactly its audible duration; the mix's fields are the ones the engine uses.
+ */
+function checkAudio(F: Findings, pkg: Pkg, manifest: AssetManifest, A: AudioCapability): void {
+  const named = new Map(manifest.assets.map((a, i) => [`${a.id}@${a.version}`, { a, i }]));
+  manifest.assets.forEach((a, i) => {
+    if (a.kind === "audio" && !A.formats.includes(a.format))
+      F.error(
+        "VALUE_UNSUPPORTED",
+        "manifest",
+        P("assets", i, "format"),
+        `'${a.format}': this engine reads ${A.formats.join(", ")} audio`,
+      );
+  });
+  const count = new Map<string, number>();
+  pkg.audio.forEach((c, k) => {
+    const at = (...x: Array<string | number>): string => P("audio", k, ...x);
+    const role = A.roles[c.role];
+    if (!role) {
+      F.error(
+        "VALUE_UNSUPPORTED",
+        "package",
+        at("role"),
+        `'${c.role}': this engine mixes ${Object.keys(A.roles).join(", ")} clips`,
+      );
+      return;
+    }
+    count.set(c.role, (count.get(c.role) ?? 0) + 1);
+    if ((count.get(c.role) as number) > role.max)
+      F.error(
+        "VALUE_UNSUPPORTED",
+        "package",
+        at("role"),
+        `more than ${role.max} '${c.role}' clip(s): this engine mixes at most ${role.max}`,
+      );
+    if (role.start === "zero" && c.start !== 0)
+      F.error("VALUE_UNSUPPORTED", "package", at("start"), `${c.start}: a '${c.role}' clip starts at 0`);
+    if (role.start === "whole-ms" && clipStartMs(c.start) === undefined)
+      F.error(
+        "VALUE_UNSUPPORTED",
+        "package",
+        at("start"),
+        `${c.start}: the engine places clips in whole milliseconds`,
+      );
+    for (const f of ["trim", "fadeIn", "fadeOut", "pan"] as const)
+      if (c[f] !== A.fixed[f])
+        F.error(
+          "VALUE_UNSUPPORTED",
+          "package",
+          at(f),
+          `${c[f]}: the engine does not apply ${f}; it must be ${A.fixed[f]}`,
+        );
+    const a = named.get(c.asset)?.a;
+    if (a?.kind === "audio") {
+      const want = audibleDuration(c.start, a.durationSec, pkg.output.duration);
+      if (c.duration !== want)
+        F.error(
+          "VALUE_UNSUPPORTED",
+          "package",
+          at("duration"),
+          `${c.duration}: the engine mixes the whole file (${a.durationSec} s) from ${c.start} s, heard for ${want} s in a ${pkg.output.duration} s film`,
+        );
+    }
+  });
+  // the mix (V1, E1.4): it has an effect only with audio clips; a package without any is silent, its mix unused
+  if (!pkg.audio.length) return;
+  const mix = pkg.mix;
+  if (!A.duckMusicDb.includes(mix.duckMusicDb))
+    F.error(
+      "VALUE_UNSUPPORTED",
+      "package",
+      P("mix", "duckMusicDb"),
+      `${mix.duckMusicDb}: this engine applies ${A.duckMusicDb.join(", ")} (it ducks with mix.ducking)`,
+    );
+  const has = (r: string): boolean => pkg.audio.some((c) => c.role === r);
+  if (mix.ducking) {
+    if (!A.ducking.kinds.includes(mix.ducking.kind))
+      F.error(
+        "VALUE_UNSUPPORTED",
+        "package",
+        P("mix", "ducking", "kind"),
+        `'${mix.ducking.kind}': this engine ducks by ${A.ducking.kinds.join(", ")}`,
+      );
+    if (!has("voice") || !has("music"))
+      F.error(
+        "VALUE_UNSUPPORTED",
+        "package",
+        P("mix", "ducking"),
+        "ducking applies only to a mix with a voice and a music clip; this one would be ignored",
+      );
+  }
+  const L = mix.loudness;
+  if (L.rangeLu === undefined)
+    F.error(
+      "VALUE_UNSUPPORTED",
+      "package",
+      P("mix", "loudness", "rangeLu"),
+      "the engine normalises loudness to a range: rangeLu is required with audio",
+    );
+  const [i0, i1] = A.loudness.integratedLufs;
+  const [p0, p1] = A.loudness.truePeakDb;
+  if (L.integratedLufs < i0 || L.integratedLufs > i1)
+    F.error(
+      "VALUE_UNSUPPORTED",
+      "package",
+      P("mix", "loudness", "integratedLufs"),
+      `${L.integratedLufs}: the engine normalises to ${i0}..${i1} LUFS`,
+    );
+  if (L.truePeakDb < p0 || L.truePeakDb > p1)
+    F.error(
+      "VALUE_UNSUPPORTED",
+      "package",
+      P("mix", "loudness", "truePeakDb"),
+      `${L.truePeakDb}: the engine limits true peak to ${p0}..${p1} dB`,
+    );
 }
 
 /**

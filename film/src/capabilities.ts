@@ -3,6 +3,7 @@
  * engine's internals, and writes plans that stay inside it; the engine validates every plan against the same
  * contract, so a plan built from this description is one the engine can execute.
  */
+import { AUDIO, VIDEO } from "./package/encoding.js";
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
@@ -312,8 +313,10 @@ export function renderCapabilities(): RenderCapabilities {
   return {
     version: RENDER_CAPABILITIES,
     contract: "erkasa.render/1",
-    // package/render.ts and v2frame.ts draw 1080 × 1920 (style.ts W, H); the frames are silent
-    output: { sizes: [[W, H]], fps: [30], audio: false },
+    // package/render.ts and v2frame.ts draw 1080 × 1920 (style.ts W, H); package/encode.ts encodes the frames
+    // and mixes the audio as package/encoding.ts says (E1.5)
+    output: { sizes: [[W, H]], fps: [30], audio: true, video: { ...VIDEO } },
+    audio: structuredClone(AUDIO),
     projections: {
       flat: {
         layers: { builtins: ["set.*", "prop.*", "template.*"], files: true },
@@ -372,7 +375,7 @@ export function renderCapabilities(): RenderCapabilities {
       semantics: { fadeIn: 0.12, unspokenOpacity: 0.6, strokeOpacity: 0.9, overVignette: true },
     },
     assets: {
-      kinds: ["vector", "rig", "font"],
+      kinds: ["vector", "rig", "font", "audio"],
       stateSources: ["source"],
       rigSources: ["builtin"],
       fontSources: ["builtin"],
