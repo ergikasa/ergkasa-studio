@@ -88,5 +88,9 @@ for (const name of names) {
       `legacy ${((t1 - t0) / 1000).toFixed(1)} s, package ${((t2 - t1) / 1000).toFixed(1)} s`,
   );
 }
-console.info(failed ? `${failed} film(s) differ` : "all films: frames and PCM identical");
+console.info(
+  failed
+    ? `${failed} film(s) differ`
+    : "all films: every frame identical; PCM identical, or identical over the shorter stream as each line says",
+);
 process.exit(failed ? 1 : 0);
