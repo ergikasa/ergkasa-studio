@@ -68,7 +68,7 @@ export const AUDIO: AudioCapability = {
     "music clip: its gain (0 dB: no stage); it starts at 0",
     "voice and music with ducking: the music is compressed by sidechaincompress keyed by the summed voice padded with silence to the end (threshold, ratio, attack ms, release ms from the package; the other parameters at their defaults), so the music goes on after the last voice clip; then voice and music are summed without normalisation; without ducking they are summed as they are",
     "voice only or music only: that signal",
-    "loudness: loudnorm (single pass) to integratedLufs, truePeakDb and rangeLu, then resampled to 48000 Hz and padded with silence",
+    "loudness: loudnorm (single pass) to integratedLufs, truePeakDb and rangeLu, then resampled to 48000 Hz; a mix whose files all end before the film's end is padded with silence to the film's duration (apad whole_dur)",
     "the whole of every file is mixed (audio after the film's end takes part in the loudness normalisation); the output ends with the video, which always has the package's full duration",
     "encoded as AAC at 192 kb/s; no audio clip: the video has no audio stream",
   ],

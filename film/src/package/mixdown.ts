@@ -9,14 +9,16 @@ import { AUDIO } from "./encoding.js";
 type Clip = RenderPackage["audio"][number];
 
 /**
- * The FFmpeg arguments that mux `video` with the package's mix into `out`, given each clip's file; undefined
- * when the package has no audio clip (the video stays without an audio stream).
+ * The FFmpeg arguments that mux `video` with the package's mix into `out`, given each clip's file and the length
+ * of that file in seconds (read from the verified bytes); undefined when the package has no audio clip (the
+ * video stays without an audio stream).
  */
 export function mixdownArgs(
   pkg: RenderPackage,
   video: string,
   fileOf: (clip: Clip) => string,
   out: string,
+  fileSecOf: (clip: Clip) => number,
 ): string[] | undefined {
   if (!pkg.audio.length) return undefined;
   const music = pkg.audio.filter((c) => c.role === "music");
@@ -80,11 +82,15 @@ export function mixdownArgs(
       mix = "[bedq]";
     }
   }
+  // the mix lasts as long as its longest-lasting file; shorter than the film, it is padded with silence to the
+  // film's duration (so the video keeps its length); otherwise nothing is added (apad would change where the
+  // encoder ends the audio stream)
+  const end = Math.max(...pkg.audio.map((c) => c.start + fileSecOf(c)));
+  const pad = end < pkg.output.duration ? `,apad=whole_dur=${pkg.output.duration}` : "";
   const L = pkg.mix.loudness;
   if (L.rangeLu === undefined) throw new Error("the mix has no loudness range (the gate refuses this)");
   graph.push(
-    // padded with silence: the audio lasts at least as long as the video, which -shortest then ends it with
-    `${mix}${AUDIO.loudness.filter}=I=${L.integratedLufs}:TP=${L.truePeakDb}:LRA=${L.rangeLu},aresample=${AUDIO.encode.sampleRate},apad[a]`,
+    `${mix}${AUDIO.loudness.filter}=I=${L.integratedLufs}:TP=${L.truePeakDb}:LRA=${L.rangeLu},aresample=${AUDIO.encode.sampleRate}${pad}[a]`,
   );
   return [
     ...["-y", "-loglevel", "error", ...inputs, "-filter_complex", graph.join(";")],

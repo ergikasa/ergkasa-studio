@@ -11,6 +11,7 @@ import { createRequire } from "node:module";
 import { mkdirSync, renameSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { wavInfo } from "@erkasa/contracts";
 import { segmentArgs } from "./encoding.js";
 import { mixdownArgs } from "./mixdown.js";
 import { openPackage, type GateOptions, type PackageInput, type PackageRenderer } from "./render.js";
@@ -226,7 +227,12 @@ export async function encodePackage(
       }
       return f;
     };
-    const mux = mixdownArgs(r.pkg, joined, fileOf, tmpOut);
+    const fileSecOf = (c: { asset: string }): number => {
+      const w = wavInfo(r.assetBytes(c.asset));
+      if ("error" in w) throw new Error(`${c.asset}: ${w.error} (the gate verified it)`);
+      return w.durationSec;
+    };
+    const mux = mixdownArgs(r.pkg, joined, fileOf, tmpOut, fileSecOf);
     if (mux) await procs.run(ffmpegOf(opts), mux);
     else renameSync(joined, tmpOut);
     opts.signal?.throwIfAborted();
