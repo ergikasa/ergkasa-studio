@@ -1,12 +1,12 @@
 # E1.6 · Plani teknik v2: studio e operatorit gati për video komerciale
 
-| Fusha      | Vlera                                                                                         |
-| ---------- | --------------------------------------------------------------------------------------------- |
-| Statusi    | **Plan v2 për miratim. Pa kod.** Implementimi fillon vetëm pas miratimit të veçantë të PO-së. |
-| Data       | 2026-11-18                                                                                    |
-| Baza       | E1.5 e pranuar: `e1-5-pipeline-integration` @ `29e5bb7`; `main` = `7f8ffca`                   |
-| Branch-i   | `e1-6-production-readiness`                                                                   |
-| Zëvendëson | planin v1 në këtë skedar (`5592879`)                                                          |
+| Fusha      | Vlera                                                                                                                                                       |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Statusi    | **I miratuar për implementim** nga PO-ja më 2026-11-18 20:05, me vendimet E-D1–E-D4 dhe korrigjimet C1–C4 (§0.1). Pa merge në `main` pa miratim të veçantë. |
+| Data       | 2026-11-18                                                                                                                                                  |
+| Baza       | E1.5 e pranuar: `e1-5-pipeline-integration` @ `29e5bb7`; `main` = `7f8ffca`                                                                                 |
+| Branch-i   | `e1-6-production-readiness`                                                                                                                                 |
+| Zëvendëson | planin v1 në këtë skedar (`5592879`)                                                                                                                        |
 
 ## 0. Vendimet e PO-së (2026-11-18)
 
@@ -34,6 +34,28 @@ Kërkesat shtesë:
 - provat ruhen te `docs/reports/e1-6/<nënfaza>/`, me komandat dhe daljet;
 - raporti i shkurtër i nënfazës i paraqitet PO-së;
 - **CI e GitHub-it duhet të jetë e gjelbër në çdo commit pas nënfazës 1**, dhe kjo është pjesë e provave.
+
+## 0.1 Miratimi për implementim (2026-11-18 20:05)
+
+Vendimet e PO-së për pyetjet e §5:
+
+| #    | Vendimi                                                                                                                                                                                                             |
+| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| E-D1 | Kontrata `erkasa.task-cancel/1` miratohet në parim.                                                                                                                                                                 |
+| E-D2 | Titrat kanë **zonë të dedikuar në pjesën e poshtme**. Çdo konflikt me tekstin e animuar (kinetic type) **refuzohet nga Gate-i me gabim të identifikueshëm**. Titrat nuk zhvendosen dhe nuk fshihen.                 |
+| E-D3 | Dosjet e punës dhe të attempt-eve fshihen pas suksesit. MP4-ja finale dhe `credits` ruhen **90 ditë**; metadata dhe log-et **90 ditë**; artefaktet e run-eve të dështuara **7 ditë**. Pastrimi fillon në `dry-run`. |
+| E-D4 | `golden-k1.json` (hash-et e 6 043 kuadrove) krijohet para heqjes së legacy.                                                                                                                                         |
+
+Korrigjime të detyrueshme (zëvendësojnë tekstin përkatës në §3):
+
+| #   | Korrigjimi                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | Nënfaza |
+| --- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| C1  | `AssetApiTest` **nuk** bëhet tautologjik: vlerat e pritura nuk llogariten nga i njëjti burim që lexon indeksuesi (`meta.json`). Testi krahason API-në me një **inventar të pavarur** të versionuar në repo (`assets/inventory.json`: ID-të sipas kategorisë), dhe verifikon **identitetin** (bashkësia e saktë e ID-ve) dhe **numrin**. Një test i dytë kontrollon që inventari dhe biblioteka në disk përputhen, që një aset i shtuar ose i hequr pa përditësim të inventarit të bëjë CI-në të kuqe. | 1       |
+| C2  | Publikimi atomik përdor, përveç hash-it, **fencing token**: çdo dispatch merr token-in `(attempt, fence)`, ku `fence` rritet monotonikisht në rreshtin e hapit në databazë. Publikimi bëhet vetëm brenda transaksionit që kontrollon me `SELECT … FOR UPDATE` se token-i i rezultatit është ai aktualisht i autorizuar dhe hapi ende aktiv; pas publikimit token-i konsumohet. Testohen rezultatet në rend të kundërt, attempt-et e vjetra, dyfishimi i të njëjtit rezultat dhe konkurrenca.          | 2       |
+| C3  | FFmpeg në CI: **version i përcaktuar** (build statik me version dhe sha256 të fiksuara në workflow, ose paketë me version të fiksuar), konfigurim i riprodhueshëm, dhe `ffmpeg -version` në log.                                                                                                                                                                                                                                                                                                      | 1       |
+| C4  | Raporti i licencave identifikon **çdo muzikë dhe SFX** të përdorur me **burimin, licencën, identifikuesin** (ID e katalogut + sha256) dhe **atribucionin e kërkuar** (autori/teksti i atribucionit sipas licencës), krahas aseteve vizuale dhe zërit.                                                                                                                                                                                                                                                 | 5       |
+
+Rendi i implementimit mbetet 1 → 6. Rollback-u `ERKASA_PIPELINE=legacy` ruhet deri në pranimin final; tag-u i rollback-ut krijohet para heqjes së legacy.
 
 ## 1. Gjendja nga e cila nisemi (faktet)
 
@@ -166,7 +188,7 @@ Kërkesat shtesë:
 6. Pastrimi në `dry-run` i pranuar, pastaj i aktivizuar.
 7. Legacy hiqet vetëm pas pranimit të pikave 1–6 (D5), dhe nënfaza 6 provohet më vete.
 
-## 5. Vendime të vogla që do t'i paraqes gjatë punës
+## 5. Vendime të vogla (të zgjidhura, shih §0.1)
 
 | #    | Pyetja                                                                     | Kur                                                                                             |
 | ---- | -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
