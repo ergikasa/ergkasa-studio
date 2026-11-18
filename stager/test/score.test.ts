@@ -133,4 +133,47 @@ describe("stageScore", () => {
       "the score uses 'm_b', which has no file in the package",
     );
   });
+
+  it("never past the end of a file or of the film, even by half a millisecond (the Gate's limit is 1e-6 s)", () => {
+    // odd lengths: rounding to the nearest ms would step past them
+    for (const film of [15.0337, 20.0005, 9.9996]) {
+      const lengths = { m_a: 12.3456, m_b: 7.8889, sfx_x: 1.2345, sfx_y: 0.9999 };
+      const p = plan({
+        music: [
+          {
+            assetId: "m_a",
+            role: "hook",
+            startSec: 0,
+            endSec: 30,
+            offsetSec: 0.0004,
+            gainDb: -20,
+            fadeInSec: 9,
+            fadeOutSec: 9,
+          },
+          {
+            assetId: "m_b",
+            role: "resolve",
+            startSec: 4.0005,
+            endSec: 30,
+            offsetSec: 0,
+            gainDb: -18,
+            fadeInSec: 1.6,
+            fadeOutSec: 2.2,
+          },
+        ],
+        sfx: [
+          { assetId: "sfx_x", atSec: film - 0.4, gainDb: -10, reason: "late" },
+          { assetId: "sfx_y", atSec: 1, gainDb: -12, offsetSec: 0.0007, maxSec: 2, reason: "cut" },
+        ],
+      });
+      const r = stageScore(new ManifestBuilder(), score(p, lengths), film);
+      for (const c of r.clips) {
+        const file = lengths[c.asset.slice(4, -2) as keyof typeof lengths];
+        expect(c.start + c.duration, `${c.id} in ${film}`).toBeLessThanOrEqual(film);
+        expect(c.trim + c.duration, c.id).toBeLessThanOrEqual(file);
+        expect(c.fadeIn + c.fadeOut, c.id).toBeLessThanOrEqual(c.duration);
+        expect(Math.round(c.duration * 1000) / 1000).toBe(c.duration);
+      }
+    }
+  });
 });

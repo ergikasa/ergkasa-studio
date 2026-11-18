@@ -68,6 +68,15 @@ function asset(f: ScoreFile): Asset {
 }
 
 const ms = (x: number): number => Math.round(x * 1000) / 1000;
+/**
+ * The largest whole-ms value not above `limit` (rounding to the nearest ms could step past the end of the file or
+ * of the film by half a millisecond, and the Gate allows 1e-6 s).
+ */
+const msAtMost = (x: number, limit: number): number => {
+  let v = Math.floor(Math.min(x, limit) * 1000 + 1e-6) / 1000;
+  while (v > limit) v = Math.round(v * 1000 - 1) / 1000;
+  return v;
+};
 
 /** Music and sfx clips of the score, and the mix; `notes` says what had to be shortened or left out. */
 export function stageScore(
@@ -88,7 +97,7 @@ export function stageScore(
     const start = toWholeMs(m.startSec);
     const trim = ms(Math.min(m.offsetSec, a.durationSec));
     const want = m.endSec - start;
-    const duration = ms(Math.min(want, a.durationSec - trim, filmSec - start));
+    const duration = msAtMost(want, Math.min(a.durationSec - trim, filmSec - start));
     if (duration <= 0) {
       notes.push(`music ${m.assetId} at ${start} s left out: nothing of it fits`);
       return;
@@ -97,8 +106,8 @@ export function stageScore(
       notes.push(
         `music ${m.assetId} at ${start} s plays ${duration} s of the ${ms(want)} s segment (the file or the film ends)`,
       );
-    const fadeIn = ms(Math.min(m.fadeInSec, duration / 2));
-    const fadeOut = ms(Math.min(m.fadeOutSec, duration - fadeIn));
+    const fadeIn = msAtMost(m.fadeInSec, duration / 2);
+    const fadeOut = msAtMost(m.fadeOutSec, duration - fadeIn);
     clips.push({
       id: `music_${String(k + 1).padStart(3, "0")}`,
       asset: ref,
@@ -117,7 +126,7 @@ export function stageScore(
     const start = toWholeMs(s.atSec);
     const trim = ms(Math.min(s.offsetSec ?? 0, a.durationSec));
     const left = Math.min(a.durationSec - trim, filmSec - start);
-    const duration = ms(s.maxSec !== undefined ? Math.min(s.maxSec, left) : left);
+    const duration = msAtMost(s.maxSec ?? left, left);
     if (duration <= 0) {
       notes.push(`sfx ${s.assetId} at ${start} s left out: it would play after the film`);
       return;
@@ -131,7 +140,7 @@ export function stageScore(
       duration,
       gainDb: s.gainDb,
       fadeIn: 0,
-      fadeOut: s.maxSec !== undefined ? ms(Math.min(SFX_CUT_FADE, duration)) : 0,
+      fadeOut: s.maxSec !== undefined ? msAtMost(SFX_CUT_FADE, duration) : 0,
       pan: 0,
     });
   });
