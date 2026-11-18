@@ -12,9 +12,26 @@ concurrency:
 jobs:
   typescript:
     name: TypeScript (lint, types, contracts)
-    runs-on: ubuntu-latest
+    # pinned (not ubuntu-latest): the FFmpeg build below is the noble package, the same as on the dev machine
+    runs-on: ubuntu-24.04
+    env:
+      # exact Debian version of Ubuntu 24.04's ffmpeg (= the local 6.1.1-3ubuntu5); a different build fails the job
+      FFMPEG_DEB_VERSION: "7:6.1.1-3ubuntu5"
+      FFMPEG_VERSION_LINE: "ffmpeg version 6.1.1-3ubuntu5 "
     steps:
       - uses: actions/checkout@v4
+      - name: FFmpeg (pinned version)
+        run: |
+          sudo apt-get update -o Acquire::Retries=3
+          pkgs=""
+          for p in ffmpeg libavcodec60 libavdevice60 libavfilter9 libavformat60 libavutil58 libpostproc57 libswresample4 libswscale7; do
+            pkgs="$pkgs $p=$FFMPEG_DEB_VERSION"
+          done
+          sudo apt-get install -y --no-install-recommends $pkgs
+          ffmpeg -version | tee "$RUNNER_TEMP/ffmpeg-version.txt"
+          ffprobe -version | head -1
+          head -1 "$RUNNER_TEMP/ffmpeg-version.txt" | grep -F "$FFMPEG_VERSION_LINE" \
+            || { echo "::error::expected '$FFMPEG_VERSION_LINE'"; exit 1; }
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
@@ -27,6 +44,10 @@ jobs:
       - name: JSON Schemas are up to date
         run: pnpm --filter @erkasa/contracts exec tsx scripts/export-json-schema.ts --check
       - run: pnpm test
+      - name: Golden baselines (legacy and package), unchanged
+        run: |
+          pnpm --filter @erkasa/film golden
+          pnpm --filter @erkasa/film golden:package
 
   assets:
     name: Asset library
