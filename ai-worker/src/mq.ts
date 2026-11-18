@@ -6,6 +6,7 @@ import { optional } from "./env.js";
  *   {prefix}.tasks  -> {prefix}.tasks.ai (script.write, voice.synthesize, visual.plan)
  *                   -> {prefix}.tasks.render (render.finalize)
  *   {prefix}.events -> {prefix}.results (result), {prefix}.progress (progress)
+ *   {prefix}.control (fanout) -> one exclusive queue per worker (erkasa.task-cancel/1)
  */
 export class MqNames {
   static readonly AI_TASKS = ["script.write", "voice.synthesize", "visual.plan"] as const;
@@ -20,6 +21,10 @@ export class MqNames {
   }
   get eventsExchange(): string {
     return `${this.prefix}.events`;
+  }
+  /** Fanout exchange for erkasa.task-cancel/1 (E1.6); every worker binds its own exclusive queue. */
+  get controlExchange(): string {
+    return `${this.prefix}.control`;
   }
   get aiQueue(): string {
     return `${this.prefix}.tasks.ai`;
@@ -38,6 +43,7 @@ export class MqNames {
   async declare(ch: Channel): Promise<void> {
     await ch.assertExchange(this.tasksExchange, "direct", { durable: true });
     await ch.assertExchange(this.eventsExchange, "direct", { durable: true });
+    await ch.assertExchange(this.controlExchange, "fanout", { durable: true });
     for (const q of [this.aiQueue, this.renderQueue, this.resultsQueue, this.progressQueue])
       await ch.assertQueue(q, { durable: true });
     for (const key of MqNames.AI_TASKS) await ch.bindQueue(this.aiQueue, this.tasksExchange, key);

@@ -79,7 +79,7 @@ export function loadFilmPlan(dir: string): FilmPlan {
 export async function stepFilmRender(
   dir: string,
   script: Script,
-  opts: { music: boolean; progress?: Progress; workers?: number },
+  opts: { music: boolean; progress?: Progress; workers?: number; signal?: AbortSignal },
 ): Promise<{ video: string; durationSec: number; warnings: number }> {
   const plan = loadFilmPlan(dir);
   const { alignments, clipDurations, voiceFiles } = voiceTimings(dir);
@@ -96,6 +96,7 @@ export async function stepFilmRender(
     ...(voiceFiles ? { voiceFiles } : {}),
     music: opts.music,
     ...(opts.progress ? { progress: opts.progress } : {}),
+    ...(opts.signal ? { signal: opts.signal } : {}),
   });
   return {
     video: res.file,

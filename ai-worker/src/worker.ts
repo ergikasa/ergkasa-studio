@@ -1,6 +1,13 @@
 import { randomUUID } from "node:crypto";
 import { isAbsolute, join, resolve } from "node:path";
-import { TaskCommand, TaskProgress, TaskResult, type Theme, type VoicePreset } from "@erkasa/contracts";
+import {
+  TaskCancel,
+  TaskCommand,
+  TaskProgress,
+  TaskResult,
+  type Theme,
+  type VoicePreset,
+} from "@erkasa/contracts";
 import amqp, { type ConfirmChannel, type ConsumeMessage } from "amqplib";
 import { Catalog } from "./catalog.js";
 import { MissingConfigError, optional, repoRoot } from "./env.js";
@@ -19,6 +26,8 @@ import {
 import { FILM_FILES, engineFor, hasFilmPlan, stepFilmPlan, stepFilmRender } from "./film-steps.js";
 import { PACKAGE_FILES, PackageRefused, pipelineOf, stepFilmPackage } from "./package-steps.js";
 import { ElevenLabsVoice, type Voice } from "./voice.js";
+import { attemptOutputs, prepareAttempt, type Attempt } from "./attempt.js";
+import { TaskFailure } from "./failure.js";
 import { loadVoiceCatalog, resolvePreset } from "./voice-catalog.js";
 
 export const WORKER_VERSION = "ai-worker/0.1.0";
@@ -26,15 +35,24 @@ export const WORKER_VERSION = "ai-worker/0.1.0";
 type ArtifactPointer = TaskResult["outputs"][number];
 type Metrics = Record<string, number>;
 
-/** A failure with a code the Studio shows, and whether another attempt could succeed. */
-export class TaskFailure extends Error {
-  constructor(
-    readonly code: string,
-    message: string,
-    readonly retryable: boolean,
-  ) {
-    super(message);
+export { TaskFailure };
+
+/** Why an attempt was stopped from outside: the abort reason carried by its signal. */
+export class AttemptStopped extends Error {
+  override readonly name = "AbortError";
+  constructor(readonly why: "CANCELLED" | "TIMEOUT" | "DEADLINE") {
+    super(
+      why === "DEADLINE"
+        ? "the attempt passed its deadline and was stopped"
+        : `the orchestrator stopped this attempt (${why.toLowerCase()})`,
+    );
   }
+}
+
+/** Options for one task: the folder to work in (the attempt folder) and a signal that stops it. */
+export interface TaskOptions {
+  dir?: string;
+  signal?: AbortSignal;
 }
 
 export interface WorkerDeps {
@@ -63,6 +81,13 @@ export function defaultDeps(): WorkerDeps {
 
 const RUN_ID = /^[a-z0-9][a-z0-9-]{0,63}$/;
 
+const MAX_TIMEOUT_MS = 2 ** 31 - 1;
+/** How long a stopped step may take to kill its processes before the worker reports the failure. */
+const STOP_GRACE_MS = 15_000;
+
+const runningKey = (runId: string, stepId: string, fence: number | undefined): string =>
+  `${runId}/${stepId}/${fence ?? "-"}`;
+
 function usageMetrics(usage: Usage[]): Metrics {
   const cost = llmCost(usage);
   return {
@@ -84,9 +109,11 @@ export async function executeTask(
   cmd: TaskCommand,
   deps: WorkerDeps,
   progress: Progress,
+  opts: TaskOptions = {},
 ): Promise<{ outputs: ArtifactPointer[]; metrics: Metrics }> {
   if (!RUN_ID.test(cmd.runId)) throw new TaskFailure("BAD_RUN_ID", `invalid run id '${cmd.runId}'`, false);
-  const dir = join(deps.storageDir, cmd.runId);
+  const dir = opts.dir ?? join(deps.storageDir, cmd.runId);
+  const signal = opts.signal;
   const p = cmd.params;
   const str = (k: string): string => (typeof p[k] === "string" ? (p[k] as string) : "");
   const preset = (): VoicePreset => resolvePreset(loadVoiceCatalog(), str("voice") || undefined);
@@ -190,8 +217,16 @@ export async function executeTask(
         progress(0, pipeline === "package" ? "staging the render package" : "composing the shots");
         const res =
           pipeline === "package"
-            ? await stepFilmPackage(dir, loadScript(dir), { music: p["music"] !== false, progress })
-            : await stepFilmRender(dir, loadScript(dir), { music: p["music"] !== false, progress });
+            ? await stepFilmPackage(dir, loadScript(dir), {
+                music: p["music"] !== false,
+                progress,
+                ...(signal ? { signal } : {}),
+              })
+            : await stepFilmRender(dir, loadScript(dir), {
+                music: p["music"] !== false,
+                progress,
+                ...(signal ? { signal } : {}),
+              });
         progress(100, "film rendered");
         return {
           outputs: [
@@ -261,6 +296,8 @@ export function classify(e: unknown): { code: string; message: string; retryable
   const message = (e instanceof Error ? e.message : String(e)).slice(0, 1500);
   if (e instanceof TaskFailure) return { code: e.code, message, retryable: e.retryable };
   if (e instanceof PackageRefused) return { code: "PACKAGE_REFUSED", message, retryable: false };
+  if (e instanceof AttemptStopped && e.why === "DEADLINE")
+    return { code: "DEADLINE_EXCEEDED", message, retryable: true };
   if (e instanceof Error && e.name === "AbortError") return { code: "CANCELLED", message, retryable: false };
   if (e instanceof MissingConfigError) return { code: "MISSING_CONFIG", message, retryable: false };
   if (e instanceof LlmError) return { code: "LLM_ERROR", message, retryable: e.retryable };
@@ -278,6 +315,7 @@ export async function handleCommand(
   cmd: TaskCommand,
   deps: WorkerDeps,
   progress: Progress,
+  stop?: AbortSignal,
 ): Promise<TaskResult> {
   const base = {
     schema: "erkasa.task-result/1" as const,
@@ -285,11 +323,59 @@ export async function handleCommand(
     runId: cmd.runId,
     stepId: cmd.stepId,
     attempt: cmd.attempt,
+    ...(cmd.fence !== undefined ? { fence: cmd.fence } : {}),
     workerVersion: WORKER_VERSION,
   };
   const started = Date.now();
+  // one signal for "stop now": a cancel message (stop) or the command's deadline, whichever comes first
+  const controller = new AbortController();
+  const onStop = (): void => controller.abort(stop?.reason ?? new AttemptStopped("CANCELLED"));
+  if (stop?.aborted) onStop();
+  else stop?.addEventListener("abort", onStop, { once: true });
+  // setTimeout holds at most 2^31-1 ms (~24.8 days): re-arm until the deadline is near
+  const deadlineAt = Date.parse(cmd.deadline);
+  let timer: NodeJS.Timeout | undefined;
+  const arm = (): void => {
+    const left = deadlineAt - Date.now();
+    timer =
+      left > MAX_TIMEOUT_MS
+        ? setTimeout(arm, MAX_TIMEOUT_MS)
+        : setTimeout(() => controller.abort(new AttemptStopped("DEADLINE")), Math.max(0, left));
+  };
+  arm();
+  const stopped = new Promise<never>((_, reject) => {
+    const fail = (): void => reject(controller.signal.reason as Error);
+    if (controller.signal.aborted) fail();
+    else controller.signal.addEventListener("abort", fail, { once: true });
+  });
+  stopped.catch(() => undefined);
+  let execution: Promise<{ outputs: ArtifactPointer[]; metrics: Metrics }> | undefined;
   try {
-    const { outputs, metrics } = await executeTask(cmd, deps, progress);
+    let attempt: Attempt | undefined;
+    if (cmd.fence !== undefined) {
+      if (!RUN_ID.test(cmd.runId))
+        throw new TaskFailure("BAD_RUN_ID", `invalid run id '${cmd.runId}'`, false);
+      attempt = await prepareAttempt(deps.storageDir, cmd.runId, cmd.stepId, cmd.fence);
+    }
+    execution = executeTask(cmd, deps, progress, {
+      signal: controller.signal,
+      ...(attempt ? { dir: attempt.dir } : {}),
+    });
+    execution.catch(() => undefined);
+    // a step that ignores the signal (an LLM call) is not waited for: it can only write into its own attempt folder
+    const res = await Promise.race([execution, stopped]);
+    controller.signal.throwIfAborted();
+    const outputs = attempt
+      ? await attemptOutputs(
+          attempt,
+          res.outputs.map((o) => ({
+            role: o.role,
+            file: o.ref.slice(`file://${cmd.runId}/`.length),
+            mediaType: o.mediaType ?? "application/octet-stream",
+          })),
+        )
+      : res.outputs;
+    const metrics = res.metrics;
     return TaskResult.parse({
       ...base,
       status: "SUCCEEDED",
@@ -297,6 +383,17 @@ export async function handleCommand(
       metrics: { ...metrics, seconds: Math.round((Date.now() - started) / 100) / 10 },
     });
   } catch (e) {
+    if (controller.signal.aborted && execution && cmd.taskType === "render.finalize") {
+      // the render honours the signal and kills its FFmpeg process groups: wait for that before reporting
+      // (LLM and voice calls do not spawn processes and are not waited for)
+      await Promise.race([
+        execution.then(
+          () => undefined,
+          () => undefined,
+        ),
+        new Promise((r) => setTimeout(r, STOP_GRACE_MS)),
+      ]);
+    }
     return TaskResult.parse({
       ...base,
       status: "FAILED",
@@ -304,6 +401,9 @@ export async function handleCommand(
       metrics: { seconds: Math.round((Date.now() - started) / 100) / 10 },
       error: classify(e),
     });
+  } finally {
+    clearTimeout(timer);
+    stop?.removeEventListener("abort", onStop);
   }
 }
 
@@ -324,6 +424,8 @@ export interface RunningWorker {
 export async function startWorker(deps: WorkerDeps, opts: WorkerOptions = {}): Promise<RunningWorker> {
   const log = opts.log ?? ((l: string) => console.info(l));
   const mq = opts.mq ?? new MqNames();
+  /** Attempts running in this process, by run/step/fence: what a cancel message can stop. */
+  const running = new Map<string, AbortController>();
   const conn = await amqp.connect(rabbitUrl());
   const closed = new Promise<void>((r) => conn.once("close", () => r()));
   conn.on("error", (e: Error) => log(`rabbitmq connection error: ${e.message}`));
@@ -375,6 +477,9 @@ export async function startWorker(deps: WorkerDeps, opts: WorkerOptions = {}): P
     }
     log(`${tag}: ${cmd.taskType} started`);
     let lastSent = 0;
+    const key = runningKey(cmd.runId, cmd.stepId, cmd.fence);
+    const stop = new AbortController();
+    running.set(key, stop);
     const progress: Progress = (pct, message) => {
       const now = Date.now();
       if (now - lastSent < 1000 && pct < 100) return;
@@ -384,12 +489,13 @@ export async function startWorker(deps: WorkerDeps, opts: WorkerOptions = {}): P
         runId: cmd.runId,
         stepId: cmd.stepId,
         attempt: cmd.attempt,
+        ...(cmd.fence !== undefined ? { fence: cmd.fence } : {}),
         pct: Math.max(0, Math.min(100, pct)),
         message: message.slice(0, 200),
       });
       publish(ch, MqNames.PROGRESS_KEY, body, false).catch(() => undefined);
     };
-    const result = await handleCommand(cmd, deps, progress);
+    const result = await handleCommand(cmd, deps, progress, stop.signal).finally(() => running.delete(key));
     try {
       await publish(ch, MqNames.RESULT_KEY, result, true);
       ch.ack(msg);
@@ -403,6 +509,32 @@ export async function startWorker(deps: WorkerDeps, opts: WorkerOptions = {}): P
       log(`${tag}: could not publish the result (${e instanceof Error ? e.message : String(e)})`);
     }
   };
+
+  // E1.6: cancel messages reach every worker (fanout); each stops the attempt it is running, if named
+  const control = await conn.createChannel();
+  await mq.declare(control);
+  const own = await control.assertQueue("", { exclusive: true, autoDelete: true });
+  await control.bindQueue(own.queue, mq.controlExchange, "");
+  await control.consume(
+    own.queue,
+    (msg) => {
+      if (!msg) return;
+      let body: unknown;
+      try {
+        body = JSON.parse(msg.content.toString("utf8"));
+      } catch {
+        return;
+      }
+      const parsed = TaskCancel.safeParse(body);
+      if (!parsed.success) return;
+      const c = parsed.data;
+      const target = running.get(runningKey(c.runId, c.stepId, c.fence));
+      if (!target) return; // not ours, or an attempt we no longer run
+      log(`${c.runId}/${c.stepId}#${c.attempt} (fence ${c.fence}): stop requested (${c.reason})`);
+      target.abort(new AttemptStopped(c.reason));
+    },
+    { noAck: true },
+  );
 
   const queues = opts.queues ?? ["ai", "render"];
   for (const q of queues) await consume(q === "ai" ? mq.aiQueue : mq.renderQueue);
