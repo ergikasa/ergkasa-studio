@@ -70,7 +70,7 @@ Parimet:
 
 1. **Engine-i njeh vetëm paketën.** Ai nuk shikon plan, script ose zë si të dhëna të planifikimit, vetëm asete të verifikuara.
 2. **Pa rënie te rruga e vjetër.** Nëse Gate-i refuzon, run-i dështon me gjetjet e Gate-it, 0 kuadro, dhe encoder-i nuk niset. Nuk renderohet "me rrugën e vjetër".
-3. **Kalimi bëhet me flamur.** `ERKASA_PIPELINE=package|legacy` (dhe `--pipeline` te CLI). Default-i mbetet `legacy` gjatë gjithë E1.5. Ndërrimi i default-it është hapi i fundit dhe kërkon miratimin tënd (D2).
+3. **Kalimi bëhet me flamur.** `ERKASA_PIPELINE=package|legacy` (dhe `--pipeline` te CLI). Default-i mbetet `legacy` gjatë gjithë E1.5. Ndërrimi i default-it është hapi i fundit dhe kërkon miratimin tënd (D3).
 4. **Paketa ruhet në run.** `rerender` mund të rindërtojë videon nga paketa e ruajtur, pa ri-stage.
 
 ---
