@@ -76,9 +76,10 @@ export const DIRECTOR_SCHEMA: Record<string, unknown> = obj({
       id: str,
       name: str,
       build: enumOf(["man", "woman"]),
-      coat: nullable(str),
-      hair: nullable(str),
-      skin: nullable(str),
+      // plain strings, "" = the default look: the API allows at most 16 nullable (union) fields per schema
+      coat: str,
+      hair: str,
+      skin: str,
     }),
   },
   shots: {
@@ -149,6 +150,16 @@ export function decode(value: unknown, voiceId: string): { plan: unknown; issues
     return v;
   };
   const v = strip(value) as { title?: string; cast?: unknown[]; shots?: Array<Record<string, unknown>> };
+  // a cast look left "" is the default look (the schema keeps these fields non-nullable)
+  v.cast = (v.cast ?? []).map((c) =>
+    c && typeof c === "object"
+      ? Object.fromEntries(
+          Object.entries(c as Record<string, unknown>).filter(
+            ([k, x]) => !(["coat", "hair", "skin"].includes(k) && x === ""),
+          ),
+        )
+      : c,
+  );
   const shots = (v.shots ?? []).map((s, i) => {
     const { paramsJson, ...rest } = s;
     let params: unknown = {};
@@ -218,7 +229,7 @@ ${describeSets(capabilities())}
 - Editorial templates and their params (written as a JSON string in \`paramsJson\`; "{}" when none):
 ${TEMPLATE_DOC}
 
-Answer with the whole plan. Shot ids are sh01, sh02... Fields you do not use are null.`;
+Answer with the whole plan. Shot ids are sh01, sh02... Fields you do not use are null (a cast member's coat, hair or skin you leave to the default: "").`;
 }
 
 function scriptBrief(script: Script): string {
@@ -295,9 +306,9 @@ export function encode(plan: FilmPlan): unknown {
       id: c.id,
       name: c.name,
       build: c.build,
-      coat: c.coat ?? null,
-      hair: c.hair ?? null,
-      skin: c.skin ?? null,
+      coat: c.coat ?? "",
+      hair: c.hair ?? "",
+      skin: c.skin ?? "",
     })),
     shots: plan.shots.map(({ params, ...s }) => ({
       ...s,
