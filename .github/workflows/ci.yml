@@ -19,6 +19,20 @@ jobs:
       # exact Debian version of Ubuntu 24.04's ffmpeg (= the local 6.1.1-3ubuntu5); a different build fails the job
       FFMPEG_DEB_VERSION: "7:6.1.1-3ubuntu5"
       FFMPEG_VERSION_LINE: "ffmpeg version 6.1.1-3ubuntu5 "
+      # E1.6: the two-worker cancellation test (ai-worker/test/worker-mq.test.ts) must run, not skip
+      ERKASA_RABBIT_URL: amqp://erkasa:erkasa_local@localhost:5673
+      ERKASA_REQUIRE_RABBIT: "1"
+    services:
+      rabbitmq:
+        image: rabbitmq:4-alpine
+        env:
+          RABBITMQ_DEFAULT_USER: erkasa
+          RABBITMQ_DEFAULT_PASS: erkasa_local
+        ports:
+          - 5673:5672
+        options: >-
+          --health-cmd "rabbitmq-diagnostics -q ping"
+          --health-interval 5s --health-timeout 5s --health-retries 30
     steps:
       - uses: actions/checkout@v4
       # the exact .deb files of the pinned version, kept between runs (the runner's own mirror can be very slow)
