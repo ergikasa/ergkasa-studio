@@ -199,7 +199,11 @@ export function validate(input: GateInput): GateResult {
     const seenBuiltins: BuiltinCapability[] = [];
     for (const { s, path, key } of sources) {
       if (s.kind === "file") {
-        const out = readContained(rootReal, s.uri, budgets.assetBytes);
+        const out = readContained(
+          rootReal,
+          s.uri,
+          a.kind === "audio" ? budgets.audioBytes : budgets.assetBytes,
+        );
         if (!out.ok) F.error(out.code, "manifest", P(...path.split("/").slice(1), "uri"), out.message);
         else if (out.file.sha256 !== s.sha256)
           F.error(
