@@ -20,6 +20,7 @@ import {
   TRANSITION_SEC,
   W,
   anchorTime,
+  fontFiles,
   prepareV2,
   propAt,
   shotFrames,
@@ -29,7 +30,8 @@ import {
   type Shot,
   type Timing,
 } from "./legacy.js";
-import { BONES, ManifestBuilder, RIG_CHANNELS, UNBOUNDED, procedural, rig } from "./manifest.js";
+import { BONES, ManifestBuilder, RIG_CHANNELS, UNBOUNDED, fontAsset, procedural, rig } from "./manifest.js";
+import { CAPTION_STYLE, captionPhrases, captionsOverlay, liftKineticType, type Zone } from "./captions.js";
 import { SceneRecorder } from "./recorder.js";
 import { stageAudio, type V2Audio } from "./audio.js";
 import type { Script } from "@erkasa/contracts";
@@ -136,6 +138,11 @@ export interface V2Options {
     clipDurations?: Record<string, number>;
   };
   audio?: V2Audio;
+  /**
+   * E1.6 (D3): captions synced to the narration, in the band the engine reserves (its capabilities' captions.zone);
+   * kinetic type that would reach into the band while a phrase shows is lifted above it. Off: no overlay (E1.5).
+   */
+  captions?: { zone: Zone };
 }
 
 export function stageV2(name: string, plan: FilmPlan, script: Script, opts: V2Options = {}): Staged {
@@ -179,6 +186,27 @@ export function stageV2(name: string, plan: FilmPlan, script: Script, opts: V2Op
   });
   const total = composed.shots.reduce((n, s) => n + shotFrames(s), 0);
   const sound = opts.audio ? stageAudio(M, timing, total / FPS, opts.audio) : undefined;
+  const notes: string[] = [...(sound?.notes ?? [])];
+  let overlays: RenderPackage["overlays"] = [];
+  let staged = scenes;
+  if (opts.captions) {
+    const phrases = captionPhrases(
+      timing.words.map((w) => ({ sceneId: w.scene, word: w.word, start: w.t, end: w.t + (w.end - w.start) })),
+      opts.captions.zone,
+      total / FPS,
+    );
+    if (phrases.length) {
+      const font = M.use(
+        fontAsset("font_montserrat_extrabold", fontFiles()[2] as string, CAPTION_STYLE.weight),
+      );
+      overlays = [captionsOverlay(font, phrases, H)];
+      const lift = liftKineticType(scenes, edit, phrases, opts.captions.zone, (ref) =>
+        ref.startsWith("type_kinetic@"),
+      );
+      staged = lift.scenes;
+      notes.push(...lift.lifted.map((l) => `captions: kinetic type lifted above the caption band, ${l}`));
+    }
+  }
   const manifest = M.build(`${name}.assets.1`);
   const pkg: RenderPackage = {
     schema: "erkasa.render/1",
@@ -186,15 +214,16 @@ export function stageV2(name: string, plan: FilmPlan, script: Script, opts: V2Op
     producer: { name: "@erkasa/stager", version: "0.1.0" },
     output: { width: W, height: H, fps: FPS, duration: total / FPS },
     assetManifest: { uri: `${name}.assets.json`, sha256: "0".repeat(64) },
-    scenes,
+    scenes: staged,
     edit,
-    overlays: [],
+    // E1.6: the captions when asked for (opts.captions); none otherwise, as in E1.2–E1.5
+    overlays,
     // E1.5: the run's audio when it is given (stageAudio); without it, silent as in E1.2–E1.4
     audio: sound?.clips ?? [],
     // the loudness the v2 engine normalises to (render.ts loudnorm I=-14, TP=-1.5)
     mix: sound?.mix ?? { duckMusicDb: 0, loudness: { integratedLufs: -14, truePeakDb: -1.5 } },
   };
-  return { pkg, manifest, ...(sound?.notes.length ? { notes: sound.notes } : {}) };
+  return { pkg, manifest, ...(notes.length ? { notes } : {}) };
 }
 
 // ------------------------------------------------------------------------------------------ text (both kinds)

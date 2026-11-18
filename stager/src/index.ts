@@ -20,11 +20,13 @@ import {
 import { renderCapabilities } from "@erkasa/film";
 import { FilmPlan, parseW0Plan } from "./legacy.js";
 import { ROOT } from "./manifest.js";
+export { ROOT };
 import { stageV2, type Staged } from "./v2.js";
 import { stageW0 } from "./w0.js";
 
 export { stageV2, type Staged, type V2Options } from "./v2.js";
 export { libraryAssetId, stageScore, type Score, type ScoreFile } from "./score.js";
+export { CAPTION_STYLE, captionPhrases, captionsOverlay, liftKineticType } from "./captions.js";
 export {
   stageAudio,
   v2SoundTiming,
