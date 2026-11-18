@@ -80,6 +80,9 @@
             </resource>
         </resources>
         <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
             <!-- The same fixtures the TypeScript tests use: both sides must agree. -->
             <testResource>
                 <directory>${project.basedir}/../contracts/fixtures</directory>
