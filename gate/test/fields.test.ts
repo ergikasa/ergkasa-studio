@@ -72,14 +72,14 @@ describe("the field matrix", () => {
   const ENFORCED: Array<[RegExp, string]> = [
     [/^package:\/output\/(width|height)$/, "VALUE_UNSUPPORTED package/output/width"],
     [/^package:\/output\/fps$/, "VALUE_UNSUPPORTED package/output/fps"],
-    // E1.5: audio is mixed; the fields the engine does not apply hold the only value each may (audio-cases.ts)
+    // E1.5/E1.6: audio is mixed; pan holds its only value, trim/fades/duration stay inside the file and the film (audio-cases.ts)
     [/^package:\/audio\/\*\/role$/, "VALUE_UNSUPPORTED package/audio/#/role"],
     [/^package:\/audio\/\*\/start$/, "VALUE_UNSUPPORTED package/audio/#/start"],
-    [/^package:\/audio\/\*\/trim$/, "VALUE_UNSUPPORTED package/audio/#/trim"],
-    [/^package:\/audio\/\*\/fadeIn$/, "VALUE_UNSUPPORTED package/audio/#/fadeIn"],
-    [/^package:\/audio\/\*\/fadeOut$/, "VALUE_UNSUPPORTED package/audio/#/fadeOut"],
+    [/^package:\/audio\/\*\/trim$/, "VALUE_RANGE package/audio/#/trim"],
+    [/^package:\/audio\/\*\/fadeIn$/, "VALUE_RANGE package/audio/#/fadeIn"],
+    [/^package:\/audio\/\*\/fadeOut$/, "VALUE_RANGE package/audio/#/fadeOut"],
     [/^package:\/audio\/\*\/pan$/, "VALUE_UNSUPPORTED package/audio/#/pan"],
-    [/^package:\/audio\/\*\/duration$/, "VALUE_UNSUPPORTED package/audio/#/duration"],
+    [/^package:\/audio\/\*\/duration$/, "VALUE_RANGE package/audio/#/duration"],
     [/^package:\/mix\/duckMusicDb$/, "VALUE_UNSUPPORTED package/mix/duckMusicDb"],
     [/^package:\/mix\/loudness\/rangeLu$/, "VALUE_UNSUPPORTED package/mix/loudness/rangeLu"],
     [/^package:\/mix\/loudness\/truePeakDb$/, "VALUE_UNSUPPORTED package/mix/loudness/truePeakDb"],

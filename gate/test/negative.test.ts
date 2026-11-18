@@ -3,6 +3,7 @@
  * refused with exactly the expected code(s) at exactly the expected path(s), and nothing else.
  */
 import { describe, expect, it } from "vitest";
+import { AUDIO_E16_ACCEPTED } from "./audio-cases.js";
 import { B, CASES, broken, gate, setAsset, type Ctx } from "./broken.js";
 import { caps, clone } from "./helpers.js";
 
@@ -18,6 +19,12 @@ describe("broken packages are refused with the exact code and path", () => {
     expect(r.ok).toBe(false);
     const got = r.errors.map((e) => `${e.code} ${e.file}${e.path}`).sort();
     expect(got, JSON.stringify(r.errors, null, 1)).toEqual([...k.expect].sort());
+  });
+
+  it.each(AUDIO_E16_ACCEPTED.map((c) => [c.name, c] as const))("passes (E1.6): %s", (_, k) => {
+    const r = gate(broken(k));
+    expect(r.errors, JSON.stringify(r.errors, null, 1)).toEqual([]);
+    expect(r.ok).toBe(true);
   });
 
   it("covers at least 20 distinct error codes", () => {

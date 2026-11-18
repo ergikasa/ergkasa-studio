@@ -113,40 +113,26 @@ const A = (name: string, mutate: (c: C) => void, expect: string[]): ExecCase => 
   expect,
 });
 
+/** E1.6 rules (trim, fades, several music clips, sfx, duck depth): refused cases. */
+const A6 = (name: string, mutate: (c: C) => void, expect: string[]): ExecCase => ({
+  name: `E1.6 audio: ${name}`,
+  mutate: (c) => {
+    withAudio(c);
+    mutate(c);
+  },
+  expect,
+});
+
 export const AUDIO_CASES: ExecCase[] = [
   A(
     "an audio file larger than the audio budget (and only the audio files count against it)",
     (c) => (c.budgets = { audioBytes: 200_000 }),
     ["BUDGET_ASSET_BYTES manifest/assets/12/source/uri"],
   ),
-  A(
-    "a sound-effect clip (the engine mixes voice and music)",
-    (c) => c.pkg.audio.push({ ...c.pkg.audio[1]!, id: "sfx_one", role: "sfx" }),
-    ["VALUE_UNSUPPORTED package/audio/2/role"],
-  ),
-  A("a second music clip", (c) => c.pkg.audio.push({ ...c.pkg.audio[0]!, id: "music_two" }), [
-    "VALUE_UNSUPPORTED package/audio/2/role",
-  ]),
-  A(
-    "music that does not start at 0",
-    (c) => {
-      const m = c.pkg.audio[0]!;
-      m.start = 0.5;
-      m.duration = 2.5;
-    },
-    ["VALUE_UNSUPPORTED package/audio/0/duration", "VALUE_UNSUPPORTED package/audio/0/start"],
-  ),
   A("a voice that starts between two milliseconds", (c) => (c.pkg.audio[1]!.start = 1.0005), [
     "VALUE_UNSUPPORTED package/audio/1/start",
   ]),
-  A("a trimmed clip", (c) => (c.pkg.audio[1]!.trim = 0.1), ["VALUE_UNSUPPORTED package/audio/1/trim"]),
-  A("a fade in", (c) => (c.pkg.audio[1]!.fadeIn = 0.2), ["VALUE_UNSUPPORTED package/audio/1/fadeIn"]),
-  A("a fade out", (c) => (c.pkg.audio[1]!.fadeOut = 0.2), ["VALUE_UNSUPPORTED package/audio/1/fadeOut"]),
   A("a panned clip", (c) => (c.pkg.audio[1]!.pan = 0.5), ["VALUE_UNSUPPORTED package/audio/1/pan"]),
-  A("a clip shorter than the file it plays", (c) => (c.pkg.audio[1]!.duration = 0.6), [
-    "VALUE_UNSUPPORTED package/audio/1/duration",
-  ]),
-  A("a fixed duck in dB", (c) => (c.pkg.mix.duckMusicDb = 6), ["VALUE_UNSUPPORTED package/mix/duckMusicDb"]),
   A(
     "ducking without music",
     (c) => {
@@ -168,7 +154,8 @@ export const AUDIO_CASES: ExecCase[] = [
   A(
     "a WAV whose duration is not the declared one",
     (c) => ((c.manifest.assets[c.manifest.assets.length - 1] as { durationSec: number }).durationSec = 1.25),
-    ["AUDIO_MISMATCH manifest/assets/13/durationSec", "VALUE_UNSUPPORTED package/audio/1/duration"],
+    // E1.6: the voice plays 1.2 s, within the declared 1.25 s; the gate still compares the header with the claim
+    ["AUDIO_MISMATCH manifest/assets/13/durationSec"],
   ),
   A(
     "a WAV whose sample rate is not the declared one",
@@ -198,5 +185,90 @@ export const AUDIO_CASES: ExecCase[] = [
       a.source.sha256 = sha(b);
     },
     ["AUDIO_INVALID manifest/assets/13/source/uri"],
+  ),
+];
+
+/**
+ * E1.6: what E1.5 refused and the engine now mixes (capabilities audio: several music clips, sfx, trim, fades,
+ * duck depth). Each is a valid package: the gate passes it (no finding). Applied by the engine: film encode tests.
+ */
+export const AUDIO_E16_ACCEPTED: ExecCase[] = [
+  A6("a sound-effect clip", (c) => c.pkg.audio.push({ ...c.pkg.audio[1]!, id: "sfx_one", role: "sfx" }), []),
+  A6("a second music clip", (c) => c.pkg.audio.push({ ...c.pkg.audio[0]!, id: "music_two" }), []),
+  A6(
+    "music that starts at 0.5 s, for the rest of the film",
+    (c) => {
+      const m = c.pkg.audio[0]!;
+      m.start = 0.5;
+      m.duration = Math.min(3, c.pkg.output.duration - 0.5);
+    },
+    [],
+  ),
+  A6(
+    "a trimmed voice that plays to the end of its file",
+    (c) => {
+      const v = c.pkg.audio[1]!;
+      v.trim = 0.1;
+      v.duration = 1.1;
+    },
+    [],
+  ),
+  A6("a fade in and a fade out", (c) => Object.assign(c.pkg.audio[1]!, { fadeIn: 0.2, fadeOut: 0.3 }), []),
+  A6("a clip shorter than the file it plays", (c) => (c.pkg.audio[1]!.duration = 0.6), []),
+  A6("a duck at most 7 dB deep (the v1 depth)", (c) => (c.pkg.mix.duckMusicDb = 7), []),
+];
+
+/** E1.6: refused, with their exact findings. */
+export const AUDIO_E16_CASES: ExecCase[] = [
+  A6("a trim that leaves nothing of the file", (c) => (c.pkg.audio[1]!.trim = 1.2), [
+    "VALUE_RANGE package/audio/1/trim",
+  ]),
+  A6(
+    "a duration longer than what the trim leaves",
+    (c) => {
+      const v = c.pkg.audio[1]!;
+      v.trim = 0.5;
+      v.duration = 1;
+    },
+    ["VALUE_RANGE package/audio/1/duration"],
+  ),
+  A6(
+    "a clip that would play past the end of the film",
+    (c) => {
+      const v = c.pkg.audio[1]!;
+      v.start = Math.round((c.pkg.output.duration - 0.5) * 1000) / 1000;
+      v.duration = 1;
+    },
+    ["TIME_RANGE package/audio/1/start", "VALUE_RANGE package/audio/1/duration"],
+  ),
+  A6("a fade in longer than the clip", (c) => (c.pkg.audio[1]!.fadeIn = 2), [
+    "VALUE_RANGE package/audio/1/fadeIn",
+  ]),
+  A6("fades longer than the clip", (c) => Object.assign(c.pkg.audio[1]!, { fadeIn: 0.8, fadeOut: 0.8 }), [
+    "VALUE_RANGE package/audio/1/fadeOut",
+  ]),
+  // the contract itself caps the depth at 30 dB, the engine's maximum
+  A6("a duck deeper than 30 dB", (c) => (c.pkg.mix.duckMusicDb = 31), ["SCHEMA package/mix/duckMusicDb"]),
+  A6(
+    "a duck depth without ducking",
+    (c) => {
+      c.pkg.mix.duckMusicDb = 6;
+      delete c.pkg.mix.ducking;
+    },
+    ["VALUE_UNSUPPORTED package/mix/duckMusicDb"],
+  ),
+  A6(
+    "more music clips than the engine mixes (64)",
+    (c) => {
+      for (let k = 0; k < 64; k++) c.pkg.audio.push({ ...c.pkg.audio[0]!, id: `music_${k + 2}` });
+    },
+    ["VALUE_UNSUPPORTED package/audio/65/role"],
+  ),
+  A6(
+    "a sfx that starts between two milliseconds",
+    (c) => {
+      c.pkg.audio.push({ ...c.pkg.audio[1]!, id: "sfx_one", role: "sfx", start: 0.0005 });
+    },
+    ["VALUE_UNSUPPORTED package/audio/2/start"],
   ),
 ];

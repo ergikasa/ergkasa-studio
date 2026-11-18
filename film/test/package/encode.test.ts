@@ -159,7 +159,8 @@ describe("the mixdown graph", () => {
     role,
     start,
     trim: 0,
-    duration: 1,
+    // what a valid package holds: the file heard to its end or to the film's end (music 9 s, voices 1 s)
+    duration: role === "music" ? Math.min(9, 8.5 - start) : 1,
     gainDb,
     fadeIn: 0,
     fadeOut: 0,

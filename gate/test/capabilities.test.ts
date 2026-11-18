@@ -208,13 +208,18 @@ describe("capabilities v2 (E1.4): the declaration matches the engine's code", ()
       expect(v2.replace(/\s+/g, " ")).toContain(x.replace(/\\n\s*/g, " ").replace(/\s+/g, " "));
   });
 
-  it("audio (E1.5): what the engine mixes, published; the v2 engine's mix constants", () => {
+  it("audio (E1.6): what the engine mixes, published; the v2 engine's mix constants", () => {
     expect(c.audio).toMatchObject({
       formats: ["wav"],
-      roles: { voice: { max: 1000, start: "whole-ms" }, music: { max: 1, start: "zero" } },
-      fixed: { trim: 0, fadeIn: 0, fadeOut: 0, pan: 0 },
-      duration: "audible",
-      duckMusicDb: [0],
+      roles: {
+        voice: { max: 1000, start: "whole-ms" },
+        music: { max: 64, start: "whole-ms" },
+        sfx: { max: 256, start: "whole-ms" },
+      },
+      fixed: { pan: 0 },
+      duration: "at-most-audible",
+      fades: { curve: "qsin" },
+      duckMusicDb: [0, 30],
       ducking: { kinds: ["sidechain"], filter: "sidechaincompress" },
       loudness: { filter: "loudnorm", rangeLu: "required", integratedLufs: [-40, -5], truePeakDb: [-9, 0] },
       encode: { codec: "aac", bitrateKbps: 192, sampleRate: 48000 },
@@ -242,7 +247,7 @@ describe("capabilities v2 (E1.4): the declaration matches the engine's code", ()
     (broken.output.video as unknown as Record<string, unknown>)["segments"] = "film";
     expect(capabilityProblems(broken)).toEqual([
       "output.video is not { encoder, preset, crf, pixelFormat, grain, segments }",
-      "audio.duration is not 'audible'",
+      "audio.duration is not 'audible' or 'at-most-audible'",
     ]);
   });
 

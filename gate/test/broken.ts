@@ -10,7 +10,7 @@ import type { AssetManifest, RenderPackage } from "@erkasa/contracts";
 import { validate, type GateResult, type RenderCapabilities } from "../src/index.js";
 import { EXEC_CASES } from "./executable-cases.js";
 import { VALUE_CASES } from "./value-cases.js";
-import { AUDIO_CASES } from "./audio-cases.js";
+import { AUDIO_CASES, AUDIO_E16_CASES } from "./audio-cases.js";
 import { base, caps, clone, write } from "./helpers.js";
 
 type Pkg = RenderPackage;
@@ -474,4 +474,10 @@ const BEFORE_G16: Case[] = [
   },
 ];
 
-export const CASES: Case[] = [...BEFORE_G16, ...EXEC_CASES, ...VALUE_CASES, ...AUDIO_CASES];
+export const CASES: Case[] = [
+  ...BEFORE_G16,
+  ...EXEC_CASES,
+  ...VALUE_CASES,
+  ...AUDIO_CASES,
+  ...AUDIO_E16_CASES,
+];
