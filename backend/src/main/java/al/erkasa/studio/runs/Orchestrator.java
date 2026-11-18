@@ -55,6 +55,8 @@ public class Orchestrator {
     private final MqNames mq;
     private final VoiceCatalogService voices;
     private final RunStorage storage;
+    private final ArtifactPublisher publisher;
+    private final boolean isolation;
     private final long retryBaseMs;
     private final ObjectMapper mapper = new ObjectMapper();
 
@@ -64,13 +66,19 @@ public class Orchestrator {
             MqNames mq,
             VoiceCatalogService voices,
             RunStorage storage,
+            ArtifactPublisher publisher,
+            @Value("${erkasa.artifacts.isolation:true}") boolean isolation,
             @Value("${erkasa.orchestrator.retry-base-ms:5000}") long retryBaseMs) {
         this.jdbc = jdbc;
         this.contracts = contracts;
         this.mq = mq;
         this.voices = voices;
         this.storage = storage;
+        this.publisher = publisher;
+        this.isolation = isolation;
         this.retryBaseMs = retryBaseMs;
+        log.info("Attempt isolation {}", isolation ? "on: workers write under attempts/, accepted results are published"
+                : "OFF (rollback mode): workers write straight into the run folder");
     }
 
     static List<StepDef> videoDag(boolean silent) {
@@ -242,6 +250,10 @@ public class Orchestrator {
         cmd.put("runId", p.runId());
         cmd.put("stepId", p.stepId());
         cmd.put("attempt", attempt);
+        Long fence = isolation ? jdbc.sql("select nextval('step_fence_seq')").query(Long.class).single() : null;
+        if (fence != null) {
+            cmd.put("fence", fence);
+        }
         cmd.put("idempotencyKey", sha256(p.runId() + "|" + p.stepId() + "|" + p.taskType() + "|" + params + "|" + inputs));
         cmd.set("inputs", inputs);
         cmd.set("params", params);
@@ -256,35 +268,43 @@ public class Orchestrator {
                 .param("payload", cmd.toString())
                 .update();
         jdbc.sql("""
-                update step set status = 'QUEUED', attempt = :attempt, deadline = :deadline, queued_at = now(),
+                update step set status = 'QUEUED', attempt = :attempt, fence = :fence, deadline = :deadline, queued_at = now(),
                     started_at = null, finished_at = null, progress = 0, message = 'waiting for a worker',
                     not_before = null
                 where run_id = :run and id = :id
                 """)
                 .param("attempt", attempt)
+                .param("fence", fence)
                 .param("deadline", java.sql.Timestamp.from(deadline))
                 .param("run", p.runId())
                 .param("id", p.stepId())
                 .update();
         touchRun(p.runId());
-        log.info("Run {} step {} queued (attempt {})", p.runId(), p.stepId(), attempt);
+        log.info("Run {} step {} queued (attempt {}{})", p.runId(), p.stepId(), attempt, fence == null ? "" : ", fence " + fence);
     }
 
     // ------------------------------------------------------------------ timeouts
 
-    private record Active(String runId, String stepId, int attempt, int maxAttempts) {}
+    private record Active(String runId, String stepId, int attempt, int maxAttempts, Long fence) {}
+
+    private static Long fenceOf(java.sql.ResultSet rs) throws java.sql.SQLException {
+        long f = rs.getLong("fence");
+        return rs.wasNull() ? null : f;
+    }
 
     /** Steps that got no result before their deadline count as a failed, retryable attempt. */
     @Transactional
     public int expireDeadlines() {
         List<Active> late = jdbc.sql("""
-                select run_id, id, attempt, max_attempts from step
+                select run_id, id, attempt, max_attempts, fence from step
                 where status in ('QUEUED', 'RUNNING') and deadline < now()
                 for update skip locked
                 """)
-                .query((rs, n) -> new Active(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4)))
+                .query((rs, n) -> new Active(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4), fenceOf(rs)))
                 .list();
         for (Active a : late) {
+            // the late attempt may still be running: tell it to stop (best effort; it can no longer publish anyway)
+            sendCancel(a, "TIMEOUT");
             fail(a, "TIMEOUT", "no result before the deadline (is `pnpm worker` running?)", true);
         }
         return late.size();
@@ -302,28 +322,45 @@ public class Orchestrator {
         String runId = result.path("runId").asText();
         String stepId = result.path("stepId").asText();
         int attempt = result.path("attempt").asInt();
+        Long resultFence = result.hasNonNull("fence") ? result.path("fence").asLong() : null;
+        // the row lock serialises results, cancel and timeouts for this step: only the current fence passes
         List<Active> found = jdbc.sql("""
-                select run_id, id, attempt, max_attempts from step
+                select run_id, id, attempt, max_attempts, fence from step
                 where run_id = :run and id = :id and status in ('QUEUED', 'RUNNING')
                 for update
                 """)
                 .param("run", runId)
                 .param("id", stepId)
-                .query((rs, n) -> new Active(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4)))
+                .query((rs, n) -> new Active(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4), fenceOf(rs)))
                 .list();
-        if (found.isEmpty() || found.getFirst().attempt() != attempt) {
-            log.info("Ignoring stale or unknown result for {}/{} attempt {}", runId, stepId, attempt);
+        if (found.isEmpty() || found.getFirst().attempt() != attempt
+                || !java.util.Objects.equals(found.getFirst().fence(), resultFence)) {
+            log.info("Ignoring stale or unknown result for {}/{} attempt {} fence {}", runId, stepId, attempt, resultFence);
             return false;
         }
         Active step = found.getFirst();
         if ("SUCCEEDED".equals(result.path("status").asText())) {
+            JsonNode outputs = result.path("outputs");
+            if (step.fence() != null) {
+                try {
+                    outputs = publisher.publish(runId, stepId, step.fence(), outputs);
+                } catch (ArtifactPublisher.PublishRefused e) {
+                    fail(step, "PUBLISH_REFUSED", e.getMessage(), true);
+                    return true;
+                } catch (java.io.IOException e) {
+                    fail(step, "PUBLISH_FAILED", e.getMessage(), true);
+                    return true;
+                }
+                log.info("Run {} step {} published {} file(s) from {}", runId, stepId, outputs.size(),
+                        ArtifactPublisher.attemptDir(stepId, step.fence()));
+            }
             jdbc.sql("""
                     update step set status = 'SUCCEEDED', outputs = cast(:outputs as jsonb),
                         metrics = cast(:metrics as jsonb), progress = 100, message = 'done',
                         started_at = coalesce(started_at, queued_at), finished_at = now(), error_code = null, error = null
                     where run_id = :run and id = :id
                     """)
-                    .param("outputs", result.path("outputs").toString())
+                    .param("outputs", outputs.toString())
                     .param("metrics", result.path("metrics").toString())
                     .param("run", runId)
                     .param("id", stepId)
@@ -366,7 +403,9 @@ public class Orchestrator {
                 update step set status = 'RUNNING', started_at = coalesce(started_at, now()),
                     progress = :pct, message = :msg
                 where run_id = :run and id = :id and attempt = :attempt and status in ('QUEUED', 'RUNNING')
+                  and fence is not distinct from :fence
                 """)
+                .param("fence", p.hasNonNull("fence") ? p.path("fence").asLong() : null)
                 .param("pct", (int) Math.round(p.path("pct").asDouble()))
                 .param("msg", p.path("message").asText(""))
                 .param("run", p.path("runId").asText())
@@ -417,7 +456,10 @@ public class Orchestrator {
 
     // ------------------------------------------------------------------ user actions
 
-    /** Stops a running run. A worker that is mid-step finishes, but its result is ignored. */
+    /**
+     * Stops a running run. Workers running one of its attempts get an {@code erkasa.task-cancel/1} message and
+     * stop; whatever they still report is ignored and nothing of theirs is published.
+     */
     @Transactional
     public boolean cancel(String runId) {
         int n = jdbc.sql("update run set status = 'CANCELLED', finished_at = now(), updated_at = now() where id = :id and status = 'RUNNING'")
@@ -425,6 +467,17 @@ public class Orchestrator {
                 .update();
         if (n == 0) {
             return false;
+        }
+        List<Active> active = jdbc.sql("""
+                select run_id, id, attempt, max_attempts, fence from step
+                where run_id = :run and status in ('QUEUED', 'RUNNING')
+                for update
+                """)
+                .param("run", runId)
+                .query((rs, i) -> new Active(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4), fenceOf(rs)))
+                .list();
+        for (Active a : active) {
+            sendCancel(a, "CANCELLED");
         }
         jdbc.sql("update step set status = 'CANCELLED', message = 'cancelled', finished_at = now() where run_id = :run and status in ('PENDING', 'QUEUED', 'RUNNING')")
                 .param("run", runId)
@@ -452,6 +505,31 @@ public class Orchestrator {
     }
 
     // ------------------------------------------------------------------ helpers
+
+    /** Queues an erkasa.task-cancel/1 for this attempt in the outbox (same transaction as the state change). */
+    private void sendCancel(Active a, String reason) {
+        if (a.fence() == null) {
+            return; // dispatched without isolation: there is no fence to name
+        }
+        ObjectNode msg = mapper.createObjectNode();
+        msg.put("schema", "erkasa.task-cancel/1");
+        msg.put("messageId", UUID.randomUUID().toString());
+        msg.put("runId", a.runId());
+        msg.put("stepId", a.stepId());
+        msg.put("attempt", a.attempt());
+        msg.put("fence", a.fence());
+        msg.put("reason", reason);
+        ValidationResult valid = contracts.validate("task-cancel", msg);
+        if (!valid.valid()) {
+            throw new IllegalStateException("built an invalid cancel message: " + valid.errors());
+        }
+        jdbc.sql("insert into outbox (exchange, routing_key, payload) values (:ex, :key, :payload)")
+                .param("ex", mq.controlExchange())
+                .param("key", MqNames.CANCEL_KEY)
+                .param("payload", msg.toString())
+                .update();
+        log.info("Run {} step {} attempt {} (fence {}): cancel sent ({})", a.runId(), a.stepId(), a.attempt(), a.fence(), reason);
+    }
 
     private void touchRun(String runId) {
         jdbc.sql("update run set updated_at = now() where id = :id").param("id", runId).update();

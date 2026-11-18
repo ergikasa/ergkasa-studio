@@ -3,6 +3,7 @@ package al.erkasa.studio.runs;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Declarables;
 import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +21,7 @@ public class MqConfig {
     public Declarables erkasaTopology(MqNames n) {
         DirectExchange tasks = new DirectExchange(n.tasksExchange(), true, false);
         DirectExchange events = new DirectExchange(n.eventsExchange(), true, false);
+        FanoutExchange control = new FanoutExchange(n.controlExchange(), true, false);
         Queue ai = new Queue(n.aiQueue(), true);
         Queue render = new Queue(n.renderQueue(), true);
         Queue results = new Queue(n.results(), true);
@@ -27,6 +29,7 @@ public class MqConfig {
         return new Declarables(
                 tasks,
                 events,
+                control,
                 ai,
                 render,
                 results,

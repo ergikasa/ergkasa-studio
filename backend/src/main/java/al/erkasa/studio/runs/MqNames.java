@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
  *                                    render.finalize                              -> {prefix}.tasks.render
  * exchange {prefix}.events (direct): result   -> {prefix}.results
  *                                    progress -> {prefix}.progress
+ * exchange {prefix}.control (fanout): cancel   -> one exclusive queue per worker (E1.6)
  * </pre>
  */
 @Component("mqNames")
@@ -19,6 +20,7 @@ public class MqNames {
 
     public static final String RESULT_KEY = "result";
     public static final String PROGRESS_KEY = "progress";
+    public static final String CANCEL_KEY = "cancel";
 
     private final String prefix;
 
@@ -32,6 +34,10 @@ public class MqNames {
 
     public String eventsExchange() {
         return prefix + ".events";
+    }
+
+    public String controlExchange() {
+        return prefix + ".control";
     }
 
     public String aiQueue() {
