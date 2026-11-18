@@ -19,6 +19,7 @@ import {
 } from "@erkasa/contracts";
 import { prepareV2, sfxFor, writeBed, type FilmPlan, type Timing } from "./legacy.js";
 import type { ManifestBuilder } from "./manifest.js";
+import { stageScore, type Score } from "./score.js";
 import type { Script } from "@erkasa/contracts";
 
 type Asset = AssetManifest["assets"][number];
@@ -36,7 +37,10 @@ export interface AudioFile {
 
 export interface V2Audio {
   voice: Array<{ sceneId: string } & AudioFile>;
+  /** The synthetic v2 bed (E1.5; since E1.6 only for tests and comparisons with legacy). */
   music?: AudioFile;
+  /** E1.6: the designed score from the licensed catalog (music segments and effects). Not with `music`. */
+  score?: Score;
 }
 
 /** The v2 engine's mix (film/src/render.ts): bed × 0.55 under a voice, ducked; loudnorm I −14, TP −1.5, LRA 11. */
@@ -74,7 +78,8 @@ export function stageAudio(
   timing: Timing,
   filmSec: number,
   audio: V2Audio,
-): { clips: Clip[]; mix: Mix } {
+): { clips: Clip[]; mix: Mix; notes: string[] } {
+  if (audio.music && audio.score) throw new Error("a film has either the synthetic bed or a designed score");
   const clips: Clip[] = [];
   const voiced = audio.voice.filter((v) => timing.scenes.some((s) => s.sceneId === v.sceneId));
   const clip = (
@@ -110,7 +115,28 @@ export function stageAudio(
     const n = String(k + 1).padStart(3, "0");
     clips.push(clip(`voice_${n}`, audioAsset(`voice_${n}`, v), "voice", toWholeMs(sc.start), 0));
   });
+  if (audio.score) {
+    const s = stageScore(M, audio.score, filmSec);
+    // music first, then the voices, then the effects: the engine's input order
+    const voices = clips.splice(0);
+    clips.push(
+      ...s.clips.filter((c) => c.role === "music"),
+      ...voices,
+      ...s.clips.filter((c) => c.role === "sfx"),
+    );
+    const ducked = voices.length > 0 && s.clips.some((c) => c.role === "music");
+    return {
+      clips,
+      mix: {
+        duckMusicDb: ducked ? s.mix.duckMusicDb : 0,
+        ...(ducked && s.mix.ducking ? { ducking: s.mix.ducking } : {}),
+        loudness: clips.length ? s.mix.loudness : { integratedLufs: -14, truePeakDb: -1.5 },
+      },
+      notes: s.notes,
+    };
+  }
   return {
+    notes: [],
     clips,
     mix: {
       duckMusicDb: 0,
@@ -135,4 +161,36 @@ export function writeBedV2(
 ): void {
   const { timing, composed } = prepareV2({ plan, script, ...voice });
   writeBed(file, script, timing, sfxFor(composed), composed.duration);
+}
+
+/**
+ * E1.6: the timing a sound designer needs for a v2 film, from the same preparation the stager stages with: each
+ * scene's start and length, the narration's words (seconds from the film's start) and the effects the shots ask
+ * for (film/src/sound.ts sfxFor: a whip cut whooshes, a clock ticks...). Pure data: the stager designs nothing.
+ */
+export function v2SoundTiming(
+  plan: FilmPlan,
+  script: Script,
+  voice: {
+    alignments?: Parameters<typeof prepareV2>[0]["alignments"];
+    clipDurations?: Record<string, number>;
+  } = {},
+): {
+  durationSec: number;
+  scenes: Array<{ sceneId: string; start: number; duration: number }>;
+  words: Array<{ sceneId: string; word: string; start: number; end: number }>;
+  effects: Array<{ t: number; kind: string }>;
+} {
+  const { timing, composed } = prepareV2({ plan, script, ...voice });
+  return {
+    durationSec: composed.duration,
+    scenes: timing.scenes.map((s) => ({ sceneId: s.sceneId, start: s.start, duration: s.duration })),
+    words: timing.words.map((w) => ({
+      sceneId: w.scene,
+      word: w.word,
+      start: w.t,
+      end: w.t + (w.end - w.start),
+    })),
+    effects: sfxFor(composed).map((e) => ({ t: e.t, kind: e.kind })),
+  };
 }

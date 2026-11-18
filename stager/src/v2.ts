@@ -43,6 +43,8 @@ type Cut = RenderPackage["edit"][number];
 export interface Staged {
   pkg: RenderPackage;
   manifest: AssetManifest;
+  /** What staging had to shorten or leave out (E1.6: the score), for the run's report. */
+  notes?: string[];
 }
 
 /** One frame of a scene: its absolute index and the local time the engine draws the shot at. */
@@ -192,7 +194,7 @@ export function stageV2(name: string, plan: FilmPlan, script: Script, opts: V2Op
     // the loudness the v2 engine normalises to (render.ts loudnorm I=-14, TP=-1.5)
     mix: sound?.mix ?? { duckMusicDb: 0, loudness: { integratedLufs: -14, truePeakDb: -1.5 } },
   };
-  return { pkg, manifest };
+  return { pkg, manifest, ...(sound?.notes.length ? { notes: sound.notes } : {}) };
 }
 
 // ------------------------------------------------------------------------------------------ text (both kinds)

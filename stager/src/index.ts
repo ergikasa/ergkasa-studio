@@ -24,8 +24,10 @@ import { stageV2, type Staged } from "./v2.js";
 import { stageW0 } from "./w0.js";
 
 export { stageV2, type Staged, type V2Options } from "./v2.js";
+export { libraryAssetId, stageScore, type Score, type ScoreFile } from "./score.js";
 export {
   stageAudio,
+  v2SoundTiming,
   writeBedV2,
   V2_DUCKING,
   V2_LOUDNESS,
