@@ -320,7 +320,7 @@ Character Acting   Cinematic Camera ◄─── gjendjet e personazheve (pozici
                ▼
 Environmental FX ◄── sipërfaqet e World Builder + thellësia dhe koha e kamerës
                ▼
-Scene Composition (Worker 6) ──► Paketa e render-it ──► Gate ──► Renderer
+Scene Composition (Worker 6: koordinim) ──► Stager (timeline + paketa e render-it) ──► Gate ──► Renderer
 ```
 
 | Engine | Merr nga (v1 §7) | Varet nga | U jep | Konflikt i mundshëm dhe kush e zgjidh |
@@ -339,10 +339,10 @@ Scene Composition (Worker 6) ──► Paketa e render-it ──► Gate ──�
 | Kohët e synuara të beats dhe skenave | Scene Planning (Worker 4) | plani |
 | Kohët reale të fjalëve dhe të segmenteve të zërit (e vërteta kohore e narracionit) | Voice (Worker 7) + Caption & Sync (Worker 10) | alignment-i i zërit |
 | Kohët e veprimeve, kamerës dhe FX brenda skenës | secili Engine, mbi kohët reale të fjalëve | output-et e Engine-ve |
-| **Timeline-i përfundimtar i ekzekutueshëm** | **Scene Composition (Worker 6)**, si **paketa e render-it** | e vetmja e vërtetë kohore që sheh renderer-i |
+| **Timeline-i përfundimtar i ekzekutueshëm** | **Stager-i** (pjesë e Worker 6), si **paketa e render-it**. Scene Composition koordinon output-et e Engine-ve, por nuk ndërton timeline. | e vetmja e vërtetë kohore që sheh renderer-i |
 | Muzika dhe SFX | Music (8) dhe Sound Design (9), mbi kohët reale | planet audio, brenda paketës |
 
-Renderer-i nuk ndryshon asnjë kohë. Gate-i e refuzon paketën nëse kohët kundërshtojnë njëra-tjetrën. Kjo është e njëjta ndarje si në arkitekturën aktuale: plani → Stager → paketa → Gate → Engine.
+Renderer-i nuk ndryshon asnjë kohë. Gate-i e refuzon paketën nëse kohët kundërshtojnë njëra-tjetrën. Kjo është e njëjta ndarje si në arkitekturën aktuale: plani → Stager → paketa → Gate → Engine, dhe si në Master Architecture v1.0 §7.2.
 
 ---
 

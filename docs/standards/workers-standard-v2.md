@@ -33,7 +33,7 @@
 | 3 | Storyboard Worker | AI planning + structured output | po | **modeli ynë** |
 | 4 | Scene Planning Worker | AI-assisted + kontrolle deterministe | po | **modeli ynë** |
 | 5 | Asset Generation Worker | gjenerim imazhesh + validim determinist | po | **shërbimi ynë i imazheve** |
-| 6 | Scene Composition Worker | determinist (gjeometri, montim) | jo | — |
+| 6 | Scene Composition Worker (Scene Composition + Stager) | determinist (gjeometri, montim, timeline) | jo | — |
 | 7 | Voice Worker | integrim TTS | po (TTS) | **ElevenLabs** |
 | 8 | Music Worker | hibrid; katalog i licencuar + logjikë kohore | opsionale | katalogu i licencuar |
 | 9 | Sound Design Worker | hibrid; zgjedhje + sinkronizim | opsionale | katalogu i licencuar |
@@ -141,7 +141,8 @@ Kolona **P** jep prioritetin; **Kriteri** është i matshëm; **[A]/[V]/[H]** si
 ### 3.6 Scene Composition Worker
 
 **Misioni:** skena e renderueshme nga planifikimi dhe output-et e Engine-ve, me hierarki, pozicionim dhe marrëdhënie hapësinore të ruajtura.
-**Output-i:** **paketa e render-it** (`ComposedScene` + timeline-i përfundimtar), me scene graph, transforme, shtresa, kufij, lidhjen e kamerës, kohët, referencat e aseteve dhe raportin e validimit.
+**Dy pjesë *(v2)*:** **Scene Composition** koordinon output-et e Engine-ve dhe zgjidh konfliktet hapësinore; **Stager-i** ndërton timeline-in përfundimtar dhe paketën e render-it (Master Architecture v1.0 §7).
+**Output-i:** **paketa e render-it** (`ComposedScene` + timeline-i përfundimtar, i ndërtuar nga Stager-i), me scene graph, transforme, shtresa, kufij, lidhjen e kamerës, kohët, referencat e aseteve dhe raportin e validimit.
 
 | ID | Përgjegjësia | P | Kriteri | Matja |
 | -- | ------------ | - | ------- | ----- |
@@ -149,7 +150,7 @@ Kolona **P** jep prioritetin; **Kriteri** është i matshëm; **[A]/[V]/[H]** si
 | SC-2 | Koordinata, transforme, anchors, kufij, thellësi, kufizime | **P0** | Kufijtë e nyjeve llogariten dhe kontrollohen nga Gate-i | [A] |
 | SC-3 | Overlap, clipping, elemente jashtë kuadrit, konflikte shtresash | **P0** | Gate-i i refuzon me kod dhe shteg; asnjë konflikt i padeklaruar në video | [A]+[V] |
 | SC-4 | Ruajtja e ID-ve dhe vazhdimësia mes skenave | **P0** | ID-të e entiteteve të planit gjenden në paketë | [A] |
-| SC-5 | **Pronari i timeline-it përfundimtar** *(v2)*: e vetmja e vërtetë kohore për renderer-in | **P0** | Renderer-i nuk ndryshon asnjë kohë; Gate-i refuzon kohët kontradiktore | [A] |
+| SC-5 | **Stager-i është pronari i timeline-it përfundimtar** *(v2)*: e vetmja e vërtetë kohore për renderer-in | **P0** | Renderer-i nuk ndryshon asnjë kohë; Gate-i refuzon kohët kontradiktore | [A] |
 | SC-6 | Nuk shpik vendime narrative; raporton konfliktet | **P0** | Çdo devijim nga plani raportohet me arsye | [A] |
 
 **Dështime që nuk pranohen:** elemente që notojnë ose mbivendosen; humbje koordinatash ose identiteti; kompozim që kundërshton Engine-t; skenë që kalon validimin, por dështon në render.
@@ -204,7 +205,7 @@ Kolona **P** jep prioritetin; **Kriteri** është i matshëm; **[A]/[V]/[H]** si
 ### 3.10 Caption & Synchronization Worker
 
 **Misioni:** captions të lexueshme dhe të sinkronizuara.
-**Output-i:** `CaptionTrack` (fjalë/rresht/kohë, formati, raporti i validimit) dhe kohët reale të fjalëve për Scene Composition. **Timeline-i përfundimtar i përket Scene Composition (§3.6, SC-5)** *(v2)*.
+**Output-i:** `CaptionTrack` (fjalë/rresht/kohë, formati, raporti i validimit) dhe kohët reale të fjalëve për Scene Composition. **Timeline-i përfundimtar i përket Stager-it (§3.6, SC-5)** *(v2)*.
 
 | ID | Përgjegjësia | P | Kriteri | Matja |
 | -- | ------------ | - | ------- | ----- |
