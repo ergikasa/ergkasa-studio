@@ -4,3 +4,6 @@ contracts/json-schema/
 backend/
 tools/vendor/
 film/golden/
+
+# generated prototype outputs
+prototypes/**/out/
