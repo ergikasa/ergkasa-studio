@@ -7,19 +7,43 @@ import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import type { AssetManifest } from "@erkasa/contracts";
-import { CHANNELS, IMPLEMENTATION, STANDING, drawPerson, lookFor } from "./legacy.js";
+import {
+  FacialHair,
+  GarmentKind,
+  HairStyle,
+  type AssetManifest,
+  type RenderPackage,
+} from "@erkasa/contracts";
+import {
+  CHANNELS,
+  IMPLEMENTATION,
+  STANDING,
+  drawPerson,
+  isDressedLook,
+  lookFor,
+  type Look,
+} from "./legacy.js";
 
 export const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 
 const sha = (abs: string): string => createHash("sha256").update(readFileSync(abs)).digest("hex");
 const hashes = new Map<string, string>();
+/** The hash of the file (or files, concatenated in order) that implement a builtin. */
 export const fingerprintOf = (file: keyof typeof IMPLEMENTATION): string => {
-  const path = IMPLEMENTATION[file];
-  let h = hashes.get(path);
+  const paths: readonly string[] =
+    typeof IMPLEMENTATION[file] === "string"
+      ? [IMPLEMENTATION[file] as string]
+      : (IMPLEMENTATION[file] as readonly string[]);
+  const key = paths.join("+");
+  let h = hashes.get(key);
   if (!h) {
-    h = sha(join(ROOT, path));
-    hashes.set(path, h);
+    h =
+      paths.length === 1
+        ? sha(join(ROOT, paths[0] as string))
+        : createHash("sha256")
+            .update(Buffer.concat(paths.map((p) => readFileSync(join(ROOT, p)))))
+            .digest("hex");
+    hashes.set(key, h);
   }
   return h;
 };
@@ -98,12 +122,24 @@ const PARENT: Record<string, string> = {
  */
 export const UNBOUNDED: [number, number] = [-Number.MAX_VALUE, Number.MAX_VALUE];
 
-export function rig(build: "man" | "woman"): Asset {
+/**
+ * The cutout rig. Version 1 draws the plain look (colour slots); version 2 is the same body that also draws
+ * clothes garment by garment, hair styles and facial hair (garments.ts), and declares them, so the gate can refuse a
+ * package that asks it for something it does not draw. Films without dressed people keep version 1, unchanged.
+ */
+export function rig(build: "man" | "woman", dressed = false): Asset {
   // height: from the feet to the top of the head of the rig standing at rest, as drawPerson reports it
   const d = drawPerson(STANDING, { x: 0, y: 0, facing: 1, turn: 1, scale: 1 }, lookFor({ build }));
   return {
     id: `rig_cutout_${build}`,
-    version: 1,
+    version: dressed ? 2 : 1,
+    ...(dressed
+      ? {
+          garments: [...GarmentKind.options],
+          hairStyles: [...HairStyle.options],
+          facialHair: [...FacialHair.options],
+        }
+      : {}),
     kind: "rig",
     format: "erkasa.rig.cutout/1",
     source: builtin(`rig.cutout.${build}`, "rig"),
@@ -138,10 +174,38 @@ export function fontAsset(id: string, file: string, weight: number): Asset {
 export class ManifestBuilder {
   private readonly assets = new Map<string, Asset>();
   use(a: Asset): string {
-    if (!this.assets.has(a.id)) this.assets.set(a.id, a);
-    return `${a.id}@${a.version}`;
+    const key = `${a.id}@${a.version}`;
+    if (!this.assets.has(key)) this.assets.set(key, a);
+    return key;
   }
   build(id: string): AssetManifest {
     return { schema: "erkasa.assets/1", id, assets: [...this.assets.values()] };
   }
+}
+
+/** An actor of a scene: rig, colours and, for a dressed person, what they wear and their features. */
+export function actorEntry(
+  M: ManifestBuilder,
+  id: string,
+  look: Look,
+  opts: { shadow: boolean; rim: boolean },
+): RenderPackage["scenes"][number]["actors"][number] {
+  const dressed = isDressedLook(look);
+  return {
+    id,
+    rig: M.use(rig(look.build, dressed)),
+    layer: `actor_${id}`,
+    appearance: {
+      coat: look.coat,
+      coatDark: look.coatDark,
+      pants: look.pants,
+      skin: look.skin,
+      skinShade: look.skinShade,
+      hair: look.hair,
+    },
+    shadow: opts.shadow,
+    rim: opts.rim,
+    ...(look.wardrobe?.length ? { wardrobe: look.wardrobe } : {}),
+    ...(look.features ? { features: look.features } : {}),
+  };
 }

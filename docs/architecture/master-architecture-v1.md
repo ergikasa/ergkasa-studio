@@ -2,13 +2,13 @@
 
 Arkitektura e plotë, projektimi i komponentëve dhe objektivi final i Video Generation Engine
 
-| Fusha | Vlera |
-| ----- | ----- |
-| Versioni | **1.0** |
-| Data | 19 Nëntor 2026 |
-| Statusi | **Arkitekturë e synuar, e miratuar si drejtim.** Nuk autorizon implementim. |
-| Autori | PO (Ergi Kasa); vendimet dhe shënimet e 2026-11-19 janë shtuar në §0 |
-| Projekti | Erkasa Studio |
+| Fusha                | Vlera                                                                            |
+| -------------------- | -------------------------------------------------------------------------------- |
+| Versioni             | **1.0**                                                                          |
+| Data                 | 19 Nëntor 2026                                                                   |
+| Statusi              | **Arkitekturë e synuar, e miratuar si drejtim.** Nuk autorizon implementim.      |
+| Autori               | PO (Ergi Kasa); vendimet dhe shënimet e 2026-11-19 janë shtuar në §0             |
+| Projekti             | Erkasa Studio                                                                    |
 | Standardet e lidhura | `docs/standards/engines-standard-v2.md`, `docs/standards/workers-standard-v2.md` |
 
 ---
@@ -29,24 +29,24 @@ Pa këto, kodi nuk ndryshohet.
 
 ### 0.2 Vendimet
 
-| ID | Vendimi |
-| -- | ------- |
-| **MA-D1** | Ky dokument ruhet si **Master Architecture v1.0**: drejtimi afatgjatë, jo plan pune. |
+| ID        | Vendimi                                                                                                                                                                                                                                            |
+| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **MA-D1** | Ky dokument ruhet si **Master Architecture v1.0**: drejtimi afatgjatë, jo plan pune.                                                                                                                                                               |
 | **MA-D2** | **G0 është fazë zbulimi dhe verifikimi, jo implementimi.** G0 = Faza 1 (Standard v2.0) + Faza 2 (Engine Audit me prova) + Faza 3 (Integrated Benchmark, 5 video). Në G0 nuk ndryshohet kodi, nuk shtohen funksione dhe nuk ndryshohet arkitektura. |
-| **MA-D3** | **Nuk merret me qira GPU** pa prova nga G0 se GPU, ose modeli AI, është bottleneck-u kryesor i cilësisë, i kostos ose i kohës. |
-| **MA-D4** | Pas G0, investimi i kohës dhe parave vendoset nga provat. Rendi G1–G8 (§14) **nuk është i fiksuar**. Rishikohet nga rezultati i G0. |
-| **MA-D5** | Pronari i timeline-it përfundimtar është **Stager-i** (§7.2). Standard v2.0 është përditësuar për t'u përputhur. |
+| **MA-D3** | **Nuk merret me qira GPU** pa prova nga G0 se GPU, ose modeli AI, është bottleneck-u kryesor i cilësisë, i kostos ose i kohës.                                                                                                                     |
+| **MA-D4** | Pas G0, investimi i kohës dhe parave vendoset nga provat. Rendi G1–G8 (§14) **nuk është i fiksuar**. Rishikohet nga rezultati i G0.                                                                                                                |
+| **MA-D5** | Pronari i timeline-it përfundimtar është **Stager-i** (§7.2). Standard v2.0 është përditësuar për t'u përputhur.                                                                                                                                   |
 
 ### 0.3 Pikat e hapura (verifikohen në G0, vendosen pas G0)
 
-| ID | Pika | Çfarë duhet provuar |
-| -- | ---- | ------------------- |
+| ID        | Pika                                                                                                                                                                                                                                                                                                                                       | Çfarë duhet provuar                                                                   |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------- |
 | **MA-O1** | **Imazhet AI dhe personazhet.** Një model imazhi jep imazh statik. Character Acting kërkon personazh të ndarë në pjesë dhe me rig. Imazhet AI mund të jenë të përdorshme drejtpërdrejt për ambiente, props dhe sfonde. Për personazhet duhet një rrugë: imazhi AI si referencë për artistin, ndarje e automatizuar në pjesë, ose kombinim. | A vjen dobësia vizuale nga asetet, apo nga acting-u, kamera ose kompozimi? (Faza 2–3) |
-| **MA-O2** | **AI Gateway: adapter apo shërbim.** Sot ka një pikë të vetme për LLM-në (`ai-worker/src/llm.ts`). Alternativa e parë: zgjerim i adapterit, i konfigurueshëm nga `.env`. Shërbim më vete vetëm kur ka disa GPU worker-a. | Numri i ofruesve dhe modeleve që nevojiten pas G0 |
-| **MA-O3** | **Komponentë që sot nuk ekzistojnë:** SeaweedFS (sot storage në disk lokal), credits/billing/pagesa, autentikim për shumë përdorues. Kandidatë për G7–G8. | Ngarkesa dhe nevoja komerciale |
-| **MA-O4** | **State machine i projektit.** Pipeline-i aktual është DAG hapash me ekzekutim paralel. Një zinxhir linear statusesh (§3.3) do ta kundërshtonte. Propozimi: statusi i projektit nxirret nga DAG-u. | Krahasim me Orchestrator-in aktual |
-| **MA-O5** | **Licencat e modeleve** (Qwen, Z-Image-Turbo ose alternativat): përdorim komercial, kushte, atribuim. | Verifikim i licencës para çdo zgjedhjeje |
-| **MA-O6** | **Niveli aktual.** Vlerësimi fillestar: rreth Level 2 (§15). | Statuset e auditit dhe benchmark-u |
+| **MA-O2** | **AI Gateway: adapter apo shërbim.** Sot ka një pikë të vetme për LLM-në (`ai-worker/src/llm.ts`). Alternativa e parë: zgjerim i adapterit, i konfigurueshëm nga `.env`. Shërbim më vete vetëm kur ka disa GPU worker-a.                                                                                                                   | Numri i ofruesve dhe modeleve që nevojiten pas G0                                     |
+| **MA-O3** | **Komponentë që sot nuk ekzistojnë:** SeaweedFS (sot storage në disk lokal), credits/billing/pagesa, autentikim për shumë përdorues. Kandidatë për G7–G8.                                                                                                                                                                                  | Ngarkesa dhe nevoja komerciale                                                        |
+| **MA-O4** | **State machine i projektit.** Pipeline-i aktual është DAG hapash me ekzekutim paralel. Një zinxhir linear statusesh (§3.3) do ta kundërshtonte. Propozimi: statusi i projektit nxirret nga DAG-u.                                                                                                                                         | Krahasim me Orchestrator-in aktual                                                    |
+| **MA-O5** | **Licencat e modeleve** (Qwen, Z-Image-Turbo ose alternativat): përdorim komercial, kushte, atribuim.                                                                                                                                                                                                                                      | Verifikim i licencës para çdo zgjedhjeje                                              |
+| **MA-O6** | **Niveli aktual.** Vlerësimi fillestar: rreth Level 2 (§15).                                                                                                                                                                                                                                                                               | Statuset e auditit dhe benchmark-u                                                    |
 
 ### 0.4 Rezultati i pritur i G0
 
@@ -177,7 +177,7 @@ Arkitektura ndahet në tetë shtresa.
 
 Kjo është ndarja logjike. Në implementim, katër Engine-t mund të punojnë paralelisht kur varësitë e skenës e lejojnë.
 
-> *Shënim (2026-11-19):* në standardin e Engine-ve §8, Gate-i para render-it (pre-render) vepron mbi paketën e Stager-it, para Render Engine; QC pas render-it vepron mbi videon. Diagrami tregon rrjedhën logjike, jo rendin e kontrolleve (shih §10).
+> _Shënim (2026-11-19):_ në standardin e Engine-ve §8, Gate-i para render-it (pre-render) vepron mbi paketën e Stager-it, para Render Engine; QC pas render-it vepron mbi videon. Diagrami tregon rrjedhën logjike, jo rendin e kontrolleve (shih §10).
 
 ## 3. Infrastructure & Core Backend
 
@@ -271,7 +271,7 @@ COMPLETED
 
 Statuset e dështuara dhe të anuluara duhet të jenë pjesë e kontratës së lifecycle-it.
 
-> *Shënim (MA-O4):* Orchestrator-i aktual ekzekuton një DAG hapash me paralelizëm. Propozimi është që statuset e mësipërme të nxirren nga gjendja e DAG-ut, jo të zëvendësojnë DAG-un. Vendoset pas G0.
+> _Shënim (MA-O4):_ Orchestrator-i aktual ekzekuton një DAG hapash me paralelizëm. Propozimi është që statuset e mësipërme të nxirren nga gjendja e DAG-ut, jo të zëvendësojnë DAG-un. Vendoset pas G0.
 
 ### 3.4 RabbitMQ
 
@@ -308,7 +308,7 @@ Duhet të ruajë:
 
 Çdo artifact duhet të ketë metadata, version dhe lidhje me projektin përkatës.
 
-> *Shënim (MA-O3):* sot artefaktet ruhen në disk lokal me metadata në PostgreSQL. SeaweedFS nuk ekziston në repository.
+> _Shënim (MA-O3):_ sot artefaktet ruhen në disk lokal me metadata në PostgreSQL. SeaweedFS nuk ekziston në repository.
 
 ## 4. AI Inference Architecture
 
@@ -337,11 +337,11 @@ Worker-at nuk duhet të varen drejtpërdrejt nga një provider specifik.
 
 Ata komunikojnë me kontrata të qëndrueshme.
 
-> *Shënim (MA-O2):* forma e parë mund të jetë adapteri ekzistues `ai-worker/src/llm.ts`, i zgjeruar për imazhe dhe i konfigurueshëm nga `.env`. Vendoset pas G0.
+> _Shënim (MA-O2):_ forma e parë mund të jetë adapteri ekzistues `ai-worker/src/llm.ts`, i zgjeruar për imazhe dhe i konfigurueshëm nga `.env`. Vendoset pas G0.
 
 ### 4.2 GPU Infrastructure – RunPod
 
-> *Shënim (MA-D3):* asnjë GPU nuk merret me qira para provave të G0.
+> _Shënim (MA-D3):_ asnjë GPU nuk merret me qira para provave të G0.
 
 GPU-të me qira në RunPod do të përdoren për modelet që duam të hostojmë vetë.
 
@@ -475,7 +475,7 @@ Gjenerimi i një personazhi nuk duhet të bëhet nga e para në çdo skenë.
 
 Duhet të ekzistojë një identitet vizual i qëndrueshëm.
 
-> *Shënim (MA-O1):* për personazhet, imazhi statik duhet kthyer në personazh me pjesë dhe rig që Character Acting mund ta animojë. Rruga zgjidhet pas G0.
+> _Shënim (MA-O1):_ për personazhet, imazhi statik duhet kthyer në personazh me pjesë dhe rig që Character Acting mund ta animojë. Rruga zgjidhet pas G0.
 
 ## 6. Four Specialized Engines
 
@@ -815,7 +815,7 @@ Nuk mund të ndërtojmë një produkt komercial pa ditur sa kushton prodhimi i n
 
 Kjo është ndarja e propozuar e fazave të zhvillimit.
 
-> *Shënim (MA-D2, MA-D4):* G0 përfshin Fazat 1–3 dhe është vetëm zbulim dhe verifikim. Fazat G1–G8 janë kandidate. Rendi i tyre vendoset nga provat e G0 dhe secila kërkon miratim të veçantë.
+> _Shënim (MA-D2, MA-D4):_ G0 përfshin Fazat 1–3 dhe është vetëm zbulim dhe verifikim. Fazat G1–G8 janë kandidate. Rendi i tyre vendoset nga provat e G0 dhe secila kërkon miratim të veçantë.
 
 **G0 – Architecture Audit & Design** (zbulim dhe verifikim, pa implementim)
 
@@ -977,7 +977,7 @@ Do të kërkonte:
 
 Ky nivel kërkon kërkim dhe zhvillim të vazhdueshëm. Nuk arrihet vetëm duke përfunduar roadmap-in fillestar.
 
-> *Shënim (MA-O6):* vlerësimi fillestar i gjendjes aktuale është rreth Level 2. Konfirmohet ose korrigjohet nga G0.
+> _Shënim (MA-O6):_ vlerësimi fillestar i gjendjes aktuale është rreth Level 2. Konfirmohet ose korrigjohet nga G0.
 
 ## 16. Kufijtë e produktit që duhet të kemi parasysh
 
@@ -1006,20 +1006,20 @@ Unë nuk do ta konsideroja Erkasa-n të përfunduar vetëm sepse të gjitha faza
 
 Duhet të kemi prova.
 
-| Kriteri | Kushti i pranimit |
-| ------- | ----------------- |
-| Prompt-to-video | Pipeline funksionon nga fillimi në fund |
-| Script | Narracion i strukturuar dhe i miratuar |
-| Character Acting | Veprime të lexueshme dhe pa dështime kritike |
-| World Builder | Ambiente koherente |
-| Camera | Framing dhe lëvizje me motiv |
-| Environmental Motion | Efekte të kontrolluara |
-| Composition | Skena pa konflikte kritike |
-| Timeline | Sinkronizim i saktë |
-| Renderer | Rezultat i riprodhueshëm |
-| QC | Zero critical failures |
-| Reliability | Recovery dhe retry të verifikuara |
-| Economics | Kosto e matur për video |
+| Kriteri              | Kushti i pranimit                            |
+| -------------------- | -------------------------------------------- |
+| Prompt-to-video      | Pipeline funksionon nga fillimi në fund      |
+| Script               | Narracion i strukturuar dhe i miratuar       |
+| Character Acting     | Veprime të lexueshme dhe pa dështime kritike |
+| World Builder        | Ambiente koherente                           |
+| Camera               | Framing dhe lëvizje me motiv                 |
+| Environmental Motion | Efekte të kontrolluara                       |
+| Composition          | Skena pa konflikte kritike                   |
+| Timeline             | Sinkronizim i saktë                          |
+| Renderer             | Rezultat i riprodhueshëm                     |
+| QC                   | Zero critical failures                       |
+| Reliability          | Recovery dhe retry të verifikuara            |
+| Economics            | Kosto e matur për video                      |
 
 Benchmark-u duhet të përfshijë pesë video me skena dhe vështirësi të ndryshme.
 

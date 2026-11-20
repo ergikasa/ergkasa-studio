@@ -20,8 +20,8 @@ const spy = () => {
 };
 
 describe("K5: refused packages", () => {
-  it("there are 184: E1.3's 48, EASE_UNDEFINED, SVG_UNSAFE, the audit's 16, G16's 38 (E1.4, V2d with decision B), the final audit's 60 (F1 46, F2 9, F3 5), E1.5's 11 audio cases (its 8 others are mixed since E1.6) and E1.6's 9", () => {
-    expect(CASES.length).toBe(184);
+  it("there are 185: E1.3's 48, EASE_UNDEFINED, SVG_UNSAFE, the audit's 16, G16's 38 (E1.4, V2d with decision B), the final audit's 60 (F1 46, F2 9, F3 5), E1.5's 11 audio cases (its 8 others are mixed since E1.6) , E1.6's 9 and W1's wardrobe case", () => {
+    expect(CASES.length).toBe(185);
     expect(CASES.filter((c) => /^E1\.5 audio: /.test(c.name)).length).toBe(11);
     expect(CASES.filter((c) => /^E1\.6 audio: /.test(c.name)).length).toBe(9);
     expect(CASES.filter((c) => /^F1 /.test(c.name)).length).toBe(46);

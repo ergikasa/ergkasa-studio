@@ -14,6 +14,7 @@ import { SETS, type SetDef } from "./sets.js";
 import { FPS, H, PALETTE as C, W, kineticType } from "./style.js";
 import { PARAMS, TEMPLATES, templateEvents, type TemplateCtx } from "./templates.js";
 import { anchorTime, shotTimes, type Timing } from "./timing.js";
+import { resolveWardrobe, type WardrobePlan } from "./wardrobe.js";
 import { editorialView, otsShoulder, scrimRect, setView, v2Frame } from "./v2frame.js";
 
 export interface ComposedShot {
@@ -34,6 +35,8 @@ export interface Composed {
   shots: ComposedShot[];
   duration: number;
   issues: Issue[];
+  /** Who wears what, shot by shot, and why (wardrobe.ts). */
+  wardrobe?: WardrobePlan;
 }
 
 const LIGHT = { day: 0, golden: 1, dusk: 2, night: 3 } as const;
@@ -49,6 +52,8 @@ export function compose(plan: FilmPlan, timing: Timing, opts: { cast?: CastMembe
   const issues: Issue[] = [];
   const times = shotTimes(timing, plan);
   const cast = opts.cast ?? plan.cast;
+  const wardrobe = resolveWardrobe({ ...plan, cast });
+  issues.push(...wardrobe.issues);
   // continuity: the last staged shot on each set hands its people on to the next one
   const lastOnSet = new Map<string, { perf: Performance; dur: number; index: number }>();
   const carryFor = (setId: string, index: number): Carry | undefined => {
@@ -147,7 +152,17 @@ export function compose(plan: FilmPlan, timing: Timing, opts: { cast?: CastMembe
     // ---------------------------------------------------------------- staged shot
     const set = SETS[shot.set ?? "office"];
     const carry = carryFor(set.id, index);
-    const perf = perform({ set, shot, path, dur, cast, at, words, ...(carry ? { carry } : {}) });
+    const perf = perform({
+      set,
+      shot,
+      path,
+      dur,
+      cast,
+      at,
+      words,
+      wardrobe: wardrobe.byShot.get(shot.id),
+      ...(carry ? { carry } : {}),
+    });
     lastOnSet.set(set.id, { perf, dur, index });
     issues.push(...perf.issues);
     events.push(...perf.events);
@@ -228,7 +243,7 @@ export function compose(plan: FilmPlan, timing: Timing, opts: { cast?: CastMembe
   });
   const duration = shots.length ? (shots[shots.length - 1] as ComposedShot).end : 0;
   issues.push(...checkFilm(shots).issues);
-  return { shots, duration, issues };
+  return { shots, duration, issues, wardrobe };
 }
 
 interface Subject {

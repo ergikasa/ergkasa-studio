@@ -6,9 +6,14 @@
  */
 import type { Action, ActorPlacement, CastMember, Mood, Shot } from "./contract.js";
 import { EASES, K, clamp, hash01, type Ease, type Key } from "./motion.js";
+import type { Garment } from "@erkasa/contracts";
 import {
+  CLOTH_LAG,
   drawPerson,
+  featuresOf,
+  isDressedLook,
   lookFor,
+  swayOf,
   reachArm,
   RIG,
   skeleton,
@@ -24,6 +29,7 @@ import {
 import { type SetDef, standingHipY } from "./sets.js";
 import type { Carry, CharacterState } from "./continuity.js";
 import type { PropKind } from "./props.js";
+import type { Worn } from "./wardrobe.js";
 
 export interface Issue {
   level: "error" | "warning";
@@ -170,9 +176,9 @@ export class ActorPerf {
   /** The mood the person is in (latest set), for how they move. */
   moods: Array<{ t: number; m: Mood }> = [];
 
-  constructor(p: ActorPlacement, cast: CastMember | undefined, set: SetDef, idx: number) {
+  constructor(p: ActorPlacement, cast: CastMember | undefined, set: SetDef, idx: number, worn?: Garment[]) {
     this.id = p.id;
-    this.look = lookFor(cast ?? { build: "man" });
+    this.look = lookFor({ ...(cast ?? { build: "man" }), wardrobe: worn, features: featuresOf(cast) });
     const mark = set.marks[p.at];
     const facing = (p.facing ? (p.facing === "right" ? 1 : -1) : (mark?.facing ?? 1)) as 1 | -1;
     const seated = p.pose === "seated";
@@ -340,7 +346,9 @@ export class ActorPerf {
   }
 
   draw(t: number): Drawn {
-    return drawPerson(this.pose(t), this.placed(t), this.look, { glow: this.glow.at(t), id: this.id });
+    const pl = this.placed(t);
+    const sway = isDressedLook(this.look) ? swayOf(this.placed(t - CLOTH_LAG).x, pl.x, pl.facing) : 0;
+    return drawPerson(this.pose(t), pl, this.look, { glow: this.glow.at(t), id: this.id, sway });
   }
 }
 
@@ -365,6 +373,8 @@ export interface PerformContext {
   words: Array<{ word: string; t: number; end: number }>;
   /** Where the previous shot on this set left people and props (continuity.ts). Absent: start from the plan. */
   carry?: Carry;
+  /** What each person wears in this shot (wardrobe.ts); people absent keep the plain look. */
+  wardrobe?: Map<string, Worn> | undefined;
 }
 
 const GESTURE_SEC: Partial<Record<Action["do"], number>> = {
@@ -408,6 +418,7 @@ export function perform(ctx: PerformContext): Performance {
         ctx.cast.find((c) => c.id === p.id),
         set,
         i,
+        ctx.wardrobe?.get(p.id)?.garments,
       ),
     );
   });

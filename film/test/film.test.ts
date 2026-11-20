@@ -10,10 +10,13 @@ import { rasterize } from "../src/render.js";
 const root = join(import.meta.dirname, "..", "..");
 const load = (name: string) => ({
   script: Script.parse(
-    JSON.parse(readFileSync(join(root, "benchmark", "scripts", `${name}.script.json`), "utf8")),
+    JSON.parse(
+      readFileSync(join(root, "benchmark", "scripts", `${name.split(".")[0] ?? name}.script.json`), "utf8"),
+    ),
   ),
   plan: FilmPlan.parse(JSON.parse(readFileSync(join(root, "film", "plans", `${name}.film.json`), "utf8"))),
 });
+// a variant of a benchmark plan (b2-same-answers.w1) is directed on the same script (b2-same-answers)
 const plans = readdirSync(join(root, "film", "plans")).map((f) => f.replace(".film.json", ""));
 
 describe("hand-directed benchmark plans", () => {

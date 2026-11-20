@@ -1,3 +1,4 @@
+import { FacialHair, Garment, HairStyle } from "@erkasa/contracts";
 import { z } from "zod";
 
 /**
@@ -84,6 +85,11 @@ export const ActorPlacement = z
     facing: z.enum(["left", "right"]).optional(),
     mood: Mood.default("neutral"),
     holding: z.string().max(30).optional(), // a prop of the set already in the hand
+    /**
+     * The outfit (an id from the cast member's `outfits`) worn from this shot on. Absent: what the person wore in
+     * their previous shot, or their first outfit. Changing it inside the same event is refused (wardrobe.ts).
+     */
+    outfit: Id.optional(),
   })
   .strict();
 export type ActorPlacement = z.infer<typeof ActorPlacement>;
@@ -155,6 +161,48 @@ export const Shot = z
   .strict();
 export type Shot = z.infer<typeof Shot>;
 
+export const Era = z.enum(["contemporary", "1990s", "1970s", "1950s", "1920s", "victorian"]);
+export type Era = z.infer<typeof Era>;
+export const Profession = z.enum([
+  "none",
+  "office",
+  "business",
+  "executive",
+  "construction",
+  "factory",
+  "doctor",
+  "nurse",
+  "scientist",
+  "chef",
+  "teacher",
+  "student",
+  "retail",
+  "artist",
+  "farmer",
+]);
+export type Profession = z.infer<typeof Profession>;
+/** What the situation asks of clothes. */
+export const Occasion = z.enum(["work", "formal", "interview", "casual", "home", "outdoor"]);
+export type Occasion = z.infer<typeof Occasion>;
+export const Weather = z.enum(["mild", "warm", "cold", "rain", "snow"]);
+export type Weather = z.infer<typeof Weather>;
+
+/**
+ * One outfit of a person. Either the garments are given, or the wardrobe engine dresses the person for the
+ * occasion and weather from their profile (era, profession), deterministically. `reason` is the narrative reason
+ * the person wears it; a change of outfit during a film needs one.
+ */
+export const Outfit = z
+  .object({
+    id: Id,
+    occasion: Occasion.optional(),
+    weather: Weather.optional(),
+    garments: z.array(Garment).min(1).max(16).optional(),
+    reason: z.string().min(3).max(160).optional(),
+  })
+  .strict();
+export type Outfit = z.infer<typeof Outfit>;
+
 export const CastMember = z
   .object({
     id: Id,
@@ -173,6 +221,17 @@ export const CastMember = z
       .string()
       .regex(/^#[0-9A-Fa-f]{6}$/)
       .optional(),
+    /** Identity beyond colours (constant for the film). */
+    hairStyle: HairStyle.optional(),
+    facialHair: FacialHair.optional(),
+    /** Who the person is in the story: what the wardrobe engine dresses them from. */
+    era: Era.optional(),
+    profession: Profession.optional(),
+    /**
+     * Their clothes. A cast member with outfits (or with a profession or era, which gets one "default" outfit for
+     * work) is dressed garment by garment; one without keeps the plain look (coat colour) of earlier films.
+     */
+    outfits: z.array(Outfit).max(8).optional(),
   })
   .strict();
 export type CastMember = z.infer<typeof CastMember>;

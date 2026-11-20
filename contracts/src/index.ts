@@ -20,6 +20,7 @@ export * from "./audio.js";
 export * from "./script.js";
 export * from "./voice.js";
 export * from "./asset-manifest.js";
+export * from "./wardrobe.js";
 export * from "./render-package.js";
 export * from "./evaluate.js";
 export * from "./camera-view.js";

@@ -12,14 +12,15 @@ import { CONTRACTS_DIR } from "./helpers.js";
  */
 const ROOT = join(CONTRACTS_DIR, "..");
 const read = (path: string): string => readFileSync(join(ROOT, path), "utf8");
+/** The hash of a file, or of several ("a+b") concatenated in order. */
 const sha = (path: string): string =>
   createHash("sha256")
-    .update(readFileSync(join(ROOT, path)))
+    .update(Buffer.concat(path.split("+").map((p) => readFileSync(join(ROOT, p)))))
     .digest("hex");
 
 /** Builtins and the source file whose hash pins them in the examples (until the engine publishes its own). */
 const IMPLEMENTATION: Record<string, string> = {
-  "rig.cutout": "film/src/rig.ts",
+  "rig.cutout": "film/src/rig.ts+film/src/garments.ts",
   "set.office.back": "film/src/sets.ts",
   "set.office.front": "film/src/sets.ts",
   "template.clock": "film/src/templates.ts",

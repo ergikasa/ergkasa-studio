@@ -15,6 +15,7 @@
  */
 import { z } from "zod";
 import { Sha256 } from "./common.js";
+import { FacialHair, GarmentKind, HairStyle } from "./wardrobe.js";
 
 export const ASSET_MANIFEST_SCHEMA = "erkasa.assets/1";
 
@@ -222,6 +223,11 @@ export const RigAsset = z
     sockets: z.array(z.object({ id: PartName, bone: PartName }).strict()).max(16),
     /** Colour slots that an actor's appearance must set (coat, hair, skin). */
     slots: z.array(PartName).max(16),
+    /** Garment kinds this rig draws (a dressed rig); absent: it draws only its plain look. */
+    garments: z.array(GarmentKind).max(64).optional(),
+    /** Hair styles and facial hair this rig draws; absent: only its default. */
+    hairStyles: z.array(HairStyle).max(32).optional(),
+    facialHair: z.array(FacialHair).max(8).optional(),
   })
   .strict();
 

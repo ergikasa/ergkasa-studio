@@ -5,7 +5,7 @@
   "output": { "width": 1080, "height": 1920, "fps": 30, "duration": 8 },
   "assetManifest": {
     "uri": "gate/fixtures/acceptance/prisoner-cell.assets.json",
-    "sha256": "f2a4ead757f6e21556a5e5eeb6d24c9c8bf6d6bb0074edb652afc9d7e9448847"
+    "sha256": "34b9c968dc94911b6571e53d0c678302a6e20a05f70a522a625ef42473b99b6c"
   },
   "scenes": [
     {

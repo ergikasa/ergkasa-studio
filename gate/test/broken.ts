@@ -369,6 +369,20 @@ const BEFORE_G16: Case[] = [
     expect: [`APPEARANCE_SLOTS package${sp("actors", 0, "appearance")}`],
   },
   {
+    name: "wardrobe on a rig that declares no garments",
+    mutate: (c) => {
+      const a = scene(c).actors[0] as Scene["actors"][number];
+      a.wardrobe = [
+        { kind: "shirt", color: "#F4EBDD" },
+        { kind: "trousers", color: "#2B2D42" },
+      ];
+    },
+    expect: [
+      `WARDROBE_UNSUPPORTED package${sp("actors", 0, "wardrobe", 0, "kind")}`,
+      `WARDROBE_UNSUPPORTED package${sp("actors", 0, "wardrobe", 1, "kind")}`,
+    ],
+  },
+  {
     name: "projection the engine does not draw",
     mutate: (c) => {
       const { parallax } = c.capabilities.projections;

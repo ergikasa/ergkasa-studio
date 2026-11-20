@@ -17,7 +17,10 @@ export { shotFrames, type Composed, type ComposedShot } from "../../film/src/com
 export { propAt, type ActorPerf, type Performance, type PropState } from "../../film/src/perform.js";
 export { drawProp, type PropKind } from "../../film/src/props.js";
 export {
+  CLOTH_LAG,
   drawPerson,
+  isDressedLook,
+  swayOf,
   lookFor,
   STANDING,
   type Look,
@@ -88,7 +91,8 @@ export function w0TypeSvg(
 
 /** The engine source files whose hashes pin each builtin (until the engine publishes fingerprints, E1.3). */
 export const IMPLEMENTATION = {
-  rig: "film/src/rig.ts",
+  // the rig draws through garments.ts when dressed (W1): pinned to both, in this order
+  rig: ["film/src/rig.ts", "film/src/garments.ts"],
   sets: "film/src/sets.ts",
   props: "film/src/props.ts",
   templates: "film/src/templates.ts",

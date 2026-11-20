@@ -27,7 +27,7 @@ import {
   type W0Prepared,
   type W0PreparedShot,
 } from "./legacy.js";
-import { ManifestBuilder, UNBOUNDED, fontAsset, procedural, rig } from "./manifest.js";
+import { ManifestBuilder, UNBOUNDED, fontAsset, procedural, actorEntry } from "./manifest.js";
 import { SceneRecorder } from "./recorder.js";
 import { node, recordActor, type SceneFrame, type Staged } from "./v2.js";
 
@@ -255,21 +255,7 @@ export function stageW0(name: string, plan: W0Plan, script: Script): Staged {
       ...(screen ? { screen } : {}),
       actors: ordered.map((aid) => {
         const a = perf?.actors.get(aid) as ActorPerf;
-        return {
-          id: aid,
-          rig: M.use(rig(a.look.build)),
-          layer: `actor_${aid}`,
-          appearance: {
-            coat: a.look.coat,
-            coatDark: a.look.coatDark,
-            pants: a.look.pants,
-            skin: a.look.skin,
-            skinShade: a.look.skinShade,
-            hair: a.look.hair,
-          },
-          shadow: true,
-          rim: true,
-        };
+        return actorEntry(M, aid, a.look, { shadow: true, rim: true });
       }),
       lights: [],
       tracks: rec.tracksOut(),

@@ -959,6 +959,86 @@
                   "type": "string",
                   "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
                 }
+              },
+              "garments": {
+                "maxItems": 64,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "tshirt",
+                    "shirt",
+                    "blouse",
+                    "polo",
+                    "sweater",
+                    "hoodie",
+                    "scrubs_top",
+                    "waistcoat",
+                    "cardigan",
+                    "suit_jacket",
+                    "blazer",
+                    "work_jacket",
+                    "overcoat",
+                    "raincoat",
+                    "puffer",
+                    "lab_coat",
+                    "hi_vis_vest",
+                    "apron",
+                    "tie",
+                    "bow_tie",
+                    "scarf",
+                    "trousers",
+                    "jeans",
+                    "shorts",
+                    "skirt",
+                    "dress",
+                    "overalls",
+                    "scrubs_trousers",
+                    "fedora",
+                    "flat_cap",
+                    "cloche",
+                    "hard_hat",
+                    "beanie",
+                    "cap",
+                    "chef_hat",
+                    "glasses",
+                    "shoes",
+                    "boots",
+                    "sneakers"
+                  ]
+                }
+              },
+              "hairStyles": {
+                "maxItems": 32,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "short",
+                    "side_part",
+                    "slicked",
+                    "curly",
+                    "receding",
+                    "bald",
+                    "long",
+                    "bob",
+                    "bun",
+                    "ponytail"
+                  ]
+                }
+              },
+              "facialHair": {
+                "maxItems": 8,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "none",
+                    "stubble",
+                    "moustache",
+                    "beard"
+                  ]
+                }
               }
             },
             "required": [

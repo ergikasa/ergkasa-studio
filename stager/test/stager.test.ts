@@ -42,8 +42,9 @@ describe.each(FILMS)("%s", (film) => {
   });
 
   it("every builtin is pinned to the engine file that implements it", () => {
+    // the rig is pinned to rig.ts and garments.ts together (W1: the dressed rig draws through both)
     const files: Record<string, string> = {
-      rig: "film/src/rig.ts",
+      rig: "film/src/rig.ts+film/src/garments.ts",
       set: "film/src/sets.ts",
       prop: "film/src/props.ts",
       template: "film/src/templates.ts",
@@ -60,7 +61,11 @@ describe.each(FILMS)("%s", (film) => {
         if (s.kind !== "builtin" || s.name.startsWith("font.")) continue;
         const head = s.name === "type.w0" ? "film/src/w0/compositor.ts" : files[s.name.split(".")[0] ?? ""];
         expect(head, s.name).toBeDefined();
-        expect(s.fingerprint, s.name).toBe(sha(readFileSync(join(ROOT, head ?? ""), "utf8")));
+        const text = (head ?? "")
+          .split("+")
+          .map((f) => readFileSync(join(ROOT, f), "utf8"))
+          .join("");
+        expect(s.fingerprint, s.name).toBe(sha(text));
       }
     }
   });

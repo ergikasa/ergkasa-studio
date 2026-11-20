@@ -70,6 +70,33 @@ describe("director", () => {
     }
   });
 
+  it("round-trips identity and wardrobe (W1: B2 with one Alex in two outfits)", () => {
+    const plan = FilmPlan.parse(
+      JSON.parse(readFileSync(join(root, "film", "plans", "b2-same-answers.w1.film.json"), "utf8")),
+    );
+    const back = FilmPlan.parse(decode(JSON.parse(JSON.stringify(encode(plan))), plan.voiceId).plan);
+    // the answer's shape always carries an occasion and a weather; the defaults are what the engine assumes
+    const norm = (p: FilmPlan): FilmPlan => ({
+      ...p,
+      cast: p.cast.map((c) => ({
+        ...c,
+        ...(c.outfits
+          ? {
+              outfits: c.outfits.map((o) => ({
+                ...o,
+                occasion: o.occasion ?? "work",
+                weather: o.weather ?? "mild",
+              })),
+            }
+          : {}),
+      })),
+    });
+    expect(back).toEqual(norm(plan));
+    expect(back.shots.find((s) => s.id === "sh06")?.actors.find((a) => a.id === "alex")?.outfit).toBe(
+      "interview_suit",
+    );
+  });
+
   it("accepts a clean plan on the first answer", async () => {
     const { script, plan } = load("b1-why-we-stay");
     const llm = fake([encode(plan)]);

@@ -30,7 +30,15 @@ import {
   type Shot,
   type Timing,
 } from "./legacy.js";
-import { BONES, ManifestBuilder, RIG_CHANNELS, UNBOUNDED, fontAsset, procedural, rig } from "./manifest.js";
+import {
+  BONES,
+  ManifestBuilder,
+  RIG_CHANNELS,
+  UNBOUNDED,
+  fontAsset,
+  procedural,
+  actorEntry,
+} from "./manifest.js";
 import { CAPTION_STYLE, captionPhrases, captionsOverlay, liftKineticType, type Zone } from "./captions.js";
 import { SceneRecorder } from "./recorder.js";
 import { stageAudio, type V2Audio } from "./audio.js";
@@ -538,21 +546,7 @@ function stagedScene(
     ...(screen.length ? { screen } : {}),
     actors: ordered.map((aid) => {
       const a = perf.actors.get(aid) as ActorPerf;
-      return {
-        id: aid,
-        rig: M.use(rig(a.look.build)),
-        layer: `actor_${aid}`,
-        appearance: {
-          coat: a.look.coat,
-          coatDark: a.look.coatDark,
-          pants: a.look.pants,
-          skin: a.look.skin,
-          skinShade: a.look.skinShade,
-          hair: a.look.hair,
-        },
-        shadow: false,
-        rim: false,
-      };
+      return actorEntry(M, aid, a.look, { shadow: false, rim: false });
     }),
     lights: [],
     tracks: rec.tracksOut(),

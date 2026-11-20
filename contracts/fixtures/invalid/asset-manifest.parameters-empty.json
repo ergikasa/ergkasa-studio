@@ -199,7 +199,7 @@
         "kind": "builtin",
         "name": "rig.cutout",
         "version": 1,
-        "fingerprint": "e27fab0f9c8388cd2771a924ac84bf5b5327dc5e9f2c9d6170d696a07ba5bec4"
+        "fingerprint": "f349d854040cdf2aef00a0dbc338f3e6faa2bd19b0610ed26701bae914b69f96"
       },
       "height": 180,
       "bones": [

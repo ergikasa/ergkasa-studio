@@ -48,8 +48,8 @@ const SCHEMA_FIELDS = [
 describe("the field matrix", () => {
   const fields = caps().fields;
 
-  it("classifies every leaf field of both schemas, and nothing else (249 since E1.5: mix.ducking × 5, loudness.rangeLu)", () => {
-    expect(SCHEMA_FIELDS.length).toBe(249);
+  it("classifies every leaf field of both schemas, and nothing else (257 since W1: actor wardrobe × 3, features × 2; rig garments, hairStyles, facialHair)", () => {
+    expect(SCHEMA_FIELDS.length).toBe(257);
     expect(SCHEMA_FIELDS.filter((f) => !(f in fields))).toEqual([]); // a new schema field without a class
     expect(Object.keys(fields).filter((f) => !SCHEMA_FIELDS.includes(f))).toEqual([]); // a class for no field
   });
@@ -111,6 +111,10 @@ describe("the field matrix", () => {
     ],
     [/^package:\/scenes\/\*\/actors\/\*\/layer$/, "VALUE_UNSUPPORTED package/scenes/#/actors/#/layer"],
     [/^package:\/scenes\/\*\/actors\/\*\/(rim|shadow)$/, "VALUE_UNSUPPORTED package/scenes/#/actors/#/rim"],
+    [
+      /^package:\/scenes\/\*\/actors\/\*\/wardrobe\/\*\/kind$/,
+      "WARDROBE_UNSUPPORTED package/scenes/#/actors/#/wardrobe/#/kind",
+    ],
     [/^package:\/scenes\/\*\/contacts\//, "CAPABILITY_MISSING package/scenes/#/contacts/#"],
     [/^package:\/scenes\/\*\/lights\//, "CAPABILITY_MISSING package/scenes/#/lights/#/kind"],
     [/^package:\/scenes\/\*\/events\/\*\/fx$/, "FX_UNSUPPORTED package/scenes/#/events/#/fx"],

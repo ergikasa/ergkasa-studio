@@ -10,7 +10,14 @@
  * checks that rely on its structure are skipped (their findings would be noise).
  */
 import { realpathSync, statSync } from "node:fs";
-import { AssetManifest, DEFINED_EASES, RenderPackage, wavInfo } from "@erkasa/contracts";
+import {
+  AssetManifest,
+  DEFINED_EASES,
+  RenderPackage,
+  identityFingerprint,
+  outfitProblems,
+  wavInfo,
+} from "@erkasa/contracts";
 import { DEFAULT_BUDGETS, type Budgets } from "./budgets.js";
 import { capabilityProblems, type BuiltinCapability, type RenderCapabilities } from "./capabilities.js";
 import { readContained, type VerifiedFile } from "./files.js";
@@ -468,6 +475,9 @@ function checkPackage(
     else sceneIds.set(s.id, i);
   });
 
+  // G13b identity: the same person (actor id) looks like the same person in every scene (CA-I1)
+  const identities = new Map<string, { fp: string; scene: string }>();
+
   pkg.scenes.forEach((scene, si) => {
     const sp = (...x: Array<string | number>): string => P("scenes", si, ...x);
     // G15 projection and lights
@@ -586,6 +596,56 @@ function checkPackage(
           "package",
           sp("actors", k, "layer"),
           `layer '${ac.layer}' is not a world layer of scene '${scene.id}'`,
+        );
+      // G13a wardrobe and features: only what the rig declares it draws, and outfits it can draw (CA-W3)
+      if (ac.wardrobe) {
+        const can = new Set(rig?.garments ?? []);
+        ac.wardrobe.forEach((g, gi) => {
+          if (rig && !can.has(g.kind))
+            F.error(
+              "WARDROBE_UNSUPPORTED",
+              "package",
+              sp("actors", k, "wardrobe", gi, "kind"),
+              `${ac.rig} does not draw '${g.kind}'${rig.garments ? "" : " (it declares no garments)"}`,
+            );
+        });
+        for (const problem of outfitProblems(ac.wardrobe))
+          F.error("OUTFIT_INVALID", "package", sp("actors", k, "wardrobe"), problem);
+      }
+      if (ac.features && rig) {
+        if (!(rig.hairStyles ?? []).includes(ac.features.hair))
+          F.error(
+            "FEATURES_UNSUPPORTED",
+            "package",
+            sp("actors", k, "features", "hair"),
+            `${ac.rig} does not draw hair style '${ac.features.hair}'`,
+          );
+        if (!(rig.facialHair ?? []).includes(ac.features.facialHair))
+          F.error(
+            "FEATURES_UNSUPPORTED",
+            "package",
+            sp("actors", k, "features", "facialHair"),
+            `${ac.rig} does not draw facial hair '${ac.features.facialHair}'`,
+          );
+      }
+      const fp =
+        rig &&
+        identityFingerprint({
+          rig: ac.rig,
+          skin: ac.appearance.skin ?? "",
+          hair: ac.appearance.hair ?? "",
+          features: ac.features,
+        });
+      const known = identities.get(ac.id);
+      if (!fp) {
+        // no rig to judge identity by: ASSET_KIND or ASSET_UNKNOWN already refuses the actor
+      } else if (!known) identities.set(ac.id, { fp, scene: scene.id });
+      else if (known.fp !== fp)
+        F.error(
+          "IDENTITY_DRIFT",
+          "package",
+          sp("actors", k),
+          `'${ac.id}' does not look like the same person as in scene '${known.scene}' (body, skin, hair or features differ: ${known.fp} -> ${fp}); clothes may change, identity may not`,
         );
       if (rig) {
         const keys = Object.keys(ac.appearance).sort();

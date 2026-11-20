@@ -1049,6 +1049,107 @@
                 },
                 "rim": {
                   "type": "boolean"
+                },
+                "wardrobe": {
+                  "minItems": 1,
+                  "maxItems": 16,
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "kind": {
+                        "type": "string",
+                        "enum": [
+                          "tshirt",
+                          "shirt",
+                          "blouse",
+                          "polo",
+                          "sweater",
+                          "hoodie",
+                          "scrubs_top",
+                          "waistcoat",
+                          "cardigan",
+                          "suit_jacket",
+                          "blazer",
+                          "work_jacket",
+                          "overcoat",
+                          "raincoat",
+                          "puffer",
+                          "lab_coat",
+                          "hi_vis_vest",
+                          "apron",
+                          "tie",
+                          "bow_tie",
+                          "scarf",
+                          "trousers",
+                          "jeans",
+                          "shorts",
+                          "skirt",
+                          "dress",
+                          "overalls",
+                          "scrubs_trousers",
+                          "fedora",
+                          "flat_cap",
+                          "cloche",
+                          "hard_hat",
+                          "beanie",
+                          "cap",
+                          "chef_hat",
+                          "glasses",
+                          "shoes",
+                          "boots",
+                          "sneakers"
+                        ]
+                      },
+                      "color": {
+                        "type": "string",
+                        "pattern": "^#[0-9A-Fa-f]{6}$"
+                      },
+                      "color2": {
+                        "type": "string",
+                        "pattern": "^#[0-9A-Fa-f]{6}$"
+                      }
+                    },
+                    "required": [
+                      "kind",
+                      "color"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "features": {
+                  "type": "object",
+                  "properties": {
+                    "hair": {
+                      "type": "string",
+                      "enum": [
+                        "short",
+                        "side_part",
+                        "slicked",
+                        "curly",
+                        "receding",
+                        "bald",
+                        "long",
+                        "bob",
+                        "bun",
+                        "ponytail"
+                      ]
+                    },
+                    "facialHair": {
+                      "type": "string",
+                      "enum": [
+                        "none",
+                        "stubble",
+                        "moustache",
+                        "beard"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "hair",
+                    "facialHair"
+                  ],
+                  "additionalProperties": false
                 }
               },
               "required": [

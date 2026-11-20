@@ -5,7 +5,7 @@
   "output": { "width": 1080, "height": 1920, "fps": 30, "duration": 5 },
   "assetManifest": {
     "uri": "gate/fixtures/acceptance/office-clock.assets.json",
-    "sha256": "42dd3aa8a6cd5e23596b1c82692315286e98e1cd246b04f483b8357197c057d5"
+    "sha256": "df1a88ecac575d8f2d88408a40a22650c7b4ff3a6973551be694bc95497c0cf7"
   },
   "scenes": [
     {

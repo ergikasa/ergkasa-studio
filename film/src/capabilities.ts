@@ -71,6 +71,13 @@ export function capabilities(): EngineCapabilities {
 
 const sha256 = (file: string): string => createHash("sha256").update(readFileSync(file)).digest("hex");
 const source = (rel: string): string => sha256(fileURLToPath(new URL(rel, import.meta.url)));
+/** The rig is drawn by rig.ts and, dressed, by garments.ts: its fingerprint is the hash of both, in that order. */
+export const RIG_FILES = ["rig.ts", "garments.ts"] as const;
+const rigSource = (): string => {
+  const h = createHash("sha256");
+  for (const f of RIG_FILES) h.update(readFileSync(fileURLToPath(new URL(`./${f}`, import.meta.url))));
+  return h.digest("hex");
+};
 
 /** Rig bones of the procedural person; the other Pose channels, and glow, are non-bone channels. */
 const BONES = ["torso", "head", "arm", "fore", "armF", "foreF", "thigh", "shin", "thighF", "shinF"];
@@ -274,7 +281,7 @@ export function renderCapabilities(): RenderCapabilities {
   const rig = (build: "man" | "woman"): BuiltinCapability => ({
     name: `rig.cutout.${build}`,
     version: 1,
-    fingerprint: source("./rig.ts"),
+    fingerprint: rigSource(),
     status: "supported",
     kind: "rig",
     rig: {

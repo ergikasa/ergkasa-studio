@@ -27,7 +27,10 @@ import {
   SETS,
   TEMPLATES,
   W,
+  CLOTH_LAG,
   drawPerson,
+  isDressedLook,
+  swayOf,
   drawProp,
   fmt,
   fontFiles,
@@ -113,7 +116,9 @@ function person(at: At, a: ActorPerf, t: number): string {
     if (c !== "glow") (pose as unknown as Record<string, number>)[c] = v(`channel.${c}`);
   const look: Look = {
     build: actor.rig.startsWith("rig_cutout_woman") ? "woman" : "man",
-    ...(actor.appearance as Omit<Look, "build">),
+    ...(actor.appearance as unknown as Omit<Look, "build">),
+    ...(actor.wardrobe ? { wardrobe: actor.wardrobe } : {}),
+    ...(actor.features ? { features: actor.features } : {}),
   };
   const placed = {
     x: v("root.x"),
@@ -136,7 +141,14 @@ function person(at: At, a: ActorPerf, t: number): string {
   same(placed.facing, srcPlaced.facing as number, "facing");
   same(placed.turn, srcPlaced.turn as number, "turn");
   same(placed.scale, srcPlaced.scale as number, "root.scale");
-  const svg = drawPerson(pose, placed, look, { glow: v("channel.glow"), id: a.id }).svg;
+  const sway = isDressedLook(look)
+    ? swayOf(
+        new At(at.scene, at.frame - Math.round(CLOTH_LAG * FPS)).n("actor", a.id, "root.x"),
+        placed.x,
+        placed.facing,
+      )
+    : 0;
+  const svg = drawPerson(pose, placed, look, { glow: v("channel.glow"), id: a.id, sway }).svg;
   if (svg !== a.draw(t).svg) expect.fail(`${at.scene.id} ${a.id} frame ${at.frame}: person SVG differs`);
   personFrames++;
   return svg;

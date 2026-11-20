@@ -13,7 +13,7 @@
   },
   "assetManifest": {
     "uri": "contracts/fixtures/valid/asset-manifest.prisoner-cell.json",
-    "sha256": "4c627b49e9a082cc4e1c1949ac379e3ede59352451f528945645e22360af39fc"
+    "sha256": "f691e02ec969185b4b9c9668c6698917b0c70331947f79d11a96496ff2420f57"
   },
   "scenes": [
     {

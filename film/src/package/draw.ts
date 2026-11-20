@@ -18,7 +18,7 @@ import { safeOpacity } from "@erkasa/engine";
 import type { SetId, Template } from "../contract.js";
 import { clamp } from "../motion.js";
 import { drawProp, type PropKind } from "../props.js";
-import { drawPerson, STANDING, type Look, type Pose } from "../rig.js";
+import { CLOTH_LAG, drawPerson, isDressedLook, STANDING, swayOf, type Look, type Pose } from "../rig.js";
 import { SETS } from "../sets.js";
 import { H, W, kineticType, type TypeLine } from "../style.js";
 import { TEMPLATES } from "../templates.js";
@@ -144,7 +144,12 @@ export function actorSvg(lib: Library, at: At, a: Scene["actors"][number]): stri
   for (const b of rig.bones) set[b.id] = at.n("actor", a.id, `bone.${b.id}`, set[b.id] ?? 0);
   for (const { id: c } of rig.channels)
     if (c !== "glow") set[c] = at.n("actor", a.id, `channel.${c}`, set[c] ?? 0);
-  const look = { build, ...(a.appearance as Omit<Look, "build">) } as Look;
+  const look = {
+    build,
+    ...(a.appearance as unknown as Omit<Look, "build">),
+    ...(a.wardrobe ? { wardrobe: a.wardrobe } : {}),
+    ...(a.features ? { features: a.features } : {}),
+  } as Look;
   const placed = {
     x: at.n("actor", a.id, "root.x", 0),
     y: at.n("actor", a.id, "root.y", 0),
@@ -153,7 +158,11 @@ export function actorSvg(lib: Library, at: At, a: Scene["actors"][number]): stri
     scale: at.n("actor", a.id, "root.scale", 1),
   };
   const glow = rig.channels.some((c) => c.id === "glow") ? at.n("actor", a.id, "channel.glow", 0) : 0;
-  return drawPerson(pose, placed, look, { glow, id: a.id }).svg;
+  // cloth follow-through: where the hip was CLOTH_LAG ago (a frame boundary, so the recorded value, exactly)
+  const sway = isDressedLook(look)
+    ? swayOf(new At(at.scene, at.t - CLOTH_LAG).n("actor", a.id, "root.x", 0), placed.x, placed.facing)
+    : 0;
+  return drawPerson(pose, placed, look, { glow, id: a.id, sway }).svg;
 }
 
 // ------------------------------------------------------------------------------------------------ flat scenes

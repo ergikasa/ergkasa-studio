@@ -10,7 +10,7 @@ import { capabilityProblems } from "../src/index.js";
 import { ROOT, caps, clone, film, sha } from "./helpers.js";
 
 const FILE: Array<[RegExp, string]> = [
-  [/^rig\./, "film/src/rig.ts"],
+  [/^rig\./, "film/src/rig.ts+film/src/garments.ts"], // W1: the dressed rig draws through both
   [/^set\./, "film/src/sets.ts"],
   [/^prop\./, "film/src/props.ts"],
   [/^template\./, "film/src/templates.ts"],
@@ -49,7 +49,8 @@ describe("engine render capabilities", () => {
       }
       const file = FILE.find(([re]) => re.test(b.name))?.[1];
       expect(file, b.name).toBeDefined();
-      expect(b.fingerprint, b.name).toBe(sha(readFileSync(join(ROOT, file as string))));
+      const bytes = Buffer.concat((file as string).split("+").map((f) => readFileSync(join(ROOT, f))));
+      expect(b.fingerprint, b.name).toBe(sha(bytes));
       expect([b.version, b.status]).toEqual([1, "supported"]);
     }
   });

@@ -7,7 +7,20 @@
  */
 import type { TimedWord } from "@erkasa/compiler";
 import type { Script } from "@erkasa/contracts";
-import { FilmPlan, Mood, Template, Verb, capabilities, prepare, type Issue } from "@erkasa/film";
+import { FacialHair, HairStyle } from "@erkasa/contracts";
+import {
+  Era,
+  FilmPlan,
+  Mood,
+  Occasion,
+  Profession,
+  Template,
+  Verb,
+  Weather,
+  capabilities,
+  prepare,
+  type Issue,
+} from "@erkasa/film";
 import { describeSets } from "./describe.js";
 
 /** The slice of a language model the director needs (structurally the same as the ai-worker's Llm). */
@@ -80,6 +93,20 @@ export const DIRECTOR_SCHEMA: Record<string, unknown> = obj({
       coat: str,
       hair: str,
       skin: str,
+      // identity and wardrobe (W1): "" = not given; outfits [] = the plain look
+      hairStyle: enumOf(["", ...HairStyle.options]),
+      facialHair: enumOf(["", ...FacialHair.options]),
+      era: enumOf(["", ...Era.options]),
+      profession: enumOf(["", ...Profession.options]),
+      outfits: {
+        type: "array",
+        items: obj({
+          id: str,
+          occasion: enumOf(Occasion.options),
+          weather: enumOf(Weather.options),
+          reason: str,
+        }),
+      },
     }),
   },
   shots: {
@@ -105,6 +132,7 @@ export const DIRECTOR_SCHEMA: Record<string, unknown> = obj({
           facing: nullable(enumOf(["left", "right"])),
           mood: enumOf(Mood.options),
           holding: nullable(str),
+          outfit: str, // "" = what they wore last
         }),
       },
       actions: {
@@ -154,14 +182,35 @@ export function decode(value: unknown, voiceId: string): { plan: unknown; issues
   v.cast = (v.cast ?? []).map((c) =>
     c && typeof c === "object"
       ? Object.fromEntries(
-          Object.entries(c as Record<string, unknown>).filter(
-            ([k, x]) => !(["coat", "hair", "skin"].includes(k) && x === ""),
-          ),
+          Object.entries(c as Record<string, unknown>)
+            .filter(
+              ([k, x]) =>
+                !(
+                  ["coat", "hair", "skin", "hairStyle", "facialHair", "era", "profession"].includes(k) &&
+                  x === ""
+                ) && !(k === "outfits" && Array.isArray(x) && x.length === 0),
+            )
+            .map(([k, x]) =>
+              k === "outfits" && Array.isArray(x)
+                ? [
+                    k,
+                    x.map((o) => {
+                      if (!o || typeof o !== "object") return o;
+                      const { reason, ...rest } = o as { reason?: string };
+                      return reason ? { ...rest, reason } : rest;
+                    }),
+                  ]
+                : [k, x],
+            ),
         )
       : c,
   );
   const shots = (v.shots ?? []).map((s, i) => {
     const { paramsJson, ...rest } = s;
+    if (Array.isArray(rest["actors"]))
+      rest["actors"] = (rest["actors"] as Array<Record<string, unknown>>).map(({ outfit, ...a }) =>
+        typeof outfit === "string" && outfit !== "" ? { ...a, outfit } : a,
+      );
     let params: unknown = {};
     if (typeof paramsJson === "string" && paramsJson.trim()) {
       try {
@@ -210,7 +259,14 @@ How a good Erkasa film is cut:
   staged shot 2-6 actions spread over its duration, anchored to the words they illustrate. Nothing stands still.
 - On-screen type is short (2-6 words a line, 1-3 lines), it never repeats the narration word for word, and it
   lands on the word it belongs to. Use \`accent\` for the one word that matters.
-- The same person keeps the same id and look in every shot (cast). At most 3 people.
+- The same person keeps the same id and look in every shot (cast). At most 3 people. One person is ONE cast
+  member, whatever they wear: never a second cast member to change someone's clothes.
+- Wardrobe: give each person who they are (\`profession\`, and \`era\` when the story is not set today) and the
+  engine dresses them for it. Give \`outfits\` only when the clothes must change with the situation (a casual day,
+  then an interview; summer, then winter): each outfit has an occasion, a weather and the story's \`reason\`. An
+  actor's \`outfit\` names the outfit worn from that shot on ("" = the same as before). Clothes never change inside
+  one event: a change needs \`continuity: "reset"\` (time has passed) or a different set. Hair style and facial
+  hair are identity and never change.
 
 The plan's vocabulary (anything else is an error):
 - \`scene\` is a script scene id. \`from\` is where the shot starts: "start" (the scene's first word) or
@@ -229,7 +285,7 @@ ${describeSets(capabilities())}
 - Editorial templates and their params (written as a JSON string in \`paramsJson\`; "{}" when none):
 ${TEMPLATE_DOC}
 
-Answer with the whole plan. Shot ids are sh01, sh02... Fields you do not use are null (a cast member's coat, hair or skin you leave to the default: "").`;
+Answer with the whole plan. Shot ids are sh01, sh02... Fields you do not use are null (a cast member's coat, hair, skin, hairStyle, facialHair, era or profession you leave to the default: ""; outfits: [] for the plain look; an actor's outfit "" to keep what they wear).`;
 }
 
 function scriptBrief(script: Script): string {
@@ -309,9 +365,20 @@ export function encode(plan: FilmPlan): unknown {
       coat: c.coat ?? "",
       hair: c.hair ?? "",
       skin: c.skin ?? "",
+      hairStyle: c.hairStyle ?? "",
+      facialHair: c.facialHair ?? "",
+      era: c.era ?? "",
+      profession: c.profession ?? "",
+      outfits: (c.outfits ?? []).map((o) => ({
+        id: o.id,
+        occasion: o.occasion ?? "work",
+        weather: o.weather ?? "mild",
+        reason: o.reason ?? "",
+      })),
     })),
     shots: plan.shots.map(({ params, ...s }) => ({
       ...s,
+      actors: s.actors.map((a) => ({ ...a, outfit: a.outfit ?? "" })),
       continuity: s.continuity ?? null,
       paramsJson: JSON.stringify(params ?? {}),
     })),

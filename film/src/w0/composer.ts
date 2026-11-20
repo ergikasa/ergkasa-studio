@@ -19,6 +19,7 @@ import { EASES, K, clamp, ramp } from "../motion.js";
 import { perform, propAt, type Issue, type Performance } from "../perform.js";
 import { carryFrom, checkFilm, type Carry } from "../continuity.js";
 import { drawProp } from "../props.js";
+import { resolveWardrobe } from "../wardrobe.js";
 import { H, W } from "../style.js";
 import { anchorTime, layoutTiming, shotTimes, type Timing } from "../timing.js";
 import { aimAt, lerpCam, REF, type Cam } from "./camera.js";
@@ -129,6 +130,14 @@ export function prepare(plan: W0Plan, script: Script): Prepared {
     cast: plan.cast,
     shots: plan.shots.map((s) => s.shot),
   });
+  const wardrobe = resolveWardrobe({
+    schema: "erkasa.film/1",
+    title: plan.title,
+    voiceId: "none",
+    cast: plan.cast,
+    shots: plan.shots.map((s) => s.shot),
+  });
+  issues.push(...wardrobe.issues);
   const lastOnSet = new Map<string, { perf: Performance; dur: number; index: number }>();
   const carryFor = (setId: string, index: number): Carry | undefined => {
     const l = lastOnSet.get(setId);
@@ -155,7 +164,17 @@ export function prepare(plan: W0Plan, script: Script): Prepared {
     const carry = shot.kind === "set" ? carryFor(set.id, index) : undefined;
     const perf =
       shot.kind === "set"
-        ? perform({ set, shot, path, dur, cast: plan.cast, at, words, ...(carry ? { carry } : {}) })
+        ? perform({
+            set,
+            shot,
+            path,
+            dur,
+            cast: plan.cast,
+            at,
+            words,
+            wardrobe: wardrobe.byShot.get(shot.id),
+            ...(carry ? { carry } : {}),
+          })
         : undefined;
     if (perf) lastOnSet.set(set.id, { perf, dur, index });
     if (perf) {

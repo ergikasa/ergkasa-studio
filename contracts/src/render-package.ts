@@ -47,6 +47,7 @@
 import { z } from "zod";
 import { NamedEasing, Sha256 } from "./common.js";
 import { ContainedUri, ManifestAssetRef, PartName } from "./asset-manifest.js";
+import { Features, Garment } from "./wardrobe.js";
 
 export const RENDER_PACKAGE_SCHEMA = "erkasa.render/1";
 
@@ -178,6 +179,13 @@ export const Actor = z
     shadow: z.boolean(),
     /** A rim of light on the side facing the key light. */
     rim: z.boolean(),
+    /**
+     * What the person wears in this scene, inside out (contracts/src/wardrobe.ts). Absent: the rig's plain look from
+     * `appearance`. Every garment kind must be one the rig declares (`garments`), or the gate refuses the package.
+     */
+    wardrobe: z.array(Garment).min(1).max(16).optional(),
+    /** Hair style and facial hair: identity, the same in every scene of the film. Needs a rig that declares them. */
+    features: Features.optional(),
   })
   .strict();
 

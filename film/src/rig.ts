@@ -5,6 +5,8 @@
  *
  * Angles are degrees. Limbs: 0 = straight down, positive = forward (toward the facing side). The hip is the root.
  */
+import type { Features, Garment } from "@erkasa/contracts";
+import { dressedSvg } from "./garments.js";
 import { fmt, rad } from "./motion.js";
 
 export interface Pose {
@@ -87,11 +89,56 @@ export interface Look {
   skin: string;
   skinShade: string;
   hair: string;
+  /** Clothes, inside out (wardrobe.ts). Absent: the plain look (coat and pants colours). */
+  wardrobe?: Garment[];
+  /** Hair style and facial hair (identity). Absent: the build's default. */
+  features?: Features;
 }
 
-export function lookFor(m: { build: "man" | "woman"; coat?: string; hair?: string; skin?: string }): Look {
+/** How far back cloth looks to know how the body was moving (follow-through): 5 frames at 30 fps. */
+export const CLOTH_LAG = 5 / 30;
+
+/**
+ * How cloth trails the body: -1..1, positive when the body moves forward (toward where it faces), from where the hip
+ * was CLOTH_LAG seconds ago. A walk at full speed is about 0.6.
+ */
+export function swayOf(xBefore: number, xNow: number, facing: number): number {
+  const v = ((xNow - xBefore) / CLOTH_LAG) * (facing >= 0 ? 1 : -1);
+  return Math.max(-1, Math.min(1, v / 700));
+}
+
+/** A cast member's identity features, when the plan gives any. */
+export function featuresOf(
+  m:
+    | {
+        hairStyle?: Features["hair"] | undefined;
+        facialHair?: Features["facialHair"] | undefined;
+        build: "man" | "woman";
+      }
+    | undefined,
+): Features | undefined {
+  if (!m || (!m.hairStyle && !m.facialHair)) return undefined;
+  return {
+    hair: m.hairStyle ?? (m.build === "woman" ? "long" : "short"),
+    facialHair: m.facialHair ?? "none",
+  };
+}
+
+/** Is this look drawn garment by garment (garments.ts) rather than as the plain cutout? */
+export const isDressedLook = (l: Look): boolean => !!(l.wardrobe?.length || l.features);
+
+export function lookFor(m: {
+  build: "man" | "woman";
+  coat?: string | undefined;
+  hair?: string | undefined;
+  skin?: string | undefined;
+  wardrobe?: Garment[] | undefined;
+  features?: Features | undefined;
+}): Look {
   const coat = m.coat ?? (m.build === "man" ? "#3D5A80" : "#2A9D8F");
   return {
+    ...(m.wardrobe?.length ? { wardrobe: m.wardrobe } : {}),
+    ...(m.features ? { features: m.features } : {}),
     build: m.build,
     coat,
     coatDark: shade(coat, -0.22),
@@ -186,7 +233,7 @@ export function drawPerson(
   pose: Pose,
   pl: Placed,
   look: Look,
-  opts: { glow?: number; id?: string } = {},
+  opts: { glow?: number; id?: string; sway?: number } = {},
 ): Drawn {
   const cl = (v: number, a: number, b: number): number =>
     Number.isFinite(v) ? Math.max(a, Math.min(b, v)) : a;
@@ -241,14 +288,17 @@ export function drawPerson(
     ? `<g opacity="${fmt(opts.glow)}"><ellipse cx="${fmt(k.head[0])}" cy="${fmt(k.head[1] - 40)}" rx="230" ry="230" fill="url(#glow)"/><ellipse cx="${fmt(k.head[0])}" cy="${fmt(k.head[1] - 92)}" rx="62" ry="15" fill="none" stroke="#FFD27D" stroke-width="9"/></g>`
     : "";
   const sx = pl.scale * pl.facing * Math.max(0.05, pl.turn);
-  const svg = `<g${opts.id ? ` data-id="${opts.id}"` : ""} transform="translate(${fmt(pl.x)} ${fmt(pl.y)}) scale(${fmt(sx)} ${fmt(pl.scale)})">
-    ${glow}
-    <ellipse cx="20" cy="${fmt(Math.max(k.ankle[1], k.ankleF[1]) + 24)}" rx="120" ry="14" fill="#000" opacity=".16"/>
-    ${limb(k.shF, k.elbowF, k.handF, 34, look.coatDark)}${handShape(k.handF, look.skinShade, 0)}
+  const body = isDressedLook(look)
+    ? dressedSvg(p, k, look, opts.sway ?? 0)
+    : `${limb(k.shF, k.elbowF, k.handF, 34, look.coatDark)}${handShape(k.handF, look.skinShade, 0)}
     ${limb([0, 0], k.kneeF, k.ankleF, 50, shade(look.pants, -0.25))}${shoe(k.ankleF, "#111")}
     ${limb([6, 0], k.knee, k.ankle, 52, look.pants)}${shoe(k.ankle, "#1A1A22")}
     ${neckEl}${torso}${face}
-    ${limb(k.shN, k.elbow, k.hand, 38, look.coat)}${handShape(k.hand, look.skin, p.hand)}
+    ${limb(k.shN, k.elbow, k.hand, 38, look.coat)}${handShape(k.hand, look.skin, p.hand)}`;
+  const svg = `<g${opts.id ? ` data-id="${opts.id}"` : ""} transform="translate(${fmt(pl.x)} ${fmt(pl.y)}) scale(${fmt(sx)} ${fmt(pl.scale)})">
+    ${glow}
+    <ellipse cx="20" cy="${fmt(Math.max(k.ankle[1], k.ankleF[1]) + 24)}" rx="120" ry="14" fill="#000" opacity=".16"/>
+    ${body}
   </g>`;
   const top = toWorld(pl, [k.head[0], k.head[1] - 70])[1];
   const feet = toWorld(pl, k.ankle)[1] + 26 * pl.scale;
