@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { evaluate, type Evaluated, type IrisItem, type PartItem } from "../src/runtime/index.js";
-import { testCharacter, must } from "./helpers.js";
+import { loadEdited, testCharacter, must } from "./helpers.js";
 
 const item = (ev: Evaluated, id: string): PartItem => {
   for (const l of ev.layers) for (const it of l.items) if (it.kind === "part" && it.part.id === id) return it;
@@ -122,5 +122,19 @@ describe("head views and angles", () => {
   it("refuses a yaw outside the views (the package covers −15…40)", async () => {
     const c = await testCharacter();
     expect(() => evaluate(c, { channels: { head_yaw: 60 } })).toThrow(/CHANNEL_RANGE/);
+  });
+});
+
+describe("visemes", () => {
+  it("a viseme channel is consumed through the face rig: its action units and the jaw", async () => {
+    const c = await loadEdited((s) => {
+      s.manifest.face.visemes.push({ id: "aa", aus: { au12: 0.5 }, jaw: 0.8 });
+      s.manifest.capabilities.face.visemes.push("aa");
+      s.manifest.capabilities.channels.push("viseme_aa");
+    });
+    const ev = evaluate(c, { channels: { viseme_aa: 1 } });
+    expect(ev.values["au12"]).toBeCloseTo(0.5);
+    expect(ev.values["jaw_open"]).toBeCloseTo(0.8);
+    expect(() => evaluate(c, { channels: { viseme_aa: 1.5 } })).toThrow(/CHANNEL_RANGE/);
   });
 });

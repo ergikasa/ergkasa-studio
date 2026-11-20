@@ -194,6 +194,11 @@ export function svgDoc(w, h, body, bg = null) {
   }${body}</svg>`;
 }
 
+/** Renders an SVG string to PNG bytes at its own size. */
+export function pngOf(svg) {
+  return new Resvg(svg, { fitTo: { mode: "original" } }).render().asPng();
+}
+
 /** Renders an SVG string to PNG. `fitWidth` scales the output. */
 export function renderPng(svg, file, fitWidth) {
   const r = new Resvg(svg, {

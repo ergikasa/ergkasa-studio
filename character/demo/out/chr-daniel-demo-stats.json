@@ -1,0 +1,40 @@
+{
+  "frames": 360,
+  "size": "1080x1920",
+  "fps": 30,
+  "wallSeconds": 15.4,
+  "msPerFrameInclEncoding": 42.8,
+  "evaluateMs": {
+    "p50": 2.4,
+    "p95": 10.4,
+    "max": 33.1
+  },
+  "drawMs": {
+    "p50": 7.5,
+    "p95": 47.3,
+    "max": 140.3
+  },
+  "drawMsFullShot": {
+    "p50": 7.3,
+    "p95": 51.8
+  },
+  "drawMsCloseUp": {
+    "p50": 7.6,
+    "p95": 21.8
+  },
+  "drawMsCrossFade": {
+    "p50": 55.1,
+    "max": 140.3
+  },
+  "crossFadeFrames": 20,
+  "rssGrowthMB": 132.5,
+  "rssEvery2sMB": [
+    449,
+    467,
+    464,
+    464,
+    473,
+    481
+  ],
+  "ffmpegExit": 0
+}

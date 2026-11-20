@@ -123,6 +123,9 @@ function rest(c: LoadedCharacter): Rest {
   for (const o of m.wardrobe) for (const g of o.garments) for (const p of g.parts) garment.set(p, o.id);
   const consumed = new Map<string, { range: [number, number]; rest: number }>();
   for (const ctl of m.controls) consumed.set(ctl.channel, { range: ctl.range, rest: ctl.rest });
+  // a viseme channel is consumed by the face rig itself (its action units and jaw), not by a control
+  for (const v of m.face.visemes)
+    if (!consumed.has(`viseme_${v.id}`)) consumed.set(`viseme_${v.id}`, { range: [0, 1], rest: 0 });
   for (const [, g] of Object.entries(m.views)) {
     if (!g || consumed.has(g.yawChannel)) continue;
     const lo = Math.min(...g.views.map((v) => v.yaw[0]));

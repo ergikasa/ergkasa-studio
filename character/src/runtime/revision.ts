@@ -3,4 +3,5 @@
  * the runtime learns to draw something new that a package may rely on; a change in how an existing package is
  * drawn is a new revision too (its golden frames change).
  */
-export const RUNTIME_REVISION = 1;
+// 2: viseme channels are consumed through the face rig (`face.visemes`), without a control of their own.
+export const RUNTIME_REVISION = 2;

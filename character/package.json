@@ -14,6 +14,7 @@
     "test": "vitest run",
     "cli": "tsx src/library/cli.ts",
     "build:test-character": "tsx src/builder/build-test-character.ts",
+    "build:daniel": "tsx src/builder/build-daniel.ts",
     "bench": "node --expose-gc --import tsx bench/bench.ts",
     "demo": "tsx demo/render-demo.ts"
   },
@@ -23,6 +24,7 @@
     "zod": "4.6.7"
   },
   "devDependencies": {
+    "polygon-clipping": "0.15.7",
     "tsx": "4.23.15",
     "vitest": "5.1.0"
   }

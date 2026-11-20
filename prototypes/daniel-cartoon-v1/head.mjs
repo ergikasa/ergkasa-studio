@@ -207,6 +207,30 @@ export function landmarks(expr = {}) {
     mv(`${s}.lowerLip`, [sx * 0.3 * smile, 0.25 * smile - 0.3 * frown + 0.15 * press, 0]);
     mv(`${s}.nasolabial`, [sx * 0.3 * smile, 0.35 * smile, 0.15 * smile]);
     mv(`${s}.alare`, [sx * 0.08 * smile, 0.12 * smile + 0.25 * e("sneer", side), 0]);
+    // pucker (rounded, narrowed lips for o and u)
+    const pucker = e("pucker", side);
+    mv(`${s}.cheilion`, [-sx * 0.75 * pucker, -0.05 * pucker, 0.45 * pucker]);
+    mv(`${s}.upperLip`, [-sx * 0.35 * pucker, 0.05 * pucker, 0.35 * pucker]);
+    mv(`${s}.lowerLip`, [-sx * 0.35 * pucker, -0.1 * pucker, 0.35 * pucker]);
+    // blink: the upper lid comes down onto the lower lid
+    const blink = e("blink", side);
+    if (blink) {
+      const pairs = [
+        ["lidUpIn", "lidLowIn", 0.05],
+        ["lidUpPeak", "lidLowLow", 0.08],
+        ["lidUpOut", "lidLowOut", 0.05],
+      ];
+      for (const [u, l, gap] of pairs) {
+        const U = L[`${s}.${u}`],
+          D = L[`${s}.${l}`];
+        L[`${s}.${u}`] = [
+          U[0] + (D[0] - U[0]) * blink,
+          U[1] + (D[1] + gap - U[1]) * blink,
+          U[2] + (D[2] - U[2]) * blink * 0.5,
+        ];
+      }
+      for (const k of ["creaseIn", "creasePeak", "creaseOut"]) mv(`${s}.${k}`, [0, -0.45 * blink, 0]);
+    }
   }
   const jaw = expr.jaw ?? 0;
   // the jaw drops the lower lip, the chin and the jaw line together
@@ -228,7 +252,8 @@ export function landmarks(expr = {}) {
   }
   mv("l.cheilion", [0, -0.45 * jaw, 0]);
   mv("r.cheilion", [0, -0.45 * jaw, 0]);
-  mv("labSup", [0, 0.15 * (expr.sneer ?? 0), 0]);
+  mv("labSup", [0, 0.15 * (expr.sneer ?? 0), 0.35 * (expr.pucker ?? 0)]);
+  mv("labInf", [0, 0, 0.35 * (expr.pucker ?? 0)]);
   return L;
 }
 

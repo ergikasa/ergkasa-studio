@@ -1,0 +1,1929 @@
+{
+  "schema": "erkasa.character/1",
+  "id": "chr_daniel",
+  "version": 1,
+  "name": "Daniel Vos",
+  "purpose": "reference",
+  "identity": {
+    "build": "man",
+    "ageYears": 44,
+    "height": 1809,
+    "heads": 7.03,
+    "palette": {
+      "skin": "#E8B391",
+      "skinShadow": "#C98B6D",
+      "eyes": "#6E4A2F",
+      "hair": "#4B3528"
+    },
+    "hairStyle": "short_side_part",
+    "facialHair": "beard",
+    "marks": [
+      "grey_at_temples",
+      "part_on_his_right"
+    ]
+  },
+  "fingerprint": "0faf18034beabe80653704dd9f9ea456a17a5369e0b64263035cc3c1b4492a3e",
+  "formats": {
+    "rig": "erkasa.rig.layered/1",
+    "channels": "erkasa.humanoid/1"
+  },
+  "compatibility": {
+    "minRuntime": 2
+  },
+  "origin": "root",
+  "skeleton": {
+    "bones": [
+      {
+        "id": "root",
+        "at": [
+          0,
+          0
+        ],
+        "angle": -90,
+        "length": 0
+      },
+      {
+        "id": "pelvis",
+        "parent": "root",
+        "at": [
+          0,
+          -930
+        ],
+        "angle": -90,
+        "length": 200
+      },
+      {
+        "id": "chest",
+        "parent": "pelvis",
+        "at": [
+          0,
+          -1130
+        ],
+        "angle": -90,
+        "length": 360
+      },
+      {
+        "id": "neck",
+        "parent": "chest",
+        "at": [
+          0,
+          -1490
+        ],
+        "angle": -90,
+        "length": 120
+      },
+      {
+        "id": "head",
+        "parent": "neck",
+        "at": [
+          0,
+          -1610
+        ],
+        "angle": -90,
+        "length": 250
+      },
+      {
+        "id": "arm_l_upper_b0",
+        "parent": "chest",
+        "at": [
+          176,
+          -1438
+        ],
+        "angle": 82.355,
+        "length": 300.7
+      },
+      {
+        "id": "arm_l_lower_b0",
+        "parent": "arm_l_upper_b0",
+        "at": [
+          216,
+          -1140
+        ],
+        "angle": 91.386,
+        "length": 248.1
+      },
+      {
+        "id": "hand_l_b0",
+        "parent": "arm_l_lower_b0",
+        "at": [
+          210,
+          -892
+        ],
+        "angle": 91.386,
+        "length": 166.1
+      },
+      {
+        "id": "arm_r_upper_b0",
+        "parent": "chest",
+        "at": [
+          -176,
+          -1442
+        ],
+        "angle": 98.049,
+        "length": 300
+      },
+      {
+        "id": "arm_r_lower_b0",
+        "parent": "arm_r_upper_b0",
+        "at": [
+          -218,
+          -1145
+        ],
+        "angle": 90,
+        "length": 250
+      },
+      {
+        "id": "hand_r_b0",
+        "parent": "arm_r_lower_b0",
+        "at": [
+          -218,
+          -895
+        ],
+        "angle": 90,
+        "length": 167.9
+      },
+      {
+        "id": "arm_l_upper_b35",
+        "parent": "chest",
+        "at": [
+          139.6,
+          -1438
+        ],
+        "angle": 85.693,
+        "length": 298.8
+      },
+      {
+        "id": "arm_l_lower_b35",
+        "parent": "arm_l_upper_b35",
+        "at": [
+          162,
+          -1140
+        ],
+        "angle": 84.002,
+        "length": 249.4
+      },
+      {
+        "id": "hand_l_b35",
+        "parent": "arm_l_lower_b35",
+        "at": [
+          188.1,
+          -892
+        ],
+        "angle": 84.002,
+        "length": 167
+      },
+      {
+        "id": "arm_r_upper_b35",
+        "parent": "chest",
+        "at": [
+          -148.8,
+          -1442
+        ],
+        "angle": 99.213,
+        "length": 300.9
+      },
+      {
+        "id": "arm_r_lower_b35",
+        "parent": "arm_r_upper_b35",
+        "at": [
+          -196.9,
+          -1145
+        ],
+        "angle": 84.757,
+        "length": 251.1
+      },
+      {
+        "id": "hand_r_b35",
+        "parent": "arm_r_lower_b35",
+        "at": [
+          -174,
+          -895
+        ],
+        "angle": 84.757,
+        "length": 168.6
+      }
+    ],
+    "sockets": [],
+    "contacts": []
+  },
+  "controls": [
+    {
+      "channel": "spine_bend",
+      "range": [
+        -5,
+        5
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "bone",
+          "bone": "pelvis",
+          "degPerUnit": 1
+        }
+      ]
+    },
+    {
+      "channel": "chest_bend",
+      "range": [
+        -8,
+        8
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "bone",
+          "bone": "chest",
+          "degPerUnit": 1
+        }
+      ]
+    },
+    {
+      "channel": "breath",
+      "range": [
+        0,
+        1
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "morph",
+          "morph": "breath",
+          "from": 0,
+          "to": 1
+        }
+      ]
+    },
+    {
+      "channel": "neck_bend",
+      "range": [
+        -10,
+        10
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "bone",
+          "bone": "neck",
+          "degPerUnit": 1
+        }
+      ]
+    },
+    {
+      "channel": "head_roll",
+      "range": [
+        -15,
+        15
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "bone",
+          "bone": "head",
+          "degPerUnit": 1
+        }
+      ]
+    },
+    {
+      "channel": "head_yaw",
+      "range": [
+        -52.5,
+        52.5
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "morph",
+          "morph": "hn45_yaw_pos",
+          "from": -45,
+          "to": -37.5
+        },
+        {
+          "kind": "morph",
+          "morph": "hn45_yaw_neg",
+          "from": -45,
+          "to": -52.5
+        },
+        {
+          "kind": "morph",
+          "morph": "hn30_yaw_pos",
+          "from": -30,
+          "to": -22.5
+        },
+        {
+          "kind": "morph",
+          "morph": "hn30_yaw_neg",
+          "from": -30,
+          "to": -37.5
+        },
+        {
+          "kind": "morph",
+          "morph": "hn15_yaw_pos",
+          "from": -15,
+          "to": -7.5
+        },
+        {
+          "kind": "morph",
+          "morph": "hn15_yaw_neg",
+          "from": -15,
+          "to": -22.5
+        },
+        {
+          "kind": "morph",
+          "morph": "h0_yaw_pos",
+          "from": 0,
+          "to": 7.5
+        },
+        {
+          "kind": "morph",
+          "morph": "h0_yaw_neg",
+          "from": 0,
+          "to": -7.5
+        },
+        {
+          "kind": "morph",
+          "morph": "h15_yaw_pos",
+          "from": 15,
+          "to": 22.5
+        },
+        {
+          "kind": "morph",
+          "morph": "h15_yaw_neg",
+          "from": 15,
+          "to": 7.5
+        },
+        {
+          "kind": "morph",
+          "morph": "h30_yaw_pos",
+          "from": 30,
+          "to": 37.5
+        },
+        {
+          "kind": "morph",
+          "morph": "h30_yaw_neg",
+          "from": 30,
+          "to": 22.5
+        },
+        {
+          "kind": "morph",
+          "morph": "h45_yaw_pos",
+          "from": 45,
+          "to": 52.5
+        },
+        {
+          "kind": "morph",
+          "morph": "h45_yaw_neg",
+          "from": 45,
+          "to": 37.5
+        }
+      ]
+    },
+    {
+      "channel": "head_pitch",
+      "range": [
+        -10,
+        10
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "morph",
+          "morph": "hn45_pitch_pos",
+          "from": 0,
+          "to": 10
+        },
+        {
+          "kind": "morph",
+          "morph": "hn45_pitch_neg",
+          "from": 0,
+          "to": -10
+        },
+        {
+          "kind": "morph",
+          "morph": "hn30_pitch_pos",
+          "from": 0,
+          "to": 10
+        },
+        {
+          "kind": "morph",
+          "morph": "hn30_pitch_neg",
+          "from": 0,
+          "to": -10
+        },
+        {
+          "kind": "morph",
+          "morph": "hn15_pitch_pos",
+          "from": 0,
+          "to": 10
+        },
+        {
+          "kind": "morph",
+          "morph": "hn15_pitch_neg",
+          "from": 0,
+          "to": -10
+        },
+        {
+          "kind": "morph",
+          "morph": "h0_pitch_pos",
+          "from": 0,
+          "to": 10
+        },
+        {
+          "kind": "morph",
+          "morph": "h0_pitch_neg",
+          "from": 0,
+          "to": -10
+        },
+        {
+          "kind": "morph",
+          "morph": "h15_pitch_pos",
+          "from": 0,
+          "to": 10
+        },
+        {
+          "kind": "morph",
+          "morph": "h15_pitch_neg",
+          "from": 0,
+          "to": -10
+        },
+        {
+          "kind": "morph",
+          "morph": "h30_pitch_pos",
+          "from": 0,
+          "to": 10
+        },
+        {
+          "kind": "morph",
+          "morph": "h30_pitch_neg",
+          "from": 0,
+          "to": -10
+        },
+        {
+          "kind": "morph",
+          "morph": "h45_pitch_pos",
+          "from": 0,
+          "to": 10
+        },
+        {
+          "kind": "morph",
+          "morph": "h45_pitch_neg",
+          "from": 0,
+          "to": -10
+        }
+      ]
+    },
+    {
+      "channel": "arm_l_upper",
+      "range": [
+        -15,
+        80
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "bone",
+          "bone": "arm_l_upper_b0",
+          "degPerUnit": -1
+        },
+        {
+          "kind": "bone",
+          "bone": "arm_l_upper_b35",
+          "degPerUnit": -1
+        }
+      ]
+    },
+    {
+      "channel": "arm_l_lower",
+      "range": [
+        0,
+        120
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "bone",
+          "bone": "arm_l_lower_b0",
+          "degPerUnit": 1
+        },
+        {
+          "kind": "bone",
+          "bone": "arm_l_lower_b35",
+          "degPerUnit": 1
+        }
+      ]
+    },
+    {
+      "channel": "wrist_l_bend",
+      "range": [
+        -30,
+        30
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "bone",
+          "bone": "hand_l_b0",
+          "degPerUnit": 1
+        },
+        {
+          "kind": "bone",
+          "bone": "hand_l_b35",
+          "degPerUnit": 1
+        }
+      ]
+    },
+    {
+      "channel": "arm_r_upper",
+      "range": [
+        -15,
+        80
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "bone",
+          "bone": "arm_r_upper_b0",
+          "degPerUnit": 1
+        },
+        {
+          "kind": "bone",
+          "bone": "arm_r_upper_b35",
+          "degPerUnit": 1
+        }
+      ]
+    },
+    {
+      "channel": "arm_r_lower",
+      "range": [
+        0,
+        120
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "bone",
+          "bone": "arm_r_lower_b0",
+          "degPerUnit": -1
+        },
+        {
+          "kind": "bone",
+          "bone": "arm_r_lower_b35",
+          "degPerUnit": -1
+        }
+      ]
+    },
+    {
+      "channel": "wrist_r_bend",
+      "range": [
+        -30,
+        30
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "bone",
+          "bone": "hand_r_b0",
+          "degPerUnit": -1
+        },
+        {
+          "kind": "bone",
+          "bone": "hand_r_b35",
+          "degPerUnit": -1
+        }
+      ]
+    },
+    {
+      "channel": "au01",
+      "range": [
+        0,
+        1
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "morph",
+          "morph": "au01",
+          "from": 0,
+          "to": 1
+        },
+        {
+          "kind": "opacity",
+          "part": "forehead_worry_hn45",
+          "from": 0.15,
+          "to": 0.8
+        },
+        {
+          "kind": "opacity",
+          "part": "forehead_worry_hn30",
+          "from": 0.15,
+          "to": 0.8
+        },
+        {
+          "kind": "opacity",
+          "part": "forehead_worry_hn15",
+          "from": 0.15,
+          "to": 0.8
+        },
+        {
+          "kind": "opacity",
+          "part": "forehead_worry_h0",
+          "from": 0.15,
+          "to": 0.8
+        },
+        {
+          "kind": "opacity",
+          "part": "forehead_worry_h15",
+          "from": 0.15,
+          "to": 0.8
+        },
+        {
+          "kind": "opacity",
+          "part": "forehead_worry_h30",
+          "from": 0.15,
+          "to": 0.8
+        },
+        {
+          "kind": "opacity",
+          "part": "forehead_worry_h45",
+          "from": 0.15,
+          "to": 0.8
+        }
+      ]
+    },
+    {
+      "channel": "au02",
+      "range": [
+        0,
+        1
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "morph",
+          "morph": "au02",
+          "from": 0,
+          "to": 1
+        },
+        {
+          "kind": "opacity",
+          "part": "forehead_raise_hn45",
+          "from": 0.15,
+          "to": 0.8
+        },
+        {
+          "kind": "opacity",
+          "part": "forehead_raise_hn30",
+          "from": 0.15,
+          "to": 0.8
+        },
+        {
+          "kind": "opacity",
+          "part": "forehead_raise_hn15",
+          "from": 0.15,
+          "to": 0.8
+        },
+        {
+          "kind": "opacity",
+          "part": "forehead_raise_h0",
+          "from": 0.15,
+          "to": 0.8
+        },
+        {
+          "kind": "opacity",
+          "part": "forehead_raise_h15",
+          "from": 0.15,
+          "to": 0.8
+        },
+        {
+          "kind": "opacity",
+          "part": "forehead_raise_h30",
+          "from": 0.15,
+          "to": 0.8
+        },
+        {
+          "kind": "opacity",
+          "part": "forehead_raise_h45",
+          "from": 0.15,
+          "to": 0.8
+        }
+      ]
+    },
+    {
+      "channel": "au04",
+      "range": [
+        0,
+        1
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "morph",
+          "morph": "au04",
+          "from": 0,
+          "to": 1
+        },
+        {
+          "kind": "opacity",
+          "part": "frown_lines_hn45",
+          "from": 0.2,
+          "to": 0.8
+        },
+        {
+          "kind": "opacity",
+          "part": "frown_lines_hn30",
+          "from": 0.2,
+          "to": 0.8
+        },
+        {
+          "kind": "opacity",
+          "part": "frown_lines_hn15",
+          "from": 0.2,
+          "to": 0.8
+        },
+        {
+          "kind": "opacity",
+          "part": "frown_lines_h0",
+          "from": 0.2,
+          "to": 0.8
+        },
+        {
+          "kind": "opacity",
+          "part": "frown_lines_h15",
+          "from": 0.2,
+          "to": 0.8
+        },
+        {
+          "kind": "opacity",
+          "part": "frown_lines_h30",
+          "from": 0.2,
+          "to": 0.8
+        },
+        {
+          "kind": "opacity",
+          "part": "frown_lines_h45",
+          "from": 0.2,
+          "to": 0.8
+        }
+      ]
+    },
+    {
+      "channel": "au05",
+      "range": [
+        0,
+        1
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "morph",
+          "morph": "au05",
+          "from": 0,
+          "to": 1
+        }
+      ]
+    },
+    {
+      "channel": "au06",
+      "range": [
+        0,
+        1
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "morph",
+          "morph": "au06",
+          "from": 0,
+          "to": 1
+        },
+        {
+          "kind": "opacity",
+          "part": "crow_feet_hn45",
+          "from": 0.25,
+          "to": 0.85
+        },
+        {
+          "kind": "opacity",
+          "part": "crow_feet_hn30",
+          "from": 0.25,
+          "to": 0.85
+        },
+        {
+          "kind": "opacity",
+          "part": "crow_feet_hn15",
+          "from": 0.25,
+          "to": 0.85
+        },
+        {
+          "kind": "opacity",
+          "part": "crow_feet_h0",
+          "from": 0.25,
+          "to": 0.85
+        },
+        {
+          "kind": "opacity",
+          "part": "crow_feet_h15",
+          "from": 0.25,
+          "to": 0.85
+        },
+        {
+          "kind": "opacity",
+          "part": "crow_feet_h30",
+          "from": 0.25,
+          "to": 0.85
+        },
+        {
+          "kind": "opacity",
+          "part": "crow_feet_h45",
+          "from": 0.25,
+          "to": 0.85
+        }
+      ]
+    },
+    {
+      "channel": "au07",
+      "range": [
+        0,
+        1
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "morph",
+          "morph": "au07",
+          "from": 0,
+          "to": 1
+        }
+      ]
+    },
+    {
+      "channel": "au10",
+      "range": [
+        0,
+        1
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "morph",
+          "morph": "au10",
+          "from": 0,
+          "to": 1
+        }
+      ]
+    },
+    {
+      "channel": "au12",
+      "range": [
+        0,
+        1
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "morph",
+          "morph": "au12",
+          "from": 0,
+          "to": 1
+        },
+        {
+          "kind": "opacity",
+          "part": "smile_lines_hn45",
+          "from": 0.15,
+          "to": 0.65
+        },
+        {
+          "kind": "opacity",
+          "part": "smile_lines_hn30",
+          "from": 0.15,
+          "to": 0.65
+        },
+        {
+          "kind": "opacity",
+          "part": "smile_lines_hn15",
+          "from": 0.15,
+          "to": 0.65
+        },
+        {
+          "kind": "opacity",
+          "part": "smile_lines_h0",
+          "from": 0.15,
+          "to": 0.65
+        },
+        {
+          "kind": "opacity",
+          "part": "smile_lines_h15",
+          "from": 0.15,
+          "to": 0.65
+        },
+        {
+          "kind": "opacity",
+          "part": "smile_lines_h30",
+          "from": 0.15,
+          "to": 0.65
+        },
+        {
+          "kind": "opacity",
+          "part": "smile_lines_h45",
+          "from": 0.15,
+          "to": 0.65
+        }
+      ]
+    },
+    {
+      "channel": "au15",
+      "range": [
+        0,
+        1
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "morph",
+          "morph": "au15",
+          "from": 0,
+          "to": 1
+        }
+      ]
+    },
+    {
+      "channel": "au23",
+      "range": [
+        0,
+        1
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "morph",
+          "morph": "au23",
+          "from": 0,
+          "to": 1
+        }
+      ]
+    },
+    {
+      "channel": "au24",
+      "range": [
+        0,
+        1
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "morph",
+          "morph": "au24",
+          "from": 0,
+          "to": 1
+        }
+      ]
+    },
+    {
+      "channel": "jaw_open",
+      "range": [
+        0,
+        1
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "morph",
+          "morph": "jaw",
+          "from": 0,
+          "to": 1
+        },
+        {
+          "kind": "opacity",
+          "part": "mouth_open_line_hn45",
+          "from": 0.04,
+          "to": 0.2
+        },
+        {
+          "kind": "opacity",
+          "part": "mouth_open_line_hn30",
+          "from": 0.04,
+          "to": 0.2
+        },
+        {
+          "kind": "opacity",
+          "part": "mouth_open_line_hn15",
+          "from": 0.04,
+          "to": 0.2
+        },
+        {
+          "kind": "opacity",
+          "part": "mouth_open_line_h0",
+          "from": 0.04,
+          "to": 0.2
+        },
+        {
+          "kind": "opacity",
+          "part": "mouth_open_line_h15",
+          "from": 0.04,
+          "to": 0.2
+        },
+        {
+          "kind": "opacity",
+          "part": "mouth_open_line_h30",
+          "from": 0.04,
+          "to": 0.2
+        },
+        {
+          "kind": "opacity",
+          "part": "mouth_open_line_h45",
+          "from": 0.04,
+          "to": 0.2
+        }
+      ]
+    },
+    {
+      "channel": "lid_l",
+      "range": [
+        0,
+        1
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "morph",
+          "morph": "blink_l",
+          "from": 0,
+          "to": 1
+        }
+      ]
+    },
+    {
+      "channel": "lid_r",
+      "range": [
+        0,
+        1
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "morph",
+          "morph": "blink_r",
+          "from": 0,
+          "to": 1
+        }
+      ]
+    }
+  ],
+  "views": {
+    "head": {
+      "yawChannel": "head_yaw",
+      "pitchChannel": "head_pitch",
+      "views": [
+        {
+          "id": "hn45",
+          "yaw": [
+            -52.5,
+            -37.5
+          ],
+          "pitch": [
+            -10,
+            10
+          ],
+          "center": {
+            "yaw": -45,
+            "pitch": 0
+          },
+          "parts": [
+            "head_hn45",
+            "socket_hn45",
+            "ear_l_hn45",
+            "eye_white_r_hn45",
+            "eye_over_r_hn45",
+            "eye_white_l_hn45",
+            "eye_over_l_hn45",
+            "brows_hn45",
+            "nose_hn45",
+            "lips_hn45",
+            "mouth_line_hn45",
+            "mouth_inside_hn45",
+            "mouth_open_line_hn45",
+            "mustache_hn45",
+            "jaw_lines_hn45",
+            "nasolabial_hn45",
+            "forehead_hn45",
+            "forehead_raise_hn45",
+            "forehead_worry_hn45",
+            "frown_lines_hn45",
+            "smile_lines_hn45",
+            "crow_feet_hn45",
+            "hair_hn45"
+          ],
+          "blend": 2
+        },
+        {
+          "id": "hn30",
+          "yaw": [
+            -37.5,
+            -22.5
+          ],
+          "pitch": [
+            -10,
+            10
+          ],
+          "center": {
+            "yaw": -30,
+            "pitch": 0
+          },
+          "parts": [
+            "head_hn30",
+            "socket_hn30",
+            "ear_l_hn30",
+            "eye_white_r_hn30",
+            "eye_over_r_hn30",
+            "eye_white_l_hn30",
+            "eye_over_l_hn30",
+            "brows_hn30",
+            "nose_hn30",
+            "lips_hn30",
+            "mouth_line_hn30",
+            "mouth_inside_hn30",
+            "mouth_open_line_hn30",
+            "mustache_hn30",
+            "jaw_lines_hn30",
+            "nasolabial_hn30",
+            "forehead_hn30",
+            "forehead_raise_hn30",
+            "forehead_worry_hn30",
+            "frown_lines_hn30",
+            "smile_lines_hn30",
+            "crow_feet_hn30",
+            "hair_hn30"
+          ],
+          "blend": 2
+        },
+        {
+          "id": "hn15",
+          "yaw": [
+            -22.5,
+            -7.5
+          ],
+          "pitch": [
+            -10,
+            10
+          ],
+          "center": {
+            "yaw": -15,
+            "pitch": 0
+          },
+          "parts": [
+            "head_hn15",
+            "socket_hn15",
+            "ear_l_hn15",
+            "eye_white_r_hn15",
+            "eye_over_r_hn15",
+            "eye_white_l_hn15",
+            "eye_over_l_hn15",
+            "brows_hn15",
+            "nose_hn15",
+            "lips_hn15",
+            "mouth_line_hn15",
+            "mouth_inside_hn15",
+            "mouth_open_line_hn15",
+            "mustache_hn15",
+            "jaw_lines_hn15",
+            "nasolabial_hn15",
+            "forehead_hn15",
+            "forehead_raise_hn15",
+            "forehead_worry_hn15",
+            "frown_lines_hn15",
+            "smile_lines_hn15",
+            "crow_feet_hn15",
+            "hair_hn15"
+          ],
+          "blend": 2
+        },
+        {
+          "id": "h0",
+          "yaw": [
+            -7.5,
+            7.5
+          ],
+          "pitch": [
+            -10,
+            10
+          ],
+          "center": {
+            "yaw": 0,
+            "pitch": 0
+          },
+          "parts": [
+            "head_h0",
+            "socket_h0",
+            "eye_white_r_h0",
+            "eye_over_r_h0",
+            "eye_white_l_h0",
+            "eye_over_l_h0",
+            "brows_h0",
+            "nose_h0",
+            "lips_h0",
+            "mouth_line_h0",
+            "mouth_inside_h0",
+            "mouth_open_line_h0",
+            "mustache_h0",
+            "jaw_lines_h0",
+            "nasolabial_h0",
+            "forehead_h0",
+            "forehead_raise_h0",
+            "forehead_worry_h0",
+            "frown_lines_h0",
+            "smile_lines_h0",
+            "crow_feet_h0",
+            "hair_h0"
+          ],
+          "blend": 2
+        },
+        {
+          "id": "h15",
+          "yaw": [
+            7.5,
+            22.5
+          ],
+          "pitch": [
+            -10,
+            10
+          ],
+          "center": {
+            "yaw": 15,
+            "pitch": 0
+          },
+          "parts": [
+            "head_h15",
+            "socket_h15",
+            "ear_r_h15",
+            "eye_white_r_h15",
+            "eye_over_r_h15",
+            "eye_white_l_h15",
+            "eye_over_l_h15",
+            "brows_h15",
+            "nose_h15",
+            "lips_h15",
+            "mouth_line_h15",
+            "mouth_inside_h15",
+            "mouth_open_line_h15",
+            "mustache_h15",
+            "jaw_lines_h15",
+            "nasolabial_h15",
+            "forehead_h15",
+            "forehead_raise_h15",
+            "forehead_worry_h15",
+            "frown_lines_h15",
+            "smile_lines_h15",
+            "crow_feet_h15",
+            "hair_h15"
+          ],
+          "blend": 2
+        },
+        {
+          "id": "h30",
+          "yaw": [
+            22.5,
+            37.5
+          ],
+          "pitch": [
+            -10,
+            10
+          ],
+          "center": {
+            "yaw": 30,
+            "pitch": 0
+          },
+          "parts": [
+            "head_h30",
+            "socket_h30",
+            "ear_r_h30",
+            "eye_white_r_h30",
+            "eye_over_r_h30",
+            "eye_white_l_h30",
+            "eye_over_l_h30",
+            "brows_h30",
+            "nose_h30",
+            "lips_h30",
+            "mouth_line_h30",
+            "mouth_inside_h30",
+            "mouth_open_line_h30",
+            "mustache_h30",
+            "jaw_lines_h30",
+            "nasolabial_h30",
+            "forehead_h30",
+            "forehead_raise_h30",
+            "forehead_worry_h30",
+            "frown_lines_h30",
+            "smile_lines_h30",
+            "crow_feet_h30",
+            "hair_h30"
+          ],
+          "blend": 2
+        },
+        {
+          "id": "h45",
+          "yaw": [
+            37.5,
+            52.5
+          ],
+          "pitch": [
+            -10,
+            10
+          ],
+          "center": {
+            "yaw": 45,
+            "pitch": 0
+          },
+          "parts": [
+            "head_h45",
+            "socket_h45",
+            "ear_r_h45",
+            "eye_white_r_h45",
+            "eye_over_r_h45",
+            "eye_white_l_h45",
+            "eye_over_l_h45",
+            "brows_h45",
+            "nose_h45",
+            "lips_h45",
+            "mouth_line_h45",
+            "mouth_inside_h45",
+            "mouth_open_line_h45",
+            "mustache_h45",
+            "jaw_lines_h45",
+            "nasolabial_h45",
+            "forehead_h45",
+            "forehead_raise_h45",
+            "forehead_worry_h45",
+            "frown_lines_h45",
+            "smile_lines_h45",
+            "crow_feet_h45",
+            "hair_h45"
+          ],
+          "blend": 2
+        }
+      ]
+    },
+    "body": {
+      "yawChannel": "body_yaw",
+      "views": [
+        {
+          "id": "b0",
+          "yaw": [
+            -17.5,
+            17.5
+          ],
+          "pitch": [
+            0,
+            0
+          ],
+          "center": {
+            "yaw": 0,
+            "pitch": 0
+          },
+          "parts": [
+            "shoe_r_b0",
+            "shoe_l_b0",
+            "trousers_b0",
+            "neck_b0",
+            "jacket_b0",
+            "sleeve_r_b0",
+            "sleeve_l_b0",
+            "hand_r_b0",
+            "cuff_r_b0",
+            "hem_r_b0",
+            "hand_l_b0",
+            "watch_l_b0",
+            "cuff_l_b0",
+            "hem_l_b0"
+          ],
+          "blend": 1.5
+        },
+        {
+          "id": "b35",
+          "yaw": [
+            17.5,
+            45
+          ],
+          "pitch": [
+            0,
+            0
+          ],
+          "center": {
+            "yaw": 35,
+            "pitch": 0
+          },
+          "parts": [
+            "shoe_l_b35",
+            "leg_l_b35",
+            "hand_l_b35",
+            "watch_l_b35",
+            "cuff_l_b35",
+            "sleeve_l_b35",
+            "trousers_b35",
+            "shoe_r_b35",
+            "neck_b35",
+            "jacket_b35",
+            "sleeve_r_b35",
+            "hand_r_b35",
+            "cuff_r_b35",
+            "hem_r_b35"
+          ],
+          "blend": 1.5
+        }
+      ]
+    }
+  },
+  "face": {
+    "aus": [
+      "au01",
+      "au02",
+      "au04",
+      "au05",
+      "au06",
+      "au07",
+      "au10",
+      "au12",
+      "au15",
+      "au23",
+      "au24"
+    ],
+    "visemes": [
+      {
+        "id": "sil",
+        "aus": {
+          "au24": 0.1
+        },
+        "jaw": 0
+      },
+      {
+        "id": "pp",
+        "aus": {
+          "au24": 1
+        },
+        "jaw": 0
+      },
+      {
+        "id": "ff",
+        "aus": {
+          "au10": 0.4,
+          "au15": 0.2
+        },
+        "jaw": 0.1
+      },
+      {
+        "id": "th",
+        "aus": {
+          "au10": 0.2
+        },
+        "jaw": 0.18
+      },
+      {
+        "id": "dd",
+        "aus": {
+          "au12": 0.15
+        },
+        "jaw": 0.25
+      },
+      {
+        "id": "kk",
+        "aus": {},
+        "jaw": 0.3
+      },
+      {
+        "id": "ch",
+        "aus": {
+          "au23": 0.5
+        },
+        "jaw": 0.2
+      },
+      {
+        "id": "ss",
+        "aus": {
+          "au12": 0.35
+        },
+        "jaw": 0.12
+      },
+      {
+        "id": "nn",
+        "aus": {
+          "au12": 0.1
+        },
+        "jaw": 0.22
+      },
+      {
+        "id": "rr",
+        "aus": {
+          "au23": 0.4
+        },
+        "jaw": 0.15
+      },
+      {
+        "id": "aa",
+        "aus": {},
+        "jaw": 0.75
+      },
+      {
+        "id": "e",
+        "aus": {
+          "au12": 0.4
+        },
+        "jaw": 0.35
+      },
+      {
+        "id": "ih",
+        "aus": {
+          "au12": 0.3
+        },
+        "jaw": 0.25
+      },
+      {
+        "id": "oh",
+        "aus": {
+          "au23": 0.6
+        },
+        "jaw": 0.45
+      },
+      {
+        "id": "ou",
+        "aus": {
+          "au23": 1
+        },
+        "jaw": 0.2
+      }
+    ],
+    "blink": {
+      "l": "blink_l",
+      "r": "blink_r"
+    },
+    "gaze": {
+      "rest": [
+        0,
+        0,
+        600
+      ],
+      "range": [
+        [
+          -600,
+          600
+        ],
+        [
+          -400,
+          400
+        ],
+        [
+          100,
+          4000
+        ]
+      ]
+    }
+  },
+  "eyes": [
+    {
+      "id": "l",
+      "bone": "head",
+      "iris": {
+        "radius": 6.93,
+        "color": "#6E4A2F",
+        "ring": "#3F2918"
+      },
+      "pupil": {
+        "radius": 2.835,
+        "color": "#1C130F"
+      },
+      "highlight": {
+        "offset": [
+          -2,
+          -2
+        ],
+        "radius": 1.1,
+        "color": "#FFFFFFE6"
+      },
+      "maxAngle": 25,
+      "views": [
+        {
+          "view": "hn45",
+          "centerVertex": 49,
+          "radius": 10.523,
+          "squash": 0.707,
+          "clip": "eye_white_l_hn45",
+          "over": "eye_over_l_hn45"
+        },
+        {
+          "view": "hn30",
+          "centerVertex": 49,
+          "radius": 10.523,
+          "squash": 0.866,
+          "clip": "eye_white_l_hn30",
+          "over": "eye_over_l_hn30"
+        },
+        {
+          "view": "hn15",
+          "centerVertex": 49,
+          "radius": 10.523,
+          "squash": 0.966,
+          "clip": "eye_white_l_hn15",
+          "over": "eye_over_l_hn15"
+        },
+        {
+          "view": "h0",
+          "centerVertex": 49,
+          "radius": 10.523,
+          "squash": 1,
+          "clip": "eye_white_l_h0",
+          "over": "eye_over_l_h0"
+        },
+        {
+          "view": "h15",
+          "centerVertex": 49,
+          "radius": 10.523,
+          "squash": 0.966,
+          "clip": "eye_white_l_h15",
+          "over": "eye_over_l_h15"
+        },
+        {
+          "view": "h30",
+          "centerVertex": 49,
+          "radius": 10.523,
+          "squash": 0.866,
+          "clip": "eye_white_l_h30",
+          "over": "eye_over_l_h30"
+        },
+        {
+          "view": "h45",
+          "centerVertex": 49,
+          "radius": 10.523,
+          "squash": 0.707,
+          "clip": "eye_white_l_h45",
+          "over": "eye_over_l_h45"
+        }
+      ]
+    },
+    {
+      "id": "r",
+      "bone": "head",
+      "iris": {
+        "radius": 6.93,
+        "color": "#6E4A2F",
+        "ring": "#3F2918"
+      },
+      "pupil": {
+        "radius": 2.835,
+        "color": "#1C130F"
+      },
+      "highlight": {
+        "offset": [
+          -2,
+          -2
+        ],
+        "radius": 1.1,
+        "color": "#FFFFFFE6"
+      },
+      "maxAngle": 25,
+      "views": [
+        {
+          "view": "hn45",
+          "centerVertex": 49,
+          "radius": 10.523,
+          "squash": 0.707,
+          "clip": "eye_white_r_hn45",
+          "over": "eye_over_r_hn45"
+        },
+        {
+          "view": "hn30",
+          "centerVertex": 49,
+          "radius": 10.523,
+          "squash": 0.866,
+          "clip": "eye_white_r_hn30",
+          "over": "eye_over_r_hn30"
+        },
+        {
+          "view": "hn15",
+          "centerVertex": 49,
+          "radius": 10.523,
+          "squash": 0.966,
+          "clip": "eye_white_r_hn15",
+          "over": "eye_over_r_hn15"
+        },
+        {
+          "view": "h0",
+          "centerVertex": 49,
+          "radius": 10.523,
+          "squash": 1,
+          "clip": "eye_white_r_h0",
+          "over": "eye_over_r_h0"
+        },
+        {
+          "view": "h15",
+          "centerVertex": 49,
+          "radius": 10.523,
+          "squash": 0.966,
+          "clip": "eye_white_r_h15",
+          "over": "eye_over_r_h15"
+        },
+        {
+          "view": "h30",
+          "centerVertex": 49,
+          "radius": 10.523,
+          "squash": 0.866,
+          "clip": "eye_white_r_h30",
+          "over": "eye_over_r_h30"
+        },
+        {
+          "view": "h45",
+          "centerVertex": 49,
+          "radius": 10.523,
+          "squash": 0.707,
+          "clip": "eye_white_r_h45",
+          "over": "eye_over_r_h45"
+        }
+      ]
+    }
+  ],
+  "hands": [],
+  "wardrobe": [],
+  "capabilities": {
+    "channels": [
+      "body_yaw",
+      "spine_bend",
+      "chest_bend",
+      "breath",
+      "neck_bend",
+      "head_roll",
+      "head_yaw",
+      "head_pitch",
+      "arm_l_upper",
+      "arm_l_lower",
+      "wrist_l_bend",
+      "arm_r_upper",
+      "arm_r_lower",
+      "wrist_r_bend",
+      "au01",
+      "au02",
+      "au04",
+      "au05",
+      "au06",
+      "au07",
+      "au10",
+      "au12",
+      "au15",
+      "au23",
+      "au24",
+      "jaw_open",
+      "lid_l",
+      "lid_r",
+      "gaze_x",
+      "gaze_y",
+      "gaze_z",
+      "viseme_sil",
+      "viseme_pp",
+      "viseme_ff",
+      "viseme_th",
+      "viseme_dd",
+      "viseme_kk",
+      "viseme_ch",
+      "viseme_ss",
+      "viseme_nn",
+      "viseme_rr",
+      "viseme_aa",
+      "viseme_e",
+      "viseme_ih",
+      "viseme_oh",
+      "viseme_ou"
+    ],
+    "views": {
+      "head": [
+        "hn45",
+        "hn30",
+        "hn15",
+        "h0",
+        "h15",
+        "h30",
+        "h45"
+      ],
+      "body": [
+        "b0",
+        "b35"
+      ]
+    },
+    "face": {
+      "aus": [
+        "au01",
+        "au02",
+        "au04",
+        "au05",
+        "au06",
+        "au07",
+        "au10",
+        "au12",
+        "au15",
+        "au23",
+        "au24"
+      ],
+      "visemes": [
+        "sil",
+        "pp",
+        "ff",
+        "th",
+        "dd",
+        "kk",
+        "ch",
+        "ss",
+        "nn",
+        "rr",
+        "aa",
+        "e",
+        "ih",
+        "oh",
+        "ou"
+      ],
+      "blink": true,
+      "gaze": true,
+      "jaw": true
+    },
+    "hands": {
+      "fingers": false
+    },
+    "locomotion": [],
+    "interactions": [],
+    "wardrobe": [],
+    "lod": [
+      "close",
+      "medium",
+      "wide"
+    ],
+    "evidence": []
+  },
+  "files": [
+    {
+      "path": "parts/body_b0.json",
+      "sha256": "dcde273b18c329ff8a672d2e51310495dd888a0e9b4c9be02993f45411c38ee6",
+      "bytes": 477899,
+      "media": "application/json",
+      "role": "parts"
+    },
+    {
+      "path": "parts/body_b35.json",
+      "sha256": "bce0ba3e2747b20db13bc464a8430dedfe4f4a18f07b23451da42876f2cf1f5c",
+      "bytes": 488661,
+      "media": "application/json",
+      "role": "parts"
+    },
+    {
+      "path": "parts/head_hn45.json",
+      "sha256": "adaec1d2f5ea86d7644e71f1f9385e73672afe6b5a74e345839027abbdb6bd39",
+      "bytes": 918563,
+      "media": "application/json",
+      "role": "parts"
+    },
+    {
+      "path": "parts/head_hn30.json",
+      "sha256": "d9e8ea39fb8a2b95556bb8cbd52bc759bdee59658d1ba8ddc29bdd33a530ef3a",
+      "bytes": 930551,
+      "media": "application/json",
+      "role": "parts"
+    },
+    {
+      "path": "parts/head_hn15.json",
+      "sha256": "2f4255fb036db471ad96fd26ab5b1463c4976c90e0297bd1f497e4cf770dbe7c",
+      "bytes": 940995,
+      "media": "application/json",
+      "role": "parts"
+    },
+    {
+      "path": "parts/head_h0.json",
+      "sha256": "b1f2a7894ebae805a50b07ceb429fcfc972e804753a98e2b0553c327cd15c759",
+      "bytes": 908136,
+      "media": "application/json",
+      "role": "parts"
+    },
+    {
+      "path": "parts/head_h15.json",
+      "sha256": "133d0282d1b18b50fc26ecc6c3d4afde234fa62eaaa567aafdd0701e043a1986",
+      "bytes": 929760,
+      "media": "application/json",
+      "role": "parts"
+    },
+    {
+      "path": "parts/head_h30.json",
+      "sha256": "3172a2517ca3bfe3f4b57bfe7c3b4e82ed150e8da2a77fe15846cf32ca80b8ca",
+      "bytes": 935090,
+      "media": "application/json",
+      "role": "parts"
+    },
+    {
+      "path": "parts/head_h45.json",
+      "sha256": "888054fd4fd2c009d5f44f302c87490c10f298d7c5ae0e054e0bf74385a3bdca",
+      "bytes": 940404,
+      "media": "application/json",
+      "role": "parts"
+    }
+  ],
+  "provenance": {
+    "origin": "builder",
+    "tool": "character-builder/daniel-cartoon-v1@1",
+    "inputsSha256": "35104d2e3f1a755b87b2931f4e9f3a51594be226c28e661e7b3748cd1acbba55"
+  },
+  "license": "LicenseRef-Erkasa-Original",
+  "approval": {
+    "status": "pending",
+    "note": "Built from the concept v1 the PO approved for packaging (prototypes/daniel-cartoon-v1); awaiting the PO's review. Not published."
+  }
+}

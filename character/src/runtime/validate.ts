@@ -226,6 +226,7 @@ export function validateCharacter(c: Input): Finding[] {
   const cap = m.capabilities;
   const consumed = new Set<string>([...controlled.keys()]);
   if (face.gaze) for (const g of GAZE_CHANNELS) consumed.add(g);
+  for (const v of face.visemes) consumed.add(`viseme_${v.id}`);
   for (const g of Object.values(m.views)) if (g) consumed.add(g.yawChannel);
   for (const ch of cap.channels)
     if (!consumed.has(ch))

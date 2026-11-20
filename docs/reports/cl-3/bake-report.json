@@ -1,0 +1,11 @@
+{
+  "parts": 188,
+  "vertices": 88117,
+  "morphs": 1178,
+  "deltas": 312107,
+  "formFallbacks": [],
+  "skipped": [],
+  "inputsSha256": "35104d2e3f1a755b87b2931f4e9f3a51594be226c28e661e7b3748cd1acbba55",
+  "seconds": 61.6,
+  "findings": []
+}

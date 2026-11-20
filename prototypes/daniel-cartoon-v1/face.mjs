@@ -240,14 +240,21 @@ function affineFrom(src, dst) {
  * Draws the head. `cam` is the figure's camera; `pose` places the head ({at, turn, nod, tilt});
  * `expr` are expression parameters; `gaze` is [x, y] (-1..1) in head space.
  */
-export function drawHead(cam, { pose = {}, expr = {}, gaze = [0, 0], S = cam.S } = {}) {
+export function drawHead(cam, { pose = {}, expr = {}, gaze = [0, 0], S = cam.S, bake = null } = {}) {
   const toW = headToWorld(pose);
   const L = landmarks(expr);
   const P = (k) => cam.P(toW(typeof k === "string" ? L[k] : k));
   const P2 = (k) => P(k).slice(0, 2);
-  const facing = (localN) => cam.dir(sub(toW(localN), toW([0, 0, 0])))[2];
+  // bake mode: what is drawn is decided at the view's centre pose, so every state of a view has the same parts
+  const toWc = bake ? headToWorld(bake.centerPose) : toW;
+  const facing = (localN) => cam.dir(sub(toWc(localN), toWc([0, 0, 0])))[2];
   const lw = 2.2 * (S / 10);
   const W = (cm) => cm * S;
+  // bake mode: groups tagged as parts of the character package (data-part, data-bind)
+  const B = (part, bind = "head", morph = "exact") =>
+    bake ? `<g data-part="${part}${bake.suffix}" data-bind="${bind}" data-morph="${morph}">` : "";
+  const E = bake ? "</g>" : "";
+  const meta = { eyes: {} };
 
   const base = headMass({ beard: 0.2 });
   // the open jaw lowers the chin: move the lower head mass with it
@@ -277,15 +284,17 @@ export function drawHead(cam, { pose = {}, expr = {}, gaze = [0, 0], S = cam.S }
     const A = affineFrom(design, anchors);
     const out = EAR_OUT.map(A);
     const d = smooth(out);
-    let e = `<path d="${d}" fill="${HPAL.line}" stroke="${HPAL.line}" stroke-width="${lw * 2}" stroke-linejoin="round"/>`;
+    let e = B(`ear_${s}`);
+    e += `<path d="${d}" fill="${HPAL.line}" stroke="${HPAL.line}" stroke-width="${lw * 2}" stroke-linejoin="round"/>`;
     e += `<path d="${d}" fill="${HPAL.skin}"/>`;
     e += `<path d="${smooth(EAR_CONCHA.map(A))}" fill="${HPAL.skinShade}"/>`;
     e += `<path d="${ink(EAR_HELIX.map(A), lw * 1.2, taperBoth)}" fill="${HPAL.line}"/>`;
     e += `<path d="${ink(EAR_ANTI.map(A), lw * 0.9, taperBoth)}" fill="${HPAL.skinDeep}"/>`;
-    return e;
+    return e + E;
   };
   // -------------------------------------------------------------- head mass (skin)
   const headOut = shapePath(silhouette(head, cam));
+  svg += B("head", "head", "field");
   svg += `<path d="${headOut}" fill="${HPAL.line}" stroke="${HPAL.line}" stroke-width="${lw * 2}" stroke-linejoin="round"/>`;
   // the whole mass starts as beard; the skin is laid over everything above the beard line
   svg += `<path d="${headOut}" fill="${HPAL.beard}"/>`;
@@ -313,7 +322,7 @@ export function drawHead(cam, { pose = {}, expr = {}, gaze = [0, 0], S = cam.S }
     Math.max(-beardVal(r, j), beardVal(r, j) - 0.55, dot(nc, LIGHT) - 0.3),
   ))
     svg += `<path d="${smooth(thin(p, 2))}" fill="${blend(HPAL.stubble, HPAL.skinShade, 0.6)}" stroke="${blend(HPAL.stubble, HPAL.skinShade, 0.6)}" stroke-width="1.2"/>`;
-  svg += designedShadows(P2, L, facing);
+  if (!bake) svg += designedShadows(P2, L, facing);
   // the hair's cast shadow on the forehead: a band under the hairline
   for (const p of region(head, cam, (r, j, nc) => {
     const lp = r.lpts[j];
@@ -322,11 +331,13 @@ export function drawHead(cam, { pose = {}, expr = {}, gaze = [0, 0], S = cam.S }
     return Math.max(h - 0.55 - lp[1], lp[1] - h, Math.abs(a) > 75 ? 1 : -1);
   }))
     svg += `<path d="${smooth(thin(p, 1.5))}" fill="${HPAL.skinShade}" opacity="0.8"/>`;
-  svg += `</g>`;
+  svg += `</g>` + E;
+  if (bake) svg += B("socket") + designedShadows(P2, L, facing) + E;
   svg += ear("r") + ear("l");
 
   // -------------------------------------------------------------- eyes (features stay inside the head's outline)
-  svg += `<g clip-path="url(#${clipHead})">`;
+  // (bake mode: no clip — a clip at build time would change the vertex count from one expression to the next)
+  svg += bake ? "" : `<g clip-path="url(#${clipHead})">`;
   for (const s of ["r", "l"]) svg += eye(s);
   function eye(s) {
     const sx = s === "l" ? 1 : -1;
@@ -340,6 +351,7 @@ export function drawHead(cam, { pose = {}, expr = {}, gaze = [0, 0], S = cam.S }
     const upS = sample(up, 24),
       lowS = sample(low, 24);
     const scleraPoly = [...upS, ...lowS.slice(1)];
+    if (bake) return bakeEye(s, sx, up, low, upS, lowS, scleraPoly);
     const cid = id("e");
     let e = `<clipPath id="${cid}"><path d="${poly(scleraPoly)}"/></clipPath>`;
     e += `<path d="${poly(scleraPoly)}" fill="${HPAL.sclera}"/>`;
@@ -398,8 +410,43 @@ export function drawHead(cam, { pose = {}, expr = {}, gaze = [0, 0], S = cam.S }
     e += `<path d="${ink(bag, lw * 0.5, taperBoth)}" fill="${HPAL.skinDeep}" opacity="0.5"/>`;
     return e;
   }
+  /**
+   * Bake mode: the eye white alone (the runtime draws the iris inside it and turns it toward the gaze target),
+   * then everything drawn over the iris. The lid's shadow is built inside the opening instead of being clipped
+   * to it, so it keeps its vertices when the lids move and when the eye closes.
+   */
+  function bakeEye(s, sx, up, low, upS, lowS, scleraPoly) {
+    let e = B(`eye_white_${s}`) + `<path d="${poly(scleraPoly)}" fill="${HPAL.sclera}"/>` + E;
+    const c = L[`${s}.eyeC`];
+    const g0 = norm([-sx * 0.03, -0.02, 1]);
+    const al = Math.asin(0.66 / 1.2);
+    meta.eyes[s] = { center: P2(add(c, mul(g0, 1.2 * Math.cos(al)))) };
+    const lowR = lowS.slice().reverse();
+    const band = upS.map((p, k) => {
+      const q = lowR[k];
+      const gap = Math.hypot(q[0] - p[0], q[1] - p[1]);
+      const t = Math.min(W(0.32), 0.6 * gap) / Math.max(gap, 1e-6);
+      return [p[0] + (q[0] - p[0]) * t, p[1] + (q[1] - p[1]) * t];
+    });
+    e += B(`eye_over_${s}`);
+    e += `<path d="${poly([...upS, ...band.slice().reverse()])}" fill="${HPAL.scleraShade}" opacity="0.85"/>`;
+    const en = P2(`${s}.enCanthus`);
+    e += `<circle cx="${en[0] + sx * W(0.08)}" cy="${en[1]}" r="${W(0.1)}" fill="#D99A8C"/>`;
+    e += `<path d="${ink(up, lw * 1.9, (t) => 0.12 + 0.88 * Math.sin(Math.PI * clamp(t * 0.88 + 0.02, 0, 1)) ** 0.6)}" fill="${HPAL.line}"/>`;
+    e += `<path d="${ink(low.slice(0, 4), lw * 0.75, taperBoth)}" fill="${HPAL.line}" opacity="0.8"/>`;
+    const crease = [`${s}.creaseIn`, `${s}.creasePeak`, `${s}.creaseOut`].map(P2);
+    e += `<path d="${ink(crease, lw * 0.7, taperBoth)}" fill="${HPAL.skinDeep}"/>`;
+    const bag = [
+      add(L[`${s}.lidLowIn`], [sx * 0.2, -0.5, 0]),
+      add(L[`${s}.lidLowLow`], [0, -0.6, 0]),
+      add(L[`${s}.lidLowOut`], [sx * 0.1, -0.5, -0.1]),
+    ].map(P2);
+    e += `<path d="${ink(bag, lw * 0.5, taperBoth)}" fill="${HPAL.skinDeep}" opacity="0.5"/>`;
+    return e + E;
+  }
 
   // -------------------------------------------------------------- brows
+  svg += B("brows");
   for (const s of ["r", "l"]) {
     const sx = s === "l" ? 1 : -1;
     if (facing([sx * 0.5, 0.2, 1]) < -0.1) continue;
@@ -412,9 +459,11 @@ export function drawHead(cam, { pose = {}, expr = {}, gaze = [0, 0], S = cam.S }
       prof,
     )}" fill="${HPAL.hairShade}" opacity="0.7"/>`;
   }
+  svg += E;
 
   // -------------------------------------------------------------- nose
-  const turned = Math.abs(cam.yaw + (pose.turn ?? 0)) > 12;
+  const turned = Math.abs(cam.yaw + ((bake ? bake.centerPose : pose).turn ?? 0)) > 12;
+  svg += B("nose");
   {
     // shadow on the nose's far side and under it
     const sh = [
@@ -463,6 +512,7 @@ export function drawHead(cam, { pose = {}, expr = {}, gaze = [0, 0], S = cam.S }
       svg += `<path d="${ink([L["r.nostril"], [0, -4.62, 11.15], L["l.nostril"]].map(P2), lw * 0.9, taperBoth)}" fill="${HPAL.line}"/>`;
     }
   }
+  svg += E;
 
   // -------------------------------------------------------------- mouth, lower lip, mustache
   {
@@ -478,12 +528,15 @@ export function drawHead(cam, { pose = {}, expr = {}, gaze = [0, 0], S = cam.S }
       lip("labInf", [0, -0.48, -0.12]),
       lip("r.lowerLip", [0.15, -0.42, -0.1]),
     ].map(P2);
+    svg += B("lips");
     svg += `<path d="${smooth(lowerLip)}" fill="${HPAL.lip}"/>`;
     svg += `<path d="${smooth([lip("l.lowerLip", [0.1, -0.25, -0.1]), lip("labInf", [0, -0.46, -0.12]), lip("l.lowerLip", [-0.15, -0.42, -0.1])].map(P2))}" fill="${HPAL.lipShade}" opacity="0.7"/>`;
     svg += `<path d="${ink([lip("r.lowerLip", [0.35, -0.12, 0.05]), lip("labInf", [-0.2, -0.15, 0.05])].map(P2), lw * 0.8, taperBoth)}" fill="#E7B3A3" opacity="0.8"/>`;
+    svg += E;
     const openAmt =
       jaw + 0.35 * Math.max(0, Math.min(expr.smile ?? 0, (expr.L?.smile ?? 0) + (expr.smile ?? 0)) - 0.5);
-    if (openAmt > 0.12) {
+    if (bake) svg += bakeMouth(openAmt, jaw);
+    else if (openAmt > 0.12) {
       const open = [
         L["r.cheilion"],
         add(L["r.upperLip"], [0, -0.25, 0]),
@@ -525,6 +578,7 @@ export function drawHead(cam, { pose = {}, expr = {}, gaze = [0, 0], S = cam.S }
       svg += `<path d="${ink(ml, lw * 1.35, taperBoth)}" fill="${HPAL.line}"/>`;
     }
     // mustache, over the upper lip, joined to the beard at the corners
+    svg += B("mustache");
     const mu = [
       add(L["r.cheilion"], [-0.35, -0.75, -0.25]),
       add(L["r.alare"], [-0.35, -0.75, -0.2]),
@@ -548,9 +602,67 @@ export function drawHead(cam, { pose = {}, expr = {}, gaze = [0, 0], S = cam.S }
         b = [x * 1.05, -6.05, 10.1 - Math.abs(x) * 0.4];
       svg += `<path d="${ink([a, b].map(P2), lw * 0.55, taperEnd)}" fill="${HPAL.beardShade}"/>`;
     }
+    svg += E;
+  }
+
+  /**
+   * Bake mode: the closed mouth line always, and the opening built from it: collapsed onto the line when the
+   * mouth is shut (no area, so nothing shows), the concept's open mouth at full opening. Teeth and tongue are
+   * built inside the opening instead of clipped to it, so the parts keep their vertices in every state.
+   */
+  function bakeMouth(openAmt, jaw) {
+    const ml = [
+      L["r.cheilion"],
+      mix3(L["r.cheilion"], L.stomion, 0.5, [0, -0.08, 0.4]),
+      L.stomion,
+      mix3(L["l.cheilion"], L.stomion, 0.5, [0, -0.08, 0.4]),
+      L["l.cheilion"],
+    ].map(P2);
+    let out = B("mouth_line") + `<path d="${ink(ml, lw * 1.35, taperBoth)}" fill="${HPAL.line}"/>` + E;
+    const k = smoothstep(0, 0.15, openAmt);
+    const U = [
+      L["r.cheilion"],
+      add(L["r.upperLip"], [0, -0.25, 0]),
+      add(L.labSup, [0, -0.25, 0]),
+      add(L["l.upperLip"], [0, -0.25, 0]),
+      L["l.cheilion"],
+    ].map(P2);
+    const D = [
+      L["l.cheilion"],
+      add(L["l.lowerLip"], [0, 0.35, 0]),
+      add(L.stomion, [0, -0.55 * jaw, 0]),
+      add(L["r.lowerLip"], [0, 0.35, 0]),
+      L["r.cheilion"],
+    ].map(P2);
+    const Mr = ml.slice().reverse();
+    const u = U.map((p, i) => mix2(ml[i], p, k));
+    const d = D.map((p, i) => mix2(Mr[i], p, k));
+    const open = [...u, d[1], d[2], d[3]];
+    const upC = sample(u, 16);
+    const loC = sample(d.slice().reverse(), 16);
+    const at = (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t];
+    const gap = (i) => Math.hypot(loC[i][0] - upC[i][0], loC[i][1] - upC[i][1]);
+    const toward = (a, b, dist, g) => at(a, b, Math.min(1, dist / Math.max(g, 1e-6)));
+    const teethIdx = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+    const teethTop = teethIdx.map((i) => at(upC[i], loC[i], 0.06));
+    const teethLow = teethIdx.map((i) => toward(upC[i], loC[i], Math.min(W(0.55), 0.55 * gap(i)), gap(i)));
+    const tongueIdx = [4, 5, 6, 7, 8, 9, 10, 11, 12];
+    const tongueLow = tongueIdx.map((i) => at(loC[i], upC[i], 0.05));
+    const tongueTop = tongueIdx.map((i) => toward(loC[i], upC[i], Math.min(W(0.45), 0.4 * gap(i)), gap(i)));
+    out += B("mouth_inside");
+    out += `<path d="${smooth(open)}" fill="${HPAL.mouth}"/>`;
+    out += `<path d="${poly([...teethTop, ...teethLow.slice().reverse()])}" fill="${HPAL.teeth}"/>`;
+    out += `<path d="${poly([...tongueLow, ...tongueTop.slice().reverse()])}" fill="${HPAL.tongue}"/>`;
+    out += E;
+    out +=
+      B("mouth_open_line") +
+      `<path d="${smooth(open)}" fill="none" stroke="${HPAL.line}" stroke-width="${lw}"/>` +
+      E;
+    return out;
   }
 
   // -------------------------------------------------------------- the jaw under the beard (structure)
+  svg += B("jaw_lines");
   for (const s of ["r", "l"]) {
     const sx = s === "l" ? 1 : -1;
     const f = facing([sx * 0.8, -0.5, 0.3]);
@@ -563,69 +675,94 @@ export function drawHead(cam, { pose = {}, expr = {}, gaze = [0, 0], S = cam.S }
     ].map(P2);
     svg += `<path d="${ink(jl, lw * 1.1, taperBoth)}" fill="${HPAL.beardShade}" opacity="${Math.min(1, f * 1.4)}"/>`;
   }
+  svg += E;
   // -------------------------------------------------------------- face lines (age, structure)
+  svg += B("nasolabial");
   for (const s of ["r", "l"]) {
     const sx = s === "l" ? 1 : -1;
     if (facing([sx * 0.6, 0, 0.8]) < 0.35) continue;
     // nasolabial, mostly hidden in the beard: only its top
     svg += `<path d="${ink([add(L[`${s}.alarTop`], [sx * 0.35, 0.1, -0.2]), add(L[`${s}.nasolabial`], [0, 0.5, 0]), L[`${s}.nasolabial`]].map(P2), lw * 0.75, taperBoth)}" fill="${HPAL.skinDeep}"/>`;
   }
+  svg += E;
   // forehead lines: faint at rest, deeper when the brows go up; curved up in the middle for worry
   const ev = (k) => Math.max(expr[k] ?? 0, ((expr.L?.[k] ?? 0) + (expr.R?.[k] ?? 0)) / 2 + (expr[k] ?? 0));
   const up = Math.max(ev("browUp"), ev("browInner"));
-  for (const [y, w] of [
-    [3.4, 2.6],
-    [4.3, 2.2],
-    [5.1, 1.6],
-  ]) {
-    if (y > 5 && up < 0.4) continue;
+  const foreheadLine = (y, w, width, opacity) => {
     const curve = 0.35 * ev("browInner") - 0.1 * ev("browUp");
     const pts = [-w, -w / 2, 0, w / 2, w].map((x) => [
       x,
       y + 0.3 * up + curve * Math.cos((x / w) * 1.4),
       9.0 - 0.06 * x * x,
     ]);
-    svg += `<path d="${ink(pts.map(P2), lw * (0.5 + 0.4 * up), taperBoth)}" fill="${HPAL.skinDeep}" opacity="${0.4 + 0.5 * up}"/>`;
-  }
+    return `<path d="${ink(pts.map(P2), width, taperBoth)}" fill="${HPAL.skinDeep}" opacity="${opacity}"/>`;
+  };
+  const LINES = [
+    [3.4, 2.6],
+    [4.3, 2.2],
+    [5.1, 1.6],
+  ];
+  if (bake) {
+    // a faint pair always; deeper lines that the brow units fade in (their opacity is a control's, not drawn)
+    svg +=
+      B("forehead") +
+      LINES.slice(0, 2)
+        .map(([y, w]) => foreheadLine(y, w, lw * (0.5 + 0.4 * up), 0.4))
+        .join("") +
+      E;
+    for (const part of ["forehead_raise", "forehead_worry"])
+      svg += B(part) + LINES.map(([y, w]) => foreheadLine(y, w, lw * 0.85, 0.55)).join("") + E;
+  } else
+    for (const [y, w] of LINES) {
+      if (y > 5 && up < 0.4) continue;
+      svg += foreheadLine(y, w, lw * (0.5 + 0.4 * up), 0.4 + 0.5 * up);
+    }
   // frown lines between the brows
-  if (ev("browDown") > 0.3) {
+  if (bake || ev("browDown") > 0.3) {
+    svg += B("frown_lines");
     for (const sx of [-1, 1]) {
       const pts = [
         [sx * 0.45, 1.0, 9.6],
         [sx * 0.55, 2.3, 9.5],
       ];
-      svg += `<path d="${ink(pts.map(P2), lw * 0.9, taperBoth)}" fill="${HPAL.skinDeep}" opacity="${Math.min(1, ev("browDown"))}"/>`;
+      svg += `<path d="${ink(pts.map(P2), lw * 0.9, taperBoth)}" fill="${HPAL.skinDeep}" opacity="${bake ? 1 : Math.min(1, ev("browDown"))}"/>`;
     }
+    svg += E;
   }
   // smiling: the cheek lifts (a crease under the eye) and the nose-to-mouth line deepens
+  let smileLines = "",
+    crowFeet = "";
   for (const s of ["r", "l"]) {
     const sx = s === "l" ? 1 : -1;
     const sm =
       (expr.smile ?? 0) +
       (expr[s === "l" ? "L" : "R"]?.smile ?? 0) +
       0.5 * ((expr.squint ?? 0) + (expr[s === "l" ? "L" : "R"]?.squint ?? 0));
-    if (sm < 0.25 || facing([sx * 0.5, 0, 0.85]) < 0.05) continue;
+    if ((!bake && sm < 0.25) || facing([sx * 0.5, 0, 0.85]) < 0.05) continue;
+    const o = bake ? 1 : Math.min(1, sm);
     const ll = L[`${s}.lidLowLow`];
     const cr = [
       add(ll, [-sx * 0.6, -0.55, 0.05]),
       add(ll, [sx * 0.2, -0.75, 0]),
       add(ll, [sx * 1.1, -0.55, -0.4]),
     ];
-    svg += `<path d="${ink(cr.map(P2), lw * 0.75, taperBoth)}" fill="${HPAL.skinDeep}" opacity="${Math.min(1, sm)}"/>`;
+    smileLines += `<path d="${ink(cr.map(P2), lw * 0.75, taperBoth)}" fill="${HPAL.skinDeep}" opacity="${o}"/>`;
     const nl = [
       add(L[`${s}.alarTop`], [sx * 0.35, 0.05, -0.2]),
       add(L[`${s}.nasolabial`], [sx * 0.1, 0.3, 0]),
       add(L[`${s}.cheilion`], [sx * 0.45, 0.25, 0]),
     ];
-    svg += `<path d="${ink(nl.map(P2), lw * 1.0, taperBoth)}" fill="${HPAL.beardShade}" opacity="${Math.min(1, sm)}"/>`;
-    if (sm > 0.6) {
+    smileLines += `<path d="${ink(nl.map(P2), lw * 1.0, taperBoth)}" fill="${HPAL.beardShade}" opacity="${o}"/>`;
+    if (bake || sm > 0.6) {
       const ex = L[`${s}.exCanthus`];
       for (const dy of [0.25, -0.2, -0.6])
-        svg += `<path d="${ink([add(ex, [sx * 0.45, dy * 0.6, -0.35]), add(ex, [sx * 1.05, dy * 1.2, -0.95])].map(P2), lw * 0.5, taperBoth)}" fill="${HPAL.skinDeep}" opacity="0.7"/>`;
+        crowFeet += `<path d="${ink([add(ex, [sx * 0.45, dy * 0.6, -0.35]), add(ex, [sx * 1.05, dy * 1.2, -0.95])].map(P2), lw * 0.5, taperBoth)}" fill="${HPAL.skinDeep}" opacity="0.7"/>`;
     }
   }
+  if (smileLines) svg += B("smile_lines") + smileLines + E;
+  if (crowFeet) svg += B("crow_feet") + crowFeet + E;
 
-  svg += `</g>`;
+  svg += bake ? "" : `</g>`;
   // -------------------------------------------------------------- hair
   const hairVal = (r, j) => {
     const lp = r.lpts[j],
@@ -635,6 +772,7 @@ export function drawHead(cam, { pose = {}, expr = {}, gaze = [0, 0], S = cam.S }
   };
   const hairPolys = region(hairT, cam, hairVal, { vis: 0.04, minArea: W(0.6) ** 2 });
   const hairD = hairPolys.map((p) => smooth(thin(p, 1.8))).join(" ");
+  svg += B("hair", "head", "field");
   svg += `<path d="${hairD}" fill="${HPAL.line}" stroke="${HPAL.line}" stroke-width="${lw * 2}" stroke-linejoin="round"/>`;
   svg += `<path d="${hairD}" fill="${HPAL.hair}"/>`;
   const hc = id("hr");
@@ -745,9 +883,19 @@ export function drawHead(cam, { pose = {}, expr = {}, gaze = [0, 0], S = cam.S }
     lw * 1.0,
     taperBoth,
   )}" fill="${HPAL.line}"/>`;
-  svg += `</g>`;
+  svg += `</g>` + E;
 
-  return { svg, head, toW, L };
+  // bake mode: where the head's construction is in this state (2D, in the order of the tubes' points), so the
+  // Builder can move parts that cannot be redrawn point for point (outlines, shading regions) with the form
+  if (bake) {
+    const pts = [];
+    for (const T of [head, hairT])
+      for (const r of T.rings)
+        r.pts.forEach((p, j) => pts.push([...cam.P(p).slice(0, 2), cam.dir(r.n[j])[2] > 0.02 ? 1 : 0]));
+    for (const k of Object.keys(L).sort()) pts.push([...P2(k), 1]);
+    meta.samples = pts;
+  }
+  return { svg, head, toW, L, meta };
 
   function mix3(a, b, t, d) {
     return add(lerp3(a, b, t), d);

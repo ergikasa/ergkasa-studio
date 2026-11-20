@@ -46,8 +46,13 @@ export function figure({
   expr = {},
   gaze = [0, 0],
   head = HEAD_POSE,
+  bake = null,
 }) {
   const cam = camera({ yaw, S, cx, cy: floorY });
+  // bake mode: groups tagged as parts of the character package; the head is baked on its own (face.mjs)
+  const B = (part, bind) => (bake ? `<g data-part="${part}${bake.suffix}" data-bind="${bind}">` : "");
+  const E = bake ? "</g>" : "";
+  const lr = (s) => s.toLowerCase();
   const lw = 2.3 * (S / 10);
   const T = {
     torso: jacketTorso(),
@@ -70,7 +75,8 @@ export function figure({
   const g = (members, fill, shade, line = PAL.line, extra = {}) =>
     group(cam, { members, fill, shade, line, lw, ...extra });
   const trousers = (ms) => g(ms, PAL.trousers, PAL.trousersShade);
-  const shoeG = (s) => g([{ T: T[`shoe${s}`] }], PAL.shoe, PAL.shoeShade) + shoeDetails(s);
+  const shoeG = (s) =>
+    B(`shoe_${lr(s)}`, "root") + g([{ T: T[`shoe${s}`] }], PAL.shoe, PAL.shoeShade) + shoeDetails(s) + E;
   const handG = (s) => {
     // fingers from far to near, each with its own outline, so they read as separate fingers
     const [palm, ...digits] = hands[s];
@@ -81,11 +87,14 @@ export function figure({
         .sort((a, b) => a.depth - b.depth),
     ];
     return (
+      B(`hand_${lr(s)}`, `hand_${lr(s)}`) +
       parts.map((h) => g([{ T: h.T }], PAL.skin, PAL.skinShade, PAL.line, { threshold: 0.2 })).join("") +
-      watch(s)
+      E +
+      (s === "L" ? B("watch_l", "forearm_l") + watch(s) + E : "")
     );
   };
-  const cuffG = (s) => g([{ T: T[`cuff${s}`] }], PAL.shirt, PAL.shirtShade);
+  const cuffG = (s) =>
+    B(`cuff_${lr(s)}`, `forearm_${lr(s)}`) + g([{ T: T[`cuff${s}`] }], PAL.shirt, PAL.shirtShade) + E;
   const sleeveG = (s) => g([{ T: T[`sleeve${s}`] }], PAL.jacket, PAL.jacketShade, PAL.jacketLine);
 
   // clip paths used by details
@@ -100,33 +109,60 @@ export function figure({
   const jacketClip = clip([T.torso]);
 
   let svg = trouserClip.def + jacketClip.def;
-  // floor shadow
+  // bake mode: the trousers end under the jacket (where the hanging sleeves hid them in the concept, a moving
+  // arm would uncover the seat's top at the hips)
+  const trimY = cam.P([0, 81, 0])[1];
+  const trim = bake ? `trim${bake.suffix}` : "";
+  if (bake)
+    svg += `<clipPath id="${trim}"><path d="M${-S * 100} ${trimY} L${S * 100} ${trimY} L${S * 100} ${S * 20} L${-S * 100} ${S * 20} Z"/></clipPath>`;
+  const T0 = bake ? `<g clip-path="url(#${trim})">` : "";
+  const T1 = bake ? "</g>" : "";
+  // floor shadow (bake mode: the scene draws contact shadows, not the character)
   const fc = cam.P([0, 0, 1]);
-  svg += `<ellipse cx="${fc[0]}" cy="${fc[1] + S * 0.6}" rx="${S * 24}" ry="${S * 4.2}" fill="#2A1D18" opacity="0.12"/>`;
+  if (!bake)
+    svg += `<ellipse cx="${fc[0]}" cy="${fc[1] + S * 0.6}" rx="${S * 24}" ry="${S * 4.2}" fill="#2A1D18" opacity="0.12"/>`;
 
   if (turned) {
     svg += shoeG(far);
-    svg += trousers([{ T: T[`leg${far}`] }]) + trouserDetails(far);
-    svg += handG(far) + cuffG(far) + sleeveG(far);
-    svg += trousers([{ T: T.seat }, { T: T[`leg${near}`] }]) + trouserDetails(near);
+    svg +=
+      B(`leg_${lr(far)}`, "root") + T0 + trousers([{ T: T[`leg${far}`] }]) + trouserDetails(far) + T1 + E;
+    svg += handG(far) + cuffG(far) + B(`sleeve_${lr(far)}`, `arm_${lr(far)}`) + sleeveG(far) + E;
+    svg +=
+      B("trousers", "root") +
+      T0 +
+      trousers([{ T: T.seat }, { T: T[`leg${near}`] }]) +
+      trouserDetails(near) +
+      T1 +
+      E;
     svg += shoeG(near);
   } else {
     svg += shoeG("R") + shoeG("L");
     svg +=
-      trousers([{ T: T.seat }, { T: T.legR }, { T: T.legL }]) + trouserDetails("R") + trouserDetails("L");
+      B("trousers", "root") +
+      T0 +
+      trousers([{ T: T.seat }, { T: T.legR }, { T: T.legL }]) +
+      trouserDetails("R") +
+      trouserDetails("L") +
+      T1 +
+      E;
   }
-  svg += g([{ T: T.neck }], PAL.skin, PAL.skinShade) + neckDetails();
+  svg += B("neck", "neck") + g([{ T: T.neck }], PAL.skin, PAL.skinShade) + neckDetails() + E;
   // jacket: torso and the near sleeve(s) are one garment; lines inside only where an arm lies against the body
-  const jacketMembers = turned
-    ? [{ T: T.torso }, { T: T[`sleeve${near}`] }]
-    : [{ T: T.torso }, { T: T.sleeveR }, { T: T.sleeveL }];
-  svg += g(jacketMembers, PAL.jacket, PAL.jacketShade, PAL.jacketLine);
-  svg += jacketFront(cam, T.torso, { lw, clipTrousers: trouserClip.cid, clipJacket: jacketClip.cid });
-  for (const s of turned ? [near] : ["R", "L"]) svg += sleeveLines(s);
+  // (bake mode: the sleeves are their own parts, so the arms can move)
+  const jacketMembers = bake
+    ? [{ T: T.torso }]
+    : turned
+      ? [{ T: T.torso }, { T: T[`sleeve${near}`] }]
+      : [{ T: T.torso }, { T: T.sleeveR }, { T: T.sleeveL }];
+  svg += B("jacket", "torso") + g(jacketMembers, PAL.jacket, PAL.jacketShade, PAL.jacketLine);
+  svg += jacketFront(cam, T.torso, { lw, clipTrousers: trouserClip.cid, clipJacket: jacketClip.cid }) + E;
+  for (const s of turned ? [near] : ["R", "L"])
+    svg += bake ? B(`sleeve_${lr(s)}`, `arm_${lr(s)}`) + sleeveG(s) + sleeveLines(s) + E : sleeveLines(s);
   // head
-  svg += drawHead(cam, { pose: head, expr, gaze }).svg;
+  if (!bake) svg += drawHead(cam, { pose: head, expr, gaze }).svg;
   // hands in front of the body, then the sleeve hems over the cuffs
-  for (const s of turned ? [near] : ["R", "L"]) svg += handG(s) + cuffG(s) + sleeveHem(s);
+  for (const s of turned ? [near] : ["R", "L"])
+    svg += handG(s) + cuffG(s) + B(`hem_${lr(s)}`, `forearm_${lr(s)}`) + sleeveHem(s) + E;
   return svg;
 
   // ---------------------------------------------------------------- details
