@@ -90,7 +90,7 @@ Shenjat: **[F]** e verifikuar · **[M]** e matur · **[S]** vlerësim · **[R]**
 ### 3.1 Style bible e karaktereve të Erkasa-s (identitet origjinal)
 
 - **Përpara Danielit:** 2–3 style frames, ku artisti provon stilin mbi një kokë të thjeshtë.
-- **Ty të jap dokumentin me rregullat:**
+- **Rregullat që shkruaj unë në style bible:**
   - **Vlerat tonale:** 5–7 nivele për lëkurën, nga drita deri te okluzioni.
   - **Temperatura:** dritë kryesore e ngrohtë, mbushje e ftohtë, rim vetëm kur skena e justifikon.
   - **Saturimi:** i kontrolluar; lëkura pa portokalli plastike.
@@ -103,7 +103,7 @@ Shenjat: **[F]** e verifikuar · **[M]** e matur · **[S]** vlerësim · **[R]**
   - mbushje e butë nga e djathta;
   - okluzion ambienti i pikturuar.
 
-  Konventa duhet që e njëjta dritë të jetë në çdo pamje dhe shprehje. Si përshtatet me dritën e skenës: §5.8 dhe K4.
+  Konventa siguron që e njëjta dritë të jetë në çdo pamje dhe shprehje. Si përshtatet me dritën e skenës: §5.8 dhe K4.
 
 ### 3.2 Identiteti i Danielit (propozim për miratim)
 
@@ -389,7 +389,7 @@ Të gjitha janë fusha opsionale. Paketat ekzistuese mbeten të vlefshme dhe kon
 | **D. Pamjet e tjera**         | Profilet, 3/4 majtas, nga pas, veshjet e tjera                                                  | Ti                       |
 | **E. Integrimi**              | Faza 5 e Character System V1: paketa e render-it, Character Acting                              | Ti                       |
 
-**Pas miratimit të këtij propozimi**, punët e para të mijat janë:
+**Pas miratimit të këtij propozimi**, punët e mia të para janë:
 
 - brief-i i ri për artistin, në anglisht, sipas këtij dokumenti: style bible, identiteti, model sheet-i, specifikimi i shtresave, kontrata e të drejtave për t'u verifikuar;
 - shabllonet e fletëve me landmarks.
