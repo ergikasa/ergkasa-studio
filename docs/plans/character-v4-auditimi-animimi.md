@@ -204,7 +204,7 @@ landmarks (130, cm) ──AU-të──▶ landmarks të deformuara ──projekt
 
 - **Proxy-ja** ndërtohet nga 16 seksione horizontale. Kalimi mes tyre bëhet me Catmull-Rom, dhe normalet llogariten nga sipërfaqja.
 - **Konturet:** z-buffer-i ruan materialin më të përparmë (0 kokë, 1 mjekër, 2 flokë). Maskat e flokëve dhe mjekrës nxirren prej tij. Mbulimi nuk mjafton, sepse gjysma e pasme e guaskave projektohet mbi fytyrë.
-- **Lidhja projektive:** në pamjen e autorizuar llogaritet, për çdo qelizë të figurës, pika 3D e sipërfaqes nën të. Në çdo kuadër kjo pikë projektohet përsëri, dhe koordinatat e çdo path-i në flokë dhe mjekër (`d="…"`) zhvendosen me interpolim bilinear. Kostoja e lidhjes është 230–440 ms, një herë për personazh. **[M]**
+- **Lidhja projektive:** në pamjen e autorizuar llogaritet, për çdo qelizë të figurës, pika 3D e sipërfaqes nën të. Në çdo kuadër kjo pikë projektohet përsëri, dhe koordinatat e çdo path-i në flokë dhe mjekër (`d="…"`) zhvendosen me interpolim bilinear. Kostoja e lidhjes është 190–430 ms, një herë për personazh. **[M]**
 
 ### 2.2 Fytyra
 
