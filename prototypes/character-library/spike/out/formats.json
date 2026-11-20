@@ -1,0 +1,76 @@
+{
+ "machine": {
+  "cpus": 2,
+  "gpu": "none"
+ },
+ "m1": [
+  {
+   "frame": 200,
+   "filtersInFrame": 389,
+   "resvg": 2632.3,
+   "resvgNoFilters": 160.1,
+   "skia": 702.7,
+   "skiaNoFilters": 148.9
+  },
+  {
+   "frame": 450,
+   "filtersInFrame": 391,
+   "resvg": 2674.8,
+   "resvgNoFilters": 150.8,
+   "skia": 624.6,
+   "skiaNoFilters": 161.8
+  }
+ ],
+ "m2": [
+  {
+   "grid": "16x32",
+   "triangles": 1024,
+   "ms": 71.3,
+   "usPerTriangle": 69.6,
+   "seamMeanAbs": 0.176,
+   "seamPixelsOver8": 0.0013
+  },
+  {
+   "grid": "32x64",
+   "triangles": 4096,
+   "ms": 70.6,
+   "usPerTriangle": 17.2,
+   "seamMeanAbs": 0.213,
+   "seamPixelsOver8": 0.0015
+  },
+  {
+   "grid": "64x128",
+   "triangles": 16384,
+   "ms": 135.4,
+   "usPerTriangle": 8.3,
+   "seamMeanAbs": 0.289,
+   "seamPixelsOver8": 0.0038
+  }
+ ],
+ "m3": [
+  {
+   "characters": 1,
+   "resvg": 2485.6,
+   "skia": 669.1,
+   "skiaNoFilters": 157.1
+  },
+  {
+   "characters": 2,
+   "resvg": 4989,
+   "skia": 1285.4,
+   "skiaNoFilters": 294
+  },
+  {
+   "characters": 3,
+   "resvg": 7405.5,
+   "skia": 1888.3,
+   "skiaNoFilters": 408.5
+  }
+ ],
+ "m4": {
+  "points": 24000,
+  "bones": 60,
+  "morphTargets": 40,
+  "msPerFrame": 0.67
+ }
+}
