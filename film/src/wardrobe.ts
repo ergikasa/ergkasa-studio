@@ -53,7 +53,7 @@ export interface DressContext {
   coat?: string | undefined;
   /** Seed for the choices the rules leave open (which of two suitable colours): the person's id. */
   seed: string;
-  /** Suit colours other people of the film already wear: two people in one frame must not read as one. */
+  /** Main colours (suits, tops) other people of the film already wear: two people must not read as one. */
   avoid?: readonly string[];
 }
 
@@ -139,8 +139,10 @@ export function dressFor(c: DressContext): Dressed {
   const suit = pick(c.seed, 1, free.length ? free : suits);
   // accents (ties, scarves) contrast with every suit colour
   const accent = pick(c.seed, 2, [CLOTH.coral, CLOTH.ochre, CLOTH.sun]);
-  const casualTop =
-    c.coat ?? pick(c.seed, 3, [CLOTH.teal, CLOTH.coral, CLOTH.ochre, CLOTH.slate, CLOTH.plum]);
+  // everyday tops: the person's own colour, or one nobody else in the film wears
+  const tops = [CLOTH.teal, CLOTH.coral, CLOTH.ochre, CLOTH.slate, CLOTH.plum];
+  const freeTops = tops.filter((x) => !(c.avoid ?? []).includes(x));
+  const casualTop = c.coat ?? pick(c.seed, 3, freeTops.length ? freeTops : tops);
   const shoes = (why: string): void => put("feet", "shoes", CLOTH.shoe, why);
 
   // -- 1. the profession, for the occasion
@@ -454,7 +456,11 @@ export function resolveWardrobe(plan: FilmPlan): WardrobePlan {
     });
     for (const d of map.values())
       for (const g of d.garments)
-        if (["suit_jacket", "blazer"].includes(g.kind) && !suitsTaken.includes(g.color))
+        // what reads from afar: the jacket or the top
+        if (
+          (GARMENT_LAYER[g.kind] === "top" || ["suit_jacket", "blazer"].includes(g.kind)) &&
+          !suitsTaken.includes(g.color)
+        )
           suitsTaken.push(g.color);
     if (outs.length) dressed.set(m.id, map);
   });

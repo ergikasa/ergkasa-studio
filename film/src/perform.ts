@@ -4,7 +4,7 @@
  * (arms, via two-bone IK), gaze (eyes lead, the head follows), face, mood (a posture that colours everything), and
  * micro-acting (breath, blinks, weight shifts, small head moves) so nobody ever freezes.
  */
-import type { Action, ActorPlacement, CastMember, Mood, Shot } from "./contract.js";
+import { Mood, type Action, type ActorPlacement, type CastMember, type Shot } from "./contract.js";
 import { EASES, K, clamp, hash01, type Ease, type Key } from "./motion.js";
 import type { Garment } from "@erkasa/contracts";
 import {
@@ -30,6 +30,7 @@ import { type SetDef, standingHipY } from "./sets.js";
 import type { Carry, CharacterState } from "./continuity.js";
 import type { PropKind } from "./props.js";
 import type { Worn } from "./wardrobe.js";
+import { deliver, INTENT_CH, REACTION, type GestureEvent } from "./acting.js";
 
 export interface Issue {
   level: "error" | "warning";
@@ -175,6 +176,12 @@ export class ActorPerf {
   gazes: Array<{ t: number; at: [number, number] }> = [];
   /** The mood the person is in (latest set), for how they move. */
   moods: Array<{ t: number; m: Mood }> = [];
+  /** The intent layer (acting.ts): posture and face of what the person wants, on top of mood and actions. */
+  intentCh = {} as Record<Ch, Track>;
+  /** Whether this person has an intent at all (the layer is added only then: the plain films stay bit for bit). */
+  intentOn = false;
+  /** Every gesture delivered with an intent, for continuity and measurement. */
+  gestures: GestureEvent[] = [];
 
   constructor(p: ActorPlacement, cast: CastMember | undefined, set: SetDef, idx: number, worn?: Garment[]) {
     this.id = p.id;
@@ -186,6 +193,7 @@ export class ActorPerf {
     for (const c of Object.keys(base) as Ch[]) {
       this.ch[c] = new Track(base[c]);
       this.moodCh[c] = new Track(0);
+      this.intentCh[c] = new Track(0);
     }
     const mx = mark?.x ?? set.w / 2;
     this.x = new Track(seated ? mx + 30 * facing : mx);
@@ -298,6 +306,7 @@ export class ActorPerf {
   rawPose(t: number): Pose {
     const p = {} as Pose;
     for (const c of Object.keys(this.ch) as Ch[]) p[c] = this.ch[c].at(t) + this.moodCh[c].at(t);
+    if (this.intentOn) for (const c of INTENT_CH) p[c] += this.intentCh[c].at(t);
     for (const w of this.walks) {
       if (t >= w.t0 && t <= w.t1) {
         const k = Math.min(1, (t - w.t0) / 0.3, (w.t1 - t) / 0.3);
@@ -511,6 +520,14 @@ export function perform(ctx: PerformContext): Performance {
     a.moods = [];
     a.setMood(0, cs.mood, 0.01);
     if (placement.mood !== cs.mood) a.setMood(0.05, placement.mood, 0.7);
+    // the intent goes on through the cut, then relaxes unless the shot gives the person a new one (W2)
+    if (cs.intent) {
+      a.intentOn = true;
+      for (const c of INTENT_CH) {
+        a.intentCh[c] = new Track(cs.intent[c] ?? 0);
+        a.intentCh[c].then(1.2, 0, "io");
+      }
+    }
     a.gazeHome = cs.gaze ?? a.gazeHome;
     if (cs.gaze) a.gazes = [{ t: 0, at: cs.gaze }];
     if (cs.holding) {
@@ -574,8 +591,24 @@ export function perform(ctx: PerformContext): Performance {
   // initial gaze: what each person's mark looks at, or straight ahead
   for (const a of actors.values()) if (a.gazeHome && !carried.has(a.id)) gazeTo(a, 0, a.gazeHome, 0.01);
 
-  const sorted = shot.actions
-    .map((a, i) => ({ a, i, t: ctx.at(a.at) }))
+  // `then`: an action that waits for the same person's previous action in the plan (performance sequencing)
+  const followers = new Map<number, Array<{ a: Action; i: number }>>();
+  shot.actions.forEach((a, i) => {
+    if (a.at !== "then") return;
+    let j = i - 1;
+    while (j >= 0 && (shot.actions[j] as Action).who !== a.who) j--;
+    if (j < 0)
+      issues.push({
+        level: "error",
+        code: "ANCHOR_UNRESOLVED",
+        path: `${ctx.path}.actions[${i}].at`,
+        message: `'then' needs an earlier action of ${a.who ?? "the same person"} in this shot`,
+      });
+    else followers.set(j, [...(followers.get(j) ?? []), { a, i }]);
+  });
+  const sorted: Array<{ a: Action; i: number; t: number | undefined }> = shot.actions
+    .map((a, i) => ({ a, i, t: a.at === "then" ? -1 : ctx.at(a.at) }))
+    .filter((x) => x.t !== -1)
     .filter((x) => {
       if (x.t === undefined)
         issues.push({
@@ -589,7 +622,8 @@ export function perform(ctx: PerformContext): Performance {
     .concat(injected)
     .sort((p, q) => (p.t as number) - (q.t as number));
 
-  for (const { a, i, t: t0r } of sorted) {
+  while (sorted.length) {
+    const { a, i, t: t0r } = sorted.shift() as (typeof sorted)[number];
     const t0 = Math.max(0, Math.min(ctx.dur - 0.2, t0r as number));
     const path = `${ctx.path}.actions[${i}]`;
     events.push(t0);
@@ -619,6 +653,7 @@ export function perform(ctx: PerformContext): Performance {
       "lean_in",
       "hesitate",
       "point",
+      "turn_to",
     ].includes(a.do);
     if (needsTarget && !tgt && !(a.do === "walk_to" && a.target && set.marks[a.target]))
       issues.push({
@@ -628,7 +663,10 @@ export function perform(ctx: PerformContext): Performance {
         message: `'${a.target ?? ""}' is not a mark, prop, person or target of set ${set.id}`,
       });
     const dur = a.sec ?? GESTURE_SEC[a.do] ?? 1.2;
+    const before = actor.gestures.length;
     const end = do_(a, actor, t0, dur, tgt, path);
+    // every gesture stroke of an intent is something the viewer sees happen
+    for (const g of actor.gestures.slice(before)) events.push(g.stroke);
     actor.acts.push({
       kind: a.do,
       t0,
@@ -636,6 +674,12 @@ export function perform(ctx: PerformContext): Performance {
       ...(a.target ? { target: a.target } : {}),
     });
     events.push(end);
+    // the actions waiting for this one start as it ends, a few frames into its settle (overlapping action)
+    for (const f of followers.get(i) ?? []) {
+      const t = Math.max(t0 + 0.05, end - 0.1);
+      const k = sorted.findIndex((x) => (x.t as number) > t);
+      sorted.splice(k < 0 ? sorted.length : k, 0, { a: f.a, i: f.i, t });
+    }
   }
 
   function do_(
@@ -924,6 +968,19 @@ export function perform(ctx: PerformContext): Performance {
         if (!actor.holding) restArms(actor, t0 + 0.75, t0 + 1.2);
         return t0 + 1.2;
       case "talk": {
+        if (a.how) {
+          const listener =
+            a.target &&
+            (actors.get(a.target) || props.get(a.target) || set.marks[a.target] || set.targets[a.target])
+              ? (t: number): [number, number] => point(a.target, t) as [number, number]
+              : undefined;
+          return deliver(actor, a.how, a.intensity ?? 0.6, t0, dur, {
+            words: ctx.words,
+            listener,
+            gazeTo: (t, p) => gazeTo(actor, t, p),
+            rest: (s0, s1) => restArms(actor, s0, s1),
+          });
+        }
         const end = t0 + dur;
         const poses: Array<[number, number]> = [
           [18, 70],
@@ -948,6 +1005,87 @@ export function perform(ctx: PerformContext): Performance {
         }
         if (!actor.holding) restArms(actor, end, end + 0.5);
         return end;
+      }
+      case "read": {
+        const id = actor.holding;
+        const pr = id ? props.get(id) : undefined;
+        if (!pr || !["paper", "notebook", "phone"].includes(pr.kind)) {
+          issues.push({
+            level: "error",
+            code: "NOTHING_TO_READ",
+            path,
+            message: `${actor.id} holds ${id ?? "nothing"}: pick up a paper, notebook or phone first`,
+          });
+          return t0;
+        }
+        const len = a.sec ?? 2.2;
+        const head = actor.headWorld(t0);
+        const f = actor.facingAt(t0);
+        const page: [number, number] = [head[0] + f * 175, head[1] + 120];
+        // the eyes go to the page first, the hand brings it up a few frames later (gaze leads the hand)
+        gazeTo(actor, t0, [page[0], page[1] + 20]);
+        reach(actor, t0 + 0.12, t0 + 0.6, page, "out");
+        c.hand.to(t0 + 0.12, t0 + 0.3, 1);
+        c.head.to(t0 + 0.1, t0 + 0.6, c.head.at(t0) + 9, "io");
+        // line by line: the eyes sweep forward and step down; a small nod at each line
+        const lines = Math.max(2, Math.round((len - 0.7) / 0.55));
+        for (let n = 0; n < lines; n++) {
+          const s0 = t0 + 0.6 + n * ((len - 0.8) / lines);
+          c.gx.to(s0, s0 + 0.08, 0.2, "out");
+          c.gx.then(s0 + 0.42, 1, "lin");
+          c.gy.to(s0, s0 + 0.08, 0.35 + (n / lines) * 0.5, "out");
+        }
+        c.head.then(t0 + len - 0.1, c.head.at(t0) + 9);
+        holdPose(actor, t0 + len - 0.1, t0 + len + 0.4);
+        c.head.then(t0 + len + 0.4, c.head.at(t0), "io");
+        if (actor.gazeHome) gazeTo(actor, t0 + len + 0.1, actor.gazeHome);
+        return t0 + len + 0.4;
+      }
+      case "turn_to": {
+        if (!tgt) return t0;
+        const h = actor.headWorld(t0);
+        const f = actor.facingAt(t0);
+        // gazeTo turns the whole body when the target is behind (eyes first, the body follows)
+        gazeTo(actor, t0, tgt);
+        const behind = (tgt[0] - h[0]) * f < -60 && !actor.seatedAt(t0);
+        // the torso follows the head toward the target, a little later, and settles (overlap)
+        const tor = c.torso.at(t0);
+        c.torso.to(t0 + 0.15, t0 + 0.45, tor + 4, "out");
+        c.torso.then(t0 + 0.85, tor, "io");
+        actor.gazeHome = tgt;
+        return t0 + (behind ? 0.95 : 0.85);
+      }
+      case "react": {
+        const mood = Mood.safeParse(a.target ?? "neutral");
+        if (!mood.success) {
+          issues.push({
+            level: "error",
+            code: "REACT_TARGET",
+            path,
+            message: `react's target is the mood it lands in (${Mood.options.join(", ")}), not '${a.target ?? ""}'`,
+          });
+          return t0;
+        }
+        const r = REACTION[mood.data] ?? (REACTION.neutral as (typeof REACTION)[string]);
+        const tor = c.torso.at(t0);
+        const hd = c.head.at(t0);
+        // anticipation (4 frames): a small intake of breath the other way
+        c.torso.to(t0, t0 + 0.13, tor - r.torso * 0.25, "out");
+        c.head.to(t0, t0 + 0.13, hd - r.head * 0.25, "out");
+        c.brow.to(t0, t0 + 0.13, c.brow.at(t0) - 0.3, "out");
+        // the accent: the body takes the hit
+        c.torso.then(t0 + 0.38, tor + r.torso, "back");
+        c.head.then(t0 + 0.38, hd + r.head, "back");
+        c.lid.to(t0 + 0.13, t0 + 0.3, r.lid);
+        c.brow.then(t0 + 0.3, r.brow * 0.5, "out");
+        if (!actor.holding) c.hand.to(t0 + 0.13, t0 + 0.3, r.hand, "out");
+        // follow-through (≥ 4 frames) and settle into the mood
+        c.torso.then(t0 + 0.75, tor + r.torso * 0.35, "io");
+        c.head.then(t0 + 0.75, hd + r.head * 0.4, "io");
+        c.lid.then(t0 + 0.9, 0, "io");
+        c.brow.then(t0 + 0.9, 0, "io");
+        actor.setMood(t0 + 0.2, mood.data, 0.8);
+        return t0 + 1.0;
       }
       default:
         return t0;

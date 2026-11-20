@@ -1,0 +1,37 @@
+{
+  "schema": "erkasa.script/1",
+  "title": "The letter",
+  "topic": "acceptance test for performance sequencing and acting direction (Standard v2.1 CA-P, test D4)",
+  "theme": "psychology",
+  "language": "en",
+  "hook": "Mira walks to the desk and stops.",
+  "promise": "One continuous performance: walk, stop, look, pick up, read, react, turn and explain.",
+  "takeaway": { "kind": "question", "text": "What do we say first when the news is bad?" },
+  "scenes": [
+    {
+      "sceneId": "s01",
+      "beat": "situation",
+      "narration": "Mira walks to the desk and stops. A letter is waiting for her. She picks it up without a word.",
+      "visualIdea": "Mira crosses the room to the desk, sees the letter and takes it."
+    },
+    {
+      "sceneId": "s02",
+      "beat": "problem",
+      "narration": "She reads it slowly, line by line, and her face falls.",
+      "visualIdea": "Close on Mira reading; the news lands."
+    },
+    {
+      "sceneId": "s03",
+      "beat": "analysis",
+      "narration": "She turns to Ben and tries to explain the problem. The rent went up again, and our savings cannot cover it.",
+      "visualIdea": "Mira turns to Ben and explains, worried, avoiding his eyes."
+    },
+    {
+      "sceneId": "s04",
+      "beat": "conclusion",
+      "narration": "Ben listens, then answers calmly. We will find a way, together, one step at a time.",
+      "visualIdea": "Ben reassures her; she breathes again."
+    }
+  ],
+  "estimatedSec": 30
+}

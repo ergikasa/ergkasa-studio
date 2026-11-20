@@ -70,6 +70,40 @@ describe("director", () => {
     }
   });
 
+  it("round-trips intents and sequences (W2: how, then, read, turn_to, react; intensity is the engine's default)", () => {
+    const plan = FilmPlan.parse(
+      JSON.parse(readFileSync(join(root, "film", "acceptance", "w2-acting.film.json"), "utf8")),
+    );
+    const back = FilmPlan.parse(decode(JSON.parse(JSON.stringify(encode(plan))), plan.voiceId).plan);
+    const noIntensity = (p: FilmPlan): FilmPlan => ({
+      ...p,
+      cast: p.cast.map((c) => ({
+        ...c,
+        ...(c.outfits
+          ? {
+              outfits: c.outfits.map((o) => ({
+                ...o,
+                occasion: o.occasion ?? "work",
+                weather: o.weather ?? "mild",
+              })),
+            }
+          : {}),
+      })),
+      shots: p.shots.map((s) => ({
+        ...s,
+        actions: s.actions.map((a) => {
+          const { intensity, ...rest } = a;
+          void intensity;
+          return rest;
+        }),
+      })),
+    });
+    expect(back).toEqual(noIntensity(plan));
+    const talk = back.shots.find((s) => s.id === "sh05")?.actions.find((a) => a.do === "talk");
+    expect(talk?.how).toBe("worry");
+    expect(back.shots[0]?.actions.filter((a) => a.at === "then").length).toBe(1);
+  });
+
   it("round-trips identity and wardrobe (W1: B2 with one Alex in two outfits)", () => {
     const plan = FilmPlan.parse(
       JSON.parse(readFileSync(join(root, "film", "plans", "b2-same-answers.w1.film.json"), "utf8")),

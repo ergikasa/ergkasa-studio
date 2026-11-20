@@ -1,0 +1,337 @@
+{
+  "schema": "erkasa.film/1",
+  "title": "The letter",
+  "voiceId": "none",
+  "cast": [
+    {
+      "id": "mira",
+      "name": "Mira",
+      "build": "woman",
+      "hair": "#3A2A20",
+      "hairStyle": "bob",
+      "profession": "office",
+      "outfits": [
+        {
+          "id": "home",
+          "occasion": "home"
+        }
+      ]
+    },
+    {
+      "id": "ben",
+      "name": "Ben",
+      "build": "man",
+      "hair": "#2B2118",
+      "hairStyle": "short",
+      "facialHair": "stubble",
+      "profession": "office",
+      "outfits": [
+        {
+          "id": "home",
+          "occasion": "home"
+        }
+      ]
+    }
+  ],
+  "shots": [
+    {
+      "kind": "set",
+      "set": "interview",
+      "light": "golden",
+      "id": "sh01",
+      "scene": "s01",
+      "moment": "Mira walks in, stops at the desk and sees the letter; Ben is working across the desk.",
+      "framing": "wide",
+      "camera": "static",
+      "actors": [
+        {
+          "id": "mira",
+          "at": "door",
+          "pose": "standing",
+          "mood": "neutral"
+        },
+        {
+          "id": "ben",
+          "at": "chair_r",
+          "pose": "seated",
+          "mood": "neutral"
+        }
+      ],
+      "actions": [
+        {
+          "who": "mira",
+          "do": "walk_to",
+          "target": "stand_l",
+          "at": "start"
+        },
+        {
+          "who": "mira",
+          "do": "look",
+          "target": "cv",
+          "at": "then"
+        },
+        {
+          "who": "ben",
+          "do": "type",
+          "at": "start",
+          "sec": 2.2
+        },
+        {
+          "who": "ben",
+          "do": "look",
+          "target": "mira",
+          "at": "word:letter"
+        }
+      ]
+    },
+    {
+      "kind": "set",
+      "set": "interview",
+      "light": "golden",
+      "id": "sh02",
+      "scene": "s01",
+      "from": "word:picks",
+      "moment": "She takes the letter without a word.",
+      "framing": "medium",
+      "subject": "mira",
+      "camera": "push_in",
+      "actors": [
+        {
+          "id": "mira",
+          "at": "stand_l",
+          "pose": "standing",
+          "mood": "neutral"
+        },
+        {
+          "id": "ben",
+          "at": "chair_r",
+          "pose": "seated",
+          "mood": "neutral"
+        }
+      ],
+      "actions": [
+        {
+          "who": "mira",
+          "do": "pick_up",
+          "target": "cv",
+          "at": "start"
+        },
+        {
+          "who": "mira",
+          "do": "glance",
+          "target": "ben",
+          "at": "then",
+          "sec": 0.8
+        }
+      ]
+    },
+    {
+      "kind": "set",
+      "set": "interview",
+      "light": "golden",
+      "id": "sh03",
+      "scene": "s02",
+      "moment": "She reads; the news lands on her body before she says anything.",
+      "framing": "close",
+      "subject": "mira",
+      "camera": "push_in",
+      "actors": [
+        {
+          "id": "mira",
+          "at": "stand_l",
+          "pose": "standing",
+          "mood": "neutral",
+          "holding": "cv"
+        },
+        {
+          "id": "ben",
+          "at": "chair_r",
+          "pose": "seated",
+          "mood": "neutral"
+        }
+      ],
+      "actions": [
+        {
+          "who": "mira",
+          "do": "read",
+          "at": "start",
+          "sec": 2.4
+        },
+        {
+          "who": "mira",
+          "do": "react",
+          "target": "anxious",
+          "at": "then"
+        }
+      ]
+    },
+    {
+      "kind": "set",
+      "set": "interview",
+      "light": "golden",
+      "id": "sh04",
+      "scene": "s03",
+      "moment": "Worried, she puts the letter down, turns to Ben and starts to explain, avoiding his eyes.",
+      "framing": "medium",
+      "subject": "mira",
+      "camera": "static",
+      "actors": [
+        {
+          "id": "mira",
+          "at": "stand_l",
+          "pose": "standing",
+          "mood": "anxious",
+          "holding": "cv"
+        },
+        {
+          "id": "ben",
+          "at": "chair_r",
+          "pose": "seated",
+          "mood": "neutral"
+        }
+      ],
+      "actions": [
+        {
+          "who": "mira",
+          "do": "put_down",
+          "target": "desk_top",
+          "at": "start"
+        },
+        {
+          "who": "mira",
+          "do": "turn_to",
+          "target": "ben",
+          "at": "then"
+        },
+        {
+          "who": "mira",
+          "do": "talk",
+          "target": "ben",
+          "how": "worry",
+          "intensity": 0.7,
+          "at": "word:explain",
+          "sec": 2.2
+        }
+      ]
+    },
+    {
+      "kind": "set",
+      "set": "interview",
+      "light": "golden",
+      "id": "sh05",
+      "scene": "s03",
+      "from": "word:rent",
+      "moment": "The problem itself: she keeps explaining, more and more worried.",
+      "framing": "close",
+      "subject": "mira",
+      "camera": "push_in",
+      "actors": [
+        {
+          "id": "mira",
+          "at": "stand_l",
+          "pose": "standing",
+          "mood": "anxious"
+        },
+        {
+          "id": "ben",
+          "at": "chair_r",
+          "pose": "seated",
+          "mood": "neutral"
+        }
+      ],
+      "actions": [
+        {
+          "who": "mira",
+          "do": "talk",
+          "target": "ben",
+          "how": "worry",
+          "intensity": 0.85,
+          "at": "start",
+          "sec": 4.5
+        }
+      ]
+    },
+    {
+      "kind": "set",
+      "set": "interview",
+      "light": "golden",
+      "id": "sh06",
+      "scene": "s04",
+      "moment": "Ben listens, then answers calmly.",
+      "framing": "medium",
+      "subject": "ben",
+      "camera": "static",
+      "actors": [
+        {
+          "id": "mira",
+          "at": "stand_l",
+          "pose": "standing",
+          "mood": "anxious"
+        },
+        {
+          "id": "ben",
+          "at": "chair_r",
+          "pose": "seated",
+          "mood": "neutral"
+        }
+      ],
+      "actions": [
+        {
+          "who": "ben",
+          "do": "nod",
+          "at": "start"
+        },
+        {
+          "who": "ben",
+          "do": "talk",
+          "target": "mira",
+          "how": "reassure",
+          "at": "word:answers",
+          "sec": 3.0
+        }
+      ]
+    },
+    {
+      "kind": "set",
+      "set": "interview",
+      "light": "golden",
+      "id": "sh07",
+      "scene": "s04",
+      "from": "word:together",
+      "moment": "She breathes again.",
+      "framing": "close",
+      "subject": "mira",
+      "camera": "push_in",
+      "actors": [
+        {
+          "id": "mira",
+          "at": "stand_l",
+          "pose": "standing",
+          "mood": "anxious"
+        },
+        {
+          "id": "ben",
+          "at": "chair_r",
+          "pose": "seated",
+          "mood": "neutral"
+        }
+      ],
+      "actions": [
+        {
+          "who": "mira",
+          "do": "react",
+          "target": "hopeful",
+          "at": "start"
+        },
+        {
+          "who": "ben",
+          "do": "talk",
+          "target": "mira",
+          "how": "reassure",
+          "at": "start",
+          "sec": 2.4
+        }
+      ]
+    }
+  ]
+}

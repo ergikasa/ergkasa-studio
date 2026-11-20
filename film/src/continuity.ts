@@ -11,6 +11,7 @@
  * that was still going (a walk continues, a sit finishes). Intentional changes are declared by the plan
  * (`continuity: "reset"`, or a different set); those cuts are reported, never flagged as errors.
  */
+import { INTENT_CH } from "./acting.js";
 import type { Mood, Shot } from "./contract.js";
 import type { ActorPerf, Issue, Performance } from "./perform.js";
 import { skeleton, toWorld, type Pose } from "./rig.js";
@@ -34,6 +35,11 @@ export interface CharacterState {
   /** The animated channels under it (without mood and gait): what the next shot continues from. */
   channels: Partial<Pose>;
   mood: Mood;
+  /**
+   * What the person wanted at the cut (acting.ts intent layer: posture and face of a worried explanation...), when
+   * they had an intent: the next shot picks it up instead of starting relaxed (W2).
+   */
+  intent?: Partial<Pose>;
   /** World point the eyes are on, if they were sent somewhere. */
   gaze: [number, number] | null;
   holding: string | null;
@@ -98,6 +104,7 @@ export function stateOf(perf: Performance, a: ActorPerf, t: number, set: string)
     pose,
     channels: Object.fromEntries(Object.entries(a.ch).map(([k, tr]) => [k, tr.at(t)])) as Partial<Pose>,
     mood: a.moodAt(t - 1e-6),
+    ...(a.intentOn ? { intent: Object.fromEntries(INTENT_CH.map((c) => [c, a.intentCh[c].at(t)])) } : {}),
     gaze,
     holding,
     action: act

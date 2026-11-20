@@ -17,6 +17,13 @@ export const Anchor = z
   .regex(/^(start|word:[^\s#]+(#\d+)?|sec:\d+(\.\d+)?)$/, "start | word:<w>[#n] | sec:<s>");
 export type Anchor = z.infer<typeof Anchor>;
 
+/**
+ * An action's anchor: any Anchor, or `then`: when the same person's previous action in the plan has finished, so
+ * a performance can be written as a sequence (walks to the desk, then picks up the paper, then reads it...).
+ */
+export const ActionAnchor = z.union([Anchor, z.literal("then")]);
+export type ActionAnchor = z.infer<typeof ActionAnchor>;
+
 export const Id = z.string().regex(/^[a-z][a-z0-9_]{0,30}$/);
 
 export const Mood = z.enum([
@@ -57,17 +64,40 @@ export const Verb = z.enum([
   "mood", // target = the new mood (neutral, tired, sad...)
   "glow", // a soft halo appears around the person (a judgement, a first impression)
   "open", // a door or the cage door (no `who`)
+  "read", // the held paper, notebook or phone: raised, read line by line (sec)
+  "turn_to", // target = a person, mark or look target: eyes first, then the head, then the body if it is behind
+  "react", // target = the mood reacted into: anticipation, a physical beat, then the mood settles (overshoot)
 ]);
 export type Verb = z.infer<typeof Verb>;
+
+/**
+ * How a person speaks (`talk`): what they want while talking. The acting engine (acting.ts) turns it into a
+ * posture, a gesture vocabulary and rhythm, a way of holding or avoiding the listener's eyes, and a face.
+ */
+export const Delivery = z.enum([
+  "explain",
+  "convince",
+  "worry",
+  "question",
+  "reassure",
+  "defend",
+  "confess",
+  "announce",
+]);
+export type Delivery = z.infer<typeof Delivery>;
 
 export const Action = z
   .object({
     who: Id.optional(),
     do: Verb,
     target: z.string().max(40).optional(),
-    at: Anchor.default("start"),
+    at: ActionAnchor.default("start"),
     /** How long a timed action lasts (type, talk, look); others take their natural time. */
     sec: z.number().min(0.3).max(20).optional(),
+    /** talk: what the person wants while speaking (absent: the plain talking gestures of earlier films). */
+    how: Delivery.optional(),
+    /** talk: how strongly, 0..1 (default 0.6). */
+    intensity: z.number().min(0).max(1).optional(),
   })
   .strict();
 export type Action = z.infer<typeof Action>;

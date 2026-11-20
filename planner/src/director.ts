@@ -9,6 +9,7 @@ import type { TimedWord } from "@erkasa/compiler";
 import type { Script } from "@erkasa/contracts";
 import { FacialHair, HairStyle } from "@erkasa/contracts";
 import {
+  Delivery,
   Era,
   FilmPlan,
   Mood,
@@ -143,6 +144,7 @@ export const DIRECTOR_SCHEMA: Record<string, unknown> = obj({
           target: nullable(str),
           at: str,
           sec: nullable({ type: "number" }),
+          how: enumOf(["", ...Delivery.options]), // talk only; "" = plain talking
         }),
       },
       template: nullable(enumOf(Template.options)),
@@ -207,6 +209,10 @@ export function decode(value: unknown, voiceId: string): { plan: unknown; issues
   );
   const shots = (v.shots ?? []).map((s, i) => {
     const { paramsJson, ...rest } = s;
+    if (Array.isArray(rest["actions"]))
+      rest["actions"] = (rest["actions"] as Array<Record<string, unknown>>).map(({ how, ...a }) =>
+        typeof how === "string" && how !== "" ? { ...a, how } : a,
+      );
     if (Array.isArray(rest["actors"]))
       rest["actors"] = (rest["actors"] as Array<Record<string, unknown>>).map(({ outfit, ...a }) =>
         typeof outfit === "string" && outfit !== "" ? { ...a, outfit } : a,
@@ -279,7 +285,13 @@ ${describeSets(capabilities())}
 - Verbs: ${Verb.options.join(", ")}.
   look/glance/point/lean_in/hesitate take a target (a mark, prop, person or look target); walk_to a mark;
   pick_up a prop within reach (walk to it first); put_down a surface mark; give a person within reach; mood a
-  mood (${Mood.options.join(", ")}); open needs no who. type/talk/look take \`sec\`.
+  mood (${Mood.options.join(", ")}); open needs no who. type/talk/look/read take \`sec\`.
+  read: the held paper, notebook or phone. turn_to: a person, mark or look target (the body turns if it is
+  behind). react: target = the mood the news lands in (a physical beat, then the mood).
+- Performances: write a sequence with \`at: "then"\` (starts when the same person's previous action ends): walk_to
+  the desk, then look at the letter, then pick_up, then read, then react. A talk says HOW: \`how\` is what the
+  speaker wants (${Delivery.options.join(", ")}); the engine turns it into posture, gestures on the stressed
+  words, eye contact and face. Give \`target\` the listener. Leave \`how\` "" only for neutral narration.
 - Framing: wide, medium, close, ots (over the shoulder), insert (a hand or an object). \`subject\` is who or what
   the camera holds.
 - Editorial templates and their params (written as a JSON string in \`paramsJson\`; "{}" when none):
@@ -379,6 +391,12 @@ export function encode(plan: FilmPlan): unknown {
     shots: plan.shots.map(({ params, ...s }) => ({
       ...s,
       actors: s.actors.map((a) => ({ ...a, outfit: a.outfit ?? "" })),
+      // intensity stays the engine's default (0.6): one more number per action costs the model more than it gives
+      actions: s.actions.map((a) => {
+        const { intensity, ...rest } = a;
+        void intensity;
+        return { ...rest, how: a.how ?? "" };
+      }),
       continuity: s.continuity ?? null,
       paramsJson: JSON.stringify(params ?? {}),
     })),
