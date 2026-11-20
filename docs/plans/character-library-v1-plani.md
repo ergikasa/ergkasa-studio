@@ -15,24 +15,18 @@ Shenjat: **[F]** e verifikuar në kod · **[M]** e matur në këtë makinë · *
    - Rig-u është kod: një figurë cutout në profil (`rig.cutout.man|woman`).
    - Për një karakter të ri duhet kod i ri.
 2. **Arkitektura që propozoj** ka katër pjesë. Asnjëra nuk është Engine:
-
-| Pjesa                                        | Çfarë është                                                                                                             |
-| -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| **Character Library**                        | Katalog me paketa karakteresh të versionuara dhe të pandryshueshme                                                      |
-| **Character Package** (`erkasa.character/1`) | Formati: skelet, pamje, pjesë vektoriale dhe tekstura mbi mesh të deformueshëm, fytyrë, duar, veshje, manifest aftësish |
-| **Character Runtime**                        | Kod determinist, pa vendime, që e kthen paketën + kanalet në vizatim dhe në gjeometri                                   |
-| **Character Builder**                        | Mjet autorimi offline që ndërton paketat; vjen nga prototipi v4                                                         |
-
-Engine-t i marrin karakteret vetëm përmes paketës së render-it dhe nuk mbajnë asnjë kopje të identitetit. 3. **Formati, i zgjedhur me matje [M]:**
-
-- Vektor + tekstura raster mbi mesh, të deformuara nga i njëjti skelet dhe morph targets.
-- Disa pamje të autorizuara, pa filtra blur në runtime.
-- Matjet që e mbështetin:
-  - Gjeometria vektoriale e një kuadri v4 kushton 150–160 ms. Filtrat blur dhe teksturat në runtime marrin **94%** të kohës në resvg dhe 76% në Skia.
-  - Një teksturë mbi mesh të deformuar vizatohet në Skia, që e kemi tashmë në repo, me **70 ms për 4 096 trekëndësha**, pa tegela të dukshme (0.2/255).
-  - Skinning-u dhe morph targets kushtojnë **0.7 ms** për kuadër.
-  - Kostoja rritet linearisht me numrin e karaktereve.
-
+   - **Character Library:** katalog me paketa karakteresh të versionuara dhe të pandryshueshme.
+   - **Character Package** (`erkasa.character/1`): formati, me skelet, pamje, pjesë vektoriale dhe tekstura mbi mesh të deformueshëm, fytyrë, duar, veshje dhe manifest aftësish.
+   - **Character Runtime:** kod determinist, pa vendime, që e kthen paketën + kanalet në vizatim dhe në gjeometri.
+   - **Character Builder:** mjet autorimi offline që ndërton paketat; vjen nga prototipi v4.
+   - Engine-t i marrin karakteret vetëm përmes paketës së render-it dhe nuk mbajnë asnjë kopje të identitetit.
+3. **Formati, i zgjedhur me matje [M]:**
+   - Vektor + tekstura raster mbi mesh, të deformuara nga i njëjti skelet dhe morph targets.
+   - Disa pamje të autorizuara, pa filtra blur në runtime.
+   - Gjeometria vektoriale e një kuadri v4 kushton 150–160 ms. Filtrat blur dhe teksturat në runtime marrin **94%** të kohës në resvg dhe 76% në Skia.
+   - Një teksturë mbi mesh të deformuar vizatohet në Skia, që e kemi tashmë në repo, me **70 ms për 4 096 trekëndësha**, pa tegela të dukshme (0.2/255).
+   - Skinning-u dhe morph targets kushtojnë **0.7 ms** për kuadër.
+   - Kostoja rritet linearisht me numrin e karaktereve.
 4. **Një SVG i vetëm nuk mjafton**, dhe as kodi procedural për çdo karakter (rruga v4). V4 bëhet mjeti që i **ndërton** paketat, jo mënyra si i **vizatojmë**.
 5. **Plani ndjek gjashtë fazat e kërkesës.** Faza 1 (auditimi) është ky dokument. Fazat 2–6 kanë kritere pranimi me matje automatike dhe video.
    - Filmat ekzistues, rig-u `@1`/`@2` dhe golden-et B1–B5 nuk preken.
@@ -205,7 +199,7 @@ Deri te 4 096 trekëndësha kostoja varet nga sipërfaqja, jo nga numri. Rezulta
 - **Pjesë vektoriale** (C) për gjithçka që duhet të jetë e mprehtë dhe e deformueshme: silueta, vijat, sytë, buzët, gishtat, skajet e rrobave.
 - **Pjesë me teksturë** (D) për gjithçka që sot bëhet me blur dhe turbulencë në runtime: hijet e buta, flokët, poret, pëlhura.
   - Teksturat **piqen** nga Builder-i në kohën e autorimit, kështu kostoja kalon nga çdo kuadër te një herë për paketë.
-- **E njëjta deformim për të dyja:** skelet me pesha + morph targets (shprehje, visemes, deformime këndi).
+- **I njëjti deformim për të dyja:** skelet me pesha + morph targets (shprehje, visemes, deformime këndi).
 - **Pamje të autorizuara** (§4.3), jo ri-projektim i një pamjeje të vetme. Ri-projektimi v4 u prish jashtë ±12°.
 - **Pa filtra blur ose turbulencë në runtime** brenda karakterit. Gate-i i refuzon.
 - **Vizatimi në rrugën Skia** që ekziston tashmë në renderer. Resvg mbetet për filmat ekzistues.
@@ -513,7 +507,7 @@ Ndryshimet janë vetëm shtesa; asnjë fushë ekzistuese nuk ndryshon kuptim.
 
 ## 10. Vendimet që kërkohen nga ti
 
-1. **Formati:** vektor + tekstura mbi mesh, me skelet, morph targets dhe pamje të autorizuara, i vizatuar në rrugën Skia (§3). Alternativa është të vazhdojmë me vektor të pastër me filtra: cilësi e njëjtë, por rreth 4–16 herë më e shtrenjtë sipas matjeve.
+1. **Formati:** vektor + tekstura mbi mesh, me skelet, morph targets dhe pamje të autorizuara, i vizatuar në rrugën Skia (§3). Alternativa është të vazhdojmë me vektor të pastër me filtra: cilësia e provuar e v4, por rreth 4–16 herë më e shtrenjtë sipas matjeve. Cilësia e formatit të ri provohet në Fazën 3 kundrejt v4.
 2. **Autorimi:**
    - Character Builder parametrik (kod, nga v4) si rruga kryesore.
    - Formati mbetet i hapur për një artist, që mund të japë pjesë për çdo pamje. Importuesi për artistin nuk është pjesë e këtij versioni.
