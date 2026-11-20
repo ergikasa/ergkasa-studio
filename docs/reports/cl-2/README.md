@@ -27,7 +27,7 @@ Shenjat: **[F]** e verifikuar në kod ose në test · **[M]** e matur në këtë
    - Ngarkimi, validimi, inicializimi i skeletit, deformimi i mesh-it, kontrollet bazë të fytyrës dhe integrimi në render.
    - Është vetëm teknik (`purpose: technical_test`, `approval: pending`). Nuk është Danieli dhe nuk është karakteri femër.
 5. **Benchmark-et reale [M]**, në 1080×1920, CPU me 2 bërthama, pa GPU:
-   - **Një kuadër i plotë me karakterin: mesatarja 26 ms** (p95 41 ms).
+   - **Një kuadër i plotë me karakterin: mediana 26 ms** (mesatarja 29 ms, p95 41 ms).
    - **Me kodimin H.264 të pipeline-it: 52 ms për kuadër.**
    - **Kjo nuk provon 0.25 s/frame për karakteret e vërteta.** Karakteri testues është shumë më i thjeshtë. Kostoja e teksturës ndjek pikselët që mbulon, dhe kalimi midis pamjeve kushton 61 ms.
 6. **Gjeta dhe rregullova një rrjedhje memorieje [M]:**
@@ -436,7 +436,7 @@ Track-et e demos janë `erkasa.render/1`, të lexuara me `Track` dhe `actorFrame
 4. **Git LFS për teksturat e Fazës 3:** këtu push-i i LFS bllokohet. Mundësitë:
    - të lejohet `github-cloud.s3.amazonaws.com` për këtë mjedis;
    - ti t'i bësh push objektet LFS nga makina jote;
-   - teksturat e karakterëve referencë, që janë disa MB, të mbahen në Git të zakonshëm.
+   - teksturat e karaktereve referencë, që janë disa MB, të mbahen në Git të zakonshëm.
 5. **Rrjedhja e `getImageData` në W0:** a ta trajtojmë si detyrë më vete, me golden-et si provë, apo ta lëmë siç është, me segmentet prej 24 kuadrash?
 
 Faza 2 mbaron këtu. Nuk kam nisur Danielin, karakterin femër apo ndonjë punë të Fazës 3.
