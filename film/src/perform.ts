@@ -97,6 +97,12 @@ class Track {
   }
   /** Hold the current value until t0, then move to v by t1. Later keys are replaced (a new action overrides). */
   to(t0: number, t1: number, v: number, ease: Ease = "io"): void {
+    // a change that starts at the shot's first instant and lasts under a frame is the starting state, not a move:
+    // it holds from frame 0 (before: frame 0 showed the body before its state, then it jumped on frame 1)
+    if (t0 <= 0 && t1 <= 0.02) {
+      this.keys = [[0, v]];
+      return;
+    }
     const cur = this.at(t0);
     this.keys = this.keys.filter((k) => k[0] < t0);
     this.keys.push([t0, cur], [Math.max(t0 + 1e-3, t1), v, ease]);
@@ -1116,7 +1122,8 @@ export function perform(ctx: PerformContext): Performance {
     const ang = (Math.atan2(dy, Math.max(40, Math.abs(dx))) * 180) / Math.PI;
     const headV = clamp(ang * 0.55, -22, 24);
     const gy = clamp(ang / 35, -1, 1);
-    const d = speed < 0.1 ? 0.01 : 1;
+    // speed < 0.1: where the eyes already are (the starting gaze), not a look: no time at all
+    const d = speed < 0.1 ? 0 : 1;
     a.ch.gx.to(t0, t0 + 0.12 * d, 1, "out");
     a.ch.gy.to(t0, t0 + 0.12 * d, gy, "out");
     a.ch.head.to(t0 + 0.12 * d, t0 + 0.62 * d, headV, d < 1 ? "lin" : "back");

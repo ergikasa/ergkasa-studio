@@ -78,9 +78,8 @@ describe("D4 / CA-P4: one continuous performance, written as a sequence", () => 
     const face = ["brow", "mouth", "shrug"] as const;
     for (const s of c.composed.shots) {
       for (const a of s.perf?.actors.values() ?? []) {
-        // from frame 1: frame 0 of every shot shows the body before its starting state (a defect older than W2,
-        // in every film: fixed separately, on the branch that waits for the approval of the new goldens)
-        const ts = frames(s.dur).slice(1);
+        // from frame 0: the starting state holds on the first frame (fix-shot-first-frame)
+        const ts = frames(s.dur);
         const poses = ts.map((t) => a.pose(t));
         const check = (
           ch: (typeof bones)[number] | (typeof face)[number],
@@ -270,6 +269,41 @@ describe("CA-P2: the intent of the talk becomes a whole-body performance", () =>
     for (const ch of ["brow", "shrug", "torso", "head"] as const)
       expect(Math.abs(after.intentCh[ch].at(0) - before.intentCh[ch].at(cut)), ch).toBeLessThan(0.05);
     expect(after.intentCh.brow.at(0)).toBeLessThan(-0.4); // still worried at the first frame of sh05
+  });
+});
+
+describe("the first frame of a shot (fix-shot-first-frame)", () => {
+  it("in every benchmark film, nobody snaps between frame 0 and frame 1 of a shot (before the fix: 30 of 39)", () => {
+    const fast = new Set(["brow", "mouth", "gx", "gy", "lid", "shrug", "hand", "open", "breath"]);
+    let n = 0;
+    for (const b of [
+      "b1-why-we-stay",
+      "b2-same-answers",
+      "b3-every-yes",
+      "b4-one-percent",
+      "b5-planning-fallacy",
+    ]) {
+      const p = FilmPlan.parse(json(`film/plans/${b}.film.json`));
+      const s = Script.parse(json(`benchmark/scripts/${b}.script.json`));
+      for (const shot of prepare({ script: s, plan: p }).composed.shots)
+        for (const a of shot.perf?.actors.values() ?? []) {
+          n++;
+          const [p0, p1, p2] = [0, 1, 2].map((k) => a.pose(k / FPS)) as [
+            ReturnType<typeof a.pose>,
+            ReturnType<typeof a.pose>,
+            ReturnType<typeof a.pose>,
+          ];
+          for (const c of Object.keys(p0) as Array<keyof typeof p0>) {
+            const jump = Math.abs(p0[c] - p1[c]);
+            const next = Math.abs(p1[c] - p2[c]);
+            expect(
+              jump > (fast.has(c) ? 0.25 : 4) && jump > 3 * next,
+              `${b} ${shot.shot.id} ${a.id} ${c}`,
+            ).toBe(false);
+          }
+        }
+    }
+    expect(n).toBe(39);
   });
 });
 

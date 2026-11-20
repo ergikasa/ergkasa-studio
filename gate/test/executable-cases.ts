@@ -671,6 +671,8 @@ export const EXEC_CASES: ExecCase[] = [
     mutate: (c) => {
       c.pkg.output.fps = 24;
     },
+    // fix-shot-first-frame: two channels of scene 1 hold their starting state from frame 0 (no micro-ramp), so
+    // they are constant, not sampled, and have no rate to refuse
     expect: [
       "SAMPLE_RATE package/scenes/1/tracks/14/rate",
       "SAMPLE_RATE package/scenes/1/tracks/14/start",
@@ -684,10 +686,6 @@ export const EXEC_CASES: ExecCase[] = [
       "SAMPLE_RATE package/scenes/1/tracks/24/start",
       "SAMPLE_RATE package/scenes/1/tracks/25/rate",
       "SAMPLE_RATE package/scenes/1/tracks/25/start",
-      "SAMPLE_RATE package/scenes/1/tracks/27/rate",
-      "SAMPLE_RATE package/scenes/1/tracks/27/start",
-      "SAMPLE_RATE package/scenes/1/tracks/28/rate",
-      "SAMPLE_RATE package/scenes/1/tracks/28/start",
       "SAMPLE_RATE package/scenes/1/tracks/30/rate",
       "SAMPLE_RATE package/scenes/1/tracks/30/start",
       "SAMPLE_RATE package/scenes/1/tracks/31/rate",
