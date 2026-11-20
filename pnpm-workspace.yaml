@@ -9,6 +9,7 @@ packages:
   - planner
   - stager
   - gate
+  - character
 
 onlyBuiltDependencies:
   - esbuild

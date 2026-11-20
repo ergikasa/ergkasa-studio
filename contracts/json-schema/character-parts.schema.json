@@ -1,0 +1,797 @@
+{
+  "$id": "https://erkasa.studio/contracts/character-parts.schema.json",
+  "title": "character-parts",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "erkasa.character.parts/1"
+    },
+    "parts": {
+      "minItems": 1,
+      "maxItems": 2000,
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+              },
+              "z": {
+                "type": "number"
+              },
+              "opacity": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "vertices": {
+                "minItems": 1,
+                "maxItems": 200000,
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "prefixItems": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ],
+                  "items": false,
+                  "minItems": 2,
+                  "maxItems": 2
+                }
+              },
+              "binding": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "kind": {
+                        "type": "string",
+                        "const": "rigid"
+                      },
+                      "bone": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                      }
+                    },
+                    "required": [
+                      "kind",
+                      "bone"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "kind": {
+                        "type": "string",
+                        "const": "skin"
+                      },
+                      "bones": {
+                        "minItems": 1,
+                        "maxItems": 64,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                        }
+                      },
+                      "weights": {
+                        "type": "array",
+                        "items": {
+                          "minItems": 1,
+                          "maxItems": 4,
+                          "type": "array",
+                          "items": {
+                            "type": "array",
+                            "prefixItems": [
+                              {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              },
+                              {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                              }
+                            ],
+                            "items": false,
+                            "minItems": 2,
+                            "maxItems": 2
+                          }
+                        }
+                      }
+                    },
+                    "required": [
+                      "kind",
+                      "bones",
+                      "weights"
+                    ],
+                    "additionalProperties": false
+                  }
+                ]
+              },
+              "morphs": {
+                "maxItems": 256,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                    },
+                    "deltas": {
+                      "minItems": 1,
+                      "maxItems": 200000,
+                      "type": "array",
+                      "items": {
+                        "type": "array",
+                        "prefixItems": [
+                          {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          {
+                            "type": "number"
+                          },
+                          {
+                            "type": "number"
+                          }
+                        ],
+                        "items": false,
+                        "minItems": 3,
+                        "maxItems": 3
+                      }
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "deltas"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "kind": {
+                "type": "string",
+                "const": "vector"
+              },
+              "paths": {
+                "minItems": 1,
+                "maxItems": 512,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "cmds": {
+                      "minItems": 2,
+                      "maxItems": 100000,
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "type": "array",
+                            "prefixItems": [
+                              {
+                                "type": "string",
+                                "const": "M"
+                              },
+                              {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              }
+                            ],
+                            "items": false,
+                            "minItems": 2,
+                            "maxItems": 2
+                          },
+                          {
+                            "type": "array",
+                            "prefixItems": [
+                              {
+                                "type": "string",
+                                "const": "L"
+                              },
+                              {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              }
+                            ],
+                            "items": false,
+                            "minItems": 2,
+                            "maxItems": 2
+                          },
+                          {
+                            "type": "array",
+                            "prefixItems": [
+                              {
+                                "type": "string",
+                                "const": "Q"
+                              },
+                              {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              },
+                              {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              }
+                            ],
+                            "items": false,
+                            "minItems": 3,
+                            "maxItems": 3
+                          },
+                          {
+                            "type": "array",
+                            "prefixItems": [
+                              {
+                                "type": "string",
+                                "const": "C"
+                              },
+                              {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              },
+                              {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              },
+                              {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              }
+                            ],
+                            "items": false,
+                            "minItems": 4,
+                            "maxItems": 4
+                          },
+                          {
+                            "type": "array",
+                            "prefixItems": [
+                              {
+                                "type": "string",
+                                "const": "Z"
+                              }
+                            ],
+                            "items": false,
+                            "minItems": 1,
+                            "maxItems": 1
+                          }
+                        ]
+                      }
+                    },
+                    "fill": {
+                      "oneOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "kind": {
+                              "type": "string",
+                              "const": "solid"
+                            },
+                            "color": {
+                              "type": "string",
+                              "pattern": "^#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?$"
+                            }
+                          },
+                          "required": [
+                            "kind",
+                            "color"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "kind": {
+                              "type": "string",
+                              "const": "linear"
+                            },
+                            "from": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "to": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "stops": {
+                              "minItems": 2,
+                              "maxItems": 16,
+                              "type": "array",
+                              "items": {
+                                "type": "array",
+                                "prefixItems": [
+                                  {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                  },
+                                  {
+                                    "type": "string",
+                                    "pattern": "^#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?$"
+                                  }
+                                ],
+                                "items": false,
+                                "minItems": 2,
+                                "maxItems": 2
+                              }
+                            }
+                          },
+                          "required": [
+                            "kind",
+                            "from",
+                            "to",
+                            "stops"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "kind": {
+                              "type": "string",
+                              "const": "radial"
+                            },
+                            "center": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "edge": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "stops": {
+                              "minItems": 2,
+                              "maxItems": 16,
+                              "type": "array",
+                              "items": {
+                                "type": "array",
+                                "prefixItems": [
+                                  {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                  },
+                                  {
+                                    "type": "string",
+                                    "pattern": "^#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?$"
+                                  }
+                                ],
+                                "items": false,
+                                "minItems": 2,
+                                "maxItems": 2
+                              }
+                            }
+                          },
+                          "required": [
+                            "kind",
+                            "center",
+                            "edge",
+                            "stops"
+                          ],
+                          "additionalProperties": false
+                        }
+                      ]
+                    },
+                    "stroke": {
+                      "type": "object",
+                      "properties": {
+                        "paint": {
+                          "oneOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "kind": {
+                                  "type": "string",
+                                  "const": "solid"
+                                },
+                                "color": {
+                                  "type": "string",
+                                  "pattern": "^#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?$"
+                                }
+                              },
+                              "required": [
+                                "kind",
+                                "color"
+                              ],
+                              "additionalProperties": false
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "kind": {
+                                  "type": "string",
+                                  "const": "linear"
+                                },
+                                "from": {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "maximum": 9007199254740991
+                                },
+                                "to": {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "maximum": 9007199254740991
+                                },
+                                "stops": {
+                                  "minItems": 2,
+                                  "maxItems": 16,
+                                  "type": "array",
+                                  "items": {
+                                    "type": "array",
+                                    "prefixItems": [
+                                      {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "maximum": 1
+                                      },
+                                      {
+                                        "type": "string",
+                                        "pattern": "^#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?$"
+                                      }
+                                    ],
+                                    "items": false,
+                                    "minItems": 2,
+                                    "maxItems": 2
+                                  }
+                                }
+                              },
+                              "required": [
+                                "kind",
+                                "from",
+                                "to",
+                                "stops"
+                              ],
+                              "additionalProperties": false
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "kind": {
+                                  "type": "string",
+                                  "const": "radial"
+                                },
+                                "center": {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "maximum": 9007199254740991
+                                },
+                                "edge": {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "maximum": 9007199254740991
+                                },
+                                "stops": {
+                                  "minItems": 2,
+                                  "maxItems": 16,
+                                  "type": "array",
+                                  "items": {
+                                    "type": "array",
+                                    "prefixItems": [
+                                      {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "maximum": 1
+                                      },
+                                      {
+                                        "type": "string",
+                                        "pattern": "^#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?$"
+                                      }
+                                    ],
+                                    "items": false,
+                                    "minItems": 2,
+                                    "maxItems": 2
+                                  }
+                                }
+                              },
+                              "required": [
+                                "kind",
+                                "center",
+                                "edge",
+                                "stops"
+                              ],
+                              "additionalProperties": false
+                            }
+                          ]
+                        },
+                        "width": {
+                          "type": "number",
+                          "exclusiveMinimum": 0
+                        }
+                      },
+                      "required": [
+                        "paint",
+                        "width"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "cmds"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "id",
+              "z",
+              "opacity",
+              "vertices",
+              "binding",
+              "morphs",
+              "kind",
+              "paths"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+              },
+              "z": {
+                "type": "number"
+              },
+              "opacity": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "vertices": {
+                "minItems": 1,
+                "maxItems": 200000,
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "prefixItems": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ],
+                  "items": false,
+                  "minItems": 2,
+                  "maxItems": 2
+                }
+              },
+              "binding": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "kind": {
+                        "type": "string",
+                        "const": "rigid"
+                      },
+                      "bone": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                      }
+                    },
+                    "required": [
+                      "kind",
+                      "bone"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "kind": {
+                        "type": "string",
+                        "const": "skin"
+                      },
+                      "bones": {
+                        "minItems": 1,
+                        "maxItems": 64,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                        }
+                      },
+                      "weights": {
+                        "type": "array",
+                        "items": {
+                          "minItems": 1,
+                          "maxItems": 4,
+                          "type": "array",
+                          "items": {
+                            "type": "array",
+                            "prefixItems": [
+                              {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              },
+                              {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                              }
+                            ],
+                            "items": false,
+                            "minItems": 2,
+                            "maxItems": 2
+                          }
+                        }
+                      }
+                    },
+                    "required": [
+                      "kind",
+                      "bones",
+                      "weights"
+                    ],
+                    "additionalProperties": false
+                  }
+                ]
+              },
+              "morphs": {
+                "maxItems": 256,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                    },
+                    "deltas": {
+                      "minItems": 1,
+                      "maxItems": 200000,
+                      "type": "array",
+                      "items": {
+                        "type": "array",
+                        "prefixItems": [
+                          {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          {
+                            "type": "number"
+                          },
+                          {
+                            "type": "number"
+                          }
+                        ],
+                        "items": false,
+                        "minItems": 3,
+                        "maxItems": 3
+                      }
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "deltas"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "kind": {
+                "type": "string",
+                "const": "texture"
+              },
+              "images": {
+                "type": "object",
+                "properties": {
+                  "close": {
+                    "type": "string",
+                    "maxLength": 256,
+                    "pattern": "^[a-z0-9_][a-z0-9_.-]{0,63}(\\/[a-z0-9_][a-z0-9_.-]{0,63}){0,4}$"
+                  },
+                  "medium": {
+                    "type": "string",
+                    "maxLength": 256,
+                    "pattern": "^[a-z0-9_][a-z0-9_.-]{0,63}(\\/[a-z0-9_][a-z0-9_.-]{0,63}){0,4}$"
+                  },
+                  "wide": {
+                    "type": "string",
+                    "maxLength": 256,
+                    "pattern": "^[a-z0-9_][a-z0-9_.-]{0,63}(\\/[a-z0-9_][a-z0-9_.-]{0,63}){0,4}$"
+                  }
+                },
+                "required": [
+                  "medium"
+                ],
+                "additionalProperties": false
+              },
+              "uv": {
+                "minItems": 3,
+                "maxItems": 200000,
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "prefixItems": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ],
+                  "items": false,
+                  "minItems": 2,
+                  "maxItems": 2
+                }
+              },
+              "triangles": {
+                "minItems": 1,
+                "maxItems": 400000,
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "prefixItems": [
+                    {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  ],
+                  "items": false,
+                  "minItems": 3,
+                  "maxItems": 3
+                }
+              }
+            },
+            "required": [
+              "id",
+              "z",
+              "opacity",
+              "vertices",
+              "binding",
+              "morphs",
+              "kind",
+              "images",
+              "uv",
+              "triangles"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      }
+    }
+  },
+  "required": [
+    "schema",
+    "parts"
+  ],
+  "additionalProperties": false
+}

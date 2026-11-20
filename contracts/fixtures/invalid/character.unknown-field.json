@@ -1,0 +1,100 @@
+{
+  "schema": "erkasa.character/1",
+  "id": "chr_fixture_min",
+  "version": 1,
+  "name": "Fixture",
+  "purpose": "technical_test",
+  "identity": {
+    "build": "neutral",
+    "height": 400,
+    "heads": 4,
+    "palette": {
+      "skin": "#E0B090",
+      "skinShadow": "#B08060",
+      "eyes": "#304050"
+    },
+    "hairStyle": "none",
+    "facialHair": "none",
+    "marks": []
+  },
+  "fingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "formats": {
+    "rig": "erkasa.rig.layered/1",
+    "channels": "erkasa.humanoid/1"
+  },
+  "compatibility": {
+    "minRuntime": 1
+  },
+  "origin": "root",
+  "skeleton": {
+    "bones": [
+      {
+        "id": "root",
+        "at": [0, 0],
+        "angle": -90,
+        "length": 100
+      }
+    ],
+    "sockets": [],
+    "contacts": []
+  },
+  "controls": [
+    {
+      "channel": "spine_bend",
+      "range": [-10, 10],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "bone",
+          "bone": "root",
+          "degPerUnit": 1
+        }
+      ]
+    }
+  ],
+  "views": {},
+  "face": {
+    "aus": [],
+    "visemes": []
+  },
+  "eyes": [],
+  "hands": [],
+  "wardrobe": [],
+  "capabilities": {
+    "channels": ["spine_bend"],
+    "views": {},
+    "face": {
+      "aus": [],
+      "visemes": [],
+      "blink": false,
+      "gaze": false,
+      "jaw": false
+    },
+    "hands": {
+      "fingers": false
+    },
+    "locomotion": [],
+    "interactions": [],
+    "wardrobe": [],
+    "lod": ["medium"],
+    "evidence": []
+  },
+  "files": [
+    {
+      "path": "parts/body.json",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "bytes": 120,
+      "media": "application/json",
+      "role": "parts"
+    }
+  ],
+  "provenance": {
+    "origin": "builder",
+    "tool": "fixture"
+  },
+  "license": "LicenseRef-Erkasa-Original",
+  "approval": {
+    "status": "pending"
+  },
+  "mood": "happy"
+}

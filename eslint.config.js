@@ -12,6 +12,8 @@ export default defineConfig(
       "assets/**",
       "tools/**",
       "contracts/json-schema/**",
+      // throwaway prototypes (character v3/v4, the format spike): evidence for decisions, not production code
+      "prototypes/**",
     ],
   },
   js.configs.recommended,
@@ -42,6 +44,45 @@ export default defineConfig(
             {
               group: ["@anthropic-ai/*", "openai", "openai/*", "**/llm", "**/llm.js"],
               message: "The engine must not call a language model.",
+            },
+            {
+              group: ["@erkasa/character/library", "@erkasa/character/builder"],
+              message:
+                "Engines take characters only from the render package (Character System V1), never from the Library.",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    // Character System V1: the Gate and the legacy engine read characters through packages, not the Library
+    files: ["gate/**/*.ts", "engine/**/*.ts"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["@erkasa/character/library", "@erkasa/character/builder"],
+              message: "Characters come through the render package, never from the Library or the Builder.",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    // the Character Runtime executes packages: it neither finds them (Library) nor makes them (Builder)
+    files: ["character/src/runtime/**/*.ts"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["../library/*", "../builder/*"],
+              message: "The Runtime does not use the Library or the Builder.",
             },
           ],
         },

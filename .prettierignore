@@ -7,3 +7,9 @@ film/golden/
 
 # generated prototype outputs
 prototypes/**/out/
+
+# Character System V1: generated demo and benchmark outputs
+character/**/out/
+
+# Character Library: published packages are hashed bytes (character.json lists every file's sha256)
+library/

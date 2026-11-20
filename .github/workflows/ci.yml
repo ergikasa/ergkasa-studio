@@ -35,6 +35,9 @@ jobs:
           --health-interval 5s --health-timeout 5s --health-retries 30
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Character Library textures are in Git LFS (Character System V1); tests load and hash them
+          lfs: true
       # the exact .deb files of the pinned version, kept between runs (the runner's own mirror can be very slow)
       - uses: actions/cache@v4
         with:

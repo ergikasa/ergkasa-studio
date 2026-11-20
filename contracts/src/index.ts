@@ -8,6 +8,7 @@ import { TaskCancel, TaskCommand, TaskProgress, TaskResult } from "./task.js";
 import { RenderTimeline } from "./timeline.js";
 import { AssetManifest } from "./asset-manifest.js";
 import { RenderPackage } from "./render-package.js";
+import { CharacterPackage, CharacterParts } from "./character.js";
 
 export * from "./common.js";
 export * from "./asset.js";
@@ -25,6 +26,7 @@ export * from "./render-package.js";
 export * from "./evaluate.js";
 export * from "./camera-view.js";
 export * from "./audio-clip.js";
+export * from "./character.js";
 
 /**
  * Every top-level contract, keyed by the file name of its exported JSON Schema
@@ -48,6 +50,8 @@ export const CONTRACTS = {
   "voice-catalog": VoiceCatalog,
   "asset-manifest": AssetManifest,
   "render-package": RenderPackage,
+  character: CharacterPackage,
+  "character-parts": CharacterParts,
 } as const satisfies Record<string, z.ZodType>;
 
 export type ContractName = keyof typeof CONTRACTS;

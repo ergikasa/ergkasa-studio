@@ -1,0 +1,84 @@
+{
+  "schema": "erkasa.character.parts/1",
+  "parts": [
+    {
+      "id": "body",
+      "kind": "vector",
+      "z": 0,
+      "opacity": 1,
+      "vertices": [
+        [0, 0],
+        [100, 0],
+        [100, 100],
+        [0, 100]
+      ],
+      "binding": {
+        "kind": "rigid",
+        "bone": "root"
+      },
+      "morphs": [
+        {
+          "id": "breath",
+          "deltas": [
+            [1, 2, 0],
+            [2, 2, 0]
+          ]
+        }
+      ],
+      "paths": [
+        {
+          "cmds": [["M", 0], ["L", 1], ["C", 1, 2, 2], ["Q", 3, 0], ["Z"]],
+          "fill": {
+            "kind": "solid",
+            "color": "#AABBCC"
+          },
+          "stroke": {
+            "paint": {
+              "kind": "linear",
+              "from": 0,
+              "to": 2,
+              "stops": [
+                [0, "#000000"],
+                [1, "#FFFFFF80"]
+              ]
+            },
+            "width": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "shade",
+      "kind": "texture",
+      "z": 1,
+      "opacity": 0.8,
+      "vertices": [
+        [0, 0],
+        [100, 0],
+        [0, 100]
+      ],
+      "binding": {
+        "kind": "skin",
+        "bones": ["root", "spine"],
+        "weights": [
+          [[0, 1]],
+          [
+            [0, 0.5],
+            [1, 0.5]
+          ],
+          [[1, 1]]
+        ]
+      },
+      "morphs": [],
+      "images": {
+        "close": "textures/shade.png"
+      },
+      "uv": [
+        [0, 0],
+        [64, 0],
+        [0, 64]
+      ],
+      "triangles": [[0, 1, 2]]
+    }
+  ]
+}

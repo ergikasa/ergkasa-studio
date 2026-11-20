@@ -1,0 +1,861 @@
+{
+  "schema": "erkasa.character/1",
+  "id": "chr_test_minimal",
+  "version": 1,
+  "name": "Technical test character",
+  "purpose": "technical_test",
+  "identity": {
+    "build": "neutral",
+    "height": 790,
+    "heads": 3.1,
+    "palette": {
+      "skin": "#D9A07C",
+      "skinShadow": "#B07A5A",
+      "eyes": "#4A6A8A",
+      "hair": "#3B2A20"
+    },
+    "hairStyle": "short_fringe",
+    "facialHair": "none",
+    "marks": []
+  },
+  "fingerprint": "53d73e868a273899143db1882be375ff3990ec1769b155ded313d2172eab81f9",
+  "formats": {
+    "rig": "erkasa.rig.layered/1",
+    "channels": "erkasa.humanoid/1"
+  },
+  "compatibility": {
+    "minRuntime": 1
+  },
+  "origin": "root",
+  "skeleton": {
+    "bones": [
+      {
+        "id": "root",
+        "at": [
+          0,
+          0
+        ],
+        "angle": -90,
+        "length": 0
+      },
+      {
+        "id": "spine",
+        "parent": "root",
+        "at": [
+          0,
+          0
+        ],
+        "angle": -90,
+        "length": 230
+      },
+      {
+        "id": "chest",
+        "parent": "spine",
+        "at": [
+          0,
+          -230
+        ],
+        "angle": -90,
+        "length": 200
+      },
+      {
+        "id": "neck",
+        "parent": "chest",
+        "at": [
+          0,
+          -430
+        ],
+        "angle": -90,
+        "length": 75
+      },
+      {
+        "id": "head",
+        "parent": "neck",
+        "at": [
+          0,
+          -505
+        ],
+        "angle": -90,
+        "length": 280
+      },
+      {
+        "id": "shoulder_l",
+        "parent": "chest",
+        "at": [
+          55,
+          -400
+        ],
+        "angle": 0,
+        "length": 95
+      },
+      {
+        "id": "arm_l_upper",
+        "parent": "shoulder_l",
+        "at": [
+          150,
+          -400
+        ],
+        "angle": 90,
+        "length": 190
+      },
+      {
+        "id": "arm_l_lower",
+        "parent": "arm_l_upper",
+        "at": [
+          150,
+          -210
+        ],
+        "angle": 90,
+        "length": 170
+      },
+      {
+        "id": "hand_l",
+        "parent": "arm_l_lower",
+        "at": [
+          150,
+          -40
+        ],
+        "angle": 90,
+        "length": 55
+      },
+      {
+        "id": "shoulder_r",
+        "parent": "chest",
+        "at": [
+          -55,
+          -400
+        ],
+        "angle": 180,
+        "length": 95
+      },
+      {
+        "id": "arm_r_upper",
+        "parent": "shoulder_r",
+        "at": [
+          -150,
+          -400
+        ],
+        "angle": 90,
+        "length": 190
+      },
+      {
+        "id": "arm_r_lower",
+        "parent": "arm_r_upper",
+        "at": [
+          -150,
+          -210
+        ],
+        "angle": 90,
+        "length": 170
+      },
+      {
+        "id": "hand_r",
+        "parent": "arm_r_lower",
+        "at": [
+          -150,
+          -40
+        ],
+        "angle": 90,
+        "length": 55
+      }
+    ],
+    "sockets": [
+      {
+        "id": "hand_l",
+        "bone": "hand_l",
+        "at": [
+          150,
+          6
+        ]
+      },
+      {
+        "id": "hand_r",
+        "bone": "hand_r",
+        "at": [
+          -150,
+          6
+        ]
+      }
+    ],
+    "contacts": []
+  },
+  "controls": [
+    {
+      "channel": "spine_bend",
+      "range": [
+        -12,
+        12
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "bone",
+          "bone": "spine",
+          "degPerUnit": 1
+        }
+      ]
+    },
+    {
+      "channel": "chest_bend",
+      "range": [
+        -12,
+        12
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "bone",
+          "bone": "chest",
+          "degPerUnit": 1
+        }
+      ]
+    },
+    {
+      "channel": "breath",
+      "range": [
+        0,
+        1
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "morph",
+          "morph": "breath",
+          "from": 0,
+          "to": 1
+        }
+      ]
+    },
+    {
+      "channel": "neck_bend",
+      "range": [
+        -15,
+        15
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "bone",
+          "bone": "neck",
+          "degPerUnit": 1
+        }
+      ]
+    },
+    {
+      "channel": "head_roll",
+      "range": [
+        -18,
+        18
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "bone",
+          "bone": "head",
+          "degPerUnit": 1
+        }
+      ]
+    },
+    {
+      "channel": "head_yaw",
+      "range": [
+        -15,
+        40
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "morph",
+          "morph": "front_yaw_pos",
+          "from": 0,
+          "to": 15
+        },
+        {
+          "kind": "morph",
+          "morph": "front_yaw_neg",
+          "from": 0,
+          "to": -15
+        },
+        {
+          "kind": "morph",
+          "morph": "q3_yaw_pos",
+          "from": 30,
+          "to": 45
+        },
+        {
+          "kind": "morph",
+          "morph": "q3_yaw_neg",
+          "from": 30,
+          "to": 15
+        }
+      ]
+    },
+    {
+      "channel": "head_pitch",
+      "range": [
+        -12,
+        12
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "morph",
+          "morph": "front_pitch_pos",
+          "from": 0,
+          "to": 12
+        },
+        {
+          "kind": "morph",
+          "morph": "front_pitch_neg",
+          "from": 0,
+          "to": -12
+        },
+        {
+          "kind": "morph",
+          "morph": "q3_pitch_pos",
+          "from": 0,
+          "to": 12
+        },
+        {
+          "kind": "morph",
+          "morph": "q3_pitch_neg",
+          "from": 0,
+          "to": -12
+        }
+      ]
+    },
+    {
+      "channel": "shoulder_l_raise",
+      "range": [
+        -10,
+        20
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "bone",
+          "bone": "shoulder_l",
+          "degPerUnit": -1
+        }
+      ]
+    },
+    {
+      "channel": "shoulder_r_raise",
+      "range": [
+        -10,
+        20
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "bone",
+          "bone": "shoulder_r",
+          "degPerUnit": 1
+        }
+      ]
+    },
+    {
+      "channel": "arm_l_upper",
+      "range": [
+        -20,
+        110
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "bone",
+          "bone": "arm_l_upper",
+          "degPerUnit": -1
+        }
+      ]
+    },
+    {
+      "channel": "arm_r_upper",
+      "range": [
+        -20,
+        110
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "bone",
+          "bone": "arm_r_upper",
+          "degPerUnit": 1
+        }
+      ]
+    },
+    {
+      "channel": "arm_l_lower",
+      "range": [
+        0,
+        130
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "bone",
+          "bone": "arm_l_lower",
+          "degPerUnit": -1
+        }
+      ]
+    },
+    {
+      "channel": "arm_r_lower",
+      "range": [
+        0,
+        130
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "bone",
+          "bone": "arm_r_lower",
+          "degPerUnit": 1
+        }
+      ]
+    },
+    {
+      "channel": "au01",
+      "range": [
+        0,
+        1
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "morph",
+          "morph": "au01",
+          "from": 0,
+          "to": 1
+        }
+      ]
+    },
+    {
+      "channel": "au02",
+      "range": [
+        0,
+        1
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "morph",
+          "morph": "au02",
+          "from": 0,
+          "to": 1
+        }
+      ]
+    },
+    {
+      "channel": "au04",
+      "range": [
+        0,
+        1
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "morph",
+          "morph": "au04",
+          "from": 0,
+          "to": 1
+        }
+      ]
+    },
+    {
+      "channel": "au05",
+      "range": [
+        0,
+        1
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "morph",
+          "morph": "au05",
+          "from": 0,
+          "to": 1
+        }
+      ]
+    },
+    {
+      "channel": "au12",
+      "range": [
+        0,
+        1
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "morph",
+          "morph": "au12",
+          "from": 0,
+          "to": 1
+        }
+      ]
+    },
+    {
+      "channel": "jaw_open",
+      "range": [
+        0,
+        1
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "morph",
+          "morph": "jaw",
+          "from": 0,
+          "to": 1
+        },
+        {
+          "kind": "opacity",
+          "part": "mouth_inside_front",
+          "from": 0,
+          "to": 0.15
+        },
+        {
+          "kind": "opacity",
+          "part": "mouth_inside_q3",
+          "from": 0,
+          "to": 0.15
+        }
+      ]
+    },
+    {
+      "channel": "lid_l",
+      "range": [
+        0,
+        1
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "morph",
+          "morph": "blink_l",
+          "from": 0,
+          "to": 1
+        }
+      ]
+    },
+    {
+      "channel": "lid_r",
+      "range": [
+        0,
+        1
+      ],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "morph",
+          "morph": "blink_r",
+          "from": 0,
+          "to": 1
+        }
+      ]
+    }
+  ],
+  "views": {
+    "head": {
+      "yawChannel": "head_yaw",
+      "pitchChannel": "head_pitch",
+      "views": [
+        {
+          "id": "front",
+          "yaw": [
+            -15,
+            15
+          ],
+          "pitch": [
+            -12,
+            12
+          ],
+          "center": {
+            "yaw": 0,
+            "pitch": 0
+          },
+          "parts": [
+            "hair_back_front",
+            "ear_l_front",
+            "ear_r_front",
+            "head_front",
+            "eye_white_l_front",
+            "lid_l_front",
+            "eye_white_r_front",
+            "lid_r_front",
+            "brow_l_front",
+            "brow_r_front",
+            "nose_front",
+            "mouth_inside_front",
+            "mouth_front",
+            "hair_front_front"
+          ],
+          "blend": 3
+        },
+        {
+          "id": "q3",
+          "yaw": [
+            15,
+            40
+          ],
+          "pitch": [
+            -12,
+            12
+          ],
+          "center": {
+            "yaw": 30,
+            "pitch": 0
+          },
+          "parts": [
+            "hair_back_q3",
+            "ear_r_q3",
+            "head_q3",
+            "eye_white_l_q3",
+            "lid_l_q3",
+            "eye_white_r_q3",
+            "lid_r_q3",
+            "brow_l_q3",
+            "brow_r_q3",
+            "nose_q3",
+            "mouth_inside_q3",
+            "mouth_q3",
+            "hair_front_q3"
+          ],
+          "blend": 3
+        }
+      ]
+    }
+  },
+  "face": {
+    "aus": [
+      "au01",
+      "au02",
+      "au04",
+      "au05",
+      "au12"
+    ],
+    "visemes": [],
+    "blink": {
+      "l": "blink_l",
+      "r": "blink_r"
+    },
+    "gaze": {
+      "rest": [
+        0,
+        0,
+        600
+      ],
+      "range": [
+        [
+          -500,
+          500
+        ],
+        [
+          -500,
+          500
+        ],
+        [
+          60,
+          3000
+        ]
+      ]
+    }
+  },
+  "eyes": [
+    {
+      "id": "l",
+      "bone": "head",
+      "iris": {
+        "radius": 8.5,
+        "color": "#4A6A8A",
+        "ring": "#2A3C50"
+      },
+      "pupil": {
+        "radius": 3.8,
+        "color": "#101418"
+      },
+      "highlight": {
+        "offset": [
+          -2.5,
+          -3
+        ],
+        "radius": 1.8,
+        "color": "#FFFFFFDD"
+      },
+      "maxAngle": 30,
+      "views": [
+        {
+          "view": "front",
+          "centerVertex": 24,
+          "radius": 13,
+          "squash": 0.978,
+          "clip": "eye_white_l_front",
+          "over": "lid_l_front"
+        },
+        {
+          "view": "q3",
+          "centerVertex": 24,
+          "radius": 13,
+          "squash": 0.743,
+          "clip": "eye_white_l_q3",
+          "over": "lid_l_q3"
+        }
+      ]
+    },
+    {
+      "id": "r",
+      "bone": "head",
+      "iris": {
+        "radius": 8.5,
+        "color": "#4A6A8A",
+        "ring": "#2A3C50"
+      },
+      "pupil": {
+        "radius": 3.8,
+        "color": "#101418"
+      },
+      "highlight": {
+        "offset": [
+          -2.5,
+          -3
+        ],
+        "radius": 1.8,
+        "color": "#FFFFFFDD"
+      },
+      "maxAngle": 30,
+      "views": [
+        {
+          "view": "front",
+          "centerVertex": 24,
+          "radius": 13,
+          "squash": 0.978,
+          "clip": "eye_white_r_front",
+          "over": "lid_r_front"
+        },
+        {
+          "view": "q3",
+          "centerVertex": 24,
+          "radius": 13,
+          "squash": 0.951,
+          "clip": "eye_white_r_q3",
+          "over": "lid_r_q3"
+        }
+      ]
+    }
+  ],
+  "hands": [],
+  "wardrobe": [
+    {
+      "id": "test_tee",
+      "label": "Test T-shirt (painted texture on a mesh)",
+      "tags": [
+        "casual",
+        "test"
+      ],
+      "garments": [
+        {
+          "kind": "tshirt",
+          "parts": [
+            "tee",
+            "sleeve_l",
+            "sleeve_r"
+          ]
+        }
+      ],
+      "hides": [
+        "torso_skin"
+      ]
+    }
+  ],
+  "capabilities": {
+    "channels": [
+      "spine_bend",
+      "chest_bend",
+      "breath",
+      "neck_bend",
+      "head_roll",
+      "head_yaw",
+      "head_pitch",
+      "shoulder_l_raise",
+      "shoulder_r_raise",
+      "arm_l_upper",
+      "arm_r_upper",
+      "arm_l_lower",
+      "arm_r_lower",
+      "au01",
+      "au02",
+      "au04",
+      "au05",
+      "au12",
+      "jaw_open",
+      "lid_l",
+      "lid_r",
+      "gaze_x",
+      "gaze_y",
+      "gaze_z"
+    ],
+    "views": {
+      "head": [
+        "front",
+        "q3"
+      ]
+    },
+    "face": {
+      "aus": [
+        "au01",
+        "au02",
+        "au04",
+        "au05",
+        "au12"
+      ],
+      "visemes": [],
+      "blink": true,
+      "gaze": true,
+      "jaw": true
+    },
+    "hands": {
+      "fingers": false
+    },
+    "locomotion": [],
+    "interactions": [],
+    "wardrobe": [
+      "test_tee"
+    ],
+    "lod": [
+      "medium"
+    ],
+    "evidence": []
+  },
+  "files": [
+    {
+      "path": "parts/body.json",
+      "sha256": "e4eba044200e06c2b288dae96d20d08c35806b0baad22dfd9c59de09a3ac0414",
+      "bytes": 18545,
+      "media": "application/json",
+      "role": "parts"
+    },
+    {
+      "path": "parts/head.json",
+      "sha256": "9cf9025f135f0b46349d67bdcc24ed44b37d659ec13f9400dc5c3f473a944be2",
+      "bytes": 76267,
+      "media": "application/json",
+      "role": "parts"
+    },
+    {
+      "path": "textures/tee.png",
+      "sha256": "8df87656a08a01d46723cc3c65d7e770d4978c7ac779c77117807bdf15131c32",
+      "bytes": 166979,
+      "media": "image/png",
+      "role": "texture"
+    }
+  ],
+  "provenance": {
+    "origin": "builder",
+    "tool": "character-builder/parametric/test-minimal@1"
+  },
+  "license": "LicenseRef-Erkasa-Original",
+  "approval": {
+    "status": "pending",
+    "note": "Phase 2 technical test character: proves the format and the runtime only."
+  }
+}

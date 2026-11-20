@@ -1,0 +1,29 @@
+{
+  "name": "@erkasa/character",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Character System V1: the Character Runtime (executes erkasa.character/1 packages), the Character Library (immutable, versioned packages) and the Character Builder (authoring). None of them is an Engine.",
+  "type": "module",
+  "exports": {
+    "./runtime": "./src/runtime/index.ts",
+    "./library": "./src/library/index.ts",
+    "./builder": "./src/builder/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "cli": "tsx src/library/cli.ts",
+    "build:test-character": "tsx src/builder/build-test-character.ts",
+    "bench": "node --expose-gc --import tsx bench/bench.ts",
+    "demo": "tsx demo/render-demo.ts"
+  },
+  "dependencies": {
+    "@erkasa/contracts": "workspace:*",
+    "@napi-rs/canvas": "0.1.100",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "tsx": "4.23.15",
+    "vitest": "5.1.0"
+  }
+}

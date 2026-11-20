@@ -1,0 +1,48 @@
+{
+  "schema": "erkasa.character-catalog/1",
+  "characters": [
+    {
+      "id": "chr_test_minimal",
+      "version": 1,
+      "ref": "chr_test_minimal@1",
+      "sha256": "b5515ea7ce02f34c86b84f1423647be2e23c8ea596db94fd3dbc912bfde88470",
+      "fingerprint": "53d73e868a273899143db1882be375ff3990ec1769b155ded313d2172eab81f9",
+      "name": "Technical test character",
+      "purpose": "technical_test",
+      "approval": "pending",
+      "build": "neutral",
+      "path": "characters/chr_test_minimal/1",
+      "outfits": [
+        {
+          "id": "test_tee",
+          "tags": [
+            "casual",
+            "test"
+          ]
+        }
+      ],
+      "views": {
+        "head": [
+          "front",
+          "q3"
+        ]
+      },
+      "face": {
+        "aus": [
+          "au01",
+          "au02",
+          "au04",
+          "au05",
+          "au12"
+        ],
+        "visemes": [],
+        "blink": true,
+        "gaze": true,
+        "jaw": true
+      },
+      "fingers": false,
+      "locomotion": [],
+      "interactions": []
+    }
+  ]
+}

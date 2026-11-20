@@ -7,3 +7,10 @@
 # Windows scripts need CRLF
 *.cmd text eol=crlf
 *.bat text eol=crlf
+
+# Character Library: binary artwork in Git LFS (Character System V1, Phase 2)
+library/**/*.png filter=lfs diff=lfs merge=lfs -text
+library/**/*.webp filter=lfs diff=lfs merge=lfs -text
+# Exception, Phase 2: the 167 KB test texture is plain Git, because the session that made it cannot reach
+# GitHub's LFS storage (policy denial). Move it to LFS with `git lfs migrate` from a machine that can.
+library/characters/chr_test_minimal/**/*.png -filter -diff -merge -text

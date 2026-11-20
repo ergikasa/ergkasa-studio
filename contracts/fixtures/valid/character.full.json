@@ -1,0 +1,319 @@
+{
+  "schema": "erkasa.character/1",
+  "id": "chr_fixture_full",
+  "version": 2,
+  "name": "Fixture",
+  "purpose": "reference",
+  "identity": {
+    "build": "woman",
+    "height": 1700,
+    "heads": 7.2,
+    "palette": {
+      "skin": "#E0B090",
+      "skinShadow": "#B08060",
+      "eyes": "#304050",
+      "hair": "#3A2618"
+    },
+    "hairStyle": "shoulder_length",
+    "facialHair": "none",
+    "marks": ["mole_left_cheek"],
+    "ageYears": 38
+  },
+  "fingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "formats": {
+    "rig": "erkasa.rig.layered/1",
+    "channels": "erkasa.humanoid/1"
+  },
+  "compatibility": {
+    "minRuntime": 1,
+    "previousVersion": 1
+  },
+  "origin": "root",
+  "skeleton": {
+    "bones": [
+      {
+        "id": "root",
+        "at": [0, 0],
+        "angle": -90,
+        "length": 0
+      },
+      {
+        "id": "spine",
+        "parent": "root",
+        "at": [0, -900],
+        "angle": -90,
+        "length": 300
+      },
+      {
+        "id": "head",
+        "parent": "spine",
+        "at": [0, -1450],
+        "angle": -90,
+        "length": 230
+      },
+      {
+        "id": "hand_l",
+        "parent": "spine",
+        "at": [200, -900],
+        "angle": 90,
+        "length": 80
+      },
+      {
+        "id": "index_l_1",
+        "parent": "hand_l",
+        "at": [210, -820],
+        "angle": 90,
+        "length": 30
+      }
+    ],
+    "sockets": [
+      {
+        "id": "hand_l",
+        "bone": "hand_l",
+        "at": [205, -830]
+      }
+    ],
+    "contacts": [
+      {
+        "id": "sole_l",
+        "bone": "root",
+        "at": [60, 0]
+      }
+    ]
+  },
+  "controls": [
+    {
+      "channel": "head_yaw",
+      "range": [-90, 90],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "morph",
+          "morph": "yaw_pos",
+          "from": 0,
+          "to": 20
+        }
+      ]
+    },
+    {
+      "channel": "au12",
+      "range": [0, 1],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "morph",
+          "morph": "au12",
+          "from": 0,
+          "to": 1
+        }
+      ]
+    },
+    {
+      "channel": "jaw_open",
+      "range": [0, 1],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "opacity",
+          "part": "mouth_inside",
+          "from": 0,
+          "to": 0.3
+        }
+      ]
+    },
+    {
+      "channel": "finger_l_index_curl",
+      "range": [0, 1],
+      "rest": 0,
+      "drives": [
+        {
+          "kind": "bone",
+          "bone": "index_l_1",
+          "degPerUnit": 80
+        }
+      ]
+    }
+  ],
+  "views": {
+    "head": {
+      "yawChannel": "head_yaw",
+      "pitchChannel": "head_pitch",
+      "views": [
+        {
+          "id": "front",
+          "yaw": [-15, 15],
+          "pitch": [-20, 20],
+          "center": {
+            "yaw": 0,
+            "pitch": 0
+          },
+          "parts": ["face_front"],
+          "blend": 4
+        },
+        {
+          "id": "q3_l",
+          "yaw": [15, 60],
+          "pitch": [-20, 20],
+          "center": {
+            "yaw": 30,
+            "pitch": 0
+          },
+          "parts": ["face_q3"],
+          "blend": 4
+        }
+      ]
+    }
+  },
+  "face": {
+    "aus": ["au12", "au26"],
+    "visemes": [
+      {
+        "id": "aa",
+        "aus": {
+          "au26": 0.8
+        },
+        "jaw": 0.6
+      }
+    ],
+    "blink": {
+      "l": "blink_l",
+      "r": "blink_r"
+    },
+    "gaze": {
+      "rest": [0, 0, 600],
+      "range": [
+        [-400, 400],
+        [-400, 400],
+        [50, 2000]
+      ]
+    }
+  },
+  "eyes": [
+    {
+      "id": "l",
+      "bone": "head",
+      "iris": {
+        "radius": 9,
+        "color": "#5B4632",
+        "ring": "#2A1E14"
+      },
+      "pupil": {
+        "radius": 4,
+        "color": "#0A0A0A"
+      },
+      "highlight": {
+        "offset": [-2, -3],
+        "radius": 2,
+        "color": "#FFFFFFCC"
+      },
+      "maxAngle": 35,
+      "views": [
+        {
+          "view": "front",
+          "radius": 14,
+          "squash": 1,
+          "clip": "eye_white_l",
+          "over": "lid_l",
+          "centerVertex": 4
+        }
+      ]
+    }
+  ],
+  "hands": [
+    {
+      "side": "l",
+      "wrist": "hand_l",
+      "fingers": [
+        {
+          "id": "index",
+          "bones": ["index_l_1"]
+        }
+      ],
+      "socket": "hand_l"
+    }
+  ],
+  "wardrobe": [
+    {
+      "id": "business_01",
+      "label": "Grey suit",
+      "tags": ["business", "contemporary"],
+      "garments": [
+        {
+          "kind": "blazer",
+          "parts": ["blazer_body"]
+        },
+        {
+          "kind": "trousers",
+          "parts": ["trousers"]
+        }
+      ],
+      "hides": ["torso_skin"]
+    }
+  ],
+  "capabilities": {
+    "channels": ["head_yaw", "au12", "jaw_open", "finger_l_index_curl"],
+    "views": {
+      "head": ["front", "q3_l"]
+    },
+    "face": {
+      "aus": ["au12"],
+      "visemes": ["aa"],
+      "blink": true,
+      "gaze": true,
+      "jaw": true
+    },
+    "hands": {
+      "fingers": true
+    },
+    "locomotion": ["walk"],
+    "interactions": ["grasp"],
+    "wardrobe": ["business_01"],
+    "lod": ["close", "medium"],
+    "evidence": [
+      {
+        "capability": "locomotion.walk",
+        "report": "reports/walk.json",
+        "result": "pass"
+      },
+      {
+        "capability": "interactions.grasp",
+        "report": "reports/grasp.json",
+        "result": "pass"
+      }
+    ]
+  },
+  "files": [
+    {
+      "path": "parts/head_front.json",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "bytes": 2000,
+      "media": "application/json",
+      "role": "parts"
+    },
+    {
+      "path": "textures/torso.webp",
+      "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "bytes": 40000,
+      "media": "image/webp",
+      "role": "texture"
+    },
+    {
+      "path": "reports/walk.json",
+      "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "bytes": 300,
+      "media": "application/json",
+      "role": "report"
+    }
+  ],
+  "provenance": {
+    "origin": "artist",
+    "tool": "importer@1",
+    "inputsSha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+  },
+  "license": "LicenseRef-Erkasa-Original",
+  "approval": {
+    "status": "approved",
+    "by": "PO",
+    "at": "2026-11-20T10:00:00+01:00"
+  }
+}
