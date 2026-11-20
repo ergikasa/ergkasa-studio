@@ -548,7 +548,7 @@ export function bustSvg() {
 
 // ------------------------------------------------------------------------------------------------ set
 
-function backdrop() {
+export function backdrop() {
   const defs = [
     // darker behind the lit side of the face, a cool light behind the shadow side (separation)
     `<radialGradient id="bg" cx="1220" cy="760" r="1250" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#4A5C61"/><stop offset=".4" stop-color="#2C383D"/><stop offset="1" stop-color="#11171A"/></radialGradient>`,

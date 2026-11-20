@@ -1,0 +1,246 @@
+{
+ "bindMs": 433,
+ "rotation": [
+  {
+   "label": "yaw 14",
+   "drawMs": 608,
+   "rasterMs": 1387
+  },
+  {
+   "label": "yaw 22 (authored view)",
+   "drawMs": 412,
+   "rasterMs": 1387
+  },
+  {
+   "label": "yaw 30",
+   "drawMs": 325,
+   "rasterMs": 1462
+  },
+  {
+   "label": "yaw 38",
+   "drawMs": 308,
+   "rasterMs": 1444
+  },
+  {
+   "label": "yaw 42",
+   "drawMs": 333,
+   "rasterMs": 1524
+  },
+  {
+   "label": "pitch -8 (chin up)",
+   "drawMs": 303,
+   "rasterMs": 1471
+  },
+  {
+   "label": "pitch +15 (chin down)",
+   "drawMs": 324,
+   "rasterMs": 1525
+  },
+  {
+   "label": "roll -8",
+   "drawMs": 274,
+   "rasterMs": 1371
+  },
+  {
+   "label": "roll +6",
+   "drawMs": 332,
+   "rasterMs": 1564
+  },
+  {
+   "label": "yaw 34, pitch 10, roll 4",
+   "drawMs": 307,
+   "rasterMs": 1515
+  },
+  {
+   "label": "OUT OF RANGE: yaw 4",
+   "drawMs": 285,
+   "rasterMs": 1488
+  },
+  {
+   "label": "OUT OF RANGE: yaw 0, pitch 15",
+   "drawMs": 352,
+   "rasterMs": 1478
+  },
+  {
+   "label": "OUT OF RANGE: yaw 55",
+   "drawMs": 288,
+   "rasterMs": 1612
+  },
+  {
+   "label": "OUT OF RANGE: pitch -16",
+   "drawMs": 363,
+   "rasterMs": 1611
+  }
+ ],
+ "emotions": [
+  {
+   "label": "neutral",
+   "drawMs": 327,
+   "rasterMs": 1418
+  },
+  {
+   "label": "concentration",
+   "drawMs": 355,
+   "rasterMs": 1433
+  },
+  {
+   "label": "surprise",
+   "drawMs": 319,
+   "rasterMs": 1404
+  },
+  {
+   "label": "worry",
+   "drawMs": 313,
+   "rasterMs": 1478
+  },
+  {
+   "label": "sadness",
+   "drawMs": 301,
+   "rasterMs": 1396
+  },
+  {
+   "label": "anger",
+   "drawMs": 284,
+   "rasterMs": 1436
+  },
+  {
+   "label": "joy",
+   "drawMs": 281,
+   "rasterMs": 1508
+  },
+  {
+   "label": "reassure",
+   "drawMs": 323,
+   "rasterMs": 1458
+  }
+ ],
+ "visemes": [
+  {
+   "label": "sil",
+   "drawMs": 288,
+   "rasterMs": 1561
+  },
+  {
+   "label": "PP",
+   "drawMs": 392,
+   "rasterMs": 1460
+  },
+  {
+   "label": "FF",
+   "drawMs": 287,
+   "rasterMs": 1446
+  },
+  {
+   "label": "TH",
+   "drawMs": 262,
+   "rasterMs": 1400
+  },
+  {
+   "label": "DD",
+   "drawMs": 306,
+   "rasterMs": 1434
+  },
+  {
+   "label": "kk",
+   "drawMs": 271,
+   "rasterMs": 1468
+  },
+  {
+   "label": "CH",
+   "drawMs": 367,
+   "rasterMs": 1389
+  },
+  {
+   "label": "SS",
+   "drawMs": 268,
+   "rasterMs": 1379
+  },
+  {
+   "label": "nn",
+   "drawMs": 296,
+   "rasterMs": 1446
+  },
+  {
+   "label": "RR",
+   "drawMs": 284,
+   "rasterMs": 1538
+  },
+  {
+   "label": "aa",
+   "drawMs": 306,
+   "rasterMs": 1398
+  },
+  {
+   "label": "E",
+   "drawMs": 267,
+   "rasterMs": 1415
+  },
+  {
+   "label": "ih",
+   "drawMs": 335,
+   "rasterMs": 1507
+  },
+  {
+   "label": "oh",
+   "drawMs": 385,
+   "rasterMs": 1390
+  },
+  {
+   "label": "ou",
+   "drawMs": 263,
+   "rasterMs": 1427
+  }
+ ],
+ "eyes": [
+  {
+   "label": "look to camera",
+   "drawMs": 310,
+   "rasterMs": 1370
+  },
+  {
+   "label": "look screen-left",
+   "drawMs": 274,
+   "rasterMs": 1389
+  },
+  {
+   "label": "look screen-right",
+   "drawMs": 260,
+   "rasterMs": 1452
+  },
+  {
+   "label": "look up",
+   "drawMs": 300,
+   "rasterMs": 1524
+  },
+  {
+   "label": "look down (lids follow)",
+   "drawMs": 274,
+   "rasterMs": 1368
+  },
+  {
+   "label": "near target (convergence)",
+   "drawMs": 271,
+   "rasterMs": 1446
+  },
+  {
+   "label": "blink 35%",
+   "drawMs": 327,
+   "rasterMs": 1453
+  },
+  {
+   "label": "blink 70%",
+   "drawMs": 279,
+   "rasterMs": 1454
+  },
+  {
+   "label": "closed",
+   "drawMs": 286,
+   "rasterMs": 1526
+  },
+  {
+   "label": "lid raise (AU5)",
+   "drawMs": 364,
+   "rasterMs": 1436
+  }
+ ]
+}

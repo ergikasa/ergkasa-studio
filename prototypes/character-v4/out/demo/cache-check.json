@@ -1,0 +1,21 @@
+{
+ "C vs D, per pixel": {
+  "meanAbs": 2.341,
+  "cellsOver8": 0.0165
+ },
+ "C vs D, 8x8 average (grain averaged out)": {
+  "meanAbs": 0.467,
+  "cellsOver8": 0
+ },
+ "no grade: SVG set vs cached JPEG set, per pixel": {
+  "meanAbs": 0.198,
+  "cellsOver8": 0
+ },
+ "no grade, 8x8": {
+  "meanAbs": 0.169,
+  "cellsOver8": 0
+ },
+ "signedMeanCminusD": -0.45668788580246916,
+ "svgGrainLiftCentre": 4.097187528867929,
+ "pixGrainLiftCentre": 4.5495567285719485
+}

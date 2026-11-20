@@ -329,6 +329,7 @@ function streamline(start, len, step, guides, R, wobble = 0.03) {
 
 /** A lock along a streamline: full at the root, tapering to a point, its value set by where it faces. */
 function lockFrom(c, w, lightAt, R, opts = {}) {
+  const fast = opts.fast;
   const nr = normals(c);
   const n = c.length;
   const L = [],
@@ -351,7 +352,11 @@ function lockFrom(c, w, lightAt, R, opts = {}) {
       return [p[0] + nr[i][0] * k * ww * frac, p[1] + nr[i][1] * k * ww * frac];
     });
   const out = [];
-  out.push(`<path d="${shape}" fill="#050302" opacity=".35" transform="translate(3 5)" filter="url(#b4)"/>`);
+  out.push(
+    fast
+      ? `<path d="${shape}" fill="#050302" opacity=".22" transform="translate(3 5)"/>`
+      : `<path d="${shape}" fill="#050302" opacity=".35" transform="translate(3 5)" filter="url(#b4)"/>`,
+  );
   out.push(`<path d="${shape}" fill="${base}"/>`);
   // value across the lock: lighter toward the key, darker on the far edge (blurred, so locks melt together)
   out.push(
@@ -364,7 +369,7 @@ function lockFrom(c, w, lightAt, R, opts = {}) {
   let dark = "",
     light = "",
     grey = "";
-  const count = Math.round(w * 0.7);
+  const count = Math.round(w * 0.7 * (opts.lod ?? 1));
   for (let k = 0; k < count; k++) {
     const u = R.range(-0.46, 0.46);
     const t0 = R.range(0.04, 0.3),
@@ -402,6 +407,8 @@ function lifted(c, amount) {
 
 export function svgHair(opts = {}) {
   const R = rng(opts.seed ?? 21);
+  const lod = opts.lod ?? 1;
+  const lk = { fast: lod < 1, lod };
   const st = HAIRSTYLE;
   const defs = [];
   const out = [];
@@ -490,7 +497,7 @@ export function svgHair(opts = {}) {
   for (const l of back) {
     const m = l.c[Math.floor(l.c.length / 2)];
     const grey = m[0] > 1090 && m[1] > 680 ? 0.22 : m[0] > 1060 && m[1] > 640 ? 0.1 : 0;
-    g.push(lockFrom(l.c, l.w, lightAt, R, { grey }));
+    g.push(lockFrom(l.c, l.w, lightAt, R, { grey, ...lk }));
   }
   // the top section: seeded along the part (crown first) and along the front hairline (front last)
   const top = [];
@@ -522,13 +529,13 @@ export function svgHair(opts = {}) {
     });
   }
   top.sort((a, b) => a.key - b.key);
-  for (const l of top) g.push(lockFrom(l.c, l.w, lightAt, R));
+  for (const l of top) g.push(lockFrom(l.c, l.w, lightAt, R, lk));
 
   // fine strands over everything, close to the local value
   let fine = "",
     fineHi = "",
     fineG = "";
-  for (let i = 0; i < 1400; i++) {
+  for (let i = 0; i < Math.round(1400 * lod); i++) {
     const start = [R.range(620, 1250), R.range(330, 1040)];
     if (!inside(start, st.outline)) continue;
     const rightOfPart = start[0] > lerp(962, 1046, clamp((602 - start[1]) / 220, 0, 1)) + 10;
@@ -764,6 +771,7 @@ export const BEARD = {
 
 export function svgBeard(H, opts = {}) {
   const R = rng(opts.seed ?? 33);
+  const lod = opts.lod ?? 1;
   const z = BEARD;
   const out = [];
   const lips = opts.lips ?? [];
@@ -800,7 +808,7 @@ export function svgBeard(H, opts = {}) {
 
   // 0. stubble above the cheek line: the shaved skin is a little darker and cooler, with fine dots of growth
   let dots = "";
-  for (let i = 0; i < 1600; i++) {
+  for (let i = 0; i < Math.round(1600 * lod); i++) {
     const p = [R.range(880, 1110), R.range(880, 1060)];
     const d = distTo(p, z.cheekLine);
     if (inside(p, z.zone) || d > 46 || R() > 1 - d / 46) continue;
@@ -892,7 +900,7 @@ export function svgBeard(H, opts = {}) {
   );
   // 2. clumps: low contrast, following the growth, bottom first so each lies over the roots of the next
   const tufts = [];
-  for (let i = 0; i < 6000; i++) {
+  for (let i = 0; i < Math.round(6000 * lod); i++) {
     const p = [R.range(626, 1150), R.range(1016, 1292)];
     if (!inside(p, z.zone) || inside(p, lowerLip)) continue;
     if (R() > density(p) * 0.9 + 0.05) continue;
@@ -945,7 +953,7 @@ export function svgBeard(H, opts = {}) {
   let hairs = "",
     greyH = "",
     litH = "";
-  for (let i = 0; i < 3800; i++) {
+  for (let i = 0; i < Math.round(3800 * lod); i++) {
     const p = [R.range(626, 1150), R.range(1016, 1292)];
     if (!inside(p, z.zone) || inside(p, lowerLip)) continue;
     if (R() > density(p)) continue;
@@ -975,7 +983,7 @@ export function svgBeard(H, opts = {}) {
   // 4. the moustache over the lip: hairs combed down and out from the philtrum, the lip edge showing through
   let mo = "",
     moHi = "";
-  for (let i = 0; i < 1300; i++) {
+  for (let i = 0; i < Math.round(1300 * Math.max(0.7, lod)); i++) {
     const p = [R.range(690, 884), R.range(1012, 1074)];
     // roots up to a few pixels above the trimmed edge, so the edge is made of hair, not a line
     const dTop = distTo(p, z.mouTop);

@@ -1,0 +1,20 @@
+{
+  "mode": "cache",
+  "workers": 2,
+  "frames": 168,
+  "wallSeconds": 117.272,
+  "throughputFps": 1.4325670236714645,
+  "perFrameMs": {
+    "rig": 314.4149904464287,
+    "parse": 39.15377598214286,
+    "raster": 929.2192305,
+    "encode": 32.96200336904764,
+    "total": 1315.7500002976192,
+    "p95raster": 1097.707335
+  },
+  "svgKB": 2317.332566034226,
+  "peakRssMB": 323.5703125,
+  "cpuSeconds": 211.479957,
+  "setupMs": 597,
+  "cacheBuildMs": 0
+}

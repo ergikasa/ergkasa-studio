@@ -1,0 +1,93 @@
+{
+ "frames": [
+  {
+   "n": 0,
+   "resvgMs": 2846,
+   "skiaMs": 729,
+   "speedup": 3.9,
+   "diffPerPixel": {
+    "meanAbs": 0.502,
+    "cellsOver8": 0.0053
+   },
+   "diff8x8": {
+    "meanAbs": 0.399,
+    "cellsOver8": 0.0039
+   }
+  },
+  {
+   "n": 95,
+   "resvgMs": 2755,
+   "skiaMs": 724,
+   "speedup": 3.81,
+   "diffPerPixel": {
+    "meanAbs": 0.493,
+    "cellsOver8": 0.0045
+   },
+   "diff8x8": {
+    "meanAbs": 0.392,
+    "cellsOver8": 0.0035
+   }
+  },
+  {
+   "n": 200,
+   "resvgMs": 3565,
+   "skiaMs": 817,
+   "speedup": 4.36,
+   "diffPerPixel": {
+    "meanAbs": 0.441,
+    "cellsOver8": 0.002
+   },
+   "diff8x8": {
+    "meanAbs": 0.335,
+    "cellsOver8": 0.0008
+   }
+  },
+  {
+   "n": 330,
+   "resvgMs": 3603,
+   "skiaMs": 901,
+   "speedup": 4,
+   "diffPerPixel": {
+    "meanAbs": 0.576,
+    "cellsOver8": 0.0065
+   },
+   "diff8x8": {
+    "meanAbs": 0.468,
+    "cellsOver8": 0.0053
+   }
+  },
+  {
+   "n": 450,
+   "resvgMs": 3544,
+   "skiaMs": 829,
+   "speedup": 4.27,
+   "diffPerPixel": {
+    "meanAbs": 0.491,
+    "cellsOver8": 0.0025
+   },
+   "diff8x8": {
+    "meanAbs": 0.377,
+    "cellsOver8": 0.0008
+   }
+  },
+  {
+   "n": 600,
+   "resvgMs": 3354,
+   "skiaMs": 826,
+   "speedup": 4.06,
+   "diffPerPixel": {
+    "meanAbs": 0.484,
+    "cellsOver8": 0.0024
+   },
+   "diff8x8": {
+    "meanAbs": 0.369,
+    "cellsOver8": 0.0008
+   }
+  }
+ ],
+ "mean": {
+  "resvgMs": 3277.8333333333335,
+  "skiaMs": 804.3333333333334,
+  "speedup": 4.075217571487775
+ }
+}

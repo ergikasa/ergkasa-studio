@@ -1,0 +1,89 @@
+{
+  "landmarks": {
+    "named": 130,
+    "midline": 22,
+    "perSide": 54,
+    "mirrored": true,
+    "asymmetric": [
+      "browPeak",
+      "browTail",
+      "cheilion",
+      "lidUpPeak"
+    ]
+  },
+  "anchoring": {
+    "headShapesThroughProjector": {
+      "landmark": 149,
+      "derived3d": 273,
+      "picture": 184
+    },
+    "pictureSpaceOnlyControlPoints": {
+      "skinOutline": 40,
+      "neck": 11,
+      "hairOutline": 38,
+      "hairReach": 36,
+      "hairline": 13,
+      "hairPart": 5,
+      "hairGuides": 81,
+      "hairSheen": 6,
+      "beardZone": 36
+    },
+    "generatedStrokes": "hair locks/strands, beard tufts/hairs, brows, lashes, iris fibres: generated in picture space from the above"
+  },
+  "inventory": {
+    "neck": {
+      "bytes": 6338,
+      "paths": 12,
+      "filtered": 11,
+      "images": 0,
+      "turbulence": 0
+    },
+    "face": {
+      "bytes": 34777,
+      "paths": 47,
+      "filtered": 51,
+      "images": 0,
+      "turbulence": 0
+    },
+    "features": {
+      "bytes": 97022,
+      "paths": 66,
+      "filtered": 51,
+      "images": 0,
+      "turbulence": 0
+    },
+    "beard": {
+      "bytes": 1116512,
+      "paths": 21,
+      "filtered": 6,
+      "images": 0,
+      "turbulence": 0
+    },
+    "hair": {
+      "bytes": 2295435,
+      "paths": 577,
+      "filtered": 278,
+      "images": 0,
+      "turbulence": 0
+    },
+    "ear": {
+      "bytes": 6152,
+      "paths": 16,
+      "filtered": 16,
+      "images": 0,
+      "turbulence": 0
+    }
+  },
+  "layerCostMs": {
+    "empty": 8,
+    "background": 1908,
+    "neck": 721,
+    "wardrobe": 1894,
+    "face": 1915,
+    "features": 110,
+    "beard": 591,
+    "hair": 3833,
+    "ear": 104,
+    "full": 10989
+  }
+}
